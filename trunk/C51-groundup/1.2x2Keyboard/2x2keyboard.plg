@@ -1,0 +1,39 @@
+<html>
+<body>
+<pre>
+<h1>µVision3 Build Log</h1>
+<h2>Project:</h2>
+Z:\dev-prj\C51-Xprj\1.2x2Keyboard\2x2keyboard.uv2
+Project File Date:  08/01/2009
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling 2x2keybd.c...
+linking...
+Program Size: data=9.0 xdata=0 code=132
+creating hex file from "2x2keyboard"...
+"2x2keyboard" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling 2x2keybd.c...
+linking...
+Program Size: data=9.0 xdata=0 code=132
+creating hex file from "2x2keyboard"...
+"2x2keyboard" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling 2x2keybd.c...
+2X2KEYBD.C(50): error C202: 'P2_1': undefined identifier
+2X2KEYBD.C(52): error C202: 'P2_2': undefined identifier
+2X2KEYBD.C(54): error C202: 'P2_1': undefined identifier
+2X2KEYBD.C(54): error C202: 'P2_2': undefined identifier
+2X2KEYBD.C(55): error C202: 'P2_0': undefined identifier
+2X2KEYBD.C(55): error C202: 'P2_0': undefined identifier
+2X2KEYBD.C(59): error C202: 'P2_1': undefined identifier
+2X2KEYBD.C(60): error C202: 'P2_2': undefined identifier
+2X2KEYBD.C(71): error C202: 'P2_0': undefined identifier
+Target not created
+Build target 'Target 1'
+compiling 2x2keybd.c...
+linking...
+Program Size: data=9.0 xdata=0 code=132
+creating hex file from "2x2keyboard"...
+"2x2keyboard" - 0 Error(s), 0 Warning(s).

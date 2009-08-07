@@ -1,0 +1,135 @@
+BL51 BANKED LINKER/LOCATER V6.00                                                        08/02/2009  14:38:54  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.00, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE 2x2keybd.obj TO 2x2keyboard RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  2x2keybd.obj (2X2KEYBD)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  2x2keyboard (2X2KEYBD)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            IDATA   0008H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0047H     UNIT         ?PR?KEYSCAN?2X2KEYBD
+            CODE    004AH     0015H     UNIT         ?PR?LDELAY?2X2KEYBD
+            CODE    005FH     000FH     UNIT         ?PR?XDELAY?2X2KEYBD
+            CODE    006EH     000CH     UNIT         ?C_C51STARTUP
+            CODE    007AH     000AH     UNIT         ?PR?MAIN?2X2KEYBD
+
+
+
+OVERLAY MAP OF MODULE:   2x2keyboard (2X2KEYBD)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?2X2KEYBD
+
+?PR?MAIN?2X2KEYBD
+  +--> ?PR?XDELAY?2X2KEYBD
+  +--> ?PR?KEYSCAN?2X2KEYBD
+
+?PR?KEYSCAN?2X2KEYBD
+  +--> ?PR?XDELAY?2X2KEYBD
+  +--> ?PR?LDELAY?2X2KEYBD
+
+?PR?LDELAY?2X2KEYBD
+  +--> ?PR?XDELAY?2X2KEYBD
+
+
+
+SYMBOL TABLE OF MODULE:  2x2keyboard (2X2KEYBD)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+BL51 BANKED LINKER/LOCATER V6.00                                                      08/02/2009  14:38:54  PAGE 2
+
+
+
+  -------         MODULE        2X2KEYBD
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  C:0050H         PUBLIC        ldelay
+  D:0090H         PUBLIC        P1
+  C:005FH         PUBLIC        xdelay
+  B:00A0H.0       PUBLIC        P2_0
+  B:00A0H.1       PUBLIC        P2_1
+  B:00A0H.2       PUBLIC        P2_2
+  C:007AH         PUBLIC        main
+  C:0003H         PUBLIC        keyscan
+  -------         PROC          XDELAY
+  -------         DO            
+  D:0006H         SYMBOL        a
+  -------         ENDDO         
+  C:005FH         LINE#         6
+  C:005FH         LINE#         7
+  C:005FH         LINE#         9
+  C:006DH         LINE#         10
+  -------         ENDPROC       XDELAY
+  -------         PROC          L?0023
+  -------         ENDPROC       L?0023
+  -------         PROC          LDELAY
+  -------         DO            
+  D:0006H         SYMBOL        a
+  -------         ENDDO         
+  C:0050H         LINE#         12
+  C:0050H         LINE#         13
+  C:0050H         LINE#         15
+  C:005EH         LINE#         16
+  -------         ENDPROC       LDELAY
+  -------         PROC          KEYSCAN
+  -------         DO            
+  D:0007H         SYMBOL        n
+  -------         ENDDO         
+  C:0003H         LINE#         29
+  C:0003H         LINE#         31
+  C:0003H         LINE#         42
+  C:0006H         LINE#         43
+  C:0009H         LINE#         45
+  C:000CH         LINE#         46
+  C:000FH         LINE#         47
+  C:0011H         LINE#         48
+  C:0016H         LINE#         49
+  C:0022H         LINE#         50
+  C:0022H         LINE#         51
+  C:0026H         LINE#         52
+  C:0026H         LINE#         53
+  C:002AH         LINE#         54
+  C:002AH         LINE#         55
+  C:0036H         LINE#         56
+  C:0040H         LINE#         57
+  C:0040H         LINE#         58
+  C:0040H         LINE#         60
+  C:0045H         LINE#         61
+  -------         ENDPROC       KEYSCAN
+  -------         PROC          MAIN
+BL51 BANKED LINKER/LOCATER V6.00                                                      08/02/2009  14:38:54  PAGE 3
+
+
+  C:007AH         LINE#         67
+  C:007AH         LINE#         68
+  C:007AH         LINE#         70
+  C:007AH         LINE#         72
+  C:007FH         LINE#         74
+  C:0082H         LINE#         78
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        2X2KEYBD
+
+Program Size: data=9.0 xdata=0 code=132
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
