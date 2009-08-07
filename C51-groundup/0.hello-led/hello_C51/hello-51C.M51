@@ -1,0 +1,154 @@
+BL51 BANKED LINKER/LOCATER V6.00                                                        07/26/2009  17:43:52  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.00, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE helloc51.obj TO hello-51C RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  helloc51.obj (HELLOC51)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  hello-51C (HELLOC51)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            IDATA   0008H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0018H     UNIT         ?PR?OFFA?HELLOC51
+            CODE    001BH     0017H     UNIT         ?PR?MAIN?HELLOC51
+            CODE    0032H     0012H     UNIT         ?PR?LDELAY?HELLOC51
+            CODE    0044H     0012H     UNIT         ?PR?QON?HELLOC51
+            CODE    0056H     000FH     UNIT         ?PR?XDELAY?HELLOC51
+            CODE    0065H     000FH     UNIT         ?PR?ONA?HELLOC51
+            CODE    0074H     000CH     UNIT         ?C_C51STARTUP
+
+
+
+OVERLAY MAP OF MODULE:   hello-51C (HELLOC51)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?HELLOC51
+
+?PR?MAIN?HELLOC51
+  +--> ?PR?QON?HELLOC51
+  +--> ?PR?LDELAY?HELLOC51
+  +--> ?PR?OFFA?HELLOC51
+
+?PR?QON?HELLOC51
+  +--> ?PR?LDELAY?HELLOC51
+
+?PR?OFFA?HELLOC51
+  +--> ?PR?LDELAY?HELLOC51
+  +--> ?PR?ONA?HELLOC51
+  +--> ?PR?XDELAY?HELLOC51
+
+?PR?ONA?HELLOC51
+  +--> ?PR?XDELAY?HELLOC51
+BL51 BANKED LINKER/LOCATER V6.00                                                      07/26/2009  17:43:52  PAGE 2
+
+
+
+
+
+SYMBOL TABLE OF MODULE:  hello-51C (HELLOC51)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        HELLOC51
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  C:0035H         PUBLIC        ldelay
+  C:0056H         PUBLIC        xdelay
+  B:00A0H.0       PUBLIC        P2_0
+  B:00A0H.1       PUBLIC        P2_1
+  B:00A0H.2       PUBLIC        P2_2
+  C:000CH         PUBLIC        offa
+  C:001BH         PUBLIC        main
+  C:0065H         PUBLIC        ona
+  C:0044H         PUBLIC        qon
+  -------         PROC          XDELAY
+  -------         DO            
+  D:0006H         SYMBOL        a
+  -------         ENDDO         
+  C:0056H         LINE#         5
+  C:0056H         LINE#         6
+  C:0056H         LINE#         8
+  C:0064H         LINE#         9
+  -------         ENDPROC       XDELAY
+  -------         PROC          L?0018
+  -------         ENDPROC       L?0018
+  -------         PROC          LDELAY
+  -------         DO            
+  D:0006H         SYMBOL        a
+  -------         ENDDO         
+  C:0035H         LINE#         11
+  C:0035H         LINE#         12
+  C:0035H         LINE#         14
+  C:0043H         LINE#         15
+  -------         ENDPROC       LDELAY
+  -------         PROC          ONA
+  C:0065H         LINE#         18
+  C:0065H         LINE#         19
+  C:0065H         LINE#         20
+  C:006AH         LINE#         21
+  C:006FH         LINE#         22
+  -------         ENDPROC       ONA
+  -------         PROC          L?0017
+  -------         ENDPROC       L?0017
+  -------         PROC          OFFA
+  C:000CH         LINE#         25
+  C:000CH         LINE#         26
+  C:000CH         LINE#         28
+  C:0011H         LINE#         29
+  C:0016H         LINE#         30
+  -------         ENDPROC       OFFA
+  -------         PROC          QON
+  C:0044H         LINE#         33
+BL51 BANKED LINKER/LOCATER V6.00                                                      07/26/2009  17:43:52  PAGE 3
+
+
+  C:0044H         LINE#         34
+  C:0044H         LINE#         35
+  C:0046H         LINE#         36
+  C:0049H         LINE#         38
+  C:004BH         LINE#         39
+  C:004EH         LINE#         40
+  C:0050H         LINE#         41
+  -------         ENDPROC       QON
+  -------         PROC          MAIN
+  C:001BH         LINE#         44
+  C:001BH         LINE#         45
+  C:001BH         LINE#         46
+  C:001BH         LINE#         47
+  C:001EH         LINE#         48
+  C:0021H         LINE#         49
+  C:0027H         LINE#         50
+  C:002AH         LINE#         52
+  C:002AH         LINE#         53
+  C:002AH         LINE#         54
+  C:002AH         LINE#         55
+  C:002DH         LINE#         56
+  C:002DH         LINE#         57
+  C:002DH         LINE#         58
+  C:002DH         LINE#         59
+  C:0030H         LINE#         62
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        HELLOC51
+
+Program Size: data=9.0 xdata=0 code=128
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
