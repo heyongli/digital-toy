@@ -1,0 +1,140 @@
+C51 COMPILER V8.01   8X8MATRIX                                                             08/08/2009 18:32:03 PAGE 1   
+
+
+C51 COMPILER V8.01, COMPILATION OF MODULE 8X8MATRIX
+OBJECT MODULE PLACED IN 8x8matrix.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 8x8matrix.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          
+   2          #include <AT89X52.H>
+   3                             
+   4          xdelay()
+   5          {
+   6   1        int a;
+   7   1        for (a=0; a<50; a++); 
+   8   1      }
+   9          
+  10          ldelay()
+  11          {
+  12   1        int a;
+  13   1        for (a=0; a<30000; a++); 
+  14   1      }
+  15          
+  16          #define wait1s ldelay(); ldelay(); xdelay();
+  17          
+  18          
+  19            
+  20          unsigned char  taba[]={0xfe,0xfd,0xfb,0xf7,0xef,0xdf,0xbf,0x7f};
+  21          unsigned char  tabb[]={0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80};
+  22          void delay(void)
+  23          {
+  24   1        unsigned char i,j;
+  25   1        for(i=10;i>0;i--)
+  26   1        for(j=248;j>0;j--);
+  27   1      }
+  28          void delay1(void)
+  29          {
+  30   1        unsigned char i,j,k;
+  31   1        for(k=10;k>0;k--)
+  32   1        for(i=20;i>0;i--)
+  33   1        for(j=248;j>0;j--);
+  34   1      }
+  35          
+  36          
+  37          blink1()
+  38          {
+  39   1         char i,j,k;
+  40   1         for(j=0;j<3;j++)
+  41   1              {
+  42   2                for(i=0;i<8;i++)
+  43   2                  {
+  44   3                    P3=taba[i];
+  45   3                    P2=0xff;
+  46   3                    delay1();
+  47   3                  }
+  48   2              }
+  49   1            for(j=0;j<3;j++)
+  50   1              {
+  51   2                for(i=0;i<8;i++)
+  52   2                  {
+  53   3                    P3=taba[7-i];
+  54   3                    P2=0xff;
+  55   3                    delay1();
+C51 COMPILER V8.01   8X8MATRIX                                                             08/08/2009 18:32:03 PAGE 2   
+
+  56   3                  }
+  57   2              }
+  58   1            for(j=0;j<3;j++)
+  59   1              {
+  60   2                for(i=0;i<8;i++)
+  61   2                  {
+  62   3                    P3=0x00;
+  63   3                    P2=tabb[7-i];
+  64   3                    delay1();
+  65   3                  }
+  66   2              }
+  67   1       
+  68   1            for(j=0;j<3;j++)
+  69   1              {
+  70   2                for(i=0;i<8;i++)
+  71   2                  {
+  72   3                    P3=0x00;
+  73   3                    P2=tabb[i];
+  74   3                    delay1();
+  75   3                  }
+  76   2              }
+  77   1      
+  78   1      }
+*** WARNING C280 IN LINE 39 OF 8X8MATRIX.C: 'k': unreferenced local variable
+  79          
+  80          blink(){
+  81   1      
+  82   1         unsigned char x=0, y=0;
+  83   1         for(x=0; x<=0xfe; x++){
+  84   2                for(y=0xff;y>=1; y--)
+  85   2                 {
+  86   3               
+  87   3                   P3=x;
+  88   3                       P2=y;
+  89   3                       xdelay();
+  90   3                 
+  91   3                 }
+  92   2      
+  93   2              }
+  94   1           
+  95   1      
+  96   1       
+  97   1      
+  98   1      }
+  99          
+ 100          void main(void)
+ 101          {
+ 102   1       
+ 103   1        while(1)
+ 104   1          {
+ 105   2                blink();
+ 106   2                blink1();
+ 107   2       
+ 108   2          }
+ 109   1      }
+ 110          
+ 111                                                   
+ 112                                          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    181    ----
+C51 COMPILER V8.01   8X8MATRIX                                                             08/08/2009 18:32:03 PAGE 3   
+
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     16       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)
