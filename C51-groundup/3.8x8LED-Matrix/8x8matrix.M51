@@ -1,0 +1,217 @@
+BL51 BANKED LINKER/LOCATER V6.00                                                        08/08/2009  18:32:04  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.00, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE 8x8matrix.obj TO 8x8matrix RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  8x8matrix.obj (8X8MATRIX)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  8x8matrix (8X8MATRIX)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0010H     UNIT         ?DT?8X8MATRIX
+            DATA    0018H     0001H     UNIT         _DATA_GROUP_
+            IDATA   0019H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     008CH     UNIT         ?C_C51STARTUP
+            CODE    008FH     005DH     UNIT         ?PR?BLINK1?8X8MATRIX
+            CODE    00ECH     0015H     UNIT         ?PR?BLINK?8X8MATRIX
+            CODE    0101H     0015H     UNIT         ?C_INITSEG
+            CODE    0116H     0014H     UNIT         ?PR?DELAY1?8X8MATRIX
+            CODE    012AH     000FH     UNIT         ?PR?XDELAY?8X8MATRIX
+            CODE    0139H     000FH     UNIT         ?PR?LDELAY?8X8MATRIX
+            CODE    0148H     0009H     UNIT         ?PR?DELAY?8X8MATRIX
+            CODE    0151H     0008H     UNIT         ?PR?MAIN?8X8MATRIX
+
+
+
+OVERLAY MAP OF MODULE:   8x8matrix (8X8MATRIX)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?8X8MATRIX
+  +--> ?C_INITSEG
+
+?PR?MAIN?8X8MATRIX             -----    -----
+  +--> ?PR?BLINK?8X8MATRIX
+  +--> ?PR?BLINK1?8X8MATRIX
+
+?PR?BLINK?8X8MATRIX            -----    -----
+  +--> ?PR?XDELAY?8X8MATRIX
+
+?PR?BLINK1?8X8MATRIX           0018H    0001H
+  +--> ?PR?DELAY1?8X8MATRIX
+BL51 BANKED LINKER/LOCATER V6.00                                                      08/08/2009  18:32:04  PAGE 2
+
+
+
+
+
+SYMBOL TABLE OF MODULE:  8x8matrix (8X8MATRIX)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        8X8MATRIX
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  C:0139H         PUBLIC        ldelay
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  C:012AH         PUBLIC        xdelay
+  C:0148H         PUBLIC        delay
+  C:00ECH         PUBLIC        blink
+  D:0008H         PUBLIC        taba
+  D:0010H         PUBLIC        tabb
+  C:0151H         PUBLIC        main
+  C:011DH         PUBLIC        delay1
+  C:008FH         PUBLIC        blink1
+  -------         PROC          XDELAY
+  -------         DO            
+  D:0006H         SYMBOL        a
+  -------         ENDDO         
+  C:012AH         LINE#         4
+  C:012AH         LINE#         5
+  C:012AH         LINE#         7
+  C:0138H         LINE#         8
+  -------         ENDPROC       XDELAY
+  -------         PROC          LDELAY
+  -------         DO            
+  D:0006H         SYMBOL        a
+  -------         ENDDO         
+  C:0139H         LINE#         10
+  C:0139H         LINE#         11
+  C:0139H         LINE#         13
+  C:0147H         LINE#         14
+  -------         ENDPROC       LDELAY
+  -------         PROC          DELAY
+  -------         DO            
+  D:0007H         SYMBOL        i
+  D:0006H         SYMBOL        j
+  -------         ENDDO         
+  C:0148H         LINE#         22
+  C:0148H         LINE#         23
+  C:0148H         LINE#         25
+  C:014AH         LINE#         26
+  C:0150H         LINE#         27
+  -------         ENDPROC       DELAY
+  -------         PROC          L?0063
+  -------         ENDPROC       L?0063
+  -------         PROC          DELAY1
+  -------         DO            
+  D:0006H         SYMBOL        i
+  D:0005H         SYMBOL        j
+  D:0007H         SYMBOL        k
+BL51 BANKED LINKER/LOCATER V6.00                                                      08/08/2009  18:32:04  PAGE 3
+
+
+  -------         ENDDO         
+  C:011DH         LINE#         28
+  C:011DH         LINE#         29
+  C:011DH         LINE#         31
+  C:011FH         LINE#         32
+  C:0121H         LINE#         33
+  C:0129H         LINE#         34
+  -------         ENDPROC       DELAY1
+  -------         PROC          BLINK1
+  -------         DO            
+  D:0004H         SYMBOL        i
+  D:0003H         SYMBOL        j
+  D:0018H         SYMBOL        k
+  -------         ENDDO         
+  C:008FH         LINE#         37
+  C:008FH         LINE#         38
+  C:008FH         LINE#         40
+  C:0091H         LINE#         41
+  C:0091H         LINE#         42
+  C:0093H         LINE#         43
+  C:0093H         LINE#         44
+  C:0096H         LINE#         45
+  C:0096H         LINE#         46
+  C:0099H         LINE#         47
+  C:009DH         LINE#         48
+  C:00A1H         LINE#         49
+  C:00A3H         LINE#         50
+  C:00A3H         LINE#         51
+  C:00A5H         LINE#         52
+  C:00A5H         LINE#         53
+  C:00ABH         LINE#         54
+  C:00ABH         LINE#         55
+  C:00AEH         LINE#         56
+  C:00B2H         LINE#         57
+  C:00B6H         LINE#         58
+  C:00B8H         LINE#         59
+  C:00B8H         LINE#         60
+  C:00BAH         LINE#         61
+  C:00BAH         LINE#         62
+  C:00BDH         LINE#         63
+  C:00C7H         LINE#         64
+  C:00CAH         LINE#         65
+  C:00CEH         LINE#         66
+  C:00D2H         LINE#         68
+  C:00D4H         LINE#         69
+  C:00D4H         LINE#         70
+  C:00D6H         LINE#         71
+  C:00D6H         LINE#         72
+  C:00D9H         LINE#         73
+  C:00E0H         LINE#         74
+  C:00E3H         LINE#         75
+  C:00E7H         LINE#         76
+  C:00EBH         LINE#         78
+  -------         ENDPROC       BLINK1
+  -------         PROC          BLINK
+  -------         DO            
+  D:0005H         SYMBOL        x
+BL51 BANKED LINKER/LOCATER V6.00                                                      08/08/2009  18:32:04  PAGE 4
+
+
+  D:0004H         SYMBOL        y
+  -------         ENDDO         
+  C:00ECH         LINE#         80
+  C:00ECH         LINE#         82
+  C:00EEH         LINE#         83
+  C:00EEH         LINE#         84
+  C:00F0H         LINE#         85
+  C:00F0H         LINE#         87
+  C:00F2H         LINE#         88
+  C:00F4H         LINE#         89
+  C:00F7H         LINE#         91
+  C:00F9H         LINE#         93
+  C:0100H         LINE#         98
+  -------         ENDPROC       BLINK
+  -------         PROC          MAIN
+  C:0151H         LINE#         100
+  C:0151H         LINE#         101
+  C:0151H         LINE#         103
+  C:0151H         LINE#         104
+  C:0151H         LINE#         105
+  C:0154H         LINE#         106
+  C:0157H         LINE#         108
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        8X8MATRIX
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?LDELAY?8X8MATRIX
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DELAY?8X8MATRIX
+
+Program Size: data=26.0 xdata=0 code=345
+LINK/LOCATE RUN COMPLETE.  2 WARNING(S),  0 ERROR(S)
