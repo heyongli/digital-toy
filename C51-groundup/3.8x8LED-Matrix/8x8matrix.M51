@@ -1,4 +1,4 @@
-BL51 BANKED LINKER/LOCATER V6.00                                                        08/08/2009  18:32:04  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.00                                                        09/20/2009  21:04:22  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.00, INVOKED BY:
@@ -11,6 +11,7 @@ MEMORY MODEL: SMALL
 INPUT MODULES INCLUDED:
   8x8matrix.obj (8X8MATRIX)
   C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?CLDOPTR)
   C:\KEIL\C51\LIB\C51S.LIB (?C_INIT)
 
 
@@ -22,21 +23,20 @@ LINK MAP OF MODULE:  8x8matrix (8X8MATRIX)
 
             * * * * * * *   D A T A   M E M O R Y   * * * * * * *
             REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
-            DATA    0008H     0010H     UNIT         ?DT?8X8MATRIX
-            DATA    0018H     0001H     UNIT         _DATA_GROUP_
-            IDATA   0019H     0001H     UNIT         ?STACK
+            DATA    0008H     0058H     UNIT         ?DT?8X8MATRIX
+            DATA    0060H     0008H     UNIT         _DATA_GROUP_
+            IDATA   0068H     0001H     UNIT         ?STACK
 
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
             CODE    0000H     0003H     ABSOLUTE     
             CODE    0003H     008CH     UNIT         ?C_C51STARTUP
-            CODE    008FH     005DH     UNIT         ?PR?BLINK1?8X8MATRIX
-            CODE    00ECH     0015H     UNIT         ?PR?BLINK?8X8MATRIX
-            CODE    0101H     0015H     UNIT         ?C_INITSEG
-            CODE    0116H     0014H     UNIT         ?PR?DELAY1?8X8MATRIX
-            CODE    012AH     000FH     UNIT         ?PR?XDELAY?8X8MATRIX
-            CODE    0139H     000FH     UNIT         ?PR?LDELAY?8X8MATRIX
-            CODE    0148H     0009H     UNIT         ?PR?DELAY?8X8MATRIX
-            CODE    0151H     0008H     UNIT         ?PR?MAIN?8X8MATRIX
+            CODE    008FH     005EH     UNIT         ?C_INITSEG
+            CODE    00EDH     005AH     UNIT         ?PR?_SHOW?8X8MATRIX
+            CODE    0147H     002DH     UNIT         ?C?LIB_CODE
+            CODE    0174H     001FH     UNIT         ?PR?MAIN?8X8MATRIX
+            CODE    0193H     001CH     UNIT         ?PR?_MDELAY?8X8MATRIX
+            CODE    01AFH     0011H     UNIT         ?PR?_SLEEP?8X8MATRIX
+            CODE    01C0H     0003H     UNIT         ?PR?__2CYCLE?8X8MATRIX
 
 
 
@@ -50,18 +50,21 @@ SEGMENT                          DATA_GROUP
   +--> ?PR?MAIN?8X8MATRIX
   +--> ?C_INITSEG
 
-?PR?MAIN?8X8MATRIX             -----    -----
-  +--> ?PR?BLINK?8X8MATRIX
-  +--> ?PR?BLINK1?8X8MATRIX
+?PR?MAIN?8X8MATRIX             0060H    0001H
+  +--> ?PR?_SHOW?8X8MATRIX
+  +--> ?PR?_SLEEP?8X8MATRIX
 
-?PR?BLINK?8X8MATRIX            -----    -----
-  +--> ?PR?XDELAY?8X8MATRIX
+?PR?_SHOW?8X8MATRIX            0061H    0007H
+  +--> ?PR?__2CYCLE?8X8MATRIX
 
-?PR?BLINK1?8X8MATRIX           0018H    0001H
-  +--> ?PR?DELAY1?8X8MATRIX
-BL51 BANKED LINKER/LOCATER V6.00                                                      08/08/2009  18:32:04  PAGE 2
+?PR?_SLEEP?8X8MATRIX           -----    -----
+  +--> ?PR?_MDELAY?8X8MATRIX
+BL51 BANKED LINKER/LOCATER V6.00                                                      09/20/2009  21:04:22  PAGE 2
 
 
+
+?PR?_MDELAY?8X8MATRIX          -----    -----
+  +--> ?PR?__2CYCLE?8X8MATRIX
 
 
 
@@ -72,146 +75,88 @@ SYMBOL TABLE OF MODULE:  8x8matrix (8X8MATRIX)
 
   -------         MODULE        8X8MATRIX
   C:0000H         SYMBOL        _ICE_DUMMY_
-  C:0139H         PUBLIC        ldelay
   D:00A0H         PUBLIC        P2
   D:00B0H         PUBLIC        P3
-  C:012AH         PUBLIC        xdelay
-  C:0148H         PUBLIC        delay
-  C:00ECH         PUBLIC        blink
-  D:0008H         PUBLIC        taba
-  D:0010H         PUBLIC        tabb
-  C:0151H         PUBLIC        main
-  C:011DH         PUBLIC        delay1
-  C:008FH         PUBLIC        blink1
-  -------         PROC          XDELAY
+  C:01C0H         PUBLIC        __2cycle
+  D:0008H         PUBLIC        hztab
+  C:00EDH         PUBLIC        _show
+  C:0174H         PUBLIC        main
+  D:0058H         PUBLIC        row
+  C:019AH         PUBLIC        _mdelay
+  C:01AFH         PUBLIC        _sleep
+  -------         PROC          __2CYCLE
+  D:0007H         SYMBOL        cyc
+  C:01C0H         LINE#         8
+  C:01C0H         LINE#         9
+  C:01C0H         LINE#         10
+  C:01C2H         LINE#         12
+  -------         ENDPROC       __2CYCLE
+  -------         PROC          L?0024
+  -------         ENDPROC       L?0024
+  -------         PROC          _MDELAY
+  D:0006H         SYMBOL        ms
+  C:019AH         LINE#         25
+  C:019CH         LINE#         26
+  C:019CH         LINE#         42
+  C:01A2H         LINE#         43
+  C:01A7H         LINE#         44
+  C:01ACH         LINE#         45
+  C:01AEH         LINE#         47
+  -------         ENDPROC       _MDELAY
+  -------         PROC          _SLEEP
+  D:0005H         SYMBOL        t
+  C:01AFH         LINE#         52
+  C:01B1H         LINE#         53
+  C:01B1H         LINE#         54
+  C:01B7H         LINE#         55
+  C:01B7H         LINE#         56
+  C:01BAH         LINE#         57
+  C:01BAH         LINE#         58
+  C:01BDH         LINE#         59
+  C:01BFH         LINE#         61
+  -------         ENDPROC       _SLEEP
+  -------         PROC          _SHOW
+  D:0007H         SYMBOL        c
+  D:0061H         SYMBOL        ms
   -------         DO            
-  D:0006H         SYMBOL        a
-  -------         ENDDO         
-  C:012AH         LINE#         4
-  C:012AH         LINE#         5
-  C:012AH         LINE#         7
-  C:0138H         LINE#         8
-  -------         ENDPROC       XDELAY
-  -------         PROC          LDELAY
-  -------         DO            
-  D:0006H         SYMBOL        a
-  -------         ENDDO         
-  C:0139H         LINE#         10
-  C:0139H         LINE#         11
-  C:0139H         LINE#         13
-  C:0147H         LINE#         14
-  -------         ENDPROC       LDELAY
-  -------         PROC          DELAY
-  -------         DO            
-  D:0007H         SYMBOL        i
-  D:0006H         SYMBOL        j
-  -------         ENDDO         
-  C:0148H         LINE#         22
-  C:0148H         LINE#         23
-  C:0148H         LINE#         25
-  C:014AH         LINE#         26
-  C:0150H         LINE#         27
-  -------         ENDPROC       DELAY
-  -------         PROC          L?0063
-  -------         ENDPROC       L?0063
-  -------         PROC          DELAY1
-  -------         DO            
+BL51 BANKED LINKER/LOCATER V6.00                                                      09/20/2009  21:04:22  PAGE 3
+
+
+  D:0063H         SYMBOL        tab
   D:0006H         SYMBOL        i
-  D:0005H         SYMBOL        j
-  D:0007H         SYMBOL        k
-BL51 BANKED LINKER/LOCATER V6.00                                                      08/08/2009  18:32:04  PAGE 3
-
-
+  D:0066H         SYMBOL        t
   -------         ENDDO         
-  C:011DH         LINE#         28
-  C:011DH         LINE#         29
-  C:011DH         LINE#         31
-  C:011FH         LINE#         32
-  C:0121H         LINE#         33
-  C:0129H         LINE#         34
-  -------         ENDPROC       DELAY1
-  -------         PROC          BLINK1
-  -------         DO            
-  D:0004H         SYMBOL        i
-  D:0003H         SYMBOL        j
-  D:0018H         SYMBOL        k
-  -------         ENDDO         
-  C:008FH         LINE#         37
-  C:008FH         LINE#         38
-  C:008FH         LINE#         40
-  C:0091H         LINE#         41
-  C:0091H         LINE#         42
-  C:0093H         LINE#         43
-  C:0093H         LINE#         44
-  C:0096H         LINE#         45
-  C:0096H         LINE#         46
-  C:0099H         LINE#         47
-  C:009DH         LINE#         48
-  C:00A1H         LINE#         49
-  C:00A3H         LINE#         50
-  C:00A3H         LINE#         51
-  C:00A5H         LINE#         52
-  C:00A5H         LINE#         53
-  C:00ABH         LINE#         54
-  C:00ABH         LINE#         55
-  C:00AEH         LINE#         56
-  C:00B2H         LINE#         57
-  C:00B6H         LINE#         58
-  C:00B8H         LINE#         59
-  C:00B8H         LINE#         60
-  C:00BAH         LINE#         61
-  C:00BAH         LINE#         62
-  C:00BDH         LINE#         63
-  C:00C7H         LINE#         64
-  C:00CAH         LINE#         65
-  C:00CEH         LINE#         66
-  C:00D2H         LINE#         68
-  C:00D4H         LINE#         69
-  C:00D4H         LINE#         70
-  C:00D6H         LINE#         71
-  C:00D6H         LINE#         72
-  C:00D9H         LINE#         73
-  C:00E0H         LINE#         74
-  C:00E3H         LINE#         75
-  C:00E7H         LINE#         76
-  C:00EBH         LINE#         78
-  -------         ENDPROC       BLINK1
-  -------         PROC          BLINK
-  -------         DO            
-  D:0005H         SYMBOL        x
-BL51 BANKED LINKER/LOCATER V6.00                                                      08/08/2009  18:32:04  PAGE 4
-
-
-  D:0004H         SYMBOL        y
-  -------         ENDDO         
-  C:00ECH         LINE#         80
-  C:00ECH         LINE#         82
-  C:00EEH         LINE#         83
-  C:00EEH         LINE#         84
-  C:00F0H         LINE#         85
-  C:00F0H         LINE#         87
-  C:00F2H         LINE#         88
-  C:00F4H         LINE#         89
-  C:00F7H         LINE#         91
-  C:00F9H         LINE#         93
+  C:00EDH         LINE#         92
+  C:00F1H         LINE#         93
+  C:00F1H         LINE#         95
   C:0100H         LINE#         98
-  -------         ENDPROC       BLINK
+  C:0115H         LINE#         99
+  C:0117H         LINE#         100
+  C:0117H         LINE#         101
+  C:011EH         LINE#         102
+  C:0133H         LINE#         103
+  C:0138H         LINE#         105
+  C:0146H         LINE#         106
+  -------         ENDPROC       _SHOW
   -------         PROC          MAIN
-  C:0151H         LINE#         100
-  C:0151H         LINE#         101
-  C:0151H         LINE#         103
-  C:0151H         LINE#         104
-  C:0151H         LINE#         105
-  C:0154H         LINE#         106
-  C:0157H         LINE#         108
+  -------         DO            
+  D:0060H         SYMBOL        i
+  -------         ENDDO         
+  C:0174H         LINE#         108
+  C:0174H         LINE#         109
+  C:0174H         LINE#         110
+  C:0177H         LINE#         111
+  C:0177H         LINE#         112
+  C:0177H         LINE#         115
+  C:017AH         LINE#         116
+  C:0183H         LINE#         117
+  C:0188H         LINE#         119
   -------         ENDPROC       MAIN
   -------         ENDMOD        8X8MATRIX
 
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?LDELAY?8X8MATRIX
+  -------         MODULE        ?C?CLDOPTR
+  C:0147H         PUBLIC        ?C?CLDOPTR
+  -------         ENDMOD        ?C?CLDOPTR
 
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?DELAY?8X8MATRIX
-
-Program Size: data=26.0 xdata=0 code=345
-LINK/LOCATE RUN COMPLETE.  2 WARNING(S),  0 ERROR(S)
+Program Size: data=105.0 xdata=0 code=451
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
