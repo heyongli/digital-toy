@@ -1,0 +1,120 @@
+BL51 BANKED LINKER/LOCATER V6.00                                                        09/20/2009  20:52:56  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.00, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE delay.obj TO 8x8matrix RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  delay.obj (DELAY)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  8x8matrix (DELAY)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            IDATA   0008H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0034H     UNIT         ?PR?MAIN?DELAY
+            CODE    0037H     001CH     UNIT         ?PR?_MDELAY?DELAY
+            CODE    0053H     0011H     UNIT         ?PR?_SLEEP?DELAY
+            CODE    0064H     000CH     UNIT         ?C_C51STARTUP
+            CODE    0070H     0003H     UNIT         ?PR?__2CYCLE?DELAY
+
+
+
+OVERLAY MAP OF MODULE:   8x8matrix (DELAY)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?DELAY
+
+?PR?MAIN?DELAY
+  +--> ?PR?_MDELAY?DELAY
+  +--> ?PR?_SLEEP?DELAY
+
+?PR?_MDELAY?DELAY
+  +--> ?PR?__2CYCLE?DELAY
+
+?PR?_SLEEP?DELAY
+  +--> ?PR?_MDELAY?DELAY
+
+
+
+SYMBOL TABLE OF MODULE:  8x8matrix (DELAY)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+BL51 BANKED LINKER/LOCATER V6.00                                                      09/20/2009  20:52:56  PAGE 2
+
+
+  -------         MODULE        DELAY
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  C:0070H         PUBLIC        __2cycle
+  C:0003H         PUBLIC        main
+  C:003EH         PUBLIC        _mdelay
+  C:0053H         PUBLIC        _sleep
+  -------         PROC          __2CYCLE
+  D:0007H         SYMBOL        cyc
+  C:0070H         LINE#         7
+  C:0070H         LINE#         8
+  C:0070H         LINE#         9
+  C:0072H         LINE#         11
+  -------         ENDPROC       __2CYCLE
+  -------         PROC          L?0013
+  -------         ENDPROC       L?0013
+  -------         PROC          _MDELAY
+  D:0006H         SYMBOL        ms
+  C:003EH         LINE#         24
+  C:0040H         LINE#         25
+  C:0040H         LINE#         41
+  C:0046H         LINE#         42
+  C:004BH         LINE#         43
+  C:0050H         LINE#         44
+  C:0052H         LINE#         46
+  -------         ENDPROC       _MDELAY
+  -------         PROC          _SLEEP
+  D:0005H         SYMBOL        t
+  C:0053H         LINE#         51
+  C:0055H         LINE#         52
+  C:0055H         LINE#         53
+  C:005BH         LINE#         54
+  C:005BH         LINE#         55
+  C:005EH         LINE#         56
+  C:005EH         LINE#         57
+  C:0061H         LINE#         58
+  C:0063H         LINE#         60
+  -------         ENDPROC       _SLEEP
+  -------         PROC          MAIN
+  C:0003H         LINE#         63
+  C:0003H         LINE#         64
+  C:0003H         LINE#         87
+  C:0008H         LINE#         89
+  C:000DH         LINE#         91
+  C:0012H         LINE#         93
+  C:0017H         LINE#         95
+  C:001CH         LINE#         96
+  C:0021H         LINE#         98
+  C:0026H         LINE#         99
+  C:002BH         LINE#         100
+  C:0030H         LINE#         101
+  C:0035H         LINE#         102
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        DELAY
+
+Program Size: data=9.0 xdata=0 code=115
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
