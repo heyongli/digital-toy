@@ -1,0 +1,129 @@
+C51 COMPILER V8.01   DELAY                                                                 09/20/2009 20:52:55 PAGE 1   
+
+
+C51 COMPILER V8.01, COMPILATION OF MODULE DELAY
+OBJECT MODULE PLACED IN delay.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE delay.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1           #include <AT89X52.H>
+   2          
+   3          
+   4          /*
+   5           *  run about cyc*2+2 cycle
+   6           */
+   7          void _2cycle(unsigned char cyc)
+   8          {
+   9   1         while(--cyc);
+  10   1         /* DFFE     DJNZ     R7,delay(C:0014), 2cycle*/
+  11   1      }
+  12          
+  13          /*小于6us严重不准确, 奇数非常准确,偶数误差约(+ -)1us(仿真) */
+  14          /*7-512us*/
+  15          #define udelay(t)  _2cycle((t/2)-2)
+  16          
+  17          
+  18          
+  19          /*
+  20           * mdelay(0) : 15 cycle, 12Mhz 30us
+  21           * 1ms to 256ms
+  22           *  +- 50us
+  23           */
+  24          void mdelay(unsigned char ms)
+  25          {
+  26   1      
+  27   1      /*
+  28   1          35:    while(--t){     
+  29   1      C:0x0005    1E       DEC      R6               1 cyc
+  30   1      C:0x0006    EE       MOV      A,R6                 1 cyc
+  31   1      C:0x0007    600C     JZ       C:0015           1 cyc
+  32   1          36:      _2cycle(250); 
+  33   1      C:0x0009    7FFA     MOV      R7,#0xFA         1 cyc
+  34   1      C:0x000B    120027   LCALL    _2cycle(C:0027)   2 cyc
+  35   1          37:         _2cycle(250); 
+  36   1      C:0x000E    7FFA     MOV      R7,#0xFA             1 cyc
+  37   1      C:0x0010    120027   LCALL    _2cycle(C:0027)   2 cyc
+  38   1          38:    } 
+  39   1      C:0x0013    80F0     SJMP     C:0005           2 cyc
+  40   1      */
+  41   1         while(ms--){   
+  42   2           udelay(489); //补偿12cyc*2 us
+  43   2               udelay(499);
+  44   2         }
+  45   1        
+  46   1      }
+  47          
+  48          /*
+  49           * +- 50ms
+  50           */
+  51          void sleep(unsigned char t)
+  52          {
+  53   1         while(t--){
+  54   2               mdelay(250);
+  55   2               mdelay(250);
+C51 COMPILER V8.01   DELAY                                                                 09/20/2009 20:52:55 PAGE 2   
+
+  56   2           mdelay(250);
+  57   2           mdelay(250);
+  58   2         }
+  59   1           
+  60   1      }
+  61          
+  62          
+  63          main()
+  64          {
+  65   1      
+  66   1      /*
+  67   1        udelay(5);
+  68   1        udelay(6);
+  69   1        udelay(7);
+  70   1        udelay(8);
+  71   1        udelay(9);
+  72   1        udelay(10);
+  73   1        udelay(15);
+  74   1        udelay(17);
+  75   1      
+  76   1        udelay(100);
+  77   1        udelay(150);
+  78   1        udelay(500);
+  79   1      */
+  80   1      #if 0
+                udelay(511);
+                udelay(512);
+                udelay(489);
+              #endif
+  85   1      
+  86   1        
+  87   1        mdelay(1);
+  88   1       
+  89   1        mdelay(4);
+  90   1       
+  91   1        mdelay(10);
+  92   1       
+  93   1        mdelay(15);
+  94   1      
+  95   1        mdelay(100);
+  96   1        mdelay(150);
+  97   1        
+  98   1        sleep(1);
+  99   1        sleep(10);
+ 100   1        sleep(17);
+ 101   1        sleep (20);
+ 102   1        while(1);
+ 103   1      }
+ 104          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    100    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
