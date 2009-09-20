@@ -1,4 +1,4 @@
-C51 COMPILER V8.01   8X8MATRIX                                                             08/08/2009 18:32:03 PAGE 1   
+C51 COMPILER V8.01   8X8MATRIX                                                             09/20/2009 21:04:21 PAGE 1   
 
 
 C51 COMPILER V8.01, COMPILATION OF MODULE 8X8MATRIX
@@ -9,132 +9,144 @@ line level    source
 
    1          
    2          #include <AT89X52.H>
-   3                             
-   4          xdelay()
-   5          {
-   6   1        int a;
-   7   1        for (a=0; a<50; a++); 
-   8   1      }
-   9          
-  10          ldelay()
-  11          {
-  12   1        int a;
-  13   1        for (a=0; a<30000; a++); 
-  14   1      }
-  15          
-  16          #define wait1s ldelay(); ldelay(); xdelay();
+   3          
+   4          
+   5          /*
+   6           *  run about cyc*2+2 cycle
+   7           */
+   8          void _2cycle(unsigned char cyc)
+   9          {
+  10   1         while(--cyc);
+  11   1         /* DFFE     DJNZ     R7,delay(C:0014), 2cycle*/
+  12   1      }
+  13          
+  14          /*小于6us严重不准确, 奇数非常准确,偶数误差约(+ -)1us(仿真) */
+  15          /*7-512us*/
+  16          #define udelay(t)  _2cycle((t/2)-2)
   17          
   18          
-  19            
-  20          unsigned char  taba[]={0xfe,0xfd,0xfb,0xf7,0xef,0xdf,0xbf,0x7f};
-  21          unsigned char  tabb[]={0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80};
-  22          void delay(void)
-  23          {
-  24   1        unsigned char i,j;
-  25   1        for(i=10;i>0;i--)
-  26   1        for(j=248;j>0;j--);
-  27   1      }
-  28          void delay1(void)
-  29          {
-  30   1        unsigned char i,j,k;
-  31   1        for(k=10;k>0;k--)
-  32   1        for(i=20;i>0;i--)
-  33   1        for(j=248;j>0;j--);
-  34   1      }
-  35          
-  36          
-  37          blink1()
-  38          {
-  39   1         char i,j,k;
-  40   1         for(j=0;j<3;j++)
-  41   1              {
-  42   2                for(i=0;i<8;i++)
-  43   2                  {
-  44   3                    P3=taba[i];
-  45   3                    P2=0xff;
-  46   3                    delay1();
-  47   3                  }
-  48   2              }
-  49   1            for(j=0;j<3;j++)
-  50   1              {
-  51   2                for(i=0;i<8;i++)
-  52   2                  {
-  53   3                    P3=taba[7-i];
-  54   3                    P2=0xff;
-  55   3                    delay1();
-C51 COMPILER V8.01   8X8MATRIX                                                             08/08/2009 18:32:03 PAGE 2   
+  19          
+  20          /*
+  21           * mdelay(0) : 15 cycle, 12Mhz 30us
+  22           * 1ms to 256ms
+  23           *  +- 50us
+  24           */
+  25          void mdelay(unsigned char ms)
+  26          {
+  27   1      
+  28   1      /*
+  29   1          35:    while(--t){     
+  30   1      C:0x0005    1E       DEC      R6               1 cyc
+  31   1      C:0x0006    EE       MOV      A,R6                 1 cyc
+  32   1      C:0x0007    600C     JZ       C:0015           1 cyc
+  33   1          36:      _2cycle(250); 
+  34   1      C:0x0009    7FFA     MOV      R7,#0xFA         1 cyc
+  35   1      C:0x000B    120027   LCALL    _2cycle(C:0027)   2 cyc
+  36   1          37:         _2cycle(250); 
+  37   1      C:0x000E    7FFA     MOV      R7,#0xFA             1 cyc
+  38   1      C:0x0010    120027   LCALL    _2cycle(C:0027)   2 cyc
+  39   1          38:    } 
+  40   1      C:0x0013    80F0     SJMP     C:0005           2 cyc
+  41   1      */
+  42   1         while(ms--){   
+  43   2           udelay(489); //补偿12cyc*2 us
+  44   2               udelay(499);
+  45   2         }
+  46   1        
+  47   1      }
+  48          
+  49          /*
+  50           * +- 50ms
+  51           */
+  52          void sleep(unsigned char t)
+  53          {
+  54   1         while(t--){
+  55   2               mdelay(250);
+C51 COMPILER V8.01   8X8MATRIX                                                             09/20/2009 21:04:21 PAGE 2   
 
-  56   3                  }
-  57   2              }
-  58   1            for(j=0;j<3;j++)
-  59   1              {
-  60   2                for(i=0;i<8;i++)
-  61   2                  {
-  62   3                    P3=0x00;
-  63   3                    P2=tabb[7-i];
-  64   3                    delay1();
-  65   3                  }
-  66   2              }
-  67   1       
-  68   1            for(j=0;j<3;j++)
-  69   1              {
-  70   2                for(i=0;i<8;i++)
-  71   2                  {
-  72   3                    P3=0x00;
-  73   3                    P2=tabb[i];
-  74   3                    delay1();
-  75   3                  }
-  76   2              }
-  77   1      
-  78   1      }
-*** WARNING C280 IN LINE 39 OF 8X8MATRIX.C: 'k': unreferenced local variable
-  79          
-  80          blink(){
-  81   1      
-  82   1         unsigned char x=0, y=0;
-  83   1         for(x=0; x<=0xfe; x++){
-  84   2                for(y=0xff;y>=1; y--)
-  85   2                 {
-  86   3               
-  87   3                   P3=x;
-  88   3                       P2=y;
-  89   3                       xdelay();
-  90   3                 
-  91   3                 }
-  92   2      
-  93   2              }
-  94   1           
-  95   1      
-  96   1       
-  97   1      
-  98   1      }
-  99          
- 100          void main(void)
- 101          {
- 102   1       
- 103   1        while(1)
- 104   1          {
- 105   2                blink();
- 106   2                blink1();
- 107   2       
- 108   2          }
- 109   1      }
- 110          
- 111                                                   
- 112                                          
+  56   2               mdelay(250);
+  57   2           mdelay(250);
+  58   2           mdelay(250);
+  59   2         }
+  60   1           
+  61   1      }
+  62          
+  63          /* 按行区模(横向取模),
+  64             第一行显示点, 第二行显示点...
+  65              ---> col
+  66             | b1    .
+  67             | b2    .
+  68           row b3    .
+  69                   b4        .
+  70          */
+  71          unsigned char hztab[]=
+  72          {
+  73            0x00,0x3C,0x24,0x24,0x24,0x3C,0x00,0x00,  //0
+  74            0x00,0x08,0x18,0x08,0x08,0x1C,0x00,0x00,
+  75            0x00,0x3C,0x04,0x04,0x3C,0x20,0x3C,0x00,
+  76            0x00,0x3C,0x04,0x3C,0x04,0x3C,0x00,0x00,
+  77            0x00,0x28,0x28,0x3C,0x08,0x08,0x00,0x00,
+  78            0x00,0x3C,0x20,0x3C,0x04,0x3C,0x00,0x00,
+  79            0x00,0x3C,0x20,0x3C,0x24,0x3C,0x00,0x00,
+  80            0x00,0x3C,0x04,0x08,0x10,0x10,0x00,0x00,
+  81            0x00,0x3C,0x24,0x3C,0x24,0x3C,0x00,0x00,
+  82            0x00,0x3C,0x24,0x3C,0x24,0x3C,0x00,0x00,  //9
+  83          };
+  84          
+  85          
+  86          #define Rrow P2  //Row been pull high!!!
+  87          #define Rcol P3
+  88          
+  89          unsigned char row[]={ 0x1,0x2,0x4,0x8,0x10,0x20,0x40,0x80};
+  90          
+  91          
+  92          show( unsigned char c, int ms)
+  93          {
+  94   1      
+  95   1         unsigned char *tab=hztab+8*c;
+  96   1         char i;
+  97   1         int t;
+  98   1         for(t=0;t<ms;t++)
+  99   1           for(i=0;i<8;i++) //scan from row1 to row8
+ 100   1           {
+ 101   2              Rrow=row[i];
+ 102   2              Rcol=~tab[i]; //low to light the led
+ 103   2                  udelay(500);
+ 104   2              
+ 105   2           }
+ 106   1      }
+ 107          
+ 108          void main(void)
+ 109          {
+ 110   1         unsigned char i=0; 
+ 111   1         while(1)
+ 112   1          {
+ 113   2                //blink();
+ 114   2                //blink1();
+ 115   2            for(i=0; i<9; i++){
+ 116   3               show(i,250);  //show 1s
+ 117   3                   sleep(1);
+C51 COMPILER V8.01   8X8MATRIX                                                             09/20/2009 21:04:21 PAGE 3   
+
+ 118   3                       
+ 119   3            }
+ 120   2            
+ 121   2          }
+ 122   1      }
+ 123          
+ 124                                                   
+ 125                                          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    181    ----
-C51 COMPILER V8.01   8X8MATRIX                                                             08/08/2009 18:32:03 PAGE 3   
-
+   CODE SIZE        =    169    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =     16       1
+   DATA SIZE        =     88       8
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
 
 
-C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
