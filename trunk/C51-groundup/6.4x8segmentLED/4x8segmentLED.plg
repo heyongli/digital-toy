@@ -1,0 +1,19 @@
+<html>
+<body>
+<pre>
+<h1>µVision3 Build Log</h1>
+<h2>Project:</h2>
+D:\hyl\digital-toy\C51-groundup\6.4x8segmentLED\4x8segmentLED.uv2
+Project File Date:  10/05/2009
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling 4x8segmentLED.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SLEEP?4X8SEGMENTLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SEGCHAR?4X8SEGMENTLED
+Program Size: data=19.0 xdata=0 code=425
+creating hex file from "4x8segmentLED"...
+"4x8segmentLED" - 0 Error(s), 2 Warning(s).

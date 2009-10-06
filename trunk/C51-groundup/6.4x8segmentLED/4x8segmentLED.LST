@@ -1,0 +1,266 @@
+C51 COMPILER V8.01   4X8SEGMENTLED                                                         10/07/2009 00:04:25 PAGE 1   
+
+
+C51 COMPILER V8.01, COMPILATION OF MODULE 4X8SEGMENTLED
+OBJECT MODULE PLACED IN 4x8segmentLED.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 4x8segmentLED.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1           #include <AT89X52.H>
+   2          
+   3          
+   4          /*
+   5           *  run about cyc*2+2 cycle
+   6           */
+   7          void _2cycle(unsigned char cyc)
+   8          {
+   9   1         while(--cyc);
+  10   1         /* DFFE     DJNZ     R7,delay(C:0014), 2cycle*/
+  11   1      }
+  12          
+  13          /*小于6us严重不准确, 奇数非常准确,偶数误差约(+ -)1us(仿真) */
+  14          /*7-512us*/
+  15          #define udelay(t)  _2cycle((t/2)-2)
+  16          
+  17          
+  18          
+  19          /*
+  20           * mdelay(0) : 15 cycle, 12Mhz 30us
+  21           * 1ms to 256ms
+  22           *  +- 50us
+  23           */
+  24          void mdelay(unsigned char ms)
+  25          {
+  26   1      
+  27   1      /*
+  28   1          35:    while(--t){     
+  29   1      C:0x0005    1E       DEC      R6               1 cyc
+  30   1      C:0x0006    EE       MOV      A,R6                 1 cyc
+  31   1      C:0x0007    600C     JZ       C:0015           1 cyc
+  32   1          36:      _2cycle(250); 
+  33   1      C:0x0009    7FFA     MOV      R7,#0xFA         1 cyc
+  34   1      C:0x000B    120027   LCALL    _2cycle(C:0027)   2 cyc
+  35   1          37:         _2cycle(250); 
+  36   1      C:0x000E    7FFA     MOV      R7,#0xFA             1 cyc
+  37   1      C:0x0010    120027   LCALL    _2cycle(C:0027)   2 cyc
+  38   1          38:    } 
+  39   1      C:0x0013    80F0     SJMP     C:0005           2 cyc
+  40   1      */
+  41   1         while(ms--){   
+  42   2           udelay(489); //补偿12cyc*2 us
+  43   2               udelay(499);
+  44   2         }
+  45   1        
+  46   1      }
+  47          
+  48          /*
+  49           * +- 50ms
+  50           */
+  51          void sleep(unsigned char t)
+  52          {
+  53   1         while(t--){
+  54   2               mdelay(250);
+  55   2               mdelay(250);
+C51 COMPILER V8.01   4X8SEGMENTLED                                                         10/07/2009 00:04:25 PAGE 2   
+
+  56   2           mdelay(250);
+  57   2           mdelay(250);
+  58   2         }
+  59   1           
+  60   1      }
+  61          
+  62          unsigned char seg0_9[]={
+  63                  0XC0,/*0*/
+  64                  0XF9,/*1*/
+  65                  0XA4,/*2*/
+  66                  0XB0,/*3*/
+  67                  0X99,/*4*/
+  68                  0X92,/*5*/
+  69                  0X82,/*6*/
+  70                  0XF8,/*7*/
+  71                  0X80,/*8*/
+  72                  0X90,/*9*/
+  73          
+  74          #if 0
+                      0X3F,/*0*/
+                      0X06,/*1*/
+                      0X5B,/*2*/
+                      0X4F,/*3*/
+                      0X66,/*4*/
+                      0X6D,/*5*/
+                      0X7D,/*6*/
+                      0X07,/*7*/
+                      0X7F,/*8*/
+                      0X6F,/*9*/
+              #endif
+  86          };
+  87          
+  88          #define segA   0X77 /*A*/
+  89          #define segb   0X7C,/*b*/
+  90          #define segC   0X39,/*C*/
+  91          #define segc   0X58,/*c*/
+  92          #define segd   0X5E,/*d*/
+  93          #define segE   0X79,/*E*/
+  94          #define segF   0X71,/*F*/
+  95          
+  96          #define segH   0X76,/*H*/
+  97          #define segh   0X74,/*h*/
+  98          #define segL   0X38,/*L*/
+  99          #define segP   0X73,/*P*/
+ 100          #define segt   0X78,/*t*/
+ 101          #define seg-   0X40,/*-*/
+ 102          
+ 103          #define segDOT  0X7F  /*dot*/
+ 104          
+ 105          
+ 106          #define segENA1  P2_0
+ 107          #define segENA2  P2_1
+ 108          #define segENA3  P2_2
+ 109          #define segENA4  P2_3
+ 110          #define vledENA  P2_4
+ 111          
+ 112          #define segData  P0
+ 113          
+ 114          
+ 115          
+ 116          void segoff( unsigned char segbit)
+ 117          {
+C51 COMPILER V8.01   4X8SEGMENTLED                                                         10/07/2009 00:04:25 PAGE 3   
+
+ 118   1         if(segbit&0x1)
+ 119   1              segENA1=1;
+ 120   1         if(segbit&0x2)
+ 121   1              segENA2=1;
+ 122   1         if(segbit&0x4)
+ 123   1             segENA3=1;
+ 124   1         if(segbit&0x8)
+ 125   1             segENA4=1;
+ 126   1      /*
+ 127   1         switch bit {
+ 128   1           case 1:
+ 129   1              segENA1=1;
+ 130   1           case 2:
+ 131   1              segENA2=1;
+ 132   1           case 3:
+ 133   1              segENA3=1;
+ 134   1           case 4:
+ 135   1              segENA4=1;
+ 136   1           
+ 137   1         }
+ 138   1         */
+ 139   1      }
+ 140          
+ 141          void segon(unsigned char segbit)
+ 142          {
+ 143   1         if(segbit&0x1)
+ 144   1              segENA1=0;
+ 145   1         if(segbit&0x2)
+ 146   1              segENA2=0;
+ 147   1         if(segbit&0x4)
+ 148   1             segENA3=0;
+ 149   1         if(segbit&0x8)
+ 150   1             segENA4=0;
+ 151   1         
+ 152   1      }
+ 153          
+ 154          #define vledon()   segoff(0xF); vledENA=0;
+ 155          #define vledoff()  vledENA=1;
+ 156          
+ 157          void segchar(unsigned char c, unsigned char segbit)
+ 158          {
+ 159   1         segoff(0xF);
+ 160   1         segData = c;      
+ 161   1         switch ( segbit ){
+ 162   2           case 1:
+ 163   2              segENA1=0;
+ 164   2                      break;
+ 165   2           case 2:
+ 166   2              segENA2=0;
+ 167   2                      break;
+ 168   2           case 3:
+ 169   2              segENA3=0;
+ 170   2                      break;
+ 171   2           case 4:
+ 172   2                  segENA4=0;
+ 173   2                      break;
+ 174   2               default:
+ 175   2                  segoff(0xF);
+ 176   2                      segData = segDOT;
+ 177   2           
+ 178   2         }
+ 179   1      }
+C51 COMPILER V8.01   4X8SEGMENTLED                                                         10/07/2009 00:04:25 PAGE 4   
+
+ 180          testseg()
+ 181          {
+ 182   1         unsigned char n;
+ 183   1         segon(0xF);
+ 184   1                
+ 185   1         for(n=0;n<=9;n++){
+ 186   2                 segData = seg0_9[n];
+ 187   2                mdelay(255);
+ 188   2                mdelay(128);
+ 189   2                 
+ 190   2         }
+ 191   1         
+ 192   1         for(n=0;n<=9;n++){
+ 193   2                 segData = seg0_9[n] & segDOT;
+ 194   2                mdelay(255);
+ 195   2            mdelay(128);         
+ 196   2         }
+ 197   1      
+ 198   1      }
+ 199          
+ 200          
+ 201          testvled()
+ 202          {
+ 203   1        unsigned char n;
+ 204   1        vledon();
+ 205   1        
+ 206   1        segData = 0xff;
+ 207   1        segData = 0;
+ 208   1        mdelay(255);
+ 209   1        segData = 0xff;
+ 210   1        mdelay(255);
+ 211   1        segData = 0;
+ 212   1        mdelay(255);
+ 213   1        segData = 0xff;
+ 214   1         
+ 215   1        for(n=0;n<=8;n++){
+ 216   2                segData = ~(1<<n);
+ 217   2                mdelay(255);
+ 218   2                mdelay(128);
+ 219   2        }
+ 220   1      
+ 221   1        vledoff();
+ 222   1      }
+ 223          
+ 224          
+ 225          void main()
+ 226          {
+ 227   1        segoff(0xF);
+ 228   1      
+ 229   1      again:
+ 230   1        testseg();
+ 231   1        testvled();
+ 232   1        goto again;
+ 233   1      }
+ 234          
+ 235          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    269    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+C51 COMPILER V8.01   4X8SEGMENTLED                                                         10/07/2009 00:04:25 PAGE 5   
+
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     10    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
