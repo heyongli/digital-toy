@@ -1,0 +1,456 @@
+BL51 BANKED LINKER/LOCATER V6.00                                                        10/07/2009  21:30:47  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.00, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE main.obj, 4x4keyboard.obj, 4x8seg_vled.obj, delay.obj TO i-charger RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  main.obj (MAIN)
+  4x4keyboard.obj (4X4KEYBOARD)
+  4x8seg_vled.obj (4X8SEG_VLED)
+  delay.obj (DELAY)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?ULSHR)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  i-charger (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            REG     0008H     0008H     ABSOLUTE     "REG BANK 1"
+            DATA    0010H     0017H     UNIT         ?DT?MAIN
+            DATA    0027H     000BH     UNIT         ?DT?4X8SEG_VLED
+            DATA    0032H     0001H     UNIT         _DATA_GROUP_
+            IDATA   0033H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     0008H                  *** GAP ***
+            CODE    000BH     0003H     ABSOLUTE     
+                    000EH     07F2H                  *** GAP ***
+            CODE    0800H     00C4H     UNIT         ?PR?TICKVLED?MAIN
+            CODE    08C4H     00B3H     UNIT         ?PR?MAIN?MAIN
+            CODE    0977H     008CH     UNIT         ?C_C51STARTUP
+            CODE    0A03H     0081H     UNIT         ?PR?TIMER0?MAIN
+            CODE    0A84H     003EH     UNIT         ?PR?TESTVLED?4X8SEG_VLED
+            CODE    0AC2H     003AH     UNIT         ?PR?TESTSEG?4X8SEG_VLED
+            CODE    0AFCH     0035H     UNIT         ?C_INITSEG
+            CODE    0B31H     0026H     UNIT         ?PR?VLED_FLOWTICK?4X8SEG_VLED
+            CODE    0B57H     0023H     UNIT         ?PR?_SEGCHAR?4X8SEG_VLED
+            CODE    0B7AH     001CH     UNIT         ?PR?_MDELAY?DELAY
+            CODE    0B96H     0019H     UNIT         ?PR?_SEGOFF?4X8SEG_VLED
+            CODE    0BAFH     0019H     UNIT         ?PR?_SEGON?4X8SEG_VLED
+            CODE    0BC8H     0016H     UNIT         ?PR?KEYSCAN?4X4KEYBOARD
+            CODE    0BDEH     0013H     UNIT         ?C?LIB_CODE
+            CODE    0BF1H     0011H     UNIT         ?PR?_SLEEP?DELAY
+            CODE    0C02H     0007H     UNIT         ?PR?VLEDFLASHA?MAIN
+            CODE    0C09H     0003H     UNIT         ?PR?__2CYCLE?DELAY
+
+
+
+OVERLAY MAP OF MODULE:   i-charger (MAIN)
+
+BL51 BANKED LINKER/LOCATER V6.00                                                      10/07/2009  21:30:47  PAGE 2
+
+
+
+SEGMENT                                 DATA_GROUP 
+  +--> CALLED SEGMENT                 START    LENGTH
+-----------------------------------------------------
+?PR?TIMER0?MAIN                       -----    -----
+  +--> ?PR?_SEGOFF?4X8SEG_VLED
+  +--> ?PR?_SEGON?4X8SEG_VLED
+
+*** NEW ROOT ***************************************************
+
+?C_C51STARTUP                         -----    -----
+  +--> ?PR?MAIN?MAIN
+  +--> ?C_INITSEG
+
+?PR?MAIN?MAIN                         -----    -----
+  +--> ?PR?_SEGOFF?4X8SEG_VLED
+  +--> ?PR?TESTSEG?4X8SEG_VLED
+  +--> ?PR?TESTVLED?4X8SEG_VLED
+  +--> ?PR?VLEDFLASHA?MAIN
+  +--> ?PR?TICKVLED?MAIN
+
+?PR?TESTSEG?4X8SEG_VLED               0032H    0001H
+  +--> ?PR?_SEGON?4X8SEG_VLED
+  +--> ?PR?_MDELAY?DELAY
+
+?PR?_MDELAY?DELAY                     -----    -----
+  +--> ?PR?__2CYCLE?DELAY
+
+?PR?TESTVLED?4X8SEG_VLED              0032H    0001H
+  +--> ?PR?_SEGOFF?4X8SEG_VLED
+  +--> ?PR?_MDELAY?DELAY
+
+
+
+SYMBOL TABLE OF MODULE:  i-charger (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  C:0C02H         PUBLIC        vledflashA
+  D:001DH         PUBLIC        vblock
+  B:00A8H.7       PUBLIC        EA
+  B:00A0H.4       PUBLIC        P2_4
+  C:08C4H         PUBLIC        main
+  D:0022H         PUBLIC        tick
+  D:0026H         PUBLIC        vled_mode
+  D:0089H         PUBLIC        TMOD
+  B:00A8H.1       PUBLIC        ET0
+  D:008CH         PUBLIC        TH0
+  D:008AH         PUBLIC        TL0
+  C:0A03H         PUBLIC        timer0
+  B:0088H.4       PUBLIC        TR0
+  C:0800H         PUBLIC        tickvled
+  -------         PROC          TIMER0
+BL51 BANKED LINKER/LOCATER V6.00                                                      10/07/2009  21:30:47  PAGE 3
+
+
+  -------         DO            
+  D:0010H         SYMBOL        block
+  -------         ENDDO         
+  C:0A03H         LINE#         19
+  C:0A10H         LINE#         25
+  C:0A1CH         LINE#         26
+  C:0A1EH         LINE#         28
+  C:0A1EH         LINE#         30
+  C:0A25H         LINE#         31
+  C:0A27H         LINE#         32
+  C:0A2CH         LINE#         33
+  C:0A34H         LINE#         34
+  C:0A45H         LINE#         35
+  C:0A47H         LINE#         36
+  C:0A47H         LINE#         37
+  C:0A4EH         LINE#         38
+  C:0A53H         LINE#         39
+  C:0A56H         LINE#         41
+  C:0A56H         LINE#         43
+  C:0A58H         LINE#         44
+  C:0A5DH         LINE#         45
+  C:0A60H         LINE#         47
+  C:0A79H         LINE#         48
+  -------         ENDPROC       TIMER0
+  -------         PROC          VLEDFLASHA
+  C:0C02H         LINE#         67
+  C:0C02H         LINE#         68
+  C:0C02H         LINE#         69
+  C:0C05H         LINE#         70
+  C:0C08H         LINE#         72
+  -------         ENDPROC       VLEDFLASHA
+  -------         PROC          TICKVLED
+  -------         DO            
+  D:0011H         SYMBOL        pos
+  D:0015H         SYMBOL        lasttime
+  -------         ENDDO         
+  C:0800H         LINE#         74
+  C:0800H         LINE#         75
+  C:0800H         LINE#         83
+  C:082EH         LINE#         86
+  C:0830H         LINE#         87
+  C:0834H         LINE#         88
+  C:0844H         LINE#         90
+  C:0849H         LINE#         91
+  C:0851H         LINE#         92
+  C:0854H         LINE#         93
+  C:0856H         LINE#         94
+  C:0859H         LINE#         95
+  C:0859H         LINE#         97
+  C:0859H         LINE#         99
+  C:085EH         LINE#         100
+  C:0866H         LINE#         101
+  C:0869H         LINE#         102
+  C:086BH         LINE#         103
+  C:086EH         LINE#         104
+  C:086EH         LINE#         105
+  C:086EH         LINE#         107
+BL51 BANKED LINKER/LOCATER V6.00                                                      10/07/2009  21:30:47  PAGE 4
+
+
+  C:0874H         LINE#         108
+  C:087CH         LINE#         109
+  C:087FH         LINE#         110
+  C:088BH         LINE#         113
+  C:088DH         LINE#         114
+  C:0890H         LINE#         115
+  C:089CH         LINE#         118
+  C:089CH         LINE#         119
+  C:089CH         LINE#         121
+  C:089EH         LINE#         123
+  C:08B3H         LINE#         124
+  C:08C3H         LINE#         126
+  -------         ENDPROC       TICKVLED
+  -------         PROC          MAIN
+  -------         DO            
+  D:0019H         SYMBOL        mode_show_time
+  -------         ENDDO         
+  C:08C4H         LINE#         128
+  C:08C4H         LINE#         129
+  C:08C4H         LINE#         131
+  C:08C9H         LINE#         132
+  C:08CCH         LINE#         133
+  C:08CFH         LINE#         135
+  C:08D4H         LINE#         136
+  C:08D6H         LINE#         139
+  C:08D9H         LINE#         141
+  C:08DFH         LINE#         143
+  C:08E1H         LINE#         145
+  C:08E3H         LINE#         147
+  C:08E5H         LINE#         150
+  C:08E8H         LINE#         152
+  C:08E8H         LINE#         155
+  C:0912H         LINE#         158
+  C:0918H         LINE#         159
+  C:091BH         LINE#         161
+  C:0931H         LINE#         162
+  C:0947H         LINE#         163
+  C:0952H         LINE#         165
+  C:0955H         LINE#         166
+  C:0955H         LINE#         169
+  C:0957H         LINE#         170
+  C:095AH         LINE#         172
+  C:095EH         LINE#         173
+  C:0961H         LINE#         175
+  C:0971H         LINE#         177
+  C:0971H         LINE#         178
+  C:0974H         LINE#         181
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN
+
+  -------         MODULE        4X4KEYBOARD
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  C:0BC8H         PUBLIC        keyscan
+  -------         PROC          KEYSCAN
+  -------         DO            
+  D:0007H         SYMBOL        n
+BL51 BANKED LINKER/LOCATER V6.00                                                      10/07/2009  21:30:47  PAGE 5
+
+
+  -------         ENDDO         
+  C:0BC8H         LINE#         6
+  C:0BC8H         LINE#         8
+  C:0BC8H         LINE#         19
+  C:0BCBH         LINE#         20
+  C:0BD0H         LINE#         22
+  C:0BD3H         LINE#         23
+  C:0BD8H         LINE#         24
+  C:0BDAH         LINE#         25
+  C:0BDDH         LINE#         26
+  C:0BDDH         LINE#         27
+  C:0BDDH         LINE#         28
+  C:0BDDH         LINE#         29
+  C:0BDDH         LINE#         30
+  C:0BDDH         LINE#         31
+  C:0BDDH         LINE#         32
+  C:0BDDH         LINE#         33
+  C:0BDDH         LINE#         34
+  C:0BDDH         LINE#         35
+  C:0BDDH         LINE#         36
+  C:0BDDH         LINE#         39
+  -------         ENDPROC       KEYSCAN
+  -------         ENDMOD        4X4KEYBOARD
+
+  -------         MODULE        4X8SEG_VLED
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  C:0BAFH         PUBLIC        _segon
+  D:0080H         PUBLIC        P0
+  C:0AC2H         PUBLIC        testseg
+  D:0028H         PUBLIC        seg0_9
+  B:00A0H.0       PUBLIC        P2_0
+  B:00A0H.1       PUBLIC        P2_1
+  B:00A0H.2       PUBLIC        P2_2
+  B:00A0H.3       PUBLIC        P2_3
+  B:00A0H.4       PUBLIC        P2_4
+  C:0B57H         PUBLIC        _segchar
+  C:0B96H         PUBLIC        _segoff
+  C:0A84H         PUBLIC        testvled
+  C:0B31H         PUBLIC        vled_flowtick
+  -------         PROC          _SEGOFF
+  D:0007H         SYMBOL        segbit
+  C:0B96H         LINE#         33
+  C:0B96H         LINE#         34
+  C:0B96H         LINE#         35
+  C:0B9AH         LINE#         36
+  C:0B9CH         LINE#         37
+  C:0BA0H         LINE#         38
+  C:0BA2H         LINE#         39
+  C:0BA6H         LINE#         40
+  C:0BA8H         LINE#         41
+  C:0BACH         LINE#         42
+  C:0BAEH         LINE#         56
+  -------         ENDPROC       _SEGOFF
+  -------         PROC          _SEGON
+  D:0007H         SYMBOL        segbit
+  C:0BAFH         LINE#         58
+  C:0BAFH         LINE#         59
+BL51 BANKED LINKER/LOCATER V6.00                                                      10/07/2009  21:30:47  PAGE 6
+
+
+  C:0BAFH         LINE#         60
+  C:0BB3H         LINE#         61
+  C:0BB5H         LINE#         62
+  C:0BB9H         LINE#         63
+  C:0BBBH         LINE#         64
+  C:0BBFH         LINE#         65
+  C:0BC1H         LINE#         66
+  C:0BC5H         LINE#         67
+  C:0BC7H         LINE#         69
+  -------         ENDPROC       _SEGON
+  -------         PROC          _SEGCHAR
+  D:0006H         SYMBOL        c
+  D:0005H         SYMBOL        segbit
+  C:0B57H         LINE#         73
+  C:0B59H         LINE#         74
+  C:0B59H         LINE#         75
+  C:0B5EH         LINE#         76
+  C:0B60H         LINE#         77
+  C:0B6EH         LINE#         78
+  C:0B6EH         LINE#         79
+  C:0B70H         LINE#         80
+  C:0B71H         LINE#         81
+  C:0B71H         LINE#         82
+  C:0B73H         LINE#         83
+  C:0B74H         LINE#         84
+  C:0B74H         LINE#         85
+  C:0B76H         LINE#         86
+  C:0B77H         LINE#         87
+  C:0B77H         LINE#         88
+  C:0B79H         LINE#         89
+  C:0B79H         LINE#         90
+  C:0B79H         LINE#         93
+  C:0B79H         LINE#         94
+  -------         ENDPROC       _SEGCHAR
+  -------         PROC          TESTSEG
+  -------         DO            
+  D:0032H         SYMBOL        n
+  -------         ENDDO         
+  C:0AC2H         LINE#         95
+  C:0AC2H         LINE#         96
+  C:0AC2H         LINE#         98
+  C:0AC7H         LINE#         100
+  C:0ACAH         LINE#         101
+  C:0AD2H         LINE#         102
+  C:0AD7H         LINE#         104
+  C:0AE0H         LINE#         106
+  C:0AE3H         LINE#         107
+  C:0AEDH         LINE#         108
+  C:0AF2H         LINE#         109
+  C:0AFBH         LINE#         111
+  -------         ENDPROC       TESTSEG
+  -------         PROC          TESTVLED
+  -------         DO            
+  D:0032H         SYMBOL        n
+  -------         ENDDO         
+  C:0A84H         LINE#         114
+  C:0A84H         LINE#         115
+BL51 BANKED LINKER/LOCATER V6.00                                                      10/07/2009  21:30:47  PAGE 7
+
+
+  C:0A84H         LINE#         117
+  C:0A8BH         LINE#         119
+  C:0A8EH         LINE#         120
+  C:0A91H         LINE#         121
+  C:0A96H         LINE#         122
+  C:0A99H         LINE#         123
+  C:0A9EH         LINE#         125
+  C:0AA1H         LINE#         126
+  C:0AB1H         LINE#         127
+  C:0AB6H         LINE#         128
+  C:0ABFH         LINE#         130
+  C:0AC1H         LINE#         131
+  -------         ENDPROC       TESTVLED
+  -------         PROC          VLED_FLOWTICK
+  -------         DO            
+  D:0027H         SYMBOL        n
+  -------         ENDDO         
+  C:0B31H         LINE#         133
+  C:0B31H         LINE#         134
+  C:0B31H         LINE#         136
+  C:0B38H         LINE#         138
+  C:0B48H         LINE#         140
+  C:0B4DH         LINE#         141
+  C:0B52H         LINE#         143
+  C:0B54H         LINE#         145
+  C:0B56H         LINE#         146
+  -------         ENDPROC       VLED_FLOWTICK
+  -------         ENDMOD        4X8SEG_VLED
+
+  -------         MODULE        DELAY
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  C:0C09H         PUBLIC        __2cycle
+  C:0B81H         PUBLIC        _mdelay
+  C:0BF1H         PUBLIC        _sleep
+  -------         PROC          __2CYCLE
+  D:0007H         SYMBOL        cyc
+  C:0C09H         LINE#         13
+  C:0C09H         LINE#         14
+  C:0C09H         LINE#         15
+  C:0C0BH         LINE#         17
+  -------         ENDPROC       __2CYCLE
+  -------         PROC          L?0010
+  -------         ENDPROC       L?0010
+  -------         PROC          _MDELAY
+  D:0006H         SYMBOL        ms
+  C:0B81H         LINE#         28
+  C:0B83H         LINE#         29
+  C:0B83H         LINE#         45
+  C:0B89H         LINE#         46
+  C:0B8EH         LINE#         47
+  C:0B93H         LINE#         48
+  C:0B95H         LINE#         50
+  -------         ENDPROC       _MDELAY
+  -------         PROC          _SLEEP
+  D:0005H         SYMBOL        t
+  C:0BF1H         LINE#         55
+  C:0BF3H         LINE#         56
+BL51 BANKED LINKER/LOCATER V6.00                                                      10/07/2009  21:30:47  PAGE 8
+
+
+  C:0BF3H         LINE#         57
+  C:0BF9H         LINE#         58
+  C:0BF9H         LINE#         59
+  C:0BFCH         LINE#         60
+  C:0BFCH         LINE#         61
+  C:0BFFH         LINE#         62
+  C:0C01H         LINE#         64
+  -------         ENDPROC       _SLEEP
+  -------         ENDMOD        DELAY
+
+  -------         MODULE        ?C?ULSHR
+  C:0BDEH         PUBLIC        ?C?ULSHR
+  -------         ENDMOD        ?C?ULSHR
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?KEYSCAN?4X4KEYBOARD
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SEGCHAR?4X8SEG_VLED
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLED_FLOWTICK?4X8SEG_VLED
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SLEEP?DELAY
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 036FH BYTE (42%) *
+******************************************************************************
+
+Program Size: data=52.0 xdata=0 code=1042
+LINK/LOCATE RUN COMPLETE.  4 WARNING(S),  0 ERROR(S)

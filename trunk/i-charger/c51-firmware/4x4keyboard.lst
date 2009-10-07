@@ -1,0 +1,65 @@
+C51 COMPILER V8.01   4X4KEYBOARD                                                           10/07/2009 21:30:46 PAGE 1   
+
+
+C51 COMPILER V8.01, COMPILATION OF MODULE 4X4KEYBOARD
+OBJECT MODULE PLACED IN 4x4keyboard.obj
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE driver\4x4keyboard.c BROWSE INCDIR(.\driver) DEBUG OBJECTEXTEND PRINT(.\4x4
+                    -keyboard.lst) OBJECT(4x4keyboard.obj)
+
+line level    source
+
+   1          
+   2          #include <config.h>
+   3                             
+   4          
+   5          // h1,h2--> p1_0, p1_1
+   6          void keyscan(void)
+   7          
+   8          {
+   9   1      
+  10   1        unsigned char n;
+  11   1      /*
+  12   1        电路
+  13   1        p1_0     -- R ---     +          +
+  14   1        p1_1     --R---       +          +
+  15   1        p1_2 行1------------     +
+  16   1        p1_3 行2-----------------
+  17   1      */
+  18   1        //扫描第一行
+  19   1        P1=0xff; 
+  20   1        udelay(5);
+  21   1           
+  22   1        P1=0xfb; //拉低第一行 , 1011
+  23   1        udelay(5);
+  24   1        n=P1;
+  25   1        if(n!=0xfb){
+  26   2              switch(n){
+  27   3                   case(0xf9):
+  28   3                                      break;
+  29   3                   case(0xfa):
+  30   3                                      break;
+  31   3                               case 0xf8 :
+  32   3                                      break;
+  33   3                               default: 
+  34   3                                      break;
+  35   3            }
+  36   2        }
+  37   1      
+  38   1      
+  39   1      }
+  40          
+  41          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     22    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
