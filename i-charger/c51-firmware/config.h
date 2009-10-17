@@ -9,7 +9,7 @@
 // P2 £º0...4: 4x8 block select, 4 is the vled
 //      5:current AD   6:   7:PWM driver
 // P3 :	serial/INT..
-
+							                                     
 
 #include <AT89X52.H>
 
@@ -18,5 +18,10 @@
 #include <4x4keyboard.h>
 
 #include <4x8seg_vled.h>
+
+#include <timer.h>
+
+#include <pwm.h>
+
 
 #endif
