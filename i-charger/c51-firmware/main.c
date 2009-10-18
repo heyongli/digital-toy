@@ -21,22 +21,27 @@ void main()
    irqon();   //enable global interrupt		
    
    while(1){ 
-       unsigned char n,x;
+       static unsigned short n,x=0,x1=0;
  	   static unsigned short onduty=0;
-   	         static unsigned long lasttime=0;
+   	   static unsigned long lasttime=0;
 
-		
-		
-	   if(timeafter(jiffers,lasttime+800) ){			    
+	   	   
+	   	
+	   if(timeafter(jiffers,lasttime+1000) ){			    
 		
 				pwm_safeoff();
-				x=adc(0);
+				 //fast search
+			   	if(onduty>10)
+			    	onduty = adc(onduty-5,15);
+				else
+				    onduty = adc(0, 2);
 			    pwm_safeon();
-				//printhex(x);
-				vledmod('H'); 
-				 lasttime = jiffers;
-  	    }
 
+				printhex(onduty);
+				vledmod('H'); 
+			    lasttime = jiffers;
+  	    }
+			   
         n = keyscan();
 
 		if(n!=-1)
@@ -61,14 +66,16 @@ void main()
  		       vledmod('A'); 
 	   
 	   		if(12==n){ // key C  
-			  //  unsigned short x;
 			    pwm_safeoff();
-				if(onduty< ADC_CYCLE)
-				   adc(onduty);
-				else
-				   adc(0);
+				if( ( onduty< ADC_CYCLE)&&(onduty>8)){
+				   x=adc(onduty-8,20);
+  				   x1=adc(onduty-8,20);
+				}else
+				   adc(0,3);
 			    pwm_safeon();
-				//printhex(x);
+				onduty=(x+x1)>>1;
+				printhex(onduty);
+				
 				vledmod('A'); 
 	              
 			}

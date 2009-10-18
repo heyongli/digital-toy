@@ -1,4 +1,4 @@
-C51 COMPILER V8.01   MAIN                                                                  10/07/2009 21:30:46 PAGE 1   
+C51 COMPILER V8.01   MAIN                                                                  10/18/2009 19:02:33 PAGE 1   
 
 
 C51 COMPILER V8.01, COMPILATION OF MODULE MAIN
@@ -8,201 +8,118 @@ COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE main.c BROWSE INCDIR(.;.\driver) DE
 line level    source
 
    1          #include "config.h"
-   2          
-   3          #include <intrins.h>
-   4           
-   5           /*
-   6            * Timer0: 256us, display driven ticks
-   7            */
-   8          /*中断1， 寄存器组1 (普通函数默认用寄存器组0)*/
-   9          //unsigned vblock[5]={0xFF,0xFF,0xFF,0xFF,0xFF};
-  10          
-  11          unsigned char vblock[5]={
-  12                         segDOT,/*0*/
-  13                         0XF9,/*1*/
-  14                         0XA4,/*2*/
-  15                         0XB0,/*3*/
-  16                                     ~(0xf)};
-  17          
-  18          volatile unsigned  long tick=0;  //250us per ticks
-  19          void timer0(void) interrupt 1 using 1   
-  20          {   
-  21   1      
-  22   1               static unsigned char block=0;
-  23   1               
-  24   1               
-  25   1               if(tick&0x3){ //每个持续1ms
-  26   2                  tick++;
-  27   2                  return;
-  28   2               }
-  29   1           
-  30   1               if(block<4){ //scan 4x8 seg
-  31   2                  vledoff(); 
-  32   2                      segoff(0xF);
-  33   2                      segData = vblock[block];             
-  34   2                  segon(1<<block);    
-  35   2               }
-  36   1               else { //scan vled
-  37   2                     vledon();
-  38   2                         segoff(0xF);
-  39   2                         segData = vblock[4];
-  40   2                 
-  41   2               } 
-  42   1      
-  43   1               block++;
-  44   1               if(6==block)
-  45   1                 block=0;
-  46   1      
-  47   1               tick++;
-  48   1      }  
-  49          
-  50          
-  51          #define timeafter(a,b)         \
-  52                   (((long)(b) - (long)(a) < 0))
-  53          
-  54          #define rol8(a,n) \
-  55                     ( \
-C51 COMPILER V8.01   MAIN                                                                  10/07/2009 21:30:46 PAGE 2   
+   2          #include <adc.h>
+   3          
+   4          #include <intrins.h>
+   5           
+   6          
+   7          
+   8          void main()
+   9          {
+  10   1         pwm_init(); //pull down pwm
+  11   1         /*power on test*/
+  12   1       
+  13   1         segvled_init();
+  14   1      
+  15   1         timer0_init();
+  16   1         timer1_init();
+  17   1      
+  18   1         adc_init(); 
+  19   1         vledmod('A');
+  20   1      
+  21   1         irqon();   //enable global interrupt         
+  22   1         
+  23   1         while(1){ 
+  24   2             static unsigned short n,x=0,x1=0;
+  25   2                 static unsigned short onduty=0;
+  26   2                 static unsigned long lasttime=0;
+  27   2      
+  28   2                         
+  29   2                      
+  30   2                 if(timeafter(jiffers,lasttime+1000) ){                           
+  31   3                      
+  32   3                                      pwm_safeoff();
+  33   3                                       //fast search
+  34   3                                      if(onduty>10)
+  35   3                                      onduty = adc(onduty-5,15);
+  36   3                                      else
+  37   3                                          onduty = adc(0, 2);
+  38   3                                  pwm_safeon();
+  39   3      
+  40   3                                      printhex(onduty);
+  41   3                                      vledmod('H'); 
+  42   3                                  lasttime = jiffers;
+  43   3                  }
+  44   2                                 
+  45   2              n = keyscan();
+  46   2      
+  47   2                      if(n!=-1)
+  48   2                      {
+  49   3                         if(n == 15){ // key F
+  50   4                            pwm_setduty(onduty);
+  51   4                                onduty = 0;
+  52   4                 }else if(n<10) {     
+  53   4                           
+  54   4                    if( 9==n)
+  55   4                                   x=0;
+C51 COMPILER V8.01   MAIN                                                                  10/18/2009 19:02:33 PAGE 2   
 
-  56                               (a>>(8-(n))) | \
-  57                                   (a<<(n)) \
-  58                             ) 
-  59          #define ror8(a,n) \
-  60                     ( \
-  61                               (a<<(8-(n))) | \
-  62                                   (a>>(n)) \
-  63                             ) 
-  64          
-  65          char vled_mode=1;
-  66          
-  67          void vledflashA()
-  68          {
-  69   1         vblock[4] = 0xF;
-  70   1         vled_mode = 0;
-  71   1      
-  72   1      }
-  73          
-  74          void tickvled()
-  75          {                    
-  76   1      
-  77   1              static unsigned long pos=0;
-  78   1                      
-  79   1                      static unsigned long lasttime=0;
-  80   1      
-  81   1                      
-  82   1                      
-  83   1                      if(! timeafter(tick,lasttime+80*4) )
-  84   1                           return;
-  85   1      
-  86   1                      ET0 = 0;   //disable global interrupt
-  87   1                      if(vled_mode  == 0) //A mA
-  88   1                vblock[4]= rol8(vblock[4], 1);
-  89   1                      
-  90   1                      if(vled_mode == 1){ //V mV
-  91   2                              if(pos&0x4 ){     // pos&0x100 == 0x100 doesn't work!!!!!!!!
-  92   3                                   vblock[4] = 0x5A;
-  93   3                           }else{
-  94   3                                   vblock[4] = 0xA5;
-  95   3                           }
-  96   2                      
-  97   2                      }
-  98   1      
-  99   1                      if(vled_mode == 2){ //Hz
- 100   2                               if(pos&0x2 ){
- 101   3                       vblock[4] = 0x5A;
- 102   3                               }else{
- 103   3                                   vblock[4] = 0xFF;
- 104   3                           }
- 105   2                      }     
- 106   1      
- 107   1               if(vled_mode == 3) { //Err
- 108   2                               if(pos&0x1 ){
- 109   3                                   vblock[4] = 0xFF;
- 110   3                       vblock[0]=vblock[1]=vblock[2]=vblock[3]=segDOT;
- 111   3                                   
- 112   3                                       
- 113   3                           }else{
- 114   3                                   vblock[4] = 0xFF;
- 115   3                       vblock[0]=vblock[1]=vblock[2]=vblock[3]=0xFF;
- 116   3                                   
- 117   3                                       
-C51 COMPILER V8.01   MAIN                                                                  10/07/2009 21:30:46 PAGE 3   
-
- 118   3                           }            
- 119   2                       }     
- 120   1                       
- 121   1                      ET0 = 1;   //enable global interrupt
- 122   1      
- 123   1                      pos++;  
- 124   1                      lasttime = tick;
- 125   1               
- 126   1      }
- 127          
- 128          void main()
- 129          {
- 130   1         /*power on test*/
- 131   1         segoff(0xF);
- 132   1         testseg();
- 133   1         testvled();
- 134   1      
- 135   1         segoff(0xF);
- 136   1         vledoff();
- 137   1         /* timer0 init */
- 138   1         /*  timer 0 in mode 2   */
- 139   1         TMOD |= 0x2;   
- 140   1         // set timer speed   
- 141   1         TH0 = TL0 = 6;   
- 142   1         // enable timer 0 interrupt   
- 143   1         ET0 = 1;   
- 144   1         
- 145   1         TR0 = 1; //enable timer
- 146   1      
- 147   1         EA = 1;   //enable global interrupt
- 148   1      
- 149   1         
- 150   1         vledflashA();
- 151   1                      
- 152   1         while(1){ 
- 153   2              static unsigned long mode_show_time=0;
- 154   2      
- 155   2              if(timeafter(tick,mode_show_time+4*5000)){ //5s
- 156   3                              
- 157   3      
- 158   3                                if(vled_mode == 3){
- 159   4                                   vblock[4]= 0xFF;
- 160   4      
- 161   4                                       vblock[1]= seg0_9[(tick)>>5&0x7];
- 162   4                                       vblock[2]= seg0_9[(tick)>>7&0x7];
- 163   4                                       vblock[3]= seg0_9[tick&0x7];
- 164   4                                       
- 165   4                                       vblock[0]= segDOT;
- 166   4                                } 
- 167   3                                      
- 168   3                                
- 169   3                                vled_mode++;
- 170   3                                vled_mode&=0x3;
- 171   3                    
- 172   3                                if(vled_mode == 0 )
- 173   3                               vledflashA();                   
- 174   3                                
- 175   3                                mode_show_time = tick;
- 176   3                                
- 177   3                      }
- 178   2                      tickvled();
- 179   2       
-C51 COMPILER V8.01   MAIN                                                                  10/07/2009 21:30:46 PAGE 4   
-
- 180   2        
- 181   2        }
- 182   1      }
+  56   4                                else
+  57   4                               x=(n+1);       
+  58   4                                onduty = 10*onduty+x;   
+  59   4                                printhex(onduty);
+  60   4                         }
+  61   3      
+  62   3                 if(10==n) // key A 
+  63   3                            printhex(pwm_getduty());
+  64   3        
+  65   3                          if(11==n) // key B 
+  66   3                             vledmod('A'); 
+  67   3                 
+  68   3                              if(12==n){ // key C  
+  69   4                                  pwm_safeoff();
+  70   4                                      if( ( onduty< ADC_CYCLE)&&(onduty>8)){
+  71   5                                         x=adc(onduty-8,20);
+  72   5                                         x1=adc(onduty-8,20);
+  73   5                                      }else
+  74   4                                         adc(0,3);
+  75   4                                  pwm_safeon();
+  76   4                                      onduty=(x+x1)>>1;
+  77   4                                      printhex(onduty);
+  78   4                                      
+  79   4                                      vledmod('A'); 
+  80   4                            
+  81   4                              }
+  82   3                              if(13==n){ // key d 
+  83   4                              vledmod('V'); 
+  84   4                                  pwm_safeoff();
+  85   4                                //    invert_adc();
+  86   4                                  pwm_safeon();
+  87   4                                      //printhex(x);
+  88   4                              
+  89   4                          
+  90   4                              }
+  91   3                              if(15==n){ // key d 
+  92   4                             
+  93   4                           
+  94   4                              }               
+  95   3                 
+  96   3                      }
+  97   2                         
+  98   2                      
+  99   2                  //segvled_demo();
+ 100   2                  update_vled(); //vled mode 
+ 101   2           
+ 102   2        }
+ 103   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    511    ----
+   CODE SIZE        =    416    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =     23    ----
+   DATA SIZE        =     12    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
