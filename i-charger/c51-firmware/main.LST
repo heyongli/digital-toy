@@ -1,4 +1,4 @@
-C51 COMPILER V8.01   MAIN                                                                  10/18/2009 19:02:33 PAGE 1   
+C51 COMPILER V8.01   MAIN                                                                  10/18/2009 23:24:47 PAGE 1   
 
 
 C51 COMPILER V8.01, COMPILATION OF MODULE MAIN
@@ -30,7 +30,7 @@ line level    source
   21   1         irqon();   //enable global interrupt         
   22   1         
   23   1         while(1){ 
-  24   2             static unsigned short n,x=0,x1=0;
+  24   2             static unsigned short n,x,adc=0,adc_v=0;
   25   2                 static unsigned short onduty=0;
   26   2                 static unsigned long lasttime=0;
   27   2      
@@ -39,89 +39,95 @@ line level    source
   30   2                 if(timeafter(jiffers,lasttime+1000) ){                           
   31   3                      
   32   3                                      pwm_safeoff();
-  33   3                                       //fast search
-  34   3                                      if(onduty>10)
-  35   3                                      onduty = adc(onduty-5,15);
-  36   3                                      else
-  37   3                                          onduty = adc(0, 2);
-  38   3                                  pwm_safeon();
-  39   3      
-  40   3                                      printhex(onduty);
-  41   3                                      vledmod('H'); 
-  42   3                                  lasttime = jiffers;
-  43   3                  }
-  44   2                                 
-  45   2              n = keyscan();
-  46   2      
-  47   2                      if(n!=-1)
-  48   2                      {
-  49   3                         if(n == 15){ // key F
-  50   4                            pwm_setduty(onduty);
-  51   4                                onduty = 0;
-  52   4                 }else if(n<10) {     
-  53   4                           
-  54   4                    if( 9==n)
-  55   4                                   x=0;
-C51 COMPILER V8.01   MAIN                                                                  10/18/2009 19:02:33 PAGE 2   
+  33   3                                      if(0==adc) {
+  34   4                                         adc = pwm_fadc();
+  35   4                                  }
+  36   3                                       //fast search
+  37   3                                      if(adc>8){
+  38   4                                           x = pwm_adc(adc-5);
+  39   4                                               x+= pwm_adc(adc-5);
+  40   4                                               x+= pwm_adc(adc-5);
+  41   4                                               x+= pwm_adc(adc-5);
+  42   4                                               adc=x>>2;
+  43   4      
+  44   4                                          //V= 600+((adc-24)/8)*50
+  45   4                                              {
+  46   5                                                float v=0;
+  47   5                                                v= 650+ 6.25*((float)adc-24);
+  48   5                                                v=(v/(24.917) )*10+45; //get xxx mA ,45 is delta of system
+  49   5                                                adc_v=(unsigned short)v;
+  50   5                                              }
+  51   4                                      }else
+  52   3                           adc = pwm_adc(0);
+  53   3                                  pwm_safeon();
+  54   3      
+  55   3                                      printhex(adc_v);
+C51 COMPILER V8.01   MAIN                                                                  10/18/2009 23:24:47 PAGE 2   
 
-  56   4                                else
-  57   4                               x=(n+1);       
-  58   4                                onduty = 10*onduty+x;   
-  59   4                                printhex(onduty);
-  60   4                         }
-  61   3      
-  62   3                 if(10==n) // key A 
-  63   3                            printhex(pwm_getduty());
-  64   3        
-  65   3                          if(11==n) // key B 
-  66   3                             vledmod('A'); 
-  67   3                 
-  68   3                              if(12==n){ // key C  
-  69   4                                  pwm_safeoff();
-  70   4                                      if( ( onduty< ADC_CYCLE)&&(onduty>8)){
-  71   5                                         x=adc(onduty-8,20);
-  72   5                                         x1=adc(onduty-8,20);
-  73   5                                      }else
-  74   4                                         adc(0,3);
-  75   4                                  pwm_safeon();
-  76   4                                      onduty=(x+x1)>>1;
-  77   4                                      printhex(onduty);
-  78   4                                      
-  79   4                                      vledmod('A'); 
-  80   4                            
-  81   4                              }
-  82   3                              if(13==n){ // key d 
-  83   4                              vledmod('V'); 
+  56   3                                      vledmod('H'); 
+  57   3                                  lasttime = jiffers;
+  58   3                  }
+  59   2                                 
+  60   2              n = keyscan();
+  61   2      
+  62   2                      if(n!=-1)
+  63   2                      {
+  64   3                         if(n == 15){ // key F
+  65   4                            pwm_setduty(onduty);
+  66   4                                onduty = 0;
+  67   4                 }else if(n<10) {     
+  68   4                           
+  69   4                    if( 9==n)
+  70   4                                   x=0;
+  71   4                                else
+  72   4                               x=(n+1);       
+  73   4                                onduty = 10*onduty+x;   
+  74   4                                printhex(onduty);
+  75   4                         }
+  76   3      
+  77   3                 if(10==n) // key A 
+  78   3                            printhex(pwm_getduty());
+  79   3        
+  80   3                          if(11==n) // key B 
+  81   3                             vledmod('A'); 
+  82   3                 
+  83   3                              if(12==n){ // key C  
   84   4                                  pwm_safeoff();
-  85   4                                //    invert_adc();
-  86   4                                  pwm_safeon();
-  87   4                                      //printhex(x);
-  88   4                              
-  89   4                          
+  85   4                              adc = pwm_adc(pwm_fadc());
+  86   4                                      pwm_safeon();
+  87   4                                      printhex(adc);
+  88   4                                      vledmod('A'); 
+  89   4                            
   90   4                              }
-  91   3                              if(15==n){ // key d 
-  92   4                             
-  93   4                           
-  94   4                              }               
-  95   3                 
-  96   3                      }
-  97   2                         
-  98   2                      
-  99   2                  //segvled_demo();
- 100   2                  update_vled(); //vled mode 
- 101   2           
- 102   2        }
- 103   1      }
+  91   3                              if(13==n){ // key d 
+  92   4                              vledmod('V'); 
+  93   4                          
+  94   4                              }
+  95   3                              if(15==n){ // key d 
+  96   4                             
+  97   4                           
+  98   4                              }               
+  99   3                 
+ 100   3                      }
+ 101   2                         
+ 102   2                      
+ 103   2                  //segvled_demo();
+ 104   2                  update_vled(); //vled mode 
+ 105   2           
+ 106   2        }
+ 107   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    416    ----
+   CODE SIZE        =    523    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =     12    ----
+   DATA SIZE        =     14       4
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
+C51 COMPILER V8.01   MAIN                                                                  10/18/2009 23:24:47 PAGE 3   
+
 END OF MODULE INFORMATION.
 
 

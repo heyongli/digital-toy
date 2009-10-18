@@ -21,7 +21,7 @@ void main()
    irqon();   //enable global interrupt		
    
    while(1){ 
-       static unsigned short n,x=0,x1=0;
+       static unsigned short n,x,adc=0,adc_v=0;
  	   static unsigned short onduty=0;
    	   static unsigned long lasttime=0;
 
@@ -30,14 +30,29 @@ void main()
 	   if(timeafter(jiffers,lasttime+1000) ){			    
 		
 				pwm_safeoff();
+				if(0==adc) {
+				   adc = pwm_fadc();
+			    }
 				 //fast search
-			   	if(onduty>10)
-			    	onduty = adc(onduty-5,15);
-				else
-				    onduty = adc(0, 2);
+			   	if(adc>8){
+				     x = pwm_adc(adc-5);
+					 x+= pwm_adc(adc-5);
+					 x+= pwm_adc(adc-5);
+					 x+= pwm_adc(adc-5);
+					 adc=x>>2;
+
+				    //V= 600+((adc-24)/8)*50
+					{
+					  float v=0;
+					  v= 650+ 6.25*((float)adc-24);
+					  v=(v/(24.917) )*10+45; //get xxx mA ,45 is delta of system
+					  adc_v=(unsigned short)v;
+					}
+				}else
+                     adc = pwm_adc(0);
 			    pwm_safeon();
 
-				printhex(onduty);
+				printhex(adc_v);
 				vledmod('H'); 
 			    lasttime = jiffers;
   	    }
@@ -67,25 +82,14 @@ void main()
 	   
 	   		if(12==n){ // key C  
 			    pwm_safeoff();
-				if( ( onduty< ADC_CYCLE)&&(onduty>8)){
-				   x=adc(onduty-8,20);
-  				   x1=adc(onduty-8,20);
-				}else
-				   adc(0,3);
-			    pwm_safeon();
-				onduty=(x+x1)>>1;
-				printhex(onduty);
-				
+		        adc = pwm_adc(pwm_fadc());
+				pwm_safeon();
+				printhex(adc);
 				vledmod('A'); 
 	              
 			}
 			if(13==n){ // key d 
  		        vledmod('V'); 
-			    pwm_safeoff();
-			  //	invert_adc();
-			    pwm_safeon();
-				//printhex(x);
-			
 	            
 	   		}
 			if(15==n){ // key d 
