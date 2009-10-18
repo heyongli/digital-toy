@@ -1,0 +1,109 @@
+100 loop 511 cycle
++1k pull-up RC:10k,1uf
+
+0.50   0..1
+0.55   8
+0.60   17..20
+0.65   24
+0.70   32
+0.75   40
+0.80   48
+0.85   56
+0.90   64  
+0.95   72
+1.00   80
+
+1.10   96   
+1.2    112
+1.3    128
+1.4    144..145  +1
+1.5    159..161  +-1
+1.6    172  -4
+1.7    188  -4
+1.8    205..207  -3..-1 
+1.9    220  -4
+2.0    236  -4    (259)
+2.1    248..252  -5     20 loop: 250..252  15loop:256 -1, good
+2.2    264       -9    15loop: 272  -1 
+2.3    280       -9    15loop: 287   -2
+2.4    296       -9     15loop: 301  -5     
+2.5    305..312  -9     15loop: 315  -6
+2.6    323..324  -13    loop=15, 330 -6
+2.7    340..341  -12    loop=15, 347 -6
+2.8    359..365  -4     
+2.9    398..407  +22
+3.0    420..424  +22
+3.1    440..447  +29
+3.2    460       +29
+3.3    476       +29
+3.4    500       +37
+
+------------ RESULT -----------------
+20 loop same as above: about ~1 flick
+20 loop is better than 100
+
+
+
+100 loop 511 cycle
++1k pull-up RC:10k,1uf
+better adc method:
+d=adc(0,2); fast serch
+adc(d-5,15); multiple adjust adc 
+
+if(timeafter(jiffers,lasttime+1000) ){			    
+		
+				pwm_safeoff();
+				 //fast search
+			   	if(onduty>10)
+			    	onduty = adc(onduty-5,15);
+				else
+				    onduty = adc(0, 2);
+			    pwm_safeon();
+
+				printhex(onduty);
+				vledmod('H'); 
+			    lasttime = jiffers;
+}
+
+unsigned short adc(unsigned short adc_duty,unsigned short loop)
+{
+   unsigned short adcloop;
+  
+   ADC_PWMPIN = 0;
+   ADC_SIGNAL = 1;
+
+   //mdelay(1000); //uncharge
+
+   // free+6us     
+   for(; adc_duty<= (ADC_CYCLE); adc_duty+=ADC_STEP){
+
+	  xadc_free = ADC_CYCLE-adc_duty;
+
+	 	 
+	  adcloop =loop;																					     
+      while(adcloop){ 
+      	          
+		 ADC_PWMPIN = 1;   
+		 udelay(adc_duty);
+	
+		 ADC_PWMPIN = 0;
+
+	  	 udelay(xadc_free);
+	  
+		 adcloop--;
+	  }
+
+	  if(0 == ADC_SIGNAL) {
+	      // printhex(adc_duty);
+		   return adc_duty;
+	  }	
+
+   }
+   
+
+   return adc_duty;//adc_duty;
+      
+}
+
+
+
