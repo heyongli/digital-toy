@@ -1,4 +1,4 @@
-C51 COMPILER V8.01   DELAY                                                                 10/18/2009 17:12:38 PAGE 1   
+C51 COMPILER V8.01   DELAY                                                                 10/18/2009 22:06:09 PAGE 1   
 
 
 C51 COMPILER V8.01, COMPILATION OF MODULE DELAY
@@ -62,7 +62,7 @@ line level    source
   52          /*
   53           * +- 50ms
   54           */
-C51 COMPILER V8.01   DELAY                                                                 10/18/2009 17:12:38 PAGE 2   
+C51 COMPILER V8.01   DELAY                                                                 10/18/2009 22:06:09 PAGE 2   
 
   55          void sleep(unsigned char t)
   56          {

@@ -1077,3 +1077,497 @@ linking...
 Program Size: data=88.0 xdata=0 code=1982
 creating hex file from "i-charger"...
 "i-charger" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX0?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX1?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SEGVLED_DEMO?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SLEEP?DELAY
+Program Size: data=88.0 xdata=0 code=1982
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+"i-charger" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX0?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX1?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SEGVLED_DEMO?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SLEEP?DELAY
+Program Size: data=88.0 xdata=0 code=1982
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX0?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX1?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SEGVLED_DEMO?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SLEEP?DELAY
+Program Size: data=88.0 xdata=0 code=2004
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+"i-charger" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX0?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX1?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SEGVLED_DEMO?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SLEEP?DELAY
+Program Size: data=88.0 xdata=0 code=2004
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX0?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX1?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SEGVLED_DEMO?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SLEEP?DELAY
+Program Size: data=88.0 xdata=0 code=2004
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX0?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX1?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SEGVLED_DEMO?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SLEEP?DELAY
+Program Size: data=88.0 xdata=0 code=2004
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX0?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX1?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SEGVLED_DEMO?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SLEEP?DELAY
+Program Size: data=88.0 xdata=0 code=2004
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX0?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX1?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SEGVLED_DEMO?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SLEEP?DELAY
+Program Size: data=88.0 xdata=0 code=2004
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX0?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX1?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SEGVLED_DEMO?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SLEEP?DELAY
+Program Size: data=88.0 xdata=0 code=2004
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+"i-charger" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling adc.c...
+DRIVER\ADC.C(69): error C202: 'onduty': undefined identifier
+DRIVER\ADC.C(70): error C202: 'onduty': undefined identifier
+DRIVER\ADC.C(71): error C202: 'onduty': undefined identifier
+DRIVER\ADC.C(73): error C202: 'onduty': undefined identifier
+Target not created
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(36): warning C206: 'adc': missing function-prototype
+MAIN.C(36): error C267: 'adc': requires ANSI-style prototype
+MAIN.C(75): error C202: 'ADC_CYCLE': undefined identifier
+compiling adc.c...
+DRIVER\ADC.C(71): warning C236: '_pwm_adc': different length of parameter lists
+DRIVER\ADC.C(73): error C202: 'onduty': undefined identifier
+DRIVER\ADC.C(74): error C202: 'onduty': undefined identifier
+Target not created
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(36): warning C206: 'adc': missing function-prototype
+MAIN.C(36): error C267: 'adc': requires ANSI-style prototype
+MAIN.C(75): error C202: 'ADC_CYCLE': undefined identifier
+compiling adc.c...
+DRIVER\ADC.C(73): error C202: 'onduty': undefined identifier
+DRIVER\ADC.C(74): error C202: 'onduty': undefined identifier
+Target not created
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(36): error C141: syntax error near 'else'
+MAIN.C(55): error C202: 'x': undefined identifier
+MAIN.C(57): error C202: 'x': undefined identifier
+MAIN.C(58): error C202: 'x': undefined identifier
+MAIN.C(70): error C202: 'ADC_CYCLE': undefined identifier
+MAIN.C(71): error C202: 'x': undefined identifier
+MAIN.C(72): error C202: 'x1': undefined identifier
+MAIN.C(74): error C211: call not to a function
+MAIN.C(76): error C202: 'x': undefined identifier
+MAIN.C(103): error C141: syntax error near ''
+compiling adc.c...
+DRIVER\ADC.C(73): error C202: 'onduty': undefined identifier
+DRIVER\ADC.C(74): error C202: 'onduty': undefined identifier
+Target not created
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(34): warning C209: '_pwm_fadc': too few actual parameters
+MAIN.C(38): error C141: syntax error near 'else'
+MAIN.C(57): error C202: 'x': undefined identifier
+MAIN.C(59): error C202: 'x': undefined identifier
+MAIN.C(60): error C202: 'x': undefined identifier
+compiling adc.c...
+DRIVER\ADC.C(78): error C202: 'onduty': undefined identifier
+DRIVER\ADC.C(79): error C202: 'onduty': undefined identifier
+Target not created
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(38): error C141: syntax error near 'else'
+MAIN.C(57): error C202: 'x': undefined identifier
+MAIN.C(59): error C202: 'x': undefined identifier
+MAIN.C(60): error C202: 'x': undefined identifier
+MAIN.C(98): error C141: syntax error near ''
+compiling adc.c...
+DRIVER\ADC.C(78): error C202: 'onduty': undefined identifier
+DRIVER\ADC.C(79): error C202: 'onduty': undefined identifier
+Target not created
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(38): error C141: syntax error near 'else'
+MAIN.C(57): error C202: 'x': undefined identifier
+MAIN.C(59): error C202: 'x': undefined identifier
+MAIN.C(60): error C202: 'x': undefined identifier
+MAIN.C(98): error C141: syntax error near ''
+compiling adc.c...
+Target not created
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(38): error C141: syntax error near 'else'
+MAIN.C(93): error C141: syntax error near ''
+Target not created
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX0?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX1?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SEGVLED_DEMO?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SLEEP?DELAY
+Program Size: data=90.0 xdata=0 code=1946
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 4 Warning(s).
+compiling main.c...
+main.c - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+compiling 4x4keyboard.c...
+compiling 4x8seg_vled.c...
+compiling delay.c...
+compiling timer0.c...
+compiling pwm.c...
+compiling adc.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX0?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX1?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SEGVLED_DEMO?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SLEEP?DELAY
+Program Size: data=90.0 xdata=0 code=1946
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+compiling adc.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX0?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX1?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SEGVLED_DEMO?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SLEEP?DELAY
+Program Size: data=90.0 xdata=0 code=1936
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+compiling adc.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX0?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX1?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SEGVLED_DEMO?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SLEEP?DELAY
+Program Size: data=90.0 xdata=0 code=1936
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+compiling adc.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX0?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX1?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SEGVLED_DEMO?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SLEEP?DELAY
+Program Size: data=90.0 xdata=0 code=1939
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX0?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX1?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SEGVLED_DEMO?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SLEEP?DELAY
+Program Size: data=90.0 xdata=0 code=1939
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+compiling adc.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX0?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX1?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SEGVLED_DEMO?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SLEEP?DELAY
+Program Size: data=90.0 xdata=0 code=1939
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX0?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX1?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SEGVLED_DEMO?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SLEEP?DELAY
+Program Size: data=90.0 xdata=0 code=1979
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX0?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX1?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SEGVLED_DEMO?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SLEEP?DELAY
+Program Size: data=90.0 xdata=0 code=2036
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX0?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX1?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SEGVLED_DEMO?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SLEEP?DELAY
+Program Size: data=94.0 xdata=0 code=2230
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+"i-charger" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(48): error C202: 'unsiged': undefined identifier
+MAIN.C(48): error C141: syntax error near 'short'
+Target not created
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX0?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX1?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SEGVLED_DEMO?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SLEEP?DELAY
+Program Size: data=94.0 xdata=0 code=2230
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX0?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX1?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SEGVLED_DEMO?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SLEEP?DELAY
+Program Size: data=96.0 xdata=0 code=2238
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX0?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX1?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SEGVLED_DEMO?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SLEEP?DELAY
+Program Size: data=96.0 xdata=0 code=2238
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX0?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX1?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SEGVLED_DEMO?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SLEEP?DELAY
+Program Size: data=96.0 xdata=0 code=2809
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX0?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX1?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SEGVLED_DEMO?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SLEEP?DELAY
+Program Size: data=96.0 xdata=0 code=2998
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX0?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX1?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SEGVLED_DEMO?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SLEEP?DELAY
+Program Size: data=96.0 xdata=0 code=2998
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX0?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX1?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SEGVLED_DEMO?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SLEEP?DELAY
+Program Size: data=96.0 xdata=0 code=2998
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+"i-charger" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX0?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX1?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SEGVLED_DEMO?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SLEEP?DELAY
+Program Size: data=96.0 xdata=0 code=2998
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX0?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?VLEDX1?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SEGVLED_DEMO?4X8SEG_VLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SLEEP?DELAY
+Program Size: data=96.0 xdata=0 code=3008
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 4 Warning(s).
