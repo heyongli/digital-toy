@@ -11,14 +11,6 @@
 volatile unsigned  long jiffers=0;  //250us per jiffers
 
 
-/* 12Mhz  1ms = 1000us
- *    1ms jiffers 
- *    10kHz PWM (100us PWM cycle,if<50us onduty use busy wait)
- *    0-125us on-duty      
- */
-/*下一个interval是上一个的 1/n */
-#define MS_CYCLE  1000
-#define PWM_CYCLE 100		  /*100+[~140] cycles*/ //give up 1000+ left_cpu_of_timer
 
 
 
@@ -37,7 +29,7 @@ void timer0_init()
    TMOD |= 0x2;   
       
    //settimer0(PWM_CYCLE);
-   TH1 = TH0 = 200; //100us  15 step , 600Hz
+   TH1 = TH0 = (256-PWM_CYCLE); //100us  15 step , 600Hz
    // enable timer 0 interrupt   
    ET0 = 1;   
    TR0 = 1; //enable timer
@@ -99,7 +91,7 @@ void timer1(void) interrupt 3 using 1
 
 	 
 	 jiffers++;
-	 settimer1(1000);
+	 settimer1(MS_CYCLE);
 }
 
 

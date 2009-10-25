@@ -10,7 +10,7 @@
 void pwm_init();
 void pwm_1kHz();
 
-#define PWM_STEP 16
+#define PWM_STEP 20
 unsigned char pwm_getduty();
 void pwm_setduty(unsigned short duty);
 

@@ -9,7 +9,7 @@
  * pwm cycle: 250us* 25 = 6.25ms , 160Hz
  */
 
-static unsigned char on_duty = 0;
+unsigned char on_duty = 0;
 
 
 void pwm_init()
@@ -45,22 +45,25 @@ void pwm_setduty(unsigned short duty)
 
 }
 
+void pwm_safeoff()
+{
+  ET0 = 0;
+  PWM_PIN  = 0;
+
+}
+
+void pwm_safeon()
+{
+  ET0 = 1;
+  PWM_PIN = 0;
+}
+ 
+ 
+#if 0
 unsigned char pwm_getduty()
 {
   return on_duty;  
 
 }
 
-
-void pwm_safeoff()
-{
-  PWM_PIN  = 0;
-  irqoff();
-}
-
-void pwm_safeon()
-{
-  PWM_PIN = 0;
-  irqon();
-
-}
+#endif
