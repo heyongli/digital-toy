@@ -3,8 +3,8 @@
 
 
 //2us 精度, 2*128 =512 cycle  (128step)
-#define ADC_CYCLE  510 
-#define ADC_STEP   1
+#define ADC_CYCLE  1000 
+#define ADC_STEP   5                                                                   
 
 #define ADC_PWMPIN	    P2_5
 #define ADC_SIGNAL  	P2_6
@@ -12,7 +12,7 @@
 
  
 void adc_init(){
-   ADC_PWMPIN = 0;
+   //ADC_PWMPIN = 0;
    ADC_SIGNAL = 1;
 }
 
@@ -26,7 +26,7 @@ unsigned short xadc_free=ADC_CYCLE;
  */
 unsigned short raw_adc(unsigned short adc_duty,unsigned short loop)
 {
-   unsigned short adcloop;
+   unsigned char adcloop;
   
    ADC_PWMPIN = 0;
    ADC_SIGNAL = 1;
@@ -36,18 +36,19 @@ unsigned short raw_adc(unsigned short adc_duty,unsigned short loop)
    // free+6us     
    for(; adc_duty<= (ADC_CYCLE); adc_duty+=ADC_STEP){
 
-	  xadc_free = ADC_CYCLE-adc_duty;
-
 	 	 
 	  adcloop =loop;																					     
       while(adcloop){ 
+
+  	     xadc_free = ADC_CYCLE-adc_duty;
+	     xadc_duty = adc_duty;
       	          
 		 ADC_PWMPIN = 1;   
-		 udelay(adc_duty);
+		 while(xadc_duty--);//udelay(adc_duty);
 	
 		 ADC_PWMPIN = 0;
 
-	  	 udelay(xadc_free);
+	  	 while(xadc_free--);//udelay(xadc_free);
 	  
 		 adcloop--;
 	  }
@@ -60,23 +61,23 @@ unsigned short raw_adc(unsigned short adc_duty,unsigned short loop)
    }
    
 
-   return adc_duty;//adc_duty;
+   return adc_duty-1;//adc_duty;
       
 }
 
 unsigned short pwm_fadc() 
 {
    return raw_adc(0,5);
-}
+ }
 
 /*
  * 参考下表, 精度 ~0.5%, 分辨率0.03V左右
  */
 unsigned short pwm_adc(unsigned short duty)
 {
-    if(duty<180)
-    	   return  raw_adc(duty,25);
- 	 else
+    //if(duty<180)
+    //	   return  raw_adc(duty,25);
+ 	// else
 		   return raw_adc(duty,12);
 }
 /*
@@ -182,3 +183,23 @@ unsigned short pwm_adc(unsigned short duty)
 
 >170 用loop12
 */
+
+/*
+   cycle: 256
+   loop25
+
+   .551     2
+   .650     8
+   .700     12
+   .75      16
+   
+   .
+   .778     19
+            
+   .8       20
+   
+
+
+
+*/
+

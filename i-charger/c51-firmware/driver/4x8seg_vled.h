@@ -4,8 +4,17 @@
 
 
 
+enum VLED_MODE {
+     VLED_STOP,
+	 VLED_A,
+	 VLED_V,
+	 VLED_HZ,
+	 VLED_ERR,
+     
+	 VLED_NORMAL,
+	 VLED_DETECT,
 
-
+};
 
 
 
@@ -27,9 +36,13 @@ void ms_scan_segvled(); //扫描 led 驱动
 
 
 void update_vled();  // 实现vled的几种闪烁模式
-void vledmod(char mod);
+void vledmod(enum VLED_MODE mod);
 void segvled_demo();  //轮换切换vled的集中模式
 
-void printhex(unsigned short n);
+//void printhex(unsigned short n);
+
+void print10(unsigned short n);
+void setdot(unsigned char n);
+
 
 #endif

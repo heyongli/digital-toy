@@ -4,6 +4,7 @@
 "delay.obj",
 "timer0.obj",
 "pwm.obj",
-"adc.obj" 
+"adc0832.obj",
+"charger.obj" 
 TO "i-charger" 
 RAMSIZE(256) 

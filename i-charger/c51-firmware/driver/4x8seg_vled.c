@@ -2,6 +2,7 @@
 #include <config.h>
 
 #include <4x8seg_vled.h>
+#include <string.h>
 
 #define segENA1  P2_0
 #define segENA2  P2_1
@@ -132,13 +133,13 @@ void testseg()
 	  
    for(n=0;n<=9;n++){
 	   segData = seg0_f[n];
-	  mdelay(128);
+	  mdelay(64);
    
    }
    
    for(n=0;n<=9;n++){
 	   segData = seg0_f[n] & segDOT;
-	  mdelay(128);
+	  mdelay(64);
    }
 
 }
@@ -157,7 +158,7 @@ void testvled()
    
   for(n=0;n<=8;n++){
 	  segData = ~(1<<n);
-	  mdelay(128);
+	  mdelay(64);
   }
 
   vledoff();
@@ -190,11 +191,12 @@ void segvled_init()
 //unsigned vblock[5]={0xFF,0xFF,0xFF,0xFF,0xFF};
 
 unsigned char vblock[5]={
-               segDOT,/*0*/
+               0XC0,/*0*/
                0XF9,/*1*/
                0XA4,/*2*/
                0XB0,/*3*/
 			   ~(0xf)};
+static unsigned char dot = 0,lastdot=0;
 
 /*
  * 根据 vblock内容 扫描驱动数码管和电平管显示
@@ -203,11 +205,18 @@ void ms_scan_segvled() using 1
 {
 	 static unsigned char block = 0;
 	 
+	 vblock[lastdot] |= ~segDOT; //set dot bit, clear the dot
+	 if(dot<4){
+	   	vblock[dot] &=segDOT;  //clear bit  
+	 }
+
    	 if(block<4){ //scan 4x8 seg
 	    vledoff(); 
 		segoff(0xF);
 		segData = vblock[block];	     
+		
 	    segon(1<<block);	
+
 	 }else { //scan vled
 	       segoff(0xF);
   		   segData = vblock[4];
@@ -223,8 +232,16 @@ void ms_scan_segvled() using 1
 
 
 
-char vled_mode=0;
+enum VLED_MODE   vled_mode= VLED_V;
+enum VLED_MODE   vled_ormode=VLED_NORMAL;
 
+void vledmod(enum VLED_MODE mod)
+{
+   if(mod > VLED_ERR)
+      vled_ormode = mod;
+   else    
+      vled_mode = mod;  
+}
 /*
  *  更新显示内容, 实现vled mode
  *        : 电流,电压,HZ, 错误
@@ -236,16 +253,19 @@ void update_vled()
 		
 	 static unsigned long lasttime=0;
 
+	 if(vled_mode == VLED_STOP)
+	     return;	
 		
-		
-	 if(! timeafter(jiffers,lasttime+80) )
+	 if(! timeafter(jiffers,lasttime+HZ/50) )
 		     return;
 
-	   	irqoff();   //disable global interrupt
-		if(vled_mode  == 0) //A mA
-          vblock[4]= rol8(vblock[4], 1);
-		
-		if(vled_mode == 1){ //V mV
+	   	
+		if(vled_mode  == VLED_A){ //A mA
+		   vblock[4] = 0xF;		
+           vblock[4]= rol8(vblock[4], 1);
+		}
+          
+		if(vled_mode == VLED_V){ //V mV
 			if(pos&0x4 ){	  // pos&0x100 == 0x100 doesn't work!!!!!!!!
 			     vblock[4] = 0x5A;
 		     }else{
@@ -254,7 +274,7 @@ void update_vled()
 		
 		}
 
-		if(vled_mode == 2){ //Hz
+		if(vled_mode == VLED_HZ){ //Hz
 		 	 if(pos&0x2 ){
                  vblock[4] = 0x5A;
 			 }else{
@@ -262,12 +282,10 @@ void update_vled()
 		     }
 		}     
 
-         if(vled_mode == 3) { //Err
+         if(vled_mode == VLED_ERR) { //Err
 		 	 if(pos&0x1 ){
 			     vblock[4] = 0xFF;
                  vblock[0]=vblock[1]=vblock[2]=vblock[3]=segDOT;
-			     
-				 
 		     }else{
 			     vblock[4] = 0xFF;
                  vblock[0]=vblock[1]=vblock[2]=vblock[3]=0xFF;
@@ -275,33 +293,33 @@ void update_vled()
 				 
 		     }		  
 		 }     
+		
+		 if(vled_ormode>VLED_NORMAL) { //detect ormode
+	
+		     static char bvblock[4] = {0,0,0,0};
+
+			 if(vled_ormode == VLED_DETECT){
+		 	   if(pos&0x1 ){
+			       memcpy(bvblock,vblock,4); //backup
+			       vblock[0]=vblock[1]=vblock[2]=vblock[3]=0xFF;
+  		       }else{
+			       if(bvblock[0]) //restore if have something to show
+			     	memcpy(vblock,bvblock,4);
+		       }
+			 }else 		  
+ 		        memset(bvblock,4,0);    
+
+
+		 } 
 		 
-		irqon();   //enable global interrupt
+	
 
 		pos++;	
 		lasttime = jiffers;
 	 
 }
-void vledmod(char mod)
-{
-   if(mod == 'A'){ //电流, 流水点亮三个vled
-     vblock[4] = 0xF;
-     vled_mode = 0;
-   }
-   if(mod == 'V'){ //电压, 两对vled向重点挤压
-     
-	  vled_mode = 1;
-   }
-   if(mod == 'H'){ //HZ, 以一定频率闪烁vled
-   	  vled_mode = 2;
-   
-   }
-   if(mod == 'E'){ //err, 闪烁4个小数点
-	  vled_mode = 3;
-   }
 
-
-}
+#if 0
 
 void vledx0()
 {
@@ -313,7 +331,6 @@ void vledx1()
 	   vblock[4] |= 0x80;
 }  
 
-#if 0
 void vled_flowtick()
 {
   static char n=0; 
@@ -328,7 +345,7 @@ void vled_flowtick()
 
   vledoff();
 }
-#endif
+
 
 
 /*
@@ -364,8 +381,6 @@ void segvled_demo()
 		}
 }
 
-
-
 void printhex(unsigned short n)
 {
      //irqoff();
@@ -378,5 +393,26 @@ void printhex(unsigned short n)
 	 vblock[3]= seg0_f[ (n%10)];
 	 //irqon();
 }
-		   
-		   
+#endif
+
+/*
+ * set dot position
+ */		   
+void setdot(unsigned char n)
+{
+   dot=n;
+
+}
+void print10(unsigned short n)
+{
+     //irqoff();
+	 vblock[0]= seg0_f[ (n/1000) ];
+	 n = n%1000;
+	 vblock[1]= seg0_f[ n/100 ];
+	 n = n%100;
+		   	
+	 vblock[2]= seg0_f[(n/10)];
+	 vblock[3]= seg0_f[ (n%10)];
+	 //irqon();
+}
+		   		   

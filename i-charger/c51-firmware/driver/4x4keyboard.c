@@ -39,7 +39,7 @@ unsigned char keyscan(void)
 
     udelay(2);
     scan=P1;
-    mdelay(1); //延时防抖
+    udelay(256); //延时防抖
 
     if(scan!=P1) //可能是抖动
       continue;

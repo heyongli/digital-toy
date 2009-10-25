@@ -1,4 +1,4 @@
-C51 COMPILER V8.01   MAIN                                                                  10/18/2009 23:24:47 PAGE 1   
+C51 COMPILER V8.01   MAIN                                                                  10/25/2009 23:21:38 PAGE 1   
 
 
 C51 COMPILER V8.01, COMPILATION OF MODULE MAIN
@@ -9,125 +9,149 @@ line level    source
 
    1          #include "config.h"
    2          #include <adc.h>
-   3          
-   4          #include <intrins.h>
-   5           
-   6          
+   3          #include <adc0832.h>
+   4          
+   5          #include <math.h>
+   6          #include <charger.h>
    7          
-   8          void main()
-   9          {
-  10   1         pwm_init(); //pull down pwm
-  11   1         /*power on test*/
-  12   1       
-  13   1         segvled_init();
-  14   1      
-  15   1         timer0_init();
-  16   1         timer1_init();
-  17   1      
-  18   1         adc_init(); 
-  19   1         vledmod('A');
-  20   1      
-  21   1         irqon();   //enable global interrupt         
-  22   1         
-  23   1         while(1){ 
-  24   2             static unsigned short n,x,adc=0,adc_v=0;
-  25   2                 static unsigned short onduty=0;
-  26   2                 static unsigned long lasttime=0;
-  27   2      
-  28   2                         
-  29   2                      
-  30   2                 if(timeafter(jiffers,lasttime+1000) ){                           
-  31   3                      
-  32   3                                      pwm_safeoff();
-  33   3                                      if(0==adc) {
-  34   4                                         adc = pwm_fadc();
-  35   4                                  }
-  36   3                                       //fast search
-  37   3                                      if(adc>8){
-  38   4                                           x = pwm_adc(adc-5);
-  39   4                                               x+= pwm_adc(adc-5);
-  40   4                                               x+= pwm_adc(adc-5);
-  41   4                                               x+= pwm_adc(adc-5);
-  42   4                                               adc=x>>2;
-  43   4      
-  44   4                                          //V= 600+((adc-24)/8)*50
-  45   4                                              {
-  46   5                                                float v=0;
-  47   5                                                v= 650+ 6.25*((float)adc-24);
-  48   5                                                v=(v/(24.917) )*10+45; //get xxx mA ,45 is delta of system
-  49   5                                                adc_v=(unsigned short)v;
-  50   5                                              }
-  51   4                                      }else
-  52   3                           adc = pwm_adc(0);
-  53   3                                  pwm_safeon();
-  54   3      
-  55   3                                      printhex(adc_v);
-C51 COMPILER V8.01   MAIN                                                                  10/18/2009 23:24:47 PAGE 2   
+   8          
+   9           
+  10          
+  11          static unsigned short fx,n,x,adc_i=0,adc_v=0;
+  12          static unsigned short onduty=0;
+  13          
+  14          float charging_current=0.0, battery_voltage=0.0;
+  15          float  refV=4.04;
+  16          
+  17          void batteryAV(){
+  18   1      
+  19   1            static unsigned long lasttimeA=0,lasttimeV=0;
+  20   1                float tmp=0;
+  21   1               
+  22   1            if(timeafter(jiffers,lasttimeA+HZ/4) ){ 
+  23   2            
+  24   2               /*sample the charger current*/
+  25   2                   adc_i = adc0832(0);
+  26   2                      tmp= ((float)adc_i/255)*refV;
+  27   2                      tmp = tmp/18;
+  28   2                      tmp = tmp/0.10;
+  29   2                      tmp*=1000; //mA
+  30   2                       charging_current=(short)tmp;
+  31   2                       lasttimeA = jiffers;
+  32   2                }
+  33   1                /*sample ther battery voltage*/
+  34   1                if(timeafter(jiffers,lasttimeV+2*HZ) ){ 
+  35   2                        pwm_safeoff();  //disalbe charge current
+  36   2                        mdelay(255);
+  37   2                        mdelay(255);
+  38   2                          
+  39   2                adc_v = adc0832(1);  
+  40   2                pwm_safeon();
+  41   2                        tmp=(((float)adc_v)/255)*refV*1.9*100; //10mV
+  42   2                    battery_voltage =(short)tmp;
+  43   2                        lasttimeV = jiffers;
+  44   2      
+  45   2            }
+  46   1                
+  47   1      
+  48   1      }
+  49          
+  50          
+  51          
+  52          void icharger_testcontrolkey()
+  53          {
+  54   1        
+  55   1              if(10==fx){ // key a
+C51 COMPILER V8.01   MAIN                                                                  10/25/2009 23:21:38 PAGE 2   
 
-  56   3                                      vledmod('H'); 
-  57   3                                  lasttime = jiffers;
-  58   3                  }
-  59   2                                 
-  60   2              n = keyscan();
-  61   2      
-  62   2                      if(n!=-1)
-  63   2                      {
-  64   3                         if(n == 15){ // key F
-  65   4                            pwm_setduty(onduty);
-  66   4                                onduty = 0;
-  67   4                 }else if(n<10) {     
-  68   4                           
-  69   4                    if( 9==n)
-  70   4                                   x=0;
-  71   4                                else
-  72   4                               x=(n+1);       
-  73   4                                onduty = 10*onduty+x;   
-  74   4                                printhex(onduty);
-  75   4                         }
-  76   3      
-  77   3                 if(10==n) // key A 
-  78   3                            printhex(pwm_getduty());
-  79   3        
-  80   3                          if(11==n) // key B 
-  81   3                             vledmod('A'); 
-  82   3                 
-  83   3                              if(12==n){ // key C  
-  84   4                                  pwm_safeoff();
-  85   4                              adc = pwm_adc(pwm_fadc());
-  86   4                                      pwm_safeon();
-  87   4                                      printhex(adc);
-  88   4                                      vledmod('A'); 
-  89   4                            
-  90   4                              }
-  91   3                              if(13==n){ // key d 
-  92   4                              vledmod('V'); 
-  93   4                          
-  94   4                              }
-  95   3                              if(15==n){ // key d 
-  96   4                             
-  97   4                           
-  98   4                              }               
-  99   3                 
- 100   3                      }
- 101   2                         
- 102   2                      
- 103   2                  //segvled_demo();
- 104   2                  update_vled(); //vled mode 
- 105   2           
- 106   2        }
- 107   1      }
+  56   2                    vledmod(VLED_A); 
+  57   2                    print10((short)charging_current);
+  58   2                        setdot(0);
+  59   2              }
+  60   1              
+  61   1              if(11==fx){ // key b 
+  62   2                   vledmod(VLED_V); 
+  63   2                   print10(battery_voltage);
+  64   2                   setdot(1); 
+  65   2      
+  66   2              } 
+  67   1                      
+  68   1              if(12==fx){ //key c
+  69   2                   print10(adc_i);
+  70   2                   setdot(-1);
+  71   2              }
+  72   1              if(13==fx){ //key d
+  73   2                              setdot(-1);
+  74   2                              print10(adc_v);
+  75   2              }   
+  76   1      
+  77   1              if(14==n){ // key e
+  78   2                                refV=5.03;
+  79   2              }
+  80   1      
+  81   1              if(15==fx){ // key f
+  82   2                  print10(onduty);
+  83   2                      vledmod(VLED_HZ); 
+  84   2              }
+  85   1      
+  86   1      }
+  87          void main()
+  88          {
+  89   1         pwm_init(); //pull down pwm
+  90   1         /*power on test*/
+  91   1       
+  92   1         segvled_init();
+  93   1      
+  94   1         timer0_init();
+  95   1         timer1_init();
+  96   1      
+  97   1         //adc_init(); 
+  98   1         fx = 11;
+  99   1         irqon();   //enable global interrupt         
+ 100   1         sleep(0); // just refrence 
+ 101   1         while(1){ 
+ 102   2      
+ 103   2                  batteryAV(); //will stop charging for 0.3S
+ 104   2              charging();   //charger auto control
+ 105   2                         
+ 106   2              n = keyscan();
+ 107   2                      if(n<=15 && n>=10) /*A .. F*/
+ 108   2                         fx = n;
+ 109   2              
+ 110   2                      switch(fx);
+ 111   2                      if(n!=-1)
+ 112   2                      {
+ 113   3                         if(n == 15){ // key F
+ 114   4                               pwm_setduty(onduty);
+ 115   4                               onduty = 0;
+ 116   4                 }else if(n<10) {     
+ 117   4                            if( 9==n)
+C51 COMPILER V8.01   MAIN                                                                  10/25/2009 23:21:38 PAGE 3   
+
+ 118   4                                   x=0;
+ 119   4                                else
+ 120   4                               x=(n+1);       
+ 121   4                                onduty = 10*onduty+x;   
+ 122   4                                print10(onduty);
+ 123   4                         }
+ 124   3            
+ 125   3                      }
+ 126   2      
+ 127   2                      icharger_testcontrolkey();
+ 128   2                  update_vled(); //vled mode 
+ 129   2           
+ 130   2        }
+ 131   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    523    ----
+   CODE SIZE        =    656    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =     14       4
+   DATA SIZE        =     32       4
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
-C51 COMPILER V8.01   MAIN                                                                  10/18/2009 23:24:47 PAGE 3   
-
 END OF MODULE INFORMATION.
 
 

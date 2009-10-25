@@ -1,4 +1,4 @@
-C51 COMPILER V8.01   4X4KEYBOARD                                                           10/18/2009 22:06:08 PAGE 1   
+C51 COMPILER V8.01   4X4KEYBOARD                                                           10/25/2009 23:21:38 PAGE 1   
 
 
 C51 COMPILER V8.01, COMPILATION OF MODULE 4X4KEYBOARD
@@ -49,7 +49,7 @@ line level    source
   39   2      
   40   2          udelay(2);
   41   2          scan=P1;
-  42   2          mdelay(1); //延时防抖
+  42   2          udelay(256); //延时防抖
   43   2      
   44   2          if(scan!=P1) //可能是抖动
   45   2            continue;
@@ -62,7 +62,7 @@ line level    source
   52   2                 continue;
   53   2      
   54   2          for(col=0;col<4;col++){
-C51 COMPILER V8.01   4X4KEYBOARD                                                           10/18/2009 22:06:08 PAGE 2   
+C51 COMPILER V8.01   4X4KEYBOARD                                                           10/25/2009 23:21:38 PAGE 2   
 
   55   3                  if(! ( scan&(1<<(3-col))) ){
   56   4                wait_release: 

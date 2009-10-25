@@ -14,6 +14,7 @@ void _2cycle(unsigned char cyc);
 //#define udelay(t)  _2cycle((t/2)-2) /* _2cycle( ((t>>1)&0xFC) )*/
 
 
+
 /*
  * mdelay(0) : 15 cycle, 12Mhz 30us
  * 1ms to 256ms
