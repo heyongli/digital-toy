@@ -55,15 +55,13 @@ void pwm_safeoff()
 void pwm_safeon()
 {
   ET0 = 1;
-  PWM_PIN = 0;
 }
  
  
-#if 0
+
 unsigned char pwm_getduty()
 {
   return on_duty;  
 
 }
 
-#endif

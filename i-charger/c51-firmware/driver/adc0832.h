@@ -4,6 +4,14 @@
 
 unsigned char adc0832(bit ch);
 
+
+
+float adc_V();
+
+
+float adc_A();
+
+
 #endif
 
 

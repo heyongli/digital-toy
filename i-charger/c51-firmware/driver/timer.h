@@ -6,10 +6,11 @@
  *    10kHz PWM (100us PWM cycle,if<50us onduty use busy wait)
  *    0-125us on-duty      
  */
-#define MS_CYCLE  2000
+#define MS_CYCLE  1000
 #define PWM_CYCLE 160		  /*100+[~140] cycles*/ //give up 1000+ left_cpu_of_timer
 
-#define HZ  ((1000*1000/MS_CYCLE)) /*jiffers per MS*/
+#define HZ  (((unsigned long)1000*1000)/(unsigned long)MS_CYCLE) /*jiffers per MS*/
+             //(1000*1000)/MS_CYCLE, 不行... 数据类型可能是char...
 
 
 #define timeafter(a,b)         \

@@ -11,7 +11,8 @@ File 1,1,<.\driver\4x8seg_vled.c><4x8seg_vled.c> 0x0
 File 1,1,<.\driver\delay.c><delay.c> 0x0 
 File 1,1,<.\driver\timer0.c><timer0.c> 0x0 
 File 1,1,<.\driver\pwm.c><pwm.c> 0x0 
-File 1,1,<.\driver\adc.c><adc.c> 0x0 
+File 1,1,<.\driver\adc0832.c><adc0832.c> 0x0 
+File 1,1,<.\charger.c><charger.c> 0x0 
 
 
 Options 1,0,0  // Target 'Target 1'
@@ -38,7 +39,7 @@ Options 1,0,0  // Target 'Target 1'
  EnvLib ()
  EnvReg (ÿAtmel\)
  OrgReg (ÿAtmel\)
- TgStat=16
+ TgStat=27
  OutDir (.\)
  OutName (i-charger)
  GenApp=1

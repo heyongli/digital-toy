@@ -74,3 +74,29 @@ unsigned char adc0832(bit ch)
    return dat0;
 
 }
+
+
+
+float  refV = 4.10 ; 
+
+float adc_V()
+{
+     unsigned char adc_v;
+		    
+     adc_v = adc0832(1);  
+	 
+	 return (((float)adc_v)/255)*refV*1.9; //10mV
+}
+
+
+float adc_A()
+{
+   	unsigned char adc_i;
+	float tmp=0.0;
+    /*sample the charger current*/
+	adc_i = adc0832(0);
+  	tmp= ((float)adc_i/255)*refV;
+	tmp = tmp/18;
+	return tmp = tmp/0.10;
+	
+}
