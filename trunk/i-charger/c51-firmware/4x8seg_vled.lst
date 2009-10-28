@@ -1,10 +1,10 @@
-C51 COMPILER V8.01   4X8SEG_VLED                                                           10/25/2009 23:21:39 PAGE 1   
+C51 COMPILER V8.01   4X8SEG_VLED                                                           10/28/2009 22:03:41 PAGE 1   
 
 
 C51 COMPILER V8.01, COMPILATION OF MODULE 4X8SEG_VLED
 OBJECT MODULE PLACED IN 4x8seg_vled.obj
-COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE driver\4x8seg_vled.c BROWSE INCDIR(.\driver) DEBUG OBJECTEXTEND PRINT(.\4x8
-                    -seg_vled.lst) OBJECT(4x8seg_vled.obj)
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE driver\4x8seg_vled.c ROM(COMPACT) BROWSE INCDIR(.\driver) DEBUG OBJECTEXTEN
+                    -D PRINT(.\4x8seg_vled.lst) OBJECT(4x8seg_vled.obj)
 
 line level    source
 
@@ -37,32 +37,32 @@ line level    source
   27          #define segt   0X78,/*t*/
   28          #define seg-   0X40,/*-*/
   29          
-  30          
-  31          unsigned char seg0_f[]={
-  32                  0XC0,/*0*/
-  33                  0XF9,/*1*/
-  34                  0XA4,/*2*/
-  35                  0XB0,/*3*/
-  36                  0X99,/*4*/
-  37                  0X92,/*5*/
-  38                  0X82,/*6*/
-  39                  0XF8,/*7*/
-  40                  0X80,/*8*/
-  41                  0X90,/*9*/
-  42                
-  43                  0X88,/*A*/
-  44                  0X83,/*b*/
-  45                  0XC6,/*C*/
-  46                  0XA1,/*d*/
-  47                  0X86,/*E*/
-  48                  0X8E,/*F*/
-  49          
-  50          #if 0
+  30          #if 0  /*节省变量空间, ft*/
+              unsigned char seg0_f[]={
+                      0XC0,/*0*/
+                      0XF9,/*1*/
+                      0XA4,/*2*/
+                      0XB0,/*3*/
+                      0X99,/*4*/
+                      0X92,/*5*/
+                      0X82,/*6*/
+                      0XF8,/*7*/
+                      0X80,/*8*/
+                      0X90,/*9*/
+                    
+                      0X88,/*A*/
+                      0X83,/*b*/
+                      0XC6,/*C*/
+                      0XA1,/*d*/
+                      0X86,/*E*/
+                      0X8E,/*F*/
+              
+              #if 0
                       0X3F,/*0*/
                       0X06,/*1*/
                       0X5B,/*2*/
                       0X4F,/*3*/
-C51 COMPILER V8.01   4X8SEG_VLED                                                           10/25/2009 23:21:39 PAGE 2   
+C51 COMPILER V8.01   4X8SEG_VLED                                                           10/28/2009 22:03:41 PAGE 2   
 
                       0X66,/*4*/
                       0X6D,/*5*/
@@ -71,50 +71,92 @@ line level    source
                       0X7F,/*8*/
                       0X6F,/*9*/
               #endif
-  62          
-  63          };
-  64          
-  65          
-  66          void segoff( unsigned char segbit)
-  67          {
-  68   1         if(segbit&0x1)
-  69   1              segENA1=1;
-  70   1         if(segbit&0x2)
-  71   1              segENA2=1;
-  72   1         if(segbit&0x4)
-  73   1             segENA3=1;
-  74   1         if(segbit&0x8)
-  75   1             segENA4=1;
-  76   1      /*
-  77   1         switch bit {
-  78   1           case 1:
-  79   1              segENA1=1;
-  80   1           case 2:
-  81   1              segENA2=1;
-  82   1           case 3:
-  83   1              segENA3=1;
-  84   1           case 4:
-  85   1              segENA4=1;
-  86   1           
-  87   1         }
-  88   1         */
-  89   1      }
-  90          
-  91          void segon(unsigned char segbit) 
-  92          {
-  93   1         if(segbit&0x1)
-  94   1              segENA1=0;
-  95   1         if(segbit&0x2)
-  96   1              segENA2=0;
-  97   1         if(segbit&0x4)
-  98   1             segENA3=0;
-  99   1         if(segbit&0x8)
- 100   1             segENA4=0;
- 101   1         
- 102   1      }
- 103          
- 104          
- 105          #if 0
+              
+              };
+              
+              #endif
+  66          
+  67          unsigned seg0_f(char c)
+  68          {
+  69   1         switch(c){
+  70   2            case 0:
+  71   2                    return  0XC0;
+  72   2                case 1:
+  73   2                    return  0XF9;
+  74   2                case 2:
+  75   2                    return  0XA4;
+  76   2                case 3:
+  77   2                    return  0XB0;
+  78   2            case 4:
+  79   2                    return  0X99;
+  80   2            case 5:
+  81   2                    return  0X92;
+  82   2            case 6:
+  83   2                    return  0X82;
+  84   2            case 7:
+  85   2                    return  0XF8;
+  86   2            case 8:
+  87   2                    return  0X80;
+  88   2            case 9:
+  89   2                    return  0X90;
+  90   2            case 0xa:
+  91   2                    return  0X88;
+  92   2            case 0xb:
+  93   2                    return  0X83;
+  94   2            case 0xc:
+  95   2                    return  0XC6;
+  96   2            case 0xd:
+  97   2                    return  0XA1;
+  98   2            case 0xe:
+  99   2                    return  0X86;
+ 100   2            case 0xf:
+ 101   2                    return  0X8e;
+ 102   2            default:
+ 103   2                    return  0XFF;
+ 104   2         }
+ 105   1      }
+ 106          void segoff( unsigned char segbit)
+ 107          {
+ 108   1         if(segbit&0x1)
+ 109   1              segENA1=1;
+ 110   1         if(segbit&0x2)
+ 111   1              segENA2=1;
+ 112   1         if(segbit&0x4)
+ 113   1             segENA3=1;
+ 114   1         if(segbit&0x8)
+ 115   1             segENA4=1;
+ 116   1      /*
+C51 COMPILER V8.01   4X8SEG_VLED                                                           10/28/2009 22:03:41 PAGE 3   
+
+ 117   1         switch bit {
+ 118   1           case 1:
+ 119   1              segENA1=1;
+ 120   1           case 2:
+ 121   1              segENA2=1;
+ 122   1           case 3:
+ 123   1              segENA3=1;
+ 124   1           case 4:
+ 125   1              segENA4=1;
+ 126   1           
+ 127   1         }
+ 128   1         */
+ 129   1      }
+ 130          
+ 131          void segon(unsigned char segbit) 
+ 132          {
+ 133   1         if(segbit&0x1)
+ 134   1              segENA1=0;
+ 135   1         if(segbit&0x2)
+ 136   1              segENA2=0;
+ 137   1         if(segbit&0x4)
+ 138   1             segENA3=0;
+ 139   1         if(segbit&0x8)
+ 140   1             segENA4=0;
+ 141   1         
+ 142   1      }
+ 143          
+ 144          
+ 145          #if 0
               void segchar(unsigned char c, unsigned char segbit)
               {
                  segoff(0xF);
@@ -126,8 +168,6 @@ line level    source
                    case 1:
                       segENA2=0;
                               break;
-C51 COMPILER V8.01   4X8SEG_VLED                                                           10/25/2009 23:21:39 PAGE 3   
-
                    case 2:
                       segENA3=0;
                               break;
@@ -140,233 +180,192 @@ line level    source
                  }
               }
               #endif
- 129          void testseg()
- 130          {
- 131   1         unsigned char n;
- 132   1         segon(0xF);
- 133   1                
- 134   1         for(n=0;n<=9;n++){
- 135   2                 segData = seg0_f[n];
- 136   2                mdelay(64);
- 137   2         
- 138   2         }
- 139   1         
- 140   1         for(n=0;n<=9;n++){
- 141   2                 segData = seg0_f[n] & segDOT;
- 142   2                mdelay(64);
- 143   2         }
- 144   1      
- 145   1      }
- 146          
- 147          
- 148          void testvled()
- 149          {
- 150   1        unsigned char n;
- 151   1        vledon();
- 152   1        
- 153   1        segData = 0xff;
- 154   1        segData = 0;
- 155   1        mdelay(255);
- 156   1        segData = 0xff;
- 157   1        mdelay(255);
- 158   1         
- 159   1        for(n=0;n<=8;n++){
- 160   2                segData = ~(1<<n);
- 161   2                mdelay(64);
- 162   2        }
- 163   1      
- 164   1        vledoff();
- 165   1      }
- 166          
- 167          /*===========================================================================*/
- 168          /*
- 169           * 数码管扫描显示 core
- 170           */
- 171          
- 172          void segvled_init()
- 173          {
- 174   1         //power on test
- 175   1         segoff(0xF);
- 176   1         testseg();
- 177   1         testvled();
- 178   1        
-C51 COMPILER V8.01   4X8SEG_VLED                                                           10/25/2009 23:21:39 PAGE 4   
+ 169          void testseg()
+ 170          {
+ 171   1         unsigned char n;
+ 172   1         segon(0xF);
+ 173   1                
+ 174   1         for(n=0;n<=9;n++){
+ 175   2                 segData = seg0_f(n);
+ 176   2                mdelay(64);
+ 177   2         
+ 178   2         }
+C51 COMPILER V8.01   4X8SEG_VLED                                                           10/28/2009 22:03:41 PAGE 4   
 
- 179   1         //close all
- 180   1         segoff(0xF);
- 181   1         vledoff();
- 182   1      }
- 183          
- 184          
- 185          
- 186          /*
- 187           *
- 188           *  vblock[0] .... vblock[3]    vled
- 189           *
- 190           */
- 191          //unsigned vblock[5]={0xFF,0xFF,0xFF,0xFF,0xFF};
- 192          
- 193          unsigned char vblock[5]={
- 194                         0XC0,/*0*/
- 195                         0XF9,/*1*/
- 196                         0XA4,/*2*/
- 197                         0XB0,/*3*/
- 198                                     ~(0xf)};
- 199          static unsigned char dot = 0,lastdot=0;
- 200          
- 201          /*
- 202           * 根据 vblock内容 扫描驱动数码管和电平管显示
- 203           */
- 204          void ms_scan_segvled() using 1 
- 205          {
- 206   1               static unsigned char block = 0;
- 207   1               
- 208   1               vblock[lastdot] |= ~segDOT; //set dot bit, clear the dot
- 209   1               if(dot<4){
- 210   2                      vblock[dot] &=segDOT;  //clear bit  
- 211   2               }
- 212   1      
- 213   1               if(block<4){ //scan 4x8 seg
- 214   2                  vledoff(); 
- 215   2                      segoff(0xF);
- 216   2                      segData = vblock[block];             
- 217   2                      
- 218   2                  segon(1<<block);    
- 219   2      
- 220   2               }else { //scan vled
- 221   2                     segoff(0xF);
- 222   2                         segData = vblock[4];
- 223   2                         vledon();
- 224   2                         
- 225   2                 
- 226   2               } 
- 227   1               block++;
- 228   1               if(5 == block)
- 229   1                 block = 0;
- 230   1      
- 231   1      }
+ 179   1         
+ 180   1         for(n=0;n<=9;n++){
+ 181   2                 segData = seg0_f(n) & segDOT;
+ 182   2                mdelay(64);
+ 183   2         }
+ 184   1      
+ 185   1      }
+ 186          
+ 187          
+ 188          void testvled()
+ 189          {
+ 190   1        unsigned char n;
+ 191   1        vledon();
+ 192   1        
+ 193   1        segData = 0xff;
+ 194   1        segData = 0;
+ 195   1        mdelay(255);
+ 196   1        segData = 0xff;
+ 197   1        mdelay(255);
+ 198   1         
+ 199   1        for(n=0;n<=8;n++){
+ 200   2                segData = ~(1<<n);
+ 201   2                mdelay(64);
+ 202   2        }
+ 203   1      
+ 204   1        vledoff();
+ 205   1      }
+ 206          
+ 207          /*===========================================================================*/
+ 208          /*
+ 209           * 数码管扫描显示 core
+ 210           */
+ 211          
+ 212          void segvled_init()
+ 213          {
+ 214   1         //power on test
+ 215   1         segoff(0xF);
+ 216   1         testseg();
+ 217   1         testvled();
+ 218   1        
+ 219   1         //close all
+ 220   1         segoff(0xF);
+ 221   1         vledoff();
+ 222   1      }
+ 223          
+ 224          
+ 225          
+ 226          /*
+ 227           *
+ 228           *  vblock[0] .... vblock[3]    vled
+ 229           *
+ 230           */
+ 231          //unsigned vblock[5]={0xFF,0xFF,0xFF,0xFF,0xFF};
  232          
- 233          
- 234          
- 235          enum VLED_MODE   vled_mode= VLED_V;
- 236          enum VLED_MODE   vled_ormode=VLED_NORMAL;
- 237          
- 238          void vledmod(enum VLED_MODE mod)
- 239          {
- 240   1         if(mod > VLED_ERR)
-C51 COMPILER V8.01   4X8SEG_VLED                                                           10/25/2009 23:21:39 PAGE 5   
+ 233          unsigned char vblock[5]={
+ 234                         0XC0,/*0*/
+ 235                         0XF9,/*1*/
+ 236                         0XA4,/*2*/
+ 237                         0XB0,/*3*/
+ 238                                     ~(0xf)};
+ 239          static unsigned char dot = 0,lastdot=0;
+ 240          
+C51 COMPILER V8.01   4X8SEG_VLED                                                           10/28/2009 22:03:41 PAGE 5   
 
- 241   1            vled_ormode = mod;
- 242   1         else    
- 243   1            vled_mode = mod;  
- 244   1      }
- 245          /*
- 246           *  更新显示内容, 实现vled mode
- 247           *        : 电流,电压,HZ, 错误
- 248           */
- 249          void update_vled()
- 250          {                    
- 251   1      
- 252   1           static unsigned long pos=0;
- 253   1                      
- 254   1               static unsigned long lasttime=0;
- 255   1      
- 256   1               if(vled_mode == VLED_STOP)
- 257   1                   return;    
- 258   1                      
- 259   1               if(! timeafter(jiffers,lasttime+HZ/50) )
- 260   1                           return;
- 261   1      
- 262   1                      
- 263   1                      if(vled_mode  == VLED_A){ //A mA
- 264   2                         vblock[4] = 0xF;             
- 265   2                 vblock[4]= rol8(vblock[4], 1);
- 266   2                      }
- 267   1                
- 268   1                      if(vled_mode == VLED_V){ //V mV
- 269   2                              if(pos&0x4 ){     // pos&0x100 == 0x100 doesn't work!!!!!!!!
- 270   3                                   vblock[4] = 0x5A;
- 271   3                           }else{
- 272   3                                   vblock[4] = 0xA5;
- 273   3                           }
- 274   2                      
- 275   2                      }
- 276   1      
- 277   1                      if(vled_mode == VLED_HZ){ //Hz
- 278   2                               if(pos&0x2 ){
- 279   3                       vblock[4] = 0x5A;
- 280   3                               }else{
- 281   3                                   vblock[4] = 0xFF;
- 282   3                           }
- 283   2                      }     
- 284   1      
- 285   1               if(vled_mode == VLED_ERR) { //Err
- 286   2                               if(pos&0x1 ){
- 287   3                                   vblock[4] = 0xFF;
- 288   3                       vblock[0]=vblock[1]=vblock[2]=vblock[3]=segDOT;
- 289   3                           }else{
- 290   3                                   vblock[4] = 0xFF;
- 291   3                       vblock[0]=vblock[1]=vblock[2]=vblock[3]=0xFF;
- 292   3                                   
- 293   3                                       
- 294   3                           }            
- 295   2                       }     
- 296   1                      
- 297   1                       if(vled_ormode>VLED_NORMAL) { //detect ormode
- 298   2              
- 299   2                           static char bvblock[4] = {0,0,0,0};
- 300   2      
- 301   2                               if(vled_ormode == VLED_DETECT){
- 302   3                                 if(pos&0x1 ){
-C51 COMPILER V8.01   4X8SEG_VLED                                                           10/25/2009 23:21:39 PAGE 6   
+ 241          /*
+ 242           * 根据 vblock内容 扫描驱动数码管和电平管显示
+ 243           */
+ 244          void ms_scan_segvled() using 1 
+ 245          {
+ 246   1               static unsigned char block = 0;
+ 247   1               
+ 248   1               vblock[lastdot] |= ~segDOT; //set dot bit, clear the dot
+ 249   1               if(dot<4){
+ 250   2                      vblock[dot] &=segDOT;  //clear bit  
+ 251   2               }
+ 252   1      
+ 253   1               if(block<4){ //scan 4x8 seg
+ 254   2                  vledoff(); 
+ 255   2                      segoff(0xF);
+ 256   2                      segData = vblock[block];             
+ 257   2                      
+ 258   2                  segon(1<<block);    
+ 259   2      
+ 260   2               }else { //scan vled
+ 261   2                     segoff(0xF);
+ 262   2                         segData = vblock[4];
+ 263   2                         vledon();
+ 264   2                         
+ 265   2                 
+ 266   2               } 
+ 267   1               block++;
+ 268   1               if(5 == block)
+ 269   1                 block = 0;
+ 270   1      
+ 271   1      }
+ 272          
+ 273          
+ 274          
+ 275          enum VLED_MODE   vled_mode= VLED_V;
+ 276          
+ 277          void vledmod(enum VLED_MODE mod)
+ 278          {
+ 279   1           vled_mode = mod;  
+ 280   1      }
+ 281          /*
+ 282           *  更新显示内容, 实现vled mode
+ 283           *        : 电流,电压,HZ, 错误
+ 284           */
+ 285          void update_vled()
+ 286          {                    
+ 287   1       #define VLED_R  vblock[4]
+ 288   1           static unsigned long lasttime=0,pos=0;
+ 289   1              
+ 290   1               if(vled_mode < VLED_STOP)
+ 291   1                    VLED_R = ~(1<<vled_mode);
+ 292   1      
+ 293   1               if(vled_mode == VLED_STOP)
+ 294   1                     return;  
+ 295   1                      
+ 296   1               if(timeafter(jiffers,lasttime+(HZ)/10)){
+ 297   2                  // 10 times/per second
+ 298   2                       if(vled_mode  == VLED_A){ //A mA
+ 299   3                          vblock[4] = 0xF;            
+ 300   3                  vblock[4]= rol8(vblock[4], 1);
+ 301   3                       }
+ 302   2                
+C51 COMPILER V8.01   4X8SEG_VLED                                                           10/28/2009 22:03:41 PAGE 6   
 
- 303   4                                     memcpy(bvblock,vblock,4); //backup
- 304   4                                     vblock[0]=vblock[1]=vblock[2]=vblock[3]=0xFF;
- 305   4                             }else{
- 306   4                                     if(bvblock[0]) //restore if have something to show
- 307   4                                      memcpy(vblock,bvblock,4);
- 308   4                             }
- 309   3                               }else            
- 310   2                              memset(bvblock,4,0);    
+ 303   2                      if(vled_mode == VLED_V){ //V mV
+ 304   3                              if(pos&0x4 ){     // pos&0x100 == 0x100 doesn't work!!!!!!!!
+ 305   4                                   vblock[4] = 0x5A;
+ 306   4                           }else{
+ 307   4                                   vblock[4] = 0xA5;
+ 308   4                           }
+ 309   3                      
+ 310   3                      }
  311   2      
- 312   2      
- 313   2                       } 
- 314   1                       
- 315   1              
- 316   1      
- 317   1                      pos++;  
- 318   1                      lasttime = jiffers;
- 319   1               
- 320   1      }
- 321          
- 322          #if 0
-              
-              void vledx0()
-              {
-                         vblock[4] &= ~0x80;
-                         
-              }
-              void vledx1()
-              {
-                         vblock[4] |= 0x80;
-              }  
-              
-              void vled_flowtick()
-              {
-                static char n=0; 
-                vledon();
-              
-                segData = ~(1<<n);
-              
-                if(7==n)
-                    n=0;
-                else
-                    n++;
-              
-                vledoff();
-              }
-              
-              
+ 312   2                      if(vled_mode == VLED_HZ){ //Hz
+ 313   3                               if(pos&0x2 ){
+ 314   4                       vblock[4] = 0x5A;
+ 315   4                               }else{
+ 316   4                                   vblock[4] = 0xFF;
+ 317   4                           }
+ 318   3                      }     
+ 319   2      
+ 320   2               if(vled_mode == VLED_ERR) { //Err
+ 321   3                               if(pos&0x1 ){
+ 322   4                                   vblock[4] = 0xFF;
+ 323   4                       vblock[0]=vblock[1]=vblock[2]=vblock[3]=segDOT;
+ 324   4                           }else{
+ 325   4                                   vblock[4] = 0xFF;
+ 326   4                       vblock[0]=vblock[1]=vblock[2]=vblock[3]=0xFF;
+ 327   4                                   
+ 328   4                                       
+ 329   4                           }            
+ 330   3                       }     
+ 331   2                      
+ 332   2                       if(vled_mode == VLED_DETECT){
+ 333   3                               if(pos&0x1 )
+ 334   3                                  vblock[4]=0xFF;
+ 335   3                            else
+ 336   3                                  vblock[4]=0x0;
+ 337   3                       } 
+ 338   2                       pos++; 
+ 339   2                       lasttime = jiffers;
+ 340   2              
+ 341   2               }
+ 342   1              
+ 343   1                      
+ 344   1              
+ 345   1               
+ 346   1      }
+ 347          
+ 348          #if 0
               
               /*
                *  循环 4种提示模式, 演示用
@@ -382,11 +381,11 @@ line level    source
                                         if(vled_mode == 3){ //从3模式, err退出,随机重置所有数码管
                                            vblock[4]= 0xFF;
               
-C51 COMPILER V8.01   4X8SEG_VLED                                                           10/25/2009 23:21:39 PAGE 7   
+                                               vblock[1]= seg0_f((jiffers)>>5&0xf);
+C51 COMPILER V8.01   4X8SEG_VLED                                                           10/28/2009 22:03:41 PAGE 7   
 
-                                               vblock[1]= seg0_f[(jiffers)>>5&0xf];
-                                               vblock[2]= seg0_f[(jiffers)>>7&0xf];
-                                               vblock[3]= seg0_f[jiffers&0xf];
+                                               vblock[2]= seg0_f((jiffers)>>7&0xf);
+                                               vblock[3]= seg0_f(jiffers&0xf);
                                                
                                                vblock[0]= segDOT;
                                         } 
@@ -406,49 +405,49 @@ line level    source
               void printhex(unsigned short n)
               {
                    //irqoff();
-                       vblock[0]= seg0_f[ (n/1000) ];
+                       vblock[0]= seg0_f( (n/1000) );
                        n = n%1000;
-                       vblock[1]= seg0_f[ n/100 ];
+                       vblock[1]= seg0_f( n/100 );
                        n = n%100;
                                       
-                       vblock[2]= seg0_f[(n/10)];
-                       vblock[3]= seg0_f[ (n%10)];
+                       vblock[2]= seg0_f((n/10));
+                       vblock[3]= seg0_f((n%10));
                        //irqon();
               }
               #endif
- 397          
- 398          /*
- 399           * set dot position
- 400           */                
- 401          void setdot(unsigned char n)
- 402          {
- 403   1         dot=n;
- 404   1      
- 405   1      }
- 406          void print10(unsigned short n)
- 407          {
- 408   1           //irqoff();
- 409   1               vblock[0]= seg0_f[ (n/1000) ];
- 410   1               n = n%1000;
- 411   1               vblock[1]= seg0_f[ n/100 ];
- 412   1               n = n%100;
- 413   1                              
- 414   1               vblock[2]= seg0_f[(n/10)];
- 415   1               vblock[3]= seg0_f[ (n%10)];
- 416   1               //irqon();
- 417   1      }
- 418                                             
+ 396          
+ 397          /*
+ 398           * set dot position
+ 399           */                
+ 400          void setdot(unsigned char n)
+ 401          {
+ 402   1         dot=n;
+ 403   1      
+ 404   1      }
+ 405          void print10(unsigned short n)
+ 406          {
+ 407   1           //irqoff();
+ 408   1               vblock[0]= seg0_f( (n/1000) );
+ 409   1               n = n%1000;
+ 410   1               vblock[1]= seg0_f(n/100);
+ 411   1               n = n%100;
+ 412   1                              
+ 413   1               vblock[2]= seg0_f( (n/10) );
+ 414   1               vblock[3]= seg0_f( (n%10) );
+ 415   1               //irqon();
+ 416   1      }
+ 417                                             
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    693    ----
+   CODE SIZE        =    749    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =     38       2
-C51 COMPILER V8.01   4X8SEG_VLED                                                           10/25/2009 23:21:39 PAGE 8   
-
+   DATA SIZE        =     17       2
    IDATA SIZE       =   ----    ----
+C51 COMPILER V8.01   4X8SEG_VLED                                                           10/28/2009 22:03:41 PAGE 8   
+
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
 

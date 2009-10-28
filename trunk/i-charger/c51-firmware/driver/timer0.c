@@ -17,8 +17,8 @@ volatile unsigned  long jiffers=0;  //250us per jiffers
 #define settimer0(us) TH0 = (65536 - (us))>>8 ; /* (655535-us)/256 ³¬Âý!!!!*/  \
                       TL0 = (65536 - (us))&0xFF ; 
 
-#define settimer1(us) TH1 = (65536 - (us))>>8 ; /* (655535-us)/256 ³¬Âý!!!!*/  \
-                      TL1 = (65536 - (us))&0xFF ; 
+#define settimer1(us) TH1 = (65535 - (us))>>8 ; /* (655535-us)/256 ³¬Âý!!!!*/  \
+                      TL1 = (65535 - (us))&0xFF ; 
  
 
 

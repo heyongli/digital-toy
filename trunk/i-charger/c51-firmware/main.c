@@ -8,59 +8,27 @@
 
  
 
-static unsigned short fx,n,x,adc_i=0,adc_v=0;
+static unsigned short n,x,adc_i=0,adc_v=0;
 static unsigned short onduty=0;
 
-float charging_current=0.0, battery_voltage=0.0;
-float  refV=4.04;
-
-void batteryAV(){
-
-      static unsigned long lasttimeA=0,lasttimeV=0;
- 	  float tmp=0;
-	 
-      if(timeafter(jiffers,lasttimeA+HZ/4) ){ 
-      
-         /*sample the charger current*/
-	     adc_i = adc0832(0);
-  	  	tmp= ((float)adc_i/255)*refV;
-	  	tmp = tmp/18;
-	  	tmp = tmp/0.10;
-	  	tmp*=1000; //mA
-	  	 charging_current=(short)tmp;
-		 lasttimeA = jiffers;
-	  }
-	  /*sample ther battery voltage*/
-	  if(timeafter(jiffers,lasttimeV+2*HZ) ){ 
-		  pwm_safeoff();  //disalbe charge current
-		  mdelay(255);
-		  mdelay(255);
-		    
-      	  adc_v = adc0832(1);  
-      	  pwm_safeon();
-	  	  tmp=(((float)adc_v)/255)*refV*1.9*100; //10mV
-	      battery_voltage =(short)tmp;
-		  lasttimeV = jiffers;
-
-      }
-	  
-
-}
+extern float charging_current, battery_voltage;
+extern float  refV ; 
 
 
 
-void icharger_testcontrolkey()
+
+void icharger_testcontrolkey(char fx)
 {
   
   	if(10==fx){ // key a
-	      vledmod(VLED_A); 
-  	      print10((short)charging_current);
+	      //vledmod(VLED_A); 
+  	     // print10((short)charging_current);
   		  setdot(0);
  	}
 	
 	if(11==fx){ // key b 
- 	     vledmod(VLED_V); 
-	     print10(battery_voltage);
+ 	     //vledmod(VLED_V); 
+	    // print10((short)(battery_voltage*100));
 	     setdot(1);	
 
 	} 
@@ -74,18 +42,19 @@ void icharger_testcontrolkey()
 			print10(adc_v);
 	}   
 
-	if(14==n){ // key e
-			  refV=5.03;
+	if(14==fx){ // key e
+	   refV=5.03;
 	}
 
 	if(15==fx){ // key f
 	    print10(onduty);
-		vledmod(VLED_HZ); 
+		//vledmod(VLED_HZ); 
 	}
 
 }
 void main()
 {
+   char fx= 0;
    pwm_init(); //pull down pwm
    /*power on test*/
  
@@ -100,14 +69,13 @@ void main()
    sleep(0); // just refrence 
    while(1){ 
 
-	    batteryAV(); //will stop charging for 0.3S
-        charging();   //charger auto control
+	    charging();   //charger auto control
 		   
         n = keyscan();
 		if(n<=15 && n>=10) /*A .. F*/
 		   fx = n;
         
-		switch(fx);
+		
  		if(n!=-1)
 		{
   		   if(n == 15){	// key F
@@ -124,7 +92,7 @@ void main()
       
 		}
 
-		icharger_testcontrolkey();
+		//icharger_testcontrolkey(fx);
   	    update_vled(); //vled mode 
      
   }

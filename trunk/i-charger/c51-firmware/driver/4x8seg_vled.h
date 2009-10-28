@@ -5,13 +5,11 @@
 
 
 enum VLED_MODE {
-     VLED_STOP,
+     VLED_STOP=8,
 	 VLED_A,
 	 VLED_V,
 	 VLED_HZ,
 	 VLED_ERR,
-     
-	 VLED_NORMAL,
 	 VLED_DETECT,
 
 };

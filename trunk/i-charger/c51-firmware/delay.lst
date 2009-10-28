@@ -1,10 +1,10 @@
-C51 COMPILER V8.01   DELAY                                                                 10/25/2009 23:21:39 PAGE 1   
+C51 COMPILER V8.01   DELAY                                                                 10/28/2009 22:03:41 PAGE 1   
 
 
 C51 COMPILER V8.01, COMPILATION OF MODULE DELAY
 OBJECT MODULE PLACED IN delay.obj
-COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE driver\delay.c BROWSE INCDIR(.\driver) DEBUG OBJECTEXTEND PRINT(.\delay.lst
-                    -) OBJECT(delay.obj)
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE driver\delay.c ROM(COMPACT) BROWSE INCDIR(.\driver) DEBUG OBJECTEXTEND PRIN
+                    -T(.\delay.lst) OBJECT(delay.obj)
 
 line level    source
 
@@ -62,7 +62,7 @@ line level    source
   52          /*
   53           * +- 50ms
   54           */
-C51 COMPILER V8.01   DELAY                                                                 10/25/2009 23:21:39 PAGE 2   
+C51 COMPILER V8.01   DELAY                                                                 10/28/2009 22:03:41 PAGE 2   
 
   55          void sleep(unsigned char t)
   56          {
