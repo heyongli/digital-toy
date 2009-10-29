@@ -81,9 +81,13 @@ float  refV = 4.10 ;
 
 float adc_V()
 {
-     unsigned char adc_v;
+     unsigned short adc_v;
 		    
      adc_v = adc0832(1);  
+	 mdelay(10);
+	 adc_v += adc0832(1);  
+
+	 adc_v /=2;
 	 
 	 return (((float)adc_v)/255)*refV*1.9; //10mV
 }

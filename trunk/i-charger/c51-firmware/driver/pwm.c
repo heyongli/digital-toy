@@ -47,8 +47,8 @@ void pwm_setduty(unsigned short duty)
 
 void pwm_safeoff()
 {
-  ET0 = 0;
-  PWM_PIN  = 0;
+   ET0 = 0;
+   PWM_PIN  = 0;
 
 }
 
