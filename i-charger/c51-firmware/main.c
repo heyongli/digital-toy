@@ -20,22 +20,32 @@ extern float  refV ;
 void icharger_testcontrolkey(char fx)
 {
   
+   static unsigned long start=0;
   	if(10==fx){ // key a
 	      //vledmod(VLED_A); 
   	     // print10((short)charging_current);
-  		  setdot(0);
+        start = jiffers;
+			 
  	}
 	
 	if(11==fx){ // key b 
  	     //vledmod(VLED_V); 
 	    // print10((short)(battery_voltage*100));
-	     setdot(1);	
+
+		unsigned long total = (((long)(jiffers) - (long)(start) ));
+
+		float x = ((float)total/(HZ*60.0));
+
+		print10(10*x); //minute
+        setdot(2);
 
 	} 
 		
 	if(12==fx){ //key c
-	     print10(adc_i);
-	     setdot(-1);
+	  //count second
+	   setdot(2);
+	   print10( (jiffers-start)/(HZ/10) );  
+
 	}
 	if(13==fx){ //key d
 			setdot(-1);
@@ -47,8 +57,8 @@ void icharger_testcontrolkey(char fx)
 	}
 
 	if(15==fx){ // key f
-	    print10(onduty);
-		//vledmod(VLED_HZ); 
+         //charging	   
+		
 	}
 
 }
@@ -69,8 +79,11 @@ void main()
    sleep(0); // just refrence 
    while(1){ 
 
-	    charging();   //charger auto control
-		   
+	   if(15==fx){ //key f
+	      charging();   //charger auto control
+	   }
+
+	   	   
         n = keyscan();
 		if(n<=15 && n>=10) /*A .. F*/
 		   fx = n;
@@ -92,7 +105,11 @@ void main()
       
 		}
 
-		//icharger_testcontrolkey(fx);
+		icharger_testcontrolkey(fx);
+	  	if(10==fx){ // key a
+	       fx =12;
+		}
+	 
   	    update_vled(); //vled mode 
      
   }

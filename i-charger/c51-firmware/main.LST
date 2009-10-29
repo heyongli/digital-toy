@@ -1,4 +1,4 @@
-C51 COMPILER V8.01   MAIN                                                                  10/28/2009 22:03:39 PAGE 1   
+C51 COMPILER V8.01   MAIN                                                                  10/29/2009 21:02:05 PAGE 1   
 
 
 C51 COMPILER V8.01, COMPILATION OF MODULE MAIN
@@ -29,93 +29,112 @@ line level    source
   20          void icharger_testcontrolkey(char fx)
   21          {
   22   1        
-  23   1              if(10==fx){ // key a
-  24   2                    //vledmod(VLED_A); 
-  25   2                   // print10((short)charging_current);
-  26   2                        setdot(0);
-  27   2              }
-  28   1              
-  29   1              if(11==fx){ // key b 
-  30   2                   //vledmod(VLED_V); 
-  31   2                  // print10((short)(battery_voltage*100));
-  32   2                   setdot(1); 
-  33   2      
-  34   2              } 
-  35   1                      
-  36   1              if(12==fx){ //key c
-  37   2                   print10(adc_i);
-  38   2                   setdot(-1);
-  39   2              }
-  40   1              if(13==fx){ //key d
-  41   2                              setdot(-1);
-  42   2                              print10(adc_v);
-  43   2              }   
-  44   1      
-  45   1              if(14==fx){ // key e
-  46   2                 refV=5.03;
-  47   2              }
-  48   1      
-  49   1              if(15==fx){ // key f
-  50   2                  print10(onduty);
-  51   2                      //vledmod(VLED_HZ); 
-  52   2              }
-  53   1      
-  54   1      }
-  55          void main()
-C51 COMPILER V8.01   MAIN                                                                  10/28/2009 22:03:39 PAGE 2   
+  23   1         static unsigned long start=0;
+  24   1              if(10==fx){ // key a
+  25   2                    //vledmod(VLED_A); 
+  26   2                   // print10((short)charging_current);
+  27   2              start = jiffers;
+  28   2                               
+  29   2              }
+  30   1              
+  31   1              if(11==fx){ // key b 
+  32   2                   //vledmod(VLED_V); 
+  33   2                  // print10((short)(battery_voltage*100));
+  34   2      
+  35   2                      unsigned long total = (((long)(jiffers) - (long)(start) ));
+  36   2      
+  37   2                      float x = ((float)total/(HZ*60.0));
+  38   2      
+  39   2                      print10(10*x); //minute
+  40   2              setdot(2);
+  41   2      
+  42   2              } 
+  43   1                      
+  44   1              if(12==fx){ //key c
+  45   2                //count second
+  46   2                 setdot(2);
+  47   2                 print10( (jiffers-start)/(HZ/10) );  
+  48   2      
+  49   2              }
+  50   1              if(13==fx){ //key d
+  51   2                              setdot(-1);
+  52   2                              print10(adc_v);
+  53   2              }   
+  54   1      
+  55   1              if(14==fx){ // key e
+C51 COMPILER V8.01   MAIN                                                                  10/29/2009 21:02:05 PAGE 2   
 
-  56          {
-  57   1         char fx= 0;
-  58   1         pwm_init(); //pull down pwm
-  59   1         /*power on test*/
-  60   1       
-  61   1         segvled_init();
-  62   1      
-  63   1         timer0_init();
-  64   1         timer1_init();
-  65   1      
-  66   1         //adc_init(); 
-  67   1         fx = 11;
-  68   1         irqon();   //enable global interrupt         
-  69   1         sleep(0); // just refrence 
-  70   1         while(1){ 
-  71   2      
-  72   2                  charging();   //charger auto control
-  73   2                         
-  74   2              n = keyscan();
-  75   2                      if(n<=15 && n>=10) /*A .. F*/
-  76   2                         fx = n;
-  77   2              
-  78   2                      
-  79   2                      if(n!=-1)
-  80   2                      {
-  81   3                         if(n == 15){ // key F
-  82   4                               pwm_setduty(onduty);
-  83   4                               onduty = 0;
-  84   4                 }else if(n<10) {     
-  85   4                            if( 9==n)
-  86   4                                   x=0;
-  87   4                                else
-  88   4                               x=(n+1);       
-  89   4                                onduty = 10*onduty+x;   
-  90   4                                print10(onduty);
-  91   4                         }
-  92   3            
-  93   3                      }
-  94   2      
-  95   2                      //icharger_testcontrolkey(fx);
-  96   2                  update_vled(); //vled mode 
-  97   2           
-  98   2        }
-  99   1      }
+  56   2                 refV=5.03;
+  57   2              }
+  58   1      
+  59   1              if(15==fx){ // key f
+  60   2               //charging        
+  61   2                      
+  62   2              }
+  63   1      
+  64   1      }
+  65          void main()
+  66          {
+  67   1         char fx= 0;
+  68   1         pwm_init(); //pull down pwm
+  69   1         /*power on test*/
+  70   1       
+  71   1         segvled_init();
+  72   1      
+  73   1         timer0_init();
+  74   1         timer1_init();
+  75   1      
+  76   1         //adc_init(); 
+  77   1         fx = 11;
+  78   1         irqon();   //enable global interrupt         
+  79   1         sleep(0); // just refrence 
+  80   1         while(1){ 
+  81   2      
+  82   2                 if(15==fx){ //key f
+  83   3                    charging();   //charger auto control
+  84   3                 }
+  85   2      
+  86   2                         
+  87   2              n = keyscan();
+  88   2                      if(n<=15 && n>=10) /*A .. F*/
+  89   2                         fx = n;
+  90   2              
+  91   2                      
+  92   2                      if(n!=-1)
+  93   2                      {
+  94   3                         if(n == 15){ // key F
+  95   4                               pwm_setduty(onduty);
+  96   4                               onduty = 0;
+  97   4                 }else if(n<10) {     
+  98   4                            if( 9==n)
+  99   4                                   x=0;
+ 100   4                                else
+ 101   4                               x=(n+1);       
+ 102   4                                onduty = 10*onduty+x;   
+ 103   4                                print10(onduty);
+ 104   4                         }
+ 105   3            
+ 106   3                      }
+ 107   2      
+ 108   2                      icharger_testcontrolkey(fx);
+ 109   2                      if(10==fx){ // key a
+ 110   3                     fx =12;
+ 111   3                      }
+ 112   2               
+ 113   2                  update_vled(); //vled mode 
+ 114   2           
+ 115   2        }
+ 116   1      }
+
+C51 COMPILER V8.01   MAIN                                                                  10/29/2009 21:02:05 PAGE 3   
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    247    ----
+   CODE SIZE        =    371    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =     10       2
+   DATA SIZE        =     14      10
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.

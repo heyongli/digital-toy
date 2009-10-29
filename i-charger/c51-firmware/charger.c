@@ -20,6 +20,7 @@ unsigned char  cell_pack = 0; //for array
 
 
 float charging_current=0.0, battery_voltage=0.0;
+static char minute=0;
 
 /*
    detect cell -exist--> detect type ------------------->  pre charge -> fast ->trickle -->STOP
@@ -76,7 +77,7 @@ void charging()
 
      static unsigned long lasttime=0;
  	  
-     if(!timeafter(jiffers,lasttime+HZ/2) ){
+     if(!timeafter(jiffers,lasttime+HZ/4) ){
 	     
 	     return;
 	 
@@ -138,7 +139,7 @@ void charging()
 
 
 #define NICD_PRE_CHAGE_PWM 	1     /* 1/20 duty*/
-#define NICD_MAX_CHAGE_PWM  3     /* 4/20 duty*/
+#define NICD_MAX_CHAGE_PWM  5     /* 4/20 duty*/
 
 #define NICD_MAX_CHAGE_MA   1000     /* 1000 mA*/
 
@@ -265,20 +266,25 @@ void pre_charging()
    float pre_chaging_mA = NICD_PRE_CHAGE_MA;
    float pre_chaging_max_mA = NICD_PRE_CHAGE_MA+100;
    
+   battery_voltage = adc_V();
    pwm_safeon();
    showV() ;
-   showX();
-   
-
-
+  
 
    if( battery_voltage > 1.30*cell_pack){
-       i_stage = Fast;
-	   pwm_safeoff();
+       minute ++;
+	   if(minute>40){
+       	    i_stage = Fast;
+	        pwm_safeoff();
+			minute = 0;
+	   }
    }
 
-   if( battery_voltage > 1.50*cell_pack)
-       i_stage = Detect_type; //retest cell type and pack	   
+   if( battery_voltage > 1.50*cell_pack) {
+       i_stage = Trickle; 
+	   pwm_safeoff();
+	   return;
+    }
 
    if(cell_pack == 7)
    {
@@ -311,7 +317,7 @@ void pre_charging()
 /*
    pre charging: single cell< 1.3V
  */
-#define NICD_FAST_CHAGE_MA    700  /* 1A */
+#define NICD_FAST_CHAGE_MA     700  /* 1A */
 #define V9_FAST_CHAGE_MA       120   
 
 void fast_charging()
@@ -324,22 +330,27 @@ void fast_charging()
    battery_voltage = adc_V();
    // vledmod(VLED_A);   
    pwm_safeon();
-   showV();
+   showA();
 
 
 
    if( battery_voltage < 1.30*cell_pack){
-       i_stage = Pre;
+        i_stage = Pre;
 	    pwm_safeoff();
 		return;
    }
    
-   if( battery_voltage > ( (1.42+0.07)*cell_pack) ) //0.06 for 500mA*0.2R 
+   if( battery_voltage > ( (1.42+0.07)*cell_pack) ){ //0.06 for 500mA*0.2R 
        i_stage = Trickle;
+	    pwm_safeoff();
+	   return;
+   }
 
-   if( battery_voltage > 1.50*cell_pack)
-       i_stage = Detect_type; //retest cell type and pack	   
-
+   if( battery_voltage > 1.50*cell_pack){
+       i_stage = Trickle; //retest cell type and pack	   
+	   pwm_safeoff();
+	   return;
+   }
    if(cell_pack == 7)
    {
       chaging_mA = V9_FAST_CHAGE_MA;
@@ -371,25 +382,29 @@ void trickle_charging()
 {
 
    static unsigned long lasttime = 0;
-   static char minute=0;
+
    
    pwm_setduty(1);
    
-   lasttime  =jiffers;
-   
-
+ 
    battery_voltage = adc_V();
    showV();
    pwm_safeon();
   
-   if( battery_voltage > 1.5*cell_pack)
-       i_stage = Detect_type; //retest cell type and pack
+   if( battery_voltage > 1.5*cell_pack){
+       i_stage = Stop; //retest cell type and pack	   
+	   pwm_safeoff();
+	   return;
+   }
 	   
    if( battery_voltage < 1.30*cell_pack){
-       i_stage = Pre;
-	    pwm_safeoff();
-		sleep(1);
-		return;
+       minute++;
+	   if(minute > 40){	 //3s
+          i_stage = Pre; 
+	      pwm_safeoff();
+		  minute=0;
+		  return;
+	  }
    }
    	   
    
@@ -399,20 +414,26 @@ void trickle_charging()
 	  i_stage = Detect_cell;   //restart 
    }	          
 
-    if( battery_voltage < 1.42*cell_pack){
-	    i_stage = Fast;
-  	    sleep(1);
-		return;
+    if( battery_voltage < (1.42-0.02)*cell_pack){
+	   minute++;
+	   if(minute > 30){ //3s
+	      i_stage = Pre;
+  	      pwm_safeoff();
+		  minute=0;
+		  return;
+	  }
 	}
     
    if(timeafter(jiffers,lasttime+HZ*3)) {
        minute++;
-       if(minute> 30) { //ä¸³ä30·ÖÖÓ
+       if(minute> 15) { //ä¸³ä15s 
 	      i_stage = Stop;
 	   	  minute = 0;
-		  lasttime = 0;
+		  return;
 	   }
 	   pwm_safeoff(); 
+	   mdelay(5);
+	   lasttime = jiffers;
    }
 
    return;      
@@ -424,11 +445,16 @@ void stop()
 {
 	//vledmod(VLED_STOP);
 	pwm_safeoff();
+	battery_voltage = adc_V();
 	showV() ;
 
 	if( battery_voltage < 1.42*cell_pack){
-	    i_stage = Pre;
-  	    sleep(1);
+	    if(adc_V()<1.41*cell_pack){
+	    	i_stage = Trickle;
+		    showV() ;
+  	        sleep(2);
+		}
+		showX();
 		return;
 	}
     if( battery_voltage == 0  ){  //cell pull out
@@ -444,7 +470,7 @@ void err_stop()
    pwm_safeoff(); 
    showA();
    if( battery_voltage < 1.42*cell_pack){
-	    i_stage = Pre;
+	    i_stage = Trickle;
   	    sleep(1);
 		return;
    }
