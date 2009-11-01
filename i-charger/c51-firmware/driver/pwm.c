@@ -17,11 +17,11 @@ void pwm_init()
   PWM_PIN = 0;
 }
 
-
+static unsigned char step=0; 
 /*50us update,20step, 1khz*/
 void pwm_1kHz()    using 2
 {
-   static unsigned char step=0; 
+
 
 
    if(step >= on_duty)
@@ -47,14 +47,22 @@ void pwm_setduty(unsigned short duty)
 
 void pwm_safeoff()
 {
-   ET0 = 0;
+   irqoff();
    PWM_PIN  = 0;
+   ET0 = 0;
+   step = PWM_STEP+1;
+   PWM_PIN  = 0;
+   irqon();
 
 }
 
 void pwm_safeon()
 {
-  ET0 = 1;
+	irqoff();
+   	PWM_PIN  = 0;
+  	ET0 = 1;
+	PWM_PIN  = 0;
+	irqon();
 }
  
  

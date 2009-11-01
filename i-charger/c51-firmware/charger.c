@@ -3,135 +3,142 @@
 #include <charger.h>
 #include <adc0832.h>
 
-
 /*
- *  BAT type: NiCd/NiMh  Li  V9STACK  
- *
- */
-enum Cell_type {
-     Unknown,    //未知
-	 NiCd,	  //镍镉,or NiMh
-	 Li,	  //单节锂电
-	 Cell_array //NiCd/NiMh 电池组, 1-7 cell
-};
-enum Cell_type cell_type= Unknown;
-unsigned char  cell_pack = 0; //for array
-
-
-
-float charging_current=0.0, battery_voltage=0.0;
-static char minute=0;
-
-/*
-   detect cell -exist--> detect type ------------------->  pre charge -> fast ->trickle -->STOP
+   detect cell -exist--> detect type ------------------->  PRE charge -> FAST(detect/ir) ->TRICKLE -->STOP
 									  |					    |
-									  |--> detect_array ----> 
+									  |--> DETECT_ARRAY ----> 
 */						             
 
 
-enum charger_stage {
-	 Detect_cell,
-	 Detect_type,
-	 Detect_array,
-	 Pre,
-	 Fast,
-	 Trickle,
-	 Stop,
-	 Err_stop
-};
-enum  charger_stage i_stage= Detect_cell;
+void detect_cell(i_charger *ic);
+void detect_type(i_charger *ic);
+void detect_array(i_charger *ic);
+void pre_charging(i_charger *ic);
+void fast_charging(i_charger *ic);
+void trickle_charging(i_charger *ic);
+void stop(i_charger *ic);
+void err_stop(i_charger *ic);
 
 
-void detect_cell();
-void detect_type();
-void detect_array();
-void pre_charging();
-void fast_charging();
-void trickle_charging();
-void stop();
-void err_stop();
-
-static showA()
-{
-   setdot(0);
-   print10(charging_current);
-
-}
-
-static showV()
+static showA(i_charger *ic)
 {
    setdot(1);
-   print10(battery_voltage*100);
+   print10(ic->charging_current/10);
 
 }
 
+static showV(i_charger *ic)
+{
+   setdot(1);
+   print10(ic->battery_voltage*100);
 
-static showX()
+}
+
+static showX(i_charger *ic)
 {
   setdot(-1);
+  ic=ic;
+}
+void ic_show(i_charger *ic)
+{
+
+
+	switch (ic->dump){
+		case ICS_SHOWV:
+			 showV(ic);
+			 vledmod(VLED_V);
+			 return;
+	 	case ICS_SHOWA:
+			 showA(ic);
+ 			 vledmod(VLED_A);
+			 return;
+	 	case ICS_PACKNUM:
+			 setdot(-1);
+			 print10(ic->cell_pack);
+			 return;
+		case ICS_DEFAULT:
+		default:
+			  break;
+	}
+	
+	vledmod((unsigned char)ic->i_stage);
+	switch (ic->i_stage) {
+	 case DETECT_CELL:
+           showV(ic);
+		   break;
+	 case DETECT_TYPE:
+           showV(ic);
+	       break;
+	 case DETECT_ARRAY:
+           showV(ic);
+	       break;
+	 case PRE:
+	       showV(ic);
+	       break;
+	 case FAST:
+	       showA(ic);
+	       break;
+	 case TRICKLE:
+	       showV(ic);
+	       break;
+	 case STOP:
+	       showV(ic);
+	       break;
+	 case ERR_STOP:
+	       showV(ic);
+	       break;
+	 default:
+	 		break;
+	}
+	   
 }
 
 
-void charging()
+
+void charging(i_charger *ic)
 {
 
-     static unsigned long lasttime=0;
+    static unsigned long lasttime=0;
  	  
-     if(!timeafter(jiffers,lasttime+HZ/4) ){
-	     
+    if(!timeafter(jiffers,lasttime+HZ/4) ){
 	     return;
-	 
-	 } 
-     lasttime = jiffers;
-	 vledmod((unsigned char)i_stage);
+    } 
+    lasttime = jiffers;
 
-	 battery_voltage = adc_V();
-	 charging_current = adc_A()*1000;
+    ic->battery_voltage = adc_V();
+    ic->charging_current = adc_A()*1000;
 	
-	
-	switch (i_stage) {
-	 case Detect_cell:{
-		   detect_cell();
+	switch (ic->i_stage) {
+	 case DETECT_CELL:
+		   detect_cell(ic);
 	       break;
-		  }
-	 case Detect_type:{
-           detect_type();
+	 case DETECT_TYPE:
+           detect_type(ic);
 	       break;
-		  }
-	 case Detect_array:{
-		   detect_array();
+	 case DETECT_ARRAY:
+		   detect_array(ic);
 	       break;
-		  }		
-	 case Pre:{
-		   pre_charging();
+     case PRE:
+		   pre_charging(ic);
 	       break;
-		  }
-	 case Fast:{
-		   fast_charging();
+	 case FAST:
+		   fast_charging(ic);
 	       break;
-		  }
-	 case Trickle:{
-		   trickle_charging();
+	 case TRICKLE:
+		   trickle_charging(ic);
 	       break;
-		  }		
-	 case Stop:{
-		   stop();
+	 case STOP:
+		   stop(ic);
 	       break;
-		  }
-	 case Err_stop:{
-		   err_stop();
+	 case ERR_STOP:
+		   err_stop(ic);
 	       break;
-		  }
 	  default:
-	      {
-		    
 		    break;
-		  }
 	}
 	   
 
 }
-
 
 /*************************************************/
 
@@ -145,14 +152,14 @@ void charging()
 
 
 
-void detect_cell()
+void detect_cell(i_charger *ic)
 {
-   //vledmod(VLED_DETECT); //detect voltage,
-   if( battery_voltage < BAT_LOW_V ){
+  
+   if( ic->battery_voltage < BAT_LOW_V ){
     	   pwm_setduty(NICD_PRE_CHAGE_PWM);
 	   	   pwm_safeon();
    }else {
-           i_stage = Detect_type;
+           ic->i_stage = DETECT_TYPE;
 		   pwm_safeoff();
    }
       
@@ -176,26 +183,25 @@ void detect_cell()
 #define NICD_FAST_V 		1.00   /* 1.0V  */
 #define NICD_MAX_V     	    1.50   /* 1.50V */
 #define NICD_ARRAY_MIN_V	2.00   /*       */
-void detect_type()
+void detect_type(i_charger *ic)
 {
 
    pwm_setduty(NICD_PRE_CHAGE_PWM);
    pwm_safeon();
 
-   showV();
 
-   if( battery_voltage < NICD_MAX_V){ 
-      cell_type =  NiCd;
-	  cell_pack = 1;  //single NiCd
-      i_stage = Pre;
+   if( ic->battery_voltage < NICD_MAX_V){ 
+      ic->cell_type =  NiCd;
+	  ic->cell_pack = 1;  //single NiCd
+      ic->i_stage = PRE;
 	  pwm_safeoff();
 	  return;
    }
 
-   if( battery_voltage >= NICD_ARRAY_MIN_V  ){
-	  cell_type = Cell_array;
-	  cell_pack = 2;  //start pack
-	  i_stage = Detect_array;
+   if( ic->battery_voltage >= NICD_ARRAY_MIN_V  ){
+	  ic->cell_type = CELL_ARRAY;
+	  ic->cell_pack = 2;  //start pack
+	  ic->i_stage = DETECT_ARRAY;
 	  pwm_safeoff();
 
 	  return;
@@ -212,42 +218,38 @@ void detect_type()
   7-array(V9-stack)                                            7             9.94        
  
 */
-void detect_array()
+void detect_array(i_charger *ic)
 {
    pwm_setduty(NICD_PRE_CHAGE_PWM);
    pwm_safeon();
 
-  
-   
-   showV();
-
-   if( battery_voltage >= 7.00  ){
-	  cell_pack = 7; 
-	  i_stage = Pre;
+   if( ic->battery_voltage >= 7.00  ){
+	  ic->cell_pack = 7; 
+	  ic->i_stage = PRE;
 	  pwm_safeoff();
 	  return;
    }
    	   
-   if( battery_voltage >= 4.00 ){
-	  cell_pack = 4;  
-	  i_stage = Pre;
+   if( ic->battery_voltage >= 4.00 ){
+	  ic->cell_pack = 4;  
+	  ic->i_stage = PRE;
 	  pwm_safeoff();
 	  return;
    }	   
 
-   if( battery_voltage >= 2.00 ){
-	  cell_pack = 2;  
-	  i_stage = Pre;
+   if( ic->battery_voltage >= 2.00 ){
+	  ic->cell_pack = 2;  
+	  ic->i_stage = PRE;
 	  pwm_safeoff();
 	  return ;
 
    }	
 
    /* <2.0, Err, 判定type的时候能保证电压>2.0 */
-   if( battery_voltage < 2.00){
-      cell_type = Unknown;
-      cell_pack = 0;  
-      i_stage = Err_stop;
+   if( ic->battery_voltage < 2.00){
+      ic->cell_type = Unknown;
+      ic->cell_pack = 0;  
+      ic->i_stage = ERR_STOP;
 
 	  return;
   }
@@ -255,50 +257,49 @@ void detect_array()
 }
 
 /*
-   pre charging: single cell< 1.3V
+   PRE charging: single cell< 1.3V
  */
 #define NICD_PRE_CHAGE_MA    350  /* 350mA */
 #define V9_PRE_CHAGE_MA      50
-void pre_charging()
+void pre_charging(i_charger *ic)
 {
    char pwm= pwm_getduty();
 
-   float pre_chaging_mA = NICD_PRE_CHAGE_MA;
-   float pre_chaging_max_mA = NICD_PRE_CHAGE_MA+100;
+   float PRE_chaging_mA = NICD_PRE_CHAGE_MA;
+   float PRE_chaging_max_mA = NICD_PRE_CHAGE_MA+100;
    
-   battery_voltage = adc_V();
+   ic->battery_voltage = adc_V();
    pwm_safeon();
-   showV() ;
   
 
-   if( battery_voltage > 1.30*cell_pack){
-       minute ++;
-	   if(minute>40){
-       	    i_stage = Fast;
+   if( ic->battery_voltage > 1.30*ic->cell_pack){
+       ic->minute ++;
+	   if(ic->minute>40){
+       	    ic->i_stage = FAST;
 	        pwm_safeoff();
-			minute = 0;
+			ic->minute = 0;
 	   }
    }
 
-   if( battery_voltage > 1.50*cell_pack) {
-       i_stage = Trickle; 
+   if( ic->battery_voltage > 1.50*ic->cell_pack) {
+       ic->i_stage = TRICKLE; 
 	   pwm_safeoff();
 	   return;
     }
 
-   if(cell_pack == 7)
+   if(ic->cell_pack == 7)
    {
-      pre_chaging_mA = 50;
-	  pre_chaging_max_mA  = NICD_PRE_CHAGE_MA+20;	  
+      PRE_chaging_mA = 50;
+	  PRE_chaging_max_mA  = NICD_PRE_CHAGE_MA+20;	  
    }
    
-   if(charging_current < pre_chaging_mA){
+   if(ic->charging_current < PRE_chaging_mA){
        pwm ++ ;
 	   if(pwm > 1)
              pwm = NICD_MAX_CHAGE_PWM;
 	   pwm_setduty(pwm);
    }
-   if(charging_current > pre_chaging_max_mA){
+   if(ic->charging_current > PRE_chaging_max_mA){
        pwm -- ;
 	   if(!pwm)
 	       pwm = 1;
@@ -306,79 +307,79 @@ void pre_charging()
        pwm_setduty(pwm);
    }
 
-   if( battery_voltage == 0  ){  //cell pull out
-	  cell_type = Unknown;
-	  cell_pack = 0;  //start pack
-	  i_stage = Detect_cell;   //restart 
+   if( ic->battery_voltage == 0  ){  //cell pull out
+	  ic->cell_type = Unknown;
+	  ic->cell_pack = 0;  //start pack
+	  ic->i_stage = DETECT_CELL;   //restart 
     }	          
    	   
 }
 
 /*
-   pre charging: single cell< 1.3V
+   PRE charging: single cell< 1.3V
  */
 #define NICD_FAST_CHAGE_MA     700  /* 1A */
 #define V9_FAST_CHAGE_MA       120   
 
-void fast_charging()
+void fast_charging(i_charger *ic)
 {
    
    char pwm= pwm_getduty();
    float chaging_mA = NICD_FAST_CHAGE_MA;
    float chaging_max_mA = NICD_FAST_CHAGE_MA+100;
 
-   battery_voltage = adc_V();
+   ic->battery_voltage = adc_V();
    // vledmod(VLED_A);   
    pwm_safeon();
-   showA();
 
-
-
-   if( battery_voltage < 1.30*cell_pack){
-        i_stage = Pre;
+   if( ic->battery_voltage < 1.30*ic->cell_pack){
+        ic->i_stage = PRE;
 	    pwm_safeoff();
 		return;
    }
    
-   if( battery_voltage > ( (1.42+0.07)*cell_pack) ){ //0.06 for 500mA*0.2R 
-       i_stage = Trickle;
-	    pwm_safeoff();
-	   return;
-   }
 
-   if( battery_voltage > 1.50*cell_pack){
-       i_stage = Trickle; //retest cell type and pack	   
+
+   if( ic->battery_voltage > (1.50+0.08)*ic->cell_pack){
+       ic->i_stage = STOP; //retest cell type and pack	   
 	   pwm_safeoff();
 	   return;
    }
-   if(cell_pack == 7)
+
+   if( ic->battery_voltage > ( (1.42+0.08)*ic->cell_pack) ){ //0.06 for 500mA*0.2R 
+       if(adc_V() > ( (1.42+0.08)*ic->cell_pack))
+       ic->i_stage = TRICKLE;
+	    pwm_safeoff();
+	   return;
+   }
+   if(ic->cell_pack == 7)
    {
       chaging_mA = V9_FAST_CHAGE_MA;
 	  chaging_max_mA  = NICD_PRE_CHAGE_MA+50;	  
    }
    
-   if(charging_current < chaging_mA){
+   if(ic->charging_current < chaging_mA){
        pwm ++ ;
 	   if(pwm > NICD_MAX_CHAGE_PWM)
              pwm = NICD_MAX_CHAGE_PWM;
        
        pwm_setduty(pwm);
    }
-   if(charging_current > chaging_max_mA){
+   if(ic->charging_current > chaging_max_mA){
        pwm -- ;
 	   if(!pwm)
 	       pwm = 1;
 	   pwm_setduty(pwm);
    }
 
-   if( battery_voltage == 0  ){  //cell pull out
-	  cell_type = Unknown;
-	  cell_pack = 0;  //start pack
-	  i_stage = Detect_cell;   //restart 
+   if( ic->battery_voltage == 0  ){  //cell pull out
+	  ic->cell_type = Unknown;
+	  ic->cell_pack = 0;  //start pack
+	  ic->i_stage = DETECT_CELL;   //restart 
     }	          
 }
 
-void trickle_charging()
+void trickle_charging(i_charger *ic)
 {
 
    static unsigned long lasttime = 0;
@@ -387,97 +388,89 @@ void trickle_charging()
    pwm_setduty(1);
    
  
-   battery_voltage = adc_V();
-   showV();
+   ic->battery_voltage = adc_V();
    pwm_safeon();
   
-   if( battery_voltage > 1.5*cell_pack){
-       i_stage = Stop; //retest cell type and pack	   
-	   pwm_safeoff();
-	   return;
+   if( ic->battery_voltage > 1.5*ic->cell_pack){
+       ic->i_stage = STOP; //retest cell type and pack	   
+	   goto out;
    }
 	   
-   if( battery_voltage < 1.30*cell_pack){
-       minute++;
-	   if(minute > 40){	 //3s
-          i_stage = Pre; 
-	      pwm_safeoff();
-		  minute=0;
-		  return;
-	  }
-   }
-   	   
-   
-   if( battery_voltage == 0  ){  //cell pull out
-	  cell_type = Unknown;
-	  cell_pack = 0;  //start pack
-	  i_stage = Detect_cell;   //restart 
+  
+ 
+   if( ic->battery_voltage == 0  ){  //cell pull out
+	  ic->cell_type = Unknown;
+	  ic->cell_pack = 0;  //start pack
+	  ic->i_stage = DETECT_CELL;   //restart 
    }	          
 
-    if( battery_voltage < (1.42-0.02)*cell_pack){
-	   minute++;
-	   if(minute > 30){ //3s
-	      i_stage = Pre;
-  	      pwm_safeoff();
-		  minute=0;
-		  return;
-	  }
-	}
-    
    if(timeafter(jiffers,lasttime+HZ*3)) {
-       minute++;
-       if(minute> 15) { //涓充15s 
-	      i_stage = Stop;
-	   	  minute = 0;
-		  return;
+       ic->minute++;
+       if(ic->minute> 15) { //涓充15s 
+	      ic->i_stage = STOP;
+		  goto out;
 	   }
 	   pwm_safeoff(); 
 	   mdelay(5);
 	   lasttime = jiffers;
+	   if( adc_V() < 1.38*ic->cell_pack){
+          ic->i_stage = FAST; 
+	      goto out;
+       }	   
+   
+      if( adc_V() < 1.40*ic->cell_pack){
+         ic->i_stage = PRE; 
+	     goto out;
+   	   }
+
    }
 
-   return;      
+   return;
+out:
+	pwm_safeoff(); 
+    ic->minute = 0; 
+    return;      
   
 
 }
 
-void stop()
+void stop(i_charger *ic)
 {
 	//vledmod(VLED_STOP);
 	pwm_safeoff();
-	battery_voltage = adc_V();
-	showV() ;
+	ic->battery_voltage = adc_V();
 
-	if( battery_voltage < 1.42*cell_pack){
-	    if(adc_V()<1.41*cell_pack){
-	    	i_stage = Trickle;
-		    showV() ;
-  	        sleep(2);
-		}
-		showX();
+	
+    if( ic->battery_voltage == 0  ){  //cell pull out
+	  ic->cell_type = Unknown;
+	  ic->cell_pack = 0;  //start pack
+	  ic->i_stage = DETECT_CELL;   //restart 
+    }	   
+
+	if( adc_V() > 1.405*ic->cell_pack ){
+	   	return;
+	}
+	if(ic->battery_voltage < 1.395*ic->cell_pack){
+	   	ic->i_stage = PRE;
 		return;
 	}
-    if( battery_voltage == 0  ){  //cell pull out
-	  cell_type = Unknown;
-	  cell_pack = 0;  //start pack
-	  i_stage = Detect_cell;   //restart 
-    }	   
+
+
 }
 
-void err_stop()
+void err_stop(i_charger *ic)
 {
    //vledmod(VLED_ERR); 
    pwm_safeoff(); 
-   showA();
-   if( battery_voltage < 1.42*cell_pack){
-	    i_stage = Trickle;
-  	    sleep(1);
+
+   if( ic->battery_voltage < 1.42*ic->cell_pack){
+	    ic->i_stage = TRICKLE;
 		return;
    }
-   if( battery_voltage == 0  ){  //cell pull out
-	  cell_type = Unknown;
-	  cell_pack = 0;  //start pack
-	  i_stage = Detect_cell;   //restart 
+   if( ic->battery_voltage == 0  ){  //cell pull out
+	  ic->cell_type = Unknown;
+	  ic->cell_pack = 0;  //start pack
+	  ic->i_stage = DETECT_CELL;   //restart 
    }	     
 }
 
