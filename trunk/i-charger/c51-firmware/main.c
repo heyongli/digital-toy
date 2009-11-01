@@ -6,32 +6,30 @@
 #include <charger.h>
 
 
- 
 
-static unsigned short n,x,adc_i=0,adc_v=0;
-static unsigned short onduty=0;
 
-extern float charging_current, battery_voltage;
 extern float  refV ; 
 
 
+i_charger charger = INIT_CHARGER;
 
 
-void icharger_testcontrolkey(char fx)
+char action= 0;
+
+void  update_display()
 {
   
-   static unsigned long start=0;
-  	if(10==fx){ // key a
-	      //vledmod(VLED_A); 
-  	     // print10((short)charging_current);
+    static unsigned long start=0;
+  	if(10==action){ // key a
+	    //vledmod(VLED_A); 
+  	    // print10((short)charging_current);
         start = jiffers;
-			 
+		action = 12	;
  	}
 	
-	if(11==fx){ // key b 
+	if(11==action){ // key b 
  	     //vledmod(VLED_V); 
 	    // print10((short)(battery_voltage*100));
-
 		unsigned long total = (((long)(jiffers) - (long)(start) ));
 
 		float x = ((float)total/(HZ*60.0));
@@ -41,76 +39,72 @@ void icharger_testcontrolkey(char fx)
 
 	} 
 		
-	if(12==fx){ //key c
+	if(12==action){ //key c
 	  //count second
 	   setdot(2);
 	   print10( (jiffers-start)/(HZ/10) );  
 
 	}
-	if(13==fx){ //key d
-			setdot(-1);
-			print10(adc_v);
-	}   
 
-	if(14==fx){ // key e
+
+	if(14==action){ // key E
 	   refV=5.03;
 	}
-
-	if(15==fx){ // key f
-         //charging	   
-		
-	}
+    if(15==action){ //key f
+  	    ic_show(&charger);
+    }
 
 }
 void main()
 {
-   char fx= 0;
+   unsigned short n,x;
+   unsigned short onduty=0;
+   static unsigned long lasttime= 0;
+
    pwm_init(); //pull down pwm
    /*power on test*/
- 
    segvled_init();
 
    timer0_init();
    timer1_init();
 
    //adc_init(); 
-   fx = 11;
    irqon();   //enable global interrupt		
    sleep(0); // just refrence 
+
    while(1){ 
-
-	   if(15==fx){ //key f
-	      charging();   //charger auto control
-	   }
-
-	   	   
         n = keyscan();
+
 		if(n<=15 && n>=10) /*A .. F*/
-		   fx = n;
+		   action = n;
         
-		
- 		if(n!=-1)
-		{
-  		   if(n == 15){	// key F
+ 		if(n == 15){	// key F
 			 pwm_setduty(onduty);
 			 onduty = 0;
-           }else if(n<10) {	
+		}
+ 		if(n!=-1)
+		{
+           if(n<10)
 		      if( 9==n)
 			     x=0;
 			  else
 		         x=(n+1);	
-		   	  onduty = 10*onduty+x;   
-			  print10(onduty);
-		   }
-      
+		    onduty = 10*onduty+x;   
 		}
 
-		icharger_testcontrolkey(fx);
-	  	if(10==fx){ // key a
-	       fx =12;
+		if(13==action){ //key d
+           charger.dump++;
+		   if(charger.dump>=ICS_END)
+		      charger.dump=ICS_DEFAULT;
+		   action = 15;
+	    }   
+        charging(&charger);  //charger auto control
+
+		if(timeafter(jiffers, lasttime+HZ/10)){
+			 update_display();
+			 update_vled(); //vled mode 
+			 lasttime = jiffers;
 		}
-	 
-  	    update_vled(); //vled mode 
      
   }
 }

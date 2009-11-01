@@ -276,7 +276,10 @@ enum VLED_MODE   vled_mode= VLED_V;
 
 void vledmod(enum VLED_MODE mod)
 {
-     vled_mode = mod;  
+     if( (mod == VLED_A) && (vled_mode != VLED_A))
+	     vblock[4] = 0xF;	
+	
+	 vled_mode = mod;  
 }
 /*
  *  更新显示内容, 实现vled mode
@@ -285,7 +288,7 @@ void vledmod(enum VLED_MODE mod)
 void update_vled()
 {                    
  #define VLED_R  vblock[4]
-     static unsigned long lasttime=0,pos=0;
+     static unsigned long pos=0;
 	
 	 if(vled_mode < VLED_STOP)
 	      VLED_R = ~(1<<vled_mode);
@@ -293,21 +296,19 @@ void update_vled()
 	 if(vled_mode == VLED_STOP)
 	       return;	
 		
-	 if(timeafter(jiffers,lasttime+(HZ)/10)){
-	    // 10 times/per second
-	 	 if(vled_mode  == VLED_A){ //A mA
-		    vblock[4] = 0xF;		
-            vblock[4]= rol8(vblock[4], 1);
-		 }
+     // 10 times/per second
+	  if(vled_mode  == VLED_A){ //A mA
+	  	  vblock[4]= rol8(vblock[4], 1);
+	  }
           
-		if(vled_mode == VLED_V){ //V mV
+	  if(vled_mode == VLED_V){ //V mV
 			if(pos&0x4 ){	  // pos&0x100 == 0x100 doesn't work!!!!!!!!
 			     vblock[4] = 0x5A;
 		     }else{
 			     vblock[4] = 0xA5;
 		     }
 		
-		}
+	  }
 
 		if(vled_mode == VLED_HZ){ //Hz
 		 	 if(pos&0x2 ){
@@ -336,11 +337,8 @@ void update_vled()
 			    vblock[4]=0x0;
 		 } 
  	 	 pos++;	
-		 lasttime = jiffers;
+		
 	
-	 }
-	
-	   	
 	
 	 
 }

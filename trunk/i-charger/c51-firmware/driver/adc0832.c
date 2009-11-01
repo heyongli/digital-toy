@@ -99,6 +99,10 @@ float adc_A()
 	float tmp=0.0;
     /*sample the charger current*/
 	adc_i = adc0832(0);
+	mdelay(10);
+	adc_i += adc0832(0);
+	adc_i /=2;
+  	
   	tmp= ((float)adc_i/255)*refV;
 	tmp = tmp/18;
 	return tmp = tmp/0.10;
