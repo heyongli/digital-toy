@@ -1,0 +1,229 @@
+                        .module main.c
+                        .area text(rom, con, rel)
+ 0000                   .dbfile Z:\dev-prj\digital-toy\AVR\attiny13_groundup\main.c
+ 0000                   .dbfunc e Delay _Delay fV
+ 0000           ;              a -> R16
+ 0000           ;              b -> R18
+                        .even
+ 0000           _Delay::
+ 0000                   .dbline -1
+ 0000                   .dbline 5
+ 0000           ; #include <iot13v.h>
+ 0000           ; 
+ 0000           ; void Delay()
+ 0000           ; 
+ 0000           ;       {
+ 0000                   .dbline 9
+ 0000           ; 
+ 0000           ;         unsigned char a, b;
+ 0000           ; 
+ 0000           ;         for (a = 1; a; a++)
+ 0000 01E0              ldi R16,1
+ 0002 06C0              rjmp L5
+ 0004           L2:
+ 0004                   .dbline 11
+ 0004           ; 
+ 0004           ;                for (b = 1; b; b++)
+ 0004 21E0              ldi R18,1
+ 0006 01C0              rjmp L9
+ 0008           L6:
+ 0008                   .dbline 13
+ 0008           L7:
+ 0008                   .dbline 11
+ 0008 2395              inc R18
+ 000A           L9:
+ 000A                   .dbline 11
+ 000A 2223              tst R18
+ 000C E9F7              brne L6
+ 000E           L3:
+ 000E                   .dbline 9
+ 000E 0395              inc R16
+ 0010           L5:
+ 0010                   .dbline 9
+ 0010 0023              tst R16
+ 0012 C1F7              brne L2
+ 0014                   .dbline -2
+ 0014           L1:
+ 0014                   .dbline 0 ; func end
+ 0014 0895              ret
+ 0016                   .dbsym r a 16 c
+ 0016                   .dbsym r b 18 c
+ 0016                   .dbend
+ 0016                   .dbfunc e LED_On _LED_On fV
+ 0016           ;              i -> R20,R21
+                        .even
+ 0016           _LED_On::
+ 0016 00D0              rcall push_gset1
+ 0018 402F              mov R20,R16
+ 001A 512F              mov R21,R17
+ 001C                   .dbline -1
+ 001C                   .dbline 21
+ 001C           ; 
+ 001C           ;                       ;
+ 001C           ; 
+ 001C           ;       }
+ 001C           ; 
+ 001C           ; 
+ 001C           ; 
+ 001C           ; void LED_On(int i)
+ 001C           ; 
+ 001C           ;       {
+ 001C                   .dbline 23
+ 001C           ; 
+ 001C           ;        PORTB=~(1<<i); /* 输出低电平，使LED发光 */
+ 001C 01E0              ldi R16,1
+ 001E 10E0              ldi R17,0
+ 0020 242F              mov R18,R20
+ 0022 352F              mov R19,R21
+ 0024 00D0              rcall lsl16
+ 0026 202E              mov R2,R16
+ 0028 312E              mov R3,R17
+ 002A 2094              com R2
+ 002C 3094              com R3
+ 002E 28BA              out 0x18,R2
+ 0030                   .dbline 25
+ 0030           ; 
+ 0030           ;        Delay();
+ 0030 E7DF              rcall _Delay
+ 0032                   .dbline -2
+ 0032           L10:
+ 0032 00D0              rcall pop_gset1
+ 0034                   .dbline 0 ; func end
+ 0034 0895              ret
+ 0036                   .dbsym r i 20 I
+ 0036                   .dbend
+ 0036                   .dbfunc e main _main fV
+ 0036           ;              i -> R20,R21
+                        .even
+ 0036           _main::
+ 0036                   .dbline -1
+ 0036                   .dbline 33
+ 0036           ; 
+ 0036           ;       }
+ 0036           ; 
+ 0036           ; 
+ 0036           ; 
+ 0036           ; void main()
+ 0036           ; 
+ 0036           ;       {
+ 0036                   .dbline 37
+ 0036           ; 
+ 0036           ;       int i;
+ 0036           ; 
+ 0036           ;       DDRB = 0xFF;    /* 定义B口为输出*/
+ 0036 8FEF              ldi R24,255
+ 0038 87BB              out 0x17,R24
+ 003A                   .dbline 39
+ 003A           ; 
+ 003A           ;       PORTB = 0xFF;   /* 关闭全部LED */
+ 003A 88BB              out 0x18,R24
+ 003C 2EC0              rjmp L13
+ 003E           L12:
+ 003E                   .dbline 45
+ 003E           ; 
+ 003E           ; 
+ 003E           ; 
+ 003E           ;       while (1)
+ 003E           ; 
+ 003E           ;               {
+ 003E                   .dbline 49
+ 003E           ; 
+ 003E           ;               /* 往前步进 */
+ 003E           ; 
+ 003E           ;               for (i = 0; i < 8; i++)
+ 003E 4427              clr R20
+ 0040 5527              clr R21
+ 0042           L15:
+ 0042                   .dbline 51
+ 0042 042F              mov R16,R20
+ 0044 152F              mov R17,R21
+ 0046 E7DF              rcall _LED_On
+ 0048           L16:
+ 0048                   .dbline 49
+ 0048 4F5F              subi R20,255  ; offset = 1
+ 004A 5F4F              sbci R21,255
+ 004C                   .dbline 49
+ 004C 4830              cpi R20,8
+ 004E E0E0              ldi R30,0
+ 0050 5E07              cpc R21,R30
+ 0052 BCF3              brlt L15
+ 0054                   .dbline 55
+ 0054           ; 
+ 0054           ;                       LED_On(i);
+ 0054           ; 
+ 0054           ;               /* 往后步进 */
+ 0054           ; 
+ 0054           ;               for (i = 8; i > 0; i--)
+ 0054 48E0              ldi R20,8
+ 0056 50E0              ldi R21,0
+ 0058           L19:
+ 0058                   .dbline 57
+ 0058 042F              mov R16,R20
+ 005A 152F              mov R17,R21
+ 005C DCDF              rcall _LED_On
+ 005E           L20:
+ 005E                   .dbline 55
+ 005E 4150              subi R20,1
+ 0060 5040              sbci R21,0
+ 0062                   .dbline 55
+ 0062 2224              clr R2
+ 0064 3324              clr R3
+ 0066 2416              cp R2,R20
+ 0068 3506              cpc R3,R21
+ 006A B4F3              brlt L19
+ 006C                   .dbline 61
+ 006C           ; 
+ 006C           ;                       LED_On(i);
+ 006C           ; 
+ 006C           ;               /*  跳 跃  */
+ 006C           ; 
+ 006C           ;               for (i = 0; i < 8; i += 2)
+ 006C 4427              clr R20
+ 006E 5527              clr R21
+ 0070           L23:
+ 0070                   .dbline 63
+ 0070 042F              mov R16,R20
+ 0072 152F              mov R17,R21
+ 0074 D0DF              rcall _LED_On
+ 0076           L24:
+ 0076                   .dbline 61
+ 0076 4E5F              subi R20,254  ; offset = 2
+ 0078 5F4F              sbci R21,255
+ 007A                   .dbline 61
+ 007A 4830              cpi R20,8
+ 007C E0E0              ldi R30,0
+ 007E 5E07              cpc R21,R30
+ 0080 BCF3              brlt L23
+ 0082                   .dbline 65
+ 0082           ; 
+ 0082           ;                       LED_On(i);
+ 0082           ; 
+ 0082           ;               for (i = 7; i > 0; i -= 2)
+ 0082 47E0              ldi R20,7
+ 0084 50E0              ldi R21,0
+ 0086           L27:
+ 0086                   .dbline 67
+ 0086 042F              mov R16,R20
+ 0088 152F              mov R17,R21
+ 008A C5DF              rcall _LED_On
+ 008C           L28:
+ 008C                   .dbline 65
+ 008C 4250              subi R20,2
+ 008E 5040              sbci R21,0
+ 0090                   .dbline 65
+ 0090 2224              clr R2
+ 0092 3324              clr R3
+ 0094 2416              cp R2,R20
+ 0096 3506              cpc R3,R21
+ 0098 B4F3              brlt L27
+ 009A                   .dbline 69
+ 009A           L13:
+ 009A                   .dbline 43
+ 009A D1CF              rjmp L12
+ 009C           X0:
+ 009C                   .dbline -2
+ 009C           L11:
+ 009C                   .dbline 0 ; func end
+ 009C 0895              ret
+ 009E                   .dbsym r i 20 I
+ 009E                   .dbend
