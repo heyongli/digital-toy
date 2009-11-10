@@ -2,11 +2,19 @@
 #include "ATtiny13prog.h"
 //具体的使用说明及内部的定义请见上面的头文件。
 
-#define overtmval 80//×０.２５秒＝２０秒
+#define overtmval 80  //×０.２５秒＝２０秒
+
+
+UCHAR volatile sign = 0;
+UCHAR rxtime = txtimeval;//此处保存的是通讯的时间长度。
+UCHAR step = 0;//在程序运行过程中用来指示当前正在执行的步序，这样程序各模块之间能够相互配合工作
+UCHAR txval,rxval,txstep,rxstep;
+
 
 UCHAR overtm = overtmval;
 UCHAR tmloval;
 UCHAR temp =0;
+
 
 SIGNAL(SIG_INTERRUPT0)
 {
@@ -165,8 +173,8 @@ SIGNAL(SIG_OVERFLOW0)
 	//为了加快检测速度，在此采用强制拉高引脚的方法来退出检测部分。
 //	TCCR1A = tc1aval;
 	TCCR1B = tc1bval;
-	PORTB |= (1 << rxd);
-	DDRB |= (1 << rxd);
+	UART_PORT |= (1 << rxd);
+	UART_DDR |= (1 << rxd);
 }
 
 
@@ -180,10 +188,10 @@ SIGNAL(SIG_OVERFLOW0)
 void init(void)
 {
 	//在此进行引脚配置
-	PORTA 	= 	paval;
-	DDRA	=	daval;//
-	PORTB	=	pbval;//
-	DDRB 	= 	dbval;//
+	HVSPI_PORT 	= 	SPI_PORT_INIT;
+	HVSPI_DDR	=	SPI_DDR_INIT;//
+	UART_PORT	=	UART_PORT_INIT;//
+	UART_DDR 	= 	UART_DDR_INIT;//
 	tmloval =	100;
 //以下开始对定时器进行设置
 	TIFR |= 0B01000100;//因为这条指令虽然能够清除标记，但同时也会在下条指令时引起中断。
@@ -227,8 +235,8 @@ void inprog(void)
 	UCHAR i;
 	if(!(testpro))
 	{
-		DDRA  = pdaval;
-		PORTA = ppaval;//电源上电，复位置低。
+		HVSPI_DDR  = SPI_DDR_INIT_POWER;
+		HVSPI_PORT = SPI_PORT_INIT_POWER;//电源上电，复位置低。
 		NOP;
 		for(i = 0; i<4;i++)
 		{
@@ -239,7 +247,7 @@ void inprog(void)
 		setHV;//打开12V高压！
 		_delay_us(2);
 		sdoin;//sdo变为输入引脚。
-		PORTA |= (1 << sdo);//打开SDO的上拉功能。
+		HVSPI_PORT |= (1 << sdo);//打开SDO的上拉功能。
 		_delay_ms(50);//加长延时等待操作时间为50毫秒。
 		overtm = overtmval;
 		setpro;//已经进入了编程状态。
@@ -252,13 +260,13 @@ void outprog(void)
 	{
 		clrsci;
 		NOP;
-		DDRA &= ~(1 << HVout);
-		PORTA  &= ~(1 << HVout);
+		HVSPI_DDR &= ~(1 << HVout);
+		HVSPI_PORT  &= ~(1 << HVout);
 		_delay_us(1);
 //		clrvcc;
 //		_delay_us(10);
-		PORTA 	= 	paval;
-		DDRA	=	daval;//
+		HVSPI_PORT 	= 	SPI_PORT_INIT;
+		HVSPI_DDR	=	SPI_DDR_INIT;//
 		clrpro;//到此已经退出了编程状态。
 	}
 }
@@ -471,21 +479,21 @@ void option(void)
 			send(sign);
 			break;
 			case 0x84://直接控制端口A的方向
-			send(DDRA);
-			DDRA = sdival;
+			send(HVSPI_DDR);
+			HVSPI_DDR = sdival;
 			break;
 			case 0x85://直接控制端口A的数据
-			send(PORTA);
-			PORTA = sdival;
+			send(HVSPI_PORT);
+			HVSPI_PORT = sdival;
 			break;
 			case 0x86://
-			send(PINA);
+			send(HVSPI_PIN);
 			break;
 			case 0x87://
-			send (PORTA);
+			send (HVSPI_PORT);
 			break;
 			case 0x88://
-			send(DDRA);
+			send(HVSPI_DDR);
 			break;
 			case 0x90:
 			send(readfl());
@@ -554,7 +562,7 @@ void chkrx(void)
 		wdt_reset();
 		if(testerr)
 		{
-			DDRB &= ~(1 << rxd);
+			UART_DDR &= ~(1 << rxd);
 			rxtime = txtimeval;
 		}
 		else

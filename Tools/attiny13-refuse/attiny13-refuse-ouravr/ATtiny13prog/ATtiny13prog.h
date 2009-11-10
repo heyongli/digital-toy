@@ -1,13 +1,12 @@
 
-//自己定义的头文件
-
 #include <avr/io.h>
 #include <avr/wdt.h>
-#include <avr/signal.h>
 #include <avr/interrupt.h>
 #include <avr/delay.h>
 
-# define F_CPU 8000000UL
+/*===============================================*/
+/* 常量*/
+#define F_CPU 8000000UL
 #define	ftime	F_CPU/800
 
 
@@ -20,80 +19,148 @@
 #define sign1s	 6//时间到1秒
 #define isprog	 7//已经进入编程状态
 
+/*===============================================*/
+/*功能端口定义*/
 
-//端口A状态功能定义,端口A用来作串行编程用。
-#define keyin	PA7//在这里可以接一个按键，当不进行通讯的时候，则按下此键自动执行恢复出厂值
+// 串行 编程端口
+#define HVSPI_PORT     PORTA
+#define HVSPI_PIN        PINA 
+#define HVSPI_DDR       DDRA    
+
+#define keyin	          PA7//在这里可以接一个按键，
+					//当不进行通讯的时候，则按下此键自动恢复出厂值
+#define testkey	(HVSPI_PIN & (1 << keyin))
+
+//UART 通讯端口
+#define  UART_PORT  PORTB
+#define  UART_PIN     PINB
+#define  UART_DDR   DDRB
+
+
+/*HVSPI 端口引脚定义*/
 #define VCC		5//连接被编程芯片的VCC
 #define sci		4//连接被编程芯片的PB3
 #define sdo		3//连接被编程芯片的PB2
 #define sii		2//连接被编程芯片的PB1
-#define	sdi		1//连接被编程芯片的PB0
+#define  sdi		1//连接被编程芯片的PB0
 #define	HVout	0//高压控制输出，高电平输出0V，低电平输出12V，输入输出5V。
 
+#define testvcc	HVSPI_PIN & (1 << VCC)
+#define setvcc		HVSPI_PORT |= (1 << VCC)
+#define clrvcc		HVSPI_PORT &= ~(1 << VCC)
 
-#define ppaval	0B11100001//供电，复位为0V，其余引脚置为0
-#define pdaval	0B00111111
+#define testsii		HVSPI_PIN & (1 << sii)
+#define setsii		HVSPI_PORT |= (1 << sii)
+#define clrsii		HVSPI_PORT &= ~(1 << sii)
+
+#define testsci	HVSPI_PIN & (1 << sci)
+#define setsci		HVSPI_PORT |= (1 << sci)
+#define clrsci		HVSPI_PORT &= ~(1 << sci)
+
+
+#define testsdo	HVSPI_PIN & (1 << sdo)
+#define setsdo	HVSPI_PORT |= (1 << sdo)
+#define clrsdo		HVSPI_PORT &= ~(1 << sdo)
+#define sdoin		HVSPI_DDR &= ~(1 << sdo)
+
+#define testsdi	HVSPI_PIN & (1 << sdi)
+#define setsdi		HVSPI_PORT |= (1 << sdi)
+#define clrsdi		HVSPI_PORT &= ~(1 << sdi)
+
+
+
+#define testHV	(~(HVSPI_PORT & (1 << HVout)))
+#define clrHV		(HVSPI_PORT |= (1 << HVout))
+#define setHV		(HVSPI_PORT &= ~(1 << HVout))
+
+
+/*UART 端口功能定义*/
+#define rxd		6//串行接收端子
+#define txd		3//串行发送端子。
+#define sta		4//工作状态指示。
+
+#define teststa	(UART_PIN & (1 << sta))
+#define clrsta		(UART_PORT |= (1 << sta))
+#define setsta		(UART_PORT &= ~(1 << sta))
+#define testrxd	(UART_PIN & (1 << rxd))
+/*===============================================*/
+/*初始化值*/
+#define SPI_PORT_INIT			0B11000001//
+#define SPI_PORT_INIT_POWER   	0B11100001//供电，复位为0V，其余引脚置为0
+#define SPI_DDR_INIT				0B00111111//暂时测试过程中将所有的A口置为输入,0B00001111
+#define SPI_DDR_INIT_POWER		0B00111111
+
+#define UART_PORT_INIT	0B11101111//B口打开上拉
+#define UART_DDR_INIT	0B00011000//初始化的时候先将所有的B口置为输入
+
+
+/*timer resource , time 1*/
+#define TMC_PRESCALER        0B0100    //  8M /8, 8分频
+#define TMC_CTC		          0B10000000
+#define TMC_PRESCALER_RESET            0B01000000
+
+#define tc1aval	0B00110100;//当发生定时1匹配B的时候，输出置位。在此直接进行一次强制匹配。
+#define tc1bval	TMC_CTC|TMC_PRESCALER_RESET|TMC_PRESCALER
+
+
+
 
 #define T0val	0//在此准备让定时器0。
 #define TCCR0val	0B00001011//在此复位预分频器，并且分频为64.这要求上位机发送的值是0X80
 #define txtimeval	100//在出现错误的时候自动将内部的计数定为此值。
 #define mintm		30//定义最小的接收时间周期，也是定义最快的通讯速度。
 
-#define paval	0B11000001//
-#define daval	0B00111111//暂时测试过程中将所有的A口置为输入,0B00001111
-#define pbval	0B11101111//B口打开上拉
-#define dbval	0B00011000//初始化的时候先将所有的B口置为输入
-#define tc1bval	0B11000100;//分频数为8,现在因为要采用8M的频率，所以分频数增加为原来的8倍
-#define tc1aval	0B00110100;//当发生定时1匹配B的时候，输出置位。在此直接进行一次强制匹配。
-
-//端口B的功能定义
-#define rxd		6//串行接收端子
-#define txd		3//串行发送端子。
-#define sta		4//工作状态指示。
-
-#define NOP		asm("nop")
 
 
 
-//以下是操作的宏定义
 
-#define testkey	(PINA & (1 << keyin))
-
-#define testrxd	(PINB & (1 << rxd))
-
-#define sdoin	DDRA &= ~(1 << sdo)
-
+/*===============================================*/
+/*program flag*/
 #define testpro	sign & (1 << isprog)
 #define	setpro	sign |= (1 << isprog)
 #define	clrpro	sign &= ~(1 << isprog)
 
-#define teststa	(PINB & (1 << sta))
-#define clrsta	PORTB |= (1 << sta)
-#define setsta	PORTB &= ~(1 << sta)
 
-#define testsci	PINA & (1 << sci)
-#define setsci	PORTA |= (1 << sci)
-#define clrsci	PORTA &= ~(1 << sci)
 
-#define testsii	PINA & (1 << sii)
-#define setsii	PORTA |= (1 << sii)
-#define clrsii	PORTA &= ~(1 << sii)
 
-#define testsdo	PINA & (1 << sdo)
-#define setsdo	PORTA |= (1 << sdo)
-#define clrsdo	PORTA &= ~(1 << sdo)
 
-#define testsdi	PINA & (1 << sdi)
-#define setsdi	PORTA |= (1 << sdi)
-#define clrsdi	PORTA &= ~(1 << sdi)
+#define testt0ie 	(TIMSK & (1 << TOIE0))
+#define sett0ie	TIMSK |= (1 << TOIE0)
+#define clrt0ie	TIMSK &= ~(1 << TOIE0)
 
-#define testvcc	PINA & (1 << VCC)
-#define setvcc	PORTA |= (1 << VCC)
-#define clrvcc	PORTA &= ~(1 << VCC)
+#define sett1ie	TIMSK |= (1 << TOIE1)
+#define clrt1ie	TIMSK &= ~(1 << TOIE1)
 
-#define testHV	~(PORTA & (1 << HVout))
-#define clrHV	PORTA |= (1 << HVout)
-#define setHV	PORTA &= ~(1 << HVout)
+#define sett1ae	TIMSK |= (1 << OCIE1A)
+#define clrt1ae	TIMSK &= ~(1 << OCIE1A)
+
+#define sett1be	TIMSK |= (1 << OCIE1B)
+#define clrt1be	TIMSK &= ~(1 << OCIE1B)
+
+#define setint0	GIMSK |= (1 << INT0)
+#define clrint0	GIMSK &= ~(1 << INT0)
+#define tstint0	(GIMSK & (1 << INT0))
+#define clrintf		GIFR |= (1 << INTF0)
+
+
+#define setby		MCUCR |= (1 << ISC01)
+
+#define set1bout	TCCR1A |= (1 << COM1B0)
+#define clr1bout	TCCR1A &= ~(1 << COM1B0)
+
+
+#define UCHAR unsigned char
+
+
+/*-------------------------------------------------------------------*/
+
+#define NOP		asm("nop")
+
+extern UCHAR volatile sign;
+extern UCHAR rxtime;//此处保存的是通讯的时间长度。
+extern UCHAR step ;//在程序运行过程中用来指示当前正在执行的步序，这样程序各模块之间能够相互配合工作
+extern UCHAR txval,rxval,txstep,rxstep;
+
 
 #define nowbusy	sign & (1 << busy)
 #define setbusy	sign |= (1 << busy)
@@ -119,41 +186,6 @@
 #define testrx	(sign & (1 << nowrx))
 #define setrx	sign |= (1 << nowrx)
 #define clrrx	sign &= ~(1 << nowrx)
-
-#define testt0ie (TIMSK & (1 << TOIE0))
-#define sett0ie	TIMSK |= (1 << TOIE0)
-#define clrt0ie	TIMSK &= ~(1 << TOIE0)
-
-#define sett1ie	TIMSK |= (1 << TOIE1)
-#define clrt1ie	TIMSK &= ~(1 << TOIE1)
-
-#define sett1ae	TIMSK |= (1 << OCIE1A)
-#define clrt1ae	TIMSK &= ~(1 << OCIE1A)
-
-#define sett1be	TIMSK |= (1 << OCIE1B)
-#define clrt1be	TIMSK &= ~(1 << OCIE1B)
-
-#define setint0	GIMSK |= (1 << INT0)
-#define clrint0	GIMSK &= ~(1 << INT0)
-#define tstint0	(GIMSK & (1 << INT0))
-#define clrintf	GIFR |= (1 << INTF0)
-
-
-#define setby	MCUCR |= (1 << ISC01)
-
-#define set1bout	TCCR1A |= (1 << COM1B0)
-#define clr1bout	TCCR1A &= ~(1 << COM1B0)
-
-
-#define UCHAR unsigned char
-
-//在进行调整的时候所用单元
-
-UCHAR volatile sign = 0;
-UCHAR rxtime = txtimeval;//此处保存的是通讯的时间长度。
-UCHAR step = 0;//在程序运行过程中用来指示当前正在执行的步序，这样程序各模块之间能够相互配合工作
-UCHAR txval,rxval,txstep,rxstep;
-
 
 void outprog(void);
 //在通讯过程中，上位机设置好参数后发送0X80,如果检测成功下位机会发送一个检测出的参数，否则没有任何数据返回，上位机就要重复发送0X80；
