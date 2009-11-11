@@ -6,7 +6,7 @@
 
 
 UCHAR volatile sign = 0;
-UCHAR rxtime = txtimeval;//此处保存的是通讯的时间长度。
+UCHAR rxtime = TIMER1_TOP;//此处保存的是通讯的时间长度。
 UCHAR step = 0;//在程序运行过程中用来指示当前正在执行的步序，这样程序各模块之间能够相互配合工作
 UCHAR txval,rxval,txstep,rxstep;
 
@@ -16,7 +16,7 @@ UCHAR tmloval;
 UCHAR temp =0;
 
 
-SIGNAL(SIG_INTERRUPT0)
+SIGNAL(SIG_INTERRUPT0)  //toggle INT0 pin  to start UART Recive 
 {
 	UCHAR bak,bak2;
 	bak = TCNT1;
@@ -94,7 +94,7 @@ INTERRUPT(SIG_OUTPUT_COMPARE1B)//这个中断主要用来进行输出
 		switch(txstep)
 		{
 			case 1:
-			clr1bout;//发送启动位
+			OC1B_MODE_CLR;//发送启动位
 			txmask = 1;
 			break;
 			case 2:
@@ -107,16 +107,16 @@ INTERRUPT(SIG_OUTPUT_COMPARE1B)//这个中断主要用来进行输出
 			case 9:
 			if(txval & txmask)
 			{
-				set1bout;
+				OC1B_MODE_SET;
 			}
 			else
 			{
-				clr1bout;
+				OC1B_MODE_CLR;
 			}
 			txmask <<= 1;
 			break;
 			case 10:
-			set1bout;//发送停止位
+			OC1B_MODE_SET;//发送停止位
 			break;
 			default:
 			clrtx;
@@ -171,8 +171,8 @@ SIGNAL(SIG_OVERFLOW0)
 	TCCR0 = 0;//时钟1关闭。
 	clrt0ie;//关闭时钟0溢出中断
 	//为了加快检测速度，在此采用强制拉高引脚的方法来退出检测部分。
-//	TCCR1A = tc1aval;
-	TCCR1B = tc1bval;
+//	TCCR1A = TCCR1A_MODE;
+	TCCR1B = TCCR1B_MODE;
 	UART_PORT |= (1 << rxd);
 	UART_DDR |= (1 << rxd);
 }
@@ -197,9 +197,9 @@ void init(void)
 	TIFR |= 0B01000100;//因为这条指令虽然能够清除标记，但同时也会在下条指令时引起中断。
 	OCR1A = 0;
 	OCR1B = 0;//rxtime /2 - 5;//因为程序采用了8M的频率，所以正常运行的时候加上了八分频。
-	OCR1C = txtimeval;
-	TCCR1A = tc1aval;
-	TCCR1B = tc1bval;
+	OCR1C = TIMER1_TOP;  
+	TCCR1A = TCCR1A_MODE;
+	TCCR1B = TCCR1B_MODE;
 	TCNT1 = 0;
 	clrt0ie;
 	sett1ae;
@@ -543,9 +543,9 @@ void chkrx(void)
 	//在引自以下部分开始对外部的串行输入信号进行检测。
 	//在自动检测完成后程序会将检测出的参数发送给上位机，如果未能正常检测，则不会发送数据。
 	int val = ftime;//2500;
-	TCCR0 = 0;
-	TIFR |= (1 << TOV0);
-	TCNT0 = T0val;
+	TCCR0 = 0;     /* Timer0 stop */
+	TIFR |= (1 << TOV0);  /*CLEAR timer0 overflow  flag*/
+	TCNT0 = T0val; 
 	clrint0;
 	clrerr;
 	sett0ie;//打开时钟0溢出中断
@@ -558,12 +558,12 @@ void chkrx(void)
 		wdt_reset();
 		while(!(testrxd));
 		TCCR0 = 0;//时钟0关闭
-		TCCR1B = tc1bval;
+		TCCR1B = TCCR1B_MODE;
 		wdt_reset();
 		if(testerr)
 		{
 			UART_DDR &= ~(1 << rxd);
-			rxtime = txtimeval;
+			rxtime = TIMER1_TOP;
 		}
 		else
 		{
@@ -582,7 +582,7 @@ void chkrx(void)
 			else
 			{
 				seterr;
-				rxtime = txtimeval;
+				rxtime = TIMER1_TOP;
 			}
 		}
 		OCR1C = rxtime;
@@ -602,7 +602,7 @@ void chkrx(void)
 //			send(0xff);//通讯错误的时候发送的数据。
 			while(testtx);//等待发送完成后参数恢复。
 			seterr;
-			rxtime = txtimeval;
+			rxtime = TIMER1_TOP;
 			OCR1C = rxtime;
 			TCNT1 = 0;
 		}

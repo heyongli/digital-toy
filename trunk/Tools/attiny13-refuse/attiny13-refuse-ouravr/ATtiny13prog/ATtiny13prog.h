@@ -10,26 +10,21 @@
 #define	ftime	F_CPU/800
 
 
-#define sign01s 0//10毫秒时间到
-#define busy	 1//程序忙
-#define error	 2//如果通讯过程中发生错误置位
-#define nowtx	 3//正在进行串行输出
-#define nowrx	 4//正在进行串行输入
-#define rxok	 5//串行接收完成
-#define sign1s	 6//时间到1秒
-#define isprog	 7//已经进入编程状态
-
 /*===============================================*/
 /*功能端口定义*/
+
+#define keyin	          PA7//在这里可以接一个按键，
+					//当不进行通讯的时候，则按下此键自动恢复出厂值
+#define testkey	(HVSPI_PIN & (1 << keyin))
+
+#define EINT_PIN   PB6   //toggle INT0 pin  to start UART Recive 
 
 // 串行 编程端口
 #define HVSPI_PORT     PORTA
 #define HVSPI_PIN        PINA 
 #define HVSPI_DDR       DDRA    
 
-#define keyin	          PA7//在这里可以接一个按键，
-					//当不进行通讯的时候，则按下此键自动恢复出厂值
-#define testkey	(HVSPI_PIN & (1 << keyin))
+
 
 //UART 通讯端口
 #define  UART_PORT  PORTB
@@ -94,33 +89,45 @@
 #define UART_DDR_INIT	0B00011000//初始化的时候先将所有的B口置为输入
 
 
+/*===============================================*/
 /*timer resource , time 1*/
-#define TMC_PRESCALER        0B0100    //  8M /8, 8分频
-#define TMC_CTC		          0B10000000
-#define TMC_PRESCALER_RESET            0B01000000
 
-#define tc1aval	0B00110100;//当发生定时1匹配B的时候，输出置位。在此直接进行一次强制匹配。
-#define tc1bval	TMC_CTC|TMC_PRESCALER_RESET|TMC_PRESCALER
+//OC1A/OC1B/FOC1A/FOC1B/PWM1A/PWM1B
+#define OC_DISABLE_PIN   0b00
+#define OC_SET_PIN            0b11
+
+#define TCCR1A_MODE   (OC_DISABLE_PIN<<COM1A0)| \
+					  (OC_SET_PIN<<COM1B0) | \
+					  (0<<FOC1A) |(1<<FOC1B) |  \
+					  (0<<PWM1A) |(0<<PWM1A)
+
+#define OC1B_MODE_SET	TCCR1A |= (1 << COM1B0)
+#define OC1B_MODE_CLR	TCCR1A &= ~(1 << COM1B0)
+					
+					
+//当发生定时1匹配B的时候，输出置位。在此直接进行一次强制匹配。
+
+#define TM_PRESCALER        0B0100    //  8M /8, 8分频
+#define TCCR1B_MODE 	(1<<CTC1)|(1<<PSR1)||TM_PRESCALER
+#define TM1_CYCLE  ( F_CPU/8)   /*1us*/
+
+#define TIMER1_TOP	100  //在出现错误的时候自动将内部的计数定为此值。
 
 
-
-
-#define T0val	0//在此准备让定时器0。
-#define TCCR0val	0B00001011//在此复位预分频器，并且分频为64.这要求上位机发送的值是0X80
-#define txtimeval	100//在出现错误的时候自动将内部的计数定为此值。
+/*===============================================*/
+/*timer 0:  只能用作定时器, 产生overflow中断*/
+#define TCCR0val	(1<<PSR0)| (11<<CS00)
+              //复位预分频器，并且分频为64.  对应上位机发送的值是0X80
+#define TM0_CYCLE   (F_CPU/64 )   /*hz=8M/64,  8 us */
+              
 #define mintm		30//定义最小的接收时间周期，也是定义最快的通讯速度。
+#define T0val	0     
 
 
 
 
 
 /*===============================================*/
-/*program flag*/
-#define testpro	sign & (1 << isprog)
-#define	setpro	sign |= (1 << isprog)
-#define	clrpro	sign &= ~(1 << isprog)
-
-
 
 
 
@@ -143,10 +150,9 @@
 #define clrintf		GIFR |= (1 << INTF0)
 
 
-#define setby		MCUCR |= (1 << ISC01)
+#define setby		MCUCR |= (1 << ISC01)  /*INT0 pin any change genarate a interupt*/
 
-#define set1bout	TCCR1A |= (1 << COM1B0)
-#define clr1bout	TCCR1A &= ~(1 << COM1B0)
+
 
 
 #define UCHAR unsigned char
@@ -160,6 +166,22 @@ extern UCHAR volatile sign;
 extern UCHAR rxtime;//此处保存的是通讯的时间长度。
 extern UCHAR step ;//在程序运行过程中用来指示当前正在执行的步序，这样程序各模块之间能够相互配合工作
 extern UCHAR txval,rxval,txstep,rxstep;
+
+
+
+#define sign01s 0//10毫秒时间到
+#define busy	 1//程序忙
+#define error	 2//如果通讯过程中发生错误置位
+#define nowtx	 3//正在进行串行输出
+#define nowrx	 4//正在进行串行输入
+#define rxok	 5//串行接收完成
+#define sign1s	 6//时间到1秒
+#define isprog	 7//已经进入编程状态
+
+/*program flag*/
+#define testpro	sign & (1 << isprog)
+#define	setpro	sign |= (1 << isprog)
+#define	clrpro	sign &= ~(1 << isprog)
 
 
 #define nowbusy	sign & (1 << busy)
