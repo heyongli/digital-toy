@@ -6,7 +6,7 @@
 
 
 UCHAR volatile sign = 0;
-UCHAR rxtime = TIMER1_TOP;//此处保存的是通讯的时间长度。
+UCHAR rxtime = asUART_TOP_DEFAULT;//此处保存的是通讯的时间长度。
 UCHAR step = 0;//在程序运行过程中用来指示当前正在执行的步序，这样程序各模块之间能够相互配合工作
 UCHAR txval,rxval,txstep,rxstep;
 
@@ -16,25 +16,46 @@ UCHAR tmloval;
 UCHAR temp =0;
 
 
-SIGNAL(SIG_INTERRUPT0)  //toggle INT0 pin  to start UART Recive 
+ /*
+   *  Rxd 引脚同时时能  INT0  变化触发辅助功能
+   *
+   *       +------+\\\\\\\\\\\ +-------+
+   *       |             |              |              |
+   * ---+            +-------+              +--------
+   *  change |              |
+   *           read bit     readbit
+   */
+SIGNAL(SIG_INTERRUPT0)  
 {
-	UCHAR bak,bak2;
+      //RXd 变化,出发INT0 中断
+	UCHAR bak,half;
 	bak = TCNT1;
-	bak2 = OCR1C /2;
+	half = asUART_TIMER_TOP /2;
 	setrx;
-	clrint0;
-	if(bak >= bak2)
+	clrint0; //设置好检测点就可以关闭中断了
+
+	
+     //Rxd 输入这个bit的读取时间最好在
+     //UART 周期的一半,所以下面计算OCR1A
+     //经过1/2周期后出发SIG_OUTPUT_COMPARE1A
+	if(bak >= half)
 	{
-		OCR1A = bak - bak2;
+		OCR1A = bak - half;
 	}
 	else
 	{
-		OCR1A = bak + bak2;
+		OCR1A = bak + half;
 	}
 	rxstep = 0;
 }
 
-SIGNAL(SIG_OUTPUT_COMPARE1A)//这个中断主要用于进行输入检测
+
+/*  时钟定时 中断
+  *  用于在规定时间间隔
+  *  读取rxd pin 的值,并组成字节
+  *
+  */
+SIGNAL(SIG_OUTPUT_COMPARE1A)
 {
 	static UCHAR  rxmsk = 1;
 	static UCHAR temp = 0;//增加一级缓冲用的移位单元。
@@ -83,6 +104,11 @@ SIGNAL(SIG_OUTPUT_COMPARE1A)//这个中断主要用于进行输入检测
 	}
 }
 
+/*
+  *  时钟定时中断, 
+  *  以恒定的速度发送bit到txd, 
+  *  使用OC1B 引脚
+  */
 INTERRUPT(SIG_OUTPUT_COMPARE1B)//这个中断主要用来进行输出
 {
 	static unsigned int timehi = 25;
@@ -165,6 +191,11 @@ INTERRUPT(SIG_OUTPUT_COMPARE1B)//这个中断主要用来进行输出
 	}
 }
 
+
+/*
+  *  chkrx  使用这个 2ms 的定时器来
+  *  结束UART 输入信号的检测
+  */
 SIGNAL(SIG_OVERFLOW0)
 {
 	seterr;
@@ -197,7 +228,7 @@ void init(void)
 	TIFR |= 0B01000100;//因为这条指令虽然能够清除标记，但同时也会在下条指令时引起中断。
 	OCR1A = 0;
 	OCR1B = 0;//rxtime /2 - 5;//因为程序采用了8M的频率，所以正常运行的时候加上了八分频。
-	OCR1C = TIMER1_TOP;  
+	asUART_TIMER_TOP = asUART_TOP_DEFAULT;  
 	TCCR1A = TCCR1A_MODE;
 	TCCR1B = TCCR1B_MODE;
 	TCNT1 = 0;
@@ -541,7 +572,8 @@ void chkrx(void)
 //	setbusy;
 //	step = 1;
 	//在引自以下部分开始对外部的串行输入信号进行检测。
-	//在自动检测完成后程序会将检测出的参数发送给上位机，如果未能正常检测，则不会发送数据。
+	//在自动检测完成后程序会将检测出的参数发送给上位机，
+	/* 如果未能正常检测，则不会发送数据*/
 	int val = ftime;//2500;
 	TCCR0 = 0;     /* Timer0 stop */
 	TIFR |= (1 << TOV0);  /*CLEAR timer0 overflow  flag*/
@@ -563,7 +595,7 @@ void chkrx(void)
 		if(testerr)
 		{
 			UART_DDR &= ~(1 << rxd);
-			rxtime = TIMER1_TOP;
+			rxtime = asUART_TOP_DEFAULT;
 		}
 		else
 		{
@@ -582,10 +614,10 @@ void chkrx(void)
 			else
 			{
 				seterr;
-				rxtime = TIMER1_TOP;
+				rxtime = asUART_TOP_DEFAULT;
 			}
 		}
-		OCR1C = rxtime;
+		asUART_TIMER_TOP = rxtime;
 	}
 	else
 	{
@@ -602,8 +634,8 @@ void chkrx(void)
 //			send(0xff);//通讯错误的时候发送的数据。
 			while(testtx);//等待发送完成后参数恢复。
 			seterr;
-			rxtime = TIMER1_TOP;
-			OCR1C = rxtime;
+			rxtime = asUART_TOP_DEFAULT;
+			asUART_TIMER_TOP = rxtime;
 			TCNT1 = 0;
 		}
 	}
@@ -629,11 +661,11 @@ int main(void)
 					_delay_ms(800);
 				}
 			}
-			chkrx();
+			chkrx(); //内部clrerr, 如果没有检测到,则设置上err
 		}
 		while(!(testerr))
 		{
-			option();
+			 option(); //接受来自上位机的命令并处理
 		}
 	}
 //	return(0);
