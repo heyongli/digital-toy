@@ -4,7 +4,7 @@
 
 ## General Flags
 PROJECT = ATtiny13prog
-MCU = attiny26
+MCU = attiny2313
 TARGET = ATtiny13prog.elf
 CC = avr-gcc
 
@@ -15,7 +15,7 @@ COMMON = -mmcu=$(MCU)
 
 ## Compile options common for all C compilation units.
 CFLAGS = $(COMMON)
-CFLAGS += -Wall -gdwarf-2                           -DF_CPU=8000000  -Os -fsigned-char
+CFLAGS += -Wall -gdwarf-2                              -DF_CPU=80000UL -Os -fsigned-char
 CFLAGS += -MD -MP -MT $(*F).o -MF dep/$(@F).d 
 
 ## Assembly specific flags
