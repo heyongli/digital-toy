@@ -1,71 +1,88 @@
-#include <iot13v.h>
+#include <avr/io.h>
+#include <util/delay.h>
 
-void Delay()
 
-	{
-
- 	  unsigned char a, b;
-
-	  for (a = 1; a; a++)
-
-		 for (b = 1; b; b++)
-
-			;
-
-	}
+#include "pwm.h"
 
 
 
-void LED_On(int i)
+#define _key_init(x,n) DDR##x &= ~(1<< DD##x##n);    \
+					   PORT##x |= (1<< P##x##n)/*pull-up-enable*/  
 
-	{
+#define _test_key(x,n) 								\
+		if( ! (PIN##x&(1<<P##x##n) )){					\
+	    	_delay_ms(3); 							\
+	    	if(! (PIN##x&(1<<P##x##n) ))	\
+				return 1;							\
+        }											\
+       return 0									\
 
- 	 PORTB=~(1<<i);	/* 输出低电平，使LED发光 */
+char keydown()
+{
+   _test_key(B,3);
+}
 
-	 Delay();
+#define LED_On(i)  PORTB &=~(1<<(i));	/* 输出低电平，使LED发光 */
+#define LED_Off(i)  PORTB |=(1<<(i));	/* 输出低电平，使LED发光 */
 
-	}
-
-
-
-void main()
-
-	{
-
-	int i;
-
-	DDRB = 0xFF;	/* 定义B口为输出*/
-
-	PORTB = 0xFF;	/* 关闭全部LED */
-
+char mod=1;
 
 
-	while (1)
+void led_test()
+{
+	/* 往前步进 */
+    char i;
+		for (i = 0; i < 3; i++){
 
-		{
+			PORTB = 0;
+			_delay_ms(200);
+ 		    LED_Off(0);
+			LED_Off(1);
+ 		    LED_Off(2);
 
-		/* 往前步进 */
-
-		for (i = 0; i < 8; i++)
-
-			LED_On(i);
-
-		/* 往后步进 */
-
-		for (i = 8; i > 0; i--)
-
-			LED_On(i);
-
-		/*  跳 跃  */
-
-		for (i = 0; i < 8; i += 2)
-
-			LED_On(i);
-
-		for (i = 7; i > 0; i -= 2)
-
-			LED_On(i);
-
+			_delay_ms(200);
 		}
 
+	
+
+}	
+
+void sharp_flash()
+{
+    char x;
+
+    for(x=0;x<7;x++){
+       LED_On(mod&1?0:7);
+	   LED_On(mod&2?1:7);
+	   LED_On(mod&4?2:7);
+
+       _delay_ms(10);
+	   LED_Off(0);
+	   LED_Off(1);
+ 	   LED_Off(2);
+	   	_delay_ms(10);
 	}
+    if( keydown()){
+          mod++;
+		  if(mod>=7) 
+	  		mod=1;  
+		   
+	}
+}
+int main()
+{
+
+	DDRB = 0xFF;	/* 定义B口为输出*/
+	PORTB = 0xFF;	/* 关闭全部LED */
+
+  
+    led_test();
+    _key_init(B,3);	
+
+	while (1){
+	   
+
+        sharp_flash();
+          
+	}
+}
