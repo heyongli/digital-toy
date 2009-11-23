@@ -93,6 +93,7 @@ float adc_V()
 }
 
 
+
 float adc_A()
 {
    	unsigned char adc_i;
@@ -104,7 +105,7 @@ float adc_A()
 	adc_i /=2;
   	
   	tmp= ((float)adc_i/255)*refV;
-	tmp = tmp/18;
+	tmp = tmp/20;
 	return tmp = tmp/0.10;
 	
 }
