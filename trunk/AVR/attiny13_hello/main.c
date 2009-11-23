@@ -1,8 +1,6 @@
 #include <avr/io.h>
 #include <avr/delay.h>
 
-
-
 void LED_On(int i)
 {
   	 PORTB &=~(1<<i);	/* 输出低电平，使LED发光 */
