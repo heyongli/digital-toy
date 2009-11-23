@@ -1,0 +1,268 @@
+
+attinny13.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000110  00000000  00000000  00000094  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000002  00800060  00000110  000001a4  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000000  00800062  00000112  000001a6  2**0
+                  ALLOC
+  3 .noinit       00000000  00800062  00800062  000001a6  2**0
+                  CONTENTS
+  4 .eeprom       00000000  00810000  00810000  000001a6  2**0
+                  CONTENTS
+  5 .stab         00000354  00000000  00000000  000001a8  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  6 .stabstr      00000084  00000000  00000000  000004fc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_aranges 00000014  00000000  00000000  00000580  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_pubnames 00000043  00000000  00000000  00000594  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_info   0000024a  00000000  00000000  000005d7  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_abbrev 0000010f  00000000  00000000  00000821  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_line   00000145  00000000  00000000  00000930  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_str    000000e2  00000000  00000000  00000a75  2**0
+                  CONTENTS, READONLY, DEBUGGING
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	09 c0       	rjmp	.+18     	; 0x14 <__ctors_end>
+   2:	21 c0       	rjmp	.+66     	; 0x46 <__bad_interrupt>
+   4:	20 c0       	rjmp	.+64     	; 0x46 <__bad_interrupt>
+   6:	1f c0       	rjmp	.+62     	; 0x46 <__bad_interrupt>
+   8:	1e c0       	rjmp	.+60     	; 0x46 <__bad_interrupt>
+   a:	1d c0       	rjmp	.+58     	; 0x46 <__bad_interrupt>
+   c:	1c c0       	rjmp	.+56     	; 0x46 <__bad_interrupt>
+   e:	1b c0       	rjmp	.+54     	; 0x46 <__bad_interrupt>
+  10:	1a c0       	rjmp	.+52     	; 0x46 <__bad_interrupt>
+  12:	19 c0       	rjmp	.+50     	; 0x46 <__bad_interrupt>
+
+00000014 <__ctors_end>:
+  14:	11 24       	eor	r1, r1
+  16:	1f be       	out	0x3f, r1	; 63
+  18:	cf e9       	ldi	r28, 0x9F	; 159
+  1a:	cd bf       	out	0x3d, r28	; 61
+
+0000001c <__do_copy_data>:
+  1c:	10 e0       	ldi	r17, 0x00	; 0
+  1e:	a0 e6       	ldi	r26, 0x60	; 96
+  20:	b0 e0       	ldi	r27, 0x00	; 0
+  22:	e0 e1       	ldi	r30, 0x10	; 16
+  24:	f1 e0       	ldi	r31, 0x01	; 1
+  26:	03 c0       	rjmp	.+6      	; 0x2e <.do_copy_data_start>
+
+00000028 <.do_copy_data_loop>:
+  28:	c8 95       	lpm
+  2a:	31 96       	adiw	r30, 0x01	; 1
+  2c:	0d 92       	st	X+, r0
+
+0000002e <.do_copy_data_start>:
+  2e:	a2 36       	cpi	r26, 0x62	; 98
+  30:	b1 07       	cpc	r27, r17
+  32:	d1 f7       	brne	.-12     	; 0x28 <.do_copy_data_loop>
+
+00000034 <__do_clear_bss>:
+  34:	10 e0       	ldi	r17, 0x00	; 0
+  36:	a2 e6       	ldi	r26, 0x62	; 98
+  38:	b0 e0       	ldi	r27, 0x00	; 0
+  3a:	01 c0       	rjmp	.+2      	; 0x3e <.do_clear_bss_start>
+
+0000003c <.do_clear_bss_loop>:
+  3c:	1d 92       	st	X+, r1
+
+0000003e <.do_clear_bss_start>:
+  3e:	a2 36       	cpi	r26, 0x62	; 98
+  40:	b1 07       	cpc	r27, r17
+  42:	e1 f7       	brne	.-8      	; 0x3c <.do_clear_bss_loop>
+  44:	5b c0       	rjmp	.+182    	; 0xfc <main>
+
+00000046 <__bad_interrupt>:
+  46:	dc cf       	rjmp	.-72     	; 0x0 <__vectors>
+
+00000048 <LED_On>:
+
+
+void LED_On(int i)
+{
+  	 PORTB &=~(1<<i);	/* 输出低电平，使LED发光 */
+  48:	21 e0       	ldi	r18, 0x01	; 1
+  4a:	30 e0       	ldi	r19, 0x00	; 0
+  4c:	02 c0       	rjmp	.+4      	; 0x52 <LED_On+0xa>
+  4e:	22 0f       	add	r18, r18
+  50:	33 1f       	adc	r19, r19
+  52:	8a 95       	dec	r24
+  54:	e2 f7       	brpl	.-8      	; 0x4e <LED_On+0x6>
+  56:	92 2f       	mov	r25, r18
+  58:	90 95       	com	r25
+  5a:	88 b3       	in	r24, 0x18	; 24
+  5c:	89 23       	and	r24, r25
+  5e:	88 bb       	out	0x18, r24	; 24
+  60:	08 95       	ret
+
+00000062 <sharp_flash>:
+}
+
+void sharp_flash()
+{
+  62:	cf 93       	push	r28
+    char x;
+    PORTB = 0xff;  
+  64:	8f ef       	ldi	r24, 0xFF	; 255
+  66:	88 bb       	out	0x18, r24	; 24
+  68:	c6 e0       	ldi	r28, 0x06	; 6
+
+	static char i=1;
+
+    for(x=0;x<7;x++){
+       LED_On(i&1?0:7);
+  6a:	80 91 60 00 	lds	r24, 0x0060
+  6e:	80 ff       	sbrs	r24, 0
+  70:	03 c0       	rjmp	.+6      	; 0x78 <sharp_flash+0x16>
+  72:	80 e0       	ldi	r24, 0x00	; 0
+  74:	90 e0       	ldi	r25, 0x00	; 0
+  76:	02 c0       	rjmp	.+4      	; 0x7c <sharp_flash+0x1a>
+  78:	87 e0       	ldi	r24, 0x07	; 7
+  7a:	90 e0       	ldi	r25, 0x00	; 0
+  7c:	e5 df       	rcall	.-54     	; 0x48 <LED_On>
+	   LED_On(i&2?1:7);
+  7e:	80 91 60 00 	lds	r24, 0x0060
+  82:	81 ff       	sbrs	r24, 1
+  84:	03 c0       	rjmp	.+6      	; 0x8c <sharp_flash+0x2a>
+  86:	81 e0       	ldi	r24, 0x01	; 1
+  88:	90 e0       	ldi	r25, 0x00	; 0
+  8a:	02 c0       	rjmp	.+4      	; 0x90 <sharp_flash+0x2e>
+  8c:	87 e0       	ldi	r24, 0x07	; 7
+  8e:	90 e0       	ldi	r25, 0x00	; 0
+  90:	db df       	rcall	.-74     	; 0x48 <LED_On>
+	   LED_On(i&4?2:7);
+  92:	80 91 60 00 	lds	r24, 0x0060
+  96:	82 ff       	sbrs	r24, 2
+  98:	03 c0       	rjmp	.+6      	; 0xa0 <__stack+0x1>
+  9a:	82 e0       	ldi	r24, 0x02	; 2
+  9c:	90 e0       	ldi	r25, 0x00	; 0
+  9e:	02 c0       	rjmp	.+4      	; 0xa4 <__stack+0x5>
+  a0:	87 e0       	ldi	r24, 0x07	; 7
+  a2:	90 e0       	ldi	r25, 0x00	; 0
+  a4:	d1 df       	rcall	.-94     	; 0x48 <LED_On>
+		__ticks = 1;
+	else if (__tmp > 65535)
+		__ticks = 0;	/* i.e. 65536 */
+	else
+		__ticks = (uint16_t)__tmp;
+  a6:	80 e1       	ldi	r24, 0x10	; 16
+  a8:	97 e2       	ldi	r25, 0x27	; 39
+  aa:	f9 2f       	mov	r31, r25
+  ac:	e8 2f       	mov	r30, r24
+  ae:	31 97       	sbiw	r30, 0x01	; 1
+  b0:	f1 f7       	brne	.-4      	; 0xae <__stack+0xf>
+
+       _delay_ms(10);
+	   PORTB = 0xff;
+  b2:	2f ef       	ldi	r18, 0xFF	; 255
+  b4:	28 bb       	out	0x18, r18	; 24
+ */
+void
+_delay_loop_2(uint16_t __count)
+{
+	__asm__ volatile (
+  b6:	01 97       	sbiw	r24, 0x01	; 1
+  b8:	f1 f7       	brne	.-4      	; 0xb6 <__stack+0x17>
+  ba:	c2 0f       	add	r28, r18
+  bc:	c7 ff       	sbrs	r28, 7
+  be:	d5 cf       	rjmp	.-86     	; 0x6a <sharp_flash+0x8>
+	   	_delay_ms(10);
+	}
+
+    i++;
+  c0:	80 91 60 00 	lds	r24, 0x0060
+  c4:	8f 5f       	subi	r24, 0xFF	; 255
+  c6:	80 93 60 00 	sts	0x0060, r24
+	if(i>=7) 
+  ca:	87 30       	cpi	r24, 0x07	; 7
+  cc:	18 f0       	brcs	.+6      	; 0xd4 <__stack+0x35>
+	  i=1;  
+  ce:	81 e0       	ldi	r24, 0x01	; 1
+  d0:	80 93 60 00 	sts	0x0060, r24
+  d4:	cf 91       	pop	r28
+  d6:	08 95       	ret
+
+000000d8 <led_test>:
+    
+}
+
+void led_test()
+{
+  d8:	e0 e0       	ldi	r30, 0x00	; 0
+  da:	f0 e0       	ldi	r31, 0x00	; 0
+  dc:	3f ef       	ldi	r19, 0xFF	; 255
+  de:	22 e0       	ldi	r18, 0x02	; 2
+	/* 往前步进 */
+    char i;
+		for (i = 0; i < 3; i++){
+
+			PORTB = 0;
+  e0:	18 ba       	out	0x18, r1	; 24
+ */
+void
+_delay_loop_2(uint16_t __count)
+{
+	__asm__ volatile (
+  e2:	8e 2f       	mov	r24, r30
+  e4:	9f 2f       	mov	r25, r31
+  e6:	01 97       	sbiw	r24, 0x01	; 1
+  e8:	f1 f7       	brne	.-4      	; 0xe6 <led_test+0xe>
+			_delay_ms(200);
+			PORTB = 0xff;
+  ea:	38 bb       	out	0x18, r19	; 24
+ */
+void
+_delay_loop_2(uint16_t __count)
+{
+	__asm__ volatile (
+  ec:	8e 2f       	mov	r24, r30
+  ee:	9f 2f       	mov	r25, r31
+  f0:	01 97       	sbiw	r24, 0x01	; 1
+  f2:	f1 f7       	brne	.-4      	; 0xf0 <led_test+0x18>
+  f4:	21 50       	subi	r18, 0x01	; 1
+  f6:	27 ff       	sbrs	r18, 7
+  f8:	f3 cf       	rjmp	.-26     	; 0xe0 <led_test+0x8>
+  fa:	08 95       	ret
+
+000000fc <main>:
+			_delay_ms(200);
+		}
+
+	
+
+}	
+
+int main()
+{
+  fc:	cf e9       	ldi	r28, 0x9F	; 159
+  fe:	d0 e0       	ldi	r29, 0x00	; 0
+ 100:	de bf       	out	0x3e, r29	; 62
+ 102:	cd bf       	out	0x3d, r28	; 61
+
+	int i;
+
+	DDRB = 0xFF;	/* 定义B口为输出*/
+ 104:	8f ef       	ldi	r24, 0xFF	; 255
+ 106:	87 bb       	out	0x17, r24	; 23
+
+	PORTB = 0xFF;	/* 关闭全部LED */
+ 108:	88 bb       	out	0x18, r24	; 24
+
+    led_test();
+ 10a:	e6 df       	rcall	.-52     	; 0xd8 <led_test>
+	
+
+	while (1){
+          sharp_flash();			
+ 10c:	aa df       	rcall	.-172    	; 0x62 <sharp_flash>
+ 10e:	fe cf       	rjmp	.-4      	; 0x10c <main+0x10>
