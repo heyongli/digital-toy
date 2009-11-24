@@ -17,6 +17,7 @@ Linker script and memory map
 
 LOAD C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib/crttn13.o
 LOAD main.o
+LOAD pwm.o
 LOAD C:/WinAVR/lib/gcc/avr/3.4.6\libgcc.a
 LOAD C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib\libc.a
 LOAD C:/WinAVR/lib/gcc/avr/3.4.6\libgcc.a
@@ -111,7 +112,7 @@ LOAD C:/WinAVR/lib/gcc/avr/3.4.6\libgcc.a
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x27c
+.text           0x00000000      0x176
  *(.vectors)
  .vectors       0x00000000       0x14 C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib/crttn13.o
                 0x00000000                __vectors
@@ -153,17 +154,17 @@ LOAD C:/WinAVR/lib/gcc/avr/3.4.6\libgcc.a
                 0x00000046                __vector_9
                 0x00000046                __vector_2
                 0x00000046                __vector_8
- .text          0x00000048      0x234 main.o
-                0x00000076                sharp_flash
-                0x00000124                pwm_init
-                0x00000154                main
-                0x00000134                pwm_setduty
+ .text          0x00000048      0x12e main.o
+                0x0000008a                sharp_flash
+                0x000000f2                pwm_init
+                0x00000122                main
+                0x00000102                pwm_setduty
                 0x00000048                keydown
-                0x00000138                pwm_demo
-                0x00000050                led_test
-                0x0000027c                . = ALIGN (0x2)
+                0x00000106                pwm_demo
+                0x00000064                led_test
+                0x00000176                . = ALIGN (0x2)
  *(.text.*)
-                0x0000027c                . = ALIGN (0x2)
+                0x00000176                . = ALIGN (0x2)
  *(.fini9)
  *(.fini8)
  *(.fini7)
@@ -174,9 +175,9 @@ LOAD C:/WinAVR/lib/gcc/avr/3.4.6\libgcc.a
  *(.fini2)
  *(.fini1)
  *(.fini0)
-                0x0000027c                _etext = .
+                0x00000176                _etext = .
 
-.data           0x00800060        0x2 load address 0x0000027c
+.data           0x00800060        0x2 load address 0x00000176
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800060        0x2 main.o
@@ -192,8 +193,8 @@ LOAD C:/WinAVR/lib/gcc/avr/3.4.6\libgcc.a
  *(.bss)
  *(COMMON)
                 0x00800062                PROVIDE (__bss_end, .)
-                0x0000027c                __data_load_start = LOADADDR (.data)
-                0x0000027e                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00000176                __data_load_start = LOADADDR (.data)
+                0x00000178                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800062        0x0
                 0x00800062                PROVIDE (__noinit_start, .)
@@ -252,18 +253,20 @@ LOAD C:/WinAVR/lib/gcc/avr/3.4.6\libgcc.a
  .debug_pubnames
                 0x00000000       0x7f main.o
 
-.debug_info     0x00000000      0x537
+.debug_info     0x00000000      0x3c1
  *(.debug_info)
- .debug_info    0x00000000      0x537 main.o
+ .debug_info    0x00000000      0x3c1 main.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev   0x00000000      0x180
+.debug_abbrev   0x00000000      0x13a
  *(.debug_abbrev)
- .debug_abbrev  0x00000000      0x180 main.o
+ .debug_abbrev  0x00000000      0x139 main.o
+ .debug_abbrev  0x00000139        0x1 pwm.o
 
-.debug_line     0x00000000      0x3de
+.debug_line     0x00000000      0x24a
  *(.debug_line)
- .debug_line    0x00000000      0x3de main.o
+ .debug_line    0x00000000      0x20e main.o
+ .debug_line    0x0000020e       0x3c pwm.o
 
 .debug_frame
  *(.debug_frame)
@@ -279,6 +282,3 @@ LOAD C:/WinAVR/lib/gcc/avr/3.4.6\libgcc.a
 .debug_macinfo
  *(.debug_macinfo)
 OUTPUT(attinny13.elf elf32-avr)
-
-.debug_ranges   0x0000027c       0x5c
- .debug_ranges  0x0000027c       0x5c main.o

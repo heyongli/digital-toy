@@ -4,7 +4,7 @@
 
 #define  _clear_bit(x,n)  x&=~(1<<(n))
 #define  _set_bit(x,n)  x |= (1<<(n))
-#define  _test_bit(x,n)  (x)&(1<<(n))
+#define  _test_bit(x,n)  (  (x)&(1<<(n))  )
 
 
 
@@ -137,7 +137,7 @@ GTCCR ¨C General Timer/Counter Control Register
 
 void pwm_init()
 {
-  TCCR0A  =  _nm8(3,WGM00,WGM01) | _nm8(0b10, COM0A0,COM0A1); 
+  TCCR0A  =  ( _nm8(3,WGM00,WGM01) ) |  ( _nm8(0b10, COM0A0,COM0A1) );  
   TCCR0B  =  _nm8(0b001, CS00,CS02);     
   TCNT0  = 0;
   OCR0A = 0 ;  /* duty = 0; */
@@ -180,18 +180,18 @@ int main()
     
 	while (1){
 	           
-        sharp_flash();
+       // sharp_flash();
 	    //pwm_demo();
-        if( _test_bit(PORTB,3) /*keydown()*/){
+        if( keydown()){
 		  //_set_bit(PORTB,1);
-		  duty+=20;
+		  duty+=1;
 		  mod++;
 		  if(mod>=7)mod=2;
 
 		  pwm_setduty(duty);
 		  if(duty>=0xFF)
 		     duty=0;
-		    
+		  _delay_ms(3);  
 		 }  
 	}
 }
