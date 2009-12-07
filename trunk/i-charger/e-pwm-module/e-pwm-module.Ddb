@@ -1,0 +1,6 @@
+[Design Root]
+Version=1.0.0
+[Directory]
+i-pwm.Sch=Sch
+[i-pwm.Sch]
+Editor Kind=Sch
