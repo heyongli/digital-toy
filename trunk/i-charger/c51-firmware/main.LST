@@ -1,9 +1,9 @@
-C51 COMPILER V8.01   MAIN                                                                  10/31/2009 12:21:42 PAGE 1   
+C51 COMPILER V8.01   MAIN                                                                  12/13/2009 18:13:49 PAGE 1   
 
 
 C51 COMPILER V8.01, COMPILATION OF MODULE MAIN
 OBJECT MODULE PLACED IN main.OBJ
-COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE main.c ROM(COMPACT) BROWSE INCDIR(.;.\driver) DEBUG OBJECTEXTEND
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE main.c ROM(COMPACT) BROWSE INCDIR(.\driver) DEBUG OBJECTEXTEND
 
 line level    source
 
@@ -62,7 +62,7 @@ line level    source
   53   1          if(15==action){ //key f
   54   2                  ic_show(&charger);
   55   2          }
-C51 COMPILER V8.01   MAIN                                                                  10/31/2009 12:21:42 PAGE 2   
+C51 COMPILER V8.01   MAIN                                                                  12/13/2009 18:13:49 PAGE 2   
 
   56   1      
   57   1      }
@@ -126,7 +126,7 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-C51 COMPILER V8.01   MAIN                                                                  10/31/2009 12:21:42 PAGE 3   
+C51 COMPILER V8.01   MAIN                                                                  12/13/2009 18:13:49 PAGE 3   
 
    DATA SIZE        =     26      14
    IDATA SIZE       =   ----    ----

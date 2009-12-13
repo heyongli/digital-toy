@@ -1,10 +1,11 @@
-"charger.obj",
 "main.obj",
 "4x4keyboard.obj",
-"4x8seg_vled.obj",
-"adc0832.obj",
 "delay.obj",
+"timer0.obj",
 "pwm.obj",
-"timer0.obj" 
+"adc0832.obj",
+"charger.obj",
+"1602.obj",
+"vsprintf.obj" 
 TO "i-charger" 
 RAMSIZE(256) 

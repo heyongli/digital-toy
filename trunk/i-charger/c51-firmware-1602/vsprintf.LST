@@ -1,0 +1,253 @@
+C51 COMPILER V8.01   VSPRINTF                                                              12/13/2009 20:14:40 PAGE 1   
+
+
+C51 COMPILER V8.01, COMPILATION OF MODULE VSPRINTF
+OBJECT MODULE PLACED IN vsprintf.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE vsprintf.c ROM(COMPACT) WARNINGLEVEL(1) OPTIMIZE(5,SIZE) INCDIR(.\driver)
+
+line level    source
+
+   1          /*
+   2           *  linux/lib/vsprintf.c
+   3           *
+   4           *  Copyright (C) 1991, 1992  Linus Torvalds
+   5           */
+   6          
+   7          #include <stdarg.h> 
+   8          /*  %[标志][输出最小宽度][.精度][长度]格式字符 */
+   9          #undef PF_FLAGS   //[标志]: + - ' ' #
+  10          #undef PF_WPL  /*最小宽度，精度，长度*/
+  11          #undef PF_XFMT  /* %n %o %p %g %e*/
+  12          
+  13          #define SIGN    2               /* unsigned/signed long */
+  14          #define LARGE   64              /* use 'ABCDEF' instead of 'abcdef' */
+  15          
+  16          #define size_t char
+  17          
+  18          char todigits(char n)
+  19          {
+  20   1         if(n<10)
+  21   1           return '0'+n;
+  22   1         else
+  23   1           return 'a'+n-15;
+  24   1      }
+  25          char * number(char * str, long num, char base, char size,char type)
+  26          {
+  27   1              char c,sign,tmp[4];
+  28   1              char i;
+  29   1              if (base < 2 || base > 16)
+  30   1                      return 0;
+  31   1              c =' ';
+  32   1              sign = 0;
+  33   1              if (type & SIGN) {
+  34   2                      if (num < 0) {
+  35   3                              sign = '-';
+  36   3                              num = -num;
+  37   3                              size--;
+  38   3                      } 
+  39   2              }
+  40   1              i = 0;
+  41   1              if (num == 0)
+  42   1                      tmp[i++]='0';
+  43   1              else while (num != 0) {
+  44   2                  int xx;
+  45   2                      xx = num;
+  46   2                      num=xx/base;
+  47   2                      tmp[i++] = todigits(xx%base);
+  48   2              }
+  49   1      
+  50   1              while(size-->0)
+  51   1                              *str++ = ' ';
+  52   1              if (sign)
+  53   1                      *str++ = sign;
+  54   1              while (size-- > 0)
+  55   1                              *str++ = c;
+C51 COMPILER V8.01   VSPRINTF                                                              12/13/2009 20:14:40 PAGE 2   
+
+  56   1              while (i-- > 0)
+  57   1                      *str++ = tmp[i];
+  58   1              while (size-- > 0)
+  59   1                      *str++ = ' ';
+  60   1              return str;
+  61   1      }
+  62          
+  63          
+  64          
+  65          
+  66          #define isdigit(c)      ( (c>='0' && c<= '9') || ( c>='a' && c<= 'f') || ( c>='A' && c<= 'F')  )
+  67          #define islower(c)      ( c>='a' && c<= 'z' )
+  68          #define isupper(c)      ( c>='A' && c<= 'Z' ) 
+  69          
+  70          
+  71          unsigned char __tolower(unsigned char c)
+  72          {
+  73   1              if (isupper(c))
+  74   1                      c -= 'A'-'a';
+  75   1              return c;
+  76   1      }
+  77          
+  78          unsigned char __toupper(unsigned char c)
+  79          {
+  80   1              if (islower(c))
+  81   1                      c -= 'a'-'A';
+  82   1              return c;
+  83   1      }
+  84          
+  85          #define tolower(c) __tolower(c)
+  86          #define toupper(c) __toupper(c)
+  87          
+  88          long atoi(register char *p);
+  89          
+  90           
+  91          void * d_memchr (void const *s, int c, size_t n)
+  92          {
+  93   1        unsigned char const *p = s;
+  94   1        unsigned char const *lim = p + n;
+  95   1      
+  96   1        for (;  p < lim;  p++)
+  97   1          if (*p == c)
+  98   1            return p;
+  99   1        return 0;
+ 100   1      }
+ 101          
+ 102          
+ 103          size_t  strnlen (const char *string, size_t maxlen)
+ 104          {
+ 105   1        const char *end = d_memchr (string, '\0', maxlen);
+ 106   1        return end ? (size_t) (end - string) : maxlen;
+ 107   1      }
+ 108          
+ 109          
+ 110          
+ 111          static int skip_atoi(const char **s)
+ 112          {
+ 113   1              int i=0;
+ 114   1      
+ 115   1              while (isdigit(**s))
+ 116   1                      i = i*10 + *((*s)++) - '0';
+ 117   1              return i;
+C51 COMPILER V8.01   VSPRINTF                                                              12/13/2009 20:14:40 PAGE 3   
+
+ 118   1      }
+ 119          
+ 120          /* Forward decl. needed for IP address printing stuff... */
+ 121          int sprintf(char * buf, const char *fmt, ...);
+ 122          
+ 123          /*
+ 124           * 
+ 125           */
+ 126          int vsprintf(char *buf, const char *fmt, va_list args)
+ 127          {
+ 128   1              int len;
+ 129   1              unsigned long num;
+ 130   1              int i, base;
+ 131   1              char * str;
+ 132   1              const char *s;
+ 133   1              int flags;              /* flags to number() */
+ 134   1              char field_width;       /* width of output field */
+ 135   1              char precision;         /* min. # of digits for integers; max
+ 136   1                                         number of chars for from string */
+ 137   1      
+ 138   1              
+ 139   1              for (str=buf ; *fmt ; ++fmt) {
+ 140   2                      if (*fmt != '%') {
+ 141   3                              *str++ = *fmt;
+ 142   3                              continue;
+ 143   3                      }
+ 144   2                      /* get field width */
+ 145   2                      field_width = -1;
+ 146   2      
+ 147   2      
+ 148   2                      /* get the precision */
+ 149   2                      precision = -1;
+ 150   2      
+ 151   2                      /* default base */
+ 152   2                      base = 10;
+ 153   2      
+ 154   2                      switch (*fmt) {
+ 155   3                      case 'c':
+ 156   3                                      while (--field_width > 0)
+ 157   3                                              *str++ = ' ';
+ 158   3                              *str++ = (unsigned char) va_arg(args, int);
+ 159   3                              while (--field_width > 0)
+ 160   3                                      *str++ = ' ';
+ 161   3                              continue;
+ 162   3      
+ 163   3                      case 's':
+ 164   3                              s = va_arg(args, char *);
+ 165   3                              if (!s)
+ 166   3                                      s = "<NULL>";
+ 167   3      
+ 168   3                              len = strnlen(s, precision);
+ 169   3                      while (len < field_width--)
+ 170   3                                              *str++ = ' ';
+ 171   3      
+ 172   3                              for (i = 0; i < len; ++i)
+ 173   3                                      *str++ = *s++;
+ 174   3      
+ 175   3                              continue;
+ 176   3      
+ 177   3                      case '%':
+ 178   3                              *str++ = '%';
+ 179   3                              continue;
+C51 COMPILER V8.01   VSPRINTF                                                              12/13/2009 20:14:40 PAGE 4   
+
+ 180   3                      case 'X':
+ 181   3                              flags |= LARGE;
+ 182   3                      case 'x':
+ 183   3                              base = 16;
+ 184   3                              break;
+ 185   3      
+ 186   3                      case 'd':
+ 187   3                      case 'i':
+ 188   3                              flags |= SIGN;
+ 189   3                      case 'u':
+ 190   3                              break;
+ 191   3      
+ 192   3                      default:
+ 193   3                              *str++ = '%';
+ 194   3                              if (*fmt)
+ 195   3                                      *str++ = *fmt;
+ 196   3                              else
+ 197   3                                      --fmt;
+ 198   3                              continue;
+ 199   3                      }
+ 200   2      
+ 201   2              
+ 202   2                  {
+ 203   3                              num = va_arg(args, unsigned int);
+ 204   3                              if (flags & SIGN)
+ 205   3                                      num = (signed int) num;
+ 206   3                      }
+ 207   2      
+ 208   2                      str = number(str, num, base, precision, flags);
+ 209   2              }
+ 210   1              *str = '\0';
+ 211   1              return str-buf;
+ 212   1      }
+ 213          
+ 214          char d_sprintf(char * buf, const char *fmt, ...)
+ 215          {
+ 216   1              va_list args;
+ 217   1              char i;
+ 218   1      
+ 219   1              va_start(args, fmt);
+ 220   1              i=vsprintf(buf,fmt,args);
+ 221   1              va_end(args);
+ 222   1              return i;
+ 223   1      }
+ 224          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1195    ----
+   CONSTANT SIZE    =      7    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      94
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

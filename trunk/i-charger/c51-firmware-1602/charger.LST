@@ -1,0 +1,527 @@
+C51 COMPILER V8.01   CHARGER                                                               12/13/2009 18:48:30 PAGE 1   
+
+
+C51 COMPILER V8.01, COMPILATION OF MODULE CHARGER
+OBJECT MODULE PLACED IN charger.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE charger.c ROM(COMPACT) WARNINGLEVEL(1) OPTIMIZE(5,SIZE) INCDIR(.\driver)
+
+line level    source
+
+   1          #include <config.h>
+   2          
+   3          #include <charger.h>
+   4          #include <adc0832.h>
+   5          
+   6          /*
+   7             detect cell -exist--> detect type ------------------->  PRE charge -> FAST(detect/ir) ->TRICKLE -->STOP
+   8                                                                                    |                                         |
+   9                                                                                    |--> DETECT_ARRAY ----> 
+  10          */                                                           
+  11          
+  12          
+  13          void detect_cell(i_charger *ic);
+  14          void detect_type(i_charger *ic);
+  15          void detect_array(i_charger *ic);
+  16          void pre_charging(i_charger *ic);
+  17          void fast_charging(i_charger *ic);
+  18          void trickle_charging(i_charger *ic);
+  19          void stop(i_charger *ic);
+  20          void err_stop(i_charger *ic);
+  21          
+  22          
+  23          static showA(i_charger *ic)
+  24          {
+  25   1      #ifdef  SEG_VLED
+                 setdot(1);
+                 print10(ic->charging_current/10);
+              #endif
+  29   1      
+  30   1      }
+  31          
+  32          static showV(i_charger *ic)
+  33          {
+  34   1      #ifdef SEG_VLED 
+                 setdot(1);
+                 print10(ic->battery_voltage*100);
+              #endif
+  38   1      }
+  39          
+  40          static showX(i_charger *ic)
+  41          {
+  42   1      #ifdef SEG_VLED 
+                setdot(-1);
+              #endif 
+  45   1        ic=ic;
+  46   1      }
+  47          void ic_show(i_charger *ic)
+  48          {
+  49   1      
+  50   1      
+  51   1              switch (ic->dump){
+  52   2                      case ICS_SHOWV:
+  53   2                               showV(ic);
+  54   2      #ifdef SEG_VLED 
+                                       vledmod(VLED_V);
+C51 COMPILER V8.01   CHARGER                                                               12/13/2009 18:48:30 PAGE 2   
+
+              #endif
+  57   2                               return;
+  58   2                      case ICS_SHOWA:
+  59   2                               showA(ic);
+  60   2      #ifdef SEG_VLED 
+                                       vledmod(VLED_A);
+              #endif
+  63   2                               return;
+  64   2                      case ICS_PACKNUM:
+  65   2      #ifdef SEG_VLED 
+                                       setdot(-1);
+                                       print10(ic->cell_pack);
+              #endif
+  69   2                               return;
+  70   2                      case ICS_DEFAULT:
+  71   2                      default:
+  72   2                                break;
+  73   2              }
+  74   1      #ifdef SEG_VLED 
+                      vledmod((unsigned char)ic->i_stage);
+              #endif
+  77   1              switch (ic->i_stage) {
+  78   2               case DETECT_CELL:
+  79   2                 showV(ic);
+  80   2                         break;
+  81   2               case DETECT_TYPE:
+  82   2                 showV(ic);
+  83   2                     break;
+  84   2               case DETECT_ARRAY:
+  85   2                 showV(ic);
+  86   2                     break;
+  87   2               case PRE:
+  88   2                     showV(ic);
+  89   2                     break;
+  90   2               case FAST:
+  91   2                     showA(ic);
+  92   2                     break;
+  93   2               case TRICKLE:
+  94   2                     showV(ic);
+  95   2                     break;
+  96   2               case STOP:
+  97   2                     showV(ic);
+  98   2                     break;
+  99   2               case ERR_STOP:
+ 100   2                     showV(ic);
+ 101   2                     break;
+ 102   2               default:
+ 103   2                              break;
+ 104   2              }
+ 105   1                 
+ 106   1      }
+ 107          
+ 108          
+ 109          
+ 110          void charging(i_charger *ic)
+ 111          {
+ 112   1      
+ 113   1          static unsigned long lasttime=0;
+ 114   1                
+ 115   1          if(!timeafter(jiffers,lasttime+HZ/4) ){
+ 116   2                   return;
+ 117   2          } 
+C51 COMPILER V8.01   CHARGER                                                               12/13/2009 18:48:30 PAGE 3   
+
+ 118   1          lasttime = jiffers;
+ 119   1      
+ 120   1          ic->battery_voltage = adc_V();
+ 121   1          ic->charging_current = adc_A()*1000;
+ 122   1              
+ 123   1              switch (ic->i_stage) {
+ 124   2               case DETECT_CELL:
+ 125   2                         detect_cell(ic);
+ 126   2                     break;
+ 127   2               case DETECT_TYPE:
+ 128   2                 detect_type(ic);
+ 129   2                     break;
+ 130   2               case DETECT_ARRAY:
+ 131   2                         detect_array(ic);
+ 132   2                     break;
+ 133   2           case PRE:
+ 134   2                         pre_charging(ic);
+ 135   2                     break;
+ 136   2               case FAST:
+ 137   2                         fast_charging(ic);
+ 138   2                     break;
+ 139   2               case TRICKLE:
+ 140   2                         trickle_charging(ic);
+ 141   2                     break;
+ 142   2               case STOP:
+ 143   2                         stop(ic);
+ 144   2                     break;
+ 145   2               case ERR_STOP:
+ 146   2                         err_stop(ic);
+ 147   2                     break;
+ 148   2                default:
+ 149   2                          break;
+ 150   2              }
+ 151   1                 
+ 152   1      
+ 153   1      }
+ 154          
+ 155          /*************************************************/
+ 156          
+ 157          #define BAT_LOW_V           0.5    /* 0.5V  */
+ 158          
+ 159          
+ 160          #define NICD_PRE_CHAGE_PWM      1     /* 1/20 duty*/
+ 161          #define NICD_MAX_CHAGE_PWM  5     /* 4/20 duty*/
+ 162          
+ 163          #define NICD_MAX_CHAGE_MA   1000     /* 1000 mA*/
+ 164          
+ 165          
+ 166          
+ 167          void detect_cell(i_charger *ic)
+ 168          {
+ 169   1        
+ 170   1         if( ic->battery_voltage < BAT_LOW_V ){
+ 171   2                 pwm_setduty(NICD_PRE_CHAGE_PWM);
+ 172   2                         pwm_safeon();
+ 173   2         }else {
+ 174   2                 ic->i_stage = DETECT_TYPE;
+ 175   2                         pwm_safeoff();
+ 176   2         }
+ 177   1            
+ 178   1      }
+ 179          
+C51 COMPILER V8.01   CHARGER                                                               12/13/2009 18:48:30 PAGE 4   
+
+ 180          
+ 181          /* NOW: only NiCd cell-array V9PACK */
+ 182          /*
+ 183                     low   high 
+ 184            single   1.0   1.42
+ 185            2-array             2.0    2.84
+ 186            Li                  2.0                 4.2
+ 187            3-array                          3         4.26 
+ 188            4-array                               4            5.68
+ 189            5-array                                          5                7.1
+ 190            6-array                                                 6           8.52
+ 191            7-array(V9-stack)                                            7             9.94        
+ 192           
+ 193          */
+ 194          #define NICD_STOP_V             1.42   /* 1.42V */
+ 195          #define NICD_FAST_V             1.00   /* 1.0V  */
+ 196          #define NICD_MAX_V          1.50   /* 1.50V */
+ 197          #define NICD_ARRAY_MIN_V        2.00   /*       */
+ 198          void detect_type(i_charger *ic)
+ 199          {
+ 200   1      
+ 201   1         pwm_setduty(NICD_PRE_CHAGE_PWM);
+ 202   1         pwm_safeon();
+ 203   1      
+ 204   1      
+ 205   1         if( ic->battery_voltage < NICD_MAX_V){ 
+ 206   2            ic->cell_type =  NiCd;
+ 207   2                ic->cell_pack = 1;  //single NiCd
+ 208   2            ic->i_stage = PRE;
+ 209   2                pwm_safeoff();
+ 210   2                return;
+ 211   2         }
+ 212   1      
+ 213   1         if( ic->battery_voltage >= NICD_ARRAY_MIN_V  ){
+ 214   2                ic->cell_type = CELL_ARRAY;
+ 215   2                ic->cell_pack = 2;  //start pack
+ 216   2                ic->i_stage = DETECT_ARRAY;
+ 217   2                pwm_safeoff();
+ 218   2      
+ 219   2                return;
+ 220   2      
+ 221   2         }
+ 222   1                 
+ 223   1      }
+ 224          
+ 225          /*
+ 226                     low   high 
+ 227            single   1.0   1.42
+ 228            2-array             2.0    2.84
+ 229            4-array                               4            5.68
+ 230            7-array(V9-stack)                                            7             9.94        
+ 231           
+ 232          */
+ 233          void detect_array(i_charger *ic)
+ 234          {
+ 235   1         pwm_setduty(NICD_PRE_CHAGE_PWM);
+ 236   1         pwm_safeon();
+ 237   1      
+ 238   1         if( ic->battery_voltage >= 7.00  ){
+ 239   2                ic->cell_pack = 7; 
+ 240   2                ic->i_stage = PRE;
+ 241   2                pwm_safeoff();
+C51 COMPILER V8.01   CHARGER                                                               12/13/2009 18:48:30 PAGE 5   
+
+ 242   2                return;
+ 243   2         }
+ 244   1                 
+ 245   1         if( ic->battery_voltage >= 4.00 ){
+ 246   2                ic->cell_pack = 4;  
+ 247   2                ic->i_stage = PRE;
+ 248   2                pwm_safeoff();
+ 249   2                return;
+ 250   2         }       
+ 251   1      
+ 252   1         if( ic->battery_voltage >= 2.00 ){
+ 253   2                ic->cell_pack = 2;  
+ 254   2                ic->i_stage = PRE;
+ 255   2                pwm_safeoff();
+ 256   2                return ;
+ 257   2      
+ 258   2         }    
+ 259   1      
+ 260   1         /* <2.0, Err, 判定type的时候能保证电压>2.0 */
+ 261   1         if( ic->battery_voltage < 2.00){
+ 262   2            ic->cell_type = Unknown;
+ 263   2            ic->cell_pack = 0;  
+ 264   2            ic->i_stage = ERR_STOP;
+ 265   2      
+ 266   2                return;
+ 267   2        }
+ 268   1      
+ 269   1      }
+ 270          
+ 271          /*
+ 272             PRE charging: single cell< 1.3V
+ 273           */
+ 274          #define NICD_PRE_CHAGE_MA    350  /* 350mA */
+ 275          #define V9_PRE_CHAGE_MA      50
+ 276          void pre_charging(i_charger *ic)
+ 277          {
+ 278   1         char pwm= pwm_getduty();
+ 279   1      
+ 280   1         float PRE_chaging_mA = NICD_PRE_CHAGE_MA;
+ 281   1         float PRE_chaging_max_mA = NICD_PRE_CHAGE_MA+100;
+ 282   1         
+ 283   1         ic->battery_voltage = adc_V();
+ 284   1         pwm_safeon();
+ 285   1        
+ 286   1      
+ 287   1         if( ic->battery_voltage > 1.30*ic->cell_pack){
+ 288   2             ic->minute ++;
+ 289   2                 if(ic->minute>40){
+ 290   3                  ic->i_stage = FAST;
+ 291   3                      pwm_safeoff();
+ 292   3                              ic->minute = 0;
+ 293   3                 }
+ 294   2         }
+ 295   1      
+ 296   1         if( ic->battery_voltage > 1.50*ic->cell_pack) {
+ 297   2             ic->i_stage = TRICKLE; 
+ 298   2                 pwm_safeoff();
+ 299   2                 return;
+ 300   2          }
+ 301   1      
+ 302   1         if(ic->cell_pack == 7)
+ 303   1         {
+C51 COMPILER V8.01   CHARGER                                                               12/13/2009 18:48:30 PAGE 6   
+
+ 304   2            PRE_chaging_mA = 50;
+ 305   2                PRE_chaging_max_mA  = NICD_PRE_CHAGE_MA+20;     
+ 306   2         }
+ 307   1         
+ 308   1         if(ic->charging_current < PRE_chaging_mA){
+ 309   2             pwm ++ ;
+ 310   2                 if(pwm > 1)
+ 311   2                   pwm = NICD_MAX_CHAGE_PWM;
+ 312   2                 pwm_setduty(pwm);
+ 313   2         }
+ 314   1         if(ic->charging_current > PRE_chaging_max_mA){
+ 315   2             pwm -- ;
+ 316   2                 if(!pwm)
+ 317   2                     pwm = 1;
+ 318   2             
+ 319   2             pwm_setduty(pwm);
+ 320   2         }
+ 321   1      
+ 322   1         if( ic->battery_voltage == 0  ){  //cell pull out
+ 323   2                ic->cell_type = Unknown;
+ 324   2                ic->cell_pack = 0;  //start pack
+ 325   2                ic->i_stage = DETECT_CELL;   //restart 
+ 326   2          }             
+ 327   1                 
+ 328   1      }
+ 329          
+ 330          /*
+ 331             PRE charging: single cell< 1.3V
+ 332           */
+ 333          #define NICD_FAST_CHAGE_MA     700  /* 1A */
+ 334          #define V9_FAST_CHAGE_MA       120   
+ 335          
+ 336          void fast_charging(i_charger *ic)
+ 337          {
+ 338   1         
+ 339   1         char pwm= pwm_getduty();
+ 340   1         float chaging_mA = NICD_FAST_CHAGE_MA;
+ 341   1         float chaging_max_mA = NICD_FAST_CHAGE_MA+100;
+ 342   1      
+ 343   1         ic->battery_voltage = adc_V();
+ 344   1         // vledmod(VLED_A);   
+ 345   1         pwm_safeon();
+ 346   1      
+ 347   1         if( ic->battery_voltage < 1.30*ic->cell_pack){
+ 348   2              ic->i_stage = PRE;
+ 349   2                  pwm_safeoff();
+ 350   2                      return;
+ 351   2         }
+ 352   1         
+ 353   1      
+ 354   1      
+ 355   1         if( ic->battery_voltage > (1.50+0.08)*ic->cell_pack){
+ 356   2             ic->i_stage = STOP; //retest cell type and pack     
+ 357   2                 pwm_safeoff();
+ 358   2                 return;
+ 359   2         }
+ 360   1      
+ 361   1         if( ic->battery_voltage > ( (1.42+0.08)*ic->cell_pack) ){ //0.06 for 500mA*0.2R 
+ 362   2             if(adc_V() > ( (1.42+0.08)*ic->cell_pack))
+ 363   2             ic->i_stage = TRICKLE;
+ 364   2                  pwm_safeoff();
+ 365   2                 return;
+C51 COMPILER V8.01   CHARGER                                                               12/13/2009 18:48:30 PAGE 7   
+
+ 366   2         }
+ 367   1         if(ic->cell_pack == 7)
+ 368   1         {
+ 369   2            chaging_mA = V9_FAST_CHAGE_MA;
+ 370   2                chaging_max_mA  = NICD_PRE_CHAGE_MA+50;         
+ 371   2         }
+ 372   1         
+ 373   1         if(ic->charging_current < chaging_mA){
+ 374   2             pwm ++ ;
+ 375   2                 if(pwm > NICD_MAX_CHAGE_PWM)
+ 376   2                   pwm = NICD_MAX_CHAGE_PWM;
+ 377   2             
+ 378   2             pwm_setduty(pwm);
+ 379   2         }
+ 380   1         if(ic->charging_current > chaging_max_mA){
+ 381   2             pwm -- ;
+ 382   2                 if(!pwm)
+ 383   2                     pwm = 1;
+ 384   2                 pwm_setduty(pwm);
+ 385   2         }
+ 386   1      
+ 387   1         if( ic->battery_voltage == 0  ){  //cell pull out
+ 388   2                ic->cell_type = Unknown;
+ 389   2                ic->cell_pack = 0;  //start pack
+ 390   2                ic->i_stage = DETECT_CELL;   //restart 
+ 391   2          }             
+ 392   1      }
+ 393          
+ 394          void trickle_charging(i_charger *ic)
+ 395          {
+ 396   1      
+ 397   1         static unsigned long lasttime = 0;
+ 398   1      
+ 399   1         
+ 400   1         pwm_setduty(1);
+ 401   1         
+ 402   1       
+ 403   1         ic->battery_voltage = adc_V();
+ 404   1         pwm_safeon();
+ 405   1        
+ 406   1         if( ic->battery_voltage > 1.5*ic->cell_pack){
+ 407   2             ic->i_stage = STOP; //retest cell type and pack     
+ 408   2                 goto out;
+ 409   2         }
+ 410   1                 
+ 411   1        
+ 412   1       
+ 413   1         if( ic->battery_voltage == 0  ){  //cell pull out
+ 414   2                ic->cell_type = Unknown;
+ 415   2                ic->cell_pack = 0;  //start pack
+ 416   2                ic->i_stage = DETECT_CELL;   //restart 
+ 417   2         }              
+ 418   1      
+ 419   1         if(timeafter(jiffers,lasttime+HZ*3)) {
+ 420   2             ic->minute++;
+ 421   2             if(ic->minute> 15) { //涓充15s 
+ 422   3                    ic->i_stage = STOP;
+ 423   3                        goto out;
+ 424   3                 }
+ 425   2                 pwm_safeoff(); 
+ 426   2                 mdelay(5);
+ 427   2                 lasttime = jiffers;
+C51 COMPILER V8.01   CHARGER                                                               12/13/2009 18:48:30 PAGE 8   
+
+ 428   2                 if( adc_V() < 1.38*ic->cell_pack){
+ 429   3                ic->i_stage = FAST; 
+ 430   3                    goto out;
+ 431   3             }           
+ 432   2         
+ 433   2            if( adc_V() < 1.40*ic->cell_pack){
+ 434   3               ic->i_stage = PRE; 
+ 435   3                   goto out;
+ 436   3                 }
+ 437   2      
+ 438   2         }
+ 439   1      
+ 440   1         return;
+ 441   1      out:
+ 442   1              pwm_safeoff(); 
+ 443   1          ic->minute = 0; 
+ 444   1          return;      
+ 445   1        
+ 446   1      
+ 447   1      }
+ 448          
+ 449          void stop(i_charger *ic)
+ 450          {
+ 451   1              //vledmod(VLED_STOP);
+ 452   1              pwm_safeoff();
+ 453   1              ic->battery_voltage = adc_V();
+ 454   1      
+ 455   1              
+ 456   1          if( ic->battery_voltage == 0  ){  //cell pull out
+ 457   2                ic->cell_type = Unknown;
+ 458   2                ic->cell_pack = 0;  //start pack
+ 459   2                ic->i_stage = DETECT_CELL;   //restart 
+ 460   2          }      
+ 461   1      
+ 462   1              if( adc_V() > 1.405*ic->cell_pack ){
+ 463   2                      return;
+ 464   2              }
+ 465   1              if(ic->battery_voltage < 1.395*ic->cell_pack){
+ 466   2                      ic->i_stage = PRE;
+ 467   2                      return;
+ 468   2              }
+ 469   1      
+ 470   1      
+ 471   1      }
+ 472          
+ 473          void err_stop(i_charger *ic)
+ 474          {
+ 475   1         //vledmod(VLED_ERR); 
+ 476   1         pwm_safeoff(); 
+ 477   1      
+ 478   1         if( ic->battery_voltage < 1.42*ic->cell_pack){
+ 479   2                  ic->i_stage = TRICKLE;
+ 480   2                      return;
+ 481   2         }
+ 482   1         if( ic->battery_voltage == 0  ){  //cell pull out
+ 483   2                ic->cell_type = Unknown;
+ 484   2                ic->cell_pack = 0;  //start pack
+ 485   2                ic->i_stage = DETECT_CELL;   //restart 
+ 486   2         }         
+ 487   1      }
+ 488          
+
+C51 COMPILER V8.01   CHARGER                                                               12/13/2009 18:48:30 PAGE 9   
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   2320    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      8      54
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,661 @@
+<html>
+<body>
+<pre>
+<h1>µVision3 Build Log</h1>
+<h2>Project:</h2>
+Z:\home\dev-prj\digital-toy\i-charger\c51-firmware-1602\i-charger-1602.uv2
+Project File Date:  12/13/2009
+
+<h2>Output:</h2>
+Build target 'Target 1'
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+compiling 4x4keyboard.c...
+compiling delay.c...
+compiling timer0.c...
+compiling pwm.c...
+compiling adc0832.c...
+compiling charger.c...
+CHARGER.C(23): warning C280: 'ic': unreferenced local variable
+CHARGER.C(32): warning C280: 'ic': unreferenced local variable
+compiling 1602.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWX?CHARGER
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_IC_SHOW?CHARGER
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_LCD_PUTS?1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_NUMBER?1602
+Program Size: data=119.1 xdata=0 code=5228
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 6 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+compiling 4x4keyboard.c...
+compiling delay.c...
+compiling timer0.c...
+compiling pwm.c...
+compiling adc0832.c...
+compiling charger.c...
+CHARGER.C(23): warning C280: 'ic': unreferenced local variable
+CHARGER.C(32): warning C280: 'ic': unreferenced local variable
+compiling 1602.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWX?CHARGER
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_IC_SHOW?CHARGER
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_LCD_PUTS?1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_NUMBER?1602
+Program Size: data=119.1 xdata=0 code=5228
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 6 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+compiling 4x4keyboard.c...
+compiling delay.c...
+compiling timer0.c...
+compiling pwm.c...
+compiling adc0832.c...
+compiling charger.c...
+compiling 1602.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWX?CHARGER
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_IC_SHOW?CHARGER
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_LCD_PUTS?1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_NUMBER?1602
+Program Size: data=119.1 xdata=0 code=5469
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWX?CHARGER
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_IC_SHOW?CHARGER
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_LCD_PUTS?1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_NUMBER?1602
+Program Size: data=119.1 xdata=0 code=5469
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+compiling 4x4keyboard.c...
+compiling delay.c...
+compiling timer0.c...
+compiling pwm.c...
+compiling adc0832.c...
+compiling charger.c...
+compiling 1602.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWX?CHARGER
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_IC_SHOW?CHARGER
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_LCD_PUTS?1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_NUMBER?1602
+Program Size: data=119.1 xdata=0 code=5469
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling 1602.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWX?CHARGER
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_IC_SHOW?CHARGER
+Program Size: data=95.1 xdata=0 code=4874
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 2 Warning(s).
+Build target 'Target 1'
+compiling 1602.c...
+DRIVER\1602.C(87): error C202: 'dis1': undefined identifier
+DRIVER\1602.C(88): error C202: 'dis1': undefined identifier
+DRIVER\1602.C(95): error C202: 'dis2': undefined identifier
+DRIVER\1602.C(96): error C202: 'dis2': undefined identifier
+Target not created
+Build target 'Target 1'
+compiling 1602.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWX?CHARGER
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_IC_SHOW?CHARGER
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_LCD_START?1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_LCD_DATA?1602
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  LCD_LOGO
+    MODULE:  main.obj (MAIN)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  LCD_LOGO
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0017H
+Program Size: data=95.1 xdata=0 code=4706
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 6 Warning(s).
+Build target 'Target 1'
+compiling 1602.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWX?CHARGER
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_IC_SHOW?CHARGER
+Program Size: data=95.1 xdata=0 code=4874
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 2 Warning(s).
+Build target 'Target 1'
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWX?CHARGER
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_IC_SHOW?CHARGER
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  LCD_LOGO
+    MODULE:  main.obj (MAIN)
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  LCD_INIT
+    MODULE:  main.obj (MAIN)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  LCD_INIT
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 000FH
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  LCD_LOGO
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0017H
+Program Size: data=95.1 xdata=0 code=4592
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 6 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWX?CHARGER
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_IC_SHOW?CHARGER
+Program Size: data=95.1 xdata=0 code=4586
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 2 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWX?CHARGER
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_IC_SHOW?CHARGER
+Program Size: data=95.1 xdata=0 code=4586
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 2 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+compiling 4x4keyboard.c...
+compiling delay.c...
+compiling timer0.c...
+compiling pwm.c...
+compiling adc0832.c...
+compiling charger.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWX?CHARGER
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_IC_SHOW?CHARGER
+Program Size: data=95.1 xdata=0 code=4586
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 2 Warning(s).
+Build target 'Target 1'
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?PWM_SAFEOFF?PWM
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?PWM_SAFEON?PWM
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?PWM_GETDUTY?PWM
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?ADC_V?ADC0832
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?ADC_A?ADC0832
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _CHARGING
+    MODULE:  main.obj (MAIN)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _CHARGING
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 04BDH
+Program Size: data=70.1 xdata=0 code=1662
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 7 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+compiling 4x4keyboard.c...
+compiling delay.c...
+compiling timer0.c...
+compiling pwm.c...
+compiling adc0832.c...
+compiling charger.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWX?CHARGER
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_IC_SHOW?CHARGER
+Program Size: data=95.1 xdata=0 code=4586
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 2 Warning(s).
+Build target 'Target 1'
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWX?CHARGER
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_IC_SHOW?CHARGER
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?LCD_INIT?1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?LCD_LOGO?1602
+Program Size: data=100.2 xdata=0 code=4868
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWX?CHARGER
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_IC_SHOW?CHARGER
+Program Size: data=95.1 xdata=0 code=4874
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 2 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWX?CHARGER
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_IC_SHOW?CHARGER
+Program Size: data=95.1 xdata=0 code=4874
+creating hex file from "i-charger"...
+"i-charger" - 0 Error(s), 2 Warning(s).
+Build target 'Target 1'
+compiling 1602.c...
+compiling vsprintf.c...
+vsprintf.c(61): warning C317: attempt to redefine macro 'SIGN'
+VSPRINTF.C(97): error C141: syntax error near 'n', expected ')'
+VSPRINTF.C(100): error C202: 'n': undefined identifier
+VSPRINTF.C(110): error C129: missing ';' before 'strnlen'
+Target not created
+Build target 'Target 1'
+compiling vsprintf.c...
+VSPRINTF.C(88): error C141: syntax error near 'n', expected ')'
+VSPRINTF.C(91): error C202: 'n': undefined identifier
+VSPRINTF.C(101): error C129: missing ';' before 'strnlen'
+Target not created
+Build target 'Target 1'
+compiling vsprintf.c...
+VSPRINTF.C(99): warning C231: '_memchr': attempt to redefine intrinsic function
+VSPRINTF.C(126): error C141: syntax error near 'args', expected ')'
+VSPRINTF.C(164): error C202: 'args': undefined identifier
+VSPRINTF.C(164): error C141: syntax error near 'int'
+VSPRINTF.C(170): error C202: 'args': undefined identifier
+VSPRINTF.C(170): error C141: syntax error near 'char'
+VSPRINTF.C(209): error C202: 'args': undefined identifier
+VSPRINTF.C(209): error C141: syntax error near 'unsigned'
+VSPRINTF.C(214): error C208: '_number': too many actual parameters
+VSPRINTF.C(221): error C231: '_sprintf': redefinition
+VSPRINTF.C(222): error C202: 'va_list': undefined identifier
+VSPRINTF.C(222): error C141: syntax error near 'args'
+VSPRINTF.C(223): error C141: syntax error near 'char'
+VSPRINTF.C(223): error C202: 'i': undefined identifier
+VSPRINTF.C(225): error C202: 'args': undefined identifier
+VSPRINTF.C(226): error C202: 'i': undefined identifier
+VSPRINTF.C(227): error C202: 'args': undefined identifier
+VSPRINTF.C(228): error C202: 'i': undefined identifier
+VSPRINTF.C(229): error C231: '_sprintf': redefinition
+Target not created
+Build target 'Target 1'
+compiling vsprintf.c...
+VSPRINTF.C(125): error C141: syntax error near 'args', expected ')'
+VSPRINTF.C(163): error C202: 'args': undefined identifier
+VSPRINTF.C(163): error C141: syntax error near 'int'
+VSPRINTF.C(169): error C202: 'args': undefined identifier
+VSPRINTF.C(169): error C141: syntax error near 'char'
+VSPRINTF.C(208): error C202: 'args': undefined identifier
+VSPRINTF.C(208): error C141: syntax error near 'unsigned'
+VSPRINTF.C(213): error C208: '_number': too many actual parameters
+VSPRINTF.C(220): error C231: '_sprintf': redefinition
+VSPRINTF.C(221): error C202: 'va_list': undefined identifier
+VSPRINTF.C(221): error C141: syntax error near 'args'
+VSPRINTF.C(222): error C141: syntax error near 'char'
+VSPRINTF.C(222): error C202: 'i': undefined identifier
+VSPRINTF.C(224): error C202: 'args': undefined identifier
+VSPRINTF.C(225): error C202: 'i': undefined identifier
+VSPRINTF.C(226): error C202: 'args': undefined identifier
+VSPRINTF.C(227): error C202: 'i': undefined identifier
+VSPRINTF.C(228): error C231: '_sprintf': redefinition
+Target not created
+Build target 'Target 1'
+compiling vsprintf.c...
+vsprintf.c(7): warning C318: can't open file 'stdargs.h'
+VSPRINTF.C(126): error C141: syntax error near 'args', expected ')'
+VSPRINTF.C(164): error C202: 'args': undefined identifier
+VSPRINTF.C(164): error C141: syntax error near 'int'
+VSPRINTF.C(170): error C202: 'args': undefined identifier
+VSPRINTF.C(170): error C141: syntax error near 'char'
+VSPRINTF.C(209): error C202: 'args': undefined identifier
+VSPRINTF.C(209): error C141: syntax error near 'unsigned'
+VSPRINTF.C(214): error C208: '_number': too many actual parameters
+VSPRINTF.C(221): error C231: '_sprintf': redefinition
+VSPRINTF.C(222): error C202: 'va_list': undefined identifier
+VSPRINTF.C(222): error C141: syntax error near 'args'
+VSPRINTF.C(223): error C141: syntax error near 'char'
+VSPRINTF.C(223): error C202: 'i': undefined identifier
+VSPRINTF.C(225): error C202: 'args': undefined identifier
+VSPRINTF.C(226): error C202: 'i': undefined identifier
+VSPRINTF.C(227): error C202: 'args': undefined identifier
+VSPRINTF.C(228): error C202: 'i': undefined identifier
+VSPRINTF.C(229): error C231: '_sprintf': redefinition
+Target not created
+Build target 'Target 1'
+compiling vsprintf.c...
+VSPRINTF.C(214): error C208: '_number': too many actual parameters
+VSPRINTF.C(221): error C231: '_sprintf': redefinition
+VSPRINTF.C(229): error C231: '_sprintf': redefinition
+Target not created
+Build target 'Target 1'
+compiling vsprintf.c...
+VSPRINTF.C(221): error C231: '_sprintf': redefinition
+VSPRINTF.C(229): error C231: '_sprintf': redefinition
+Target not created
+Build target 'Target 1'
+compiling vsprintf.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWX?CHARGER
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_IC_SHOW?CHARGER
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?___TOLOWER?VSPRINTF
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?___TOUPPER?VSPRINTF
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SKIP_ATOI?VSPRINTF
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_D_SPRINTF?VSPRINTF
+*** ERROR L107: ADDRESS SPACE OVERFLOW
+    SPACE:   DATA    
+    SEGMENT: ?DT?_NUMBER?VSPRINTF
+    LENGTH:  0013H
+*** ERROR L107: ADDRESS SPACE OVERFLOW
+    SPACE:   DATA    
+    SEGMENT: ?DT?_D_MEMCHR?VSPRINTF
+    LENGTH:  000CH
+*** ERROR L107: ADDRESS SPACE OVERFLOW
+    SPACE:   DATA    
+    SEGMENT: ?DT?_STRNLEN?VSPRINTF
+    LENGTH:  0007H
+*** ERROR L107: ADDRESS SPACE OVERFLOW
+    SPACE:   DATA    
+    SEGMENT: ?DT?_SKIP_ATOI?VSPRINTF
+    LENGTH:  0005H
+*** ERROR L107: ADDRESS SPACE OVERFLOW
+    SPACE:   DATA    
+    SEGMENT: ?DT?TIMER0
+    LENGTH:  0004H
+*** ERROR L107: ADDRESS SPACE OVERFLOW
+    SPACE:   DATA    
+    SEGMENT: ?DT?ADC0832
+    LENGTH:  0004H
+*** ERROR L107: ADDRESS SPACE OVERFLOW
+    SPACE:   DATA    
+    SEGMENT: ?DT?_SHOWA?CHARGER
+    LENGTH:  0003H
+*** ERROR L107: ADDRESS SPACE OVERFLOW
+    SPACE:   DATA    
+    SEGMENT: ?DT?_SHOWV?CHARGER
+    LENGTH:  0003H
+*** ERROR L107: ADDRESS SPACE OVERFLOW
+    SPACE:   DATA    
+    SEGMENT: ?DT?_IC_SHOW?CHARGER
+    LENGTH:  0003H
+*** ERROR L107: ADDRESS SPACE OVERFLOW
+    SPACE:   DATA    
+    SEGMENT: ?DT?PWM
+    LENGTH:  0002H
+*** ERROR L105: PUBLIC REFERS TO IGNORED SEGMENT
+    SYMBOL:  JIFFERS
+    SEGMENT: ?DT?TIMER0
+*** ERROR L105: PUBLIC REFERS TO IGNORED SEGMENT
+    SYMBOL:  ON_DUTY
+    SEGMENT: ?DT?PWM
+*** ERROR L105: PUBLIC REFERS TO IGNORED SEGMENT
+    SYMBOL:  REFV
+    SEGMENT: ?DT?ADC0832
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  charger.obj (CHARGER)
+    ADDRESS: 0EC6H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  charger.obj (CHARGER)
+    ADDRESS: 0EC8H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  charger.obj (CHARGER)
+    ADDRESS: 0ECAH
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  charger.obj (CHARGER)
+    ADDRESS: 0ECCH
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  charger.obj (CHARGER)
+    ADDRESS: 0EE4H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  charger.obj (CHARGER)
+    ADDRESS: 0EE6H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  charger.obj (CHARGER)
+    ADDRESS: 0EE8H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  charger.obj (CHARGER)
+    ADDRESS: 0EEAH
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  charger.obj (CHARGER)
+    ADDRESS: 06DFH
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  charger.obj (CHARGER)
+    ADDRESS: 06E1H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  charger.obj (CHARGER)
+    ADDRESS: 06E3H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  charger.obj (CHARGER)
+    ADDRESS: 06E5H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  charger.obj (CHARGER)
+    ADDRESS: 0727H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  charger.obj (CHARGER)
+    ADDRESS: 0729H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  charger.obj (CHARGER)
+    ADDRESS: 072BH
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  charger.obj (CHARGER)
+    ADDRESS: 072DH
+*** ERROR L105: PUBLIC REFERS TO IGNORED SEGMENT
+    SYMBOL:  ?_D_MEMCHR?BYTE
+    SEGMENT: ?DT?_D_MEMCHR?VSPRINTF
+*** ERROR L105: PUBLIC REFERS TO IGNORED SEGMENT
+    SYMBOL:  ?_NUMBER?BYTE
+    SEGMENT: ?DT?_NUMBER?VSPRINTF
+Program Size: data=190.1 xdata=0 code=6459
+Target not created
+Build target 'Target 1'
+compiling vsprintf.c...
+VSPRINTF.C(152): error C202: 'qualifier': undefined identifier
+Target not created
+Build target 'Target 1'
+compiling vsprintf.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWX?CHARGER
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_IC_SHOW?CHARGER
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?___TOLOWER?VSPRINTF
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?___TOUPPER?VSPRINTF
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SKIP_ATOI?VSPRINTF
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_D_SPRINTF?VSPRINTF
+*** ERROR L107: ADDRESS SPACE OVERFLOW
+    SPACE:   DATA    
+    SEGMENT: ?DT?_NUMBER?VSPRINTF
+    LENGTH:  0013H
+*** ERROR L107: ADDRESS SPACE OVERFLOW
+    SPACE:   DATA    
+    SEGMENT: ?DT?_D_MEMCHR?VSPRINTF
+    LENGTH:  000CH
+*** ERROR L107: ADDRESS SPACE OVERFLOW
+    SPACE:   DATA    
+    SEGMENT: ?DT?_STRNLEN?VSPRINTF
+    LENGTH:  0007H
+*** ERROR L107: ADDRESS SPACE OVERFLOW
+    SPACE:   DATA    
+    SEGMENT: ?DT?_SKIP_ATOI?VSPRINTF
+    LENGTH:  0005H
+*** ERROR L107: ADDRESS SPACE OVERFLOW
+    SPACE:   DATA    
+    SEGMENT: ?DT?TIMER0
+    LENGTH:  0004H
+*** ERROR L107: ADDRESS SPACE OVERFLOW
+    SPACE:   DATA    
+    SEGMENT: ?DT?ADC0832
+    LENGTH:  0004H
+*** ERROR L107: ADDRESS SPACE OVERFLOW
+    SPACE:   DATA    
+    SEGMENT: ?DT?_SHOWA?CHARGER
+    LENGTH:  0003H
+*** ERROR L107: ADDRESS SPACE OVERFLOW
+    SPACE:   DATA    
+    SEGMENT: ?DT?_SHOWV?CHARGER
+    LENGTH:  0003H
+*** ERROR L107: ADDRESS SPACE OVERFLOW
+    SPACE:   DATA    
+    SEGMENT: ?DT?_IC_SHOW?CHARGER
+    LENGTH:  0003H
+*** ERROR L107: ADDRESS SPACE OVERFLOW
+    SPACE:   DATA    
+    SEGMENT: ?DT?PWM
+    LENGTH:  0002H
+*** ERROR L105: PUBLIC REFERS TO IGNORED SEGMENT
+    SYMBOL:  JIFFERS
+    SEGMENT: ?DT?TIMER0
+*** ERROR L105: PUBLIC REFERS TO IGNORED SEGMENT
+    SYMBOL:  ON_DUTY
+    SEGMENT: ?DT?PWM
+*** ERROR L105: PUBLIC REFERS TO IGNORED SEGMENT
+    SYMBOL:  REFV
+    SEGMENT: ?DT?ADC0832
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  charger.obj (CHARGER)
+    ADDRESS: 0EC3H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  charger.obj (CHARGER)
+    ADDRESS: 0EC5H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  charger.obj (CHARGER)
+    ADDRESS: 0EC7H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  charger.obj (CHARGER)
+    ADDRESS: 0EC9H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  charger.obj (CHARGER)
+    ADDRESS: 0EE1H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  charger.obj (CHARGER)
+    ADDRESS: 0EE3H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  charger.obj (CHARGER)
+    ADDRESS: 0EE5H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  charger.obj (CHARGER)
+    ADDRESS: 0EE7H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  charger.obj (CHARGER)
+    ADDRESS: 06DFH
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  charger.obj (CHARGER)
+    ADDRESS: 06E1H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  charger.obj (CHARGER)
+    ADDRESS: 06E3H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  charger.obj (CHARGER)
+    ADDRESS: 06E5H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  charger.obj (CHARGER)
+    ADDRESS: 0727H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  charger.obj (CHARGER)
+    ADDRESS: 0729H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  charger.obj (CHARGER)
+    ADDRESS: 072BH
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  charger.obj (CHARGER)
+    ADDRESS: 072DH
+*** ERROR L105: PUBLIC REFERS TO IGNORED SEGMENT
+    SYMBOL:  ?_D_MEMCHR?BYTE
+    SEGMENT: ?DT?_D_MEMCHR?VSPRINTF
+*** ERROR L105: PUBLIC REFERS TO IGNORED SEGMENT
+    SYMBOL:  ?_NUMBER?BYTE
+    SEGMENT: ?DT?_NUMBER?VSPRINTF
+Program Size: data=189.1 xdata=0 code=6456
+Target not created

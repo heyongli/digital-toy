@@ -1,0 +1,1 @@
+"vsprintf.c" ROM(COMPACT) WARNINGLEVEL (1) OPTIMIZE (5,SIZE) INCDIR(.\driver)

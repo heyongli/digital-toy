@@ -1,10 +1,10 @@
-C51 COMPILER V8.01   4X4KEYBOARD                                                           12/13/2009 18:13:49 PAGE 1   
+C51 COMPILER V8.01   4X4KEYBOARD                                                           12/13/2009 18:48:28 PAGE 1   
 
 
 C51 COMPILER V8.01, COMPILATION OF MODULE 4X4KEYBOARD
 OBJECT MODULE PLACED IN 4x4keyboard.obj
-COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE driver\4x4keyboard.c ROM(COMPACT) BROWSE INCDIR(.\driver) DEBUG OBJECTEXTEN
-                    -D PRINT(.\4x4keyboard.lst) OBJECT(4x4keyboard.obj)
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE driver\4x4keyboard.c ROM(COMPACT) WARNINGLEVEL(1) OPTIMIZE(5,SIZE) INCDIR(.
+                    -\driver) PRINT(.\4x4keyboard.lst) OBJECT(4x4keyboard.obj)
 
 line level    source
 
@@ -62,7 +62,7 @@ line level    source
   52   2                 continue;
   53   2      
   54   2          for(col=0;col<4;col++){
-C51 COMPILER V8.01   4X4KEYBOARD                                                           12/13/2009 18:13:49 PAGE 2   
+C51 COMPILER V8.01   4X4KEYBOARD                                                           12/13/2009 18:48:28 PAGE 2   
 
   55   3                  if(! ( scan&(1<<(3-col))) ){
   56   4                wait_release: 
@@ -85,7 +85,7 @@ line level    source
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    132    ----
+   CODE SIZE        =    139    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----

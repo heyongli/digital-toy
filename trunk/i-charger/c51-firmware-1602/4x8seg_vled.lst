@@ -1,4 +1,4 @@
-C51 COMPILER V8.01   4X8SEG_VLED                                                           12/13/2009 18:13:50 PAGE 1   
+C51 COMPILER V8.01   4X8SEG_VLED                                                           12/13/2009 00:25:32 PAGE 1   
 
 
 C51 COMPILER V8.01, COMPILATION OF MODULE 4X8SEG_VLED
@@ -62,7 +62,7 @@ line level    source
                       0X06,/*1*/
                       0X5B,/*2*/
                       0X4F,/*3*/
-C51 COMPILER V8.01   4X8SEG_VLED                                                           12/13/2009 18:13:50 PAGE 2   
+C51 COMPILER V8.01   4X8SEG_VLED                                                           12/13/2009 00:25:32 PAGE 2   
 
                       0X66,/*4*/
                       0X6D,/*5*/
@@ -126,7 +126,7 @@ line level    source
  114   1         if(segbit&0x8)
  115   1             segENA4=1;
  116   1      /*
-C51 COMPILER V8.01   4X8SEG_VLED                                                           12/13/2009 18:13:50 PAGE 3   
+C51 COMPILER V8.01   4X8SEG_VLED                                                           12/13/2009 00:25:32 PAGE 3   
 
  117   1         switch bit {
  118   1           case 1:
@@ -190,7 +190,7 @@ line level    source
  176   2                mdelay(64);
  177   2         
  178   2         }
-C51 COMPILER V8.01   4X8SEG_VLED                                                           12/13/2009 18:13:50 PAGE 4   
+C51 COMPILER V8.01   4X8SEG_VLED                                                           12/13/2009 00:25:32 PAGE 4   
 
  179   1         
  180   1         for(n=0;n<=9;n++){
@@ -254,7 +254,7 @@ line level    source
  238                                     ~(0xf)};
  239          static unsigned char dot = 0,lastdot=0;
  240          
-C51 COMPILER V8.01   4X8SEG_VLED                                                           12/13/2009 18:13:50 PAGE 5   
+C51 COMPILER V8.01   4X8SEG_VLED                                                           12/13/2009 00:25:32 PAGE 5   
 
  241          /*
  242           * 根据 vblock内容 扫描驱动数码管和电平管显示
@@ -318,7 +318,7 @@ line level    source
  300   1                if(vled_mode  == VLED_A){ //A mA
  301   2                        vblock[4]= rol8(vblock[4], 1);
  302   2                }
-C51 COMPILER V8.01   4X8SEG_VLED                                                           12/13/2009 18:13:50 PAGE 6   
+C51 COMPILER V8.01   4X8SEG_VLED                                                           12/13/2009 00:25:32 PAGE 6   
 
  303   1                
  304   1                if(vled_mode == VLED_V){ //V mV
@@ -382,7 +382,7 @@ line level    source
                                                vblock[1]= seg0_f((jiffers)>>5&0xf);
                                                vblock[2]= seg0_f((jiffers)>>7&0xf);
                                                vblock[3]= seg0_f(jiffers&0xf);
-C51 COMPILER V8.01   4X8SEG_VLED                                                           12/13/2009 18:13:50 PAGE 7   
+C51 COMPILER V8.01   4X8SEG_VLED                                                           12/13/2009 00:25:32 PAGE 7   
 
                                                
                                                vblock[0]= segDOT;
@@ -447,7 +447,7 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
 
-C51 COMPILER V8.01   4X8SEG_VLED                                                           12/13/2009 18:13:50 PAGE 8   
+C51 COMPILER V8.01   4X8SEG_VLED                                                           12/13/2009 00:25:32 PAGE 8   
 
 
 C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
