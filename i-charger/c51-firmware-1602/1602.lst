@@ -1,0 +1,185 @@
+C51 COMPILER V8.01   1602                                                                  12/13/2009 20:10:11 PAGE 1   
+
+
+C51 COMPILER V8.01, COMPILATION OF MODULE 1602
+OBJECT MODULE PLACED IN 1602.obj
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE driver\1602.c ROM(COMPACT) WARNINGLEVEL(1) OPTIMIZE(5,SIZE) INCDIR(.\driver
+                    -) PRINT(.\1602.lst) OBJECT(1602.obj)
+
+line level    source
+
+   1          #include "delay.h"
+   2          #include "1602.h"
+   3          
+   4          #include <AT89X52.H>                     
+   5          
+   6          #define io_delay mdelay(8)
+   7          /***********************************************
+   8          程序名称：1602液晶显示程序
+   9          简要说明：使用FM1602液晶显示器，数据口接P0口，控制端接P2.0-P2.2
+  10          寄存器选择信号端RS-P2.0、读写信号端R/W-P2.1、使能信号端EP-P2.2
+  11          编    写：JiangX.net
+  12          ***********************************************/
+  13          typedef unsigned char BYTE;
+  14          typedef unsigned int WORD;
+  15          typedef bit BOOL ;
+  16          
+  17          sbit rs = P2^0;   //RS
+  18          sbit rw = P2^1;   //读写选择RW
+  19          sbit ep = P2^2;   //使能信号E
+  20          
+  21          BYTE code dis1[] = {"Digital-Toy"};
+  22          BYTE code dis2[] = {"i-Charger V1.0"};
+  23          
+  24          
+  25          /*****判别LCD忙碌状态*****/
+  26          BOOL lcd_bz()
+  27          {
+  28   1              BOOL result;
+  29   1              rs = 0;
+  30   1              rw = 1;
+  31   1              ep = 1;
+  32   1              result = (BOOL)(P0 & 0x80);
+  33   1              ep = 0;
+  34   1              return result;
+  35   1      }
+  36          /*****写入指令数据到LCD*****/
+  37          void lcd_wcmd(BYTE cmd)
+  38          {
+  39   1        while(lcd_bz());
+  40   1        rs = 0;
+  41   1        rw = 0;
+  42   1        ep = 0;
+  43   1        udelay(100);
+  44   1        P0 = cmd;
+  45   1      
+  46   1        ep = 1;
+  47   1        ep = 0;  
+  48   1      }
+  49          
+  50          /*****设定显示位置*****/
+  51          void lcd_start(BYTE start)
+  52          {       
+  53   1         lcd_wcmd(start | 0x80);
+  54   1      }
+C51 COMPILER V8.01   1602                                                                  12/13/2009 20:10:11 PAGE 2   
+
+  55          
+  56          /*****写入字符显示数据到LCD*****/
+  57          void lcd_data(BYTE dat)
+  58          {       
+  59   1        while(lcd_bz());
+  60   1        rs = 1;
+  61   1        rw = 0;
+  62   1        ep = 0;
+  63   1        P0 = dat;
+  64   1        ep = 1;
+  65   1        ep = 0;
+  66   1      }
+  67          
+  68          /*****LCD初始化设定*****/
+  69          void lcd_init()
+  70          {
+  71   1          io_delay;      
+  72   1              lcd_wcmd(0x38);    //设定LCD为16*2显示，5*7点阵，8位数据接口
+  73   1              io_delay;
+  74   1              lcd_wcmd(0x0c);    //开显示，不显示光标
+  75   1              io_delay;
+  76   1              lcd_wcmd(0x06);    //显示光标自动右移，整屏不移动
+  77   1              io_delay;
+  78   1              lcd_wcmd(0x01);    //显示清屏
+  79   1              io_delay;
+  80   1      
+  81   1              
+  82   1      }
+  83          
+  84          
+  85          void lcd_logo()
+  86          {
+  87   1        int pos=0,i=0;
+  88   1        lcd_start(0);    // 设置显示位置为第一行的第5个字符
+  89   1        io_delay;
+  90   1        while(pos < (sizeof(dis1)-1)){
+  91   2           lcd_data(dis1[i]); // 显示第二行字符
+  92   2           i++;pos++;
+  93   2           io_delay;
+  94   2        }   
+  95   1      
+  96   1        pos=0;i=0;
+  97   1        lcd_start(0x40);   // 设置显示位置为第二行第一个字符
+  98   1        while(pos<(sizeof(dis2)-1)){
+  99   2           lcd_data(dis2[i]); // 显示第二行字符
+ 100   2           i++;pos++;
+ 101   2           io_delay;
+ 102   2        }   
+ 103   1      
+ 104   1      
+ 105   1      }
+ 106          #if 0
+              
+              /*pos: 0-15, 16-31*/
+              void lcd_puts(char pos, char *str)
+              {
+                 if(pos>15)
+                              lcd_start(0x40|(pos-16));
+                 else 
+                              lcd_start(pos);
+              
+                 pos=0;
+C51 COMPILER V8.01   1602                                                                  12/13/2009 20:10:11 PAGE 3   
+
+                 while(str[pos]){
+                   lcd_data(str[pos]);
+                       pos++; 
+                 }
+                  
+              }
+              
+              
+              void demo_1602()
+              {
+                BYTE i=0;
+                char pos=0;
+              
+                lcd_init();    // 初始化LCD   
+                mdelay(200);
+              
+              again: 
+                pos=0; 
+                lcd_start(0);    // 设置显示位置为第一行的第5个字符
+                io_delay;
+                while(pos<15){
+                   lcd_data(i); // 显示第二行字符
+                   i++;pos++;
+                   io_delay;
+                }   
+              
+                pos=0;
+                lcd_start(0x40);   // 设置显示位置为第二行第一个字符
+                while(pos<15){
+                   lcd_data(i); // 显示第二行字符
+                    i++;pos++;  
+                   io_delay;
+                }   
+                
+                
+                
+                goto again;
+              }
+              
+              #endif
+ 157          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    255    ----
+   CONSTANT SIZE    =     27    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       5
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----       1
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

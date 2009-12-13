@@ -1,10 +1,10 @@
-C51 COMPILER V8.01   DELAY                                                                 12/13/2009 18:13:51 PAGE 1   
+C51 COMPILER V8.01   DELAY                                                                 12/13/2009 18:48:28 PAGE 1   
 
 
 C51 COMPILER V8.01, COMPILATION OF MODULE DELAY
 OBJECT MODULE PLACED IN delay.obj
-COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE driver\delay.c ROM(COMPACT) BROWSE INCDIR(.\driver) DEBUG OBJECTEXTEND PRIN
-                    -T(.\delay.lst) OBJECT(delay.obj)
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE driver\delay.c ROM(COMPACT) WARNINGLEVEL(1) OPTIMIZE(5,SIZE) INCDIR(.\drive
+                    -r) PRINT(.\delay.lst) OBJECT(delay.obj)
 
 line level    source
 
@@ -62,7 +62,7 @@ line level    source
   52          /*
   53           * +- 50ms
   54           */
-C51 COMPILER V8.01   DELAY                                                                 12/13/2009 18:13:51 PAGE 2   
+C51 COMPILER V8.01   DELAY                                                                 12/13/2009 18:48:28 PAGE 2   
 
   55          void sleep(unsigned char t)
   56          {
@@ -77,7 +77,7 @@ line level    source
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     48    ----
+   CODE SIZE        =     57    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----

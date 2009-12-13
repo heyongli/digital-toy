@@ -1,0 +1,85 @@
+C51 COMPILER V8.01   MAIN                                                                  12/13/2009 19:02:29 PAGE 1   
+
+
+C51 COMPILER V8.01, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE main.c ROM(COMPACT) WARNINGLEVEL(1) OPTIMIZE(5,SIZE) INCDIR(.;.\driver)
+
+line level    source
+
+   1          #include "config.h"
+   2          #include <adc.h>
+   3          #include <adc0832.h>
+   4          
+   5          #include <charger.h>
+   6          
+   7          #include <1602.h>
+   8          
+   9          
+  10          extern float  refV ; 
+  11          
+  12          
+  13          i_charger charger = INIT_CHARGER;
+  14          
+  15          
+  16          void io_init()
+  17          {
+  18   1         lcd_init();
+  19   1         mdelay(100);
+  20   1         lcd_logo();
+  21   1      }
+  22          void main()
+  23          {
+  24   1         unsigned short n,x;
+  25   1         unsigned short onduty=0;
+  26   1      
+  27   1      
+  28   1         pwm_init(); //pull down pwm
+  29   1         /*power on test*/
+  30   1         io_init();
+  31   1                 
+  32   1         timer0_init();
+  33   1         timer1_init();
+  34   1      
+  35   1         //adc_init(); 
+  36   1         irqon();   //enable global interrupt         
+  37   1         sleep(0); // just refrence 
+  38   1      
+  39   1         while(1){ 
+  40   2              n = keyscan();
+  41   2                      if(n == 15){    // key F
+  42   3                               pwm_setduty(onduty);
+  43   3                               onduty = 0;
+  44   3                      }
+  45   2                      if(n!=-1)
+  46   2                      {
+  47   3                 if(n<10)
+  48   3                            if( 9==n)
+  49   3                                   x=0;
+  50   3                                else
+  51   3                               x=(n+1);       
+  52   3                          onduty = 10*onduty+x;   
+  53   3                      }
+  54   2      
+  55   2              
+C51 COMPILER V8.01   MAIN                                                                  12/13/2009 19:02:29 PAGE 2   
+
+  56   2              charging(&charger);  //charger auto control
+  57   2      
+  58   2           
+  59   2        }
+  60   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    143    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     17       6
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,101 @@
+C51 COMPILER V8.01   PWM                                                                   12/13/2009 18:48:29 PAGE 1   
+
+
+C51 COMPILER V8.01, COMPILATION OF MODULE PWM
+OBJECT MODULE PLACED IN pwm.obj
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE driver\pwm.c ROM(COMPACT) WARNINGLEVEL(1) OPTIMIZE(5,SIZE) INCDIR(.\driver)
+                    - PRINT(.\pwm.lst) OBJECT(pwm.obj)
+
+line level    source
+
+   1          #include  "config.h"
+   2          #include  "pwm.h"
+   3          
+   4          
+   5          
+   6          /*
+   7           * minimal interval 250us
+   8           * 25 step
+   9           * pwm cycle: 250us* 25 = 6.25ms , 160Hz
+  10           */
+  11          
+  12          unsigned char on_duty = 0;
+  13          
+  14          
+  15          void pwm_init()
+  16          {
+  17   1        PWM_PIN = 0;
+  18   1      }
+  19          
+  20          static unsigned char step=0; 
+  21          /*50us update,20step, 1khz*/
+  22          void pwm_1kHz()    using 2
+  23          {
+  24   1      
+  25   1      
+  26   1      
+  27   1         if(step >= on_duty)
+  28   1            PWM_PIN = 0;
+  29   1         else 
+  30   1           if (on_duty>0)
+  31   1               PWM_PIN = 1;
+  32   1      
+  33   1         step++;
+  34   1         if(step>=PWM_STEP)
+  35   1            step = 0;
+  36   1      
+  37   1      
+  38   1      
+  39   1      }
+  40          
+  41          void pwm_setduty(unsigned short duty)
+  42          {
+  43   1         if( duty <=  PWM_STEP)
+  44   1             on_duty = duty;
+  45   1      
+  46   1      }
+  47          
+  48          void pwm_safeoff()
+  49          {
+  50   1         irqoff();
+  51   1         PWM_PIN  = 0;
+  52   1         ET0 = 0;
+  53   1         step = PWM_STEP+1;
+  54   1         PWM_PIN  = 0;
+C51 COMPILER V8.01   PWM                                                                   12/13/2009 18:48:29 PAGE 2   
+
+  55   1         irqon();
+  56   1      
+  57   1      }
+  58          
+  59          void pwm_safeon()
+  60          {
+  61   1              irqoff();
+  62   1              PWM_PIN  = 0;
+  63   1              ET0 = 1;
+  64   1              PWM_PIN  = 0;
+  65   1              irqon();
+  66   1      }
+  67           
+  68           
+  69          
+  70          unsigned char pwm_getduty()
+  71          {
+  72   1        return on_duty;  
+  73   1      
+  74   1      }
+  75          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     80    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
