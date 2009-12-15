@@ -1,0 +1,507 @@
+
+i-charger-m8.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000001cc  00000000  00000000  00000094  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000002  00800060  000001cc  00000260  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000000  00800062  000001ce  00000262  2**0
+                  ALLOC
+  3 .noinit       00000000  00800062  00800062  00000262  2**0
+                  CONTENTS
+  4 .eeprom       00000000  00810000  00810000  00000262  2**0
+                  CONTENTS
+  5 .stab         0000036c  00000000  00000000  00000264  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  6 .stabstr      00000084  00000000  00000000  000005d0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_aranges 0000003c  00000000  00000000  00000654  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_pubnames 000000ad  00000000  00000000  00000690  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_info   00000610  00000000  00000000  0000073d  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_abbrev 00000296  00000000  00000000  00000d4d  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_line   0000039e  00000000  00000000  00000fe3  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_str    00000144  00000000  00000000  00001381  2**0
+                  CONTENTS, READONLY, DEBUGGING
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	12 c0       	rjmp	.+36     	; 0x26 <__ctors_end>
+   2:	2b c0       	rjmp	.+86     	; 0x5a <__bad_interrupt>
+   4:	2a c0       	rjmp	.+84     	; 0x5a <__bad_interrupt>
+   6:	29 c0       	rjmp	.+82     	; 0x5a <__bad_interrupt>
+   8:	28 c0       	rjmp	.+80     	; 0x5a <__bad_interrupt>
+   a:	27 c0       	rjmp	.+78     	; 0x5a <__bad_interrupt>
+   c:	26 c0       	rjmp	.+76     	; 0x5a <__bad_interrupt>
+   e:	25 c0       	rjmp	.+74     	; 0x5a <__bad_interrupt>
+  10:	24 c0       	rjmp	.+72     	; 0x5a <__bad_interrupt>
+  12:	23 c0       	rjmp	.+70     	; 0x5a <__bad_interrupt>
+  14:	22 c0       	rjmp	.+68     	; 0x5a <__bad_interrupt>
+  16:	21 c0       	rjmp	.+66     	; 0x5a <__bad_interrupt>
+  18:	20 c0       	rjmp	.+64     	; 0x5a <__bad_interrupt>
+  1a:	1f c0       	rjmp	.+62     	; 0x5a <__bad_interrupt>
+  1c:	1e c0       	rjmp	.+60     	; 0x5a <__bad_interrupt>
+  1e:	1d c0       	rjmp	.+58     	; 0x5a <__bad_interrupt>
+  20:	1c c0       	rjmp	.+56     	; 0x5a <__bad_interrupt>
+  22:	1b c0       	rjmp	.+54     	; 0x5a <__bad_interrupt>
+  24:	1a c0       	rjmp	.+52     	; 0x5a <__bad_interrupt>
+
+00000026 <__ctors_end>:
+  26:	11 24       	eor	r1, r1
+  28:	1f be       	out	0x3f, r1	; 63
+  2a:	cf e5       	ldi	r28, 0x5F	; 95
+  2c:	d4 e0       	ldi	r29, 0x04	; 4
+  2e:	de bf       	out	0x3e, r29	; 62
+  30:	cd bf       	out	0x3d, r28	; 61
+
+00000032 <__do_copy_data>:
+  32:	10 e0       	ldi	r17, 0x00	; 0
+  34:	a0 e6       	ldi	r26, 0x60	; 96
+  36:	b0 e0       	ldi	r27, 0x00	; 0
+  38:	ec ec       	ldi	r30, 0xCC	; 204
+  3a:	f1 e0       	ldi	r31, 0x01	; 1
+  3c:	02 c0       	rjmp	.+4      	; 0x42 <.do_copy_data_start>
+
+0000003e <.do_copy_data_loop>:
+  3e:	05 90       	lpm	r0, Z+
+  40:	0d 92       	st	X+, r0
+
+00000042 <.do_copy_data_start>:
+  42:	a2 36       	cpi	r26, 0x62	; 98
+  44:	b1 07       	cpc	r27, r17
+  46:	d9 f7       	brne	.-10     	; 0x3e <.do_copy_data_loop>
+
+00000048 <__do_clear_bss>:
+  48:	10 e0       	ldi	r17, 0x00	; 0
+  4a:	a2 e6       	ldi	r26, 0x62	; 98
+  4c:	b0 e0       	ldi	r27, 0x00	; 0
+  4e:	01 c0       	rjmp	.+2      	; 0x52 <.do_clear_bss_start>
+
+00000050 <.do_clear_bss_loop>:
+  50:	1d 92       	st	X+, r1
+
+00000052 <.do_clear_bss_start>:
+  52:	a2 36       	cpi	r26, 0x62	; 98
+  54:	b1 07       	cpc	r27, r17
+  56:	e1 f7       	brne	.-8      	; 0x50 <.do_clear_bss_loop>
+  58:	1d c0       	rjmp	.+58     	; 0x94 <main>
+
+0000005a <__bad_interrupt>:
+  5a:	d2 cf       	rjmp	.-92     	; 0x0 <__vectors>
+
+0000005c <keydown>:
+
+
+char keydown()
+{
+   _test_key(D,3);
+  5c:	83 99       	sbic	0x10, 3	; 16
+  5e:	09 c0       	rjmp	.+18     	; 0x72 <keydown+0x16>
+		__ticks = 1;
+	else if (__tmp > 65535)
+		__ticks = 0;	/* i.e. 65536 */
+	else
+		__ticks = (uint16_t)__tmp;
+  60:	88 e5       	ldi	r24, 0x58	; 88
+  62:	9b e1       	ldi	r25, 0x1B	; 27
+  64:	01 97       	sbiw	r24, 0x01	; 1
+  66:	f1 f7       	brne	.-4      	; 0x64 <keydown+0x8>
+  68:	83 99       	sbic	0x10, 3	; 16
+  6a:	03 c0       	rjmp	.+6      	; 0x72 <keydown+0x16>
+  6c:	81 e0       	ldi	r24, 0x01	; 1
+  6e:	90 e0       	ldi	r25, 0x00	; 0
+  70:	08 95       	ret
+  72:	80 e0       	ldi	r24, 0x00	; 0
+  74:	90 e0       	ldi	r25, 0x00	; 0
+}
+  76:	08 95       	ret
+
+00000078 <keyup>:
+char keyup()
+{
+   _test_key(D,2);
+  78:	82 99       	sbic	0x10, 2	; 16
+  7a:	09 c0       	rjmp	.+18     	; 0x8e <keyup+0x16>
+		__ticks = 1;
+	else if (__tmp > 65535)
+		__ticks = 0;	/* i.e. 65536 */
+	else
+		__ticks = (uint16_t)__tmp;
+  7c:	88 e5       	ldi	r24, 0x58	; 88
+  7e:	9b e1       	ldi	r25, 0x1B	; 27
+  80:	01 97       	sbiw	r24, 0x01	; 1
+  82:	f1 f7       	brne	.-4      	; 0x80 <keyup+0x8>
+  84:	82 99       	sbic	0x10, 2	; 16
+  86:	03 c0       	rjmp	.+6      	; 0x8e <keyup+0x16>
+  88:	81 e0       	ldi	r24, 0x01	; 1
+  8a:	90 e0       	ldi	r25, 0x00	; 0
+  8c:	08 95       	ret
+  8e:	80 e0       	ldi	r24, 0x00	; 0
+  90:	90 e0       	ldi	r25, 0x00	; 0
+}
+  92:	08 95       	ret
+
+00000094 <main>:
+
+unsigned char duty=128; 
+
+int main()
+{
+  94:	cf e5       	ldi	r28, 0x5F	; 95
+  96:	d4 e0       	ldi	r29, 0x04	; 4
+  98:	de bf       	out	0x3e, r29	; 62
+  9a:	cd bf       	out	0x3d, r28	; 61
+
+	DDRB = 0xFF;	/* 定义B口为输出*/
+  9c:	8f ef       	ldi	r24, 0xFF	; 255
+  9e:	87 bb       	out	0x17, r24	; 23
+	PORTB = 0xFF;	/* 关闭全部LED */
+  a0:	88 bb       	out	0x18, r24	; 24
+    DDRD = 0xFF;
+  a2:	81 bb       	out	0x11, r24	; 17
+    PORTD = 0xFF;	/* 关闭全部LED */
+  a4:	82 bb       	out	0x12, r24	; 18
+    
+    led_init();
+  a6:	31 d0       	rcall	.+98     	; 0x10a <led_init>
+    _key_init(D,3);	
+  a8:	8b 98       	cbi	0x11, 3	; 17
+  aa:	93 9a       	sbi	0x12, 3	; 18
+
+    
+	pwm_init();
+  ac:	80 d0       	rcall	.+256    	; 0x1ae <pwm_init>
+
+    
+	while (1){
+	   	       
+        //sharp_flash();
+	    //pwm_demo();
+        if( keydown()){
+  ae:	d6 df       	rcall	.-84     	; 0x5c <keydown>
+  b0:	88 23       	and	r24, r24
+  b2:	99 f0       	breq	.+38     	; 0xda <main+0x46>
+		  //_set_bit(PORTB,1);
+		  duty-=2;
+  b4:	80 91 60 00 	lds	r24, 0x0060
+  b8:	82 50       	subi	r24, 0x02	; 2
+  ba:	80 93 60 00 	sts	0x0060, r24
+
+ 		  pwm_setduty(duty);
+  be:	99 27       	eor	r25, r25
+  c0:	81 d0       	rcall	.+258    	; 0x1c4 <pwm_setduty>
+		  if(duty>=0xFF)
+  c2:	80 91 60 00 	lds	r24, 0x0060
+  c6:	8f 3f       	cpi	r24, 0xFF	; 255
+  c8:	11 f4       	brne	.+4      	; 0xce <main+0x3a>
+		     duty=0;
+  ca:	10 92 60 00 	sts	0x0060, r1
+          _clear_bit(PORTD,1);
+  ce:	91 98       	cbi	0x12, 1	; 18
+		__ticks = 1;
+	else if (__tmp > 65535)
+		__ticks = 0;	/* i.e. 65536 */
+	else
+		__ticks = (uint16_t)__tmp;
+  d0:	80 e2       	ldi	r24, 0x20	; 32
+  d2:	9e e4       	ldi	r25, 0x4E	; 78
+  d4:	01 97       	sbiw	r24, 0x01	; 1
+  d6:	f1 f7       	brne	.-4      	; 0xd4 <main+0x40>
+		  _delay_ms(20);  
+		  _set_bit(PORTD,1);
+  d8:	91 9a       	sbi	0x12, 1	; 18
+		 }  
+		 if( keyup()){
+  da:	ce df       	rcall	.-100    	; 0x78 <keyup>
+  dc:	88 23       	and	r24, r24
+  de:	39 f3       	breq	.-50     	; 0xae <main+0x1a>
+		  //_set_bit(PORTB,1);
+		  duty+=2;
+  e0:	80 91 60 00 	lds	r24, 0x0060
+  e4:	8e 5f       	subi	r24, 0xFE	; 254
+  e6:	80 93 60 00 	sts	0x0060, r24
+
+ 		  pwm_setduty(duty);
+  ea:	99 27       	eor	r25, r25
+  ec:	6b d0       	rcall	.+214    	; 0x1c4 <pwm_setduty>
+		  if(duty<=0)
+  ee:	80 91 60 00 	lds	r24, 0x0060
+  f2:	88 23       	and	r24, r24
+  f4:	19 f4       	brne	.+6      	; 0xfc <main+0x68>
+		     duty=0xFF;
+  f6:	8f ef       	ldi	r24, 0xFF	; 255
+  f8:	80 93 60 00 	sts	0x0060, r24
+          _clear_bit(PORTD,0);
+  fc:	90 98       	cbi	0x12, 0	; 18
+		__ticks = 1;
+	else if (__tmp > 65535)
+		__ticks = 0;	/* i.e. 65536 */
+	else
+		__ticks = (uint16_t)__tmp;
+  fe:	80 e2       	ldi	r24, 0x20	; 32
+ 100:	9e e4       	ldi	r25, 0x4E	; 78
+ 102:	01 97       	sbiw	r24, 0x01	; 1
+ 104:	f1 f7       	brne	.-4      	; 0x102 <main+0x6e>
+		  _delay_ms(20);  
+		  _set_bit(PORTD,0);
+ 106:	90 9a       	sbi	0x12, 0	; 18
+ 108:	d2 cf       	rjmp	.-92     	; 0xae <main+0x1a>
+
+0000010a <led_init>:
+
+
+
+void led_init()
+{
+ 10a:	e0 e0       	ldi	r30, 0x00	; 0
+ 10c:	f0 e0       	ldi	r31, 0x00	; 0
+ 10e:	22 e0       	ldi	r18, 0x02	; 2
+	/* 往前步进 */
+    char i;
+		for (i = 0; i < 3; i++){
+
+			PORTB = 0;
+ 110:	18 ba       	out	0x18, r1	; 24
+ */
+void
+_delay_loop_2(uint16_t __count)
+{
+	__asm__ volatile (
+ 112:	cf 01       	movw	r24, r30
+ 114:	01 97       	sbiw	r24, 0x01	; 1
+ 116:	f1 f7       	brne	.-4      	; 0x114 <led_init+0xa>
+			_delay_ms(200);
+ 		    LED_Off(0);
+ 118:	90 9a       	sbi	0x12, 0	; 18
+ 		    LED_Off(1);
+ 11a:	91 9a       	sbi	0x12, 1	; 18
+ */
+void
+_delay_loop_2(uint16_t __count)
+{
+	__asm__ volatile (
+ 11c:	cf 01       	movw	r24, r30
+ 11e:	01 97       	sbiw	r24, 0x01	; 1
+ 120:	f1 f7       	brne	.-4      	; 0x11e <led_init+0x14>
+ 122:	21 50       	subi	r18, 0x01	; 1
+ 124:	27 ff       	sbrs	r18, 7
+ 126:	f4 cf       	rjmp	.-24     	; 0x110 <led_init+0x6>
+ 128:	08 95       	ret
+
+0000012a <sharp_flash>:
+			_delay_ms(200);
+		}
+
+}	
+
+
+char mod=2;
+
+
+void sharp_flash()
+{
+ 12a:	cf 93       	push	r28
+ 12c:	df 93       	push	r29
+ 12e:	20 91 61 00 	lds	r18, 0x0061
+ 132:	82 2f       	mov	r24, r18
+ 134:	99 27       	eor	r25, r25
+ 136:	bc 01       	movw	r22, r24
+ 138:	62 70       	andi	r22, 0x02	; 2
+ 13a:	70 70       	andi	r23, 0x00	; 0
+ 13c:	ac 01       	movw	r20, r24
+ 13e:	44 70       	andi	r20, 0x04	; 4
+ 140:	50 70       	andi	r21, 0x00	; 0
+ 142:	a0 e1       	ldi	r26, 0x10	; 16
+ 144:	b7 e2       	ldi	r27, 0x27	; 39
+ 146:	c0 e0       	ldi	r28, 0x00	; 0
+ 148:	d0 e0       	ldi	r29, 0x00	; 0
+ 14a:	36 e0       	ldi	r19, 0x06	; 6
+    char x;
+
+    for(x=0;x<7;x++){
+   	   LED_On(mod&2?0:7);
+ 14c:	82 b3       	in	r24, 0x12	; 18
+ 14e:	99 27       	eor	r25, r25
+ 150:	61 15       	cp	r22, r1
+ 152:	71 05       	cpc	r23, r1
+ 154:	11 f0       	breq	.+4      	; 0x15a <sharp_flash+0x30>
+ 156:	8e 7f       	andi	r24, 0xFE	; 254
+ 158:	01 c0       	rjmp	.+2      	; 0x15c <sharp_flash+0x32>
+ 15a:	8f 77       	andi	r24, 0x7F	; 127
+ 15c:	82 bb       	out	0x12, r24	; 18
+	   LED_On(mod&4?1:7);
+ 15e:	82 b3       	in	r24, 0x12	; 18
+ 160:	99 27       	eor	r25, r25
+ 162:	41 15       	cp	r20, r1
+ 164:	51 05       	cpc	r21, r1
+ 166:	11 f0       	breq	.+4      	; 0x16c <sharp_flash+0x42>
+ 168:	8d 7f       	andi	r24, 0xFD	; 253
+ 16a:	01 c0       	rjmp	.+2      	; 0x16e <sharp_flash+0x44>
+ 16c:	8f 77       	andi	r24, 0x7F	; 127
+ 16e:	82 bb       	out	0x12, r24	; 18
+ */
+void
+_delay_loop_2(uint16_t __count)
+{
+	__asm__ volatile (
+ 170:	cd 01       	movw	r24, r26
+ 172:	01 97       	sbiw	r24, 0x01	; 1
+ 174:	f1 f7       	brne	.-4      	; 0x172 <sharp_flash+0x48>
+
+       _delay_ms(10);
+	 
+
+	   LED_Off(0);
+ 176:	90 9a       	sbi	0x12, 0	; 18
+ 	   LED_Off(1);
+ 178:	91 9a       	sbi	0x12, 1	; 18
+ */
+void
+_delay_loop_2(uint16_t __count)
+{
+	__asm__ volatile (
+ 17a:	cd 01       	movw	r24, r26
+ 17c:	01 97       	sbiw	r24, 0x01	; 1
+ 17e:	f1 f7       	brne	.-4      	; 0x17c <sharp_flash+0x52>
+ 180:	31 50       	subi	r19, 0x01	; 1
+ 182:	37 ff       	sbrs	r19, 7
+ 184:	e3 cf       	rjmp	.-58     	; 0x14c <sharp_flash+0x22>
+	   	_delay_ms(10);
+	}
+   mod++;
+ 186:	2f 5f       	subi	r18, 0xFF	; 255
+ 188:	20 93 61 00 	sts	0x0061, r18
+ 18c:	df 91       	pop	r29
+ 18e:	cf 91       	pop	r28
+ 190:	08 95       	ret
+
+00000192 <pwm_demo>:
+
+
+void pwm_demo()
+{
+	_set_bit(PORTB, 2);//led
+ 192:	c2 9a       	sbi	0x18, 2	; 24
+	_clear_bit(PORTB,1);
+ 194:	c1 98       	cbi	0x18, 1	; 24
+	_clear_bit(PORTB,0); //pwm 
+ 196:	c0 98       	cbi	0x18, 0	; 24
+		__ticks = 1;
+	else if (__tmp > 65535)
+		__ticks = 0;	/* i.e. 65536 */
+	else
+		__ticks = (uint16_t)__tmp;
+ 198:	80 ed       	ldi	r24, 0xD0	; 208
+ 19a:	97 e0       	ldi	r25, 0x07	; 7
+ 19c:	01 97       	sbiw	r24, 0x01	; 1
+ 19e:	f1 f7       	brne	.-4      	; 0x19c <pwm_demo+0xa>
+	_delay_ms(2);
+       
+	_set_bit(PORTB, 0); //pwm
+ 1a0:	c0 9a       	sbi	0x18, 0	; 24
+    _clear_bit(PORTB, 2);//led
+ 1a2:	c2 98       	cbi	0x18, 2	; 24
+	_set_bit(PORTB,1);
+ 1a4:	c1 9a       	sbi	0x18, 1	; 24
+	double __tmp = ((F_CPU) / 3e6) * __us;
+	if (__tmp < 1.0)
+		__ticks = 1;
+	else if (__tmp > 255)
+		__ticks = 0;	/* i.e. 256 */
+ 1a6:	80 e0       	ldi	r24, 0x00	; 0
+ 1a8:	8a 95       	dec	r24
+ 1aa:	f1 f7       	brne	.-4      	; 0x1a8 <pwm_demo+0x16>
+ 1ac:	08 95       	ret
+
+000001ae <pwm_init>:
+	_delay_us(500);
+
+}
+
+
+
+
+/* FAST PWM mode
+The counter counts from BOTTOM to TOP then restarts from BOTTOM. 
+
+
+---------------
+TCCR0A :  COM0A1 COM0A0 
+
+WGM2:0 
+TOP is defined as 0xFF when WGM2:0 = 3  *
+and OCR0A when WGM2:0 = 7
+
+COM01 COM00: 
+1       0     Clear OC0A on Compare Match, set OC0A at TOP *
+
+------------------
+TCCR0B :
+WGM20  
+
+CS02 CS01 CS00 ：
+0     1      0       clkI/O/8 (From prescaler)
+
+
+------------------
+TCNT0  -
+
+OCR0A – Output Compare Register , cmpare to TCN0
+
+GTCCR – General Timer/Counter Control Register
+             Bit              7            0
+                            TSM          PSR10     
+             Read/Write     R/W           R/W
+             Initial Value    0             0
+            Bit 7 – TSM: Timer/Counter Synchronization Mode
+            Writing the TSM bit to one activates the Timer/Counter Synchronization mode. In this mode, the
+            value that is written to the PSR10 bit is kept, hence keeping the Prescaler Reset signal asserted.
+            This ensures that the Timer/Counter is halted and can be configured without the risk of advanc-
+            ing during configuration. When the TSM bit is written to zero, the PSR10 bit is cleared by
+            hardware, and the Timer/Counter start counting.
+            Bit 0 – PSR10: Prescaler Reset Timer/Counter0
+            When this bit is one, the Timer/Counter0 prescaler will be Reset. This bit is normally cleared
+            immediately by hardware, except ifexcept )
+
+*/
+
+
+
+void pwm_init()
+{
+
+  TCCR1A  =  ( _nm8(0b10,WGM10,WGM11) ) |  ( _nm8(0b10, COM1A0,COM1A1) );  
+ 1ae:	82 e8       	ldi	r24, 0x82	; 130
+ 1b0:	8f bd       	out	0x2f, r24	; 47
+  TCCR1B  =  _nm8(0b001, CS10,CS12) | (_nm8(0b11,WGM12,WGM13));     
+ 1b2:	89 e1       	ldi	r24, 0x19	; 25
+ 1b4:	8e bd       	out	0x2e, r24	; 46
+  TCNT1  = 0;
+ 1b6:	1d bc       	out	0x2d, r1	; 45
+ 1b8:	1c bc       	out	0x2c, r1	; 44
+  ICR1 = 0xff ;  /* top = 0; */
+ 1ba:	8f ef       	ldi	r24, 0xFF	; 255
+ 1bc:	90 e0       	ldi	r25, 0x00	; 0
+ 1be:	97 bd       	out	0x27, r25	; 39
+ 1c0:	86 bd       	out	0x26, r24	; 38
+ 1c2:	08 95       	ret
+
+000001c4 <pwm_setduty>:
+  
+  //only attiny13?  GTCCR = 1; /*reset prescaler*/
+
+}
+
+void pwm_setduty(unsigned char duty)
+{
+  OCR1A = duty;
+ 1c4:	99 27       	eor	r25, r25
+ 1c6:	9b bd       	out	0x2b, r25	; 43
+ 1c8:	8a bd       	out	0x2a, r24	; 42
+ 1ca:	08 95       	ret
