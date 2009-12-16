@@ -16,3 +16,15 @@
 #define  _nm8(val,n,m)      (val<<(n))&(_NM_MASK8(n,m))
 #define  _set_nm8(x,val,n,m) _clear_nm8(x,n,m); \
 							x |= _nm8(val,n,m)
+
+
+/*for AVR */
+#define  _pin_in(port,n) /* (D, 3)*/ \
+			DDR##port &= ~(1<< DD##port##n);  /*enable input*/   \
+			PORT##port |= (1<< P##port##n)    /*pull-up-enable*/  
+
+#define  _pin_out(port,n)\
+			DDR##port |= (1<< DD##port##n);  /*enable input*/   \
+			
+
+
