@@ -15,7 +15,7 @@ void led_init()
     char i;
 		for (i = 0; i < 3; i++){
 
-			_port_modenm(LED_PORT,0,1,OUTPUT);//_nm8(0b11,0,1);
+			_pins_mode(LED_PORT,0,1,OUTPUT);//_nm8(0b11,0,1);
 			_delay_ms(200);
  		    LED_Off(0);
  		    LED_Off(1);

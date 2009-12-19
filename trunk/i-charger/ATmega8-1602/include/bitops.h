@@ -11,15 +11,32 @@
 
 
 /* mask ops */
-#define _NM_MASK8(n,m)    (0xFF<<(n))&(0xFF>>(7-(m)))
+#define _MASK8(n,m)      (0xFF<<(n))&(0xFF>>(7-(m)))
                           /*n=2, m=3*/
 				          /* xxxx XX00  &  0000 XXXX*/
 
-#define  _clear_nm8(x,n,m)  x&= ~( _NM_MASK8(n,m))
-#define  _nm8(val,n,m)      (val<<(n))&(_NM_MASK8(n,m))
-#define  _set_nm8(x,val,n,m) _clear_nm8(x,n,m); \
-							x |= _nm8(val,n,m)
+#define  _bits8(val,n,m)   (val<<(n))&(_MASK8(n,m))
 
+
+
+
+/*
+ * mov specifed bits in src to specified bits in dst
+ * by ONE move INST, and KEEP other bits in dst un-touched 
+ * useful bits ops, slow but convinent, PowePC rlwimi style
+ */
+#define __only_bits8(v,n,m)  ( (_MASK8((n),(m)))&(v))
+#define __clear_bits8(v,n,m)  ( (~_MASK8((n),(m)))&(v))
+
+#define _mov_bits8(dst,src,dn,dm,sn,sm) \
+			dst = (   \
+			         (  \
+			          __only_bits8((src),(sn),(sm))>>(sn) \
+					 ) <<(dn) \
+				  ) |  \
+			      (     \
+				    __clear_bits8(dst,dn,dm) \
+				  )
 
 
 #endif

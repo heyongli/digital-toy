@@ -23,9 +23,9 @@
 #define OUTPUT  1
 void __set_port_mode(volatile char* port_addr, char mode, char n, char m);
 
-/*i.e.  _port_mode(PORTD,3,INPUT) */
-#define _port_mode(PORT,pin,mode) __set_port_mode(&PORT,mode,pin,pin)
-#define _port_modenm(PORT,n,m,mode) __set_port_mode(&PORT,mode,n,m)
+/*i.e.  _pins_mode(PORTD,3,INPUT) */
+#define _pin_mode(PORT,pin,mode) __set_port_mode(&PORT,mode,pin,pin)
+#define _pins_mode(PORT,n,m,mode) __set_port_mode(&PORT,mode,n,m)
 
 
 

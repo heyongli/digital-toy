@@ -116,7 +116,7 @@ LOAD C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x4c4
+.text           0x00000000      0x4f2
  *(.vectors)
  .vectors       0x00000000       0x26 C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib/avr4/crtm8.o
                 0x00000000                __vectors
@@ -178,22 +178,22 @@ LOAD C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a
                 0x000001fa                pwm_init
                 0x0000021c                pwm_setduty
                 0x000001de                pwm_demo
- .text          0x00000224       0x9c 74hc595.o
-                0x0000024a                shiftout
+ .text          0x00000224       0x86 74hc595.o
+                0x00000232                shiftout
                 0x00000224                init_74hc595
-                0x00000296                write_74hc595
- .text          0x000002c0       0xa6 avrio.o
-                0x0000033c                _delay_s
-                0x000002c0                __set_port_mode
- .text          0x00000366      0x15e 4wire-1602.o
-                0x00000474                lcd_putc
-                0x0000047a                lcd_scroll
-                0x0000043e                lcd_cursor
-                0x00000456                lcd_puts
-                0x000003ce                lcd1602_init
-                0x000004c4                . = ALIGN (0x2)
+                0x0000027e                write_74hc595
+ .text          0x000002aa       0xa6 avrio.o
+                0x00000326                _delay_s
+                0x000002aa                __set_port_mode
+ .text          0x00000350      0x1a2 4wire-1602.o
+                0x000004a2                lcd_putc
+                0x000004a8                lcd_scroll
+                0x0000046c                lcd_cursor
+                0x00000484                lcd_puts
+                0x00000412                lcd1602_init
+                0x000004f2                . = ALIGN (0x2)
  *(.text.*)
-                0x000004c4                . = ALIGN (0x2)
+                0x000004f2                . = ALIGN (0x2)
  *(.fini9)
  *(.fini8)
  *(.fini7)
@@ -204,9 +204,9 @@ LOAD C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a
  *(.fini2)
  *(.fini1)
  *(.fini0)
-                0x000004c4                _etext = .
+                0x000004f2                _etext = .
 
-.data           0x00800060       0x20 load address 0x000004c4
+.data           0x00800060       0x20 load address 0x000004f2
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800060       0x1f main.o
@@ -218,22 +218,23 @@ LOAD C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a
                 0x00800080                _edata = .
                 0x00800080                PROVIDE (__data_end, .)
 
-.bss            0x00800080        0x1
+.bss            0x00800080        0x2
                 0x00800080                PROVIDE (__bss_start, .)
  *(.bss)
  .bss           0x00800080        0x1 main.o
                 0x00800080                i
+ .bss           0x00800081        0x1 4wire-1602.o
  *(COMMON)
-                0x00800081                PROVIDE (__bss_end, .)
-                0x000004c4                __data_load_start = LOADADDR (.data)
-                0x000004e4                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00800082                PROVIDE (__bss_end, .)
+                0x000004f2                __data_load_start = LOADADDR (.data)
+                0x00000512                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00800081        0x0
-                0x00800081                PROVIDE (__noinit_start, .)
+.noinit         0x00800082        0x0
+                0x00800082                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x00800081                PROVIDE (__noinit_end, .)
-                0x00800081                _end = .
-                0x00800081                PROVIDE (__heap_start, .)
+                0x00800082                PROVIDE (__noinit_end, .)
+                0x00800082                _end = .
+                0x00800082                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -305,38 +306,38 @@ LOAD C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a
  .debug_pubnames
                 0x00000128       0x5b 4wire-1602.o
 
-.debug_info     0x00000000     0x10d2
+.debug_info     0x00000000     0x113b
  *(.debug_info)
  .debug_info    0x00000000      0x342 main.o
  .debug_info    0x00000342      0x1f8 led.o
  .debug_info    0x0000053a      0x1c3 pwm.o
- .debug_info    0x000006fd      0x28e 74hc595.o
- .debug_info    0x0000098b      0x21f avrio.o
- .debug_info    0x00000baa      0x528 4wire-1602.o
+ .debug_info    0x000006fd      0x2c2 74hc595.o
+ .debug_info    0x000009bf      0x21f avrio.o
+ .debug_info    0x00000bde      0x55d 4wire-1602.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev   0x00000000      0x5ca
+.debug_abbrev   0x00000000      0x5e2
  *(.debug_abbrev)
  .debug_abbrev  0x00000000       0xff main.o
  .debug_abbrev  0x000000ff       0xd8 led.o
  .debug_abbrev  0x000001d7       0xe6 pwm.o
  .debug_abbrev  0x000002bd      0x102 74hc595.o
  .debug_abbrev  0x000003bf       0xf7 avrio.o
- .debug_abbrev  0x000004b6      0x114 4wire-1602.o
+ .debug_abbrev  0x000004b6      0x12c 4wire-1602.o
 
-.debug_line     0x00000000      0x82c
+.debug_line     0x00000000      0x827
  *(.debug_line)
  .debug_line    0x00000000      0x1bd main.o
  .debug_line    0x000001bd      0x10e led.o
  .debug_line    0x000002cb      0x10d pwm.o
- .debug_line    0x000003d8      0x155 74hc595.o
- .debug_line    0x0000052d       0xc4 avrio.o
- .debug_line    0x000005f1      0x23b 4wire-1602.o
+ .debug_line    0x000003d8      0x131 74hc595.o
+ .debug_line    0x00000509       0xc4 avrio.o
+ .debug_line    0x000005cd      0x25a 4wire-1602.o
 
 .debug_frame
  *(.debug_frame)
 
-.debug_str      0x00000000      0x212
+.debug_str      0x00000000      0x218
  *(.debug_str)
  .debug_str     0x00000000      0x10f main.o
                                 0x14d (size before relaxing)
@@ -348,8 +349,8 @@ LOAD C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a
                                 0x12b (size before relaxing)
  .debug_str     0x000001a6       0x2e avrio.o
                                 0x129 (size before relaxing)
- .debug_str     0x000001d4       0x3e 4wire-1602.o
-                                0x190 (size before relaxing)
+ .debug_str     0x000001d4       0x44 4wire-1602.o
+                                0x1b1 (size before relaxing)
 
 .debug_loc
  *(.debug_loc)

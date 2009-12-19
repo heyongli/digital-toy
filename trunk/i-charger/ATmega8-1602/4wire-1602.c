@@ -12,16 +12,45 @@
 #include "include/avrio.h"
 #include <util/delay.h>
 
-#define LCD_CTR_PORT    PORTD 
-#define LCD_DATA_PORT   PORTC  
-#define LCD_RS          (1<<PD5) //0x02  portA1       out
-#define LCD_RW          (1<<PD6)
-#define LCD_EN          (1<<PD7) //0x08   portA3       out
-#define LCD_DATA        0xf /*portC 0..3 for DATA*/
+#define USE_74HC595
+//#undef  USE_74HC595
 
-#define io_init() \
-    _port_modenm(LCD_DATA_PORT,0,3,OUTPUT); \
-    _port_modenm(LCD_CTR_PORT,5,7,OUTPUT)
+#define LCD_RSWE_PORT  PORTD 
+#define LCD_DATA_PORT  PORTC  
+
+#ifdef USE_74HC595  
+  #define io_init() init_74hc595()
+#else
+  #define io_init() \
+      _pins_mode(LCD_DATA_PORT,0,3,OUTPUT); \
+	  _pins_mode(LCD_RSWE_PORT,5,7,OUTPUT)
+#endif
+
+#ifdef USE_74HC595  
+  #define  _rswe()  write_74hc595(bus4w)
+  #define  _data()  write_74hc595(bus4w)
+#else
+  #define  _rswe()  _mov_bits8(LCD_RSWE_PORT,bus4w,5,7,1,3)
+  #define  _data()  _mov_bits8(LCD_DATA_PORT,bus4w,0,3,4,7);
+#endif
+/*************以下内容无需修改，移植请修改以上内容******************/
+static char bus4w = 0;
+/*  74hc595 data format 
+ *  |res| _RS| _RW | _EN | 4bit DATA |
+ *    0    1    2     3     4 5 6 7 
+ *  4wire direct to IO
+ *  PORTD: 5    6     7 
+ *  PORTC:                  0 1 2 3 
+ */
+#define _RS          (1<<1) 
+#define _RW          (1<<2)
+#define _EN          (1<<3) 
+#define _RSWE        (_RS|_RW|_EN)
+#define _DATA        (0xf0)
+
+
+
+
 
 /*************以下内容无需修改，移植请修改以上内容******************/
 
@@ -43,36 +72,42 @@ static void hd44870_send(unsigned char data, char is_cmd)
 {
   io_delay();
   
-  LCD_CTR_PORT &=~(LCD_EN|LCD_RW);       
-  
+  bus4w &=~(_EN|_RW);       
+  _rswe();
   //io_delay();
   
   if(is_cmd)
-  	 LCD_CTR_PORT&=~LCD_RS;  //RS=0，command
+  	 bus4w&=~_RS;  //RS=0，command
   else
-  	 LCD_CTR_PORT|=LCD_RS;  //RS=1, data
-  
+  	 bus4w|=_RS;  //RS=1, data
+  _rswe();
   io_delay();
   
   /* 4 MSB*/
-  LCD_DATA_PORT&=0Xf0;    
-  LCD_DATA_PORT|=(data>>4)&0xf; 
+  bus4w &= ~(_DATA);    
+  bus4w |= data&_DATA; 
+  _data();
   
   io_delay();
-  LCD_CTR_PORT |=LCD_EN;  
+  bus4w |=_EN;  
+  _rswe();
   io_delay(); 
-  LCD_CTR_PORT &=~LCD_EN;   
+  bus4w &=~_EN;   
+  _rswe();
 
   io_delay();
   
   /*send low 4 lsb*/
-  LCD_DATA_PORT&=0xf0;         
-  LCD_DATA_PORT|=data&0xf; 
+  bus4w&=~_DATA;         
+  bus4w|=(data<<4)&_DATA; 
+  _data();
   io_delay();
 
-  LCD_CTR_PORT |=LCD_EN;   
+  bus4w |=_EN;  
+  _rswe();
   io_delay(); 
-  LCD_CTR_PORT &=~LCD_EN;  
+  bus4w &=~_EN;   
+  _rswe();
   
   
 }

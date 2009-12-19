@@ -3,31 +3,31 @@ i-charger-m8.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         000004c4  00000000  00000000  00000094  2**0
+  0 .text         000004f2  00000000  00000000  00000094  2**0
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000020  00800060  000004c4  00000558  2**0
+  1 .data         00000020  00800060  000004f2  00000586  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          00000001  00800080  00800080  00000578  2**0
+  2 .bss          00000002  00800080  00800080  000005a6  2**0
                   ALLOC
-  3 .noinit       00000000  00800081  00800081  00000578  2**0
+  3 .noinit       00000000  00800082  00800082  000005a6  2**0
                   CONTENTS
-  4 .eeprom       00000000  00810000  00810000  00000578  2**0
+  4 .eeprom       00000000  00810000  00810000  000005a6  2**0
                   CONTENTS
-  5 .stab         0000036c  00000000  00000000  00000578  2**2
+  5 .stab         0000036c  00000000  00000000  000005a8  2**2
                   CONTENTS, READONLY, DEBUGGING
-  6 .stabstr      00000084  00000000  00000000  000008e4  2**0
+  6 .stabstr      00000084  00000000  00000000  00000914  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_aranges 00000078  00000000  00000000  00000968  2**0
+  7 .debug_aranges 00000078  00000000  00000000  00000998  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_pubnames 00000183  00000000  00000000  000009e0  2**0
+  8 .debug_pubnames 00000183  00000000  00000000  00000a10  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_info   000010d2  00000000  00000000  00000b63  2**0
+  9 .debug_info   0000113b  00000000  00000000  00000b93  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_abbrev 000005ca  00000000  00000000  00001c35  2**0
+ 10 .debug_abbrev 000005e2  00000000  00000000  00001cce  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_line   0000082c  00000000  00000000  000021ff  2**0
+ 11 .debug_line   00000827  00000000  00000000  000022b0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_str    00000212  00000000  00000000  00002a2b  2**0
+ 12 .debug_str    00000218  00000000  00000000  00002ad7  2**0
                   CONTENTS, READONLY, DEBUGGING
 Disassembly of section .text:
 
@@ -64,7 +64,7 @@ Disassembly of section .text:
   32:	10 e0       	ldi	r17, 0x00	; 0
   34:	a0 e6       	ldi	r26, 0x60	; 96
   36:	b0 e0       	ldi	r27, 0x00	; 0
-  38:	e4 ec       	ldi	r30, 0xC4	; 196
+  38:	e2 ef       	ldi	r30, 0xF2	; 242
   3a:	f4 e0       	ldi	r31, 0x04	; 4
   3c:	02 c0       	rjmp	.+4      	; 0x42 <.do_copy_data_start>
 
@@ -87,7 +87,7 @@ Disassembly of section .text:
   50:	1d 92       	st	X+, r1
 
 00000052 <.do_clear_bss_start>:
-  52:	a1 38       	cpi	r26, 0x81	; 129
+  52:	a2 38       	cpi	r26, 0x82	; 130
   54:	b1 07       	cpc	r27, r17
   56:	e1 f7       	brne	.-8      	; 0x50 <.do_clear_bss_loop>
   58:	1d c0       	rjmp	.+58     	; 0x94 <main>
@@ -167,26 +167,21 @@ int main()
   a2:	60 e0       	ldi	r22, 0x00	; 0
   a4:	82 e3       	ldi	r24, 0x32	; 50
   a6:	90 e0       	ldi	r25, 0x00	; 0
-  a8:	0b d1       	rcall	.+534    	; 0x2c0 <__set_port_mode>
+  a8:	00 d1       	rcall	.+512    	; 0x2aa <__set_port_mode>
   aa:	23 e0       	ldi	r18, 0x03	; 3
   ac:	42 2f       	mov	r20, r18
   ae:	60 e0       	ldi	r22, 0x00	; 0
   b0:	82 e3       	ldi	r24, 0x32	; 50
   b2:	90 e0       	ldi	r25, 0x00	; 0
-  b4:	05 d1       	rcall	.+522    	; 0x2c0 <__set_port_mode>
+  b4:	fa d0       	rcall	.+500    	; 0x2aa <__set_port_mode>
 
     
 	pwm_init();
   b6:	a1 d0       	rcall	.+322    	; 0x1fa <pwm_init>
-    //init_74hc595();
     
 	
 	while (1){
 	 
-	 
-	    //write_74hc595(i++);
-	
-	
         //sharp_flash();
 	    //pwm_demo();
         if( keydown()){
@@ -195,21 +190,21 @@ int main()
   bc:	09 f1       	breq	.+66     	; 0x100 <main+0x6c>
 	
 	        lcd1602_init();
-  be:	87 d1       	rcall	.+782    	; 0x3ce <lcd1602_init>
+  be:	a9 d1       	rcall	.+850    	; 0x412 <lcd1602_init>
 			lcd_cursor(1,0);
   c0:	60 e0       	ldi	r22, 0x00	; 0
   c2:	70 e0       	ldi	r23, 0x00	; 0
   c4:	81 e0       	ldi	r24, 0x01	; 1
   c6:	90 e0       	ldi	r25, 0x00	; 0
-  c8:	ba d1       	rcall	.+884    	; 0x43e <lcd_cursor>
+  c8:	d1 d1       	rcall	.+930    	; 0x46c <lcd_cursor>
 		    lcd_puts("***Digital TOY");
   ca:	81 e6       	ldi	r24, 0x61	; 97
   cc:	90 e0       	ldi	r25, 0x00	; 0
-  ce:	c3 d1       	rcall	.+902    	; 0x456 <lcd_puts>
+  ce:	da d1       	rcall	.+948    	; 0x484 <lcd_puts>
 			lcd_scroll(-1);
   d0:	8f ef       	ldi	r24, 0xFF	; 255
   d2:	9f ef       	ldi	r25, 0xFF	; 255
-  d4:	d2 d1       	rcall	.+932    	; 0x47a <lcd_scroll>
+  d4:	e9 d1       	rcall	.+978    	; 0x4a8 <lcd_scroll>
 	
 		  //_set_bit(PORTB,1);
 		  duty-=2;
@@ -255,20 +250,20 @@ _delay_loop_2(uint16_t __count)
  102:	88 23       	and	r24, r24
  104:	c9 f2       	breq	.-78     	; 0xb8 <main+0x24>
 	        lcd1602_init();
- 106:	63 d1       	rcall	.+710    	; 0x3ce <lcd1602_init>
+ 106:	85 d1       	rcall	.+778    	; 0x412 <lcd1602_init>
 			lcd_cursor(1,1);
  108:	61 e0       	ldi	r22, 0x01	; 1
  10a:	70 e0       	ldi	r23, 0x00	; 0
  10c:	cb 01       	movw	r24, r22
- 10e:	97 d1       	rcall	.+814    	; 0x43e <lcd_cursor>
+ 10e:	ae d1       	rcall	.+860    	; 0x46c <lcd_cursor>
 		    lcd_puts("Welcom Atmega8");
  110:	80 e7       	ldi	r24, 0x70	; 112
  112:	90 e0       	ldi	r25, 0x00	; 0
- 114:	a0 d1       	rcall	.+832    	; 0x456 <lcd_puts>
+ 114:	b7 d1       	rcall	.+878    	; 0x484 <lcd_puts>
 			lcd_scroll(1);
  116:	81 e0       	ldi	r24, 0x01	; 1
  118:	90 e0       	ldi	r25, 0x00	; 0
- 11a:	af d1       	rcall	.+862    	; 0x47a <lcd_scroll>
+ 11a:	c6 d1       	rcall	.+908    	; 0x4a8 <lcd_scroll>
 		  //_set_bit(PORTB,1);
 		  duty+=2;
  11c:	80 91 60 00 	lds	r24, 0x0060
@@ -320,13 +315,13 @@ void led_init()
     char i;
 		for (i = 0; i < 3; i++){
 
-			_port_modenm(LED_PORT,0,1,OUTPUT);//_nm8(0b11,0,1);
+			_pins_mode(LED_PORT,0,1,OUTPUT);//_nm8(0b11,0,1);
  14e:	21 e0       	ldi	r18, 0x01	; 1
  150:	40 e0       	ldi	r20, 0x00	; 0
  152:	62 2f       	mov	r22, r18
  154:	82 e3       	ldi	r24, 0x32	; 50
  156:	90 e0       	ldi	r25, 0x00	; 0
- 158:	b3 d0       	rcall	.+358    	; 0x2c0 <__set_port_mode>
+ 158:	a8 d0       	rcall	.+336    	; 0x2aa <__set_port_mode>
 	double __tmp = ((F_CPU) / 4e3) * __ms;
 	if (__tmp < 1.0)
 		__ticks = 1;
@@ -538,10 +533,10 @@ GTCCR – General Timer/Counter Control Register
 void pwm_init()
 {
 
-  TCCR1A  =   _nm8(0b10,WGM10,WGM11)  |  ( _nm8(0b10, COM1A0,COM1A1) );  
+  TCCR1A  =   (_bits8(0b10,WGM10,WGM11) )  |  ( _bits8(0b10, COM1A0,COM1A1) );  
  1fa:	82 e8       	ldi	r24, 0x82	; 130
  1fc:	8f bd       	out	0x2f, r24	; 47
-  TCCR1B  =   _nm8(0b001, CS10,CS12)  | (_nm8(0b11,WGM12,WGM13));     
+  TCCR1B  =   (_bits8(0b001, CS10,CS12))  | (_bits8(0b11,WGM12,WGM13));     
  1fe:	89 e1       	ldi	r24, 0x19	; 25
  200:	8e bd       	out	0x2e, r24	; 46
   TCNT1  = 0;
@@ -554,13 +549,13 @@ void pwm_init()
  20c:	86 bd       	out	0x26, r24	; 38
   
   //only attiny13?  GTCCR = 1; /*reset prescaler*/
-  _port_mode(PORTB,1,OUTPUT);
+  _pin_mode(PORTB,1,OUTPUT);
  20e:	21 e0       	ldi	r18, 0x01	; 1
  210:	42 2f       	mov	r20, r18
  212:	62 2f       	mov	r22, r18
  214:	88 e3       	ldi	r24, 0x38	; 56
  216:	90 e0       	ldi	r25, 0x00	; 0
- 218:	53 d0       	rcall	.+166    	; 0x2c0 <__set_port_mode>
+ 218:	48 d0       	rcall	.+144    	; 0x2aa <__set_port_mode>
  21a:	08 95       	ret
 
 0000021c <pwm_setduty>:
@@ -579,397 +574,411 @@ void pwm_setduty(unsigned char duty)
 
 void init_74hc595(void)
 {
-    _port_mode(PORT_74HC595, CLK,OUTPUT);
-    _port_mode(PORT_74HC595, LATCH,OUTPUT);
- 224:	25 e0       	ldi	r18, 0x05	; 5
- 226:	42 2f       	mov	r20, r18
+    _pins_mode(PORT_74HC595, CLK,SDI,OUTPUT);
+}
+ 224:	27 e0       	ldi	r18, 0x07	; 7
+ 226:	45 e0       	ldi	r20, 0x05	; 5
  228:	61 e0       	ldi	r22, 0x01	; 1
  22a:	82 e3       	ldi	r24, 0x32	; 50
  22c:	90 e0       	ldi	r25, 0x00	; 0
- 22e:	48 d0       	rcall	.+144    	; 0x2c0 <__set_port_mode>
-    _port_mode(PORT_74HC595, SDI,OUTPUT);
- 230:	26 e0       	ldi	r18, 0x06	; 6
- 232:	42 2f       	mov	r20, r18
- 234:	61 e0       	ldi	r22, 0x01	; 1
- 236:	82 e3       	ldi	r24, 0x32	; 50
- 238:	90 e0       	ldi	r25, 0x00	; 0
- 23a:	42 d0       	rcall	.+132    	; 0x2c0 <__set_port_mode>
-   
- 23c:	27 e0       	ldi	r18, 0x07	; 7
- 23e:	42 2f       	mov	r20, r18
- 240:	61 e0       	ldi	r22, 0x01	; 1
- 242:	82 e3       	ldi	r24, 0x32	; 50
- 244:	90 e0       	ldi	r25, 0x00	; 0
- 246:	3c d0       	rcall	.+120    	; 0x2c0 <__set_port_mode>
- 248:	08 95       	ret
+ 22e:	3d d0       	rcall	.+122    	; 0x2aa <__set_port_mode>
+ 230:	08 95       	ret
 
-0000024a <shiftout>:
-}
+00000232 <shiftout>:
 
 void shiftout(unsigned char data)
 {
 	char i=0;
 	for(i=0;i<8;i++){
-	   delay_io;
- 24a:	2a e1       	ldi	r18, 0x1A	; 26
- 24c:	30 e0       	ldi	r19, 0x00	; 0
- 24e:	40 e0       	ldi	r20, 0x00	; 0
- 250:	50 e0       	ldi	r21, 0x00	; 0
- 252:	a8 2f       	mov	r26, r24
- 254:	bb 27       	eor	r27, r27
- 256:	60 e0       	ldi	r22, 0x00	; 0
- 258:	70 e0       	ldi	r23, 0x00	; 0
- 25a:	e7 e0       	ldi	r30, 0x07	; 7
+ 232:	2a e1       	ldi	r18, 0x1A	; 26
+ 234:	30 e0       	ldi	r19, 0x00	; 0
+ 236:	40 e0       	ldi	r20, 0x00	; 0
+ 238:	50 e0       	ldi	r21, 0x00	; 0
+ 23a:	a8 2f       	mov	r26, r24
+ 23c:	bb 27       	eor	r27, r27
+ 23e:	60 e0       	ldi	r22, 0x00	; 0
+ 240:	70 e0       	ldi	r23, 0x00	; 0
+ 242:	e7 e0       	ldi	r30, 0x07	; 7
 */
 void
 _delay_loop_1(uint8_t __count)
 {
 	__asm__ volatile (
- 25c:	82 2f       	mov	r24, r18
- 25e:	8a 95       	dec	r24
- 260:	f1 f7       	brne	.-4      	; 0x25e <shiftout+0x14>
+ 244:	82 2f       	mov	r24, r18
+ 246:	8a 95       	dec	r24
+ 248:	f1 f7       	brne	.-4      	; 0x246 <shiftout+0x14>
+	   delay_io;
 	  
-	   if((data>>i)&0x1)
-	    _set_bit(PORT_74HC595, SDI);
+	   if((data<<i)&0x80)
+	     _set_bit(PORT_74HC595, SDI);
 	   else
+ 24a:	cd 01       	movw	r24, r26
+ 24c:	06 2e       	mov	r0, r22
+ 24e:	02 c0       	rjmp	.+4      	; 0x254 <shiftout+0x22>
+ 250:	88 0f       	add	r24, r24
+ 252:	99 1f       	adc	r25, r25
+ 254:	0a 94       	dec	r0
+ 256:	e2 f7       	brpl	.-8      	; 0x250 <shiftout+0x1e>
+ 258:	87 ff       	sbrs	r24, 7
+ 25a:	02 c0       	rjmp	.+4      	; 0x260 <shiftout+0x2e>
 	     _clear_bit(PORT_74HC595, SDI);
- 262:	cd 01       	movw	r24, r26
- 264:	06 2e       	mov	r0, r22
- 266:	02 c0       	rjmp	.+4      	; 0x26c <shiftout+0x22>
- 268:	95 95       	asr	r25
- 26a:	87 95       	ror	r24
- 26c:	0a 94       	dec	r0
- 26e:	e2 f7       	brpl	.-8      	; 0x268 <shiftout+0x1e>
- 270:	80 ff       	sbrs	r24, 0
- 272:	02 c0       	rjmp	.+4      	; 0x278 <shiftout+0x2e>
+ 25c:	97 9a       	sbi	0x12, 7	; 18
+ 25e:	01 c0       	rjmp	.+2      	; 0x262 <shiftout+0x30>
 
- 274:	97 9a       	sbi	0x12, 7	; 18
- 276:	01 c0       	rjmp	.+2      	; 0x27a <shiftout+0x30>
 	   delay_io;
-	  _set_bit(PORT_74HC595,CLK); 
- 278:	97 98       	cbi	0x12, 7	; 18
+ 260:	97 98       	cbi	0x12, 7	; 18
 */
 void
 _delay_loop_1(uint8_t __count)
 {
 	__asm__ volatile (
- 27a:	82 2f       	mov	r24, r18
- 27c:	8a 95       	dec	r24
- 27e:	f1 f7       	brne	.-4      	; 0x27c <shiftout+0x32>
+ 262:	82 2f       	mov	r24, r18
+ 264:	8a 95       	dec	r24
+ 266:	f1 f7       	brne	.-4      	; 0x264 <shiftout+0x32>
+	  _set_bit(PORT_74HC595,CLK); 
        delay_io;
 	  _clear_bit(PORT_74HC595, CLK);
-	  		
- 280:	95 9a       	sbi	0x12, 5	; 18
+ 268:	95 9a       	sbi	0x12, 5	; 18
 */
 void
 _delay_loop_1(uint8_t __count)
 {
 	__asm__ volatile (
- 282:	82 2f       	mov	r24, r18
- 284:	8a 95       	dec	r24
- 286:	f1 f7       	brne	.-4      	; 0x284 <shiftout+0x3a>
+ 26a:	82 2f       	mov	r24, r18
+ 26c:	8a 95       	dec	r24
+ 26e:	f1 f7       	brne	.-4      	; 0x26c <shiftout+0x3a>
+	  		
    }
+ 270:	95 98       	cbi	0x12, 5	; 18
+ 272:	e1 50       	subi	r30, 0x01	; 1
+ 274:	6f 5f       	subi	r22, 0xFF	; 255
+ 276:	7f 4f       	sbci	r23, 0xFF	; 255
+ 278:	e7 ff       	sbrs	r30, 7
+ 27a:	e4 cf       	rjmp	.-56     	; 0x244 <shiftout+0x12>
+ 27c:	08 95       	ret
 
- 288:	95 98       	cbi	0x12, 5	; 18
- 28a:	e1 50       	subi	r30, 0x01	; 1
- 28c:	6f 5f       	subi	r22, 0xFF	; 255
- 28e:	7f 4f       	sbci	r23, 0xFF	; 255
- 290:	e7 ff       	sbrs	r30, 7
- 292:	e4 cf       	rjmp	.-56     	; 0x25c <shiftout+0x12>
- 294:	08 95       	ret
+0000027e <write_74hc595>:
 
-00000296 <write_74hc595>:
 }
 void write_74hc595(unsigned char data)
 {
-	_clear_bit(PORT_74HC595,CLK); //prepare send data
+	//_clear_bit(PORT_74HC595,CLK); //prepare send data
 	delay_io;
-    _clear_bit(PORT_74HC595,LATCH); //prepare open latch
- 296:	1f 93       	push	r17
-    delay_io;
- 298:	95 98       	cbi	0x12, 5	; 18
+ 27e:	1f 93       	push	r17
 		__ticks = 1;
 	else if (__tmp > 255)
 		__ticks = 0;	/* i.e. 256 */
 	else
 		__ticks = (uint8_t)__tmp;
- 29a:	1a e1       	ldi	r17, 0x1A	; 26
- 29c:	91 2f       	mov	r25, r17
- 29e:	9a 95       	dec	r25
- 2a0:	f1 f7       	brne	.-4      	; 0x29e <write_74hc595+0x8>
-	  
+ 280:	1a e1       	ldi	r17, 0x1A	; 26
+ 282:	91 2f       	mov	r25, r17
+ 284:	9a 95       	dec	r25
+ 286:	f1 f7       	brne	.-4      	; 0x284 <write_74hc595+0x6>
+      
 	shiftout(data);
- 2a2:	96 98       	cbi	0x12, 6	; 18
-*/
-void
-_delay_loop_1(uint8_t __count)
-{
-	__asm__ volatile (
- 2a4:	91 2f       	mov	r25, r17
- 2a6:	9a 95       	dec	r25
- 2a8:	f1 f7       	brne	.-4      	; 0x2a6 <write_74hc595+0x10>
-    delay_io;
-
-    _set_bit(PORT_74HC595,CLK); //prepare send data
- 2aa:	cf df       	rcall	.-98     	; 0x24a <shiftout>
-*/
-void
-_delay_loop_1(uint8_t __count)
-{
-	__asm__ volatile (
- 2ac:	81 2f       	mov	r24, r17
- 2ae:	8a 95       	dec	r24
- 2b0:	f1 f7       	brne	.-4      	; 0x2ae <write_74hc595+0x18>
+    
 	delay_io;
-    _set_bit(PORT_74HC595,LATCH); //prepare open latch
-   
- 2b2:	95 9a       	sbi	0x12, 5	; 18
+ 288:	d4 df       	rcall	.-88     	; 0x232 <shiftout>
 */
 void
 _delay_loop_1(uint8_t __count)
 {
 	__asm__ volatile (
- 2b4:	81 2f       	mov	r24, r17
- 2b6:	8a 95       	dec	r24
- 2b8:	f1 f7       	brne	.-4      	; 0x2b6 <write_74hc595+0x20>
+ 28a:	81 2f       	mov	r24, r17
+ 28c:	8a 95       	dec	r24
+ 28e:	f1 f7       	brne	.-4      	; 0x28c <write_74hc595+0xe>
+    _set_bit(PORT_74HC595,LATCH); //prepare open latch
+     delay_io;
+	 delay_io;
+ 290:	96 9a       	sbi	0x12, 6	; 18
+*/
+void
+_delay_loop_1(uint8_t __count)
+{
+	__asm__ volatile (
+ 292:	81 2f       	mov	r24, r17
+ 294:	8a 95       	dec	r24
+ 296:	f1 f7       	brne	.-4      	; 0x294 <write_74hc595+0x16>
+     delay_io;
+    _clear_bit(PORT_74HC595,LATCH); //prepare open latch
+   
 }
+ 298:	81 2f       	mov	r24, r17
+ 29a:	8a 95       	dec	r24
+ 29c:	f1 f7       	brne	.-4      	; 0x29a <write_74hc595+0x1c>
+ 29e:	81 2f       	mov	r24, r17
+ 2a0:	8a 95       	dec	r24
+ 2a2:	f1 f7       	brne	.-4      	; 0x2a0 <write_74hc595+0x22>
+ 2a4:	96 98       	cbi	0x12, 6	; 18
+ 2a6:	1f 91       	pop	r17
+ 2a8:	08 95       	ret
 
- 2ba:	96 9a       	sbi	0x12, 6	; 18
- 2bc:	1f 91       	pop	r17
- 2be:	08 95       	ret
-
-000002c0 <__set_port_mode>:
+000002aa <__set_port_mode>:
 #include "include/avrio.h"
 
 
 void __set_port_mode(volatile char* port_addr, char mode, char n, char m)
 {
- 2c0:	dc 01       	movw	r26, r24
- 2c2:	72 2f       	mov	r23, r18
+ 2aa:	dc 01       	movw	r26, r24
+ 2ac:	72 2f       	mov	r23, r18
 	if(INPUT == mode){
- 2c4:	66 23       	and	r22, r22
- 2c6:	f1 f4       	brne	.+60     	; 0x304 <__set_port_mode+0x44>
+ 2ae:	66 23       	and	r22, r22
+ 2b0:	f1 f4       	brne	.+60     	; 0x2ee <__set_port_mode+0x44>
     	/* DDR */
-		(*(volatile uint8_t *)(port_addr-1) ) &= ~(_NM_MASK8(n,m));  /*enable input*/  
- 2c8:	fc 01       	movw	r30, r24
- 2ca:	31 97       	sbiw	r30, 0x01	; 1
- 2cc:	2f ef       	ldi	r18, 0xFF	; 255
- 2ce:	30 e0       	ldi	r19, 0x00	; 0
- 2d0:	c9 01       	movw	r24, r18
- 2d2:	02 c0       	rjmp	.+4      	; 0x2d8 <__set_port_mode+0x18>
- 2d4:	88 0f       	add	r24, r24
- 2d6:	99 1f       	adc	r25, r25
- 2d8:	4a 95       	dec	r20
- 2da:	e2 f7       	brpl	.-8      	; 0x2d4 <__set_port_mode+0x14>
- 2dc:	ac 01       	movw	r20, r24
- 2de:	87 e0       	ldi	r24, 0x07	; 7
- 2e0:	90 e0       	ldi	r25, 0x00	; 0
- 2e2:	87 1b       	sub	r24, r23
- 2e4:	91 09       	sbc	r25, r1
- 2e6:	02 c0       	rjmp	.+4      	; 0x2ec <__set_port_mode+0x2c>
- 2e8:	35 95       	asr	r19
- 2ea:	27 95       	ror	r18
- 2ec:	8a 95       	dec	r24
- 2ee:	e2 f7       	brpl	.-8      	; 0x2e8 <__set_port_mode+0x28>
- 2f0:	24 23       	and	r18, r20
- 2f2:	92 2f       	mov	r25, r18
- 2f4:	90 95       	com	r25
- 2f6:	80 81       	ld	r24, Z
- 2f8:	89 23       	and	r24, r25
- 2fa:	80 83       	st	Z, r24
+		(*(volatile uint8_t *)(port_addr-1) ) &= ~(_MASK8(n,m));  /*enable input*/  
+ 2b2:	fc 01       	movw	r30, r24
+ 2b4:	31 97       	sbiw	r30, 0x01	; 1
+ 2b6:	2f ef       	ldi	r18, 0xFF	; 255
+ 2b8:	30 e0       	ldi	r19, 0x00	; 0
+ 2ba:	c9 01       	movw	r24, r18
+ 2bc:	02 c0       	rjmp	.+4      	; 0x2c2 <__set_port_mode+0x18>
+ 2be:	88 0f       	add	r24, r24
+ 2c0:	99 1f       	adc	r25, r25
+ 2c2:	4a 95       	dec	r20
+ 2c4:	e2 f7       	brpl	.-8      	; 0x2be <__set_port_mode+0x14>
+ 2c6:	ac 01       	movw	r20, r24
+ 2c8:	87 e0       	ldi	r24, 0x07	; 7
+ 2ca:	90 e0       	ldi	r25, 0x00	; 0
+ 2cc:	87 1b       	sub	r24, r23
+ 2ce:	91 09       	sbc	r25, r1
+ 2d0:	02 c0       	rjmp	.+4      	; 0x2d6 <__set_port_mode+0x2c>
+ 2d2:	35 95       	asr	r19
+ 2d4:	27 95       	ror	r18
+ 2d6:	8a 95       	dec	r24
+ 2d8:	e2 f7       	brpl	.-8      	; 0x2d2 <__set_port_mode+0x28>
+ 2da:	24 23       	and	r18, r20
+ 2dc:	92 2f       	mov	r25, r18
+ 2de:	90 95       	com	r25
+ 2e0:	80 81       	ld	r24, Z
+ 2e2:	89 23       	and	r24, r25
+ 2e4:	80 83       	st	Z, r24
     	/* PORT */
-		(*(volatile uint8_t *)port_addr) |= (_NM_MASK8(n,m)) ; /*pull-up-enable*/  
- 2fc:	8c 91       	ld	r24, X
- 2fe:	82 2b       	or	r24, r18
- 300:	8c 93       	st	X, r24
- 302:	08 95       	ret
+		(*(volatile uint8_t *)port_addr) |= (_MASK8(n,m)) ; /*pull-up-enable*/  
+ 2e6:	8c 91       	ld	r24, X
+ 2e8:	82 2b       	or	r24, r18
+ 2ea:	8c 93       	st	X, r24
+ 2ec:	08 95       	ret
 	}else if(OUTPUT == mode){
- 304:	61 30       	cpi	r22, 0x01	; 1
- 306:	c9 f4       	brne	.+50     	; 0x33a <__set_port_mode+0x7a>
+ 2ee:	61 30       	cpi	r22, 0x01	; 1
+ 2f0:	c9 f4       	brne	.+50     	; 0x324 <__set_port_mode+0x7a>
 		/* DDR */
-		(*(volatile uint8_t *)(port_addr-1) ) |= _NM_MASK8(n,m);  /*enable output*/  
- 308:	fc 01       	movw	r30, r24
- 30a:	31 97       	sbiw	r30, 0x01	; 1
- 30c:	2f ef       	ldi	r18, 0xFF	; 255
- 30e:	30 e0       	ldi	r19, 0x00	; 0
- 310:	c9 01       	movw	r24, r18
- 312:	02 c0       	rjmp	.+4      	; 0x318 <__set_port_mode+0x58>
- 314:	88 0f       	add	r24, r24
- 316:	99 1f       	adc	r25, r25
- 318:	4a 95       	dec	r20
- 31a:	e2 f7       	brpl	.-8      	; 0x314 <__set_port_mode+0x54>
- 31c:	ac 01       	movw	r20, r24
- 31e:	87 e0       	ldi	r24, 0x07	; 7
- 320:	90 e0       	ldi	r25, 0x00	; 0
- 322:	87 1b       	sub	r24, r23
- 324:	91 09       	sbc	r25, r1
- 326:	02 c0       	rjmp	.+4      	; 0x32c <__set_port_mode+0x6c>
- 328:	35 95       	asr	r19
- 32a:	27 95       	ror	r18
- 32c:	8a 95       	dec	r24
- 32e:	e2 f7       	brpl	.-8      	; 0x328 <__set_port_mode+0x68>
- 330:	94 2f       	mov	r25, r20
- 332:	92 23       	and	r25, r18
- 334:	80 81       	ld	r24, Z
- 336:	89 2b       	or	r24, r25
- 338:	80 83       	st	Z, r24
- 33a:	08 95       	ret
+		(*(volatile uint8_t *)(port_addr-1) ) |= _MASK8(n,m);  /*enable output*/  
+ 2f2:	fc 01       	movw	r30, r24
+ 2f4:	31 97       	sbiw	r30, 0x01	; 1
+ 2f6:	2f ef       	ldi	r18, 0xFF	; 255
+ 2f8:	30 e0       	ldi	r19, 0x00	; 0
+ 2fa:	c9 01       	movw	r24, r18
+ 2fc:	02 c0       	rjmp	.+4      	; 0x302 <__set_port_mode+0x58>
+ 2fe:	88 0f       	add	r24, r24
+ 300:	99 1f       	adc	r25, r25
+ 302:	4a 95       	dec	r20
+ 304:	e2 f7       	brpl	.-8      	; 0x2fe <__set_port_mode+0x54>
+ 306:	ac 01       	movw	r20, r24
+ 308:	87 e0       	ldi	r24, 0x07	; 7
+ 30a:	90 e0       	ldi	r25, 0x00	; 0
+ 30c:	87 1b       	sub	r24, r23
+ 30e:	91 09       	sbc	r25, r1
+ 310:	02 c0       	rjmp	.+4      	; 0x316 <__set_port_mode+0x6c>
+ 312:	35 95       	asr	r19
+ 314:	27 95       	ror	r18
+ 316:	8a 95       	dec	r24
+ 318:	e2 f7       	brpl	.-8      	; 0x312 <__set_port_mode+0x68>
+ 31a:	94 2f       	mov	r25, r20
+ 31c:	92 23       	and	r25, r18
+ 31e:	80 81       	ld	r24, Z
+ 320:	89 2b       	or	r24, r25
+ 322:	80 83       	st	Z, r24
+ 324:	08 95       	ret
 
-0000033c <_delay_s>:
+00000326 <_delay_s>:
  */
 void
 _delay_loop_2(uint16_t __count)
 {
 	__asm__ volatile (
- 33c:	28 2f       	mov	r18, r24
- 33e:	21 50       	subi	r18, 0x01	; 1
- 340:	2f 3f       	cpi	r18, 0xFF	; 255
- 342:	81 f0       	breq	.+32     	; 0x364 <_delay_s+0x28>
- 344:	e0 e0       	ldi	r30, 0x00	; 0
- 346:	f0 e0       	ldi	r31, 0x00	; 0
- 348:	cf 01       	movw	r24, r30
- 34a:	01 97       	sbiw	r24, 0x01	; 1
- 34c:	f1 f7       	brne	.-4      	; 0x34a <_delay_s+0xe>
- 34e:	cf 01       	movw	r24, r30
- 350:	01 97       	sbiw	r24, 0x01	; 1
- 352:	f1 f7       	brne	.-4      	; 0x350 <_delay_s+0x14>
- 354:	cf 01       	movw	r24, r30
- 356:	01 97       	sbiw	r24, 0x01	; 1
- 358:	f1 f7       	brne	.-4      	; 0x356 <_delay_s+0x1a>
- 35a:	cf 01       	movw	r24, r30
- 35c:	01 97       	sbiw	r24, 0x01	; 1
- 35e:	f1 f7       	brne	.-4      	; 0x35c <_delay_s+0x20>
- 360:	21 50       	subi	r18, 0x01	; 1
- 362:	90 f7       	brcc	.-28     	; 0x348 <_delay_s+0xc>
- 364:	08 95       	ret
+ 326:	28 2f       	mov	r18, r24
+ 328:	21 50       	subi	r18, 0x01	; 1
+ 32a:	2f 3f       	cpi	r18, 0xFF	; 255
+ 32c:	81 f0       	breq	.+32     	; 0x34e <_delay_s+0x28>
+ 32e:	e0 e0       	ldi	r30, 0x00	; 0
+ 330:	f0 e0       	ldi	r31, 0x00	; 0
+ 332:	cf 01       	movw	r24, r30
+ 334:	01 97       	sbiw	r24, 0x01	; 1
+ 336:	f1 f7       	brne	.-4      	; 0x334 <_delay_s+0xe>
+ 338:	cf 01       	movw	r24, r30
+ 33a:	01 97       	sbiw	r24, 0x01	; 1
+ 33c:	f1 f7       	brne	.-4      	; 0x33a <_delay_s+0x14>
+ 33e:	cf 01       	movw	r24, r30
+ 340:	01 97       	sbiw	r24, 0x01	; 1
+ 342:	f1 f7       	brne	.-4      	; 0x340 <_delay_s+0x1a>
+ 344:	cf 01       	movw	r24, r30
+ 346:	01 97       	sbiw	r24, 0x01	; 1
+ 348:	f1 f7       	brne	.-4      	; 0x346 <_delay_s+0x20>
+ 34a:	21 50       	subi	r18, 0x01	; 1
+ 34c:	90 f7       	brcc	.-28     	; 0x332 <_delay_s+0xc>
+ 34e:	08 95       	ret
 
-00000366 <hd44870_send>:
+00000350 <hd44870_send>:
 #define io_delay()   _delay_us(14)
 #endif
 
 static void hd44870_send(unsigned char data, char is_cmd) 
 {
- 366:	38 2f       	mov	r19, r24
+ 350:	1f 93       	push	r17
+ 352:	cf 93       	push	r28
+ 354:	c8 2f       	mov	r28, r24
+ 356:	16 2f       	mov	r17, r22
 		__ticks = 1;
 	else if (__tmp > 255)
 		__ticks = 0;	/* i.e. 256 */
 	else
 		__ticks = (uint8_t)__tmp;
- 368:	92 e1       	ldi	r25, 0x12	; 18
- 36a:	9a 95       	dec	r25
- 36c:	f1 f7       	brne	.-4      	; 0x36a <hd44870_send+0x4>
+ 358:	82 e1       	ldi	r24, 0x12	; 18
+ 35a:	8a 95       	dec	r24
+ 35c:	f1 f7       	brne	.-4      	; 0x35a <hd44870_send+0xa>
   io_delay();
   
-  LCD_CTR_PORT &=~(LCD_EN|LCD_RW);       
- 36e:	92 b3       	in	r25, 0x12	; 18
- 370:	9f 73       	andi	r25, 0x3F	; 63
- 372:	92 bb       	out	0x12, r25	; 18
-  
+  bus4w &=~(_EN|_RW);       
+ 35e:	80 91 81 00 	lds	r24, 0x0081
+ 362:	83 7f       	andi	r24, 0xF3	; 243
+ 364:	80 93 81 00 	sts	0x0081, r24
+  _rswe();
+ 368:	99 27       	eor	r25, r25
+ 36a:	89 df       	rcall	.-238    	; 0x27e <write_74hc595>
+ 36c:	80 91 81 00 	lds	r24, 0x0081
   //io_delay();
   
   if(is_cmd)
- 374:	66 23       	and	r22, r22
- 376:	11 f0       	breq	.+4      	; 0x37c <hd44870_send+0x16>
-  	 LCD_CTR_PORT&=~LCD_RS;  //RS=0，command
- 378:	95 98       	cbi	0x12, 5	; 18
- 37a:	01 c0       	rjmp	.+2      	; 0x37e <hd44870_send+0x18>
+ 370:	11 23       	and	r17, r17
+ 372:	11 f0       	breq	.+4      	; 0x378 <hd44870_send+0x28>
+  	 bus4w&=~_RS;  //RS=0，command
+ 374:	8d 7f       	andi	r24, 0xFD	; 253
+ 376:	01 c0       	rjmp	.+2      	; 0x37a <hd44870_send+0x2a>
   else
-  	 LCD_CTR_PORT|=LCD_RS;  //RS=1, data
- 37c:	95 9a       	sbi	0x12, 5	; 18
+  	 bus4w|=_RS;  //RS=1, data
+ 378:	82 60       	ori	r24, 0x02	; 2
+ 37a:	80 93 81 00 	sts	0x0081, r24
+  _rswe();
+ 37e:	80 91 81 00 	lds	r24, 0x0081
+ 382:	99 27       	eor	r25, r25
+ 384:	7c df       	rcall	.-264    	; 0x27e <write_74hc595>
 		__ticks = 1;
 	else if (__tmp > 255)
 		__ticks = 0;	/* i.e. 256 */
 	else
 		__ticks = (uint8_t)__tmp;
- 37e:	92 e1       	ldi	r25, 0x12	; 18
- 380:	89 2f       	mov	r24, r25
- 382:	8a 95       	dec	r24
- 384:	f1 f7       	brne	.-4      	; 0x382 <hd44870_send+0x1c>
-  
+ 386:	12 e1       	ldi	r17, 0x12	; 18
+ 388:	81 2f       	mov	r24, r17
+ 38a:	8a 95       	dec	r24
+ 38c:	f1 f7       	brne	.-4      	; 0x38a <hd44870_send+0x3a>
   io_delay();
   
   /* 4 MSB*/
-  LCD_DATA_PORT&=0Xf0;    
- 386:	85 b3       	in	r24, 0x15	; 21
- 388:	80 7f       	andi	r24, 0xF0	; 240
- 38a:	85 bb       	out	0x15, r24	; 21
-  LCD_DATA_PORT|=(data>>4)&0xf; 
- 38c:	23 2f       	mov	r18, r19
- 38e:	22 95       	swap	r18
- 390:	2f 70       	andi	r18, 0x0F	; 15
- 392:	85 b3       	in	r24, 0x15	; 21
- 394:	82 2b       	or	r24, r18
- 396:	85 bb       	out	0x15, r24	; 21
+  bus4w &= ~(_DATA);    
+ 38e:	80 91 81 00 	lds	r24, 0x0081
+ 392:	8f 70       	andi	r24, 0x0F	; 15
+  bus4w |= data&_DATA; 
+ 394:	9c 2f       	mov	r25, r28
+ 396:	90 7f       	andi	r25, 0xF0	; 240
+ 398:	89 2b       	or	r24, r25
+ 39a:	80 93 81 00 	sts	0x0081, r24
+  _data();
+ 39e:	99 27       	eor	r25, r25
+ 3a0:	6e df       	rcall	.-292    	; 0x27e <write_74hc595>
 */
 void
 _delay_loop_1(uint8_t __count)
 {
 	__asm__ volatile (
- 398:	89 2f       	mov	r24, r25
- 39a:	8a 95       	dec	r24
- 39c:	f1 f7       	brne	.-4      	; 0x39a <hd44870_send+0x34>
+ 3a2:	81 2f       	mov	r24, r17
+ 3a4:	8a 95       	dec	r24
+ 3a6:	f1 f7       	brne	.-4      	; 0x3a4 <hd44870_send+0x54>
   
   io_delay();
-  LCD_CTR_PORT |=LCD_EN;  
- 39e:	97 9a       	sbi	0x12, 7	; 18
+  bus4w |=_EN;  
+ 3a8:	80 91 81 00 	lds	r24, 0x0081
+ 3ac:	88 60       	ori	r24, 0x08	; 8
+ 3ae:	80 93 81 00 	sts	0x0081, r24
+  _rswe();
+ 3b2:	99 27       	eor	r25, r25
+ 3b4:	64 df       	rcall	.-312    	; 0x27e <write_74hc595>
 */
 void
 _delay_loop_1(uint8_t __count)
 {
 	__asm__ volatile (
- 3a0:	89 2f       	mov	r24, r25
- 3a2:	8a 95       	dec	r24
- 3a4:	f1 f7       	brne	.-4      	; 0x3a2 <hd44870_send+0x3c>
+ 3b6:	81 2f       	mov	r24, r17
+ 3b8:	8a 95       	dec	r24
+ 3ba:	f1 f7       	brne	.-4      	; 0x3b8 <hd44870_send+0x68>
   io_delay(); 
-  LCD_CTR_PORT &=~LCD_EN;   
- 3a6:	97 98       	cbi	0x12, 7	; 18
+  bus4w &=~_EN;   
+ 3bc:	80 91 81 00 	lds	r24, 0x0081
+ 3c0:	87 7f       	andi	r24, 0xF7	; 247
+ 3c2:	80 93 81 00 	sts	0x0081, r24
+  _rswe();
+ 3c6:	99 27       	eor	r25, r25
+ 3c8:	5a df       	rcall	.-332    	; 0x27e <write_74hc595>
 */
 void
 _delay_loop_1(uint8_t __count)
 {
 	__asm__ volatile (
- 3a8:	89 2f       	mov	r24, r25
- 3aa:	8a 95       	dec	r24
- 3ac:	f1 f7       	brne	.-4      	; 0x3aa <hd44870_send+0x44>
+ 3ca:	81 2f       	mov	r24, r17
+ 3cc:	8a 95       	dec	r24
+ 3ce:	f1 f7       	brne	.-4      	; 0x3cc <hd44870_send+0x7c>
 
   io_delay();
   
   /*send low 4 lsb*/
-  LCD_DATA_PORT&=0xf0;         
- 3ae:	85 b3       	in	r24, 0x15	; 21
- 3b0:	80 7f       	andi	r24, 0xF0	; 240
- 3b2:	85 bb       	out	0x15, r24	; 21
-  LCD_DATA_PORT|=data&0xf; 
- 3b4:	3f 70       	andi	r19, 0x0F	; 15
- 3b6:	85 b3       	in	r24, 0x15	; 21
- 3b8:	83 2b       	or	r24, r19
- 3ba:	85 bb       	out	0x15, r24	; 21
+  bus4w&=~_DATA;         
+ 3d0:	80 91 81 00 	lds	r24, 0x0081
+ 3d4:	8f 70       	andi	r24, 0x0F	; 15
+  bus4w|=(data<<4)&_DATA; 
+ 3d6:	c2 95       	swap	r28
+ 3d8:	c0 7f       	andi	r28, 0xF0	; 240
+ 3da:	8c 2b       	or	r24, r28
+ 3dc:	80 93 81 00 	sts	0x0081, r24
+  _data();
+ 3e0:	99 27       	eor	r25, r25
+ 3e2:	4d df       	rcall	.-358    	; 0x27e <write_74hc595>
 */
 void
 _delay_loop_1(uint8_t __count)
 {
 	__asm__ volatile (
- 3bc:	89 2f       	mov	r24, r25
- 3be:	8a 95       	dec	r24
- 3c0:	f1 f7       	brne	.-4      	; 0x3be <hd44870_send+0x58>
+ 3e4:	81 2f       	mov	r24, r17
+ 3e6:	8a 95       	dec	r24
+ 3e8:	f1 f7       	brne	.-4      	; 0x3e6 <hd44870_send+0x96>
   io_delay();
 
-  LCD_CTR_PORT |=LCD_EN;   
- 3c2:	97 9a       	sbi	0x12, 7	; 18
+  bus4w |=_EN;  
+ 3ea:	80 91 81 00 	lds	r24, 0x0081
+ 3ee:	88 60       	ori	r24, 0x08	; 8
+ 3f0:	80 93 81 00 	sts	0x0081, r24
+  _rswe();
+ 3f4:	99 27       	eor	r25, r25
+ 3f6:	43 df       	rcall	.-378    	; 0x27e <write_74hc595>
 */
 void
 _delay_loop_1(uint8_t __count)
 {
 	__asm__ volatile (
- 3c4:	89 2f       	mov	r24, r25
- 3c6:	8a 95       	dec	r24
- 3c8:	f1 f7       	brne	.-4      	; 0x3c6 <hd44870_send+0x60>
+ 3f8:	81 2f       	mov	r24, r17
+ 3fa:	8a 95       	dec	r24
+ 3fc:	f1 f7       	brne	.-4      	; 0x3fa <hd44870_send+0xaa>
   io_delay(); 
-  LCD_CTR_PORT &=~LCD_EN;  
- 3ca:	97 98       	cbi	0x12, 7	; 18
- 3cc:	08 95       	ret
+  bus4w &=~_EN;   
+ 3fe:	80 91 81 00 	lds	r24, 0x0081
+ 402:	87 7f       	andi	r24, 0xF7	; 247
+ 404:	80 93 81 00 	sts	0x0081, r24
+  _rswe();
+ 408:	99 27       	eor	r25, r25
+ 40a:	39 df       	rcall	.-398    	; 0x27e <write_74hc595>
+ 40c:	cf 91       	pop	r28
+ 40e:	1f 91       	pop	r17
+ 410:	08 95       	ret
 
-000003ce <lcd1602_init>:
+00000412 <lcd1602_init>:
   
   
 }
@@ -979,112 +988,101 @@ _delay_loop_1(uint8_t __count)
 
 void lcd1602_init(void)    
 {
- 3ce:	0f 93       	push	r16
- 3d0:	1f 93       	push	r17
+ 412:	0f 93       	push	r16
+ 414:	1f 93       	push	r17
   io_init();
- 3d2:	23 e0       	ldi	r18, 0x03	; 3
- 3d4:	40 e0       	ldi	r20, 0x00	; 0
- 3d6:	61 e0       	ldi	r22, 0x01	; 1
- 3d8:	85 e3       	ldi	r24, 0x35	; 53
- 3da:	90 e0       	ldi	r25, 0x00	; 0
- 3dc:	71 df       	rcall	.-286    	; 0x2c0 <__set_port_mode>
- 3de:	27 e0       	ldi	r18, 0x07	; 7
- 3e0:	45 e0       	ldi	r20, 0x05	; 5
- 3e2:	61 e0       	ldi	r22, 0x01	; 1
- 3e4:	82 e3       	ldi	r24, 0x32	; 50
- 3e6:	90 e0       	ldi	r25, 0x00	; 0
- 3e8:	6b df       	rcall	.-298    	; 0x2c0 <__set_port_mode>
+ 416:	06 df       	rcall	.-500    	; 0x224 <init_74hc595>
 
   send_cmd(0x33);
- 3ea:	61 e0       	ldi	r22, 0x01	; 1
- 3ec:	83 e3       	ldi	r24, 0x33	; 51
- 3ee:	bb df       	rcall	.-138    	; 0x366 <hd44870_send>
+ 418:	61 e0       	ldi	r22, 0x01	; 1
+ 41a:	83 e3       	ldi	r24, 0x33	; 51
+ 41c:	99 df       	rcall	.-206    	; 0x350 <hd44870_send>
 		__ticks = 1;
 	else if (__tmp > 65535)
 		__ticks = 0;	/* i.e. 65536 */
 	else
 		__ticks = (uint16_t)__tmp;
- 3f0:	00 e5       	ldi	r16, 0x50	; 80
- 3f2:	13 ec       	ldi	r17, 0xC3	; 195
- 3f4:	c8 01       	movw	r24, r16
- 3f6:	01 97       	sbiw	r24, 0x01	; 1
- 3f8:	f1 f7       	brne	.-4      	; 0x3f6 <lcd1602_init+0x28>
+ 41e:	00 e5       	ldi	r16, 0x50	; 80
+ 420:	13 ec       	ldi	r17, 0xC3	; 195
+ 422:	c8 01       	movw	r24, r16
+ 424:	01 97       	sbiw	r24, 0x01	; 1
+ 426:	f1 f7       	brne	.-4      	; 0x424 <lcd1602_init+0x12>
   _delay_ms(50);
   send_cmd(0x32);
- 3fa:	61 e0       	ldi	r22, 0x01	; 1
- 3fc:	82 e3       	ldi	r24, 0x32	; 50
- 3fe:	b3 df       	rcall	.-154    	; 0x366 <hd44870_send>
+ 428:	61 e0       	ldi	r22, 0x01	; 1
+ 42a:	82 e3       	ldi	r24, 0x32	; 50
+ 42c:	91 df       	rcall	.-222    	; 0x350 <hd44870_send>
  */
 void
 _delay_loop_2(uint16_t __count)
 {
 	__asm__ volatile (
- 400:	c8 01       	movw	r24, r16
- 402:	01 97       	sbiw	r24, 0x01	; 1
- 404:	f1 f7       	brne	.-4      	; 0x402 <lcd1602_init+0x34>
+ 42e:	c8 01       	movw	r24, r16
+ 430:	01 97       	sbiw	r24, 0x01	; 1
+ 432:	f1 f7       	brne	.-4      	; 0x430 <lcd1602_init+0x1e>
   _delay_ms(50);
 
   send_cmd(0x28); /* ４位数据线，５＊１０字体 */
- 406:	61 e0       	ldi	r22, 0x01	; 1
- 408:	88 e2       	ldi	r24, 0x28	; 40
- 40a:	ad df       	rcall	.-166    	; 0x366 <hd44870_send>
+ 434:	61 e0       	ldi	r22, 0x01	; 1
+ 436:	88 e2       	ldi	r24, 0x28	; 40
+ 438:	8b df       	rcall	.-234    	; 0x350 <hd44870_send>
  */
 void
 _delay_loop_2(uint16_t __count)
 {
 	__asm__ volatile (
- 40c:	c8 01       	movw	r24, r16
- 40e:	01 97       	sbiw	r24, 0x01	; 1
- 410:	f1 f7       	brne	.-4      	; 0x40e <lcd1602_init+0x40>
+ 43a:	c8 01       	movw	r24, r16
+ 43c:	01 97       	sbiw	r24, 0x01	; 1
+ 43e:	f1 f7       	brne	.-4      	; 0x43c <lcd1602_init+0x2a>
   _delay_ms(50);
   
   send_cmd(0x0c); /*开显示，无光标， 0xf：开光标并闪烁*/   
- 412:	61 e0       	ldi	r22, 0x01	; 1
- 414:	8c e0       	ldi	r24, 0x0C	; 12
- 416:	a7 df       	rcall	.-178    	; 0x366 <hd44870_send>
+ 440:	61 e0       	ldi	r22, 0x01	; 1
+ 442:	8c e0       	ldi	r24, 0x0C	; 12
+ 444:	85 df       	rcall	.-246    	; 0x350 <hd44870_send>
  */
 void
 _delay_loop_2(uint16_t __count)
 {
 	__asm__ volatile (
- 418:	c8 01       	movw	r24, r16
- 41a:	01 97       	sbiw	r24, 0x01	; 1
- 41c:	f1 f7       	brne	.-4      	; 0x41a <lcd1602_init+0x4c>
+ 446:	c8 01       	movw	r24, r16
+ 448:	01 97       	sbiw	r24, 0x01	; 1
+ 44a:	f1 f7       	brne	.-4      	; 0x448 <lcd1602_init+0x36>
   _delay_ms(50);
 
   send_cmd(0x06);  /* 光标自动右移，整屏不移动 */
- 41e:	61 e0       	ldi	r22, 0x01	; 1
- 420:	86 e0       	ldi	r24, 0x06	; 6
- 422:	a1 df       	rcall	.-190    	; 0x366 <hd44870_send>
+ 44c:	61 e0       	ldi	r22, 0x01	; 1
+ 44e:	86 e0       	ldi	r24, 0x06	; 6
+ 450:	7f df       	rcall	.-258    	; 0x350 <hd44870_send>
  */
 void
 _delay_loop_2(uint16_t __count)
 {
 	__asm__ volatile (
- 424:	c8 01       	movw	r24, r16
- 426:	01 97       	sbiw	r24, 0x01	; 1
- 428:	f1 f7       	brne	.-4      	; 0x426 <lcd1602_init+0x58>
+ 452:	c8 01       	movw	r24, r16
+ 454:	01 97       	sbiw	r24, 0x01	; 1
+ 456:	f1 f7       	brne	.-4      	; 0x454 <lcd1602_init+0x42>
   _delay_ms(50);
   
 
   send_cmd(0x01);  /*清屏*/
- 42a:	61 e0       	ldi	r22, 0x01	; 1
- 42c:	86 2f       	mov	r24, r22
- 42e:	9b df       	rcall	.-202    	; 0x366 <hd44870_send>
+ 458:	61 e0       	ldi	r22, 0x01	; 1
+ 45a:	86 2f       	mov	r24, r22
+ 45c:	79 df       	rcall	.-270    	; 0x350 <hd44870_send>
 	double __tmp = ((F_CPU) / 4e3) * __ms;
 	if (__tmp < 1.0)
 		__ticks = 1;
 	else if (__tmp > 65535)
 		__ticks = 0;	/* i.e. 65536 */
- 430:	80 e0       	ldi	r24, 0x00	; 0
- 432:	90 e0       	ldi	r25, 0x00	; 0
- 434:	01 97       	sbiw	r24, 0x01	; 1
- 436:	f1 f7       	brne	.-4      	; 0x434 <lcd1602_init+0x66>
- 438:	1f 91       	pop	r17
- 43a:	0f 91       	pop	r16
- 43c:	08 95       	ret
+ 45e:	80 e0       	ldi	r24, 0x00	; 0
+ 460:	90 e0       	ldi	r25, 0x00	; 0
+ 462:	01 97       	sbiw	r24, 0x01	; 1
+ 464:	f1 f7       	brne	.-4      	; 0x462 <__stack+0x3>
+ 466:	1f 91       	pop	r17
+ 468:	0f 91       	pop	r16
+ 46a:	08 95       	ret
 
-0000043e <lcd_cursor>:
+0000046c <lcd_cursor>:
   _delay_ms(100);
 }
 
@@ -1093,45 +1091,45 @@ _delay_loop_2(uint16_t __count)
 void lcd_cursor(char x, char y)
 {
 	send_cmd(x+(y?0xc0:0x80));  
- 43e:	28 2f       	mov	r18, r24
- 440:	33 27       	eor	r19, r19
- 442:	66 23       	and	r22, r22
- 444:	19 f0       	breq	.+6      	; 0x44c <lcd_cursor+0xe>
- 446:	82 2f       	mov	r24, r18
- 448:	80 54       	subi	r24, 0x40	; 64
- 44a:	02 c0       	rjmp	.+4      	; 0x450 <lcd_cursor+0x12>
- 44c:	82 2f       	mov	r24, r18
- 44e:	80 58       	subi	r24, 0x80	; 128
- 450:	61 e0       	ldi	r22, 0x01	; 1
- 452:	89 df       	rcall	.-238    	; 0x366 <hd44870_send>
- 454:	08 95       	ret
+ 46c:	28 2f       	mov	r18, r24
+ 46e:	33 27       	eor	r19, r19
+ 470:	66 23       	and	r22, r22
+ 472:	19 f0       	breq	.+6      	; 0x47a <lcd_cursor+0xe>
+ 474:	82 2f       	mov	r24, r18
+ 476:	80 54       	subi	r24, 0x40	; 64
+ 478:	02 c0       	rjmp	.+4      	; 0x47e <lcd_cursor+0x12>
+ 47a:	82 2f       	mov	r24, r18
+ 47c:	80 58       	subi	r24, 0x80	; 128
+ 47e:	61 e0       	ldi	r22, 0x01	; 1
+ 480:	67 df       	rcall	.-306    	; 0x350 <hd44870_send>
+ 482:	08 95       	ret
 
-00000456 <lcd_puts>:
+00000484 <lcd_puts>:
 }
 
 void lcd_puts(unsigned char *s) 
 {
- 456:	cf 93       	push	r28
- 458:	df 93       	push	r29
- 45a:	ec 01       	movw	r28, r24
+ 484:	cf 93       	push	r28
+ 486:	df 93       	push	r29
+ 488:	ec 01       	movw	r28, r24
     while (*s) 
     {
       send_data( *s );
       s ++;
- 45c:	88 81       	ld	r24, Y
- 45e:	88 23       	and	r24, r24
- 460:	31 f0       	breq	.+12     	; 0x46e <__stack+0xf>
- 462:	60 e0       	ldi	r22, 0x00	; 0
- 464:	89 91       	ld	r24, Y+
- 466:	7f df       	rcall	.-258    	; 0x366 <hd44870_send>
- 468:	88 81       	ld	r24, Y
- 46a:	88 23       	and	r24, r24
- 46c:	d1 f7       	brne	.-12     	; 0x462 <__stack+0x3>
- 46e:	df 91       	pop	r29
- 470:	cf 91       	pop	r28
- 472:	08 95       	ret
+ 48a:	88 81       	ld	r24, Y
+ 48c:	88 23       	and	r24, r24
+ 48e:	31 f0       	breq	.+12     	; 0x49c <lcd_puts+0x18>
+ 490:	60 e0       	ldi	r22, 0x00	; 0
+ 492:	89 91       	ld	r24, Y+
+ 494:	5d df       	rcall	.-326    	; 0x350 <hd44870_send>
+ 496:	88 81       	ld	r24, Y
+ 498:	88 23       	and	r24, r24
+ 49a:	d1 f7       	brne	.-12     	; 0x490 <lcd_puts+0xc>
+ 49c:	df 91       	pop	r29
+ 49e:	cf 91       	pop	r28
+ 4a0:	08 95       	ret
 
-00000474 <lcd_putc>:
+000004a2 <lcd_putc>:
     }
      
 }
@@ -1140,11 +1138,11 @@ void lcd_puts(unsigned char *s)
 void lcd_putc(char data) //列x=0~15,行y=0,1
 {
   send_data( data);
- 474:	60 e0       	ldi	r22, 0x00	; 0
- 476:	77 df       	rcall	.-274    	; 0x366 <hd44870_send>
- 478:	08 95       	ret
+ 4a2:	60 e0       	ldi	r22, 0x00	; 0
+ 4a4:	55 df       	rcall	.-342    	; 0x350 <hd44870_send>
+ 4a6:	08 95       	ret
 
-0000047a <lcd_scroll>:
+000004a8 <lcd_scroll>:
 }
 
 
@@ -1153,35 +1151,35 @@ void lcd_putc(char data) //列x=0~15,行y=0,1
  */
 void lcd_scroll(signed char steps)
 {
- 47a:	1f 93       	push	r17
- 47c:	cf 93       	push	r28
- 47e:	df 93       	push	r29
+ 4a8:	1f 93       	push	r17
+ 4aa:	cf 93       	push	r28
+ 4ac:	df 93       	push	r29
    char cmd = (steps>0)?0x1c:0x18;
- 480:	18 16       	cp	r1, r24
- 482:	14 f4       	brge	.+4      	; 0x488 <lcd_scroll+0xe>
- 484:	1c e1       	ldi	r17, 0x1C	; 28
- 486:	01 c0       	rjmp	.+2      	; 0x48a <lcd_scroll+0x10>
- 488:	18 e1       	ldi	r17, 0x18	; 24
+ 4ae:	18 16       	cp	r1, r24
+ 4b0:	14 f4       	brge	.+4      	; 0x4b6 <lcd_scroll+0xe>
+ 4b2:	1c e1       	ldi	r17, 0x1C	; 28
+ 4b4:	01 c0       	rjmp	.+2      	; 0x4b8 <lcd_scroll+0x10>
+ 4b6:	18 e1       	ldi	r17, 0x18	; 24
    short ssteps= (steps>0)?steps:(-steps);
- 48a:	c8 2f       	mov	r28, r24
- 48c:	dd 27       	eor	r29, r29
- 48e:	c7 fd       	sbrc	r28, 7
- 490:	d0 95       	com	r29
- 492:	d7 ff       	sbrs	r29, 7
- 494:	03 c0       	rjmp	.+6      	; 0x49c <lcd_scroll+0x22>
- 496:	d0 95       	com	r29
- 498:	c1 95       	neg	r28
- 49a:	df 4f       	sbci	r29, 0xFF	; 255
+ 4b8:	c8 2f       	mov	r28, r24
+ 4ba:	dd 27       	eor	r29, r29
+ 4bc:	c7 fd       	sbrc	r28, 7
+ 4be:	d0 95       	com	r29
+ 4c0:	d7 ff       	sbrs	r29, 7
+ 4c2:	03 c0       	rjmp	.+6      	; 0x4ca <lcd_scroll+0x22>
+ 4c4:	d0 95       	com	r29
+ 4c6:	c1 95       	neg	r28
+ 4c8:	df 4f       	sbci	r29, 0xFF	; 255
 */
 void
 _delay_loop_1(uint8_t __count)
 {
 	__asm__ volatile (
- 49c:	21 97       	sbiw	r28, 0x01	; 1
- 49e:	8f ef       	ldi	r24, 0xFF	; 255
- 4a0:	cf 3f       	cpi	r28, 0xFF	; 255
- 4a2:	d8 07       	cpc	r29, r24
- 4a4:	59 f0       	breq	.+22     	; 0x4bc <lcd_scroll+0x42>
+ 4ca:	21 97       	sbiw	r28, 0x01	; 1
+ 4cc:	8f ef       	ldi	r24, 0xFF	; 255
+ 4ce:	cf 3f       	cpi	r28, 0xFF	; 255
+ 4d0:	d8 07       	cpc	r29, r24
+ 4d2:	59 f0       	breq	.+22     	; 0x4ea <lcd_scroll+0x42>
    /* get negetive is unsafe, char range: -128 to +127, 
     * so -128 get negtive is overflow
 	*/
@@ -1189,23 +1187,23 @@ _delay_loop_1(uint8_t __count)
    while(ssteps--)
    {
     	send_cmd((unsigned char)cmd);
- 4a6:	61 e0       	ldi	r22, 0x01	; 1
- 4a8:	81 2f       	mov	r24, r17
- 4aa:	5d df       	rcall	.-326    	; 0x366 <hd44870_send>
+ 4d4:	61 e0       	ldi	r22, 0x01	; 1
+ 4d6:	81 2f       	mov	r24, r17
+ 4d8:	3b df       	rcall	.-394    	; 0x350 <hd44870_send>
 		__ticks = 1;
 	else if (__tmp > 255)
 		__ticks = 0;	/* i.e. 256 */
 	else
 		__ticks = (uint8_t)__tmp;
- 4ac:	82 e1       	ldi	r24, 0x12	; 18
- 4ae:	8a 95       	dec	r24
- 4b0:	f1 f7       	brne	.-4      	; 0x4ae <lcd_scroll+0x34>
- 4b2:	21 97       	sbiw	r28, 0x01	; 1
- 4b4:	8f ef       	ldi	r24, 0xFF	; 255
- 4b6:	cf 3f       	cpi	r28, 0xFF	; 255
- 4b8:	d8 07       	cpc	r29, r24
- 4ba:	a9 f7       	brne	.-22     	; 0x4a6 <lcd_scroll+0x2c>
- 4bc:	df 91       	pop	r29
- 4be:	cf 91       	pop	r28
- 4c0:	1f 91       	pop	r17
- 4c2:	08 95       	ret
+ 4da:	82 e1       	ldi	r24, 0x12	; 18
+ 4dc:	8a 95       	dec	r24
+ 4de:	f1 f7       	brne	.-4      	; 0x4dc <lcd_scroll+0x34>
+ 4e0:	21 97       	sbiw	r28, 0x01	; 1
+ 4e2:	8f ef       	ldi	r24, 0xFF	; 255
+ 4e4:	cf 3f       	cpi	r28, 0xFF	; 255
+ 4e6:	d8 07       	cpc	r29, r24
+ 4e8:	a9 f7       	brne	.-22     	; 0x4d4 <lcd_scroll+0x2c>
+ 4ea:	df 91       	pop	r29
+ 4ec:	cf 91       	pop	r28
+ 4ee:	1f 91       	pop	r17
+ 4f0:	08 95       	ret
