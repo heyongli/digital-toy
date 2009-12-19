@@ -4,6 +4,29 @@ C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a(_copy_data.o)
                               main.o (__do_copy_data)
 C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a(_clear_bss.o)
                               main.o (__do_clear_bss)
+C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib/avr4\libc.a(sprintf.o)
+                              main.o (sprintf)
+C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib/avr4\libc.a(vfprintf_std.o)
+                              C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib/avr4\libc.a(sprintf.o) (vfprintf)
+C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib/avr4\libc.a(strlen_P.o)
+                              C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib/avr4\libc.a(vfprintf_std.o) (strlen_P)
+C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib/avr4\libc.a(strnlen_P.o)
+                              C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib/avr4\libc.a(vfprintf_std.o) (strnlen_P)
+C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib/avr4\libc.a(strnlen.o)
+                              C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib/avr4\libc.a(vfprintf_std.o) (strnlen)
+C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib/avr4\libc.a(fputc.o)
+                              C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib/avr4\libc.a(vfprintf_std.o) (fputc)
+C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a(_udivmodsi4.o)
+                              C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib/avr4\libc.a(vfprintf_std.o) (__udivmodsi4)
+C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a(_prologue.o)
+                              C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib/avr4\libc.a(sprintf.o) (__prologue_saves__)
+C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a(_epilogue.o)
+                              C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib/avr4\libc.a(sprintf.o) (__epilogue_restores__)
+
+Allocating common symbols
+Common symbol       size              file
+
+str                 0xa               main.o
 
 Memory Configuration
 
@@ -116,7 +139,7 @@ LOAD C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x4f2
+.text           0x00000000      0xcc8
  *(.vectors)
  .vectors       0x00000000       0x26 C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib/avr4/crtm8.o
                 0x00000000                __vectors
@@ -167,33 +190,52 @@ LOAD C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a
                 0x0000005a                __vector_10
                 0x0000005a                __vector_16
                 0x0000005a                __vector_18
- .text          0x0000005c       0xee main.o
+ .text          0x0000005c      0x21c main.o
                 0x00000094                main
                 0x0000005c                keydown
                 0x00000078                keyup
- .text          0x0000014a       0x94 led.o
-                0x00000176                sharp_flash
-                0x0000014a                led_init
- .text          0x000001de       0x46 pwm.o
-                0x000001fa                pwm_init
-                0x0000021c                pwm_setduty
-                0x000001de                pwm_demo
- .text          0x00000224       0x86 74hc595.o
-                0x00000232                shiftout
-                0x00000224                init_74hc595
-                0x0000027e                write_74hc595
- .text          0x000002aa       0xa6 avrio.o
-                0x00000326                _delay_s
-                0x000002aa                __set_port_mode
- .text          0x00000350      0x1a2 4wire-1602.o
-                0x000004a2                lcd_putc
-                0x000004a8                lcd_scroll
-                0x0000046c                lcd_cursor
-                0x00000484                lcd_puts
-                0x00000412                lcd1602_init
-                0x000004f2                . = ALIGN (0x2)
+ .text          0x00000278       0x94 led.o
+                0x000002a4                sharp_flash
+                0x00000278                led_init
+ .text          0x0000030c       0x46 pwm.o
+                0x00000328                pwm_init
+                0x0000034a                pwm_setduty
+                0x0000030c                pwm_demo
+ .text          0x00000352       0x86 74hc595.o
+                0x00000360                shiftout
+                0x00000352                init_74hc595
+                0x000003ac                write_74hc595
+ .text          0x000003d8       0xa6 avrio.o
+                0x00000454                _delay_s
+                0x000003d8                __set_port_mode
+ .text          0x0000047e      0x1c2 4wire-1602.o
+                0x000005f0                lcd_putc
+                0x0000059a                lcd_clear
+                0x000005f6                lcd_scroll
+                0x000005ba                lcd_cursor
+                0x000005d2                lcd_puts
+                0x00000540                lcd1602_init
+ .text          0x00000640       0x40 C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib/avr4\libc.a(sprintf.o)
+                0x00000640                sprintf
+ .text          0x00000680      0x4fe C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib/avr4\libc.a(vfprintf_std.o)
+                0x00000680                vfprintf
+ .text          0x00000b7e       0x12 C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib/avr4\libc.a(strlen_P.o)
+                0x00000b7e                strlen_P
+ .text          0x00000b90       0x16 C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib/avr4\libc.a(strnlen_P.o)
+                0x00000b90                strnlen_P
+ .text          0x00000ba6       0x16 C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib/avr4\libc.a(strnlen.o)
+                0x00000ba6                strnlen
+ .text          0x00000bbc       0x5a C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib/avr4\libc.a(fputc.o)
+                0x00000bbc                fputc
+                0x00000c16                . = ALIGN (0x2)
  *(.text.*)
-                0x000004f2                . = ALIGN (0x2)
+ .text.libgcc   0x00000c16       0x44 C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a(_udivmodsi4.o)
+                0x00000c16                __udivmodsi4
+ .text.libgcc   0x00000c5a       0x38 C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a(_prologue.o)
+                0x00000c5a                __prologue_saves__
+ .text.libgcc   0x00000c92       0x36 C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a(_epilogue.o)
+                0x00000c92                __epilogue_restores__
+                0x00000cc8                . = ALIGN (0x2)
  *(.fini9)
  *(.fini8)
  *(.fini7)
@@ -204,37 +246,40 @@ LOAD C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a
  *(.fini2)
  *(.fini1)
  *(.fini0)
-                0x000004f2                _etext = .
+                0x00000cc8                _etext = .
 
-.data           0x00800060       0x20 load address 0x000004f2
+.data           0x00800060       0x3a load address 0x00000cc8
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
- .data          0x00800060       0x1f main.o
+ .data          0x00800060       0x38 main.o
                 0x00800060                duty
- .data          0x0080007f        0x1 led.o
-                0x0080007f                mod
+ .data          0x00800098        0x1 led.o
+                0x00800098                mod
  *(.gnu.linkonce.d*)
-                0x00800080                . = ALIGN (0x2)
-                0x00800080                _edata = .
-                0x00800080                PROVIDE (__data_end, .)
+                0x0080009a                . = ALIGN (0x2)
+ *fill*         0x00800099        0x1 00
+                0x0080009a                _edata = .
+                0x0080009a                PROVIDE (__data_end, .)
 
-.bss            0x00800080        0x2
-                0x00800080                PROVIDE (__bss_start, .)
+.bss            0x0080009a        0xc
+                0x0080009a                PROVIDE (__bss_start, .)
  *(.bss)
- .bss           0x00800080        0x1 main.o
-                0x00800080                i
- .bss           0x00800081        0x1 4wire-1602.o
+ .bss           0x0080009a        0x1 main.o
+                0x0080009a                i
+ .bss           0x0080009b        0x1 4wire-1602.o
  *(COMMON)
-                0x00800082                PROVIDE (__bss_end, .)
-                0x000004f2                __data_load_start = LOADADDR (.data)
-                0x00000512                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x0080009c        0xa main.o
+                0x0080009c                str
+                0x008000a6                PROVIDE (__bss_end, .)
+                0x00000cc8                __data_load_start = LOADADDR (.data)
+                0x00000d02                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00800082        0x0
-                0x00800082                PROVIDE (__noinit_start, .)
+.noinit         0x008000a6        0x0
+                0x008000a6                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x00800082                PROVIDE (__noinit_end, .)
-                0x00800082                _end = .
-                0x00800082                PROVIDE (__heap_start, .)
+                0x008000a6                PROVIDE (__noinit_end, .)
+                0x008000a6                _end = .
+                0x008000a6                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -291,66 +336,66 @@ LOAD C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a
                 0x00000064       0x14 4wire-1602.o
 
 .debug_pubnames
-                0x00000000      0x183
+                0x00000000      0x199
  *(.debug_pubnames)
  .debug_pubnames
-                0x00000000       0x40 main.o
+                0x00000000       0x48 main.o
  .debug_pubnames
-                0x00000040       0x37 led.o
+                0x00000048       0x37 led.o
  .debug_pubnames
-                0x00000077       0x3c pwm.o
+                0x0000007f       0x3c pwm.o
  .debug_pubnames
-                0x000000b3       0x42 74hc595.o
+                0x000000bb       0x42 74hc595.o
  .debug_pubnames
-                0x000000f5       0x33 avrio.o
+                0x000000fd       0x33 avrio.o
  .debug_pubnames
-                0x00000128       0x5b 4wire-1602.o
+                0x00000130       0x69 4wire-1602.o
 
-.debug_info     0x00000000     0x113b
+.debug_info     0x00000000     0x12b7
  *(.debug_info)
- .debug_info    0x00000000      0x342 main.o
- .debug_info    0x00000342      0x1f8 led.o
- .debug_info    0x0000053a      0x1c3 pwm.o
- .debug_info    0x000006fd      0x2c2 74hc595.o
- .debug_info    0x000009bf      0x21f avrio.o
- .debug_info    0x00000bde      0x55d 4wire-1602.o
+ .debug_info    0x00000000      0x42f main.o
+ .debug_info    0x0000042f      0x1f8 led.o
+ .debug_info    0x00000627      0x1c3 pwm.o
+ .debug_info    0x000007ea      0x2c2 74hc595.o
+ .debug_info    0x00000aac      0x21f avrio.o
+ .debug_info    0x00000ccb      0x5ec 4wire-1602.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev   0x00000000      0x5e2
+.debug_abbrev   0x00000000      0x696
  *(.debug_abbrev)
- .debug_abbrev  0x00000000       0xff main.o
- .debug_abbrev  0x000000ff       0xd8 led.o
- .debug_abbrev  0x000001d7       0xe6 pwm.o
- .debug_abbrev  0x000002bd      0x102 74hc595.o
- .debug_abbrev  0x000003bf       0xf7 avrio.o
- .debug_abbrev  0x000004b6      0x12c 4wire-1602.o
+ .debug_abbrev  0x00000000      0x19e main.o
+ .debug_abbrev  0x0000019e       0xd8 led.o
+ .debug_abbrev  0x00000276       0xe6 pwm.o
+ .debug_abbrev  0x0000035c      0x102 74hc595.o
+ .debug_abbrev  0x0000045e       0xf7 avrio.o
+ .debug_abbrev  0x00000555      0x141 4wire-1602.o
 
-.debug_line     0x00000000      0x827
+.debug_line     0x00000000      0x909
  *(.debug_line)
- .debug_line    0x00000000      0x1bd main.o
- .debug_line    0x000001bd      0x10e led.o
- .debug_line    0x000002cb      0x10d pwm.o
- .debug_line    0x000003d8      0x131 74hc595.o
- .debug_line    0x00000509       0xc4 avrio.o
- .debug_line    0x000005cd      0x25a 4wire-1602.o
+ .debug_line    0x00000000      0x275 main.o
+ .debug_line    0x00000275      0x10e led.o
+ .debug_line    0x00000383      0x10d pwm.o
+ .debug_line    0x00000490      0x131 74hc595.o
+ .debug_line    0x000005c1       0xc4 avrio.o
+ .debug_line    0x00000685      0x284 4wire-1602.o
 
 .debug_frame
  *(.debug_frame)
 
-.debug_str      0x00000000      0x218
+.debug_str      0x00000000      0x244
  *(.debug_str)
- .debug_str     0x00000000      0x10f main.o
-                                0x14d (size before relaxing)
- .debug_str     0x0000010f       0x15 led.o
+ .debug_str     0x00000000      0x148 main.o
+                                0x18c (size before relaxing)
+ .debug_str     0x00000148       0x15 led.o
                                 0x114 (size before relaxing)
- .debug_str     0x00000124       0x4c pwm.o
+ .debug_str     0x0000015d       0x44 pwm.o
                                 0x142 (size before relaxing)
- .debug_str     0x00000170       0x36 74hc595.o
+ .debug_str     0x000001a1       0x31 74hc595.o
                                 0x12b (size before relaxing)
- .debug_str     0x000001a6       0x2e avrio.o
+ .debug_str     0x000001d2       0x2e avrio.o
                                 0x129 (size before relaxing)
- .debug_str     0x000001d4       0x44 4wire-1602.o
-                                0x1b1 (size before relaxing)
+ .debug_str     0x00000200       0x44 4wire-1602.o
+                                0x1bb (size before relaxing)
 
 .debug_loc
  *(.debug_loc)

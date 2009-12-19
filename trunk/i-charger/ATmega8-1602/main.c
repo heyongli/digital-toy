@@ -10,6 +10,21 @@
 #include <util/delay.h>
 #include "pwm.h"
 
+#include <stdio.h>
+
+static int lcd_putchar(char c, FILE *stream);
+
+static FILE mystdout = FDEV_SETUP_STREAM(lcd_putchar, NULL,
+                                             _FDEV_SETUP_WRITE);
+
+static int
+lcd_putchar(char c, FILE *stream)
+{
+    lcd_put(c);
+    return 0;
+}
+
+
 
 #define KEY_PORT PORTD
 #define KEY1  2
@@ -39,7 +54,7 @@ char keyup()
 
 unsigned char duty=128; 
 char i=0;
-
+char str[10];
 int main()
 {
 
@@ -49,20 +64,35 @@ int main()
     
 	pwm_init();
     
+	lcd1602_init();
+	lcd_cursor(1,0);
+	lcd_puts("Digital TOY");
+	lcd_cursor(1,1);
+	lcd_puts(" i-charger V0.5");
+	lcd_scroll(-1);
+	
 	
 	while (1){
-	 
+	  static char clear=1; 
         //sharp_flash();
 	    //pwm_demo();
         if( keydown()){
-	
-	        lcd1602_init();
-			lcd_cursor(1,0);
-		    lcd_puts("***Digital TOY");
-			lcd_scroll(-1);
+	      if(clear){ lcd_clear(); clear=0;}
+	           
 	
 		  //_set_bit(PORTB,1);
 		  duty-=2;
+
+          lcd_cursor(0,0);
+		  sprintf(str,"duty:%03d",duty);
+		  lcd_puts(str);
+
+          lcd_cursor(0,1);
+		  sprintf(str,"%03d mA",duty+1);
+		  lcd_puts(str);
+          lcd_cursor(8,1);
+		  sprintf(str,"%03d mV",duty);
+		  lcd_puts(str);
 
  		  pwm_setduty(duty);
 		  if(duty>=0xFF)
@@ -74,13 +104,19 @@ int main()
 
 		 }  
 		 if( keyup()){
-	        lcd1602_init();
-			lcd_cursor(1,1);
-		    lcd_puts("Welcom Atmega8");
-			lcd_scroll(1);
-		  //_set_bit(PORTB,1);
-		  duty+=2;
+		   if(clear){ lcd_clear(); clear=0;}
+	          lcd_cursor(0,1);
+		  sprintf(str,"%03d mA",duty+1);
+		  lcd_puts(str);
+          lcd_cursor(8,1);
+		  sprintf(str,"%03d mV",duty);
+		  lcd_puts(str);
 
+	      //_set_bit(PORTB,1);
+		  duty+=2;
+          lcd_cursor(0,0);
+		  sprintf(str,"duty:%03d",duty);
+ 		  lcd_puts(str);
  		  pwm_setduty(duty);
 		  if(duty<=0)
 		     duty=0xFF;
