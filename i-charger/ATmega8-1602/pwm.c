@@ -75,13 +75,13 @@ GTCCR ¨C General Timer/Counter Control Register
 void pwm_init()
 {
 
-  TCCR1A  =   _nm8(0b10,WGM10,WGM11)  |  ( _nm8(0b10, COM1A0,COM1A1) );  
-  TCCR1B  =   _nm8(0b001, CS10,CS12)  | (_nm8(0b11,WGM12,WGM13));     
+  TCCR1A  =   (_bits8(0b10,WGM10,WGM11) )  |  ( _bits8(0b10, COM1A0,COM1A1) );  
+  TCCR1B  =   (_bits8(0b001, CS10,CS12))  | (_bits8(0b11,WGM12,WGM13));     
   TCNT1  = 0;
   ICR1 = 0xff ;  /* top = 0; */
   
   //only attiny13?  GTCCR = 1; /*reset prescaler*/
-  _port_mode(PORTB,1,OUTPUT);
+  _pin_mode(PORTB,1,OUTPUT);
 
 }
 

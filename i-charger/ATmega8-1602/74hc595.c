@@ -12,10 +12,7 @@
 
 void init_74hc595(void)
 {
-    _port_mode(PORT_74HC595, CLK,OUTPUT);
-    _port_mode(PORT_74HC595, LATCH,OUTPUT);
-    _port_mode(PORT_74HC595, SDI,OUTPUT);
-   
+    _pins_mode(PORT_74HC595, CLK,SDI,OUTPUT);
 }
 
 void shiftout(unsigned char data)
@@ -24,8 +21,8 @@ void shiftout(unsigned char data)
 	for(i=0;i<8;i++){
 	   delay_io;
 	  
-	   if((data>>i)&0x1)
-	    _set_bit(PORT_74HC595, SDI);
+	   if((data<<i)&0x80)
+	     _set_bit(PORT_74HC595, SDI);
 	   else
 	     _clear_bit(PORT_74HC595, SDI);
 
@@ -39,17 +36,17 @@ void shiftout(unsigned char data)
 }
 void write_74hc595(unsigned char data)
 {
-	_clear_bit(PORT_74HC595,CLK); //prepare send data
+	//_clear_bit(PORT_74HC595,CLK); //prepare send data
 	delay_io;
-    _clear_bit(PORT_74HC595,LATCH); //prepare open latch
-    delay_io;
-	  
+      
 	shiftout(data);
-    delay_io;
-
-    _set_bit(PORT_74HC595,CLK); //prepare send data
+    
 	delay_io;
     _set_bit(PORT_74HC595,LATCH); //prepare open latch
+     delay_io;
+	 delay_io;
+     delay_io;
+    _clear_bit(PORT_74HC595,LATCH); //prepare open latch
    
 }
 

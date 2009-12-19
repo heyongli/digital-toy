@@ -15,8 +15,8 @@
 #define KEY1  2
 #define KEY2  3
 #define _key_init() \
-			 _port_mode(KEY_PORT,KEY1, INPUT);\
-			 _port_mode(KEY_PORT,KEY2, INPUT)
+			 _pin_mode(KEY_PORT,KEY1, INPUT);\
+			 _pin_mode(KEY_PORT,KEY2, INPUT)
 
 
 #define _test_key(n) 								\
@@ -48,15 +48,10 @@ int main()
 
     
 	pwm_init();
-    //init_74hc595();
     
 	
 	while (1){
 	 
-	 
-	    //write_74hc595(i++);
-	
-	
         //sharp_flash();
 	    //pwm_demo();
         if( keydown()){
