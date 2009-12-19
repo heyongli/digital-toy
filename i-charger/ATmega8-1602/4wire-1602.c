@@ -138,7 +138,12 @@ void lcd1602_init(void)
   _delay_ms(100);
 }
 
-
+void lcd_clear()
+{
+   _delay_ms(100);
+   send_cmd(0x01);  /*«Â∆¡*/
+   _delay_ms(100);
+}
 
 void lcd_cursor(char x, char y)
 {
