@@ -38,7 +38,8 @@ char keyup()
 }
 
 unsigned char duty=128; 
-int i=0;
+char i=0;
+
 int main()
 {
 
@@ -47,15 +48,24 @@ int main()
 
     
 	pwm_init();
-    init_74hc595();
+    //init_74hc595();
     
+	
 	while (1){
-	   	       
-	    write_74hc595(i++);
-		_delay_ms(15);
+	 
+	 
+	    //write_74hc595(i++);
+	
+	
         //sharp_flash();
 	    //pwm_demo();
         if( keydown()){
+	
+	        lcd1602_init();
+			lcd_cursor(1,0);
+		    lcd_puts("***Digital TOY");
+			lcd_scroll(-1);
+	
 		  //_set_bit(PORTB,1);
 		  duty-=2;
 
@@ -69,6 +79,10 @@ int main()
 
 		 }  
 		 if( keyup()){
+	        lcd1602_init();
+			lcd_cursor(1,1);
+		    lcd_puts("Welcom Atmega8");
+			lcd_scroll(1);
 		  //_set_bit(PORTB,1);
 		  duty+=2;
 
@@ -77,7 +91,7 @@ int main()
 		     duty=0xFF;
           _clear_bit(PORTD,0);
 		  _delay_ms(15);  
-		  _set_bit(PORTD,0);
+		 _set_bit(PORTD,0);
 		  _delay_ms(15);  
 		 }  
 	}

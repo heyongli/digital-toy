@@ -17,3 +17,13 @@ void __set_port_mode(volatile char* port_addr, char mode, char n, char m)
 	//DDRx &= ~(1<< DDx##n);  /*enable input*/   
 	//PORTx |= (1<< PX##n)    /*pull-up-enable*/  
 }
+
+void _delay_s(char s)
+{
+  while(s--){
+    _delay_ms(255);
+    _delay_ms(255);
+    _delay_ms(255);
+    _delay_ms(255);
+  }
+}

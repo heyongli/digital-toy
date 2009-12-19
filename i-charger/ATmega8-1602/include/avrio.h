@@ -2,6 +2,7 @@
 #define _AVR_IO_
 
 #include <avr/io.h>
+#include <util/delay.h>
 #include "bitops.h"
 
 

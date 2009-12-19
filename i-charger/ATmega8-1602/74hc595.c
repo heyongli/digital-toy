@@ -4,7 +4,7 @@
 
 
 #define  PORT_74HC595   PORTD 
-#define  delay_io    _delay_us(1);
+#define  delay_io    /*asm("nop")*/ _delay_us(20);
 
 #define  CLK    5    /* raise-edge , shift clock: 74HC595 pin 11*/
 #define  LATCH  6	 /* raise-edge output to Qx, latch clock: 74HC595 pin 12*/
@@ -18,13 +18,13 @@ void init_74hc595(void)
    
 }
 
-void shiftout(char data)
+void shiftout(unsigned char data)
 {
 	char i=0;
-	for(i=0;i<=7;i++){
+	for(i=0;i<8;i++){
 	   delay_io;
 	  
-	   if((data)>>i&0x1)
+	   if((data>>i)&0x1)
 	    _set_bit(PORT_74HC595, SDI);
 	   else
 	     _clear_bit(PORT_74HC595, SDI);
