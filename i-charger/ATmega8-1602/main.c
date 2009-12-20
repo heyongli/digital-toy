@@ -45,16 +45,50 @@ lcd_putchar(char c, FILE *stream)
 
 char keydown()
 {
-   _test_key(KEY2);
+   _test_key(KEY1);
 }
 char keyup()
 {
-   _test_key(KEY1);
+   _test_key(KEY2);
 }
 
-unsigned char duty=128; 
+unsigned char duty=3; 
 char i=0;
 char str[10];
+
+/* 
+  0   5 6 7  8...   15
+  PWM:000    Detect...
+  0000mA        0000mV
+       5        10
+*/
+unsigned int _adc(unsigned char ch);
+void updata_lcd(void)
+{
+   static char clear=1; 
+   static float f = 0.01 ;
+   
+   if(clear)
+   { lcd_clear(); clear=0;}
+
+   lcd_cursor(0,0);
+   sprintf(str,"PWM:%03d",duty);
+   lcd_puts(str);
+   lcd_cursor(8,0);
+   lcd_puts("Detecting.");
+   f+=0.01;
+
+
+
+   lcd_cursor(0,1);
+   sprintf(str,"%04imA",_adc(2));
+   lcd_puts(str);
+   lcd_cursor(10,1);
+   sprintf(str,"%04imV",_adc(0));
+   lcd_puts(str);
+
+}
+
 int main()
 {
 
@@ -63,7 +97,8 @@ int main()
 
     
 	pwm_init();
-    
+    adc_init();
+
 	lcd1602_init();
 	lcd_cursor(1,0);
 	lcd_puts("Digital TOY");
@@ -72,58 +107,36 @@ int main()
 	lcd_scroll(-1);
 	
 	
+
 	while (1){
-	  static char clear=1; 
+         updata_lcd();
+		 _delay_ms(100);
         //sharp_flash();
 	    //pwm_demo();
         if( keydown()){
-	      if(clear){ lcd_clear(); clear=0;}
-	           
-	
-		  //_set_bit(PORTB,1);
-		  duty-=2;
+		  again:
+		    if(duty>=1)
+	   	    	duty-=1;
+		     pwm_setduty(duty);
 
-          lcd_cursor(0,0);
-		  sprintf(str,"duty:%03d",duty);
-		  lcd_puts(str);
+			if(keyup()){ //press down and up,quick reset 
+          	   duty=0;
+			   updata_lcd();
+	  	       pwm_setduty(duty);
+			}
 
-          lcd_cursor(0,1);
-		  sprintf(str,"%03d mA",duty+1);
-		  lcd_puts(str);
-          lcd_cursor(8,1);
-		  sprintf(str,"%03d mV",duty);
-		  lcd_puts(str);
-
- 		  pwm_setduty(duty);
-		  if(duty>=0xFF)
-		     duty=0;
-          _clear_bit(PORTD,1);
-		  _delay_ms(15);  
-		  _set_bit(PORTD,1);
-		  _delay_ms(15);  
-
+		   while(keydown()){
+		      _delay_ms(100);
+			  if(keydown())
+			    goto again;  
+		   }
 		 }  
 		 if( keyup()){
-		   if(clear){ lcd_clear(); clear=0;}
-	          lcd_cursor(0,1);
-		  sprintf(str,"%03d mA",duty+1);
-		  lcd_puts(str);
-          lcd_cursor(8,1);
-		  sprintf(str,"%03d mV",duty);
-		  lcd_puts(str);
-
-	      //_set_bit(PORTB,1);
-		  duty+=2;
-          lcd_cursor(0,0);
-		  sprintf(str,"duty:%03d",duty);
- 		  lcd_puts(str);
- 		  pwm_setduty(duty);
-		  if(duty<=0)
-		     duty=0xFF;
-          _clear_bit(PORTD,0);
-		  _delay_ms(15);  
-		 _set_bit(PORTD,0);
-		  _delay_ms(15);  
+		  if(duty<0xFF)
+	          duty+=5;
+          pwm_setduty(duty);
+		 
+		  while(keyup());
 		 }  
 	}
 }

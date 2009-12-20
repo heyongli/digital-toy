@@ -34,5 +34,6 @@ void __set_port_mode(volatile char* port_addr, char mode, char n, char m);
 #define _outb(port,val) \
  		(*(volatile uint8_t *)(&port)  = val;
 			
+#define barrier() __asm__ __volatile__("": : :"memory")
 
 #endif
