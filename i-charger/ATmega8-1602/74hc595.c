@@ -4,7 +4,7 @@
 
 
 #define  PORT_74HC595   PORTD 
-#define  delay_io    /*asm("nop")*/ _delay_us(20);
+#define  delay_io    /*asm("nop")*/ _delay_us(2);
 
 #define  CLK    5    /* raise-edge , shift clock: 74HC595 pin 11*/
 #define  LATCH  6	 /* raise-edge output to Qx, latch clock: 74HC595 pin 12*/

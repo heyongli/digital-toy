@@ -1,3 +1,7 @@
+/*
+ * CopyLeft hyl 2009/12/21
+ */
+
 #ifndef _BITOPS_H_
 #define _BITOPS_H_
 
@@ -11,7 +15,7 @@
 
 
 /* mask ops */
-#define _MASK8(n,m)      (0xFF<<(n))&(0xFF>>(7-(m)))
+#define _MASK8(n,m)      ((0xFF<<(n))&(0xFF>>(7-(m))))
                           /*n=2, m=3*/
 				          /* xxxx XX00  &  0000 XXXX*/
 

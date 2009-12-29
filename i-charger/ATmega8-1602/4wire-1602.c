@@ -26,16 +26,35 @@
 	  _pins_mode(LCD_RSWE_PORT,5,7,OUTPUT)
 #endif
 
+static char bus4w = 0;
+
 #ifdef USE_74HC595  
-  #define  _rswe()  write_74hc595(bus4w)
-  #define  _data()  write_74hc595(bus4w)
+#if 1
+  static inline  void _rswe(void ) 
+  {
+  /*  |res| _RS| _RW | _EN | 4bit DATA | */
+   /*    0    1    2     3     4  5 6  7  */
+  /*         d7    d6   d5     d4 e rw rs*/
+      #define m(d,s)   _mov_bits8(t,bus4w,d,d,s,s);
+	  char t=0;
+	  m(5,3); m(6,2);m(7,1);
+	  m(1,7); m(2,6);m(3,5);m(4,4);
+
+	  write_74hc595(t);
+  } 
+  #define  _data() _rswe()
+#else
+  	#define  _rswe()  write_74hc595(bus4w)
+  	#define  _data()  write_74hc595(bus4w>>1)
+#endif
 #else
   #define  _rswe()  _mov_bits8(LCD_RSWE_PORT,bus4w,5,7,1,3)
   #define  _data()  _mov_bits8(LCD_DATA_PORT,bus4w,0,3,4,7);
 #endif
 /*************以下内容无需修改，移植请修改以上内容******************/
-static char bus4w = 0;
+
 /*  74hc595 data format 
+ *  Ver0.1 
  *  |res| _RS| _RW | _EN | 4bit DATA |
  *    0    1    2     3     4 5 6 7 
  *  4wire direct to IO
@@ -65,7 +84,7 @@ void io_delay()
    _delay_us(14);
 }
 #else
-#define io_delay()   _delay_us(14)
+#define io_delay()   _delay_us(15)
 #endif
 
 static void hd44870_send(unsigned char data, char is_cmd) 
