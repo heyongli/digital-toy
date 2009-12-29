@@ -10,20 +10,20 @@
 
 void adc_init()
 {
-   short adc;
+	short adc;
 
-         /// AVCC, AREF 加滤波电容      ADCL keep low 8bit        init for ch0  
+	/// AVCC, AREF 加滤波电容      ADCL keep low 8bit        init for ch0  
 	ADMUX = _bits8(0b01,REFS0,REFS1) |   _bits8(0,ADLAR,ADLAR) |  _bits8(0,MUX0,MUX3); 
         /*must READ ADCH for compled ADC*/
 
-    /*ADC status and control*/   
-			  /*enable ADC*/	  /*start first ADC*/    /*no interrupt for now*/ /*4M/32, 125kHz*/
+	/*ADC status and control*/   
+	         /*enable ADC*/	  /*start first ADC*/    /*no interrupt for now*/ /*4M/32, 125kHz*/
 	ADCSRA = _bits8(1,ADEN,ADEN) | _bits8(1,ADSC,ADSC) |  _bits8(0, ADIE,ADIE)   | _bits8(0b101, ADPS0,ADPS2);
-    /*wait for 25 ADC clock for first ADC completed*/
+       /*wait for 25 ADC clock for first ADC completed*/
 	while(!_test_bit(ADCSRA,ADIF));
 	_set_bit(ADCSRA,ADIF); //clear IF bit
   
-    adc = ADCL;
+        adc = ADCL;
 	barrier();
 	adc = ADCH;
 }

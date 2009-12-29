@@ -89,12 +89,40 @@ void updata_lcd(void)
 
 }
 
+#ifdef TEST_595	
+static char xx=0x55;
+static inline  void _rswe(void ) 
+{
+  /*  |res| _RS| _RW | _EN | 4bit DATA | */
+   /*    0    1    2     3     4  5 6  7  */
+  /*         d7    d6   d5     d4 e rw rs*/
+      #define m(d,s)   _mov_bits8(t,xx,d,d,s,s);
+	  char t=0;
+	  m(5,1); m(6,2);m(7,3);
+	  m(4,4); m(3,5);m(2,6);m(1,7);
+
+	  write_74hc595(t);
+}
+#endif 
 int main()
 {
 
     led_init();
-    _key_init();	
+    _key_init();
 
+#ifdef TEST_595	
+	init_74hc595();	
+	while(1){
+      xx=0x55;
+	  _rswe();
+	  _delay_ms(100);
+	   xx=0xaa;
+	   _rswe();
+	  _delay_ms(100);
+	  
+	
+	}
+#endif 
     
 	pwm_init();
     adc_init();
@@ -104,13 +132,13 @@ int main()
 	lcd_puts("Digital TOY");
 	lcd_cursor(1,1);
 	lcd_puts(" i-charger V0.5");
-	lcd_scroll(-1);
+	//lcd_scroll(-1);
 	
-	
+
 
 	while (1){
          updata_lcd();
-		 _delay_ms(100);
+	 _delay_ms(200);_delay_ms(200);
         //sharp_flash();
 	    //pwm_demo();
         if( keydown()){
