@@ -9,22 +9,9 @@
 #include "include/avrio.h"
 #include <util/delay.h>
 #include "pwm.h"
+#include "charger.h"
 
-#include <stdio.h>
-
-static int lcd_putchar(char c, FILE *stream);
-
-static FILE mystdout = FDEV_SETUP_STREAM(lcd_putchar, NULL,
-                                             _FDEV_SETUP_WRITE);
-
-static int
-lcd_putchar(char c, FILE *stream)
-{
-    lcd_put(c);
-    return 0;
-}
-
-
+i_charger charger=INIT_CHARGER;
 
 #define KEY_PORT PORTD
 #define KEY1  2
@@ -52,9 +39,8 @@ char keyup()
    _test_key(KEY2);
 }
 
-unsigned char duty=3; 
+unsigned char duty=0; 
 char i=0;
-char str[10];
 
 /* 
   0   5 6 7  8...   15
@@ -62,51 +48,30 @@ char str[10];
   0000mA        0000mV
        5        10
 */
-unsigned int _adc(unsigned char ch);
+void print10(unsigned short n);
 void updata_lcd(void)
 {
-   static char clear=1; 
-   static float f = 0.01 ;
+   long x;
    
-   if(clear)
-   { lcd_clear(); clear=0;}
-
-   lcd_cursor(0,0);
-   sprintf(str,"PWM:%03d",duty);
-   lcd_puts(str);
-   lcd_cursor(8,0);
-   lcd_puts("Detecting.");
-   f+=0.01;
-
-
+   ic_update_lcd(&charger);
 
    lcd_cursor(0,1);
-   sprintf(str,"%04imA",_adc(2));
-   lcd_puts(str);
+   x = adc_A()*1000;
+   print10(x);
+   lcd_puts("mA");
    lcd_cursor(10,1);
-   sprintf(str,"%04imV",_adc(0));
-   lcd_puts(str);
-
+   x= adc_V()*1000;
+   print10(x);
+   lcd_puts("mV");
 }
 
-#ifdef TEST_595	
-static char xx=0x55;
-static inline  void _rswe(void ) 
-{
-  /*  |res| _RS| _RW | _EN | 4bit DATA | */
-   /*    0    1    2     3     4  5 6  7  */
-  /*         d7    d6   d5     d4 e rw rs*/
-      #define m(d,s)   _mov_bits8(t,xx,d,d,s,s);
-	  char t=0;
-	  m(5,1); m(6,2);m(7,3);
-	  m(4,4); m(3,5);m(2,6);m(1,7);
 
-	  write_74hc595(t);
-}
-#endif 
+
 int main()
 {
 
+    char force_stop = 0;
+    cli();
     led_init();
     _key_init();
 
@@ -126,45 +91,35 @@ int main()
     
 	pwm_init();
     adc_init();
+    //timer0_init();
 
 	lcd1602_init();
-	lcd_cursor(1,0);
-	lcd_puts("Digital TOY");
-	lcd_cursor(1,1);
-	lcd_puts(" i-charger V0.5");
+	//lcd_cursor(1,0);
+	//lcd_puts("Digital TOY");
+	//lcd_cursor(1,1);
+	//lcd_puts(" i-charger V0.5");
 	//lcd_scroll(-1);
 	
-
-
+    sti();
+    char pwm =0;
+	    
 	while (1){
-         updata_lcd();
-	 _delay_ms(200);_delay_ms(200);
+	    if(!force_stop)
+		   charging(&charger);
+		updata_lcd();
+		_delay_ms(200);
         //sharp_flash();
 	    //pwm_demo();
         if( keydown()){
-		  again:
-		    if(duty>=1)
-	   	    	duty-=1;
-		     pwm_setduty(duty);
-
-			if(keyup()){ //press down and up,quick reset 
-          	   duty=0;
-			   updata_lcd();
-	  	       pwm_setduty(duty);
-			}
-
-		   while(keydown()){
-		      _delay_ms(100);
-			  if(keydown())
-			    goto again;  
-		   }
+            pwm =  pwm_getduty();
+			pwm_setduty(0);
+			force_stop = 1;
 		 }  
 		 if( keyup()){
-		  if(duty<0xFF)
-	          duty+=5;
-          pwm_setduty(duty);
-		 
-		  while(keyup());
+            
+			pwm_setduty(pwm);
+			force_stop = 0;
+		  
 		 }  
 	}
 }

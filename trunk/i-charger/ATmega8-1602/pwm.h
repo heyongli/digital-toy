@@ -3,7 +3,7 @@
 
 void pwm_init(void);
 void pwm_setduty(unsigned char duty);
-
+unsigned char pwm_getduty();
 
 
 #endif

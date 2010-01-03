@@ -18,12 +18,12 @@ void __set_port_mode(volatile char* port_addr, char mode, char n, char m)
 	//PORTx |= (1<< PX##n)    /*pull-up-enable*/  
 }
 
+/*0-64 seconds*/
 void _delay_s(char s)
 {
+  s*=4;
   while(s--){
-    _delay_ms(255);
-    _delay_ms(255);
-    _delay_ms(255);
     _delay_ms(255);
   }
 }
+

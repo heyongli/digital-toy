@@ -7,7 +7,7 @@
 
 
 
-
+#if 0
 void pwm_demo()
 {
 	_set_bit(PORTB, 2);//led
@@ -21,7 +21,7 @@ void pwm_demo()
 	_delay_us(500);
 
 }
-
+#endif
 
 
 
@@ -88,4 +88,9 @@ void pwm_init()
 void pwm_setduty(unsigned char duty)
 {
   OCR1A = duty;
+}
+
+unsigned char pwm_getduty()
+{
+  return OCR1A;
 }
