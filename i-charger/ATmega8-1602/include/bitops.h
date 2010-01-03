@@ -19,7 +19,7 @@
                           /*n=2, m=3*/
 				          /* xxxx XX00  &  0000 XXXX*/
 
-#define  _bits8(val,n,m)   (val<<(n))&(_MASK8(n,m))
+#define  _bits8(val,n,m)  ( (val<<(n))&(_MASK8(n,m)) )
 
 
 
@@ -41,6 +41,18 @@
 			      (     \
 				    __clear_bits8(dst,dn,dm) \
 				  )
+
+#define rol8(a,n) \
+           ( \
+		     (a>>(8-(n))) | \
+			 (a<<(n)) \
+		   ) 
+#define ror8(a,n) \
+           ( \
+		     (a<<(8-(n))) | \
+			 (a>>(n)) \
+		   ) 
+
 
 
 #endif
