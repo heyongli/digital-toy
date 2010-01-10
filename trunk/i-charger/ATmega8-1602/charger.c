@@ -63,7 +63,7 @@ float adc_V()
 
 //  sprintf(str,"%04imV",_adc(0));
    float adc= lowpass_adc(0);
-   return (((float)adc)/1023)*refV; //10mV
+   return (((float)adc)/1023)*refV*2.4; //5mV*2.4 =12mV 
 
 }
 
@@ -127,13 +127,18 @@ void adj_current(i_charger *ic)
 			if(pwm>200)
 				pwm=200;
  			pwm_setduty(pwm);
+			_delay_ms(80);
 		}
 		if(adc_A() > (ic->charging_Amp+0.010)){
 			pwm -- ;
 			if(!pwm)
 				pwm = 1;
 			pwm_setduty(pwm);
+			_delay_ms(80);
+
 		}
+       ic_update_lcd(ic);
+       
 	}
 }
 
@@ -177,9 +182,9 @@ void charging(i_charger *ic)
    PRE charging: single cell< 1.3V
  */
 #define NICD_PRE_CHAGE_MA    0.350  /* 350mA */
-#define V9_PRE_CHAGE_MA      0.030  /* 30mA*/
-#define NICD_FAST_CHAGE_MA   1.60  /* 1000mA */
-#define V9_FAST_CHAGE_MA     0.080  /* 80mA*/   
+#define V9_PRE_CHAGE_MA      0.050  /* 30mA*/
+#define NICD_FAST_CHAGE_MA   1.00  /* 1000mA */
+#define V9_FAST_CHAGE_MA     0.180  /* 100mA*/   
 
 void charging_mode(i_charger *ic)
 {
@@ -200,7 +205,7 @@ void charging_mode(i_charger *ic)
 */
    float deltaV = 0.010;
 
-   if( (ic->voltage <= 0.050 /*V*/) || (ic->voltage >= 5.100) ){  //cell pull out
+   if( (ic->voltage <= 0.050 /*V*/) || (ic->voltage >= 11.90) ){  //cell pull out
 	  ic->cell_type = Unknown;
 	  ic->cell_pack = 0;  //start pack
 	  ic->i_stage = DETECT_CELL;   //restart 
@@ -228,8 +233,7 @@ void charging_mode(i_charger *ic)
       		ic->charging_Amp = V9_PRE_CHAGE_MA;
    		}
    		ic->charging_mode = PRE;
-		_delay_s(3);
-
+	
 		ic->abs_voltage = adc_V();    
 #if 1
         {
@@ -237,10 +241,9 @@ void charging_mode(i_charger *ic)
 		if(cc==0){ // update abs_voltage
 		    char duty = pwm_getduty();
 			pwm_setduty(0);
-    		_delay_s(3);
-			ic->abs_voltage = adc_V();    
+
+	   		ic->abs_voltage = adc_V();    
 			pwm_setduty(duty);
-			cc=0;
 		}
 		cc++;
 		
@@ -274,25 +277,25 @@ void charging_mode(i_charger *ic)
    		return;
    if(ic->voltage > ic->top_voltage){
        ic->top_voltage = ic->voltage;
-	   info("TOP:");
+	   info("TOP");
 	   short x =1000*ic->top_voltage; 
 	   print10(x);
-	   _delay_s(2);
+
 	   ic->delta_times=0;
    }
 
 
    if (ic->cell_pack >2)
-       deltaV = 0.008; /*reduce -dV, that's cell pack, because not all cell reach full at same time,
+       deltaV = 0.015; /*reduce -dV, that's cell pack, because not all cell reach full at same time,
 	                   so, -dv became small..*/
    if( ic->top_voltage > (ic->voltage+deltaV) ){
        	ic->delta_times++;
  		infon("   -dV:",ic->delta_times);
-        _delay_s(2);
-   		if(ic->delta_times >3){
+		_delay_ms(250);_delay_ms(250);
+		if(ic->delta_times >3){
 			ic->i_stage = STOP; /*STOP and update abs voltage*/
 			lcd_cursor(0,0);
-            lcd_puts("END:");
+            lcd_puts("END");
             short x = 1000*ic->voltage;
 	        print10(x); 
 			pwm_setduty(0);
@@ -315,7 +318,7 @@ void detect_cell(i_charger *ic)
        pwm_setduty(NICD_DETECT_PWM);
    }else {
        ic->i_stage = DETECT_TYPE;
-	   _delay_s(2);
+	   
 	   pwm_setduty(0);
    }
       
@@ -349,7 +352,7 @@ void detect_type(i_charger *ic)
       ic->cell_type =  NiCd;
 	  ic->cell_pack = 1;  //single NiCd
       ic->i_stage = CHARCHING;
-	  infon("pack     s",ic->cell_pack);
+	  infon("pack     ",ic->cell_pack);
 	  return;
    }
 
@@ -367,6 +370,7 @@ void detect_type(i_charger *ic)
            low   high 
   single   1.0   1.42
   2-array             2.0    2.84
+  3-array                           3       4.26
   4-array                               4            5.68
   7-array(V9-stack)                                            7             9.94        
  
@@ -408,13 +412,16 @@ out:
 
 void stop(i_charger *ic)
 {
-    info("TOP:");
+    info("TOP");
 	short x =1000*ic->top_voltage; 
 	print10(x);
 
 	pwm_setduty(0);
 	ic->abs_voltage = adc_V();    
-    if(ic->abs_voltage < (1.32*ic->cell_pack)) /*why there is a -dV?*/
+    if(ic->voltage < (1.38*ic->cell_pack)){ /*why there is a -dV?*/
 	   ic->i_stage = CHARCHING; /*restart charging */
+	   ic->top_voltage = ic->voltage = 0;
+	   adj_current(ic);
+	}
 }
 
