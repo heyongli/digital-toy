@@ -23,7 +23,7 @@ void _delay_s(char s)
 {
   s*=4;
   while(s--){
-    _delay_ms(255);
+    _delay_ms(250);
   }
 }
 

@@ -185,17 +185,24 @@ char hex2c(char hex)
 }
 void print10(unsigned short n)
 {
-     static char four[5];
+     static char four[6];
      //irqoff();
-	 four[0]= hex2c( (n/1000) );
+	 four[0]= hex2c( (n/10000) );
+	 n = n%10000;
+	 four[1]= hex2c(n/1000);
 	 n = n%1000;
-	 four[1]= hex2c(n/100);
-	 n = n%100;
 		   	
-	 four[2]= hex2c( (n/10) );
-	 four[3]= hex2c( (n%10) );
-	 four[4]= 0;
-	 lcd_puts(four);
+	 four[2]= hex2c( (n/100) );
+	 n = n%100;
+	
+	 four[3]= hex2c( (n/10) );
+	 four[4]= hex2c( (n%10) );;
+	 four[5]= 0;
+
+     if(four[0] == '0')
+	    lcd_puts(four+1);
+	 else
+	 	lcd_puts(four);
 }
 
 

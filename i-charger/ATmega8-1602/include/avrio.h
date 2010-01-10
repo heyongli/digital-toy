@@ -60,4 +60,7 @@ void __set_port_mode(volatile char* port_addr, char mode, char n, char m);
 extern volatile unsigned  long jiffers;
 
 void timer0_init();
+
+void _delay_s(char s);
+
 #endif

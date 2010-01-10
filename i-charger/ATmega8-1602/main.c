@@ -59,7 +59,7 @@ void updata_lcd(void)
    x = adc_A()*1000;
    print10(x);
    lcd_puts("mA");
-   lcd_cursor(10,1);
+   lcd_cursor(9,1);
    x= adc_V()*1000;
    print10(x);
    lcd_puts("mV");
