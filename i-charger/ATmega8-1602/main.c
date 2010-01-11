@@ -90,6 +90,8 @@ int main()
 #endif 
     
 	pwm_init();
+	pwm_setduty(0);
+
     adc_init();
     //timer0_init();
 
