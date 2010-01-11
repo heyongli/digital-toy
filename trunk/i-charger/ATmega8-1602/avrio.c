@@ -19,11 +19,15 @@ void __set_port_mode(volatile char* port_addr, char mode, char n, char m)
 }
 
 /*0-64 seconds*/
-void _delay_s(char s)
+void _delay_s(unsigned char s)
 {
-  s*=4;
-  while(s--){
+
+  while(s){
     _delay_ms(250);
+	_delay_ms(250);
+	_delay_ms(250);
+	_delay_ms(250);
+	s--;
   }
 }
 
