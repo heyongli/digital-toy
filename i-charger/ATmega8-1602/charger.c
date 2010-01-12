@@ -4,6 +4,15 @@
 
 
 #define NICD_DETECT_PWM  3 /*only for detect cell*/
+#define NICD_FAST_VOLTAGE 1.25 /*only start fast charging when cell voltage > NICD_FAST_VOLTAGE*/
+/*
+   PRE charging: single cell< 1.3V
+ */
+#define NICD_PRE_CHAGE_MA    0.350  /* 350mA */
+#define V9_PRE_CHAGE_MA      0.050  /* 30mA*/
+
+#define NICD_FAST_CHAGE_MA   0.300  /* 1500mA */
+#define V9_FAST_CHAGE_MA     0.180  /* 100mA*/   
 
 /*
    detect cell -exist--> detect type ------------------->  PRE charge -> FAST(detect/ir) ->TRICKLE -->STOP
@@ -108,10 +117,26 @@ void infon(char *e,char n)
    lcd_putc(hex2c(n));
 }
 
+void init_ic(i_charger *ic)
+{
+      ic->i_stage = DETECT_CELL;
+	  ic->charging_mode = NOT_IN;
+  	  ic->cell_type = Unknown;
+	  ic->cell_pack = 0;  //start pack
+      
+	  ic->current = ic->voltage = 0;
+	  ic->top_voltage = 0;
+	  ic->delta_times = 0;
+
+	  ic->charging_Amp = 0;
+	  ic->ir = 0;
+	  ic->abs_voltage = 0;
+	  /*stop pwm*/
+	  pwm_setduty(0);
+}
 void in_chaging(i_charger *ic)
 {
     return;
-
 }
 void adj_current(i_charger *ic)
 {
@@ -160,13 +185,6 @@ void (*_fun[STOP+1])(i_charger*)=
 void charging(i_charger *ic)
 {
 
-    static unsigned long lasttime=0;
- 	  
- //   if(!timeafter(jiffers,lasttime+HZ/4) ){
-//	     return;
-  //  } 
-    lasttime = jiffers;
-
     ic->voltage = adc_V();
     ic->current = adc_A();
 	
@@ -176,13 +194,7 @@ void charging(i_charger *ic)
 	f= _fun[ic->i_stage];
 	f(ic);
 }
-/*
-   PRE charging: single cell< 1.3V
- */
-#define NICD_PRE_CHAGE_MA    0.350  /* 350mA */
-#define V9_PRE_CHAGE_MA      0.050  /* 30mA*/
-#define NICD_FAST_CHAGE_MA   1.20  /* 1200mA */
-#define V9_FAST_CHAGE_MA     0.180  /* 100mA*/   
+
 
 void charging_mode(i_charger *ic)
 {
@@ -204,17 +216,8 @@ void charging_mode(i_charger *ic)
    float deltaV = 0.010;
 
    if( (ic->voltage <= 0.100 /*V*/) || (ic->voltage >= 11.90) ){  //cell pull out
-	  ic->cell_type = Unknown;
-	  ic->cell_pack = 0;  //start pack
-	  ic->i_stage = DETECT_CELL;   //restart 
-	  ic->charging_mode =  NOT_IN; 
-	  ic->top_voltage = 0;
-	  ic->delta_times = 0;
-	  ic->charging_Amp = 0;
-	  ic->ir = 0;
-	  ic->abs_voltage = 0;
-	  /*stop pwm*/
-	  pwm_setduty(0);
+      init_ic(ic);
+
    }
 
 
@@ -223,7 +226,7 @@ void charging_mode(i_charger *ic)
 
 
 
-   if( ic->abs_voltage < 1.28*ic->cell_pack){
+   if( ic->abs_voltage < (NICD_FAST_VOLTAGE*ic->cell_pack)){
        ic->charging_Amp = NICD_PRE_CHAGE_MA;
 	
 	   if(ic->cell_pack == 7)
@@ -311,12 +314,12 @@ void detect_cell(i_charger *ic)
 {
    float pwm_off,pwm_on,dv;
    
-
    pwm_setduty(0);
-   _delay_s(5);
+   delay(HZ/2);
+
    pwm_off = adc_V();
    pwm_setduty(10);
-   _delay_ms(250);
+   delay(HZ/2);
    pwm_on = adc_V();
    pwm_setduty(0);
    
@@ -331,7 +334,7 @@ void detect_cell(i_charger *ic)
    }
    else {
 	  info("Plug IN ");
-      _delay_s(5);
+      delay(HZ*2);
    }
    if( ic->voltage < BAT_LOW_V ){
        pwm_setduty(NICD_DETECT_PWM); /*very pre charging*/

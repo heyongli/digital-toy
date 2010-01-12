@@ -44,24 +44,10 @@ typedef struct _charger {
 	float ir;  /*battray internal resistor*/
 	float abs_voltage;
 
+    unsigned long lasttime; /**/ 
 }i_charger;
 
-#define INIT_CHARGER  			\
-{								\
-	DETECT_CELL, /*stage*/		\
-	NOT_IN,						\
-    Unknown, /*cell type*/		\
-	0,	  /*cell_pack*/			\
-								\
-	0.0,  /*current*/			\
-	0.0,  /*voltage*/			\
-	0.0,  /*top_voltage */		\
-	0,	  /*dlta_times */		\
-								\
-	0,	/*mA*/					\
-	0.0,  /*ir*/				\
-	0,	  /*abs_voltage*/		\
-}
+
 
 void charging(i_charger *ic);
 

@@ -19,15 +19,14 @@ void __set_port_mode(volatile char* port_addr, char mode, char n, char m)
 }
 
 /*0-64 seconds*/
-void _delay_s(unsigned char s)
+void delay(unsigned long ticks)
 {
+  
+   unsigned long long lt = jiffers;
 
-  while(s){
-    _delay_ms(250);
-	_delay_ms(250);
-	_delay_ms(250);
-	_delay_ms(250);
-	s--;
-  }
+   while(!timeafter(jiffers,(lt+ ticks)));
+   
+   return;
+
 }
 
