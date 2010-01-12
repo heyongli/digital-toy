@@ -10,7 +10,8 @@
 /* bit ops*/
 #define  _clear_bit(x,n)  (x)&=~(1<<(n))
 #define  _set_bit(x,n)    (x)|= (1<<(n))
-#define  _test_bit(x,n)   ( (x)&(1<<(n)))
+#define  _test_bit(x,n)    ( (x)&(1<<(n)))
+#define  _toggle_bits(x,mask) ((x)^=(mask)) 
 
 
 

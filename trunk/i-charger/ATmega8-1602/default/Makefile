@@ -37,7 +37,7 @@ HEX_EEPROM_FLAGS += --change-section-lma .eeprom=0 --no-change-warnings
 
 
 ## Objects that must be built in order to link
-OBJECTS = main.o led.o pwm.o 74hc595.o avrio.o 4wire-1602.o adc.o timer0.o charger.o 
+OBJECTS = main.o led.o pwm.o 74hc595.o avrio.o 4wire-1602.o adc.o charger.o timer0.o 
 
 ## Objects explicitly added by the user
 LINKONLYOBJECTS = 
@@ -67,10 +67,10 @@ avrio.o: ../avrio.c
 adc.o: ../adc.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 
-timer0.o: ../timer0.c
+charger.o: ../charger.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 
-charger.o: ../charger.c
+timer0.o: ../timer0.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 
 ##Link

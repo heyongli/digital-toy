@@ -7,11 +7,12 @@
  */
 #include "include/bitops.h"
 #include "include/avrio.h"
+#include <avr/interrupt.h>
 #include <util/delay.h>
 #include "pwm.h"
 #include "charger.h"
 
-i_charger charger=INIT_CHARGER;
+i_charger charger;
 
 #define KEY_PORT PORTD
 #define KEY1  2
@@ -66,14 +67,16 @@ void updata_lcd(void)
 }
 
 
-
 int main()
 {
 
     char force_stop = 0;
+	init_ic(&charger);
     cli();
     led_init();
     _key_init();
+
+	
 
 #ifdef TEST_595	
 	init_74hc595();	
@@ -84,8 +87,6 @@ int main()
 	   xx=0xaa;
 	   _rswe();
 	  _delay_ms(100);
-	  
-	
 	}
 #endif 
     
@@ -93,7 +94,7 @@ int main()
 	pwm_setduty(0);
 
     adc_init();
-    //timer0_init();
+
 
 	lcd1602_init();
 	//lcd_cursor(1,0);
@@ -102,14 +103,20 @@ int main()
 	//lcd_puts(" i-charger V0.5");
 	//lcd_scroll(-1);
 	
-    sti();
+	timer0_init();
+	enable_timer0();
+    sei();
     char pwm =0;
 	    
 	while (1){
 	    if(!force_stop)
 		   charging(&charger);
+
 		updata_lcd();
+	    //PORTD = TCNT0&3;
+	
 		_delay_ms(200);
+		
         //sharp_flash();
 	    //pwm_demo();
         if( keydown()){

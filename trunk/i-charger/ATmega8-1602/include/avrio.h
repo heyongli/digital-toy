@@ -41,18 +41,11 @@ void __set_port_mode(volatile char* port_addr, char mode, char n, char m);
 
 
 
-/* 12Mhz  1ms = 1000us
- *    5ms jiffers 
- *    10kHz PWM (100us PWM cycle,if<50us onduty use busy wait)
- *    0-125us on-duty      
+/*  
+ * tick system      
  */
-#define MS_CYCLE  1000
-#define PWM_CYCLE 160		  /*100+[~140] cycles*/ //give up 1000+ left_cpu_of_timer
 
-#define HZ  (((unsigned long)1000*1000)/(unsigned long)MS_CYCLE) /*jiffers per MS*/
-             //(1000*1000)/MS_CYCLE, \u4e0d\u884c... \u6570\u636e\u7c7b\u578b\u53ef\u80fd\u662fchar...
-
-
+#define HZ  1000UL
 #define timeafter(a,b)         \
          (((long)(b) - (long)(a) < 0))
 

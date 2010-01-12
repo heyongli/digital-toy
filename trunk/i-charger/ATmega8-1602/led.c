@@ -21,7 +21,8 @@ void led_init()
  	//	    LED_Off(1);
 	//		_delay_ms(200);
 		}
-
+  LED_Off(0);
+  LED_Off(1);
 }	
 
 
