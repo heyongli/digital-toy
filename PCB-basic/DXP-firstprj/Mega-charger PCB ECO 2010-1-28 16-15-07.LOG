@@ -1,0 +1,22 @@
+Added Component: Designator=F1(PIN-W2/E2.8)
+Added Component: Designator=J-Power(KLD-0202)
+Added Pin To Net: NetName=+5 Pin=F1-2
+Added Pin To Net: NetName=+5 Pin=U?-7
+Added Net: Name=+5
+Added Pin To Net: NetName=GND Pin=J-Power-2
+Added Pin To Net: NetName=GND Pin=J-Power-2A
+Added Pin To Net: NetName=GND Pin=J-Power-2B
+Added Pin To Net: NetName=GND Pin=U?-8
+Added Pin To Net: NetName=GND Pin=U?-22
+Added Net: Name=GND
+Added Pin To Net: NetName=NetJ-Power_3 Pin=J-Power-3
+Added Pin To Net: NetName=NetJ-Power_3 Pin=J-Power-3A
+Added Pin To Net: NetName=NetJ-Power_3 Pin=J-Power-3B
+Added Net: Name=NetJ-Power_3
+Added Pin To Net: NetName=VCC Pin=F1-1
+Added Pin To Net: NetName=VCC Pin=J-Power-1
+Added Pin To Net: NetName=VCC Pin=J-Power-1A
+Added Pin To Net: NetName=VCC Pin=J-Power-1B
+Added Net: Name=VCC
+Added Member To Class: ClassName=Mega-charger Member=Component F1 Fuse 1
+Added Member To Class: ClassName=Mega-charger Member=Component J-Power PWR2.5
