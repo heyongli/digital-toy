@@ -2,14 +2,14 @@ EAGLE AutoRouter Statistics:
 
 Job           : Z:/home/digital-toy/PCB-basic/Eagle-vs-DXP/555-pwm-eagle/555-pwm-eagle.brd
 
-Start at      : 23:23:12 (2010-2-3)
-End at        : 23:23:12 (2010-2-3)
+Start at      : 21:29:00 (2010-2-4)
+End at        : 21:29:01 (2010-2-4)
 Elapsed time  : 00:00:00
 
-Signals       :     8   RoutingGrid: 50 mil  Layers: 2
+Signals       :    10   RoutingGrid: 50 mil  Layers: 2
 Connections   :    23   predefined:  0 ( 0 Vias )
 
-Router memory :   7252
+Router memory :   5616
 
 Passname          :    Busses     Route Optimize1 Optimize2 Optimize3 Optimize4
 
@@ -18,8 +18,8 @@ Number of Ripups  :         0         0         0         0         0         0
 max. Level        :         0         0         0         0         0         0
 max. Total        :         0         0         0         0         0         0
 
-Routed            :         4        23        23        23        23        23
-Vias              :         0         7         0         0         0         0
-Resolution        :    17.4 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %
+Routed            :         1        23        23        23        23        23
+Vias              :         0         6         1         1         1         1
+Resolution        :     4.3 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %
 
 Final             : 100.0% finished
