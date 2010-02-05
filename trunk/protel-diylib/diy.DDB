@@ -1,9 +1,0 @@
-[Design Root]
-Version=1.0.0
-[Directory]
-diy.LIB=SchLib
-diy-footprint.LIB=PCBLIB
-[diy.LIB]
-Editor Kind=SchLib
-[diy-footprint.LIB]
-Editor Kind=PCBLIB
