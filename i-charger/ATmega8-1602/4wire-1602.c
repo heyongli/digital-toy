@@ -32,15 +32,23 @@ static char bus4w = 0;
 #if 1
   static void _rswe(void ) 
   {
-  /*  |res| _RS| _RW | _EN | 4bit DATA | */
-   /*    0    1    2     3     4  5 6  7  */
-  /*         d7    d6   d5     d4 e rw rs*/
-   #define m(d,s)   _mov_bits8(t,bus4w,d,d,s,s);
+    /*    0    1    2     3    4   5  6  7  */
+/*bus4w:|res| _RS| _RW | _EN | d4  d5 d6 d7 | */
+  /*595:  x   d7    d6   d5    d4  en rw rs*/
+ //swap   d7   d6   d5    d4   en  rw rs res
+   
+     unsigned char t = 0; 
+	 
+//   #define m(d,s)   _mov_bits8(t,bus4w,d,d,s,s);
     /*100 bytes code*/
-	  char t=0;
-	  m(5,3); m(6,2);m(7,1);
-	  m(1,7); m(2,6);m(3,5);m(4,4);
+//	  m(5,3); m(6,2);m(7,1);
+//swap m(4,3); m(5,2); m(6,1);m(7,0);
 
+//	  m(1,7); m(2,6);m(3,5);m(4,4);
+//swap   m(0,7); m(1,6);m(2,5);m(3,4);
+  
+  	  t = _swap8(bus4w);
+	  t <<=1;
 	  write_74hc595(t);
   } 
   #define  _data() _rswe()

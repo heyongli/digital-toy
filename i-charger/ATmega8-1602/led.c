@@ -11,24 +11,14 @@
 
 void led_init()
 {
-	/* ÍùÇ°²½½ø */
-    char i;
-		for (i = 0; i < 3; i++){
-
-			_pins_mode(LED_PORT,0,1,OUTPUT);//_nm8(0b11,0,1);
-	//		_delay_ms(200);
- 	//	    LED_Off(0);
- 	//	    LED_Off(1);
-	//		_delay_ms(200);
-		}
-  LED_Off(0);
-  LED_Off(1);
+	_pins_mode(LED_PORT,0,1,OUTPUT);//_nm8(0b11,0,1);
 }	
 
 
-char mod=2;
+
 
 #if 0
+char mod=2;
 void sharp_flash()
 {
     char x;
