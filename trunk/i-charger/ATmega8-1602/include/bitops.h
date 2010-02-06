@@ -43,17 +43,20 @@
 				    __clear_bits8(dst,dn,dm) \
 				  )
 
+
+
 #define rol8(a,n) \
            ( \
-		     (a>>(8-(n))) | \
-			 (a<<(n)) \
+		     ((a)>>(8-(n))) | \
+			 ((a)<<(n)) \
 		   ) 
 #define ror8(a,n) \
            ( \
-		     (a<<(8-(n))) | \
-			 (a>>(n)) \
+		     ((a)<<(8-(n))) | \
+			 ((a)>>(n)) \
 		   ) 
 
+unsigned char _swap8(unsigned char x);
 
 
 #endif

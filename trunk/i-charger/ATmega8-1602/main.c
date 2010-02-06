@@ -12,14 +12,15 @@
 #include "pwm.h"
 #include "charger.h"
 
+
 i_charger charger;
 
 #define KEY_PORT PORTD
-#define KEY1  2
-#define KEY2  3
+#define KEYUP  2
+#define KEYDOWN  3
 #define _key_init() \
-			 _pin_mode(KEY_PORT,KEY1, INPUT);\
-			 _pin_mode(KEY_PORT,KEY2, INPUT)
+			 _pin_mode(KEY_PORT,KEYUP, INPUT);\
+			 _pin_mode(KEY_PORT,KEYDOWN, INPUT)
 
 
 #define _test_key(n) 								\
@@ -31,16 +32,11 @@ i_charger charger;
        return 0										\
 
 
-char keydown()
+char key(char key)
 {
-   _test_key(KEY1);
-}
-char keyup()
-{
-   _test_key(KEY2);
+   _test_key(key);
 }
 
-unsigned char duty=0; 
 char i=0;
 
 /* 
@@ -53,9 +49,10 @@ void print10(unsigned short n);
 void updata_lcd(void)
 {
    long x;
-   
+   //first line
    ic_update_lcd(&charger);
 
+   //second line
    lcd_cursor(0,1);
    x = adc_A()*1000;
    print10(x);
@@ -67,29 +64,19 @@ void updata_lcd(void)
 }
 
 
+
 int main()
 {
 
     char force_stop = 0;
+	char pwm =0;
+	
 	init_ic(&charger);
+
     cli();
     led_init();
     _key_init();
 
-	
-
-#ifdef TEST_595	
-	init_74hc595();	
-	while(1){
-      xx=0x55;
-	  _rswe();
-	  _delay_ms(100);
-	   xx=0xaa;
-	   _rswe();
-	  _delay_ms(100);
-	}
-#endif 
-    
 	pwm_init();
 	pwm_setduty(0);
 
@@ -97,34 +84,24 @@ int main()
 
 
 	lcd1602_init();
-	//lcd_cursor(1,0);
-	//lcd_puts("Digital TOY");
-	//lcd_cursor(1,1);
-	//lcd_puts(" i-charger V0.5");
-	//lcd_scroll(-1);
-	
+
 	timer0_init();
 	enable_timer0();
     sei();
-    char pwm =0;
+
 	    
 	while (1){
 	    if(!force_stop)
 		   charging(&charger);
 
 		updata_lcd();
-	    //PORTD = TCNT0&3;
 	
-		_delay_ms(200);
-		
-        //sharp_flash();
-	    //pwm_demo();
-        if( keydown()){
+		if( key(KEYDOWN)){
             pwm =  pwm_getduty();
 			pwm_setduty(0);
 			force_stop = 1;
 		 }  
-		 if( keyup()){
+		 if( key(KEYUP)){
             
 			pwm_setduty(pwm);
 			force_stop = 0;

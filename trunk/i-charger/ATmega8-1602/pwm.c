@@ -3,28 +3,6 @@
 #include "include/avrio.h"
 
 
-#define PWM_CYCLE  254
-
-
-
-#if 0
-void pwm_demo()
-{
-	_set_bit(PORTB, 2);//led
-	_clear_bit(PORTB,1);
-	_clear_bit(PORTB,0); //pwm 
-	_delay_ms(2);
-       
-	_set_bit(PORTB, 0); //pwm
-    _clear_bit(PORTB, 2);//led
-	_set_bit(PORTB,1);
-	_delay_us(500);
-
-}
-#endif
-
-
-
 /* FAST PWM mode
 The counter counts from BOTTOM to TOP then restarts from BOTTOM. 
 

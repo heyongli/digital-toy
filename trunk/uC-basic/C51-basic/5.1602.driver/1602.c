@@ -70,12 +70,12 @@ typedef unsigned char BYTE;
 typedef unsigned int WORD;
 typedef bit BOOL ;
 
-sbit rs = P2^0;   //RS
-sbit rw = P2^1;   //读写选择RW
-sbit ep = P2^2;   //使能信号E
+sbit rs = P1^0;   //RS
+sbit rw = P1^1;   //读写选择RW
+sbit ep = P1^2;   //使能信号E
 
 BYTE code dis1[] = {"Welcome!"};
-BYTE code dis2[] = {"www.JiangX.net"};
+BYTE code dis2[] = {"Digital-Toy"};
 
 
 /*****判别LCD忙碌状态*****/
@@ -124,38 +124,49 @@ void lcd_init()
 {
     mdelay(15);      
 lcd_wcmd(0x38);    //设定LCD为16*2显示，5*7点阵，8位数据接口
-mdelay(2);
+mdelay(11);
 lcd_wcmd(0x0c);    //开显示，不显示光标
-mdelay(2);
+mdelay(11);
 lcd_wcmd(0x06);    //显示光标自动右移，整屏不移动
-mdelay(2);
+mdelay(11);
 lcd_wcmd(0x01);    //显示清屏
-mdelay(2);
+mdelay(11);
 }
 
 /*****主函数*****/
 void main()
 {
-  BYTE i;
+  BYTE i=0;
+  char pos=0;
 
-again:
   lcd_init();    // 初始化LCD   
-  mdelay(20);
-  lcd_start(4);    // 设置显示位置为第一行的第5个字符
-  i = 0;
-  while(dis1[i] != '\0')
-  {     // 显示第一行字符
-     lcd_data(dis1[i]);
-     i++;
-  }
-  lcd_start(0x41);   // 设置显示位置为第二行第一个字符
-   i = 0;
-  while(dis2[i] != '\0')
-  {
-     lcd_data(dis2[i]); // 显示第二行字符
-     i++;
-  }
-  sleep(2);
+  mdelay(200);
+
+again: 
+  pos=0; 
+  lcd_start(0);    // 设置显示位置为第一行的第5个字符
+  mdelay(11);
+  while(pos<15){
+     lcd_data(i); // 显示第二行字符
+     i++;pos++;
+     mdelay(11);
+  }   
+
+  pos=0;
+  lcd_start(0x40);   // 设置显示位置为第二行第一个字符
+  while(pos<15){
+     lcd_data(i); // 显示第二行字符
+      i++;pos++;  
+     mdelay(11);
+  }   
+  
+  
+  mdelay(255);
+  mdelay(255);  
+  mdelay(255);
+  mdelay(255);
+  mdelay(255);
+  
   goto again;
 }
 

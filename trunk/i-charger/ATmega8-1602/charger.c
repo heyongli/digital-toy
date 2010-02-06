@@ -11,7 +11,7 @@
 #define NICD_PRE_CHAGE_MA    0.350  /* 350mA */
 #define V9_PRE_CHAGE_MA      0.050  /* 30mA*/
 
-#define NICD_FAST_CHAGE_MA   0.300  /* 1500mA */
+#define NICD_FAST_CHAGE_MA   1.800  /* 1500mA */
 #define V9_FAST_CHAGE_MA     0.180  /* 100mA*/   
 
 /*
@@ -33,6 +33,8 @@ void charging_mode(i_charger *ic);
 #define FILTER_PASS  10
 float lowpass_adc(char ch)
 {
+
+#if 0
    float adc[FILTER_PASS];
    float low=_adc(ch);
    float top = low;
@@ -63,6 +65,22 @@ float lowpass_adc(char ch)
        avg=low/(FILTER_PASS-1);
 
    return avg;
+#endif 
+
+   static float  last[7]={0,0,0.0,0,0,0}, low,delta;
+   low = _adc(ch);
+   delta = low-last[ch];
+   if(delta<0) delta = -delta;
+
+   	  
+   if(delta>10){
+      last[ch]= low*0.98+last[ch]*0.02;
+   }else{
+      last[ch] = last[ch]*0.98+low*0.02;
+   } 
+
+    return last[ch];
+   
 }
 float adc_V()
 {
@@ -87,24 +105,6 @@ float adc_A()
 
 }
 
-
-void ic_update_lcd(i_charger *ic)
-{
-   //first line of 1602 given to charger...
-
-
-   if(ic->i_stage == STOP){
-   
-   
-   }else{
-      lcd_cursor(0,0);
-      lcd_puts("PWM");
-      print10(pwm_getduty());
-      lcd_puts(" ");
-      
-   }
-      
-}
 void info(char *e)
 {
    lcd_cursor(8,0);
@@ -116,6 +116,28 @@ void infon(char *e,char n)
    lcd_puts(e);
    lcd_putc(hex2c(n));
 }
+void ic_update_lcd(i_charger *ic)
+{
+   //first line of 1602 given to charger...
+   lcd_cursor(0,0);
+
+
+   if(ic->i_stage == STOP){
+      lcd_puts("END");
+      short x = 1000*ic->voltage;
+	  print10(x); 
+	  info("TOP");
+	  x =1000*ic->top_voltage; 
+	  print10(x);
+  
+   }else{
+      lcd_puts("PWM");
+      print10(pwm_getduty());
+      lcd_puts(" ");
+   }
+      
+}
+
 
 void init_ic(i_charger *ic)
 {
@@ -235,21 +257,8 @@ void charging_mode(i_charger *ic)
    		}
    		ic->charging_mode = PRE;
 	
-		ic->abs_voltage = adc_V();    
-#if 1
-        {
-		static char cc=0;
-		if(cc==0){ // update abs_voltage
-		    char duty = pwm_getduty();
-			pwm_setduty(0);
+		ic->abs_voltage = adc_V() - 0.15*ic->charging_Amp; //assume Ir is 0.15R
 
-	   		ic->abs_voltage = adc_V();    
-			pwm_setduty(duty);
-		}
-		cc++;
-		
-		}
-#endif
 		   
    }else if(ic->charging_mode !=  FAST) {
        
@@ -281,10 +290,8 @@ void charging_mode(i_charger *ic)
 	   info("TOP");
 	   short x =1000*ic->top_voltage; 
 	   print10(x);
-
 	   ic->delta_times=0;
    }
-
 
    if (ic->cell_pack >2)
        deltaV = 0.015; /*reduce -dV, that's cell pack, because not all cell reach full at same time,
@@ -292,13 +299,9 @@ void charging_mode(i_charger *ic)
    if( ic->top_voltage > (ic->voltage+deltaV) ){
        	ic->delta_times++;
  		infon("   -dV:",ic->delta_times);
-		_delay_ms(250);
+		delay(HZ/4);
 		if(ic->delta_times >3){
 			ic->i_stage = STOP; /*STOP and update abs voltage*/
-			lcd_cursor(0,0);
-            lcd_puts("END");
-            short x = 1000*ic->voltage;
-	        print10(x); 
 			pwm_setduty(0);
 		}
    }
@@ -328,20 +331,19 @@ void detect_cell(i_charger *ic)
    else 
       dv = pwm_on-pwm_off;
 
-   if( (dv > (float)2.0) || (ic->voltage >= 12.00 )){
+   if( (dv > (float)2.0) || (ic->voltage >= 12.00 ) || (ic->voltage <0.100)){
 	  infon("NO CELL", (char)dv);
       return ;
    }
    else {
 	  info("Plug IN ");
-      delay(HZ*2);
+      delay(HZ/2);
    }
    if( ic->voltage < BAT_LOW_V ){
        pwm_setduty(NICD_DETECT_PWM); /*very pre charging*/
    }else {
        ic->i_stage = DETECT_TYPE;
-	   
-	   pwm_setduty(0);
+	   ic->abs_voltage = ic->voltage;
    }
       
 }
@@ -366,10 +368,7 @@ void detect_cell(i_charger *ic)
 #define NICD_ARRAY_MIN_V	2.00   /*       */
 void detect_type(i_charger *ic)
 {
-   info(" type?  ");
-	   
-  
-
+   
    if( ic->voltage < 1.0){ //very pre charge
       pwm_setduty(1);  
 	  return;
@@ -403,9 +402,7 @@ void detect_type(i_charger *ic)
 */
 void detect_array(i_charger *ic)
 {
-   info(" array? ");
-   pwm_setduty(0);
- 
+
    if( ic->voltage >= 7.00  ){
 		ic->cell_pack = 7; 
 		goto out;
@@ -419,15 +416,11 @@ void detect_array(i_charger *ic)
    if( ic->voltage >= 2.00 ){
 	  ic->cell_pack = 2;  
 	  	 goto out; 
-
    }	
 
    /* <2.0, Err, 判定type的时候能保证电压>2.0 */
    if( ic->voltage < 2.00){
-      ic->cell_type = Unknown;
-      ic->cell_pack = 0;  
-      ic->i_stage = STOP;
-	  info("A-Err   ");
+      init_ic(ic);
 	  return;
    }
 out:
@@ -438,9 +431,6 @@ out:
 
 void stop(i_charger *ic)
 {
-    info("TOP");
-	short x =1000*ic->top_voltage; 
-	print10(x);
 
 	pwm_setduty(0);
 	ic->abs_voltage = adc_V();    
