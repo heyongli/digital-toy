@@ -1,0 +1,283 @@
+CSV text has been written to file : тст╙╪Ч©Б.csv
+
+Library Component Count : 276
+
+Name                Description
+----------------------------------------------------------------------------------------------------
+
+RCA                 RCA Connector
+DPY_OVERFLOW        Overflow, Right Hand Decimal
+DPY_LED_BARS        LED Light Bars
+DPY_7-SEG_DP        Seven-Segment Display, Right Hand Decimal
+DPY_7-SEG           Seven-Segment Display
+DPY_3-SEG           Three-Segment Display
+DPY_16-SEG          Sixteen-Segment (Alphanumeric) Display
+TUNNEL              Tunnel FDiode
+UJT N               
+UJT P               
+UNIJUNC-N           
+UNIJUNC-P           
+MICROPHONE1         Microphone
+AND                 AND Gate
+ANTENNA             Generic Antenna
+BATTERY             Battery
+BELL                Bell
+BNC                 BNC Connector
+BUFFER              Buffer
+BUZZER              Buzzer
+FUSE1               Fuse
+FUSE2               Fuse
+LAMP                
+METER               
+MICROPHONE2         Microphone
+NAND                NAND Gate
+NEON                
+NOR                 NOR Gate
+NOT                 Inverter
+OPAMP               Operational Amplifier
+OR                  OR Gate
+PHONEJACK1          
+PHONEJACK2          
+PHONEPLUG1          
+PHONEPLUG2          
+PHONEPLUG3          
+PLUG                
+PLUGSOCKET          
+RELAY-BI            
+RELAY-SPST          
+RELAY-SPDT          
+RELAY-DPST          
+RELAY-DPDT          
+SOCKET              
+SPEAKER             
+SW-SPST             
+SW-SPDT             
+SW-DPST             
+SW-DPDT             
+SW-PB               
+SW-6WAY             
+SW-12WAY            
+SW-DIP4             
+SW-DIP8             
+VOLTREG             
+XNOR                XNOR Gate
+XOR                 XOR Gate
+BRIDGE1             Diode Bridge
+BRIDGE2             Diode Bridge
+DIODE               Diode
+JFET-N              
+JFET-P              
+LED                 
+MOSFET-N1           
+MOSFET-N2           
+MOSFET-N3           
+MOSFET-N4           
+MOSFET-P1           
+MOSFET-P2           
+MOSFET-P3           
+MOSFET-P4           
+NPN                 NPN Transistor
+NPN-PHOTO           
+OPTOISO1            Optoisolator
+OPTOISO2            Optoisolator
+OPTOTRIAC           
+PHOTO               Photosensitive Diode
+PNP                 PNP Transistor
+PNP-PHOTO           
+SCR                 
+TRIAC               
+ZENER1              Zener Diode
+ZENER2              Zener Diode
+ZENER3              Zener Diode
+CAP                 Capacitor
+CAPVAR              Variable Capacitor
+CRYSTAL             Crystal
+ELECTRO1            Electrolytic Capacitor
+ELECTRO2            Electrolytic Capacitor
+INDUCTOR1           
+INDUCTOR2           
+INDUCTOR3           
+INDUCTOR4           
+POT1                Potentiometer
+POT2                Potentiometer
+RES1                
+RES2                
+RES3                
+RES4                
+RESPACK1            
+RESPACK2            
+RESPACK3            
+RESPACK4            
+TRANS1              
+TRANS2              
+TRANS3              
+TRANS4              
+TRANS5              
+16PIN               
+20PIN               
+26PIN               
+34PIN               
+40PIN               
+50PIN               
+DB9                 
+DB15                
+DB25                
+DB37                
+JUMPER              Jumper
+12 HEADER           12 Pin Header
+HEADER 12           12 Pin Header
+4 HEADER            4 Pin Header
+HEADER 4            4 Pin Header
+8 HEADER            8 Pin Header
+HEADER 8            8 Pin Header
+CAPACITOR           Capacitor
+CAPACITOR FEED      Feed-Through Capacitor
+CAPACITOR POL       Capacitor
+CIRCUIT BREAKER     Circuit Breaker
+COAX                Coaxial
+CON AT36            36 Pin AT Connector
+PC18                36 Pin AT Connector
+CON AT36A           36 Pin AT Connector
+CON AT36B           36 Pin AT Connector
+CON AT62            62 Pin AT Connector
+PC31                62 Pin AT Connector
+CON AT62A           62 Pin AT Connector
+CON AT62B           62 Pin AT Connector
+PC62                62 Pin AT Connector
+CON EISA19          19 Pin EISA Connector
+CON EISA31          31 Pin EISA Connector
+CON EISA38          38 Pin EISA Connector
+CON EISA62          62 Pin EISA Connector
+CON EISAE           168 Pin EISA Connector
+CON1                Connector
+CON10               Connector
+CON12               Connector
+CON14               Connector
+CON15               Connector
+CON16               Connector
+CON17               Connector
+CON18               Connector
+CON19               Connector
+CON2                Connector
+CON20               Connector
+CON24               Connector
+CON25               Connector
+CON26               Connector
+CON29               Connector
+CON3                Connector
+CON30               Connector
+CON31               Connector
+CON32               Connector
+CON34               Connector
+CON36               Connector
+CON39               Connector
+CON4                Connector
+CON40               Connector
+CON5                Connector
+CON50               Connector
+CON6                Connector
+CON60               Connector
+CON7                Connector
+CON8                Connector
+CON9                Connector
+CONNECTOR CENT36    
+CONNECTOR COAX      
+CONNECTOR COAX-F    
+CONNECTOR COAX-M    
+CONNECTOR EDGE22    
+CONNECTOR EDGE44    
+CONNECTOR EDGE50    
+DIODE SCHOTTKY      Schottky Diode
+DIODE TUNNEL        Diode Tunnel
+DIODE VARACTOR      Varactor Diode
+HEADER 10           
+HEADER 10X2         
+HEADER 11           
+HEADER 11X2         
+HEADER 12X2         
+HEADER 13           
+HEADER 13X2         
+HEADER 14           
+HEADER 14X2         
+HEADER 15           
+HEADER 15X2         
+HEADER 16           
+HEADER 16X2         
+HEADER 17           
+HEADER 17X2         
+HEADER 18           
+HEADER 18X2         
+HEADER 2            
+HEADER 20           
+HEADER 20X2         
+HEADER 22           
+HEADER 22X2         
+HEADER 24           
+HEADER 24X2         
+HEADER 25           
+HEADER 25X2         
+HEADER 2X2          
+HEADER 3            
+HEADER 30           
+HEADER 30X2         
+HEADER 3X2          
+HEADER 4X2          
+HEADER 5            
+HEADER 5X2          
+HEADER 6            
+HEADER 6X2          
+HEADER 7            
+HEADER 7X2          
+HEADER 8X2          
+HEADER 9            
+HEADER 9X2          
+INDUCTOR            
+INDUCTOR IRON       
+INDUCTOR IRON1      
+INDUCTOR ISOLATED   
+INDUCTOR VAR        
+INDUCTOR VARIABLE IRON
+JFET N              
+JFET P              
+LAMP NEON           
+MOSFET DUAL G/N     
+MOSFET DUAL G/P     
+MOSFET N            
+MOSFET P            
+MOTOR AC            
+MOTOR SERVO         
+MOTOR STEPPER       
+NPN1                NPN Transistor
+NPN DAR             NPN Darlington Transistor
+NPN DIAC            
+PHONEJACK           
+PHONEJACK STEREO    
+PHONEJACK STEREO SW 
+PHONEPLUG           
+PHOTO NPN           NPN Phototransistor
+PLUG AC FEMALE      
+PLUG AC MALE        
+PNP1                PNP Transistor
+PNP DAR             PNP Darlington Transistor
+PNP DIAC            
+RESISTOR BRIDGE     Resistor Bridge
+RESISTOR TAPPED     
+SOURCE VOLTAGE      
+SOURCE CURRENT      
+SW DIP-2            DIP Switch
+SW DIP-3            DIP Switch
+SW DIP-4            DIP Switch
+SW DIP-5            DIP Switch
+SW DIP-6            DIP Switch
+SW DIP-7            DIP Switch
+SW DIP-8            DIP Switch
+SW DIP-9            DIP Switch
+SW DPDT             
+SW DPST             
+SW SPDT             
+SW SPST             
+THERMAL FUSE        
+THERMISTOR          
+TRANZORB            
+TRIODE              Thyratron
+VARISTOR            
