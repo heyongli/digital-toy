@@ -1,0 +1,34 @@
+# Writing all output to: Z:\digital-toy\PCB-basic\Eagle-vs-DXP\555-pwm-eagle\555-pwm-eagle.log
+bus diagonal
+fanout 5 (direction out)
+route 10
+clean 2
+route 10 16
+clean 2
+filter 5
+recorner diagonal
+status_file
+
+bus diagonal
+fanout 5 (direction out)
+route 10
+clean 2
+route 10 16
+clean 2
+filter 5
+recorner diagonal
+status_file
+
+dx:   0.000 dy:   0.000  dist:   0.000 mm
+dx:   0.000 dy:   0.000  dist:   0.000 mm
+Help\User_Guide.pdf
+bus diagonal
+fanout 5 (direction out)
+route 10
+clean 2
+route 10 16
+clean 2
+filter 5
+recorner diagonal
+status_file
+

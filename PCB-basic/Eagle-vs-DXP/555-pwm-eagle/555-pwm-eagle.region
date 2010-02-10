@@ -1,0 +1,7 @@
+#
+# Region file created by ELECTRA V2.0.7
+# 
+# Syntax: add region <layer_name> width clearance x1 y1 x2 y2
+# 
+unit  mm
+add region 1#TOP    0.000    0.254    0.941   26.616    6.386   27.816
