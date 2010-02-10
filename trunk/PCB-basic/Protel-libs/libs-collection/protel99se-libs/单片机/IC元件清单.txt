@@ -1,0 +1,123 @@
+CSV text has been written to file : IC.csv
+
+Library Component Count : 116
+
+Name                Description
+----------------------------------------------------------------------------------------------------
+
+IMP810L             CI-IMP810L
+TPS76330DBV         CI-TPS76330DBV
+TLV2252AI           CI-TLV2252AI
+TLV2252AID          CI-TLV2252AID
+ADM101E             CI-ADM101E
+MAX3232             communication  IC
+ADM202EARN          CI-ADM202EARN
+PCF8583             
+PCF8563T            时钟IC
+TLV2556IPW          CI-TLV2556IPW
+TLV2211CDBV         CI-TLV2211CDBV
+TPS76301DBV         CI-TPS76301DBV
+TPS76333DBV         CI-TPS76333DBV
+LM2577S-ADJ         CI-LM2577S-ADJ
+TPS76350DBV         CI-TPS76350DBV
+TLC3578I            CI-TLC3578I
+TL431C              CI-TL431C
+LM2671M-ADJ         CI-LM2671M-ADJ
+LM2572M-5.0         CI-LM2572M-5.0
+LM2576T-5.0         CI-LM2576T-5.0
+LM2576S-5.0         CI-LM2576S-5.0
+LM2575T-5.0         CI-LM2575T-5.0
+LM2575S-5.0         CI-LM2575S-5.0
+LM3478MM            CI-LM3478MM
+QA744808R           CI-QA744808R
+LM317D2T            CI-LM317D2T
+LM741CN             CI-LM741CN
+LM50CIM3            CI-LM50CIM3
+MAX195BCPE          CI-MAX195BCPE
+MAX232CPE           通讯IC
+MAX202CPE           通讯IC
+MAX3221IPW          通讯IC
+LM317K              CI-LM317K
+LM117K              CI-LM117K
+LM337K              CI-LM337K
+KA337               CI-KA337
+KA317               CI-KA317
+LM337T              CI-LM337T
+LM317T              CI-LM317T
+LM1875T             CI-LM1875T
+L7906CV             CI-L7906CV
+L7806CV             CI-L7806CV
+L7805CD2T           CI-L7805CD2T
+ADXL202AE           CI-ADXL202AE
+78M05               CI-78M05
+SP6201              CMOS LDO
+MCP2551             CAN收发器
+LM2575              IC-power
+TL431               IC
+VM42                IC
+78L05               CI-78L05
+LM7812              CI-LM7812
+LM7805CT            CI-LM7805CT
+MAX7219CNG          CI-MAX7219CNG
+MAX7219CWG          CI-MAX7219CWG
+MAX6125ESA          CI-MAX6125ESA
+AD623AR             CI-AD623AR
+ST24C02             
+AD5242BR10          CI-AD5242BR10
+ADG408BR            CI-ADG408BR
+AD7895AN            CI-AD7895AN
+AD7416AR            CI-AD7416AR
+AD736               CI-AD736
+AD620BR             CI-AD620BR
+MIC2545A-1BM        CI-MIC2545A-1BM
+AD620AN             CI-AD620AN
+M25P16              M25P16
+AD623AN             CI-AD623AN
+AD7888AR            CI-AD7888AR
+IMP809L             CI-IMP809L
+IMP809R             CI-IMP809R
+IMP809T             CI-IMP809T
+AT89C2051-24PI      CI-AT89C2051-24PI
+AT89C4051-24PI      CI-AT89C4051-24PI
+ATMEGA8L-8AU        CI-ATMEGA8L-8AU
+ATMEGA16L-8AU       CI-ATMEGA16L-8AU
+ATMEGA128-8AU       CI-ATMEGA128-8AU
+ATMEGA128-16AI      CI-ATMEGA128-16AI
+ATMEGA128L-8AU      CI-ATMEGA128L-8AU
+LM3S2016            ARM
+PIC12C508A          CI-PIC12C508A-04/SM
+PIC16C54A-04I/SO    CI-PIC16C54A-04I/SO
+PIC16C54C-04I/P     CI-PIC16C54C-04I/P
+PIC16C711-04/P      CI-PIC16C711-04/P
+PIC16F84A-04/P      CI-PIC16F84A-04/P
+PIC16F628A-I/SO     CI-PIC16F628A-I/SO
+PIC16F630I/SN       CI-PIC16F630-I/SN
+PIC16F676-I/SL      CI-PIC16F676-I/SL
+AT90S2313           Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+AT90S1200           Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATTINY26            Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+AT90S8515_DIP40     Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA161_DIP40     Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA162_DIP40     Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA8515_DIP40    Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+AT90S8515_TQFP44    Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA161_TQFP44    Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA162_TQFP44    Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA8515_TQFP44   Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+AT90S8535_DIP40     Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA163_DIP40     Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA8535_DIP40    Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA16_DIP40      Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA323_DIP40     Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA32_DIP40      Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+AT90S8535_TQFP44    Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA8535_TQFP44   Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA163_TQFP44    Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA16_TQFP44     Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA323_TQFP44    Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA32_TQFP44     Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA8_DIP28       Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA8_TQFP32      Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA128           Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA64            Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA103           Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
