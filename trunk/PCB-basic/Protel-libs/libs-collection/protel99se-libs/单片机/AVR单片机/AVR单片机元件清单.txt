@@ -1,0 +1,35 @@
+CSV text has been written to file : AVR.csv
+
+Library Component Count : 28
+
+Name                Description
+----------------------------------------------------------------------------------------------------
+
+AT90S8535_TQFP44    Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA8535_TQFP44   Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA163_TQFP44    Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA16_TQFP44     Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA323_TQFP44    Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA32_TQFP44     Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+AT90S2313           Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+AT90S1200           Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATTINY26            Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+AT90S8515_DIP40     Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA161_DIP40     Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA162_DIP40     Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA8515_DIP40    Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+AT90S8515_TQFP44    Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA161_TQFP44    Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA162_TQFP44    Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA8515_TQFP44   Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+AT90S8535_DIP40     Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA163_DIP40     Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA8535_DIP40    Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA16_DIP40      Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA323_DIP40     Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA32_DIP40      Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA103           Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA128           Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA64            Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA8_DIP28       Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
+ATMEGA8_TQFP32      Atmel Microcontroller - Library created by carel..  <www.mpfreezone.com>
