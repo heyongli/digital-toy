@@ -1,0 +1,160 @@
+(session "Z:/digital-toy/PCB-basic/Eagle-vs-DXP/555-pwm-eagle\555-pwm-eagle.ses"
+ (base_design "Z:/digital-toy/PCB-basic/Eagle-vs-DXP/555-pwm-eagle/555-pwm-eagle.dsn")
+ (routes 
+  (resolution mm 10000)
+  (parser
+  )
+  (parser
+  )
+  (structure_out
+   (layer 1#TOP (type signal)
+   )
+   (layer 16#BOTTOM (type signal)
+   )
+  )
+  (library_out
+  (padstack Round1$0.609500
+   (shape (circ 1#TOP 11176 0 0))
+   (shape (circ 16#BOTTOM 11176 0 0))
+  )
+  (padstack Round3$0.609600
+   (shape (circ 1#TOP 11176 0 0))
+   (shape (circ 16#BOTTOM 11176 0 0))
+  )
+  )
+  (network_out
+   (Net GND 
+   (wire (path 1#TOP 2540  50800 193040 92020 234260 179618 234260
+     184698 239340 184698 278740 179618 283820)
+    (connect (terminal pin C4-+) (terminal wire))
+   )
+   (wire (path 16#BOTTOM 2540  50800 193040 79220 164620 79220 64770)
+    (connect (terminal pin C4-+) (terminal pin J1-1))
+   )
+   (wire (path 1#TOP 2540  342900 266700 342900 291510 337820 296590
+     251714 296590 251714 291510)
+    (connect (terminal pin JP1-2) (terminal wire))
+   )
+   (wire (path 16#BOTTOM 2540  342900 266700 363220 266700 368300 261620
+     368300 177800)
+    (connect (terminal pin JP1-2) (terminal pin IC1-1))
+   )
+   (wire (path 1#TOP 2540  197180 288900 197180 291510 202260 296590
+     246634 296590 251714 291510)
+    (connect (terminal wire) (terminal wire))
+   )
+   (wire (path 1#TOP 2540  251714 291510 251714 281550 266700 281550)
+    (connect (terminal wire) (terminal smd C2-2))
+   )
+   (wire (path 1#TOP 2540  197180 288900 204530 281550 215900 281550)
+    (connect (terminal wire) (terminal smd C1-2))
+   )
+   (wire (path 1#TOP 2540  197180 288900 184698 288900 179618 283820)
+    (connect (terminal wire) (terminal wire))
+   )
+   (wire (path 1#TOP 2540  179618 283820 158750 283820)
+    (connect (terminal wire) (terminal smd R4-1))
+   )
+   )
+   (Net N$1 
+   (wire (path 1#TOP 2540  215900 215900 215900 193548 220980 188468
+     254749 188468 293230 149987 317500 149987)
+    (connect (terminal pin R3-S) (terminal wire))
+   )
+   (wire (path 1#TOP 2540  317500 149987 337820 149987 342900 155067
+     342900 177800)
+    (connect (terminal wire) (terminal pin IC1-2))
+   )
+   (wire (path 1#TOP 2540  317500 149987 317500 101600)
+    (connect (terminal wire) (terminal pin IC1-6))
+   )
+   (wire (path 1#TOP 2540  215900 215900 200914 215900 200914 264550
+     215900 264550)
+    (connect (terminal pin R3-S) (terminal smd C1-1))
+   )
+   )
+   (Net N$2 
+   (wire (path 1#TOP 2540  241300 88900 241300 84582 342900 84582
+     342900 101600)
+    (connect (terminal pin D2-A) (terminal pin IC1-7))
+   )
+   (wire (path 16#BOTTOM 2540  241300 88900 241300 71882 236220 66802
+     195580 66802 190500 71882 190500 88900)
+    (connect (terminal pin D2-A) (terminal pin D1-C))
+   )
+   (wire (path 1#TOP 2540  190500 88900 175997 88900 170917 83820
+     170917 65380 175997 60300 190500 60300)
+    (connect (terminal pin D1-C) (terminal smd R1-2))
+   )
+   )
+   (Net N$4 
+   (wire (path 1#TOP 2540  158750 245450 170924 245450 176004 250530
+     176004 259740 170924 264820 158750 264820)
+    (connect (terminal smd LED1-C) (terminal smd R4-2))
+   )
+   )
+   (Net N$5 
+   (wire (path 1#TOP 2540  296292 225400 317500 225400)
+    (connect (terminal via) (terminal smd R2-2))
+   )
+   (wire (path 16#BOTTOM 2540  296292 225400 296292 261620 301372 266700
+     317500 266700)
+    (connect (terminal via) (terminal pin JP1-1))
+   )
+   (via Round1$0.609500 296292 225400)
+   )
+   (Net N$6 
+   (wire (path 1#TOP 2540  251714 245192 251714 264550 266700 264550)
+    (connect (terminal via) (terminal smd C2-1))
+   )
+   (wire (path 16#BOTTOM 2540  251714 245192 251714 106680 256794 101600
+     292100 101600)
+    (connect (terminal via) (terminal pin IC1-5))
+   )
+   (via Round1$0.609500 251714 245192)
+   )
+   (Net N$7 
+   (wire (path 16#BOTTOM 2540  190500 165100 190500 215900)
+    (connect (terminal pin D1-A) (terminal pin R3-A))
+   )
+   )
+   (Net N$8 
+   (wire (path 1#TOP 2540  317500 177800 302514 177800 302514 206400
+     317500 206400)
+    (connect (terminal pin IC1-3) (terminal smd R2-1))
+   )
+   )
+   (Net N$9 
+   (wire (path 16#BOTTOM 2540  241300 165100 241300 215900)
+    (connect (terminal pin D2-C) (terminal pin R3-E))
+   )
+   )
+   (Net N$11 
+   )
+   (Net VCC+ 
+   (wire (path 16#BOTTOM 2540  292100 177800 292100 131621 297180 126541
+     363220 126541 368300 121461 368300 101600)
+    (connect (terminal pin IC1-4) (terminal pin IC1-8))
+   )
+   (wire (path 16#BOTTOM 2540  292100 177800 281686 177800 276606 182880
+     276606 253025 271526 258105 199205 258105 134140 193040)
+    (connect (terminal pin IC1-4) (terminal wire))
+   )
+   (wire (path 1#TOP 2540  101600 193040 101600 219370 106680 224450
+     158750 224450)
+    (connect (terminal pin C4--) (terminal smd LED1-A))
+   )
+   (wire (path 1#TOP 2540  139220 64770 154815 64770 159895 59690
+     159895 46380 164975 41300 190500 41300)
+    (connect (terminal pin J1-3) (terminal smd R1-1))
+   )
+   (wire (path 16#BOTTOM 2540  139220 64770 139220 187960 134140 193040)
+    (connect (terminal pin J1-3) (terminal wire))
+   )
+   (wire (path 16#BOTTOM 2540  101600 193040 134140 193040)
+    (connect (terminal pin C4--) (terminal wire))
+   )
+   )
+  )
+ )
+)
