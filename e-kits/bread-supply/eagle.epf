@@ -1425,7 +1425,7 @@ Sheet=1
 [Win_3]
 Type="Control Panel"
 Loc="305 211 904 610"
-State=1
+State=0
 Number=0
 
 [Desktop]
