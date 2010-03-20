@@ -2,14 +2,14 @@ EAGLE AutoRouter Statistics:
 
 Job           : Z:/home/digital-toy/e-kits/555-pwm-v0/555-pwm-eagle.brd
 
-Start at      : 22:02:00 (2010-3-19)
-End at        : 22:02:00 (2010-3-19)
+Start at      : 11:32:11 (2010-3-20)
+End at        : 11:32:11 (2010-3-20)
 Elapsed time  : 00:00:00
 
 Signals       :    22   RoutingGrid: 50 mil  Layers: 1
 Connections   :    58   predefined:  58 ( 0 Vias )
 
-Router memory :   4048
+Router memory :   5684
 
 Passname          :     Route Optimize1 Optimize2 Optimize3 Optimize4
 
