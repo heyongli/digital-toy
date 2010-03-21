@@ -2,8 +2,8 @@ EAGLE AutoRouter Statistics:
 
 Job           : Z:/home/digital-toy/e-kits/555-pwm-v0/555-pwm-eagle.brd
 
-Start at      : 11:32:11 (2010-3-20)
-End at        : 11:32:11 (2010-3-20)
+Start at      : 14:05:37 (2010-3-20)
+End at        : 14:05:37 (2010-3-20)
 Elapsed time  : 00:00:00
 
 Signals       :    22   RoutingGrid: 50 mil  Layers: 1
