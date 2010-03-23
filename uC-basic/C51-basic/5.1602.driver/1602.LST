@@ -1,0 +1,202 @@
+C51 COMPILER V8.01   1602                                                                  03/23/2010 20:19:50 PAGE 1   
+
+
+C51 COMPILER V8.01, COMPILATION OF MODULE 1602
+OBJECT MODULE PLACED IN 1602.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 1602.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1           #include <AT89X52.H>
+   2          
+   3          
+   4          /*
+   5           *  run about cyc*2+2 cycle
+   6           */
+   7          void _2cycle(unsigned char cyc)
+   8          {
+   9   1         while(--cyc);
+  10   1         /* DFFE     DJNZ     R7,delay(C:0014), 2cycle*/
+  11   1      }
+  12          
+  13          /*小于6us严重不准确, 奇数非常准确,偶数误差约(+ -)1us(仿真) */
+  14          /*7-512us*/
+  15          #define udelay(t)  _2cycle((t/2)-2)
+  16          
+  17          
+  18          
+  19          /*
+  20           * mdelay(0) : 15 cycle, 12Mhz 30us
+  21           * 1ms to 256ms
+  22           *  +- 50us
+  23           */
+  24          void mdelay(unsigned char ms)
+  25          {
+  26   1      
+  27   1      /*
+  28   1          35:    while(--t){     
+  29   1      C:0x0005    1E       DEC      R6               1 cyc
+  30   1      C:0x0006    EE       MOV      A,R6                 1 cyc
+  31   1      C:0x0007    600C     JZ       C:0015           1 cyc
+  32   1          36:      _2cycle(250); 
+  33   1      C:0x0009    7FFA     MOV      R7,#0xFA         1 cyc
+  34   1      C:0x000B    120027   LCALL    _2cycle(C:0027)   2 cyc
+  35   1          37:         _2cycle(250); 
+  36   1      C:0x000E    7FFA     MOV      R7,#0xFA             1 cyc
+  37   1      C:0x0010    120027   LCALL    _2cycle(C:0027)   2 cyc
+  38   1          38:    } 
+  39   1      C:0x0013    80F0     SJMP     C:0005           2 cyc
+  40   1      */
+  41   1         while(ms--){   
+  42   2           udelay(489); //补偿12cyc*2 us
+  43   2               udelay(499);
+  44   2         }
+  45   1        
+  46   1      }
+  47          
+  48          /*
+  49           * +- 50ms
+  50           */
+  51          void sleep(unsigned char t)
+  52          {
+  53   1         while(t--){
+  54   2               mdelay(250);
+  55   2               mdelay(250);
+C51 COMPILER V8.01   1602                                                                  03/23/2010 20:19:50 PAGE 2   
+
+  56   2           mdelay(250);
+  57   2           mdelay(250);
+  58   2         }
+  59   1           
+  60   1      }
+  61          
+  62          
+  63          /***********************************************
+  64          程序名称：1602液晶显示程序
+  65          简要说明：使用FM1602液晶显示器，数据口接P0口，控制端接P2.0-P2.2
+  66          寄存器选择信号端RS-P2.0、读写信号端R/W-P2.1、使能信号端EP-P2.2
+  67          编    写：JiangX.net
+  68          ***********************************************/
+  69          typedef unsigned char BYTE;
+  70          typedef unsigned int WORD;
+  71          typedef bit BOOL ;
+  72          
+  73          sbit rs = P1^0;   //RS
+  74          sbit rw = P1^1;   //读写选择RW
+  75          sbit ep = P1^2;   //使能信号E
+  76          
+  77          BYTE code dis1[] = {"Welcome!"};
+  78          BYTE code dis2[] = {"Digital-Toy"};
+  79          
+  80          
+  81          /*****判别LCD忙碌状态*****/
+  82          BOOL lcd_bz()
+  83          {
+  84   1              BOOL result;
+  85   1              rs = 0;
+  86   1              rw = 1;
+  87   1              ep = 1;
+  88   1              result = (BOOL)(P0 & 0x80);
+  89   1              ep = 0;
+  90   1              return result;
+  91   1      }
+  92          /*****写入指令数据到LCD*****/
+  93          void lcd_wcmd(BYTE cmd)
+  94          {
+  95   1        while(lcd_bz());
+  96   1        rs = 0;
+  97   1        rw = 0;
+  98   1              ep = 0;
+  99   1              P0 = cmd;
+ 100   1              ep = 1;
+ 101   1              ep = 0;  
+ 102   1      }
+ 103          
+ 104          /*****设定显示位置*****/
+ 105          void lcd_start(BYTE start)
+ 106          {       
+ 107   1         lcd_wcmd(start | 0x80);
+ 108   1      }
+ 109          
+ 110          /*****写入字符显示数据到LCD*****/
+ 111          void lcd_data(BYTE dat)
+ 112          {       
+ 113   1        while(lcd_bz());
+ 114   1        rs = 1;
+ 115   1        rw = 0;
+ 116   1        ep = 0;
+ 117   1        P0 = dat;
+C51 COMPILER V8.01   1602                                                                  03/23/2010 20:19:50 PAGE 3   
+
+ 118   1        ep = 1;
+ 119   1        ep = 0;
+ 120   1      }
+ 121          
+ 122          /*****LCD初始化设定*****/
+ 123          void lcd_init()
+ 124          {
+ 125   1          mdelay(15);      
+ 126   1      lcd_wcmd(0x38);    //设定LCD为16*2显示，5*7点阵，8位数据接口
+ 127   1      mdelay(11);
+ 128   1      lcd_wcmd(0x0c);    //开显示，不显示光标
+ 129   1      mdelay(11);
+ 130   1      lcd_wcmd(0x06);    //显示光标自动右移，整屏不移动
+ 131   1      mdelay(11);
+ 132   1      lcd_wcmd(0x01);    //显示清屏
+ 133   1      mdelay(11);
+ 134   1      }
+ 135          
+ 136          /*****主函数*****/
+ 137          void main()
+ 138          {
+ 139   1        BYTE i=0;
+ 140   1        char pos=0;
+ 141   1      
+ 142   1        lcd_init();    // 初始化LCD   
+ 143   1        mdelay(200);
+ 144   1      
+ 145   1      again: 
+ 146   1        pos=0; 
+ 147   1        lcd_start(0);    // 设置显示位置为第一行的第5个字符
+ 148   1        mdelay(11);
+ 149   1        while(pos<15){
+ 150   2           lcd_data(i); // 显示第二行字符
+ 151   2           i++;pos++;
+ 152   2           mdelay(11);
+ 153   2        }   
+ 154   1      
+ 155   1        pos=0;
+ 156   1        lcd_start(0x40);   // 设置显示位置为第二行第一个字符
+ 157   1        while(pos<15){
+ 158   2           lcd_data(i); // 显示第二行字符
+ 159   2            i++;pos++;  
+ 160   2           mdelay(11);
+ 161   2        }   
+ 162   1        
+ 163   1        
+ 164   1        mdelay(255);
+ 165   1        mdelay(255);  
+ 166   1        mdelay(255);
+ 167   1        mdelay(255);
+ 168   1        mdelay(255);
+ 169   1        
+ 170   1        goto again;
+ 171   1      }
+ 172          
+ 173          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    248    ----
+   CONSTANT SIZE    =     21    ----
+   XDATA SIZE       =   ----    ----
+C51 COMPILER V8.01   1602                                                                  03/23/2010 20:19:50 PAGE 4   
+
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----       1
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
