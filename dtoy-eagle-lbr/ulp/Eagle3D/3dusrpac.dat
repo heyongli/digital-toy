@@ -1,0 +1,18 @@
+CPOL-RADIAL-100UF-25V:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:CAP_DIS_ELKO_2MM5_6MM3(:Elko 2,5mm Pitch, 6mm Durchmesser, 11,2mm Hoehe:Elko 2,5mm Pitch, 6mm  Diameter, 11,2mm High
+CPOL-RADIAL-10UF-25V:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:CAP_DIS_ELKO_2MM5_5MM(:Elko 2,5mm Pitch, 5mm Durchmesser, 11,2mm Hoehe:Elko 2,5mm Pitch, 5mm  Diameter, 11,2mm High
+AXIAL-0.3:0:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:RES_DIS_0207_075MM(:Diskreter Widerstand 0,3W 7,5MM Raster:Discrete Resistor 0,3W 7,5MM Grid
+DIL-08:0:1:0:0:0:1:0:0:0:SOCKET_DIP8(:30:IC-Sockel 8Pin:0:0:0:0:0:0:0:1:0:0:0:0:0:0:0:0:0:0:IC_DIS_DIP8(:DIP8:
+CAP-PTH-SMALL:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:CAP_DIS_CERAMIC_25MM_38MM(:ceramic disc capacitator:
+
+
+6410-03:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:RES_DIS_PR_02_20MM(:2W Res D3.9 x L12:
+22-23-2031:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:CON_MOLEX_53047_3(:Molex 53047:
+POWER_JACK_2.1X5.5_BIG_PTH:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:DCPOWERCONNECTOR(:DC power connector:
+TO220BH:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:-6.2:0:0:0:0:0:0:0:0:0:0:0:0:0:TR_TO220_L2(:TO220 liegend:TO220 Horizontal
+CAP-PTH-5MM:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:CAP_DIS_CERAMIC_DISK_05MM_06MM(:disc capacitator:
+TACTILE-PTH:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:SWITCH_B3F_10XX1(:Taster Switch-Omron:Tactile Switch-Omron
+
+
+DO41-7.6:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:DIODE_DIS_DO34_076MM_H(:Diode DO34 7mm hor.:
+TO92-EBC:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:TR_TO92_L(:TO92 gerade stehend:TO92 straight vertical
+HC49US:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:SPC_CRYSTAL_ABRACON_ABS13(:SMD 32.768 Hz Crystal:
