@@ -1,7 +1,7 @@
 [Eagle]
 Version="05 07 00"
 Platform="Windows"
-Serial="3E3CDD2BD4-LSR-WLM-NCP"
+Serial="34DB5423DC-LSR-WLM-NCP"
 Globals="Globals"
 Desktop="Desktop"
 
@@ -349,6 +349,7 @@ ArcDirection=0
 AddLevel=2
 PadsSameType=0
 Layer=91
+Views=" 1: -342778 158869 1973242 1469035"
 Sheet=1
 
 [Win_2]
@@ -397,7 +398,7 @@ State=1
 Number=0
 
 [Desktop]
-Screen="1024 768"
+Screen="1321 783"
 Window="Win_1"
 Window="Win_2"
 Window="Win_3"
