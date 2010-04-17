@@ -2,12 +2,12 @@ EAGLE AutoRouter Statistics:
 
 Job           : Z:/home/digital-toy/i-charger/ekits-dual-buck-v0/dual-channel-buck-v0.brd
 
-Start at      : 21:59:00 (2010-4-12)
-End at        : 21:59:00 (2010-4-12)
+Start at      : 22:09:29 (2010-4-17)
+End at        : 22:09:29 (2010-4-17)
 Elapsed time  : 00:00:00
 
 Signals       :    47   RoutingGrid: 50 mil  Layers: 1
-Connections   :   119   predefined:  119 ( 9 Vias )
+Connections   :   119   predefined:  117 ( 10 Vias )
 
 Router memory :   12320
 
@@ -18,7 +18,7 @@ Number of Ripups  :         0         0         0         0         0
 max. Level        :         0         0         0         0         0
 max. Total        :         0         0         0         0         0
 
-Routed            :         0         0         0         0         0
+Routed            :         2         2         2         2         2
 Vias              :         0         0         0         0         0
 Resolution        :   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %
 
