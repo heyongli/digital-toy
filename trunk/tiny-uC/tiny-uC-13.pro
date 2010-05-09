@@ -2,14 +2,14 @@ EAGLE AutoRouter Statistics:
 
 Job           : Z:/home/digital-toy/tiny-uC/tiny-uC-13.brd
 
-Start at      : 22:22:04 (2010-5-8)
-End at        : 22:22:04 (2010-5-8)
+Start at      : 10:17:16 (2010-5-9)
+End at        : 10:17:16 (2010-5-9)
 Elapsed time  : 00:00:00
 
 Signals       :    24   RoutingGrid: 50 mil  Layers: 1
-Connections   :    67   predefined:  67 ( 1 Vias )
+Connections   :    67   predefined:  67 ( 5 Vias )
 
-Router memory :   3162
+Router memory :   3264
 
 Passname          :     Route Optimize1 Optimize2 Optimize3 Optimize4
 
