@@ -1,13 +1,9 @@
+
 #include "bitops.h"
 #include <avr/io.h>
 #include <util/delay.h>
-/*fast pwm mode*/
-/*  9.6M  about 1000000/9.6M  104.17 ns*/
 
-#define PWM_CYCLE  254
-
-
-
+#include "tiny-uc.h"
 
 
 /* FAST PWM mode
@@ -58,7 +54,7 @@ GTCCR ¨C General Timer/Counter Control Register
 
 void pwm_init()
 {
-  TCCR0A  =  ( _bits8(3,WGM00,WGM01) ) |  ( _bits8(0b10, COM0A0,COM0A1) );  
+  TCCR0A  =  ( _bits8(3,WGM00,WGM01) ) |  ( _bits8(0b10, COM0B0,COM0B1) );  
   TCCR0B  =  _bits8(0b001, CS00,CS02);     
   TCNT0  = 0;
   OCR0A = 0 ;  /* duty = 0; */
@@ -69,5 +65,5 @@ void pwm_init()
 
 void pwm_setduty(unsigned char duty)
 {
-  OCR0A = duty;
+  OCR0B = duty;
 }

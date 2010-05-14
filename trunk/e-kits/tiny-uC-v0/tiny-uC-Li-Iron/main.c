@@ -20,8 +20,16 @@ char keydown()
        return 0	;									
 }
 
-unsigned char duty=128; 
 
+#ifdef PWM
+#define ccstart()  pwm_setduty(duty) //_clear_bit(PORTB,ucCC);
+#define ccclose()  pwm_setduty(255) //_set_bit(PORTB,ucCC);
+#else
+#define ccstart()  _clear_bit(PORTB,ucCC)
+#define ccclose()  _set_bit(PORTB,ucCC)
+#endif
+
+unsigned char duty=240; 
 int main()
 {
     unsigned int adc = 0;
@@ -33,10 +41,10 @@ int main()
     led_init();
     uckey_init();
 	adc_init();	
-    
-	//pwm_init();
-
-    pwm_setduty(255);
+#ifdef PWM
+    pwm_init();
+#endif
+    ccclose();
 	while (1){
 
  	    int loop =0,count=0;
@@ -66,46 +74,48 @@ int main()
 		 
 		
 		 if(count>0)     
-           _clear_bit(PORTB,ucCC);
+           ccstart();
 
-		  for(;loop<6*count;loop++) //one minites,4 loop
+
+		  for(;loop<10*count;loop++) //one minites,4 loop
 		  {
-		    sharp_flash(); //15 secs
-			 
+		      sharp_flash(); //1 secs
+			    if(keydown()){
+		  	       duty +=20;
 
-			_set_bit(PORTB,ucCC);
-	        _delay_ms(100);        _delay_ms(100);	
-	        _delay_ms(100);	
-	        _delay_ms(100);        _delay_ms(100);	
-	        _delay_ms(100);        _delay_ms(100);	
-	        _delay_ms(100);	
-            
+		       }
+
+			 ccclose();
+	        _delay_ms(100);  _delay_ms(100);	
+	        _delay_ms(100);  _delay_ms(100);
+			_delay_ms(100);	
+	        
 			adc=_adc(ucADC_CH);
 		    if(adc>970){
-			   _clear_bit(PORTB,ucCC);
+			   ccstart();
 			   _delay_ms(30);
-		   	   _set_bit(PORTB,ucCC);
+		   	   ccclose();
 	           _delay_ms(30);
- 		       _clear_bit(PORTB,ucCC);
+ 		       ccstart();
                _delay_ms(30);
-			   _set_bit(PORTB,ucCC);
+			   ccclose();
 	           _delay_ms(30);
-			   _clear_bit(PORTB,ucCC);
+			   ccstart();
                _delay_ms(30);
-			   _set_bit(PORTB,ucCC);
+			   ccclose();
 	           _delay_ms(30);
 
-
-			}
-			_clear_bit(PORTB,ucCC);
+			  }
+			ccstart();
 			if(adc>987){ //stop, test result:4.18V
 			   count=0;
+			   ccclose();
 			}
 		  }
-		  duty-=30;
-          count==0;
+
+          count=0;
 	//	  pwm_setduty(duty);
-		  _set_bit(PORTB,ucCC);
+		  ccclose();
 
 		  	 
          
