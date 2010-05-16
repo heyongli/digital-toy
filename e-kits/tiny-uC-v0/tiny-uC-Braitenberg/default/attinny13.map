@@ -1,0 +1,330 @@
+Archive member included because of file (symbol)
+
+C:/WinAVR/lib/gcc/avr/3.4.6\libgcc.a(_copy_data.o)
+                              main.o (__do_copy_data)
+C:/WinAVR/lib/gcc/avr/3.4.6\libgcc.a(_clear_bss.o)
+                              main.o (__do_clear_bss)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+text             0x00000000         0x00002000         xr
+data             0x00800060         0x0000ffa0         rw !x
+eeprom           0x00810000         0x00010000         rw !x
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib/crttn13.o
+LOAD main.o
+LOAD pwm.o
+LOAD led.o
+LOAD adc.o
+LOAD avrio.o
+LOAD C:/WinAVR/lib/gcc/avr/3.4.6\libgcc.a
+LOAD C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib\libc.a
+LOAD C:/WinAVR/lib/gcc/avr/3.4.6\libgcc.a
+
+.hash
+ *(.hash)
+
+.dynsym
+ *(.dynsym)
+
+.dynstr
+ *(.dynstr)
+
+.gnu.version
+ *(.gnu.version)
+
+.gnu.version_d
+ *(.gnu.version_d)
+
+.gnu.version_r
+ *(.gnu.version_r)
+
+.rel.init
+ *(.rel.init)
+
+.rela.init
+ *(.rela.init)
+
+.rel.text
+ *(.rel.text)
+ *(.rel.text.*)
+ *(.rel.gnu.linkonce.t*)
+
+.rela.text
+ *(.rela.text)
+ *(.rela.text.*)
+ *(.rela.gnu.linkonce.t*)
+
+.rel.fini
+ *(.rel.fini)
+
+.rela.fini
+ *(.rela.fini)
+
+.rel.rodata
+ *(.rel.rodata)
+ *(.rel.rodata.*)
+ *(.rel.gnu.linkonce.r*)
+
+.rela.rodata
+ *(.rela.rodata)
+ *(.rela.rodata.*)
+ *(.rela.gnu.linkonce.r*)
+
+.rel.data
+ *(.rel.data)
+ *(.rel.data.*)
+ *(.rel.gnu.linkonce.d*)
+
+.rela.data
+ *(.rela.data)
+ *(.rela.data.*)
+ *(.rela.gnu.linkonce.d*)
+
+.rel.ctors
+ *(.rel.ctors)
+
+.rela.ctors
+ *(.rela.ctors)
+
+.rel.dtors
+ *(.rel.dtors)
+
+.rela.dtors
+ *(.rela.dtors)
+
+.rel.got
+ *(.rel.got)
+
+.rela.got
+ *(.rela.got)
+
+.rel.bss
+ *(.rel.bss)
+
+.rela.bss
+ *(.rela.bss)
+
+.rel.plt
+ *(.rel.plt)
+
+.rela.plt
+ *(.rela.plt)
+
+.text           0x00000000      0x2e6
+ *(.vectors)
+ .vectors       0x00000000       0x14 C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib/crttn13.o
+                0x00000000                __vectors
+                0x00000000                __vector_default
+                0x00000014                __ctors_start = .
+ *(.ctors)
+                0x00000014                __ctors_end = .
+                0x00000014                __dtors_start = .
+ *(.dtors)
+                0x00000014                __dtors_end = .
+ *(.progmem.gcc*)
+ *(.progmem*)
+                0x00000014                . = ALIGN (0x2)
+ *(.init0)
+ *(.init1)
+ *(.init2)
+ .init2         0x00000014        0x8 C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib/crttn13.o
+ *(.init3)
+ *(.init4)
+ .init4         0x0000001c       0x18 C:/WinAVR/lib/gcc/avr/3.4.6\libgcc.a(_copy_data.o)
+                0x0000001c                __do_copy_data
+ .init4         0x00000034       0x10 C:/WinAVR/lib/gcc/avr/3.4.6\libgcc.a(_clear_bss.o)
+                0x00000034                __do_clear_bss
+ *(.init5)
+ *(.init6)
+ *(.init7)
+ *(.init8)
+ *(.init9)
+ .init9         0x00000044        0x2 C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib/crttn13.o
+ *(.text)
+ .text          0x00000046        0x2 C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib/crttn13.o
+                0x00000046                __vector_1
+                0x00000046                __bad_interrupt
+                0x00000046                __vector_6
+                0x00000046                __vector_3
+                0x00000046                __vector_7
+                0x00000046                __vector_5
+                0x00000046                __vector_4
+                0x00000046                __vector_9
+                0x00000046                __vector_2
+                0x00000046                __vector_8
+ .text          0x00000048      0x120 main.o
+                0x00000064                main
+                0x00000048                keydown
+ .text          0x00000168       0x18 pwm.o
+                0x00000168                pwm_init
+                0x00000178                pwm_setduty
+ .text          0x00000180       0x50 led.o
+                0x000001a2                sharp_flash
+                0x00000180                led_init
+ .text          0x000001d0       0x3c adc.o
+                0x000001e4                _adc
+                0x000001d0                adc_init
+ .text          0x0000020c       0xda avrio.o
+                0x0000020c                __set_port_mode
+                0x00000296                _swap8
+                0x000002e6                . = ALIGN (0x2)
+ *(.text.*)
+                0x000002e6                . = ALIGN (0x2)
+ *(.fini9)
+ *(.fini8)
+ *(.fini7)
+ *(.fini6)
+ *(.fini5)
+ *(.fini4)
+ *(.fini3)
+ *(.fini2)
+ *(.fini1)
+ *(.fini0)
+                0x000002e6                _etext = .
+
+.data           0x00800060        0x2 load address 0x000002e6
+                0x00800060                PROVIDE (__data_start, .)
+ *(.data)
+ .data          0x00800060        0x1 led.o
+                0x00800060                mod
+ *(.gnu.linkonce.d*)
+                0x00800062                . = ALIGN (0x2)
+ *fill*         0x00800061        0x1 00
+                0x00800062                _edata = .
+                0x00800062                PROVIDE (__data_end, .)
+
+.bss            0x00800062        0x1
+                0x00800062                PROVIDE (__bss_start, .)
+ *(.bss)
+ .bss           0x00800062        0x1 main.o
+                0x00800062                duty
+ *(COMMON)
+                0x00800063                PROVIDE (__bss_end, .)
+                0x000002e6                __data_load_start = LOADADDR (.data)
+                0x000002e8                __data_load_end = (__data_load_start + SIZEOF (.data))
+
+.noinit         0x00800063        0x0
+                0x00800063                PROVIDE (__noinit_start, .)
+ *(.noinit*)
+                0x00800063                PROVIDE (__noinit_end, .)
+                0x00800063                _end = .
+                0x00800063                PROVIDE (__heap_start, .)
+
+.eeprom         0x00810000        0x0
+ *(.eeprom*)
+                0x00810000                __eeprom_end = .
+
+.stab           0x00000000      0x354
+ *(.stab)
+ .stab          0x00000000      0x354 C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib/crttn13.o
+
+.stabstr        0x00000000       0x84
+ *(.stabstr)
+ .stabstr       0x00000000       0x84 C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib/crttn13.o
+
+.stab.excl
+ *(.stab.excl)
+
+.stab.exclstr
+ *(.stab.exclstr)
+
+.stab.index
+ *(.stab.index)
+
+.stab.indexstr
+ *(.stab.indexstr)
+
+.comment
+ *(.comment)
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges  0x00000000       0x64
+ *(.debug_aranges)
+ .debug_aranges
+                0x00000000       0x14 main.o
+ .debug_aranges
+                0x00000014       0x14 pwm.o
+ .debug_aranges
+                0x00000028       0x14 led.o
+ .debug_aranges
+                0x0000003c       0x14 adc.o
+ .debug_aranges
+                0x00000050       0x14 avrio.o
+
+.debug_pubnames
+                0x00000000       0xef
+ *(.debug_pubnames)
+ .debug_pubnames
+                0x00000000       0x30 main.o
+ .debug_pubnames
+                0x00000030       0x2f pwm.o
+ .debug_pubnames
+                0x0000005f       0x37 led.o
+ .debug_pubnames
+                0x00000096       0x28 adc.o
+ .debug_pubnames
+                0x000000be       0x31 avrio.o
+
+.debug_info     0x00000000      0x898
+ *(.debug_info)
+ .debug_info    0x00000000      0x45a main.o
+ .debug_info    0x0000045a       0x93 pwm.o
+ .debug_info    0x000004ed      0x1f8 led.o
+ .debug_info    0x000006e5       0xd1 adc.o
+ .debug_info    0x000007b6       0xe2 avrio.o
+ *(.gnu.linkonce.wi.*)
+
+.debug_abbrev   0x00000000      0x349
+ *(.debug_abbrev)
+ .debug_abbrev  0x00000000       0xfa main.o
+ .debug_abbrev  0x000000fa       0x61 pwm.o
+ .debug_abbrev  0x0000015b       0xd8 led.o
+ .debug_abbrev  0x00000233       0x90 adc.o
+ .debug_abbrev  0x000002c3       0x86 avrio.o
+
+.debug_line     0x00000000      0x57b
+ *(.debug_line)
+ .debug_line    0x00000000      0x23f main.o
+ .debug_line    0x0000023f       0xaa pwm.o
+ .debug_line    0x000002e9       0xee led.o
+ .debug_line    0x000003d7       0xe6 adc.o
+ .debug_line    0x000004bd       0xbe avrio.o
+
+.debug_frame
+ *(.debug_frame)
+
+.debug_str      0x00000000      0x174
+ *(.debug_str)
+ .debug_str     0x00000000      0x105 main.o
+                                0x143 (size before relaxing)
+ .debug_str     0x00000105       0x15 pwm.o
+                                 0xd8 (size before relaxing)
+ .debug_str     0x0000011a       0x15 led.o
+                                0x11b (size before relaxing)
+ .debug_str     0x0000012f       0x19 adc.o
+                                 0xdc (size before relaxing)
+ .debug_str     0x00000148       0x2c avrio.o
+                                 0xeb (size before relaxing)
+
+.debug_loc
+ *(.debug_loc)
+
+.debug_macinfo
+ *(.debug_macinfo)
+OUTPUT(attinny13.elf elf32-avr)
