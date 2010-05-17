@@ -10,11 +10,11 @@ void led_init()
 {
 	/* ÍùÇ°²½½ø */
     char i;
-	for (i = 0; i < 3; i++){
+	for (i = 0; i < 5; i++){
         ucLED_On();
-		_delay_ms(200);
+		_delay_ms(20);
  	    ucLED_Off();
- 	    _delay_ms(200);
+ 	    _delay_ms(20);
 	}
 
 }	

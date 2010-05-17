@@ -1,5 +1,7 @@
 Archive member included because of file (symbol)
 
+C:/WinAVR/lib/gcc/avr/3.4.6\libgcc.a(_udivmodqi4.o)
+                              main.o (__udivmodqi4)
 C:/WinAVR/lib/gcc/avr/3.4.6\libgcc.a(_copy_data.o)
                               main.o (__do_copy_data)
 C:/WinAVR/lib/gcc/avr/3.4.6\libgcc.a(_clear_bss.o)
@@ -115,7 +117,7 @@ LOAD C:/WinAVR/lib/gcc/avr/3.4.6\libgcc.a
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x2e6
+.text           0x00000000      0x2fa
  *(.vectors)
  .vectors       0x00000000       0x14 C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib/crttn13.o
                 0x00000000                __vectors
@@ -157,24 +159,27 @@ LOAD C:/WinAVR/lib/gcc/avr/3.4.6\libgcc.a
                 0x00000046                __vector_9
                 0x00000046                __vector_2
                 0x00000046                __vector_8
- .text          0x00000048      0x120 main.o
-                0x00000064                main
+ .text          0x00000048      0x10e main.o
+                0x00000064                test_motor
+                0x000000ae                main
                 0x00000048                keydown
- .text          0x00000168       0x18 pwm.o
-                0x00000168                pwm_init
-                0x00000178                pwm_setduty
- .text          0x00000180       0x50 led.o
-                0x000001a2                sharp_flash
-                0x00000180                led_init
- .text          0x000001d0       0x3c adc.o
-                0x000001e4                _adc
-                0x000001d0                adc_init
- .text          0x0000020c       0xda avrio.o
-                0x0000020c                __set_port_mode
-                0x00000296                _swap8
-                0x000002e6                . = ALIGN (0x2)
+ .text          0x00000156       0x1a pwm.o
+                0x00000156                pwm_init
+                0x00000168                pwm_setduty
+ .text          0x00000170       0x5c led.o
+                0x0000019e                sharp_flash
+                0x00000170                led_init
+ .text          0x000001cc       0x3c adc.o
+                0x000001e0                _adc
+                0x000001cc                adc_init
+ .text          0x00000208       0xda avrio.o
+                0x00000208                __set_port_mode
+                0x00000292                _swap8
+                0x000002e2                . = ALIGN (0x2)
  *(.text.*)
-                0x000002e6                . = ALIGN (0x2)
+ .text.libgcc   0x000002e2       0x18 C:/WinAVR/lib/gcc/avr/3.4.6\libgcc.a(_udivmodqi4.o)
+                0x000002e2                __udivmodqi4
+                0x000002fa                . = ALIGN (0x2)
  *(.fini9)
  *(.fini8)
  *(.fini7)
@@ -185,9 +190,9 @@ LOAD C:/WinAVR/lib/gcc/avr/3.4.6\libgcc.a
  *(.fini2)
  *(.fini1)
  *(.fini0)
-                0x000002e6                _etext = .
+                0x000002fa                _etext = .
 
-.data           0x00800060        0x2 load address 0x000002e6
+.data           0x00800060        0x2 load address 0x000002fa
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800060        0x1 led.o
@@ -205,8 +210,8 @@ LOAD C:/WinAVR/lib/gcc/avr/3.4.6\libgcc.a
                 0x00800062                duty
  *(COMMON)
                 0x00800063                PROVIDE (__bss_end, .)
-                0x000002e6                __data_load_start = LOADADDR (.data)
-                0x000002e8                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x000002fa                __data_load_start = LOADADDR (.data)
+                0x000002fc                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800063        0x0
                 0x00800063                PROVIDE (__noinit_start, .)
@@ -268,58 +273,58 @@ LOAD C:/WinAVR/lib/gcc/avr/3.4.6\libgcc.a
                 0x00000050       0x14 avrio.o
 
 .debug_pubnames
-                0x00000000       0xef
+                0x00000000       0xfe
  *(.debug_pubnames)
  .debug_pubnames
-                0x00000000       0x30 main.o
+                0x00000000       0x3f main.o
  .debug_pubnames
-                0x00000030       0x2f pwm.o
+                0x0000003f       0x2f pwm.o
  .debug_pubnames
-                0x0000005f       0x37 led.o
+                0x0000006e       0x37 led.o
  .debug_pubnames
-                0x00000096       0x28 adc.o
+                0x000000a5       0x28 adc.o
  .debug_pubnames
-                0x000000be       0x31 avrio.o
+                0x000000cd       0x31 avrio.o
 
-.debug_info     0x00000000      0x898
+.debug_info     0x00000000      0x843
  *(.debug_info)
- .debug_info    0x00000000      0x45a main.o
- .debug_info    0x0000045a       0x93 pwm.o
- .debug_info    0x000004ed      0x1f8 led.o
- .debug_info    0x000006e5       0xd1 adc.o
- .debug_info    0x000007b6       0xe2 avrio.o
+ .debug_info    0x00000000      0x40c main.o
+ .debug_info    0x0000040c       0x93 pwm.o
+ .debug_info    0x0000049f      0x1f1 led.o
+ .debug_info    0x00000690       0xd1 adc.o
+ .debug_info    0x00000761       0xe2 avrio.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev   0x00000000      0x349
+.debug_abbrev   0x00000000      0x37a
  *(.debug_abbrev)
- .debug_abbrev  0x00000000       0xfa main.o
- .debug_abbrev  0x000000fa       0x61 pwm.o
- .debug_abbrev  0x0000015b       0xd8 led.o
- .debug_abbrev  0x00000233       0x90 adc.o
- .debug_abbrev  0x000002c3       0x86 avrio.o
+ .debug_abbrev  0x00000000      0x134 main.o
+ .debug_abbrev  0x00000134       0x61 pwm.o
+ .debug_abbrev  0x00000195       0xcf led.o
+ .debug_abbrev  0x00000264       0x90 adc.o
+ .debug_abbrev  0x000002f4       0x86 avrio.o
 
-.debug_line     0x00000000      0x57b
+.debug_line     0x00000000      0x49f
  *(.debug_line)
- .debug_line    0x00000000      0x23f main.o
- .debug_line    0x0000023f       0xaa pwm.o
- .debug_line    0x000002e9       0xee led.o
- .debug_line    0x000003d7       0xe6 adc.o
- .debug_line    0x000004bd       0xbe avrio.o
+ .debug_line    0x00000000      0x163 main.o
+ .debug_line    0x00000163       0xaa pwm.o
+ .debug_line    0x0000020d       0xee led.o
+ .debug_line    0x000002fb       0xe6 adc.o
+ .debug_line    0x000003e1       0xbe avrio.o
 
 .debug_frame
  *(.debug_frame)
 
-.debug_str      0x00000000      0x174
+.debug_str      0x00000000      0x17f
  *(.debug_str)
- .debug_str     0x00000000      0x105 main.o
-                                0x143 (size before relaxing)
- .debug_str     0x00000105       0x15 pwm.o
+ .debug_str     0x00000000      0x110 main.o
+                                0x14e (size before relaxing)
+ .debug_str     0x00000110       0x15 pwm.o
                                  0xd8 (size before relaxing)
- .debug_str     0x0000011a       0x15 led.o
+ .debug_str     0x00000125       0x15 led.o
                                 0x11b (size before relaxing)
- .debug_str     0x0000012f       0x19 adc.o
+ .debug_str     0x0000013a       0x19 adc.o
                                  0xdc (size before relaxing)
- .debug_str     0x00000148       0x2c avrio.o
+ .debug_str     0x00000153       0x2c avrio.o
                                  0xeb (size before relaxing)
 
 .debug_loc

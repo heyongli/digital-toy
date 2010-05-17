@@ -23,72 +23,70 @@ char keydown()
 
 unsigned char duty=0; 
 
+test_motor(char pwm)
+{
+	pwm = 80;
+	_delay_ms(100);
+	pwm=0;
+	_delay_ms(100);
+	_delay_ms(100);
+	
+	pwm=50;
+	_delay_ms(100);
+	pwm = 0;
+	_delay_ms(100);
+	_delay_ms(100);
+	
+	pwm = 25;
+	_delay_ms(100);
+	pwm = 0;
+	_delay_ms(100);
+	_delay_ms(100);
+	
+}
+
 int main()
 {
     unsigned int leye,reye = 0;
 
 	DDRB = 0xFF;	/* 定义B口为输出*/
-	PORTB = 0xFF;	/* 关闭全部LED */
+	PORTB = 0;	/* 关闭全部LED */
 
     pwm_init();
 	adc_init();	
+    _pin_mode(PORTB,PB2,INPUT);
+	_pin_mode(PORTB,PB3,INPUT);
 
-
-
-	L_MOTOR = 255;
-	_delay_ms(100);
-	L_MOTOR=R_MOTOR = 0;
-	L_MOTOR = 150;
-	_delay_ms(100);
-	L_MOTOR=R_MOTOR = 0;
-	L_MOTOR = 255;
-	_delay_ms(100);
-	L_MOTOR=R_MOTOR = 0;
-		L_MOTOR = 255;
-	_delay_ms(100);
-	L_MOTOR=R_MOTOR = 0;
-	L_MOTOR = 150;
-	_delay_ms(100);
-	L_MOTOR=R_MOTOR = 0;
-	L_MOTOR = 255;
-	_delay_ms(100);
-	L_MOTOR=R_MOTOR = 0;
-
-	R_MOTOR = 255;
-	_delay_ms(100);
-	L_MOTOR=R_MOTOR = 0;
-	R_MOTOR = 150;
-	_delay_ms(100);
-	L_MOTOR=R_MOTOR = 0;
-	R_MOTOR = 255;
-	_delay_ms(100);
-	L_MOTOR=R_MOTOR = 0;	
-	R_MOTOR = 255;
-	_delay_ms(100);
-	L_MOTOR=R_MOTOR = 0;
-	R_MOTOR = 150;
-	_delay_ms(100);
-	L_MOTOR=R_MOTOR = 0;
-	R_MOTOR = 255;
-	_delay_ms(100);
-	L_MOTOR=R_MOTOR = 0;	
+    test_motor(R_MOTOR);
+    test_motor(L_MOTOR);
 
     led_init();
-
+	
 	while (1){
 
  	        
 	   leye=_adc(LEYE_ADC);
 	   reye=_adc(REYE_ADC);
 	   
-	    if(leye>1000 || reye>1000){
+	    if(leye>800 || reye>800){
 			ucLED_On();
 	    }else
 		     ucLED_Off();
 		   
-		
-        L_MOTOR = (LEYE_ADC/4-50);
-		R_MOTOR = (REYE_ADC/4-50);
-         
+		if(leye<150) 
+		  L_MOTOR=0;
+		else{
+		   unsigned char pwm = leye>>2;
+
+           L_MOTOR = pwm>120?(pwm/3):pwm/2;
+		}
+
+        if(reye<150) R_MOTOR=0;
+		else{
+		   unsigned char pwm = leye>>2;
+
+           R_MOTOR = pwm>120?(pwm/3):pwm/2;
+		}
+		 
 	}
 }

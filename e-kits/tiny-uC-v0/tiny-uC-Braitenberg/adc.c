@@ -13,7 +13,7 @@ void adc_init()
 	short adc;
 
 	/// 1.1V ref                       ADCL keep low 8bit        init for ch1,PB2, ADC in tiny-uC  
-	ADMUX = _bits8(0b0,REFS0,REFS0) |   _bits8(0,ADLAR,ADLAR) |  _bits8(ucADC_CH,MUX0,MUX1);      00  
+	ADMUX = _bits8(0b1,REFS0,REFS0) |   _bits8(0,ADLAR,ADLAR) |  _bits8(ucADC_CH,MUX0,MUX1);    
         /*must READ ADCH for compled ADC*/
 
 	/*ADC status and control*/   
