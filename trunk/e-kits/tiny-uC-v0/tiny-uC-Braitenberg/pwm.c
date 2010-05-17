@@ -54,8 +54,8 @@ GTCCR ¨C General Timer/Counter Control Register
 
 void pwm_init()
 {
-  TCCR0A  =  ( _bits8(3,WGM00,WGM01) ) |  ( _bits8(0b10, COM0B0,COM0B1) |  ( _bits8(0b10, COM0A0,COM0A1) ));  
-  TCCR0B  =  _bits8(0b001, CS00,CS02);     
+  TCCR0A  =  ( _bits8(0b11,WGM00,WGM02) ) |  ( _bits8(0b10, COM0B0,COM0B1) |  ( _bits8(0b10, COM0A0,COM0A1) ));  
+  TCCR0B  =  _bits8(0b100, CS00,CS02);     
   TCNT0  = 0;
   OCR0A = 0 ;  /* duty = 0; */
 
