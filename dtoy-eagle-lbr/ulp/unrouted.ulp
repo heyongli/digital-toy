@@ -1,0 +1,61 @@
+/*
+ *  UNROUTED.ULP
+ *
+ *  This EAGLE User Language Program generates a Script
+ *  file that can determine unrouted signals (layer 19).
+ *  This may be necessary, whenever the "ratsnest" - command
+ *  tells you that still exist signals to route, but you can
+ *  not see them, because they are too tiny.
+ *
+ *  In a board editor window you can Run this ULP.
+ *  Look the text-file "UNROUTED.TXT" in the current directory. 
+ *         
+ *
+ *  Perhaps you have to change the output - path !
+ *
+ *  Any questions ? - contact me:
+ *    Daemon Reinhard
+ *    Tel:    ++43-316-873-8645
+ *    FAX:    ++43-316-873-8655
+ *    E-Mail: yum@fexphds01.tu-graz.ac.at
+ *
+ */
+
+
+
+
+
+if (board) 
+
+
+board(B) {
+  output("unrouted.txt")
+           {
+              B.signals(S)
+                {
+                  S.wires(W)
+
+                    {
+                      if (W.layer == 19)
+                       { 
+                          printf("Signal = %s     ", S.name);
+                           if (B.grid.unit == 2)                            
+                            printf("(%.0f/%.0f) (%.0f/%.0f)\n", u2mil(W.x1), u2mil(W.y1), u2mil(W.x2), u2mil(W.y2)); 
+                           if (B.grid.unit == 3)  
+                            printf("(%.3f/%.3f) (%.3f/%.3f)\n", u2inch(W.x1), u2inch(W.y1), u2inch(W.x2), u2inch(W.y2));  
+                           if (B.grid.unit == 1)                            
+                            printf("(%.2f/%.2f) (%.2f/%.2f)\n", u2mm(W.x1), u2mm(W.y1), u2mm(W.x2), u2mm(W.y2)); 
+                           if (B.grid.unit == 0)    
+                            printf("(%.0f/%.0f) (%.0f/%.0f)\n", u2mic(W.x1), u2mic(W.y1), u2mic(W.x2), u2mic(W.y2));  
+                       }
+                    } 
+                }
+           }
+         }
+
+
+
+else
+  output("unrouted.txt")
+    printf("Actual Window is not a BOARD !");
+

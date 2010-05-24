@@ -1,0 +1,970 @@
+#usage "<b>Eagle schematic exporting tool  version 0.1 </b>\n"
+       "<p>"
+       "This ULP can convert an Eagle CAD schematic into Postscript file."
+       "You can search for texts in the postscript or you can convert it to pdf"
+       "This file is at the moment only tested for A3-Landscape paper format"
+       "<p>"
+       "Load any schematic and execute the ULP in the eagle."
+       "<p>"
+       "<author>Author: juergen.messerer (at) freesurf.ch</author>"
+/*
+ * CHANGELOG================================================
+ *
+ *
+ * 02.10.2006: Init version    
+ *
+ * 29.11.2006: Release Version 1.0     
+ *
+ * 06.12.2006: Bug in text arrangement with a rotation of 270 degrees (line 299)
+ *             Changed the margin offset from 50 to 15 
+*/  
+
+/* ==========================================================================
+ * License: This file is released under the license of the GNU Public license
+ *          Version 2.
+ * ==========================================================================*/   
+ 
+real VERSION   = 1.1;
+
+int colorLUT[];
+string g_FontBoxArray[]  = { "Arial", "Courier", "Gothic", "Helvetic", 
+                             "Sans-Serif", "Times-Roman" };
+int g_selFont            = 0;
+string g_FontStr         = g_FontBoxArray[g_selFont];
+
+string g_comboBoxArray[] = { "A0 (1188mm x 840mm)", "A1 (840mm x 594mm)", "A2(594mm x 420mm)",
+                             "A3 (420mm x 297mm)", "A4(297mm x 210mm)", 
+                             "A5(210mm x 148mm)", "A6(148mm x 105mm)", 
+                             "Letter (11 x 8,5)", "Legal (14 x 8.5)", 
+                             "Folio  (13 x 8.5)", "Executive (10.5 x 7.25)",
+                             "A (11 x 8)", "B (16 x 11)", "C (22 x 16)", "D (32 x 22)", "E (44 x 32)",
+                             "User defined" };
+
+string g_sheetSizeArray[] = { "A0", "A1", "A2", "A3", "A4", "A5", "A6", 
+                              "Letter", "Legal", "Folio", "Executive", 
+                              "A", "B", "C", "D", "E" };			   
+ 
+string g_sheetSizes[]     = { "46800 33070", "33070 23400", "23400 16535", "42000 29700", "11700 8267", "8267 5826", "5826 4133", 
+                              "11000 8500", "14000 8500", "13000 8500", "10500", "7250",
+                              "11000 8000", "16000 11000", "22000 16000", "32000 22000", "44000 32000" };
+   
+int g_selected = 3; // initially selects "A3" 
+
+int g_dimX = 16000;
+int g_dimY = 11000;
+
+int g_leftOff = 15;
+int g_btmOff  = 15;
+
+
+int true  = 1;
+int false = 0;
+
+
+int minimum( int x1, int x2 )
+{
+   if( x1 < x2 )
+      return x1;
+   else
+      return x2;
+}
+
+int maximum( int x1, int x2 )
+{
+   if( x1 > x2 )
+      return x1;
+   else
+      return x2;
+}
+
+
+//------------------------------------------------------
+// replace special chars like '(',')','\' 
+//------------------------------------------------------
+string replaceSpecialChars( string strText, char chr )
+{
+   string newText = "";
+   string partStr[];
+   int ii = 0;
+   int n = strsplit( partStr, strText, chr );
+   
+   if( n == 1 )
+      return strText;
+          
+   for( ii = 0; ii < n; ii++ )
+   {
+     newText += partStr[ii];
+
+     if( ii < (n-1) )
+     {
+        switch(chr)
+	{
+	   case '(':
+              newText += "\\(";
+	   break; 
+	   case ')':
+              newText += "\\)";
+	   break;
+	   case '\\':
+              newText += "\\\\";
+	   break;
+        }
+      }
+   }
+  
+   return newText;
+}
+
+//------------------------------------------------------
+// checking for special chars like '(',')','\' 
+//------------------------------------------------------
+string checkSpecialChars( string strText )
+{
+   strText = replaceSpecialChars( strText, '\\' );
+   strText = replaceSpecialChars( strText, '(' );
+   strText = replaceSpecialChars( strText, ')' );
+   
+   return strText;
+}
+
+//------------------------------------------------------
+// writing general wires
+//------------------------------------------------------
+void write_wires( UL_WIRE W )
+{
+   real r_RGB = (colorLUT[W.layer]& 0xFF0000)>>16;
+   real g_RGB = (colorLUT[W.layer]& 0x00FF00)>>8;
+   real b_RGB = colorLUT[W.layer]& 0x0000FF ;
+   int lineCap = 1;
+
+
+   switch( W.cap )
+   {
+       case CAP_FLAT:
+          lineCap = 0;
+       break;
+       case CAP_ROUND:
+          lineCap = 1;
+       break;
+       default:
+          lineCap = 1;
+       break;
+   }
+       
+   if( W.style == WIRE_STYLE_LONGDASH || W.style == WIRE_STYLE_SHORTDASH || W.style == WIRE_STYLE_DASHDOT )
+   {
+      W.pieces(P)
+      printf("%d %d %d %d %d %.1f %.1f %.1f drawWire\n", P.x1, P.y1, 
+                                                         P.x2, P.y2, P.width,
+                                                         r_RGB/255, g_RGB/255, b_RGB/255);
+   }       
+   else
+   {                                                   
+      if (W.arc)
+      {
+         if( W.arc.angle1 < W.arc.angle2 )
+         {
+            printf("%d %d %d %d %.1f %.1f %.1f %.1f %.1f drawArc\n", W.arc.xc, W.arc.yc, 
+                                                                     W.arc.radius, W.arc.width,
+                                                                     W.arc.angle1, W.arc.angle2,
+                                                                     r_RGB/255, g_RGB/255, b_RGB/255);
+         }
+         else
+         {
+            printf("%d %d %d %d %.1f %.1f %.1f %.1f %.1f drawArcn\n", W.arc.xc, W.arc.yc, 
+                                                                      W.arc.radius, W.arc.width, 
+                                                                      W.arc.angle1, W.arc.angle2,
+                                                                      r_RGB/255, g_RGB/255, b_RGB/255);
+         }
+      }
+      else
+      {
+         printf("%d %d %d %d %d %.1f %.1f %.1f drawWire\n", W.x1, W.y1, 
+                                                            W.x2, W.y2, W.width,
+                                                            r_RGB/255, g_RGB/255, b_RGB/255);
+      }
+   }
+}
+
+//------------------------------------------------------
+// writing general rectangles
+//------------------------------------------------------
+void write_rectangles( UL_RECTANGLE R )
+{
+   real r_RGB = (colorLUT[R.layer]& 0xFF0000)>>16;
+   real g_RGB = (colorLUT[R.layer]& 0x00FF00)>>8;
+   real b_RGB =  colorLUT[R.layer]& 0x0000FF ;
+   
+   //printf( "%.1f rotate\n", R.angle);
+   printf( "%d %d %d %d %.1f %.1f %.1f %.1f drawRect\n", R.x1, R.y1, 
+                                                    R.x2, R.y2, R.angle,
+                                                    r_RGB/255, g_RGB/255, b_RGB/255);
+}
+
+//------------------------------------------------------
+// writing general texts
+//------------------------------------------------------
+void write_texts( UL_TEXT T )
+{
+   real r_RGB = (colorLUT[T.layer]& 0xFF0000)>>16;
+   real g_RGB = (colorLUT[T.layer]& 0x00FF00)>>8;
+   real b_RGB = colorLUT[T.layer]& 0x0000FF ;
+   string newText = checkSpecialChars(T.value);
+   
+   int posX = T.x;
+   int posY = T.y;
+   
+   int minX = 0;
+   int maxX = 0;
+   int minY = 0;
+   int maxY = 0;
+   
+   int count = 0;
+   
+   string bla;
+   
+   int textAngle = T.angle;
+   
+   
+//Get MinX MaxX MinY MaxY
+   T.wires(W)
+   {
+      int tmpMinX = minX;
+      int tmpMaxX = maxX;
+      int tmpMinY = minY;
+      int tmpMaxY = maxY;
+      
+      tmpMinX = minimum( W.x1, W.x2);
+      tmpMinY = minimum( W.y1, W.y2);
+      tmpMaxX = maximum( W.x1, W.x2);
+      tmpMaxY = maximum( W.y1, W.y2);
+	 
+      if(count <= 0)
+      {
+         minX = tmpMinX;
+         minY = tmpMinY;
+	 maxX = tmpMaxX;
+         maxY = tmpMaxY;
+      }
+      else
+      {
+         minX = minimum( tmpMinX, minX);
+         minY = minimum( tmpMinY, minY);
+	 maxX = maximum( tmpMaxX, maxX);
+         maxY = maximum( tmpMaxY, maxY);
+      }
+      
+      count++;
+   }
+
+   if( T.mirror > 0 )
+   {
+      switch( textAngle )
+      {
+      case 0:
+          posX = minX;
+      break;
+      case 90:
+         posX += T.size;
+      break;
+         
+      case 180:
+         textAngle = 0;
+         posY = minY;
+      break;
+      
+      case 270:
+         textAngle = 90;
+	 posY = minY;
+      break;
+      } 
+   }
+   else
+   {
+      switch( textAngle )
+      {
+      case 90:
+         posX = maxX;
+      break;
+         
+      case 180:
+         textAngle = 0;
+         posX = minX;
+	 posY = minY;
+      break;
+      
+      case 270:
+         textAngle = 90;
+	 posY = minY;
+	 posX = maxX;
+      break;
+      } 
+   }
+   //sprintf(bla, "Val: %s MinX: %d  MinY: %d MaxX: %d  MaxY: %d", T.value, minX, minY, maxX, maxY );
+   //dlgMessageBox(bla,"Okay");
+
+ 
+   printf( "%d %d %d %d %.1f %.1f %.1f (%s) drawText\n", posX, posY, T.size, textAngle,
+                                                         r_RGB/255, g_RGB/255, b_RGB/255, 
+                                                         newText );
+}
+
+//------------------------------------------------------
+// writing general circles
+//------------------------------------------------------
+void write_circles( UL_CIRCLE C )
+{
+   real r_RGB = (colorLUT[C.layer]& 0xFF0000)>>16;
+   real g_RGB = (colorLUT[C.layer]& 0x00FF00)>>8;
+   real b_RGB =  colorLUT[C.layer]& 0x0000FF ;
+
+   printf("%d %d %d %d %.1f %.1f %.1f drawCircle\n", C.x, C.y, C.radius, C.width,
+                                                     r_RGB/255, g_RGB/255, b_RGB/255);
+}
+
+//------------------------------------------------------
+// writing elements of the busses for a sheet
+//------------------------------------------------------
+void write_segments( UL_SEGMENT SEG )
+{
+   real r_RGB = 0.0;
+   real g_RGB = 0.0;
+   real b_RGB = 0.0;
+         
+   SEG.wires(W) 
+   {
+      r_RGB = (colorLUT[W.layer]& 0xFF0000)>>16;
+      g_RGB = (colorLUT[W.layer]& 0x00FF00)>>8;
+      b_RGB =  colorLUT[W.layer]& 0x0000FF ;
+      
+      write_wires(W);
+   }
+         
+   SEG.junctions(J)
+   {  
+       printf("%d %d %d %.1f %.1f %.1f drawFilledCircle\n", J.x, J.y, J.diameter,
+                                                           r_RGB/255, g_RGB/255, b_RGB/255);
+   }
+
+   SEG.texts(T)
+   {
+      write_texts(T);
+   }
+}
+
+//------------------------------------------------------
+// write general polygons
+//------------------------------------------------------
+void write_polygons( UL_POLYGON P )
+{
+   int count = 0;
+   real r_RGB = 0.0;
+   real g_RGB = 0.0;
+   real b_RGB = 0.0;
+         
+   r_RGB = (colorLUT[P.layer]& 0xFF0000)>>16;
+   g_RGB = (colorLUT[P.layer]& 0x00FF00)>>8;
+   b_RGB =  colorLUT[P.layer]& 0x0000FF ;
+      
+
+   printf( "\n %c Start drawing a polygon\n", '%' );
+   printf( "newpath\n" );
+
+   P.wires(W)	
+   {
+      if( count == 0)
+      {
+          printf( "%d EU %d EU moveto\n", W.x1, W.y1);
+          printf( "%d EU %d EU lineto\n", W.x2, W.y2);
+      }
+      else
+      {
+          printf( "%d EU %d EU lineto\n", W.x1, W.y1);
+          printf( "%d EU %d EU lineto\n", W.x2, W.y2);
+      }
+      ++count;
+   }
+
+   printf( "closepath\n" );
+   printf( "gsave\n" );
+   printf( " %f %f %f setrgbcolor\n", r_RGB/255, g_RGB/255, b_RGB/255 );
+   printf( "fill\n" );
+   printf( "grestore\n" );
+   printf( " %c Stop drawing a polygon\n\n", '%' );
+}
+
+//------------------------------------------------------
+// writing elements of the busses for a sheet
+//------------------------------------------------------
+void write_sheet_busses( UL_SHEET SH )
+{
+   SH.busses(B)
+   {
+      B.segments(SEG)
+      {
+         write_segments(SEG);
+      }
+   }
+}
+
+//------------------------------------------------------
+// writing elements of the nets for a sheet
+//------------------------------------------------------
+void write_sheet_nets( UL_SHEET SH )
+{
+   SH.nets(N)
+   {
+      N.segments(SEG)
+      {
+         write_segments(SEG);
+      }
+   }
+}
+
+//------------------------------------------------------
+// writing elements of the polygons for a sheet
+//------------------------------------------------------
+void write_sheet_polygons( UL_SHEET SH )
+{
+   SH.polygons(P)
+   {
+      write_polygons(P);
+   }
+}
+
+//------------------------------------------------------
+// writing elements of the rectangles for a sheet
+//------------------------------------------------------
+void write_sheet_rectangles( UL_SHEET SH )
+{
+   SH.rectangles(R)
+   {
+      write_rectangles(R);
+   }
+}
+
+//------------------------------------------------------
+// writing elements of the circles for a sheet
+//------------------------------------------------------
+void write_sheet_circles( UL_SHEET SH )
+{
+   SH.circles(C)
+   {
+      write_circles(C);
+   }
+}
+
+//------------------------------------------------------
+//write the text items of a sheet
+//------------------------------------------------------
+void write_sheet_texts( UL_SHEET SH )
+{
+   SH.texts(T)
+   {
+      write_texts(T);
+   }
+}
+
+//------------------------------------------------------
+//write the parts of a sheet
+//------------------------------------------------------
+void write_sheet_parts( UL_SHEET SH )
+{
+   SH.parts(P)
+   {
+      P.instances(I)
+      {
+         I.gate.symbol.polygons(P)
+         {
+            write_polygons(P);
+         }
+         
+         I.gate.symbol.circles(C)
+         {
+            write_circles(C);
+         }
+         
+         I.gate.symbol.rectangles(R)
+         {
+            write_rectangles(R);
+         }
+         
+         I.gate.symbol.pins(P)
+         {
+            P.wires(W)
+            {
+               write_wires(W);
+            }
+            
+            P.circles(C)
+            {
+               write_circles(C);
+            }
+            
+            P.texts(T)
+            {
+               T.wires(W)
+	       {
+	          write_wires(W);
+	       }
+            }
+         }
+         
+         I.gate.symbol.wires(W)
+         {
+            write_wires(W);
+         }
+         
+         I.gate.symbol.texts(T)
+         {
+	    if(T.layer == LAYER_NAMES || T.layer == LAYER_VALUES)
+               write_texts(T);
+	    else
+	    {
+	       T.wires(W)
+	       {
+	          write_wires(W);
+	       }
+	    }
+         }
+         
+         I.texts(T)
+         {
+            write_texts(T);
+         }
+      }
+   }
+}
+
+//------------------------------------------------------
+//write the text items of a sheet
+//------------------------------------------------------
+void write_sheet_wires( UL_SHEET SH )
+{
+   SH.wires(W)
+   {
+      write_wires(W);
+   }
+}
+
+//------------------------------------------------------
+//write postscripts inline functions
+//------------------------------------------------------
+void write_ps_functions( )
+{
+   string functions =  "%c Coordinate transfer: \n\n";
+
+   functions += "/EU { 254 div 0.072 mul } def\n";
+   functions += "/inch { 72 mul } def\n\n";
+
+   functions += "%c Line style:\n";
+   functions += "   1 setlinejoin\n\n";
+
+   functions += "%c Drawing functions:\n\n";
+
+   functions += "/drawWire {  %c draw a line\n";
+   functions += "   /b_RGB exch def\n";
+   functions += "   /g_RGB exch def\n";
+   functions += "   /r_RGB exch def\n";
+   functions += "   /lw exch def\n";
+   functions += "   /y2 exch def\n";
+   functions += "   /x2 exch def\n";
+   functions += "   /y1 exch def\n";
+   functions += "   /x1 exch def\n";
+   //functions += "   gsave\n";
+   functions += "   newpath\n";
+   functions += "   x1 EU y1 EU moveto\n";
+   functions += "   x2 EU y2 EU lineto\n";
+   functions += "   lw EU setlinewidth\n";
+   functions += "   r_RGB g_RGB b_RGB setrgbcolor\n";
+   functions += "   stroke\n";
+   //functions += "   grestore\n";
+   functions += "} def\n\n";
+
+// Draw an empty rectangle
+   functions += "/drawRect {\n";
+   functions += "   newpath\n";
+   functions += "   /b_RGB exch def\n";
+   functions += "   /g_RGB exch def\n";
+   functions += "   /r_RGB exch def\n";
+   functions += "   /angle exch def\n";
+   functions += "   /y2 exch def\n";
+   functions += "   /x2 exch def\n";
+   functions += "   /y1 exch def\n";
+   functions += "   /x1 exch def\n";
+   functions += "   /w2 x2 x1 sub 2 div EU def\n";
+   functions += "   /h2 y2 y1 sub 2 div EU def\n";
+   functions += "   gsave\n";
+   functions += "   x1 x2 add 2 div EU y1 y2 add 2 div EU translate\n";
+   functions += "   angle rotate\n";
+   functions += "   newpath\n";
+   functions += "   w2     h2     moveto\n";
+   functions += "   w2 neg h2     lineto\n";
+   functions += "   w2 neg h2 neg lineto\n";
+   functions += "   w2     h2 neg lineto\n";
+   functions += "   closepath\n";
+   functions += "   r_RGB g_RGB b_RGB setrgbcolor\n";
+   functions += "   fill\n";
+   functions += "   grestore\n";
+   functions += "} def\n\n";
+
+// Draw a filled circle
+   functions += "/drawFilledCircle {\n";
+   functions += "   /b_RGB exch def\n";
+   functions += "   /g_RGB exch def\n";
+   functions += "   /r_RGB exch def\n";
+   functions += "   /dia exch def\n";
+   functions += "   /y exch def\n";
+   functions += "   /x exch def\n";
+   functions += "   x EU y EU dia 2 div EU 0 360 arc\n";  
+   //functions += "   gsave\n";
+   functions += "   r_RGB g_RGB b_RGB setrgbcolor\n"; 
+   functions += "   fill\n";
+   functions += "   stroke\n";
+   //functions += "   grestore\n";
+   functions += "} def\n\n";
+
+// Draw an empty circle   
+   functions += "/drawCircle {  %c draw a circle\n";
+   functions += "   /b_RGB exch def\n";
+   functions += "   /g_RGB exch def\n";
+   functions += "   /r_RGB exch def\n";
+   functions += "   /lw exch def\n";
+   functions += "   /rd exch def\n";
+   functions += "   /y  exch def\n";
+   functions += "   /x  exch def\n";
+   //functions += "   gsave\n";
+   functions += "   newpath\n";
+   functions += "   lw EU setlinewidth\n";
+   functions += "   x EU y EU rd EU 0 360 arc\n";
+   functions += "   r_RGB g_RGB b_RGB setrgbcolor\n";
+   functions += "   stroke\n";
+   //functions += "   grestore\n";
+   functions += "} def\n\n";
+
+// Draw a text string  
+   functions += "/drawText {\n";
+   functions += "   /text exch def\n";
+   functions += "   /b_RGB exch def\n";
+   functions += "   /g_RGB exch def\n";
+   functions += "   /r_RGB exch def\n";
+   functions += "   /angle exch def\n";
+   functions += "   /size exch def\n";
+   functions += "   /posY exch def\n";
+   functions += "   /posX exch def\n";
+   functions += "   /%s findfont\n";
+   functions += "   size EU scalefont\n";
+   functions += "   setfont\n";
+   functions += "   gsave\n";
+   functions += "   posX EU posY EU translate\n";
+   functions += "   angle rotate\n";
+   functions += "   r_RGB g_RGB b_RGB setrgbcolor\n"; 
+   functions += "   0 0 moveto\n";
+   functions += "   text show\n";
+   functions += "   grestore\n";
+   functions += "} def\n\n";
+
+// Draw an arc  
+   functions += "/drawArc {\n";
+   functions += "   /b_RGB exch def\n";
+   functions += "   /g_RGB exch def\n";
+   functions += "   /r_RGB exch def\n";
+   functions += "   /angle2 exch def\n";
+   functions += "   /angle1 exch def\n";
+   functions += "   /width exch def\n";
+   functions += "   /radius exch def\n";
+   functions += "   /yc  exch def\n";
+   functions += "   /xc  exch def\n";
+   //functions += "   gsave\n";
+   functions += "   newpath\n";
+   functions += "   width EU setlinewidth\n";
+   functions += "   xc EU yc EU radius EU angle1 angle2 arc\n";
+   functions += "   stroke\n";
+   //functions += "   grestore\n";
+   functions += "} def\n\n";
+
+   functions += "/setLongDash {  [10 5 10 5] 0 setdash }def\n\n";
+   
+   functions += "/setShortDash {  [5 5 5 5] 0 setdash }def\n\n";
+   
+   functions += "/setDashDot {  [10 5 1 5] 0 setdash }def\n\n";
+
+   functions += "%c the real drawing size:\n\n";
+
+   functions += "/MinDrawX      0 EU def\n";
+   functions += "/MinDrawY      0 EU def\n";
+   functions += "/MaxDrawX 2725119 EU def\n";
+   functions += "/MaxDrawY 3983839 EU def\n\n";
+
+   functions += "%c the usable page size:\n\n";
+
+   functions += "/LeftMargin 0.25 inch def\n";
+   functions += "/BotMargin  0.25 inch def\n";
+   functions += "/PageWidth  11.0000 inch def\n";
+   functions += "/PageHeight 16.0000 inch def\n\n";
+
+   functions += "%c are we going to rotate?:\n\n";
+
+   functions += "/RotateDrawing 0 0 ne def\n";
+   functions += "%c%cEndProcSet\n\n";
+         
+  
+   printf(functions, '%', '%', '%', '%', '%', 
+                     g_FontStr, '%', '%', '%', 
+		     '%', '%' );
+}
+                                         
+//------------------------------------------------------
+//write postscript header
+//------------------------------------------------------
+void write_ps_header( UL_SCHEMATIC SCH )
+{
+   int t = time();
+   int pageCount = 0;
+   string header =  "%c!PS-Adobe-2.1\n";
+   header += "%c%cTitle: EAGLE Drawing %s\n";
+   header += "%c%cCreator: EAGLE \n";
+   
+   SCH.sheets(S) 
+   { 
+        pageCount++;
+   }
+
+   header += "%c%cDocumentFonts: Helvetica Helvetica-Bold\n";
+   header += "%c%cDocumentPaperSizes: A3\n";
+   header += "%c%cBoundingBox: 0 0 810 1170 \n";
+   header += "%c%cPages: %d\n";
+   header += "%c%cOrientation: Landscape\n";
+   header += "%c%cConverting Eagle Schematicfile to postscript file\n";     
+   header += "%c%cDate: %02d.%02d.%d   %02d:%02d:%02d\n";
+   header += "%c%cEndComments\n";
+   header += "%c%cBeginProcSet: schematic.pro\n\n";
+  
+   printf(header, '%', '%', '%', SCH.name, 
+                 '%', '%', '%', '%', '%', '%',
+                 '%', '%', '%', '%',  pageCount, 
+                 '%', '%', '%', '%', '%', '%',
+                 t2day(t), t2month(t), t2year(t), 
+                 t2hour(t), t2minute(t), t2second(t),
+                 '%', '%', '%', '%' );
+
+     SCH.sheets(S) 
+     { 
+         //printf("\%\ X1:%d Y1:%d X2:%d Y2:%d\n", S.area.x1, S.area.y1, S.area.x2, S.area.y2); // For test reason
+     }
+}
+
+//------------------------------------------------------
+//write index of modules
+//------------------------------------------------------
+void write_ps_schematics( string fileName )
+{
+   output(fileName, "Fwt") 
+   {
+      if(schematic)
+      {
+         schematic(SCH) 
+         { 
+            write_ps_header( SCH );
+            write_ps_functions();
+
+            SCH.layers(L)
+            {
+                colorLUT[L.number] = palette(L.color);
+                //printf("%c Layer %3d %s: %d %06x\n", '%',L.number, L.name, L.color, palette(L.color));// For test reason
+            }
+
+            SCH.sheets(SH)
+            {
+               printf("\n%c%cPage: %d %d\n\n", '%', '%', SH.number, SH.number);
+	       
+               // Global Page Margins from Left and Bottom
+               printf("%d %d translate\n\n", g_leftOff, g_btmOff);
+               
+               write_sheet_texts( SH );
+	       write_sheet_wires( SH );
+               write_sheet_nets( SH );
+               write_sheet_busses( SH );
+               write_sheet_rectangles( SH );
+               write_sheet_polygons( SH );
+               write_sheet_circles( SH );
+               write_sheet_parts( SH );
+
+               printf("\nshowpage\n\n");
+            }
+
+            
+            printf("%c EndSCHEMATIC\n", '%');
+         }
+      }  
+   }   
+}
+
+
+//------------------------------------------------------
+// Global mod_ and lib_name
+//------------------------------------------------------
+string sch_name ;   
+
+
+//------------------------------------------------------
+// Select the path where the schematic will be saved 
+//------------------------------------------------------
+void openSchematicPath( string startPath )
+{
+   string dirName = "";
+   string stringArray[];
+   dirName = dlgDirectory("Select a directory", startPath);
+   
+   if( dirName != "" )
+   {
+      schematic(S) 
+      {
+         int n = 0;
+         string tmpName = S.name; 
+         int nr = strsplit(stringArray, tmpName, '/');
+         sch_name = dirName + "/" + stringArray[nr-1];
+         sch_name = strsub(sch_name , 0, strlen(sch_name) - 4) + ".ps";
+      }
+   }
+}
+
+//------------------------------------------------------
+// main program 
+//------------------------------------------------------
+int result;
+int space = 10;
+string ref;
+string titleStr;
+
+sprintf(titleStr, "Export Eagle schematic to Postscript, Version: %.1f", VERSION);
+
+if (schematic)  
+{
+   schematic(S) 
+   {
+      sch_name = strsub(S.name, 0, strlen(S.name) - 4) + ".ps";
+   }
+}
+else 
+{
+   dlgMessageBox("Please run from schematic editor." ); 
+   exit(EXIT_FAILURE);
+}
+
+result = dlgDialog(titleStr)
+{
+
+   dlgTabWidget 
+   {
+      //=====================TAB1=============================================================
+      dlgTabPage("Output:") 
+      {     
+
+        dlgHBoxLayout dlgSpacing(400);
+        dlgStretch(0);
+        dlgSpacing(space);
+        dlgLabel("Export to file:");
+        dlgStretch(0);
+        dlgHBoxLayout
+        {
+           dlgSpacing(space);
+           dlgStringEdit(sch_name);
+           dlgSpacing(space);
+           dlgPushButton("...") openSchematicPath("C:\\");
+           dlgSpacing(space);
+        }
+        dlgStretch(10);
+     }
+     //=====================TAB2=============================================================
+      dlgTabPage("Sheet:") 
+      { 
+         dlgSpacing(space);
+         dlgHBoxLayout
+         {
+            dlgSpacing(space);
+            dlgLabel("Pagesize:");
+            dlgSpacing(space);
+            dlgComboBox(g_comboBoxArray, g_selected)
+            { 
+               
+            }
+            dlgStretch(1);
+            dlgSpacing(space);
+         }
+         dlgSpacing(space);
+
+         dlgGroup("User defined size:")
+         {
+
+            dlgHBoxLayout
+            {
+               dlgLabel("X:");
+               dlgSpinBox(g_dimX, 0, 99999);
+      
+               dlgSpacing(space);
+ 
+               dlgLabel("Size Y:");
+               dlgSpinBox(g_dimY, 0, 99999);
+            }
+         }
+      }
+       //=====================TAB3=============================================================
+      dlgTabPage("Options:") 
+      { 
+         dlgSpacing(space);
+         dlgHBoxLayout
+         {
+            dlgSpacing(space);
+            dlgLabel("Fonts:");
+            dlgSpacing(space);
+            dlgComboBox(g_FontBoxArray, g_selFont)
+            { 
+               g_FontStr = g_FontBoxArray[g_selFont];
+            }
+            dlgStretch(1);
+            dlgSpacing(space);
+         }
+         dlgSpacing(space);
+
+         dlgGroup("Margin / Offset:")
+         {
+
+            dlgHBoxLayout
+            {
+               dlgLabel("Left:");
+               dlgSpinBox(g_leftOff, 0, 999);
+      
+               dlgSpacing(space);
+ 
+               dlgLabel("Bottom:");
+               dlgSpinBox(g_btmOff, 0, 999);
+            }
+         }
+
+      }
+   }
+   dlgVBoxLayout 
+   {
+      dlgStretch(0);
+      dlgHBoxLayout 
+      {
+         dlgStretch(1);
+         dlgPushButton("+OK") dlgAccept();
+         dlgSpacing(space);
+         dlgPushButton("-Cancel") dlgReject();
+         dlgStretch(0);
+         dlgSpacing(space);
+      }
+      dlgStretch(10);
+   };
+};
+
+  if(result)
+  {
+    write_ps_schematics(sch_name);
+  }
+  else 
+    dlgMessageBox("Canceled!" ); 
+    
+  exit(EXIT_SUCCESS);

@@ -1,0 +1,1379 @@
+/*
+ *  TARGET.ULP (EAGLE UserLanguageProgram) konvertiert ein board
+ *  oder/und ein schematic in eine TARGETText-Datei.
+ *  
+ *  IBF November 1996 , Version 1.1
+ */
+
+//Einstellungen fÅr die Konvertierung_________________________________________
+
+enum { NEIN, JA};
+
+int BoardUndSchematic = JA; //(JA) Das zum Board/Schematic zugehîrige 
+                            //Schematic/Board wird ebenfalls konvertiert.
+                            //(NEIN) Nur das Board/Schematic wird konvertiert.
+
+//TargetKonstanten____________________________________________________________
+
+//Boolean
+enum { FALSE, TRUE};
+
+//Farben
+enum { TARGET_SCHWARZ, TARGET_DBLAU, TARGET_DGRUEN, TARGET_DCYAN,
+       TARGET_DROT, TARGET_DMAGENTA, TARGET_BRAUN, TARGET_HGRAU, TARGET_DGRAU,
+       TARGET_HBLAU, TARGET_HGRUEN, TARGET_HCYAN, TARGET_HROT, 
+       TARGET_HMAGENTA, TARGET_GELB, TARGET_WEISS}; 
+
+//EbenenFunktionen
+enum { TARGET_EF_KUPFERUNTEN, TARGET_EF_KUPFERINNEN, TARGET_EF_KUPFEROBEN,
+       TARGET_EF_BESTUECKUNGUNTEN, TARGET_EF_BESTUECKUNGOBEN, 
+       TARGET_EF_LOESCHUNTEN, TARGET_EF_LOESCHINNEN, TARGET_EF_LOESCHOBEN,
+       TARGET_EF_FLAECHEUNTEN, TARGET_EF_FLAECHEINNEN, TARGET_EF_FLAECHEOBEN,
+       TARGET_EF_LOETSTOPUNTEN, TARGET_EF_LOETSTOPOBEN, TARGET_EF_BOHRLOECHER,
+       TARGET_EF_LOETPASTEUNTEN, TARGET_EF_LOETPASTEOBEN, TARGET_EF_GOLDUNTEN,
+       TARGET_EF_GOLDOBEN, TARGET_EF_KLEBERUNTEN, TARGET_EF_KLEBEROBEN, 
+       TARGET_EF_BEMASSUNG, TARGET_EF_UMRISS, TARGET_EF_FRAESEN,
+       TARGET_EF_LOETPUNKTNUMMERN, TARGET_EF_SONSTIGE, TARGET_EF_LUFTLINIE,
+       TARGET_EF_FEHLER}; 
+
+//TextFunktionen
+enum { TARGET_TF_NORMAL, TARGET_TF_BAUTEIL, TARGET_TF_WERT, TARGET_TF_SYMBOL,
+       TARGET_TF_SIGNAL, TARGET_TF_ANSCHLUSS, TARGET_TF_BAUART, 
+       TARGET_TF_ARTIKELNUMMER, TARGET_TF_HERSTELLER_LIEFERANT, 
+       TARGET_TF_BESTELLNUMMER, TARGET_TF_EKPREIS}; 
+
+//EinfÅgemodus bei Symbolen
+enum { TARGET_EFG_NEXT, TARGET_EFG_MUST, TARGET_EFG_REQUEST};
+
+// AnschlussFunktionen
+enum { TARGET_AF_NC, TARGET_AF_INPUT, TARGET_AF_OUTPUT, TARGET_AF_IO,
+       TARGET_AF_OC, TARGET_AF_POWER, TARGET_AF_PASSIV, TARGET_AF_TRISTATE,
+       TARGET_AF_SUP};  
+
+//TargetVariablen, initialisieren mit SetEagleVorlage()_______________________
+
+int NurPlatine;
+int TargetEbeneFarbe[];
+int TargetEbeneBezug[];
+int TargetEbeneFunktion[];
+
+//Eagle2TargetFunktionen______________________________________________________
+
+//Einem Eaglelayer wird eine gÅnstige Ebene in Target zugeordnet.
+
+int EL2TL(int EagleEbene)
+{
+  switch (EagleEbene) {
+    case LAYER_TOP : return 16; break;
+    case 2 : return 10; break;
+    case 3 : return 13; break;
+    case 4 : return 13; break;
+    case 5 : return 13; break;
+    case 6 : return 13; break;
+    case 7 : return 13; break;
+    case 8 : return 13; break;
+    case 9 : return 13; break;
+    case 10 : return 13; break;
+    case 11 : return 13; break;
+    case 12 : return 13; break;
+    case 13 : return 13; break;
+    case 14 : return 13; break;
+    case 15 : return 13; break;
+    case LAYER_BOTTOM : return 2; break;
+    case LAYER_PADS: return 100; break;
+    case LAYER_VIAS: return 100; break;
+    case LAYER_UNROUTED: return 27; break;
+    case LAYER_DIMENSION: return 23; break;
+    case LAYER_TPLACE: return 21; break;
+    case LAYER_BPLACE: return 7; break;
+    case LAYER_TORIGINS: return 21; break;
+    case LAYER_BORIGINS: return 7; break;
+    case LAYER_TNAMES: return 21; break;
+    case LAYER_BNAMES: return 7; break;
+    case LAYER_TVALUES: return 21; break;
+    case LAYER_BVALUES: return 7; break;
+    case LAYER_TSTOP: return 18; break;
+    case LAYER_BSTOP: return 4; break;
+    case LAYER_TCREAM: return 19; break;
+    case LAYER_BCREAM: return 5; break;
+    case LAYER_TFINISH: return 17; break;
+    case LAYER_BFINISH: return 3; break;
+    case LAYER_TGLUE: return 20; break;
+    case LAYER_BGLUE: return 6; break;
+    case LAYER_TTEST: return 21; break;
+    case LAYER_BTEST: return 7; break;
+    case LAYER_TKEEPOUT: return 21; break;
+    case LAYER_BKEEPOUT: return 7; break;
+    case LAYER_TRESTRICT: return 21; break;
+    case LAYER_BRESTRICT: return 7; break;
+    case LAYER_VRESTRICT: return 100; break;
+    case LAYER_DRILLS: return 100; break;
+    case LAYER_HOLES: return 24; break;
+    case LAYER_MILLING: return 25; break;
+    case LAYER_MEASURES: return 22; break;
+    case LAYER_DOCUMENT: return 22; break;
+    case LAYER_REFERENCE: return 23; break;
+    case LAYER_NETS: return 91; break;
+    case LAYER_BUSSES: return 92; break;
+    case LAYER_PINS: return 93; break;
+    case LAYER_SYMBOLS: return 94; break;
+    case LAYER_NAMES: return 95; break;
+    case LAYER_VALUES: return 96; break;
+    case LAYER_USER: return 28; break;
+    default: return 100;
+  } 
+}
+
+//Diese Funktion wird fuer Texte in Target benoetigt.
+//In Target koennen Sie jedem Text eine TextFunktion zuordnen.
+//Die "Funktion" eines Textes ist in Eagle aus dem Layer ersichtlich.
+
+int TextFunktion(int EagleEbene)
+{
+  switch (EagleEbene) {
+    case LAYER_TOP : return TARGET_TF_NORMAL; break;
+    case LAYER_BOTTOM : return TARGET_TF_NORMAL; break;
+    case LAYER_DIMENSION: return TARGET_TF_NORMAL; break;
+    case LAYER_TPLACE: return TARGET_TF_BAUTEIL; break;
+    case LAYER_BPLACE: return TARGET_TF_BAUTEIL; break;
+    case LAYER_TNAMES: return TARGET_TF_BAUTEIL; break;
+    case LAYER_BNAMES: return TARGET_TF_BAUTEIL; break;
+    case LAYER_TVALUES: return TARGET_TF_WERT; break;
+    case LAYER_BVALUES: return TARGET_TF_WERT; break;
+    case LAYER_TTEST: return TARGET_TF_NORMAL; break;
+    case LAYER_BTEST: return TARGET_TF_NORMAL; break;
+    case LAYER_MEASURES: return TARGET_TF_NORMAL; break;
+    case LAYER_DOCUMENT: return TARGET_TF_NORMAL; break;
+    case LAYER_REFERENCE: return TARGET_TF_NORMAL; break;
+    case 96: return TARGET_TF_WERT; break; // SchaltplanWerte
+    default: return TARGET_TF_NORMAL;
+  }
+}
+
+//Diese Funktion wird fuer (Loet-)Punkte in Target benoetigt.
+//Konvertiert ein EaglePadForm in eine entsprechende TargetPunktForm.
+
+int PunktForm(int EPF) // EaglePadForm to TargetPunktForm
+{
+  switch (EPF) {
+    case PAD_SHAPE_SQUARE: return 2; break;
+    case PAD_SHAPE_ROUND: return 0; break;
+    case PAD_SHAPE_OCTAGON: return 1; break;
+    case PAD_SHAPE_XLONGOCT: return 1; break;
+    case PAD_SHAPE_YLONGOCT: return 1; break;
+    default: return 0;
+  }
+}
+
+//In Eagle gibt es lediglich vier festgelegte PinLaengen.
+//Target benoetigt die AnschlussLaenge in Mikrometer.
+
+int AnschlussLaenge(int EPL) // EaglePinLength
+{
+  switch (EPL) {
+    case PIN_LENGTH_POINT: return 1; break;
+    case PIN_LENGTH_SHORT: return 2540; break; //0.1 inch
+    case PIN_LENGTH_MIDDLE: return 2540*2; break;
+    case PIN_LENGTH_LONG: return 2540*3; break;
+  }
+}
+
+//EinfuegeModus (AddLevel) fuer Symbole
+//In Target gibt es nur Must, Next und Request 
+
+int EinfuegeModus(int AddLevel)
+{
+  switch (AddLevel) {
+    case GATE_ADDLEVEL_MUST: return TARGET_EFG_MUST; break;
+    case GATE_ADDLEVEL_CAN: return TARGET_EFG_NEXT; break;
+    case GATE_ADDLEVEL_NEXT: return TARGET_EFG_NEXT; break;
+    case GATE_ADDLEVEL_REQUEST: return TARGET_EFG_REQUEST; break;
+    case GATE_ADDLEVEL_ALWAYS: return TARGET_EFG_MUST; break;
+  }
+}
+
+//Funktion der Anschluesse
+
+int AnschlussFunktion(int Direction)
+{
+  switch (Direction) {
+    case PIN_DIRECTION_NC: return TARGET_AF_NC; break;
+    case PIN_DIRECTION_IN: return TARGET_AF_INPUT; break;
+    case PIN_DIRECTION_OUT: return TARGET_AF_OUTPUT; break;
+    case PIN_DIRECTION_IO: return TARGET_AF_IO; break;
+    case PIN_DIRECTION_OC: return TARGET_AF_OC; break;
+    case PIN_DIRECTION_PWR: return TARGET_AF_POWER; break;
+    case PIN_DIRECTION_PAS: return TARGET_AF_PASSIV; break;
+    case PIN_DIRECTION_HIZ: return TARGET_AF_TRISTATE; break;
+    case PIN_DIRECTION_SUP: return TARGET_AF_SUP; break;
+  }
+}
+
+//Anschluss mit Inverter
+
+int InverterPunkt(int Function)
+{
+  if (Function == PIN_FUNCTION_FLAG_DOT) {
+    return TRUE;
+  }
+  else return FALSE;
+} 
+
+//Anschluss mit Clock
+
+int Taktpfeil(int Function)
+{
+  if (Function == PIN_FUNCTION_FLAG_CLK) {
+    return TRUE;
+  }
+  else return FALSE;
+} 
+
+//TargetFunktionen____________________________________________________________
+
+int TEFarbe(int TargetEbene) // Standard TargetEbenenFarben
+{
+  if (TargetEbene < 28) return TargetEbeneFarbe[TargetEbene];
+  else return TARGET_DGRUEN;
+}
+
+int TEBezug(int TargetEbene) // Standard TargetEbenenBezug
+{
+  if (TargetEbene < 28) return TargetEbeneBezug[TargetEbene];
+  else return 255;
+}
+
+int TEFunktion(int TargetEbene) // Standard TargetEbenenFunktion
+{
+  if (TargetEbene < 28) return TargetEbeneFunktion[TargetEbene];
+  else return TARGET_EF_SONSTIGE;
+}
+
+//Tools_______________________________________________________________________
+
+int DrehungUm180(real W2, real W1)
+{
+  if (W1 == 0 && W2 == 180 || W1 == 90 && W2 == 270 || W1 == 180 && W2 == 0
+    || W1 == 180 && W2 == 360 || W1 == 270 && W2 == 90) {
+    return TRUE;
+  } 
+  else return FALSE;
+}
+
+int GetLeftX(UL_TEXT T, real SymbolWinkel)
+{
+  int lx = T.x;
+  int TextBreite = int(T.size * 0.7 * strlen(T.value));
+  if (T.mirror)  {
+    if (SymbolWinkel == 0) {
+      lx-=TextBreite;
+    }
+    else if (SymbolWinkel == 90) {
+      lx-=T.size;
+    }
+    else if (SymbolWinkel == 180) {
+      lx+=TextBreite;
+    }
+    else if (SymbolWinkel == 270) {
+      lx+=T.size;
+    }
+  }
+  if (DrehungUm180(T.angle, SymbolWinkel)) {
+    if (SymbolWinkel == 0) {
+      lx-=TextBreite;
+    }
+    else if (SymbolWinkel == 90) {
+      lx+=T.size;
+    }
+    else if (SymbolWinkel == 180) {
+      lx+=TextBreite;
+    }
+    else if (SymbolWinkel == 270) {
+      lx-=T.size;
+    }
+  }
+  return lx;
+}
+
+real GetTextWinkel(real TextWinkel)
+{
+  if (TextWinkel == 0) {
+    return 0;
+  }
+  else if (TextWinkel == 90) {
+    return 90;
+  }
+  else if (TextWinkel == 180) {
+    return 0;
+  }
+  else if (TextWinkel == 270) {
+    return 90;
+  }
+  else return TextWinkel;
+}
+
+int GetLeftY(UL_TEXT T, real SymbolWinkel)
+{
+  int ly = T.y;
+  int TextBreite = int(T.size * 0.7 * strlen(T.value));
+  if (DrehungUm180(T.angle, SymbolWinkel)) {
+    if (SymbolWinkel == 0) {
+      ly-=T.size;
+    }
+    else if (SymbolWinkel == 90) {
+      ly-=TextBreite;
+    }
+    else if (SymbolWinkel == 180) {
+      ly+=T.size;
+    }
+    else if (SymbolWinkel == 270) {
+      ly+=TextBreite;
+    }
+  }
+  return ly;
+}
+
+int IstZahl(string Text)
+{
+  for (int i = 0; Text[i] && isdigit(Text[i]); ++i); 
+  return (i == strlen(Text));
+}
+
+string GetPraefix(string BauteilName)
+{
+  for (int i = 0; BauteilName[i] && isalpha(BauteilName[i]); ++i); 
+  return strsub(BauteilName, 0, i);
+}
+
+string GetOrdnungsNr(string BauteilName)
+{
+  for (int i = 0; BauteilName[i] && isalpha(BauteilName[i]); ++i); 
+  for (int j = i; BauteilName[j] && !isalpha(BauteilName[j]); ++j); 
+  return strsub(BauteilName, i, j-i);
+}
+
+string GetSuffix(string BauteilName)
+{
+  for (int i = 0; BauteilName[i] && isalpha(BauteilName[i]); ++i); 
+  for (int j = i; BauteilName[j] && !isalpha(BauteilName[j]); ++j); 
+  for (int k = j; BauteilName[k] && isalpha(BauteilName[k]); ++k); 
+  return strsub(BauteilName, j, k-j);
+}
+
+int BauteilInPlatine(string name)
+{
+  int gefunden=FALSE;
+  if (project.board) project.board(B) {
+    B.elements(E) {
+      if ((E.name == name)&&(!gefunden)) gefunden=TRUE;
+    }
+  }
+  if (gefunden) return TRUE;
+  else return FALSE;
+}
+
+
+int GetBauteilNr(string name)
+{
+  int BauteilNr=0;
+  int gefunden=FALSE;
+  if (project.board) project.board(B) {
+    B.elements(E) {
+      if (!gefunden) BauteilNr++;
+      if ((E.name == name)&&(!gefunden)) gefunden=TRUE;
+    }
+  }
+  if (project.schematic && !gefunden) project.schematic(Sch) {
+    Sch.sheets(S) {    
+      S.parts(P) {
+        if (!gefunden) BauteilNr++;
+        if ((P.name == name)&&(!gefunden)) gefunden=TRUE;
+      }
+    }
+  }
+  if (gefunden) return BauteilNr;
+  else return 0;
+}
+
+int GetSignalNr(string name)
+{
+  int SignalNr=0;
+  int gefunden=FALSE;
+  if (project.board) project.board(B) {
+    B.signals(S) {
+      if (!gefunden) SignalNr++;
+      if (S.name == name && !gefunden) gefunden=TRUE;
+    }
+  }
+  else {
+    schematic(sch) {
+      sch.nets(N) {
+        if (!gefunden) SignalNr++;
+        if (N.name == name && !gefunden) gefunden=TRUE;
+      }
+    }
+  }
+  if (gefunden) return SignalNr;
+  else return 0;
+}
+
+string GetSignalName(UL_PIN P)
+{
+  string name;
+  if (schematic) schematic(sch) {
+    sch.nets(n) {
+      n.pinrefs(ref) {
+        if (ref.pin.name == P.name) {
+          name= n.name;
+        }
+      }
+    }
+  }
+  return name;
+}
+
+int GetSymbolNr(UL_PART P, string name)
+{
+  int SymbolNr=0;
+  int gefunden=FALSE;
+  P.instances(I) {
+    if (!gefunden) SymbolNr++;
+    if (I.name == name && !gefunden) gefunden=TRUE;
+  }
+  if (gefunden) return SymbolNr;
+  else return 0;
+}
+
+int GetPinNr(UL_PIN P)
+{
+  int PinNr=0;
+  string strPin;
+  P.texts(T) {
+    strPin=T.value;
+    for (int i = 0; strPin[i] && !isalpha(strPin[i]); ++i); 
+    if (i == strlen(T.value)) {
+      PinNr = strtol(T.value);
+    }
+  }
+  return PinNr;
+}
+
+/*
+int GetAnschlussNr(string SymbolName,string AnschlussName)
+{
+  int AnschlussNr=0;
+  int gefunden=FALSE;
+  if (project.board) project.board(B) {
+    B.elements(E) {
+      if (E.name == SymbolName) {
+        AnschlussNr=0;
+        E.package.contacts(C) { 
+          if (!gefunden) AnschlussNr++;
+          if (C.name == AnschlussName && !gefunden) gefunden=TRUE;
+        }
+      }
+    }
+  }
+  if (!gefunden && project.schematic) project.schematic(sch) {
+    sch.sheets(S) {
+      S.parts(P) {
+        P.instances(I) {
+          if (I.name == SymbolName) {
+            AnschlussNr=0;
+            I.gate.symbol.pins(pi) {
+              if (!gefunden) AnschlussNr++;
+              if (pi.name == AnschlussName && !gefunden) gefunden=TRUE;
+            }
+          }
+        }
+      }
+    }
+  }
+  if (gefunden) return AnschlussNr;
+  else return 0;
+}
+*/
+
+//EagleVorlage________________________________________________________________
+
+void SetEagleVorlage(void)
+{
+  // NurPlatine
+  if (project.schematic) NurPlatine=FALSE;
+  else NurPlatine=TRUE;
+  // TargetEbeneFarben
+  TargetEbeneFarbe[0]=TARGET_DROT;
+  TargetEbeneFarbe[1]=TARGET_SCHWARZ;
+  TargetEbeneFarbe[2]=TARGET_DROT;
+  TargetEbeneFarbe[3]=TARGET_BRAUN;
+  TargetEbeneFarbe[4]=TARGET_DGRUEN;
+  TargetEbeneFarbe[5]=TARGET_HGRAU;
+  TargetEbeneFarbe[6]=TARGET_DMAGENTA;
+  TargetEbeneFarbe[7]=TARGET_DCYAN;
+  TargetEbeneFarbe[8]=TARGET_DGRUEN;
+  TargetEbeneFarbe[9]=TARGET_SCHWARZ;
+  TargetEbeneFarbe[10]=TARGET_DGRUEN;
+  TargetEbeneFarbe[11]=TARGET_BRAUN;
+  TargetEbeneFarbe[12]=TARGET_SCHWARZ;
+  TargetEbeneFarbe[13]=TARGET_BRAUN;
+  TargetEbeneFarbe[14]=TARGET_DBLAU;
+  TargetEbeneFarbe[15]=TARGET_SCHWARZ;
+  TargetEbeneFarbe[16]=TARGET_DBLAU;
+  TargetEbeneFarbe[17]=TARGET_BRAUN;
+  TargetEbeneFarbe[18]=TARGET_DGRUEN;
+  TargetEbeneFarbe[19]=TARGET_HGRAU;
+  TargetEbeneFarbe[20]=TARGET_DMAGENTA;
+  TargetEbeneFarbe[21]=TARGET_SCHWARZ;
+  TargetEbeneFarbe[22]=TARGET_DGRAU;
+  TargetEbeneFarbe[23]=TARGET_HROT;
+  TargetEbeneFarbe[24]=TARGET_BRAUN;
+  TargetEbeneFarbe[25]=TARGET_BRAUN;
+  TargetEbeneFarbe[26]=TARGET_SCHWARZ;
+  TargetEbeneFarbe[27]=TARGET_DGRUEN;
+  // TargetEbeneBezug
+  TargetEbeneBezug[0]=2;
+  TargetEbeneBezug[1]=2;
+  TargetEbeneBezug[2]=2;
+  TargetEbeneBezug[3]=2;
+  TargetEbeneBezug[4]=2;
+  TargetEbeneBezug[5]=2;
+  TargetEbeneBezug[6]=2;
+  TargetEbeneBezug[7]=2;
+  TargetEbeneBezug[8]=10;
+  TargetEbeneBezug[9]=10;
+  TargetEbeneBezug[10]=10;
+  TargetEbeneBezug[11]=13;
+  TargetEbeneBezug[12]=13;
+  TargetEbeneBezug[13]=13;
+  TargetEbeneBezug[14]=16;
+  TargetEbeneBezug[15]=16;
+  TargetEbeneBezug[16]=16;
+  TargetEbeneBezug[17]=16;
+  TargetEbeneBezug[18]=16;
+  TargetEbeneBezug[19]=16;
+  TargetEbeneBezug[20]=16;
+  TargetEbeneBezug[21]=16;
+  TargetEbeneBezug[22]=255;
+  TargetEbeneBezug[23]=255;
+  TargetEbeneBezug[24]=255;
+  TargetEbeneBezug[25]=255;
+  TargetEbeneBezug[26]=255;
+  TargetEbeneBezug[27]=255;
+  // TargetEbeneFunktion
+  TargetEbeneFunktion[0]=TARGET_EF_FLAECHEUNTEN;
+  TargetEbeneFunktion[1]=TARGET_EF_LOESCHUNTEN;
+  TargetEbeneFunktion[2]=TARGET_EF_KUPFERUNTEN;
+  TargetEbeneFunktion[3]=TARGET_EF_GOLDUNTEN;
+  TargetEbeneFunktion[4]=TARGET_EF_LOETSTOPUNTEN;
+  TargetEbeneFunktion[5]=TARGET_EF_LOETPASTEUNTEN;
+  TargetEbeneFunktion[6]=TARGET_EF_KLEBERUNTEN;
+  TargetEbeneFunktion[7]=TARGET_EF_BESTUECKUNGUNTEN;
+  TargetEbeneFunktion[8]=TARGET_EF_FLAECHEINNEN;
+  TargetEbeneFunktion[9]=TARGET_EF_LOESCHINNEN;
+  TargetEbeneFunktion[10]=TARGET_EF_KUPFERINNEN;
+  TargetEbeneFunktion[11]=TARGET_EF_FLAECHEINNEN;
+  TargetEbeneFunktion[12]=TARGET_EF_LOESCHINNEN;
+  TargetEbeneFunktion[13]=TARGET_EF_KUPFERINNEN;
+  TargetEbeneFunktion[14]=TARGET_EF_FLAECHEOBEN;
+  TargetEbeneFunktion[15]=TARGET_EF_LOESCHOBEN;
+  TargetEbeneFunktion[16]=TARGET_EF_KUPFEROBEN;
+  TargetEbeneFunktion[17]=TARGET_EF_GOLDOBEN;
+  TargetEbeneFunktion[18]=TARGET_EF_LOETSTOPOBEN;
+  TargetEbeneFunktion[19]=TARGET_EF_LOETPASTEOBEN;
+  TargetEbeneFunktion[20]=TARGET_EF_KLEBEROBEN;
+  TargetEbeneFunktion[21]=TARGET_EF_BESTUECKUNGOBEN;
+  TargetEbeneFunktion[22]=TARGET_EF_BEMASSUNG;
+  TargetEbeneFunktion[23]=TARGET_EF_UMRISS;
+  TargetEbeneFunktion[24]=TARGET_EF_BOHRLOECHER;
+  TargetEbeneFunktion[25]=TARGET_EF_FRAESEN;
+  TargetEbeneFunktion[26]=TARGET_EF_LOETPUNKTNUMMERN;
+  TargetEbeneFunktion[27]=TARGET_EF_LUFTLINIE;
+}
+
+//TargetText: BEGIN, END, (Kommentar)_________________________________________
+
+void TargetText_BEGIN(void)
+{
+  if (NurPlatine) printf("BEGIN\t%d\n", 1);
+  else printf("BEGIN\t%d\n", 0);
+  printf("Ebene");
+  printf("\t%d", 24); // BohrlochEbene
+  printf("\t%d", TEFunktion(24));
+  printf("\t%d", TEBezug(24));
+  printf("\t%d", TEFarbe(24));
+  printf("\t%d\n", 1);
+}
+
+void TargetText_END(void)
+{
+  printf("END\n");
+}
+
+void TargetText_Kommentar(string s)
+{
+  printf("{%s}\n", s);
+}
+
+//BoardObjekte in TargetText umsetzen_________________________________________
+
+void BoardArc2TargetText(UL_ARC A, int BauteilNr)
+{
+  printf("Torus");
+  printf("\t%d", EL2TL(A.layer)); 
+  printf("\t%d",BauteilNr);
+  printf("\t%d",0);
+  printf("\t%d",0);//ist sichtbar
+  printf("\t%d",int(u2mic(A.xc)));
+  printf("\t%d",int(u2mic(A.yc)));
+  printf("\t%d",int(u2mic(A.radius)));
+  printf("\t%d",int(u2mic(A.width)));
+  printf("\t%d",0);
+  printf("\t%f",A.angle1);
+  printf("\t%f",A.angle2);
+  printf("\t%d",0);
+  printf("\n");
+}
+
+void BoardCircle2TargetText(UL_CIRCLE C, int BauteilNr)
+{
+  printf("Torus");
+  printf("\t%d", EL2TL(C.layer)); 
+  printf("\t%d",BauteilNr);
+  printf("\t%d",0);
+  printf("\t%d",0);//ist sichtbar
+  printf("\t%d",int(u2mic(C.x)));
+  printf("\t%d",int(u2mic(C.y)));
+  printf("\t%d",int(u2mic(C.radius)));
+  printf("\t%d",int(u2mic(C.width)));
+  printf("\t%d",0);
+  printf("\t%f",0.0);
+  printf("\t%f",360.0);
+  printf("\t%d",0);
+  printf("\n");
+}
+
+void BoardHole2TargetText(UL_HOLE H, int BauteilNr)
+{
+  printf("Punkt");
+  printf("\t%d", 100); 
+  printf("\t%d",BauteilNr);
+  printf("\t%d",0);
+  printf("\t%d",0);
+  printf("\t%d",int(u2mic(H.x)));
+  printf("\t%d",int(u2mic(H.y)));
+  printf("\t%d",PunktForm(PAD_SHAPE_ROUND));
+  printf("\t%d",0);
+  printf("\t%d",0);
+  printf("\t%d",0);
+  printf("\t%d",int(u2mic(H.drill)));
+  printf("\t%d",0);
+  printf("\t%d",0);
+  printf("\t%d",0);
+  printf("\t%d",0);
+  printf("\n");
+}
+
+void BoardElementWire2TargetText(UL_WIRE W, int BauteilNr, int SignalNr)
+{
+  printf("Linie");
+  printf("\t%d", EL2TL(W.layer));
+  printf("\t%d", BauteilNr);
+  printf("\t%d", SignalNr);
+  printf("\t%d", 0);
+  printf("\t%d", int(u2mic(W.x1)));
+  printf("\t%d", int(u2mic(W.y1)));
+  printf("\t%d", int(u2mic(W.x2)));
+  printf("\t%d", int(u2mic(W.y2)));
+  printf("\t%d", int(u2mic(W.width)));
+  printf("\t%d", 0);
+  printf("\t%d", 0);
+  printf("\t%d", 1);//abgerundet
+  printf("\t%d\n", 0);
+}
+
+void BoardElementRectangle2TargetText(UL_RECTANGLE R, int BauteilNr, int SignalNr)
+{
+  printf("Rechteck");
+  printf("\t%d", EL2TL(R.layer));
+  printf("\t%d",BauteilNr);
+  printf("\t%d",SignalNr);
+  printf("\t%d",0);
+  printf("\t%d",int(u2mic(R.x1)));
+  printf("\t%d",int(u2mic(R.y1)));
+  printf("\t%d",int(u2mic(R.x2-R.x1)));
+  printf("\t%d",int(u2mic(R.y2-R.y1)));
+  printf("\t%d",0);
+  printf("\t%d",0);
+  printf("\n");
+}
+
+void BoardElementContact2TargetText(UL_CONTACT C, int BauteilNr, int SignalNr, int AnschlussNr)
+{
+  // Punkt
+  printf("Punkt");
+  if (C.pad) printf("\t%d", 100); 
+  else printf("\t%d", EL2TL(C.smd.layer)); 
+  printf("\t%d",BauteilNr);
+  printf("\t%d",SignalNr);
+  printf("\t%d",0);
+  printf("\t%d",int(u2mic(C.x)));
+  printf("\t%d",int(u2mic(C.y)));
+  if (C.pad) {
+    printf("\t%d",PunktForm(C.pad.shape));
+    if (C.pad.shape == PAD_SHAPE_XLONGOCT) {
+      printf("\t%d",int(u2mic(C.pad.diameter))*2);
+      printf("\t%d",int(u2mic(C.pad.diameter)));
+    }
+    else if (C.pad.shape == PAD_SHAPE_YLONGOCT) {
+      printf("\t%d",int(u2mic(C.pad.diameter)));
+      printf("\t%d",int(u2mic(C.pad.diameter))*2); 
+    }
+    else {
+      printf("\t%d",int(u2mic(C.pad.diameter)));
+      printf("\t%d",int(u2mic(C.pad.diameter)));
+    }
+  }
+  else {
+    printf("\t%d",PunktForm(PAD_SHAPE_SQUARE));
+    printf("\t%d",int(u2mic(C.smd.dx)));
+    printf("\t%d",int(u2mic(C.smd.dy)));
+  }
+  printf("\t%d",0);
+  if (C.pad) printf("\t%d",int(u2mic(C.pad.drill)));
+  else printf("\t%d",0);
+  printf("\t%d",0);
+  printf("\t%d",AnschlussNr);
+  printf("\t%d",0);
+  printf("\t%d",0);
+  printf("\n");
+}
+
+void BoardText2TargetText(UL_TEXT T, int BauteilNr, int AnschlussNr)
+{
+  printf("Text");
+  printf("\t%d", EL2TL(T.layer)); 
+  printf("\t%d", BauteilNr);
+  printf("\t%d",0);
+  printf("\t%d",0);
+  printf("\t%d",int(u2mic(T.x)));
+  printf("\t%d",int(u2mic(T.y)));
+  printf("\t%s",T.value); //	Inhalt
+  printf("\t%d",int(u2mic(T.size))); //	Hoehe
+  printf("\t%d",int(u2mic(T.size)*0.7)); //	Breite
+  printf("\t%d",8); //	Staerke , % der Breite. Fett ab 11% , 0..100
+  printf("\t%d",0); //	Starr/dynamisch , Boolean
+  printf("\t%d",T.mirror); //	Gespiegelt
+  printf("\t%d",TextFunktion(T.layer));
+  printf("\t%d",AnschlussNr); //	AnschlussNummer , Word
+  printf("\t%s","TARGET"); //	SchriftArtName, "" = Vektorschrift , string[80]
+  printf("\t%f",T.angle); //	Richtung, single
+  printf("\t%d",0); //	SymbolNr, Word
+  printf("\n");
+} 
+
+void BoardElement2TargetText(UL_ELEMENT E, int BauteilNr)
+{
+  int Ebene;
+  if (E.mirror) Ebene=EL2TL(LAYER_BPLACE);
+  else Ebene=EL2TL(LAYER_TPLACE);
+  //Bauteil
+  printf("Bauteil");
+  printf("\t%d",Ebene);
+  printf("\t%d",BauteilNr);
+  printf("\t%d",0);
+  printf("\t%d",0);
+  printf("\t%d",int(u2mic(E.x)));
+  printf("\t%d",int(u2mic(E.y)));
+  printf("\t%s","#");
+  printf("\t%s",E.value);
+  printf("\t%s",GetPraefix(E.name)); // Praefix
+  printf("\t%s",E.name);
+  printf("\t%s","#");
+  printf("\t%s","#");
+  printf("\t%s","#");
+  printf("\t%s",GetOrdnungsNr(E.name));
+  printf("\t%d",50);
+  printf("\n");
+  //Gehaeuse
+  printf("Gehaeuse");
+  printf("\t%d",Ebene);
+  printf("\t%d",BauteilNr);
+  printf("\t%d",0);
+  printf("\t%d",0);
+  printf("\t%d",int(u2mic(E.x)));
+  printf("\t%d",int(u2mic(E.y)));
+  printf("\t%s",E.name);
+  printf("\t%s","");
+  printf("\t%d",50);
+  printf("\t%d",E.mirror);
+  printf("\t%f",E.angle);
+  printf("\n");
+}
+
+void BoardLayer2TargetText(UL_LAYER L)
+{
+  if (EL2TL(L.number)<100) {
+    printf("Ebene");
+    printf("\t%d", EL2TL(L.number));
+    printf("\t%d", TEFunktion(EL2TL(L.number)));
+    printf("\t%d", TEBezug(EL2TL(L.number)));
+    printf("\t%d", TEFarbe(EL2TL(L.number)));
+    printf("\t%d\n", L.visible);
+  }
+}
+
+void BoardSignal2TargetText(UL_SIGNAL S, int SignalNr)
+{
+  printf("Signal");
+  printf("\t%d",0);
+  printf("\t%d",0);
+  printf("\t%d",SignalNr);
+  printf("\t%d",0); // unsichtbar
+  printf("\t%d",0); // # x
+  printf("\t%d",0); // # y
+  printf("\t%s",S.name);
+  printf("\t%s","");
+  printf("\t%s","");
+  printf("\t%s","");
+  printf("\n");
+}
+
+void BoardVia2TargetText(UL_VIA V, int SignalNr)
+{
+  printf("Punkt");
+  printf("\t%d", 100); 
+  printf("\t%d",0);
+  printf("\t%d",SignalNr);
+  printf("\t%d",0);
+  printf("\t%d",int(u2mic(V.x)));
+  printf("\t%d",int(u2mic(V.y)));
+  printf("\t%d",PunktForm(V.shape));
+  printf("\t%d",int(u2mic(V.diameter)));
+  printf("\t%d",int(u2mic(V.diameter)));
+  printf("\t%d",0);
+  printf("\t%d",int(u2mic(V.drill)));
+  printf("\t%d",0);
+  printf("\t%d",0);
+  printf("\t%d",0);
+  printf("\t%d",0);
+  printf("\n");
+}
+
+//BoardLoops__________________________________________________________________
+
+void LoopBoardElement2TargetText(UL_BOARD B)
+{
+  int BauteilNr=1;
+  int AnschlussNr;
+  B.elements(E) {
+    AnschlussNr=1;
+    // Bauteil und Gehaeuse
+    BoardElement2TargetText(E, BauteilNr);
+    // Linie
+    E.package.wires(W) {
+      BoardElementWire2TargetText(W, BauteilNr, 0);
+    }
+    E.package.polygons(P) {
+      P.wires(W) {
+        BoardElementWire2TargetText(W, BauteilNr, 0);
+      }
+    }
+    // Punkt und Anschluss
+    E.package.contacts(C) {
+      BoardElementContact2TargetText(C, BauteilNr, GetSignalNr(C.signal), AnschlussNr);
+      AnschlussNr++;
+    }
+    E.package.arcs(A) {
+      BoardArc2TargetText(A, BauteilNr);
+    }
+    E.package.circles(C) {
+      BoardCircle2TargetText(C, BauteilNr);
+    }
+    E.package.holes(H) {
+      BoardHole2TargetText(H, BauteilNr);
+    }
+    // Rechteck 
+    E.package.rectangles(R) {
+      BoardElementRectangle2TargetText(R, BauteilNr, 0);
+    }
+    // Text
+    E.texts(T) {
+      BoardText2TargetText(T, BauteilNr, 0);
+    }
+    E.package.texts(T) {
+      BoardText2TargetText(T, BauteilNr, 0);
+    }
+    // BauteilNr+1
+    BauteilNr++;
+  }
+}
+
+void LoopBoardLayer2TargetText(UL_BOARD B)
+{
+  B.layers(L) {
+    BoardLayer2TargetText(L);
+  }
+}
+
+void LoopBoardPolygon2TargetText(UL_BOARD B)
+{
+  B.polygons(P) {
+    P.wires(W) {
+      BoardElementWire2TargetText(W, 0, 0);
+    }
+  }
+}
+
+void LoopBoardWire2TargetText(UL_BOARD B)
+{
+  B.wires(W) {
+    BoardElementWire2TargetText(W, 0, 0);
+  }
+}
+
+void LoopBoardSignal2TargetText(UL_BOARD B)
+{
+  int SignalNr=1;
+  B.signals(S) {
+    // Signal
+    BoardSignal2TargetText(S, SignalNr);
+    // Linie
+    S.wires(W) {
+      BoardElementWire2TargetText(W, 0, SignalNr);
+    }
+    S.polygons(P) {
+      P.wires(W) {
+        BoardElementWire2TargetText(W, 0, SignalNr);
+      }
+    }
+    // Punkt (Durchkontaktierung)
+    S.vias(V) {
+      BoardVia2TargetText(V, SignalNr);
+    }
+    // neue SignalNr vergeben
+    SignalNr++;
+  }
+}
+
+void LoopBoardRectangle2TargetText(UL_BOARD B)
+{
+  B.rectangles(R) {
+    BoardElementRectangle2TargetText(R, 0, 0);
+  }
+} 
+
+void LoopBoardText2TargetText(UL_BOARD B)
+{
+  B.texts(T) {
+    //BoardText2TargetText(T, TextFunktion(T.layer), 0);
+    BoardText2TargetText(T, 0, 0);
+  }
+}
+
+void LoopBoardArc2TargetText(UL_BOARD B)
+{
+  B.arcs(A) {
+    BoardArc2TargetText(A, 0);
+  }
+}
+
+void LoopBoardCircle2TargetText(UL_BOARD B)
+{
+  B.circles(C) {
+    BoardCircle2TargetText(C, 0);
+  }
+}
+
+void LoopBoardHole2TargetText(UL_BOARD B)
+{
+  B.holes(H) {
+    BoardHole2TargetText(H, 0);
+  }
+}
+
+void LoopBoard2TargetText(UL_BOARD B)
+{
+  LoopBoardLayer2TargetText(B);
+  LoopBoardSignal2TargetText(B);
+  LoopBoardElement2TargetText(B);
+  LoopBoardRectangle2TargetText(B);
+  LoopBoardPolygon2TargetText(B);
+  LoopBoardWire2TargetText(B);
+  LoopBoardText2TargetText(B);
+  LoopBoardCircle2TargetText(B);
+  LoopBoardArc2TargetText(B);
+  LoopBoardHole2TargetText(B);
+}
+
+//Schematic-Objekte in TargetText umsetzen____________________________________
+
+void SchematicSheetNet2TargetText(UL_NET N, int SignalNr)
+{
+  printf("Signal");
+  printf("\t%d",0);
+  printf("\t%d",0);
+  printf("\t%d",SignalNr);
+  printf("\t%d",0); // unsichtbar
+  printf("\t%d",0); // # x
+  printf("\t%d",0); // # y
+  printf("\t%s",N.name);
+  printf("\t%s","");
+  printf("\t%s","");
+  printf("\t%s","");
+  printf("\n");
+}
+
+void SchematicSheetRectangle2TargetText(UL_SHEET S, UL_RECTANGLE R, int BauteilNr)
+{
+  printf("Rechteck");
+  printf("\t%d", S.number + 100);
+  printf("\t%d",BauteilNr);
+  printf("\t%d",0);
+  printf("\t%d",0);
+  printf("\t%d",int(u2mic(R.x1)));
+  printf("\t%d",int(u2mic(R.y1)));
+  printf("\t%d",int(u2mic(R.x2-R.x1)));
+  printf("\t%d",int(u2mic(R.y2-R.y1)));
+  printf("\t%d",0);
+  printf("\t%d",0);
+  printf("\n");
+} 
+
+void SchematicSheetWire2TargetText(UL_SHEET S, UL_WIRE W, int SignalNr, int BauteilNr, int SymbolNr)
+{
+  int LinienBreite;
+  if (SignalNr != 0 && SignalNr != 65502) {
+    LinienBreite = 300;
+  }
+  else if (SignalNr == 65502) {
+    LinienBreite = 1000; //BUS
+  }
+  else LinienBreite=int(u2mic(W.width));
+  printf("Linie");
+  printf("\t%d", S.number + 100);
+  printf("\t%d", BauteilNr);
+  printf("\t%d", SignalNr);
+  printf("\t%d", 0);
+  printf("\t%d", int(u2mic(W.x1)));
+  printf("\t%d", int(u2mic(W.y1)));
+  printf("\t%d", int(u2mic(W.x2)));
+  printf("\t%d", int(u2mic(W.y2)));
+  printf("\t%d", LinienBreite);
+  printf("\t%d", 0);
+  printf("\t%d", 0);
+  printf("\t%d", 1);
+  printf("\t%d\n", SymbolNr);
+}
+
+void SchematicSheetArc2TargetText(UL_SHEET S, UL_ARC A, int BauteilNr, int SymbolNr)
+{
+  printf("Torus");
+  printf("\t%d", S.number + 100); 
+  printf("\t%d",BauteilNr);
+  printf("\t%d",0);
+  printf("\t%d",0);
+  printf("\t%d",int(u2mic(A.xc)));
+  printf("\t%d",int(u2mic(A.yc)));
+  printf("\t%d",int(u2mic(A.radius)));
+  printf("\t%d",int(u2mic(A.width)));
+  printf("\t%d",0);
+  printf("\t%f",A.angle1);
+  printf("\t%f",A.angle2);
+  printf("\t%d",SymbolNr);
+  printf("\n");
+}
+
+void SchematicSheetCircle2TargetText(UL_SHEET S, UL_CIRCLE C, int BauteilNr, int SymbolNr)
+{
+  printf("Torus");
+  printf("\t%d", S.number + 100); 
+  printf("\t%d",BauteilNr);
+  printf("\t%d",0);
+  printf("\t%d",0);
+  printf("\t%d",int(u2mic(C.x)));
+  printf("\t%d",int(u2mic(C.y)));
+  printf("\t%d",int(u2mic(C.radius)));
+  printf("\t%d",int(u2mic(C.width)));
+  printf("\t%d",0);
+  printf("\t%f",0.0);
+  printf("\t%f",360.0);
+  printf("\t%d",SymbolNr);
+  printf("\n");
+}
+
+void SchematicSheetText2TargetText(UL_SHEET S, UL_TEXT T, int BauteilNr, int SymbolNr, real SymbolWinkel, int AnschlussNr)
+{
+  printf("Text");
+  printf("\t%d", S.number + 100); 
+  printf("\t%d", BauteilNr);
+  printf("\t%d",0);
+  printf("\t%d",0);
+  printf("\t%d",int(u2mic(GetLeftX(T, SymbolWinkel))));
+  printf("\t%d",int(u2mic(GetLeftY(T, SymbolWinkel))));
+  printf("\t%s",T.value); //	Inhalt
+  printf("\t%d",int(u2mic(T.size))); //	Hoehe
+  printf("\t%d",int(u2mic(T.size)*0.7)); //	Breite
+  printf("\t%d",8); //	Staerke , % der Breite. Fett ab 11% , 0..100
+  printf("\t%d",0); //	Starr/dynamisch , Boolean
+  printf("\t%d",0); //	Gespiegelt nicht moeglich in Schaltplan
+  printf("\t%d",TextFunktion(T.layer));
+  printf("\t%d",AnschlussNr); //	AnschlussNummer , Word
+  printf("\t%s","TARGET"); //	SchriftArtName, "" = Vektorschrift , string[80]
+  printf("\t%f", SymbolWinkel); //	T.angle, Richtung, single
+  printf("\t%d",SymbolNr); //	SymbolNr, Word
+  printf("\n");
+} 
+
+void SchematicBus2TargetText(UL_SHEET S, UL_BUS B)
+{
+  printf("Signal");
+  printf("\t%d",0);
+  printf("\t%d",0);
+  printf("\t%d",65502); //Es gibt nur einen BUS in Target!
+  printf("\t%d",0); // unsichtbar
+  printf("\t%d",0); // # x
+  printf("\t%d",0); // # y
+  printf("\t%s","$$BUS");
+  printf("\t%s","");
+  printf("\t%s","");
+  printf("\t%s","");
+  printf("\n");
+  B.segments(seg) {
+    seg.wires(W) {
+      SchematicSheetWire2TargetText(S, W, 65502, 0, 0);
+    }
+  }
+}
+
+void SchematicInstance2TargetText(UL_SHEET S, UL_INSTANCE I, int BauteilNr, int SymbolNr)
+{
+  //Symbol
+  printf("Symbol");
+  printf("\t%d", S.number + 100);
+  printf("\t%d", BauteilNr);
+  printf("\t%d", 0);
+  printf("\t%d", 0);
+  printf("\t%d", int(u2mic(I.x)));
+  printf("\t%d", int(u2mic(I.y)));
+  printf("\t%s", I.name);
+  printf("\t%s", GetSuffix(I.name));
+  printf("\t%d", SymbolNr);
+  printf("\t%d", EinfuegeModus(I.gate.addlevel));
+  printf("\t%d", I.gate.swaplevel);
+  printf("\n");
+  //SymbolLinien
+  if (I.gate) I.gate.symbol.wires(W) {
+    SchematicSheetWire2TargetText(S, W, 0, BauteilNr, SymbolNr);
+  }
+  //SymbolToruse
+  if (I.gate) I.gate.symbol.arcs(A) {
+    SchematicSheetArc2TargetText(S, A, BauteilNr, SymbolNr);
+  }
+  if (I.gate) I.gate.symbol.circles(C) {
+    SchematicSheetCircle2TargetText(S, C, BauteilNr, SymbolNr);
+  }
+  //SymbolTexte
+  I.texts(T) {
+    SchematicSheetText2TargetText(S, T, BauteilNr, SymbolNr, GetTextWinkel(T.angle) /* GetTextWinkel(I.angle) */, 0);
+  }
+  //Anschluss
+  int PinNummer;
+  int DefaultPinNr=1;
+  if (I.gate) I.gate.symbol.pins(pi) {
+    PinNummer=GetPinNr(pi);
+    //WiderstÑnde, Dioden, ... haben normalerweise keine Pins.
+    //Die AnschlussNummern werden fuer Target daher einfach hochgezÑhlt.
+    if (PinNummer == 0) {
+      PinNummer = DefaultPinNr;
+      DefaultPinNr++;
+    }
+    printf("Anschluss");
+    printf("\t%d", S.number + 100);
+    printf("\t%d", BauteilNr);
+    printf("\t%d", 0); //SignalNr
+    printf("\t%d",0 /* pi.visible */);
+    printf("\t%d",int(u2mic(pi.x)));
+    printf("\t%d",int(u2mic(pi.y)));
+    printf("\t%d",AnschlussLaenge(pi.length));
+    printf("\t%d",AnschlussFunktion(pi.direction));
+    printf("\t%d",pi.swaplevel);
+    printf("\t%d",InverterPunkt(pi.function));
+    printf("\t%d",Taktpfeil(pi.function));
+    printf("\t%d",1); //PinNummer anzeigen
+    printf("\t%d",0);
+    printf("\t%d",PinNummer);
+    printf("\t%f",pi.angle);
+    printf("\t%d",SymbolNr);
+    printf("\n");
+    //AnschlussNamen
+    pi.texts(T) {
+      if (pi.name == T.value && !IstZahl(T.value)) {
+        SchematicSheetText2TargetText(S, T, BauteilNr, SymbolNr, GetTextWinkel(I.angle), PinNummer);
+      }
+    }
+  }
+}
+
+void SchematicPart2TargetText(UL_SHEET S, UL_PART P, int BauteilNr, int REFNr)
+{
+  //Bauteil (bei nur Schaltplan)
+  if (!project.board) {
+    printf("Bauteil");
+    printf("\t%d",S.number + 100);
+    printf("\t%d",BauteilNr);
+    printf("\t%d",0);
+    printf("\t%d",0);
+    printf("\t%d",int(u2mic(P.device.area.x1)));
+    printf("\t%d",int(u2mic(P.device.area.y1)));
+    printf("\t%s","#");
+    printf("\t%s",P.value);
+    printf("\t%s",GetPraefix(P.name)); // Praefix
+    printf("\t%s",P.name);
+    printf("\t%s","#");
+    printf("\t%s","#");
+    printf("\t%s","#");
+    printf("\t%s",GetOrdnungsNr(P.name));
+    printf("\t%d",50);
+    printf("\n");
+  }
+  //Bauteil (Bauteil in Schaltplan aber nicht in Platine,z.B. Referenzsymbole)
+  if (project.board && !BauteilInPlatine(P.name)) {
+    printf("Bauteil");
+    printf("\t%d",S.number + 100);
+    printf("\t%d",BauteilNr);
+    printf("\t%d",0);
+    printf("\t%d",0);
+    printf("\t%d",int(u2mic(P.device.area.x1)));
+    printf("\t%d",int(u2mic(P.device.area.y1)));
+    printf("\t%s","#");
+    printf("\t%s",GetPraefix(P.name));//Value
+    printf("\t%s","REF"); // Praefix
+    printf("\t%s",P.name);
+    printf("\t%s","#");
+    printf("\t%s","#");
+    printf("\t%s","#");
+    printf("\t%d",REFNr);
+    printf("\t%d",50);
+    printf("\n");
+  }
+  //Symbol
+  int SymbolNr=1;
+  P.instances(I) {
+    SchematicInstance2TargetText(S, I, BauteilNr, SymbolNr);
+    SymbolNr++;
+  }  
+}
+
+void SchematicJunction2TargetText(UL_SHEET S, UL_NET N, UL_JUNCTION j) 
+{
+  printf("Scheibe");
+  printf("\t%d", S.number + 100); 
+  printf("\t%d",0);
+  printf("\t%d",GetSignalNr(N.name));
+  printf("\t%d",0);
+  printf("\t%d",int(u2mic(j.x)));
+  printf("\t%d",int(u2mic(j.y)));
+  printf("\t%d",int(u2mic(j.diameter)/2));
+  printf("\t%d",0);
+  printf("\n");
+}
+
+//SchematicLoops______________________________________________________________
+
+void LoopSchematicSheet2TargetText(UL_SCHEMATIC Sch, UL_SHEET S)
+{
+  // Rechtecke
+  S.rectangles(R) {
+    SchematicSheetRectangle2TargetText(S, R, 0);
+   }
+  // Linien
+  S.wires(W) {
+    SchematicSheetWire2TargetText(S, W, 0, 0, 0);
+  }
+  S.polygons(P) {
+    P.wires(W) {
+      SchematicSheetWire2TargetText(S, W, 0, 0, 0);
+    }
+  }
+  S.texts(T) {
+    SchematicSheetText2TargetText(S, T, 0, 0, T.angle, 0);
+  }
+  //Verbindungen und Knoten
+  int SignalNr=1;
+  S.nets(N) {
+    //Signale(bei nur Schaltplan)
+    if (!project.board) {
+      SchematicSheetNet2TargetText(N, SignalNr);
+      SignalNr++;
+    }
+    N.segments(Seg) {
+      //Verbindungen(Linie)
+      Seg.wires(W) {
+        SchematicSheetWire2TargetText(S, W, GetSignalNr(N.name), 0, 0);
+      }
+      //Knoten(Scheibe)
+      Seg.junctions(j) {
+        SchematicJunction2TargetText(S, N, j); 
+      }
+    }
+  }
+  //Busse
+  S.busses(B) {
+    SchematicBus2TargetText(S, B);
+  }
+  //Bauteile(Referenzsymbole) und Symbole
+  int REFNr=1;
+  int BauteilNr;
+  S.parts(P) {
+    BauteilNr=GetBauteilNr(P.name);
+    SchematicPart2TargetText(S, P, BauteilNr, REFNr);
+    REFNr++;
+  } 
+}
+
+void LoopSchematic2TargetText(UL_SCHEMATIC Sch)
+{
+  Sch.sheets(S) {
+    LoopSchematicSheet2TargetText(Sch, S);
+  }
+}
+
+//HauptProgramm (Main)________________________________________________________
+
+//DateiName.sch / DateiName.brd ----> DateiName.txt 
+//DateiName der Textdatei soll dem DateiNamen des Eaglefiles entsprechen.
+
+string TextDateiName = "";
+
+if (board)
+  board(B) TextDateiName = B.name;
+else if (schematic)
+  schematic(S) TextDateiName = S.name;
+
+//TextDatei erstellen
+
+if (TextDateiName) {
+  output(filesetext(TextDateiName, ".TXT")) {
+    //EagleVorlage , globale Variablen setzen
+    SetEagleVorlage();
+    //Kommentar ---> TargetText
+    TargetText_Kommentar("Mit TARGET.ULP V1.0 konvertierte EAGLE-Datei");
+    //BEGIN ---> TargetText
+    TargetText_BEGIN();
+    //Project ---> TargetText
+    //Board ---> TargetText (Platine)
+    if (board || schematic && project.board && BoardUndSchematic ) {
+      project.board(B) {
+        LoopBoard2TargetText(B);
+      }
+    }
+    //Schematic ---> TargetText (Schaltplan)
+    if (schematic || board && project.schematic && BoardUndSchematic ) {
+      project.schematic(Sch) {
+        LoopSchematic2TargetText(Sch);
+      }
+    }
+    //END ---> TargetText
+    TargetText_END();
+  }
+}
