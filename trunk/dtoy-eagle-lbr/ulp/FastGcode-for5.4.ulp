@@ -1,0 +1,3232 @@
+#usage "<h3><br>FastGcode makes a highly optimized GCODE useful with all CNC software </h3>"
+"- Bottom layer can be mirrored by X or Y axis.<br><br>"
+"- With 'Translate' bottom and top zero positions are always exactly at the bottom left of the board.<br><br>"
+"- With 'Mill' signal contours are isolated.<br><br>"
+"- With 'Fill' unused areas are cleared.<br><br>"
+"- With 'Drill' all drills are drilled and all drills larger than drill_tool are cutted. (pads, vias etc.)<br><br>"
+"- With 'Cut' board borders and also complicate 'polygonal' holes are cutted. (use layer 'dimension')<br><br><br>"
+"----------------------------------------------------------------------------------------<br>"
+"Livio V0.0 - October 2007<br>"
+"Livio V1.0 - 15-02-2008 - corrected change tool bug<br>"
+"Livio V1.0 - 15-02-2008 - corrected drill(layer) bug<br>"
+"Livio V5.0 - 11-03-2009 - changes for EagleV5.4<br>"
+"<br>"
+"Happy milling to all."
+
+
+
+
+// =================================================================================================================== 
+//   VARIABLES
+// =================================================================================================================== 
+
+// ------------------------------------------ misc
+string ulp_operation = "";
+string OutlinesSignalName = "_OUTLINES_";
+string GcodeFileName;
+
+// ------------------------------------------ board original
+real board_x1, board_x2;
+real board_y1, board_y2;
+real board_dx, board_dy;
+real pivot_x, pivot_y;
+// ------------------------------------------ board transformed
+real board_tx1, board_tx2;
+real board_ty1, board_ty2;
+real board_tdx, board_tdy;
+
+// ------------------------------------------ combos
+string Layers[] = {"Top","Bottom"};
+string Mirror[] = {"Horizzontal mirror","Vertical mirror"};
+string BoardTranslate[] = {"No translate","Translate board"};
+string BoardRotate[] = {"No rotate","Rotate by 90deg"};
+string Extension[] = {".gc",".nc",".tap",".cnc",".grb",".txt"};
+
+
+// ------------------------------------------ optimizer arrays
+real opt_a[], opt_b[];		// x/y start points
+real opt_c[], opt_d[];		// x/y end points	
+real opt_down[];			// down (milling) Z-position
+real opt_feed[];			// feed
+real opt_speed[];			// speed
+int  opt_operation[];		// operation 0=mill 1=fill 2=drill 3=cut-polygons 4=cut-wires
+int  opt_cont_index[];		// index to the "continuation" arrays
+int  opt_type[];			// 0=deleted 1=start_seg/2=continue/3=end_seg etc...
+int  opt_n;					// array dimension
+// ------------------------------------------ optimizer arrays - connected segments 
+real opt_cont_a[];			// x/y start points
+real opt_cont_b[];	
+real opt_cont_c[];			// x/y end points
+real opt_cont_d[];	
+real opt_cont_down[];		// down (milling) Z-position
+real opt_cont_feed[];		// feed
+real opt_cont_speed[];		// speed
+int  opt_cont_operation[];	// operation 0=mill 1=fill 2=drill 3=cut-polygons 4=cut-wires
+int  opt_cont_type[];		// 2=continue/3=end
+int  opt_cont_n;			// array dimension
+
+  
+// ------------------------------------------ old values
+real g_oldx = 0;
+real g_oldy	= 0;
+real g_oldz = 0;
+real old_feed = 0;
+real old_speed = 0;
+int	 old_type = 0;
+
+
+// ------------------------------------------ statistics
+real tot_rapid = 0;
+real tot_move = 0;
+real tot_time = 0;
+
+// ------------------------------------------ corrected mill-tool-diam
+real mill_effective_diam;
+
+// ------------------------------------------ multi steps operations
+real down_fraction;
+
+
+// =================================================================================================================== 
+//   PARAMETERS
+// =================================================================================================================== 
+
+
+int		orphans_on;
+int		thermals_on;
+real	extra_iso1;
+real	extra_iso2;
+real	extra_iso_thermals;
+
+real	maxfeed_x;
+real	maxfeed_y;
+real	maxfeed_z;
+real	ramp_x;
+real	ramp_y;
+real	ramp_z;
+real	stock_bx;
+real	stock_by;
+
+
+int		selected_layer;
+int		mirror_axis;
+int		board_translate;
+int		board_rotate;
+
+real	tool_up;
+real	rapid_up;
+real	mill_overlap;
+real	trace_enlarging;
+
+
+int		mill_on;
+int		mill_optimize;
+int		mill_merge;
+int		mill_change;
+real 	mill_tool_diam;
+real 	mill_tool_angle;
+real 	mill_down;
+int 	mill_steps;
+real	mill_feed;
+real	mill_speed;
+
+int		fill_on;
+int		fill_optimize;
+int		fill_merge;
+int		fill_remove;
+int		fill_connect;
+int		fill_vertical;
+
+int 	drill_on;
+int		drill_optimize;
+int		drill_merge;
+int		drill_cut;
+int		drill_reducefeed;
+int		drill_change;
+real 	drill_tool_diam;
+real 	drill_tool_angle;
+real 	drill_down;
+real	drill_feed;
+real	drill_speed;
+
+int 	cut_on;
+int		cut_optimize;
+int 	cut_gaps;
+int 	cut_change;
+real	cut_tool_diam;
+real 	cut_tool_angle;
+real 	cut_down;
+int 	cut_steps;
+real	cut_feed;
+real	cut_speed;
+
+
+int	file_extension;
+
+
+
+// =================================================================================================================== 
+//   SET DEFAULT PARAMETERS
+// =================================================================================================================== 
+
+void SetDefaultParameters()
+{
+	orphans_on				= 1;
+	thermals_on				= 0;
+	extra_iso1				= 0;
+	extra_iso2				= 0;
+	extra_iso_thermals		= 0;
+
+	maxfeed_x				= 250;
+	maxfeed_y				= 250;
+	maxfeed_z				= 250;
+	ramp_x					= 50;
+	ramp_y					= 50;
+	ramp_z					= 50;
+	stock_bx				= 0;
+	stock_by				= 0;
+
+
+	selected_layer			=1;
+	mirror_axis				=0;
+	board_translate			=1;
+	board_rotate			=0;
+
+	tool_up					=30;
+	rapid_up				=0.5;
+	mill_overlap			=0.1;
+	trace_enlarging			=0;
+
+
+	mill_on					=1;
+	mill_optimize			=1;
+	mill_merge				=1;
+	mill_change				=0;
+	mill_tool_diam			=0.8;
+	mill_tool_angle			=130;
+	mill_down				=0.2;
+	mill_steps				=1;
+	mill_feed				=250;
+	mill_speed				=15000;
+
+	fill_on					=1;
+	fill_optimize			=1;
+	fill_merge				=1;
+	fill_remove				=1;
+	fill_connect			=1;
+	fill_vertical			=0;
+
+	drill_on				=1;
+	drill_optimize			=1;
+	drill_merge				=1;
+	drill_cut				=1;
+	drill_reducefeed		=1;
+	drill_change			=0;
+	drill_tool_diam			=0.8;
+	drill_tool_angle		=130;
+	drill_down				=1.7;
+	drill_feed				=250;
+	drill_speed				=20000;
+
+	cut_on					=1;
+	cut_optimize			=1;
+	cut_gaps				=0;
+	cut_change				=0;
+	cut_tool_diam			=0.8;
+	cut_tool_angle			=130;
+	cut_down				=1.5;
+	cut_steps				=1;
+	cut_feed				=200;
+	cut_speed				=20000;
+
+	file_extension			=0;
+}
+
+
+
+
+// =================================================================================================================== 
+//   MATH FUNCTIONS
+// =================================================================================================================== 
+
+
+real DistSquared(real x1, real y1, real x2, real y2)
+{
+	real dx,dy;
+	dx = x1-x2;
+	dy = y1-y2;
+	return dx*dx + dy*dy;
+}
+
+real Dist(real x1, real y1, real x2, real y2)
+{
+	real dx,dy;
+	dx = x1-x2;
+	dy = y1-y2;
+	return sqrt(dx*dx + dy*dy);
+}
+
+real NormalizeX(real x, real y)
+{
+	real l = sqrt(x*x + y*y);
+	if (l > 0) x/=l;
+	return x;
+}
+
+real NormalizeY(real x, real y)
+{
+	real l = sqrt(x*x + y*y);
+	if (l > 0) y/=l;
+	return y;
+}
+
+int LayerNumber()
+{
+	if (selected_layer)
+	{
+		return 16;
+	}
+	else
+	{
+		return 1;
+	}
+}
+
+
+real CalcTime(real delta, real feed, real ramp)
+{
+	real t = (delta * 60.0) / feed;
+	if (delta > 0) t += 0.42 * (feed / 60.0) / ramp;
+	return t;
+}
+
+
+
+real EffectiveDiam(real diam, real angle, real down)
+{
+	if (angle < 180)
+	{
+		real d = 2 * down * tan((angle * PI) / 360.0);
+		if (d > diam) d = diam;
+		return d; 
+	}
+	else
+	{
+		return diam; 
+	}
+}
+
+
+
+// --------------------------- Rotations by 90deg
+// --------------------------- pivot point = pivot_x/pivot_y
+
+real RotateX(real x, real y)
+{
+	return pivot_x + pivot_y - y;
+}
+real RotateY(real x, real y)
+{
+	return pivot_y + x - pivot_x;
+}
+
+// --------------------------- Rotations by -90deg 
+// --------------------------- pivot point = pivot_x/pivot_y
+
+real UnRotateX(real x, real y)
+{
+	return pivot_x + y - pivot_y;
+}
+real UnRotateY(real x, real y)
+{
+	return pivot_y + pivot_x - x;
+}
+
+
+
+
+
+// ---------------------------  Transform  ( from eagle to final coords in mm  )
+// ---------------------------             ( board mirror / translate / rotate )
+real TransformX(int ix, int iy)
+{
+	real x = u2mm(ix);
+	real y = u2mm(iy);
+
+
+	// -------------------------------------- FILL_VERTICAL and not BOARD_ROTATE 
+	if (fill_vertical && !board_rotate)
+	{
+		x = UnRotateX(x, y);
+	 	// ----------------------------------- board translate to zero
+		if (board_translate)
+		{
+			x -= board_x1;
+		}
+		if (selected_layer)
+		{
+			// -------------------------------- bottom mirror
+			if (!mirror_axis)
+			{		
+				x = -x;
+				// ----------------------------- bottom mirror translated to positive
+				if (board_translate)
+				{
+					x += board_dy;
+				}
+			}
+		}
+	
+	
+	}
+	// -------------------------------------- FILL_VERTICAL and BOARD_ROTATE 
+	else if (fill_vertical && board_rotate)
+	{
+		x = RotateX(x, y);
+	 	// ----------------------------------- board translate to zero
+		if (board_translate)
+		{
+			x -= board_x1;
+		}
+		if (selected_layer)
+		{
+			// -------------------------------- bottom mirror
+			if (!mirror_axis)
+			{		
+				x = -x;
+				// ----------------------------- bottom mirror translated to positive
+				if (board_translate)
+				{
+					x += board_dx;
+				}
+			}
+		}
+	
+	
+	}
+	// -------------------------------------- not FILL_VERTICAL   
+	else
+	{
+		// ----------------------------------- board translate to zero
+		if (board_translate)
+		{
+			x -= board_x1;
+		}
+		if (selected_layer)
+		{
+			// -------------------------------- bottom mirror
+			if (!mirror_axis)
+			{		
+				x = -x;
+				// ----------------------------- bottom mirror translated to positive
+				if (board_translate)
+				{
+					x += board_dx;
+				}
+			}
+		}
+	}
+	return x;
+}
+
+
+
+real TransformY(int ix, int iy)
+{
+	real x = u2mm(ix);
+	real y = u2mm(iy);
+
+	// -------------------------------------- FILL_VERTICAL and not BOARD_ROTATE  
+	if (fill_vertical && !board_rotate)
+	{
+		y = UnRotateY(x, y);
+		// ----------------------------------- board translate to zero
+		if (board_translate)
+		{
+			y -= UnRotateY(board_x2,board_y1);
+		}
+		if (selected_layer)
+		{
+			// -------------------------------- bottom mirror
+			if (mirror_axis)
+			{
+				y = -y;
+				// ----------------------------- bottom mirror translated to positive
+				if (board_translate)
+				{
+					y += board_dx; 
+				}
+			}
+		} 
+
+	}
+	// -------------------------------------- FILL_VERTICAL and BOARD_ROTATE 
+	else if (fill_vertical && board_rotate)
+	{
+		y = RotateY(x, y);
+		// ----------------------------------- board translate to zero
+		if (board_translate)
+		{
+			y -= board_y2;
+		}
+		if (selected_layer)
+		{
+			// -------------------------------- bottom mirror
+			if (mirror_axis)
+			{
+				y = -y;
+				// ----------------------------- bottom mirror translated to positive
+				if (board_translate)
+				{
+					y += board_dx; 
+				}
+			}
+		} 
+
+	}
+	// -------------------------------------- not FILL_VERTICAL 
+	else
+	{
+		// ----------------------------------- board translate to zero
+		if (board_translate)
+		{
+			y -= board_y1;
+		}
+		if (selected_layer)
+		{
+			// -------------------------------- bottom mirror
+			if (mirror_axis)
+			{
+				y = -y;
+				// ----------------------------- bottom mirror translated to positive
+				if (board_translate)
+				{
+					y += board_dy; 
+				}
+			}
+		} 
+
+	}
+	return y;
+}
+
+
+
+
+
+// --------------------------------- True Board Dimension from LAYER_DIMENSION
+// 
+// When components are smashed names and values positions (layers 25/26/27/28)
+// are not correctly reflected in the board dimensions 
+// Reading board dimensions from "B.area..." the resulting board is too large
+// so we calc board dimensions from the LAYER_DIMENSION
+//
+void CalcTrueBoardDimension()
+{
+	int x1 = INT_MAX, y1 = INT_MAX, x2 = INT_MIN, y2 = INT_MIN;
+	board(B)
+	{
+		B.wires(W) 
+		{
+			if (W.layer == LAYER_DIMENSION)
+			{
+				x1 = min(x1, W.x1);
+				x2 = max(x2, W.x1);
+				y1 = min(y1, W.y1);
+				y2 = max(y2, W.y1);
+
+				x1 = min(x1, W.x2);
+				x2 = max(x2, W.x2);
+				y1 = min(y1, W.y2);
+				y2 = max(y2, W.y2);
+			}
+		}
+	}
+	// --------------------------------- board coords in mm
+	board_x1 = u2mm(x1);
+	board_x2 = u2mm(x2);
+	board_y1 = u2mm(y1);
+	board_y2 = u2mm(y2);
+	board_dx = board_x2 - board_x1;
+	board_dy = board_y2 - board_y1;
+	pivot_x = min(board_x2,board_y2)/2;
+	pivot_y = pivot_x;
+	// --------------------------------- board transformed coords in mm
+	board_tx1 = TransformX(x1,y1);
+	board_tx2 = TransformX(x2,y2);
+	board_ty1 = TransformY(x1,y1);
+	board_ty2 = TransformY(x2,y2);
+	board_tdx = board_tx2 - board_tx1;
+	board_tdy = board_ty2 - board_ty1;
+}
+
+
+
+
+
+
+
+
+// =================================================================================================================== 
+//   PARAMETERS - INI FILE - READ/WRITE 
+// =================================================================================================================== 
+
+
+void write_real_param(string name, real value) 
+{  
+	printf("%s= %.3f;\n", name, value); 
+} 
+  
+void write_int_param(string name, int value)
+{  
+	printf("%s= %d;\n", name, value); 
+}  
+
+int FileExists(string file)
+{
+	string f[];
+	return (fileglob(f,  file) != 0);
+}
+
+string DefaultIniFile()
+{
+	string inifile;
+	inifile = filesetext(argv[0],".ini");
+	return inifile;
+}
+
+  
+
+void ReadIniFile(string inifile)
+{
+	if (!FileExists(inifile)) return;
+	//
+	SetDefaultParameters();
+	//
+	string cmd[];
+	string lines[];
+	int nLines = fileread(lines, inifile);
+	for (int i=0; i<nLines; i++)
+	{
+		int n = strsplit(cmd, lines[i], 61);
+		if (n == 2)
+		{
+			if (cmd[0] == "orphans_on") orphans_on = strtol(cmd[1]);
+			if (cmd[0] == "thermals_on") thermals_on = strtol(cmd[1]);
+			if (cmd[0] == "extra_iso1") extra_iso1 = strtod(cmd[1]);
+			if (cmd[0] == "extra_iso2") extra_iso2 = strtod(cmd[1]);
+			if (cmd[0] == "extra_iso_thermals") extra_iso_thermals = strtod(cmd[1]);
+			//
+			if (cmd[0] == "maxfeed_x") maxfeed_x = strtod(cmd[1]);
+			if (cmd[0] == "maxfeed_y") maxfeed_y = strtod(cmd[1]);
+			if (cmd[0] == "maxfeed_z") maxfeed_z = strtod(cmd[1]);
+			if (cmd[0] == "ramp_x") ramp_x = strtod(cmd[1]);
+			if (cmd[0] == "ramp_y") ramp_y = strtod(cmd[1]);
+			if (cmd[0] == "ramp_z") ramp_z = strtod(cmd[1]);
+			if (cmd[0] == "stock_bx") stock_bx = strtod(cmd[1]);
+			if (cmd[0] == "stock_by") stock_by = strtod(cmd[1]);
+			//
+			if (cmd[0] == "selected_layer") selected_layer = strtol(cmd[1]);
+			if (cmd[0] == "mirror_axis") mirror_axis = strtol(cmd[1]);
+			if (cmd[0] == "board_translate") board_translate = strtol(cmd[1]);
+			if (cmd[0] == "board_rotate") board_rotate = strtol(cmd[1]);
+			if (cmd[0] == "tool_up") tool_up = strtod(cmd[1]);
+			if (cmd[0] == "rapid_up") rapid_up = strtod(cmd[1]);
+			if (cmd[0] == "mill_overlap") mill_overlap = strtod(cmd[1]);
+			if (cmd[0] == "trace_enlarging") trace_enlarging = strtod(cmd[1]);
+			//
+			if (cmd[0] == "mill_on") mill_on = strtol(cmd[1]);
+			if (cmd[0] == "mill_optimize") mill_optimize = strtol(cmd[1]);
+			if (cmd[0] == "mill_merge") mill_merge = strtol(cmd[1]);
+
+			if (cmd[0] == "mill_change") mill_change = strtol(cmd[1]);
+			if (cmd[0] == "mill_tool_diam") mill_tool_diam = strtod(cmd[1]);
+			if (cmd[0] == "mill_tool_angle") mill_tool_angle = strtod(cmd[1]);			
+			if (cmd[0] == "mill_down") mill_down = strtod(cmd[1]);
+			if (cmd[0] == "mill_steps") mill_steps = strtol(cmd[1]);
+			if (cmd[0] == "mill_feed") mill_feed = strtod(cmd[1]);
+			if (cmd[0] == "mill_speed") mill_speed = strtod(cmd[1]);
+			//
+			if (cmd[0] == "fill_on") fill_on = strtol(cmd[1]);
+			if (cmd[0] == "fill_optimize") fill_optimize = strtol(cmd[1]);
+			if (cmd[0] == "fill_merge") fill_merge = strtol(cmd[1]);
+			if (cmd[0] == "fill_remove") fill_remove = strtol(cmd[1]);
+			if (cmd[0] == "fill_connect") fill_connect = strtol(cmd[1]);
+			if (cmd[0] == "fill_vertical") fill_vertical = strtol(cmd[1]);
+			//
+			if (cmd[0] == "drill_on") drill_on = strtol(cmd[1]);
+			if (cmd[0] == "drill_optimize") drill_optimize = strtol(cmd[1]);
+			if (cmd[0] == "drill_merge") drill_merge = strtol(cmd[1]);
+			if (cmd[0] == "drill_cut") drill_cut = strtol(cmd[1]);
+			if (cmd[0] == "drill_reducefeed") drill_reducefeed = strtol(cmd[1]);
+			if (cmd[0] == "drill_change") drill_change = strtol(cmd[1]);
+			if (cmd[0] == "drill_tool_diam") drill_tool_diam = strtod(cmd[1]);
+			if (cmd[0] == "drill_tool_angle") drill_tool_angle = strtod(cmd[1]);
+			if (cmd[0] == "drill_down") drill_down = strtod(cmd[1]);
+			if (cmd[0] == "drill_feed") drill_feed = strtod(cmd[1]);
+			if (cmd[0] == "drill_speed") drill_speed = strtod(cmd[1]);
+			//
+			if (cmd[0] == "cut_on") cut_on = strtol(cmd[1]);
+			if (cmd[0] == "cut_optimize") cut_optimize = strtol(cmd[1]);
+			if (cmd[0] == "cut_gaps") cut_gaps = strtol(cmd[1]);
+			if (cmd[0] == "cut_change") cut_change = strtol(cmd[1]);
+			if (cmd[0] == "cut_tool_diam") cut_tool_diam = strtod(cmd[1]);
+			if (cmd[0] == "cut_tool_angle") cut_tool_angle = strtod(cmd[1]);
+			if (cmd[0] == "cut_down") cut_down = strtod(cmd[1]);
+			if (cmd[0] == "cut_steps") cut_steps = strtol(cmd[1]);
+			if (cmd[0] == "cut_feed") cut_feed = strtod(cmd[1]);
+			if (cmd[0] == "cut_speed") cut_speed = strtod(cmd[1]);
+
+			if (cmd[0] == "file_extension") file_extension = strtol(cmd[1]);
+		}
+	}
+}
+
+
+void WriteIniFile(string inifile)
+{
+	fileerror();
+
+	output(inifile, "wt")
+   {
+		printf("--------------------------\n");
+		printf(" FastGcode parameter file \n");
+		printf("--------------------------\n");
+		
+		printf("\n");
+		write_int_param("orphans_on", orphans_on);
+		write_int_param("thermals_on", thermals_on);
+		write_real_param("extra_iso1", extra_iso1);
+		write_real_param("extra_iso2", extra_iso2);
+		write_real_param("extra_iso_thermals", extra_iso_thermals);
+
+		printf("\n");
+		write_real_param("maxfeed_x", maxfeed_x);
+		write_real_param("maxfeed_y", maxfeed_y);
+		write_real_param("maxfeed_z", maxfeed_z);
+		write_real_param("ramp_x", ramp_x);
+		write_real_param("ramp_y", ramp_y);
+		write_real_param("ramp_z", ramp_z);
+		write_real_param("stock_bx", stock_bx);
+		write_real_param("stock_by", stock_by);
+
+		printf("\n");
+		write_int_param("selected_layer", selected_layer);
+		write_int_param("mirror_axis", mirror_axis);
+		write_int_param("board_translate", board_translate);
+		write_int_param("board_rotate", board_rotate);
+		write_real_param("tool_up", tool_up);
+		write_real_param("rapid_up", rapid_up);
+		write_real_param("mill_overlap", mill_overlap);
+		write_real_param("trace_enlarging", trace_enlarging);
+		
+		printf("\n");
+		write_int_param("mill_on", mill_on);
+		write_int_param("mill_optimize", mill_optimize);
+		write_int_param("mill_merge", mill_merge);
+		write_int_param("mill_change", mill_change);
+		write_real_param("mill_tool_diam", mill_tool_diam);
+		write_real_param("mill_tool_angle", mill_tool_angle);			
+		write_real_param("mill_down", mill_down);
+		write_int_param("mill_steps", mill_steps);
+		write_real_param("mill_feed", mill_feed);
+		write_real_param("mill_speed", mill_speed);
+
+		printf("\n");
+		write_int_param("fill_on", fill_on);
+		write_int_param("fill_optimize", fill_optimize);
+		write_int_param("fill_merge", fill_merge);
+		write_int_param("fill_remove", fill_remove);
+		write_int_param("fill_connect", fill_connect);
+		write_int_param("fill_vertical", fill_vertical);
+		
+		printf("\n");
+		write_int_param("drill_on", drill_on);
+		write_int_param("drill_optimize", drill_optimize);
+		write_int_param("drill_merge", drill_merge);
+		write_int_param("drill_cut", drill_cut);
+		write_int_param("drill_reducefeed", drill_reducefeed);
+		write_int_param("drill_change", drill_change);
+		write_real_param("drill_tool_diam", drill_tool_diam);
+		write_real_param("drill_tool_angle", drill_tool_angle);
+		write_real_param("drill_down", drill_down);
+		write_real_param("drill_feed", drill_feed);
+		write_real_param("drill_speed", drill_speed);
+		
+		printf("\n");
+		write_int_param("cut_on", cut_on);
+		write_int_param("cut_optimize", cut_optimize);
+		write_int_param("cut_gaps", cut_gaps);
+		write_int_param("cut_change", cut_change);
+		write_real_param("cut_tool_diam", cut_tool_diam);
+		write_real_param("cut_tool_angle", cut_tool_angle);
+		write_real_param("cut_down", cut_down);
+		write_int_param("cut_steps", cut_steps);
+		write_real_param("cut_feed", cut_feed);
+		write_real_param("cut_speed", cut_speed);
+
+		write_int_param("file_extension", file_extension);
+	}
+	if (fileerror()) 
+	{
+		dlgMessageBox("Save param. error"); 
+		exit(1);
+	}	
+}
+
+
+
+
+
+// =================================================================================================================== 
+//     GRAPHICAL INTERFACE
+// =================================================================================================================== 
+
+
+
+int TestAllSettings(int show_message)
+{  
+				//show_message = 1;
+
+	string message;
+
+	// ------------------------------- merge is only possible if there is some following operation
+	if ((!fill_on && !drill_on && !cut_on) || (!fill_on && drill_change) || (!fill_on && !drill_on && cut_change))
+	{
+		mill_merge = 0;
+	}
+	if (drill_change || (!drill_on && (!cut_on || cut_change)))
+	{
+		fill_merge = 0;
+	}
+	if (!cut_on || cut_change)
+	{
+		drill_merge = 0;
+	}
+
+	// ------------------------------- extend the mill_optimize flag to the following merged operations
+	if (mill_on && mill_merge)
+	{
+		if (fill_on)
+		{
+			fill_optimize = mill_optimize;
+		}
+		else
+		{
+			if	(drill_on)
+			{
+				drill_optimize = mill_optimize;
+			}
+			else
+			{
+				if	(cut_on)
+				{
+					cut_optimize = mill_optimize;
+				}
+			}
+		}
+	}
+	// ------------------------------- extend the fill_optimize flag to the following merged operations
+	if (fill_on && fill_merge)
+	{
+		if	(drill_on)
+		{
+			drill_optimize = fill_optimize;
+		}
+		else
+		{
+			if	(cut_on)
+			{
+				cut_optimize = fill_optimize;
+			}
+		}
+	}
+	// ------------------------------- extend the drill_optimize flag to the following merged operations
+	if (drill_on && drill_merge)
+	{
+		if	(cut_on)
+		{
+			cut_optimize = drill_optimize;
+		}
+	}
+
+
+
+	// ------------------------------- test change_tool and tool_diam
+	if (!drill_change && (mill_on || fill_on))
+	{
+		drill_tool_diam = mill_tool_diam;
+		drill_tool_angle = mill_tool_angle;
+	}	
+	if (!cut_change)
+	{
+		cut_tool_diam = drill_tool_diam;
+		cut_tool_angle = drill_tool_angle;
+	}	
+	if (!mill_change)
+	{
+		mill_tool_diam = cut_tool_diam;
+		mill_tool_angle = cut_tool_angle;
+	}	
+
+
+	
+	// --------------------------- calc the effective tool diam
+	mill_effective_diam = EffectiveDiam(mill_tool_diam, mill_tool_angle, mill_down);
+
+	// ------------------------------- test the down milling position and the tool angle
+	if (show_message)
+	{
+		if (mill_effective_diam < mill_tool_diam)
+		{
+			string s;
+			sprintf(s, " --- WARNING ---\n Mill tool diam = %f  \n Mill effective diam = %f", mill_tool_diam, mill_effective_diam);
+			dlgMessageBox(s);
+		}
+	}
+
+
+	// ------------------------------- message for some errors
+	if (message	!= "")
+	{
+		if (show_message) dlgMessageBox(message + "\n Now the dialog will be re-opened with the all the inconsistent settings corrected.");
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}  
+
+
+void set_gcode_file_name()
+{
+	board(B) 
+	{
+		GcodeFileName = filesetext(B.name, Extension[file_extension]);
+	}
+}
+
+
+void Setup()
+{	
+	set_gcode_file_name();
+
+	TestAllSettings(0);
+
+	int Result;
+
+	do
+	{
+		string title = filesetext(filename(argv[0]),"");
+		Result = dlgDialog(title)
+		{
+			dlgSpacing(-8);
+
+			dlgHBoxLayout
+			{
+
+				// ============================================================= TOOLS
+				dlgSpacing(-8);
+				dlgGroup("Tools") 
+				{	
+				
+					dlgSpacing(-2);
+
+					dlgGroup("Timing and Stock simulations") 
+					{				
+						dlgSpacing(-4);
+						dlgHBoxLayout{
+							dlgSpacing(18);
+							dlgLabel("Max feed (mm/m)");
+							dlgSpacing(6);
+							dlgLabel("Accel (mm/s/s)"); 
+							dlgStretch(1);
+							dlgSpacing(-100);
+						}
+						dlgSpacing(-6);
+						dlgHBoxLayout{
+							dlgLabel("X ");
+							dlgRealEdit(maxfeed_x, 1, 90000);
+							dlgRealEdit(ramp_x, 1, 9000);
+							dlgStretch(1);
+							dlgSpacing(-90);
+						}
+						dlgSpacing(-6);
+						dlgHBoxLayout{
+							dlgLabel("Y ");
+							dlgRealEdit(maxfeed_y, 1, 90000);
+							dlgRealEdit(ramp_y, 1, 9000);
+							dlgStretch(1);
+							dlgSpacing(-90);
+						}
+						dlgSpacing(-6);
+						dlgHBoxLayout{
+							dlgLabel("Z ");
+							dlgRealEdit(maxfeed_z, 1, 90000);
+							dlgRealEdit(ramp_z, 1, 9000);
+							dlgStretch(1);
+							dlgSpacing(-90);
+						}
+				
+						dlgSpacing(0);
+						dlgHBoxLayout{
+							dlgSpacing(18);
+							dlgLabel("Stock border (mm)");
+							dlgStretch(1);
+							dlgSpacing(-90);
+						}
+						dlgSpacing(-6);
+						dlgHBoxLayout{
+							dlgLabel("X ");
+							dlgRealEdit(stock_bx, 0, 9000);
+							dlgStretch(1);
+							dlgSpacing(-90);
+						}
+						dlgSpacing(-6);
+						dlgHBoxLayout{
+							dlgLabel("Y ");
+							dlgRealEdit(stock_by, 0, 9000);
+							dlgStretch(1);
+							dlgSpacing(-90);
+						}
+						dlgStretch(1);
+						dlgSpacing(-2);
+					}
+					dlgStretch(1);
+					dlgSpacing(-4);
+
+
+
+					// ================================================ GROUNDPLANE
+					dlgSpacing(2);
+					dlgGroup("Groundplane") 
+					{
+						dlgSpacing(-4);
+						dlgHBoxLayout 
+						{
+							dlgSpacing(6);
+							dlgCheckBox("Orphans", orphans_on);
+							dlgSpacing(26);
+							dlgCheckBox("Thermals", thermals_on);
+							dlgStretch(1);
+							dlgSpacing(-90);
+						}
+						dlgSpacing(-2);
+						dlgHBoxLayout 
+						{
+							dlgSpacing(6);
+							dlgLabel("Extra isolation 1");
+							dlgSpacing(14);
+							dlgRealEdit(extra_iso1, -3, 3);
+							dlgStretch(1);
+							dlgSpacing(-90);
+						}
+						dlgSpacing(-6);
+						dlgHBoxLayout 
+						{
+							dlgSpacing(6);
+							dlgLabel("Extra isolation 2");
+							dlgSpacing(14);
+							dlgRealEdit(extra_iso2, -3, 3);
+							dlgStretch(1);
+							dlgSpacing(-90);
+						}
+						dlgSpacing(-6);
+						dlgHBoxLayout 
+						{
+							dlgSpacing(6);
+							dlgLabel("Extra ( thermals ) ");
+							dlgSpacing(4);
+							dlgRealEdit(extra_iso_thermals, -3, 3);
+							dlgStretch(1);
+							dlgSpacing(-90);
+						}
+
+						dlgSpacing(-2);
+						dlgStretch(100);
+
+						dlgPushButton(" Make groundplane ") {dlgAccept(2); ulp_operation="CreateGP";  dlgStretch(1);}
+						dlgStretch(100);
+						dlgSpacing(-6);
+						dlgPushButton(" Delete groundplane ") {dlgAccept(2); ulp_operation="DeleteGP";}
+						dlgStretch(1);
+						dlgSpacing(-2);
+					}
+			
+
+					// ================================================ DESIGN RULES
+					dlgSpacing(2);
+					dlgGroup("Design rules") 
+					{
+						dlgSpacing(-4);
+						dlgPushButton(" Set DRC and test PCB ") {dlgAccept(2); ulp_operation="TestDRC";}
+						dlgStretch(1);
+						dlgSpacing(-2);
+					}
+	
+
+					// ================================================ PARAMETERS
+					dlgSpacing(2);
+					dlgGroup("Parameters") 
+					{
+						dlgSpacing(-4);
+						dlgPushButton(" Load params ") 
+						{
+							//string f = dlgFileOpen("Load params","","*.ini");  			// Original EagleV4.16
+							string f = dlgFileOpen("Load params",filedir(argv[0]),"*.ini");	// Changed  EagleV5.4
+							ReadIniFile(f);
+							dlgAccept(2);
+							ulp_operation="RestartDialog";
+						}
+						dlgStretch(1);
+						dlgSpacing(-4);
+						dlgPushButton(" Save params ") 
+						{
+							//string f = dlgFileSave("Save params","","*.ini");			// Original EagleV4.16
+							string f = dlgFileSave("Save params",filedir(argv[0]),"*.ini");	// Changed  EagleV5.4
+							f = filesetext(f, ".ini");
+							WriteIniFile(f);
+						}
+						dlgStretch(1);
+						dlgSpacing(4);
+						dlgPushButton("All params to default") 
+						{
+							SetDefaultParameters();
+							dlgAccept(2);
+							ulp_operation="RestartDialog";
+						}
+						dlgStretch(1);
+						dlgSpacing(-4);
+					}
+					dlgStretch(1);
+					dlgSpacing(-2);
+				}
+				dlgStretch(1);
+				dlgSpacing(8);
+				// ============================================================= END - TOOLS
+
+				
+
+				// =========================================================== GCODE GENERATION
+				dlgGroup("G-Code generation") 
+				{		
+					dlgSpacing(-4);
+
+					dlgHBoxLayout
+					{
+						dlgSpacing(25);
+
+						dlgGroup("Board and Layer") 
+						{
+							dlgSpacing(-6);
+							dlgHBoxLayout
+							{
+								dlgLabel("Layer");
+								dlgSpacing(-42);
+								dlgComboBox(Layers, selected_layer); 
+							}
+							dlgSpacing(-6);
+							dlgHBoxLayout
+							{
+								dlgLabel("Bottom mirror");
+								dlgSpacing(8);
+								dlgComboBox(Mirror, mirror_axis);
+								//dlgStretch(1);
+							}
+							dlgSpacing(-6);
+							dlgHBoxLayout
+							{
+								dlgLabel("Board translate");
+								dlgSpacing(-42);
+								dlgComboBox(BoardTranslate, board_translate);
+							}
+							dlgSpacing(-6);
+							dlgHBoxLayout
+							{
+								dlgLabel("Board rotate");
+								dlgSpacing(-44);
+								dlgComboBox(BoardRotate, board_rotate);
+							}
+							dlgStretch(1);
+							dlgSpacing(-2);
+							
+						}
+						dlgStretch(1);
+						dlgSpacing(-8);
+						
+
+						dlgGroup("Misc") 
+						{
+							dlgSpacing(-6);
+							dlgHBoxLayout
+							{
+								dlgLabel("Tool change Z-UP ");
+								dlgSpacing(1);
+								dlgRealEdit(tool_up, 0.1, 50);
+								dlgLabel(" mm");
+								dlgStretch(1);
+								dlgSpacing(-70);
+							}	
+							dlgSpacing(-6);
+							dlgHBoxLayout
+							{
+								dlgLabel("Rapid move Z-UP ");
+								dlgSpacing(2);
+								dlgRealEdit(rapid_up, 0.1, 5);
+								dlgLabel(" mm");
+								dlgStretch(1);
+								dlgSpacing(-70);
+							}	
+							dlgSpacing(-6);
+							dlgHBoxLayout
+							{
+								dlgLabel("Overlap ");
+								dlgSpacing(46);
+								dlgRealEdit(mill_overlap, 0, 0.3);
+								dlgLabel(" mm");
+								dlgStretch(1);
+								dlgSpacing(-70);
+							}	
+							dlgSpacing(-6);
+							dlgHBoxLayout
+							{
+								dlgLabel("Trace enlarging ");
+								dlgSpacing(11);
+								dlgRealEdit(trace_enlarging, 0, 0.3);
+								dlgLabel(" mm");
+								dlgStretch(1);
+								dlgSpacing(-70);
+							}
+							dlgStretch(1);
+							dlgSpacing(-2);
+						}
+						dlgStretch(1);
+						dlgSpacing(-8);
+					}
+					dlgStretch(1);
+					dlgSpacing(0);
+
+
+					dlgHBoxLayout 
+					{
+						dlgGroup("MILL-FILL") 
+						{
+							dlgSpacing(-4);
+							dlgHBoxLayout 
+							{
+								dlgVBoxLayout 
+								{
+									dlgCheckBox("MILL            ", mill_on) {dlgAccept(2); ulp_operation="RestartDialog";}
+									
+									if (mill_on)
+									{
+										dlgSpacing(12);
+										dlgCheckBox("Optimize", mill_optimize) {TestAllSettings(0); dlgRedisplay();}
+										dlgCheckBox("Merge", mill_merge) {TestAllSettings(0); dlgRedisplay();}
+										dlgSpacing(60);
+									}
+									else
+									{
+										dlgSpacing(112);
+									}
+								}
+								dlgStretch(1);
+								dlgSpacing(-16);
+								
+								
+							
+								dlgVBoxLayout 
+								{
+									dlgCheckBox("FILL                  ", fill_on) {dlgAccept(2); ulp_operation="RestartDialog";}
+
+									if (fill_on)
+									{
+										dlgSpacing(12);
+										dlgCheckBox("Optimize", fill_optimize) {TestAllSettings(0); dlgRedisplay();}
+										dlgCheckBox("Merge", fill_merge) {TestAllSettings(0); dlgRedisplay();}
+										dlgCheckBox("Remove segm.", fill_remove) {TestAllSettings(0); dlgRedisplay();}
+										dlgCheckBox("Connect segm.", fill_connect) {TestAllSettings(0); dlgRedisplay();}
+										dlgCheckBox("Vertical fill", fill_vertical) {TestAllSettings(0); dlgRedisplay();}
+									}
+									else
+									{
+										dlgSpacing(112);
+									}
+								}
+								dlgStretch(1);
+								dlgSpacing(-4);
+								
+							}
+							dlgStretch(1);
+							dlgSpacing(6);
+
+							
+							if (mill_on || fill_on)
+							{
+								dlgVBoxLayout 
+								{
+									dlgCheckBox("Change tool", mill_change) { dlgAccept(2); ulp_operation="RestartDialog"; }
+									dlgSpacing(6);
+							
+							
+									if (mill_change || ((!drill_change || !drill_on) && (!cut_change || !cut_on) ))
+									{
+										dlgSpacing(-6);
+										dlgHBoxLayout 
+										{
+											dlgLabel("Tool diam.");
+											dlgSpacing(2);
+											dlgRealEdit(mill_tool_diam, 0.1, 10);
+											dlgLabel(" mm");
+											dlgSpacing(16);
+											dlgStretch(1);
+											dlgSpacing(-70);
+										}
+										dlgSpacing(-6);
+										dlgHBoxLayout 
+										{
+											dlgLabel("Tool ang.");
+											dlgSpacing(6);
+											dlgRealEdit(mill_tool_angle, 1, 180);
+											dlgLabel(" deg");
+											dlgSpacing(14);
+											dlgStretch(1);
+											dlgSpacing(-70);
+										}
+									}
+									else
+									{
+										dlgSpacing(38);
+									}
+									
+									dlgHBoxLayout 
+									{
+										dlgLabel("Down");
+										dlgSpacing(23);
+										dlgRealEdit(mill_down, 0.1, 2.0);
+										dlgLabel(" mm");
+										dlgSpacing(16);
+										dlgStretch(1);
+										dlgSpacing(-70);
+									}
+									dlgSpacing(-6);
+									dlgHBoxLayout 
+									{
+										dlgLabel("Steps");
+										dlgSpacing(23);
+										dlgIntEdit(mill_steps, 1, 99);
+										dlgSpacing(41);
+										dlgStretch(1);
+										dlgSpacing(-70);
+									}
+									dlgHBoxLayout 
+									{
+										dlgLabel("Feed");
+										dlgSpacing(26);
+										dlgRealEdit(mill_feed, 1, 500);
+										dlgLabel(" mm/m.");
+										dlgStretch(1);
+										dlgSpacing(-70);
+									}
+									dlgSpacing(-6);
+									dlgHBoxLayout 
+									{
+										dlgLabel("Speed");
+										dlgSpacing(20);
+										dlgRealEdit(mill_speed, 1000, 50000);
+										dlgLabel(" rev/m.");
+										dlgStretch(1);
+										dlgSpacing(-70);
+									}
+								}
+								dlgStretch(1);
+								dlgSpacing(-2);
+							}
+							else
+							{
+								dlgSpacing(160);
+							}
+							
+						}
+
+					
+
+						dlgGroup("DRILL") 
+						{
+							dlgVBoxLayout 
+							{
+								dlgSpacing(-4);
+								dlgCheckBox("DRILL                       ", drill_on) {dlgAccept(2); ulp_operation="RestartDialog";}
+								if (drill_on)
+								{
+									dlgSpacing(12);
+									dlgCheckBox("Optimize", drill_optimize) {TestAllSettings(0); dlgRedisplay();}
+									dlgCheckBox("Merge", drill_merge) {TestAllSettings(0); dlgRedisplay();}
+									dlgSpacing(18);
+									dlgCheckBox("Cut large holes", drill_cut) {TestAllSettings(0); dlgRedisplay();}
+									dlgCheckBox("Cut at reduced feed", drill_reducefeed) {TestAllSettings(0); dlgRedisplay();}
+									dlgSpacing(12);
+									dlgCheckBox("Change tool", drill_change) {dlgAccept(2); ulp_operation="RestartDialog";}
+									dlgSpacing(8);
+								
+									if (drill_change || (!mill_on && !fill_on))
+									{
+										dlgSpacing(-6);
+										dlgHBoxLayout 
+										{
+											dlgLabel("Tool diam.");
+											dlgRealEdit(drill_tool_diam, 0.1, 10);
+											dlgStretch(1);
+											dlgSpacing(-70);
+										}
+										dlgSpacing(-6);
+										dlgHBoxLayout 
+										{
+											dlgLabel("Tool ang.");
+											dlgSpacing(4);
+											dlgRealEdit(drill_tool_angle, 1, 180);
+											dlgStretch(1);
+											dlgSpacing(-70);
+										}
+									}
+									else
+									{
+										dlgSpacing(40);
+									}
+									
+									dlgSpacing(8);
+									dlgHBoxLayout 
+									{
+										dlgLabel("Down       ");
+										dlgRealEdit(drill_down, 0.1, 5);
+										dlgStretch(1);
+										dlgSpacing(-70);
+									}
+									dlgSpacing(10);
+									dlgHBoxLayout 
+									{
+										dlgLabel("Feed        ");
+										dlgRealEdit(drill_feed, 1, 500);
+										dlgStretch(1);
+										dlgSpacing(-70);
+									}
+									dlgSpacing(-6);
+									dlgHBoxLayout 
+									{
+										dlgLabel("Speed      ");
+										dlgRealEdit(drill_speed, 1000, 50000);
+										dlgStretch(1);
+										dlgSpacing(-70);
+									}
+									dlgStretch(1);
+									dlgSpacing(-2);
+								}
+								else
+								{
+									dlgSpacing(278);
+								}
+							}
+						}
+
+				 
+
+						dlgGroup("CUT") 
+						{
+							dlgVBoxLayout 
+							{
+								dlgSpacing(-4);
+								dlgCheckBox("CUT                         ", cut_on) {dlgAccept(2); ulp_operation="RestartDialog";}
+								if (cut_on)
+								{
+									dlgSpacing(12);
+									dlgCheckBox("Optimize", cut_optimize) {TestAllSettings(0); dlgRedisplay();}
+									dlgSpacing(38);
+									dlgCheckBox("Cut gaps", cut_gaps) {TestAllSettings(0); dlgRedisplay();}
+									dlgSpacing(32);
+									dlgCheckBox("Change tool", cut_change) {dlgAccept(2); ulp_operation="RestartDialog";}
+									dlgSpacing(8);
+
+									
+									if (cut_change || (!mill_on && !fill_on && !drill_on ))
+									{
+										dlgSpacing(-8);
+										dlgHBoxLayout 
+										{
+											dlgLabel("Tool diam.");
+											dlgRealEdit(cut_tool_diam, 0.1, 10);
+											dlgStretch(1);
+											dlgSpacing(-70);
+										}
+										dlgSpacing(-6);
+										dlgHBoxLayout 
+										{
+											dlgSpacing(1);
+											dlgLabel("Tool ang. ");
+											dlgRealEdit(cut_tool_angle, 1, 180);
+											dlgStretch(1);
+											dlgSpacing(-70);
+										}
+									}
+									else
+									{
+										dlgSpacing(36);
+									}
+									
+									
+									dlgSpacing(0);
+									dlgHBoxLayout 
+									{
+										dlgLabel("Down       ");
+										dlgRealEdit(cut_down, 0.1, 5);
+										dlgStretch(1);
+										dlgSpacing(-70);
+									}	
+									dlgSpacing(-6);
+									dlgHBoxLayout 
+									{	
+										dlgLabel("Steps       ");
+										dlgIntEdit(cut_steps, 1, 99);
+										dlgStretch(1);
+										dlgSpacing(-70);
+									}	
+										
+									dlgSpacing(0);
+									dlgHBoxLayout 
+									{	
+										dlgLabel("Feed        ");
+										dlgRealEdit(cut_feed, 1, 500);
+										dlgStretch(1);
+										dlgSpacing(-70);
+									}
+									dlgSpacing(-6);
+									dlgHBoxLayout 
+									{
+										dlgLabel("Speed      ");
+										dlgRealEdit(cut_speed, 1000, 50000);
+										dlgStretch(1);
+										dlgSpacing(-70);
+									}
+									dlgStretch(1);
+									dlgSpacing(-2);
+								}
+								else
+								{
+									dlgSpacing(278);
+								}
+							}
+						}
+					}
+
+			
+
+					dlgGroup("G-Code output") 
+					{
+						dlgSpacing(-6);
+						dlgHBoxLayout 
+						{
+							dlgLabel("File: ");
+							dlgStringEdit(GcodeFileName);
+						}
+					
+						dlgSpacing(-2);
+						dlgHBoxLayout 
+						{
+							dlgPushButton("Browse") {string fn = dlgFileSave("Save Output file", GcodeFileName);if (fn) GcodeFileName = fn;}
+							dlgSpacing(12);
+
+							dlgLabel("Default extension: ");
+							dlgComboBox(Extension, file_extension) {set_gcode_file_name(); dlgRedisplay();}
+							dlgStretch(22);
+
+							dlgSpacing(4);
+							
+							dlgPushButton("+  Generate G-Code file  ") dlgAccept(2);
+							dlgSpacing(8);
+							dlgPushButton("Exit") dlgAccept(1);
+						}
+						dlgSpacing(-6);
+					}
+					dlgSpacing(-4);
+				}
+				// =========================================================== END - GCODE GENERATION
+	
+				dlgSpacing(-6);  // <--- RIGHT GAP
+			}
+			dlgSpacing(-6);  // <--- BOTTOM GAP
+		};
+
+	} while (TestAllSettings(1));
+
+
+	// ------------------------ save parameters in FastGcode.ini file
+	if (Result>=1)
+	{	
+		WriteIniFile(DefaultIniFile());
+	}
+	if (Result<=1)
+	{
+		exit(0);	// exit if "Exit" or the "X" are pressed
+	} 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// =================================================================================================================== 
+//   GCODE OUTPUT	FUNCTIONS
+// =================================================================================================================== 
+
+
+void GC_RAPID_XYZ (real x, real y, real z)
+{
+	if (x != g_oldx || y != g_oldy || z != g_oldz )
+	{
+		real delta;
+		if (abs(z-g_oldz) > abs(x-g_oldx) && abs(z-g_oldz) > abs(y-g_oldy))
+		{
+			delta = abs(z-g_oldz);
+			tot_time += CalcTime(delta, maxfeed_z, ramp_z);
+		}
+		else
+		{
+			if (abs(x-g_oldx) > abs(y-g_oldy))
+			{
+				delta = abs(x-g_oldx);
+				tot_time += CalcTime(delta, maxfeed_x, ramp_x);
+			}
+			else
+			{
+				delta = abs(y-g_oldy);
+				tot_time += CalcTime(delta, maxfeed_y, ramp_y);
+			}
+		}
+		tot_rapid += delta;
+		
+		g_oldx = x;
+		g_oldy = y;
+		g_oldz = z;
+		printf("G00 X%.3f Y%.3f z%.3f\n", x, y, z);
+	}
+}
+
+
+void GC_RAPID_XY (real x, real y)
+{
+	if (x != g_oldx || y != g_oldy)
+	{
+		real delta;
+		if (abs(x-g_oldx) > abs(y-g_oldy))
+		{
+			delta = abs(x-g_oldx);
+			tot_time += CalcTime(delta, maxfeed_x, ramp_x);
+		}
+		else
+		{
+			delta = abs(y-g_oldy);
+			tot_time += CalcTime(delta, maxfeed_y, ramp_y);
+		}
+		tot_rapid += delta;
+
+		g_oldx = x;
+		g_oldy = y;
+		printf("G00 X%.3f Y%.3f\n", x, y);
+	}
+}
+
+void GC_MOVE_XY (real x, real y, real f)
+{
+	if (x != g_oldx || y != g_oldy)
+	{
+		real delta;
+		if (abs(x-g_oldx) > abs(y-g_oldy))
+		{
+			delta = abs(x-g_oldx);
+			tot_time += CalcTime(delta, f, ramp_x);
+		}
+		else
+		{
+			delta = abs(y-g_oldy);
+			tot_time += CalcTime(delta, f, ramp_y);
+		}
+		tot_move += delta;
+
+		g_oldx = x;
+		g_oldy = y;
+		printf("G01 X%.3f Y%.3f\n", x, y);
+	}
+}
+
+
+void GC_RAPID_Z (real z)
+{
+	if (z != g_oldz)
+	{
+		real delta = abs(z-g_oldz);
+		tot_time += CalcTime(delta, maxfeed_z, ramp_z);
+		tot_rapid += delta;
+
+		g_oldz = z;	
+		printf("G00 Z%.3f\n", z);
+	}
+}
+
+
+void GC_MOVE_Z	(real z, real f)
+{
+	if (z != g_oldz)
+	{
+		real delta = abs(z-g_oldz);
+		tot_time += CalcTime(delta, f, ramp_z);
+		tot_move += delta;
+
+		g_oldz = z;
+		printf("G01 Z%.3f\n", z);
+	}
+}
+																  
+
+// ------------------------------
+void GC_FeedSpeed(real feed, real speed)
+{
+	if (feed != old_feed || speed != old_speed)
+	{
+		printf ("\n");
+	}
+
+	if (feed != old_feed)
+	{	
+		old_feed = feed;
+		printf ("F%.1f\n", feed);
+	}
+	if (speed != old_speed)
+	{	
+		old_speed = speed;
+		printf ("S%.1f\n", speed);
+	}
+}
+
+
+
+
+// =================================================================================================================== 
+//   GCODE OUTPUT	FUNCTIONS ( high level functions )
+// =================================================================================================================== 
+
+
+// ------------------------------- number of sides from circle radius and chord tolerance
+real nSides(real r, real toll, int min_sides)
+{
+	if (r <= toll || toll <= 0)
+	{
+		return min_sides;
+	}
+	else
+	{
+		real d =	r - toll;
+		return max(min_sides, floor( r * 2 * PI / ( 2 * sqrt ( r * r -  d * d ) ) + 0.5 ));
+	}
+}
+
+
+
+// ------------------------------- write a drill to the output file
+void GC_DrawDrill(real x, real y, real diam, real down, real feed, real speed)
+{  
+	// ------------------------------------- whith merged operations feed and speed can be wrong 
+	GC_FeedSpeed(feed, speed);
+	//	------------------------------------- ensure the up position
+	GC_RAPID_Z(rapid_up);
+	// ------------------------------------- calc the radius
+	real r = (diam - drill_tool_diam) / 2.0;	
+	// ------------------------------------- chordal tolerance
+	real tol = 0.03;
+	// ------------------------------------- do a approximated circle
+	if (r > tol && drill_cut) 
+	{
+		int n = nSides(r, tol, 6);
+		int i;
+		// ---------------------------------- large holes begin not in center 
+		if (r > 2)
+		{
+			//	------------------------------- go to the border
+			GC_RAPID_XY (x - r + 0.05, y);
+			//	------------------------------- go down
+			GC_MOVE_Z (-down, feed);
+		}
+		else
+		{	
+			//	------------------------------- go to the center
+			GC_RAPID_XY (x, y);
+			//	------------------------------- go down
+			GC_MOVE_Z (-down, feed);
+			//	------------------------------- cut to the border
+			GC_MOVE_XY (x - r + 0.05, y, feed);
+		}
+		
+		// ---------------------------------- holes enlarged with reduced feed 
+		if (drill_reducefeed) 
+		{	
+			feed *= 0.3;
+			GC_FeedSpeed(feed, speed);
+		}
+		// ---------------------------------- do a approximated circle
+		for (i = 1; i < n+2; i++)
+		{
+			real rad = (i * 2 * PI) / n;
+			GC_MOVE_XY (x - r * cos(rad), y + r * sin(rad), feed);	
+		}
+	}
+	else
+	{
+		GC_RAPID_XY (x, y);
+		//	---------------------------------- go down
+		GC_MOVE_Z (-down, feed);
+	}
+	// ------------------------------------- go up
+	GC_RAPID_Z (rapid_up);
+}
+
+
+
+
+
+// ------------------------------- write segments to the output file 
+void GC_DrawSegment(real x1, real y1, real x2, real y2, real down, real feed, real speed, int operation, int type)
+{  
+	// -------------------------------------------- calc the real "stepped" down
+	real stepped_down = down * down_fraction;
+
+	// -------------------------------------------- whith merged operations feed and speed can be wrong 
+	GC_FeedSpeed(feed, speed);
+	//
+	if (type == 2 || type == 3)  
+	{
+		// TYPES 2 and 3 are "continuations" and are implemented with a single "move"
+		GC_MOVE_XY (x2,y2, feed);
+	}
+	else
+	{
+		// TYPES 1/5/6 are "normal segments"
+		printf("\n");
+
+		// ------------------------------------------ normal connect distance
+		real connect_distance =  1.8 * mill_tool_diam;
+		// ------------------------------------------ if this segment is a border cut	allow minimal gaps
+		if (operation == 4) connect_distance = 0.05;		
+
+		// ------------------------------------------ test if it is possible to connect the segments
+		if (Dist(x1,y1,g_oldx,g_oldy) < connect_distance && // IF it is a short segment 
+														fill_connect && // AND connect is enabled
+													  old_type != 6 && // AND last element was not a drill
+													  old_type != 7)   // AND last element was not a cut-hole
+		
+		// THEN it is possible to connect this segment with the precedent
+		{	
+			GC_MOVE_Z (-stepped_down, feed);
+			GC_MOVE_XY (x1,y1, feed);
+			GC_MOVE_XY (x2,y2, feed);
+			
+		}
+		else
+		// ELSE do a "normal" segment
+		{
+			GC_RAPID_Z (rapid_up);
+			GC_RAPID_XY (x1,y1);
+			GC_MOVE_Z (-stepped_down, feed);
+			GC_MOVE_XY (x2,y2, feed);
+		}
+	}
+}
+
+
+
+
+
+// =================================================================================================================== 
+//  OPTIMIZER
+// =================================================================================================================== 
+
+
+//  Element type
+// ===========================================================
+//	0 = the element does not exists or it is "deleted"
+//	1 = first segment
+//	2 = continuing segment
+//	3 = last segment
+//	4 = single "not connected" segment
+//	5 = single "not connected" segment	" reversed
+//	6 = drill
+//  7 = ( used only as "not conectable" flag )
+// ===========================================================
+
+//  OPERATION
+// ===========================================================
+//	0	= mill 
+//	1	= fill
+//	2	= drill
+//	3 = cut polygons
+//	4 = cut wires	
+// ===========================================================
+
+
+
+
+// ------------------------------- write connected segments	until type = 3 (last segment)
+void Optimizer_WriteConnectedSegmentsContinuation(int cont_array_index)
+{
+	int i = cont_array_index; 
+	while (1)
+	{
+		GC_DrawSegment(opt_cont_a[i], opt_cont_b[i], opt_cont_c[i], opt_cont_d[i],
+							opt_cont_down[i], opt_cont_feed[i], opt_cont_speed[i], opt_cont_operation[i], opt_cont_type[i]);
+		if (opt_cont_type[i] == 3) break;
+		i++;
+	}
+}
+
+
+// ------------------------------- extract a single element and "write" it 
+void Optimizer_Write_Element(int i)
+{ 
+	// -------------------------------------------------- connected segments
+	if (opt_type[i] == 1) 
+	{
+		GC_DrawSegment(opt_a[i], opt_b[i], opt_c[i], opt_d[i], opt_down[i], opt_feed[i], opt_speed[i], opt_operation[i], opt_type[i]);
+		Optimizer_WriteConnectedSegmentsContinuation(opt_cont_index[i]);
+	}
+	// -------------------------------------------------- single segment
+	if (opt_type[i] == 4) 
+	{
+		GC_DrawSegment(opt_a[i], opt_b[i], opt_c[i], opt_d[i], opt_down[i], opt_feed[i], opt_speed[i], opt_operation[i], opt_type[i]);
+	}
+	// -------------------------------------------------- single segment reversed
+	if (opt_type[i] == 5) 
+	{
+		GC_DrawSegment(opt_c[i], opt_d[i], opt_a[i], opt_b[i], opt_down[i], opt_feed[i], opt_speed[i], opt_operation[i], opt_type[i]);
+	}
+	// -------------------------------------------------- drill
+	if (opt_type[i] == 6) 
+	{
+		GC_DrawDrill(opt_a[i], opt_b[i], opt_c[i], opt_down[i], opt_feed[i], opt_speed[i]);
+	}
+	// -------------------------------------------------- mark the "old_type"
+	old_type = opt_type[i];
+	// -------------------------------------------------- "delete" the element
+	opt_type[i] = 0;					  
+}
+
+
+
+// ------------------------------- write elements in the original "unoptimized" order
+void Optimizer_Write_All_Unoptimized()
+{ 
+	for (int i = 0; i < opt_n; i++)
+	{
+		Optimizer_Write_Element(i);
+	}
+}
+
+
+// ------------------------------------------- write elements in optimized order
+void Optimizer_Write_All_Optimized()
+{ 
+	string s;
+	int best;
+	real dist;
+	real mindist;
+		
+	// ------------------------------------------ ensure that the first segment
+	// ------------------------------------------ will not connected by the optimizer
+	old_type = 7;
+
+
+	for (int count = 0; count < opt_n; count++)
+	{
+		mindist = REAL_MAX;
+		for (int i = 0; i < opt_n; i++)
+		{
+			// ---------------------------------- if the element is not "deleted"
+			if (opt_type[i])
+			{
+				// ------------------------------- try with the start point
+				dist = DistSquared(opt_a[i], opt_b[i], g_oldx, g_oldy);
+				// ------------------------------- cut operations must be ordered 
+				if (opt_operation[i] == 4) dist += 10e6;
+				
+
+				// ------------------------------- this optimization has no effect
+				//if (opt_type[i] == 6)
+				//{
+				//	if (dist < (pow((opt_d[i]+mill_tool_diam*1.5)/2.0,2.0)))
+				//	{	
+				//		//dlgMessageBox("pippo");
+				//		dist=0;
+				//	}
+				//}
+
+				
+
+				if (dist <= mindist)
+				{
+					mindist = dist;
+					best = i;
+				}
+
+				// ------------------------------- if the element is a "single" segment
+				if (opt_type[i] == 4 || opt_type[i] == 5)
+				{
+					// ---------------------------- mark as "not reversed"
+					opt_type[i] = 4;
+					// ---------------------------- try with the end point
+					dist = DistSquared(opt_c[i], opt_d[i], g_oldx, g_oldy);
+					// ---------------------------- cut operations must be ordered 
+					if (opt_operation[i] == 4) dist += 10e6;
+					//
+					if (dist <= mindist)
+					{
+						mindist = dist;
+						best = i;
+						// ------------------------- mark as "reversed"
+						opt_type[i] = 5;
+					}
+				}
+			}
+		} 
+		// ------------------------------------- output the "best" element
+		Optimizer_Write_Element(best);
+		// ------------------------------------- progress percentual in the status bar
+		sprintf(s,"Optimizing: %d%%", (count*100) / opt_n); 
+		status(s);
+	}
+}
+
+
+// ----------------------------------------- write elements
+void Optimizer_Write_All(int optimized)
+{ 
+	if (optimized)
+	{
+		Optimizer_Write_All_Optimized();
+	}
+	else
+	{
+		Optimizer_Write_All_Unoptimized();
+	}
+	// -------------------------------------- "clear" arrays
+	opt_n = 0;
+	opt_cont_n = 0;
+}
+
+
+
+
+// ------------------------------- add a segment to the optimizer arrays
+void Optimizer_AddSegment(int a, int b, int c, int d, real down, real feed, real speed, int operation, int type)
+{ 
+	if (type == 2 || type == 3)
+	{
+		// types 2 and 3 in optimizer "continuation" arrays
+		opt_cont_a[opt_cont_n]=TransformX(a,b);
+		opt_cont_b[opt_cont_n]=TransformY(a,b);
+		opt_cont_c[opt_cont_n]=TransformX(c,d);
+		opt_cont_d[opt_cont_n]=TransformY(c,d);
+		opt_cont_down[opt_cont_n]=down;
+		opt_cont_feed[opt_cont_n]=feed;
+		opt_cont_speed[opt_cont_n]=speed;
+		opt_cont_operation[opt_cont_n]=operation;
+		opt_cont_type[opt_cont_n]=type;				
+		opt_cont_n ++;
+	}
+	else
+	{
+	   // types 1, 4 and 5 are "normal" segments
+		opt_a[opt_n]=TransformX(a,b);
+		opt_b[opt_n]=TransformY(a,b);
+		opt_c[opt_n]=TransformX(c,d);
+		opt_d[opt_n]=TransformY(c,d);
+		opt_down[opt_n]=down;
+		opt_feed[opt_n]=feed;
+		opt_speed[opt_n]=speed;
+		opt_operation[opt_n]=operation;
+		opt_type[opt_n]=type;			
+		opt_cont_index[opt_n]=opt_cont_n;
+		opt_n++;
+	}
+}
+
+// ------------------------------- add a hole to the optimizer arrays 
+void Optimizer_AddDrill(int x, int y, int r, int diam)
+{ 
+	// --------------------------- only if the hole is not outside the board "dimensions"
+	//if ( TransformX(x,y)>= board_tx1 && TransformX(x,y) <= board_tx2 && TransformY(x,y) >= board_ty1 && TransformY(x,y) <= board_ty2 )
+	if ( u2mm(x)>= board_x1 && u2mm(x) <= board_x2 && u2mm(y) >= board_y1 && u2mm(y) <= board_y2 )
+	{
+		opt_a[opt_n]=TransformX(x,y);
+		opt_b[opt_n]=TransformY(x,y);
+		opt_c[opt_n]=u2mm(r);
+		opt_d[opt_n]=u2mm(diam);
+		opt_down[opt_n]=drill_down;
+		opt_feed[opt_n]=drill_feed;
+		opt_speed[opt_n]=drill_speed;
+		opt_operation[opt_n]=3;			// 3 = drill	
+		opt_type[opt_n]=6;				// 6 = drill
+		opt_n++;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+// =================================================================================================================== 
+//   MILL OUTLINES and FILL UNUSED AREA - Collect outlines and fillings from Eagle
+// =================================================================================================================== 
+
+// ------------------------------- get OUTLINE SEGMENTS from eagle
+void CollectOutlineSegments(void)
+{  
+	int startx, starty;
+
+	board(B)
+	{
+		B.signals(S) 
+		{
+			if (S.name == OutlinesSignalName) 
+			{
+				S.polygons(P) 
+				{
+					int first = 1;
+					int frame_wire;
+					int element_type;
+					// ---------------------------------- find outlines-polygon borders
+					int wx1 = INT_MAX, wy1 = INT_MAX;
+					int wx2 = INT_MIN, wy2 = INT_MIN;
+					P.wires(W) 
+					{
+						wx1 = min(wx1, W.x1);
+						wx2 = max(wx2, W.x1);
+						wy1 = min(wy1, W.y1);
+						wy2 = max(wy2, W.y1);
+               }
+					// ---------------------------------- signal contours
+					P.contours(C) 
+					{
+						if (first) 
+						{
+							startx = C.x1;
+							starty = C.y1;
+							frame_wire = (C.x1 == wx1 || C.x1 == wx2) && (C.y1 == wy1 || C.y1 == wy2);
+							element_type = 1;
+							first = 0;
+						}
+						else if (C.x2 == startx && C.y2 == starty) 
+						{
+							element_type = 3;
+							first = 1;
+						}
+						else
+						{
+							element_type = 2;
+						}
+						// ----------------- add this segment to the optimizer arrays
+						if (!frame_wire)
+						{
+							Optimizer_AddSegment(C.x1, C.y1, C.x2, C.y2, mill_down, mill_feed, mill_speed, 0, element_type);
+						}
+					}
+				}
+				break;
+			}
+		}
+	}
+}
+
+
+
+// ------------------------------ get FILLING SEGMENTS from eagle
+void CollectFillingSegments(void)
+{
+	int x1, y1, x2, y2;
+
+	board(B)
+	{
+		B.signals(S) 
+		{
+			if (S.name == OutlinesSignalName) 
+			{
+				S.polygons(P) 
+				{
+					P.fillings(W) 
+					{
+						x1 = W.x1; 
+						y1 = W.y1;
+						x2 = W.x2;
+						y2 = W.y2;
+						
+						// -------------- add this segment to the optimizer arrays
+						// -------------- eventually removing segments near to top
+						// -------------- near to bottom and very short segments
+						if (fill_remove)
+						{	
+							{
+								int remove = 0;
+
+								//if (
+								//		(abs(u2mm(x1) - board_x1) < mill_tool_diam * 0.5 ||
+								//			abs(u2mm(x1) - board_x2) < mill_tool_diam * 0.5)
+								//		&&
+								//		(abs(u2mm(x2) - board_x1) < mill_tool_diam * 0.5 ||
+								//			abs(u2mm(x2) - board_x2) < mill_tool_diam * 0.5)
+								//	 ) remove = 1;
+
+
+								//if (abs(u2mm(y1) - board_y1) <= mill_tool_diam/2.0 ||
+								//	 abs(u2mm(y1) - board_y2) <= mill_tool_diam/2.0) remove = 1;
+
+								if (abs(u2mm(y1) - board_y1) < mill_tool_diam * 0.5 ||
+									 abs(u2mm(y1) - board_y2) < mill_tool_diam * 0.5) remove = 1;
+
+								if (!remove)
+								{
+									x1 += 10000 * (mill_tool_diam/2.0); 
+									x2 -= 10000 * (mill_tool_diam/2.0);
+									if (x2-x1 > 1000)   // <-- 0.1mm * 10000
+									{
+										Optimizer_AddSegment(x1, y1, x2, y2, mill_down, mill_feed, mill_speed, 1, 4);
+									}
+								}
+							}
+						}
+						else
+						{
+							Optimizer_AddSegment(x1, y1, x2, y2, mill_down, mill_feed, mill_speed, 1, 4);
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+
+
+
+// =================================================================================================================== 
+//    DRILL - collect holes and vias from Eagle
+// =================================================================================================================== 
+
+// ------------------------------- get DRILLS from eagle
+void CollectDrills(void)
+{  
+	int layer = LayerNumber();
+	// ------------------------------------------ find drills
+	board(B)
+	{
+		B.holes(H) Optimizer_AddDrill(H.x, H.y, H.drill, 0);
+		B.signals(S) S.vias(V) Optimizer_AddDrill(V.x, V.y, V.drill, V.diameter[layer]);
+		B.elements(E)
+		{
+			E.package.contacts(C)
+			{
+				if (C.pad) Optimizer_AddDrill(C.pad.x, C.pad.y, C.pad.drill, C.pad.diameter[layer]);
+			}
+
+			E.package.holes(H)
+			{
+				//Optimizer_AddDrill(H.x, H.y, H.drill, H.diameter[layer]);
+				Optimizer_AddDrill(H.x, H.y, H.drill, 0);
+			}
+		}
+	}
+}
+
+
+
+
+// =================================================================================================================== 
+//   CUT BOARD - collect wires and polygons from Eagle
+// =================================================================================================================== 
+
+// ------------------------------- get CUT wires and polygons from eagle
+void CollectCut(void)
+{																												   
+	int startx, starty;
+
+	board(B)
+	{
+		// ------------------------------------------ POLYGONS   (operation 3 = cut-board polygons)
+		B.polygons(P)
+		{
+			int first = 1;
+			int element_type;
+			
+			P.contours(W)
+			{
+				if (W.layer == LAYER_DIMENSION)
+				{
+					if (first)
+					{
+						startx = W.x1;
+						starty = W.y1;  
+						element_type = 1;
+						first = 0;
+					}
+					else if (W.x2 == startx && W.y2 == starty) 
+					{
+						element_type = 3;
+						first = 1;
+					}
+					else
+					{
+						element_type = 2;
+					}
+					Optimizer_AddSegment(W.x1, W.y1, W.x2, W.y2, cut_down, cut_feed, cut_speed, 3, element_type);
+				}
+			}
+		}
+
+		// ------------------------------------------ WIRES    (operation 4 = cut-board wires)
+		B.wires(W)
+		{
+			if (W.layer == LAYER_DIMENSION)
+			{
+				real min_side = 20;
+				if (cut_gaps && (abs(W.x2-W.x1)>=min_side*10000 || abs(W.y2-W.y1)>=min_side*10000))
+				{
+					real gap = 10000 * (0.5 + cut_tool_diam)/2.0;
+					real nx = NormalizeX(W.x2-W.x1, W.y2-W.y1);
+					real ny = NormalizeY(W.x2-W.x1, W.y2-W.y1);
+
+					Optimizer_AddSegment(W.x1, W.y1, W.x1 + (W.x2-W.x1)*0.5 - gap*nx, W.y1 + (W.y2-W.y1)*0.5 - gap*ny, cut_down, cut_feed, cut_speed, 2, 4);
+					Optimizer_AddSegment(W.x1 + (W.x2-W.x1)*0.5 + gap*nx, W.y1 + (W.y2-W.y1)*0.5 + gap*ny, W.x2, W.y2, cut_down, cut_feed, cut_speed, 2, 4);
+				}
+				else
+				{
+					Optimizer_AddSegment(W.x1, W.y1, W.x2, W.y2, cut_down, cut_feed, cut_speed, 4, 4);
+				}
+			}
+		}
+	}
+}
+
+
+
+
+
+
+// =================================================================================================================== 
+//    OUTPUT GCODE BLOCKS  ---  CHANGE-TOOL - INIT - END
+// =================================================================================================================== 
+
+
+// ------------------------------- GCODE change tool block 
+void GC_BLOCK_ChangeTool(real tool_diam, real tool_angle, int manual_change, int tool_number)
+{	
+	tool_number+=11;
+	printf ("\n\n\n");
+	printf ("(==============================)\n");
+	printf ("( New tool number: T%d         )\n", tool_number);
+	printf ("(==============================)\n");
+	printf( "(MCUTOOL T%d D%.3f F3 L30 A%.0f)\n", tool_number, tool_diam, tool_angle);
+	printf ("\T%d\n",tool_number);
+	printf ("(==============================)\n");
+
+	if (manual_change)
+	{
+		printf ("( Manual tool change           )\n");
+		printf ("(==============================)\n");
+		printf ("M05\n");									// SPINDLE STOP
+		GC_RAPID_Z (rapid_up);								// Z  --> RAPID-UP								
+		GC_RAPID_XYZ (0,0,tool_up);							// X-Y-Z--> ZERO CHANGE TOOL
+		printf ("M00\n");									// STOP
+		printf ("M03\n");									// SPINDLE START CLOCKWISE
+		printf ("(==============================)\n");
+
+
+		//    *** CHANGE TOOL - MANUAL CALIBRATION SUPPRESSED ***
+		//  ( so we use only the initial calibration )
+		//  if trying to enable this, some  FEED and SPEED must be initialized
+		//  before to do the GC_RAPID_Z(0) command
+		//
+		// printf ("( Calibration               )\n");
+		// printf ("(==============================)\n");
+		// GC_FeedSpeed(250, 5000);							// SLOW SPEED FOR CALIBRATION
+		// GC_RAPID_Z (0);									// Z  -->ZERO (calibrate Z)
+		// printf ("M00\n");								// STOP
+		// printf ("(==============================)\n");
+
+
+	}
+	else
+	{
+		printf ("( Physical tool not changed    )\n");
+		printf ("(==============================)\n");
+		// -------------------------------------------- force a "z" command after every change tool
+		g_oldz += 0.1;
+	}
+}
+
+
+// ------------------------------- GCODE start block
+void GC_BLOCK_Init(void)
+{
+	printf ("\n");
+	printf ("( %s )\n\n", GcodeFileName);
+	printf ("( %s )\n\n", t2string(time()));
+	printf ("( Absolute mode )\n");
+	printf ("( Unit: mm. )\n");
+	printf ("( Layer: " + Layers[selected_layer] + " )\n\n");
+	if (selected_layer && !board_translate)
+	{
+		if (mirror_axis)
+		{
+			printf ("( X/Y home should be at bottom right corner of the board. )\n");
+		}
+		else
+		{
+			printf ("( X/Y home should be at upper left corner of the board. )\n");
+		}
+	}
+	else
+	{
+		printf ("( X/Y home should be at bottom left corner of the board. )\n");
+	}
+	printf ("( Z home should be with the tip just touching the board. )\n");
+	if (!board_translate)
+	{
+		printf ("( Warning - Board is not translated to zero ! )\n");
+	}
+
+
+	printf ("\n\n\n");
+	printf ("(==============================)\n");
+	printf ("( START                        )\n");
+	printf ("(==============================)\n");
+	// ------------------------------------ calc stock dimension
+	real stock_x1 = board_tx1;
+	real stock_y1 = board_ty1;
+	real stock_x2 = board_tx2;
+	real stock_y2 = board_ty2;
+	real stock_dx = board_tdx + stock_bx;
+	real stock_dy = board_tdy + stock_by;
+	real stock_ox = -min(stock_x1, stock_x2) + stock_bx / 2.0;
+	real stock_oy = -min(stock_y1, stock_y2) + stock_by / 2.0;
+	real stock_dz = max(mill_down, drill_down);
+	stock_dz = max(stock_dz, cut_down);
+	printf( "(MCUSTOCK X%.3f Y%.3f Z%.3f OTL OX%.3f OY%.3f OZ0.0)\n", stock_dx, stock_dy, stock_dz, stock_ox, stock_oy);
+	// -------------------------------------
+	printf ("G21\n");									// UNIT = MILLIMETERS
+	printf ("G90\n");									// ABSOLUTE MODE
+	printf ("G40\n");									// DIAMETER COMPENSATION OFF
+	printf ("M03\n");									// SPINDLE START CLOCKWISE
+	printf ("(==============================)\n");
+
+	g_oldx = 0;
+	g_oldy = 0;
+}  
+
+
+// ------------------------------- GCODE end block
+void GC_BLOCK_End(void)
+{   
+	for (int i = 0; i < 30000; i++) {status("END OF PROGRAM");}
+	printf ("\n\n\n");
+	printf ("(==============================)\n");
+	printf ("( END OF PROGRAM               )\n\n");
+	printf ("M05\n");									// SPINDLE STOP
+	GC_RAPID_Z (rapid_up);								// Z  --> RAPID-UP								
+	GC_RAPID_XYZ (0,0,tool_up);							// X-Y-Z--> ZERO CHANGE TOOL
+	printf ("M30\n");									// REWIND
+	printf ("M02\n");									// END OF PROGRAM
+	printf ("(==============================)\n\n");
+	//
+	int h = tot_time / 3600.0;
+	tot_time -= h * 3600;
+	int m = tot_time / 60.0;
+	tot_time -= m * 60;
+	int sec = tot_time;
+	//
+	string s;
+	sprintf (s, " ======= STATISTICS ======= \n\n");
+	sprintf (s, "%s Total Rapid %.0f mm\n", s, tot_rapid);
+	sprintf (s, "%s Total Move %.0f mm\n\n", s, tot_move);
+	if (h>0) sprintf (s, "%s Total estimated time: \n %d  h.\n %d  min.\n %.d  sec.\n", s, h, m, sec);
+	else     sprintf (s, "%s Total estimated time: \n %d  min.\n %d  sec.\n", s, m, sec);
+	dlgMessageBox(s);
+	printf ("\n\n\n" + s + "\n\n");
+}
+
+
+
+
+
+// =================================================================================================================== 
+//     OUTPUT GCODE BLOCKS  ---   MILL - FILL - DRILL - CUT-HOLES
+// ===================================================================================================================
+
+
+
+// -------------------------------------- write millings
+void GC_BLOCK_Write_Mills(void)
+{
+
+	GC_BLOCK_ChangeTool(mill_tool_diam, mill_tool_angle, mill_change, 1);
+	//
+	if (mill_merge) return;
+	//
+	printf ("\n\n\n");
+	printf ("(==============================)\n");
+	printf ("( Milling signal contours      )\n");
+	//
+	GC_FeedSpeed(mill_feed, mill_speed);
+	printf ("\n");
+	Optimizer_Write_All(mill_optimize);
+}
+
+
+// -------------------------------------- write fillings
+void GC_BLOCK_Write_Fills(void)
+{
+	if (!mill_on) GC_BLOCK_ChangeTool(mill_tool_diam, mill_tool_angle, mill_change, 1);
+	//
+	if (fill_merge) return;
+	//
+	printf ("\n\n\n");
+	printf ("(==============================)\n");
+	if (mill_merge)
+	{
+		printf ("( Milling and Filling merged   )\n");
+	}
+	else
+	{
+		printf ("( Filling unused area          )\n");
+	}
+	//
+	GC_FeedSpeed(mill_feed, mill_speed);
+	//printf ("\n\n");
+	//GC_RAPID_Z (rapid_up);
+	printf ("\n");
+	Optimizer_Write_All(fill_optimize);
+}
+
+
+// -------------------------------------- write drills
+void GC_BLOCK_Write_Drills(void)
+{	
+	if (fill_merge)
+	{
+		GC_BLOCK_ChangeTool(drill_tool_diam, drill_tool_angle, drill_change, 1);
+	}
+	else
+	{
+		GC_BLOCK_ChangeTool(drill_tool_diam, drill_tool_angle, drill_change, 2);
+	}
+	//
+	if (drill_merge) return;
+	//
+	if (fill_merge)
+	{
+		printf ("\n\n\n");
+		printf ("(==============================)\n");
+		printf ("( Mill/Fill and Drill merged   )\n");
+	}
+	else
+	{	
+		printf ("\n\n\n");
+		printf ("(==============================)\n");
+		printf ("( Drilling                     )\n");
+	}
+	//
+	GC_FeedSpeed(drill_feed, drill_speed);
+	printf ("\n\n");
+	GC_RAPID_Z (rapid_up);
+	printf ("\n");
+	Optimizer_Write_All(drill_optimize);
+}
+
+
+// -------------------------------------- write Cut
+void GC_BLOCK_Write_Cut(void)
+{ 
+	if (drill_merge)
+	{
+		GC_BLOCK_ChangeTool(cut_tool_diam, cut_tool_angle, cut_change, 1);
+		printf ("\n\n\n");
+		printf ("(==============================)\n");
+		if (fill_merge)
+		{
+			if (mill_merge)
+			{
+				printf ("( All operations merged        )\n");
+			}
+			else
+			{
+				printf ("( Fill, Drill and CUT merged   )\n");
+			}
+		}
+		else
+		{
+			printf ("( Drill and CUT merged         )\n");
+		}
+	}
+	else
+	{	
+		GC_BLOCK_ChangeTool(cut_tool_diam, cut_tool_angle, cut_change, 4);
+		printf ("\n\n\n");
+		printf ("(==============================)\n");
+		printf ("( Cutting                      )\n");
+	}
+	GC_FeedSpeed(cut_feed, cut_speed);
+	printf ("\n\n");
+	GC_RAPID_Z (rapid_up);
+	printf ("\n");
+	Optimizer_Write_All(cut_optimize);
+}
+
+
+
+
+
+
+
+
+
+
+// =================================================================================================================== 
+//    GENERATE and DELETE OUTLINES
+// =================================================================================================================== 
+
+string RotateAllCmd(real deg, real x, real y)
+{
+	real x1 = board_x1-10;
+	real y1 = board_y1-10;
+	real x2 = board_x2+10;
+	real y2 = board_y2+10;
+
+	string cmd;
+	sprintf ( 
+				cmd,
+				"group (%f %f) (%f %f) (%f %f) (%f %f) (%f %f);\n"
+				"rotate r%f (> %f %f);"
+				,
+				x1,y1, x2,y1, x2,y2, x1,y2, x1,y1,
+				deg, x, y
+				);
+	return cmd;
+}
+
+// ------------------------------- error message if exist a signal named  _OUTLINES_
+void Message(string Message, string Details)
+{ 
+	dlgMessageBox("<hr><b>ERROR: " + Message + "</b><p><hr>\n" + Details); 
+}
+
+
+string VisibleLayerNames()
+{
+	string layers;
+	// ---------------- for some strange reason a layer 104 with name "Name" gives a "Unavailable layer" error
+	board(B){ B.layers(L) { if (L.visible && L.name != "Name") layers = layers + L.name + " "; }}
+	// ---------------- another method to correct this strange error can be to exclude all layers with number > 100
+	//board(B){ B.layers(L) { if (L.visible && L.number < 100) layers = layers + L.name + " "; }}
+	return layers;
+}
+
+
+
+// ------------------------------------- create the _OUTLINES_ polygon
+void ExitAndGenerateOutlines(void)
+{  
+	board(B) 
+	{
+		// ------------------------------- error message end exit if exist a signal named _OUTLINES_
+		B.signals(S) 
+		{
+			if (S.name == OutlinesSignalName)
+			{
+				Message("There is already a signal named " + OutlinesSignalName + " in this board!",
+								 "Please make sure that there is no such signal in this board.");
+				exit(1);
+			}
+		}
+
+
+		// ------------------------------- "outline" command
+		// ( non-zero values for the Isolate parameter can be used when
+		//   working sequentially with different milling tool diameters 
+		//   in order to avoid areas that have already been milled )
+	   // ------------------------------------------------------------
+
+		real isolate = mill_overlap + trace_enlarging;
+		real width = mill_tool_diam - mill_overlap * 2 - trace_enlarging;
+
+		real x1 = board_x1;
+		real y1 = board_y1;
+		real x2 = board_x2;
+		real y2 = board_y2;
+
+		// ------------------------------- FILL_VERTICAL and BOARD_ROTATE in the same direction
+		string cmd;
+		if(fill_vertical == board_rotate)
+		{
+			// ---------------------------- normal 
+			sprintf 
+			( 
+				cmd,
+				"set undo_log off;\n"
+				"grid mm;\n"
+				"window fit;\n"
+				"window 0.01;\n"
+				"change rank 6;\n"
+				"change pour solid;\n"
+				"change orphans on;\n"
+				"change isolate %.3f;\n"
+				"layer %d;\n"
+				"polygon %s %.3f (%f %f) (%f %f) (%f %f) (%f %f) (%f %f);\n"
+				"ratsnest;\n"
+				"grid last;\n"
+				"set undo_log on;\n"
+				"run '%s' argv[1] '%s' '%s';"
+				,
+				isolate,
+				LayerNumber(),
+				OutlinesSignalName, width, x1,y1, x2,y1, x2,y2, x1,y2, x1,y1,
+				argv[0], GcodeFileName, "OUTLINES_OK"
+			);	 
+		}
+		// ------------------------------- FILL_VERTICAL and BOARD_ROTATE in different directions
+		else
+		{
+			//  --------------------------- rotated
+			sprintf 
+			( 
+				cmd,
+				"set undo_log off;\n"
+				"grid mm;\n"
+				"window fit;\n"
+				"window 0.01;\n"
+				"change rank 6;\n"
+				"change pour solid;\n"
+				"change orphans on;\n"
+				"change isolate %.3f;\n"
+				"layer %d;\n"
+				"polygon %s %.3f (%f %f) (%f %f) (%f %f) (%f %f) (%f %f);\n"
+				"%s\n"
+				"ratsnest;\n"
+				"grid last;\n"
+				"set undo_log on;\n"
+				"run '%s' argv[1] '%s' '%s';"
+				,
+				isolate,
+				LayerNumber(),
+				OutlinesSignalName, width, x1,y1, x2,y1, x2,y2, x1,y2, x1,y1,
+				RotateAllCmd(90, pivot_x, pivot_y),
+				argv[0], GcodeFileName, "OUTLINES_OK"
+			);	 
+		}
+		exit(cmd);
+	}
+}
+
+
+
+
+
+// ------------------------------- Exit deleting the "_OUTLINES_" polygon and restoring the old "grid" unit
+void ExitAndDeleteOutlines(void)
+{  
+	string VisibleLayers =  VisibleLayerNames();
+	string cmd;
+	// ------------------------------- FILL_VERTICAL and BOARD_ROTATE in the same direction
+	if(fill_vertical == board_rotate)
+	{
+		// ---------------------------- normal 
+		sprintf
+		(
+			cmd,
+			"set undo_log off;\n"
+			"grid mm;\n"
+			"display none %d;\n"
+			"delete (S %f %f);\n"
+			"display %s;\n"
+			"ratsnest;\n"
+			"window fit;\n"
+			"grid last;\n"
+			"set undo_log on;\n"
+			,
+			LayerNumber(),
+			board_x1, board_y2,
+			VisibleLayers
+		);
+	}
+	// ------------------------------- FILL_VERTICAL and BOARD_ROTATE in different directions
+	else
+	{	  
+		// -----------------------------------------------
+		//  board rotated by -90 to the original position
+		// -----------------------------------------------
+		sprintf
+		(
+			cmd,
+			"set undo_log off;\n"
+			"grid mm;\n"
+			"%s\n"
+			"display none %d;\n"
+			"delete (S %f %f);\n"
+			"display %s;\n"
+			"ratsnest;\n"
+			"window fit;\n"
+			"grid last;\n"
+			"set undo_log on;\n"
+			,
+			RotateAllCmd(270, pivot_x, pivot_y),
+			LayerNumber(),
+			
+			// whith a inverted Y/x it is possible to delete the 
+			// _OUTLINES_ polygon and not the _GND_ polygon
+			board_y1, board_x1,	 
+	
+			VisibleLayers
+		);
+
+		//dlgMessageBox(cmd);
+	}
+	exit(cmd);
+}
+
+	  
+
+
+// =================================================================================================================== 
+//    UTILITIES - DRC and GROUNDPLANE
+// =================================================================================================================== 
+
+
+
+void write_drc_param(string name, real val_mm) 
+{  
+	int mils = (val_mm * 1000.0)/ 25.4;
+	printf("%s = %dmil\n", name, mils); 
+} 
+
+
+void ExitAndTestDesignRules()
+{
+	real isolate = mill_tool_diam + trace_enlarging;
+
+	string DRCfilename = filedir(argv[0]) + "/FastGcode-DesignRules.dru";	
+	output(DRCfilename, "wt")
+	{
+		printf("description = EAGLE Design Rules generated by FastGcode.\n");
+		// ------------------------------------------- clearance
+		write_drc_param("mdWireWire", isolate);
+		write_drc_param("mdWirePad", isolate);
+		write_drc_param("mdWireVia", isolate);
+		write_drc_param("mdPadPad", isolate);
+		write_drc_param("mdPadVia", isolate);
+		write_drc_param("mdViaVia", isolate);
+		write_drc_param("mdSmdPad", isolate);
+		write_drc_param("mdSmdVia", isolate);
+		write_drc_param("mdSmdSmd", isolate);
+		// ------------------------------------------- distance
+		write_drc_param("mdCopperDimension", isolate);
+		// ------------------------------------------- sizes
+		write_drc_param("msDrill", drill_tool_diam);
+		// ------------------------------------------- supply	(thermals)
+		write_drc_param("slMinThermalGap", mill_tool_diam * 1.5 + extra_iso_thermals);
+		write_drc_param("slAnnulusIsolate", mill_tool_diam * 1.5 + extra_iso_thermals);
+		write_drc_param("slThermalIsolate", mill_tool_diam * 1.5 + extra_iso_thermals);
+	}
+	string cmd;
+	sprintf 
+	( 
+		cmd,
+		"set undo_log off;\n"
+		"drc load '%s';\n"
+		"grid mm;\n"
+		"window fit;\n"
+		"drc (%f %f) (%f %f);\n"
+		"grid last;\n"
+		"set undo_log on;\n"
+		,
+		DRCfilename,
+		board_x1, board_y1, board_x2, board_y2
+	);
+	exit(cmd);
+}
+
+
+string DrcThermalsCmd()
+{
+	string DRCfilename = filedir(argv[0]) + "/FastGcode-DesignRules.dru";	
+	output(DRCfilename, "wt")
+   {
+		printf("description = EAGLE Design Rules generated by FastGcode.\n");
+		// ------------------------------------------- distance
+		write_drc_param("mdCopperDimension", 0.8);
+		// ------------------------------------------- supply	(thermals)
+		write_drc_param("slMinThermalGap", mill_tool_diam * 1.5 + extra_iso_thermals);
+		write_drc_param("slAnnulusIsolate", mill_tool_diam * 1.5 + extra_iso_thermals);
+		write_drc_param("slThermalIsolate", mill_tool_diam * 1.5 + extra_iso_thermals);
+	}
+	string cmd;
+	sprintf 
+	( 
+		cmd,
+		"set undo_log off;\n"
+		"drc load '%s';\n"
+		"set undo_log on;\n"
+		,
+		DRCfilename
+	);
+	return cmd;
+}
+
+
+string StringOnOff(int n)
+{
+	if (n) return "on";
+	else return "off";
+}
+
+
+string DeleteGroundPlaneCmd()
+{
+	string cmd;
+	board(B)
+	{
+		B.signals(S) 
+		{
+			if (S.name == "GND") 
+			{
+				S.polygons(P)
+				{
+					if (P.layer == LayerNumber())
+					{
+						real x1, y1;
+						P.wires(W)
+						{
+							x1 = u2mm(W.x1);
+							y1 = u2mm(W.y1);
+							break;
+						}
+
+						string VisibleLayers =  VisibleLayerNames();
+						sprintf 
+						( 
+							cmd,
+							"set undo_log off;\n"
+							"set polygon_ratsnest on;\n"
+							"display none %d;\n"
+							"grid mm;\n"
+							"window fit;\n"
+							"delete (S %f %f);\n"
+							"ratsnest;\n"
+							"grid last;\n"
+							"display %s;\n"
+							"set undo_log on;\n"
+							,
+							LayerNumber(),
+							x1, y1,
+							VisibleLayers
+						);
+
+						break;
+					}
+				}
+			}
+		}
+	}
+	return cmd;
+}
+
+	  		
+
+void ExitAndCreateGroundplane()
+{
+
+	real isolate = mill_tool_diam + extra_iso2 + 0.1 + trace_enlarging;
+	real width = mill_tool_diam * 1.5 + extra_iso1;
+
+	real x1 = board_x1-1;
+	real y1 = board_y1-1;
+	real x2 = board_x2+1;
+	real y2 = board_y2+1;
+
+	string cmd;
+	sprintf 
+	( 
+		cmd,
+		"set undo_log off;\n"
+		"set polygon_ratsnest on;\n"
+		"grid mm;\n"
+		"window fit;\n"
+		"change pour solid;\n"
+		"change orphans %s;\n"
+		"change thermals %s;\n"
+		"change isolate %.3f;\n"
+		"layer %d;\n"
+		"polygon %s %.3f (%f %f) (%f %f) (%f %f) (%f %f) (%f %f);\n"
+		"ratsnest;\n"
+		"grid last;\n"
+		"set undo_log on;\n"
+		"run '%s' argv[1] '%s' '%s';"
+		,
+		StringOnOff(orphans_on),
+		StringOnOff(thermals_on),
+		isolate,
+		LayerNumber(),
+		"GND", width, x1,y1, x2,y1, x2,y2, x1,y2, x1,y1,
+		argv[0], GcodeFileName, ""
+	);
+	exit(DrcThermalsCmd() + DeleteGroundPlaneCmd() + cmd);
+}
+
+
+void ExitAndDeleteGroundplane()
+{
+	string cmd;
+	sprintf 
+	( 
+		cmd,
+		"run '%s' argv[1] '%s' '%s';"
+		,
+		argv[0], GcodeFileName, ""
+	);
+	exit(DeleteGroundPlaneCmd() + cmd);
+}
+
+
+
+void ExitAndRedrawDialogBox()
+{
+	string cmd;
+	sprintf 
+	( 
+		cmd,
+		"run '%s' argv[1] '%s' '%s';"
+		,
+		argv[0], GcodeFileName, ""
+	);
+	exit(cmd);
+}
+
+
+
+
+
+
+// =================================================================================================================== 
+//     ENTRY POINT
+// =================================================================================================================== 
+
+
+
+// --------------------------- test if there is a board
+if (!board)
+{
+	dlgMessageBox("\n    Board not found\n Please start this ULP in a Board    \n"); 
+	exit (0);
+}
+
+
+// --------------------------- parameters passed to ulp at second run
+if (argv[1])
+{
+	if (argv[2])
+	{	
+		GcodeFileName = argv[2];
+		if(argv[3])
+		{
+			ulp_operation = argv[3];
+		}
+	}
+}		
+
+
+
+
+// --------------------------- read all params from "FastGcode.ini"
+ReadIniFile(DefaultIniFile());
+
+
+// --------------------------- graphical interface at first run
+if (ulp_operation == "")  Setup();
+
+if (ulp_operation == "RestartDialog") ExitAndRedrawDialogBox();
+
+
+
+// --------------------------- calc the true board dimensions
+CalcTrueBoardDimension();
+
+
+// --------------------------- TOOLS 
+if (ulp_operation == "TestDRC") ExitAndTestDesignRules();
+if (ulp_operation == "CreateGP") ExitAndCreateGroundplane();
+if (ulp_operation == "DeleteGP") ExitAndDeleteGroundplane();
+
+
+
+if  (ulp_operation != "" &&  ulp_operation != "OUTLINES_OK")
+{
+	dlgMessageBox("Unknown operation : " + ulp_operation);
+}
+
+// --------------------------- milling and filling require two run of the ulp
+// --------------------------- so the step "1" terminates here with a "Exit" cmd
+if (ulp_operation == "" && (mill_on || fill_on))
+{		
+	ExitAndGenerateOutlines();
+}
+
+
+// --------------------------- IF MILL_ON or FILL_ON THIS IS THE END OF PROGRAM
+// ----------------------------------------------------------------------------
+// --------------------------- NEXT LINES WILL BE EXECUTED ONLY AT SECOND RUN
+
+
+// --------------------------- write the GCODE
+output(GcodeFileName, "wt") 
+{
+	GC_BLOCK_Init();
+
+	int i;
+	for (i = 1; i <= mill_steps; i++)
+	{
+		down_fraction = (i * 1.0) / mill_steps;
+
+		if (mill_on) 
+		{
+			CollectOutlineSegments();
+			GC_BLOCK_Write_Mills();
+		}  
+		if (fill_on) 
+		{
+			CollectFillingSegments();
+			GC_BLOCK_Write_Fills();
+		}
+	}
+	
+
+	if (drill_on) 
+	{
+		CollectDrills();
+		GC_BLOCK_Write_Drills();
+	}
+
+
+	for (i = 1; i <= cut_steps; i++)
+	{
+		down_fraction = (i * 1.0) / cut_steps;
+
+		if (cut_on) 
+		{
+			CollectCut();
+			GC_BLOCK_Write_Cut();
+		}
+	}
+
+
+
+							  
+	GC_BLOCK_End();
+}
+
+// --------------------------- if outlines are generated then exit removing them
+if (mill_on || fill_on)
+{		
+	ExitAndDeleteOutlines();
+}
+
+
+// ----------------------------------------------------------------------------
+// --------------------------- END OF PROGRAM ---------------------------------
+// ----------------------------------------------------------------------------  
+  
+
+
+
+
+
+  
+// =============================================================================================================== 
+//    DEBUG and UNUSED FUNCTIONS
+// =============================================================================================================== 
+
+
+// =====================================================
+// A STRANGE ULP-BUG
+// =====================================================
+// Using the following code variable "LEN" is INTEGER !
+// -----------------------------------------------------
+// real len = u2mm(int(9.9));
+// string s;
+// sprintf(s, "len=%f", len );
+// dlgMessageBox(s);
+// -----------------------------------------------------
+// Using the following code variable "LEN" is REAL !
+// -----------------------------------------------------
+// real len;
+// len = u2mm(int(9.9));
+// string s;
+// sprintf(s, "len=%f", len );
+// dlgMessageBox(s);
+//------------------------------------------------------
+
+
+// =====================================================
+// TEST PRINT FUNCTIONS
+// =====================================================
+
+//	printf( "(Stock_X1=%.3f Stock_Y1=%.3f Stock_X2=%.3f Stock_Y2=%.3f)\n", stock_x1, stock_y1, stock_x2, stock_y2);
+
+//string s;
+//sprintf(s, "dx=%f  dy=%f",stock_dx, stock_dy);
+//dlgMessageBox(s);
+
+//string s;
+//sprintf(s, "result=%d",Result);
+//dlgMessageBox(s);
+
+//string s;
+//sprintf(s, "dx=%f  dy=%f", u2mm(x2-x1), u2mm(y2-y1));
+//dlgMessageBox(s);
+  
+  
+//sprintf(s, "dx=%f  dy=%f", u2mm(x2-x1), u2mm(y2-y1));
+//dlgMessageBox(s);
+  
+
+//printf ("\n\n\n");
+//printf ("(==============================)\n");
+//printf ("( STATISTICS                   )\n");
+//printf ("(Total Move  XY %.0f mm)\n", tot_move_xy);
+//printf ("(Total Rapid XY %.0f mm)\n", tot_rapid_xy);
+//printf ("(Total Move   Z %.0f mm)\n", tot_move_z);
+//printf ("(Total Rapid  Z %.0f mm)\n", tot_rapid_z);
+//printf ("(Total estimated time %.0f sec)\n", tot_time);
+//printf ("(==============================)\n");
+
+
+
+
+
