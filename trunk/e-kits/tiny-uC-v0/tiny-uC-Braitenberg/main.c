@@ -23,26 +23,52 @@ char keydown()
 
 unsigned char duty=0; 
 
-test_motor(char pwm)
+test_motor(char *pwm)
 {
-	pwm = 80;
-	_delay_ms(100);
-	pwm=0;
+	*pwm = 80;   /*top*/
 	_delay_ms(100);
 	_delay_ms(100);
-	
-	pwm=50;
-	_delay_ms(100);
-	pwm = 0;
 	_delay_ms(100);
 	_delay_ms(100);
 	
-	pwm = 25;
+	*pwm=0;
 	_delay_ms(100);
-	pwm = 0;
+	_delay_ms(100);
 	_delay_ms(100);
 	_delay_ms(100);
 	
+	*pwm=50;
+	_delay_ms(100);
+	_delay_ms(100);
+	_delay_ms(100);
+	_delay_ms(100);
+	
+	*pwm = 40;
+	_delay_ms(100);
+	_delay_ms(100);
+	
+	*pwm = 0;
+	_delay_ms(100);
+	_delay_ms(100);
+	
+	*pwm = 25;     //1.2*4  slower nearly stop
+	_delay_ms(100);
+	_delay_ms(100);
+	*pwm=0;
+}
+
+void set_speed(unsigned int adc, char* ch)
+{
+  
+		if(adc<450) 
+		  *ch=0;
+		
+		if(adc>800)
+         *ch=40;
+
+		if(adc>1000)
+		   *ch=80;
+
 }
 
 int main()
@@ -53,40 +79,35 @@ int main()
 	PORTB = 0;	/* ¹Ø±ÕÈ«²¿LED */
 
     pwm_init();
-	adc_init();	
+	adc_init();
+
     _pin_mode(PORTB,PB2,INPUT);
 	_pin_mode(PORTB,PB3,INPUT);
 
-    test_motor(R_MOTOR);
-    test_motor(L_MOTOR);
+	led_init();	
+    test_motor((char*)&R_MOTOR);
+    test_motor((char*)&L_MOTOR);
 
-    led_init();
+   
 	
 	while (1){
 
- 	        
+ 	   //continue;
+	  
 	   leye=_adc(LEYE_ADC);
+	   leye+=_adc(LEYE_ADC);
+	   leye/=2;
 	   reye=_adc(REYE_ADC);
-	   
-	    if(leye>800 || reye>800){
+	   reye+=_adc(REYE_ADC);
+	   reye/=2;
+	    if(leye<100 || reye<100){
 			ucLED_On();
 	    }else
 		     ucLED_Off();
 		   
-		if(leye<150) 
-		  L_MOTOR=0;
-		else{
-		   unsigned char pwm = leye>>2;
+       set_speed(leye,(char*)&L_MOTOR);
+       set_speed(reye,(char*)&R_MOTOR);
 
-           L_MOTOR = pwm>120?(pwm/3):pwm/2;
-		}
-
-        if(reye<150) R_MOTOR=0;
-		else{
-		   unsigned char pwm = leye>>2;
-
-           R_MOTOR = pwm>120?(pwm/3):pwm/2;
-		}
 		 
 	}
 }
