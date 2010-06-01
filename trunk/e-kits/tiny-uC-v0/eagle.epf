@@ -1,7 +1,7 @@
 [Eagle]
 Version="05 07 00"
-Platform="Linux"
-Serial="62191E841E-LSR-WLM-NCP"
+Platform="Windows"
+Serial="3E3CDD2BD4-LSR-WLM-NCP"
 Globals="Globals"
 Desktop="Desktop"
 
@@ -9,12 +9,6 @@ Desktop="Desktop"
 AutoSaveProject=1
 
 [Win_1]
-Type="Control Panel"
-Loc="458 242 1494 818"
-State=2
-Number=0
-
-[Win_2]
 Type="Schematic Editor"
 Loc="262 25 1226 762"
 State=0
@@ -55,9 +49,9 @@ Layer=91
 Views=" 1: 360381 310485 1624409 1072073"
 Sheet=1
 
-[Win_3]
+[Win_2]
 Type="Board Editor"
-Loc="155 170 1080 886"
+Loc="155 58 1080 774"
 State=2
 Number=1
 File="tiny-uC-13.brd"
@@ -94,8 +88,14 @@ AddLevel=2
 PadsSameType=0
 Layer=16
 
+[Win_3]
+Type="Control Panel"
+Loc="160 40 1196 616"
+State=2
+Number=0
+
 [Desktop]
-Screen="1680 1050"
+Screen="1392 805"
 Window="Win_1"
 Window="Win_2"
 Window="Win_3"
