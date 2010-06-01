@@ -60,14 +60,7 @@ test_motor(char *pwm)
 void set_speed(unsigned int adc, char* ch)
 {
   
-		if(adc<450) 
-		  *ch=0;
-		
-		if(adc>800)
-         *ch=40;
-
-		if(adc>1000)
-		   *ch=80;
+		*ch=adc;
 
 }
 
@@ -100,13 +93,14 @@ int main()
 	   reye=_adc(REYE_ADC);
 	   reye+=_adc(REYE_ADC);
 	   reye/=2;
-	    if(leye<100 || reye<100){
+	   /*sun, in door, 100-240*/
+	    if(leye<50 || reye<50){
 			ucLED_On();
 	    }else
 		     ucLED_Off();
 		   
-       set_speed(leye,(char*)&L_MOTOR);
-       set_speed(reye,(char*)&R_MOTOR);
+       set_speed(150-leye/2,(char*)&L_MOTOR);
+       set_speed((150-reye/2),(char*)&R_MOTOR);
 
 		 
 	}

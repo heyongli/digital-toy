@@ -115,7 +115,7 @@ LOAD C:/WinAVR/lib/gcc/avr/3.4.6\libgcc.a
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x356
+.text           0x00000000      0x34a
  *(.vectors)
  .vectors       0x00000000       0x14 C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib/crttn13.o
                 0x00000000                __vectors
@@ -157,26 +157,26 @@ LOAD C:/WinAVR/lib/gcc/avr/3.4.6\libgcc.a
                 0x00000046                __vector_9
                 0x00000046                __vector_2
                 0x00000046                __vector_8
- .text          0x00000048      0x182 main.o
+ .text          0x00000048      0x176 main.o
                 0x00000064                test_motor
-                0x0000013a                main
+                0x00000118                main
                 0x00000048                keydown
                 0x00000110                set_speed
- .text          0x000001ca       0x1a pwm.o
-                0x000001ca                pwm_init
-                0x000001dc                pwm_setduty
- .text          0x000001e4       0x5c led.o
-                0x00000212                sharp_flash
-                0x000001e4                led_init
- .text          0x00000240       0x3c adc.o
-                0x00000254                _adc
-                0x00000240                adc_init
- .text          0x0000027c       0xda avrio.o
-                0x0000027c                __set_port_mode
-                0x00000306                _swap8
-                0x00000356                . = ALIGN (0x2)
+ .text          0x000001be       0x1a pwm.o
+                0x000001be                pwm_init
+                0x000001d0                pwm_setduty
+ .text          0x000001d8       0x5c led.o
+                0x00000206                sharp_flash
+                0x000001d8                led_init
+ .text          0x00000234       0x3c adc.o
+                0x00000248                _adc
+                0x00000234                adc_init
+ .text          0x00000270       0xda avrio.o
+                0x00000270                __set_port_mode
+                0x000002fa                _swap8
+                0x0000034a                . = ALIGN (0x2)
  *(.text.*)
-                0x00000356                . = ALIGN (0x2)
+                0x0000034a                . = ALIGN (0x2)
  *(.fini9)
  *(.fini8)
  *(.fini7)
@@ -187,9 +187,9 @@ LOAD C:/WinAVR/lib/gcc/avr/3.4.6\libgcc.a
  *(.fini2)
  *(.fini1)
  *(.fini0)
-                0x00000356                _etext = .
+                0x0000034a                _etext = .
 
-.data           0x00800060        0x2 load address 0x00000356
+.data           0x00800060        0x2 load address 0x0000034a
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800060        0x1 led.o
@@ -207,8 +207,8 @@ LOAD C:/WinAVR/lib/gcc/avr/3.4.6\libgcc.a
                 0x00800062                duty
  *(COMMON)
                 0x00800063                PROVIDE (__bss_end, .)
-                0x00000356                __data_load_start = LOADADDR (.data)
-                0x00000358                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x0000034a                __data_load_start = LOADADDR (.data)
+                0x0000034c                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800063        0x0
                 0x00800063                PROVIDE (__noinit_start, .)
@@ -300,13 +300,13 @@ LOAD C:/WinAVR/lib/gcc/avr/3.4.6\libgcc.a
  .debug_abbrev  0x0000027b       0x90 adc.o
  .debug_abbrev  0x0000030b       0x86 avrio.o
 
-.debug_line     0x00000000      0x52e
+.debug_line     0x00000000      0x510
  *(.debug_line)
- .debug_line    0x00000000      0x1f2 main.o
- .debug_line    0x000001f2       0xaa pwm.o
- .debug_line    0x0000029c       0xee led.o
- .debug_line    0x0000038a       0xe6 adc.o
- .debug_line    0x00000470       0xbe avrio.o
+ .debug_line    0x00000000      0x1d4 main.o
+ .debug_line    0x000001d4       0xaa pwm.o
+ .debug_line    0x0000027e       0xee led.o
+ .debug_line    0x0000036c       0xe6 adc.o
+ .debug_line    0x00000452       0xbe avrio.o
 
 .debug_frame
  *(.debug_frame)
