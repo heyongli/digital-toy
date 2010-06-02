@@ -11,6 +11,7 @@ Assign AF7 'Group';
 Assign F8 'Copy';
 Assign F10 'Grid inch 0.05 on; Grid alt inch 0.005;';
 Assign AF10 'Grid mm 1 on; Grid alt mm 0.1;';
+Assign A+w  'Window fit';
 
 Grid inch 0.05 on;
 Grid alt inch 0.005;
@@ -58,6 +59,8 @@ Assign AF10 'Grid mm 1 on; Grid alt mm 0.1;';
 SCH:
 Assign F9 'Net';
 Assign AF9 'Label';
+Assign A+a  'Add';
+
 Grid Default;
 Change Width 0.008;
 
