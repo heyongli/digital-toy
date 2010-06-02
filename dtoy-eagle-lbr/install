@@ -1,0 +1,11 @@
+#!/bin/bash
+
+cp -rf cam ~/eagle-5.7.0/ 
+cp -rf dru ~/eagle-5.7.0/
+cp -rf lbr ~/eagle-5.7.0/
+cp -rf scr ~/eagle-5.7.0/
+cp -rf ulp ~/eagle-5.7.0/
+
+rm  ~/eagle-5.7.0/lbr/digital-toy
+ln -s  ~/digital-toy/dtoy-eagle-lbr/digital-toy  ~/eagle-5.7.0/lbr/digital-toy
+
