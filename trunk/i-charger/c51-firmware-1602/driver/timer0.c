@@ -24,11 +24,13 @@ volatile unsigned  long jiffers=0;  //250us per jiffers
 
 void timer0_init()
 {
-
+  /*mode1: 16bit, need reload*/
+   /*mode2: 8bit, auto reload*/
    /*  timer 0 in mode 1   */
+   
    TMOD |= 0x2;   
       
-   //settimer0(PWM_CYCLE);
+   //settimer0(PWM_CYCLE); //mode1
    TH1 = TH0 = (256-PWM_CYCLE); //100us  15 step , 600Hz
    // enable timer 0 interrupt   
    ET0 = 1;   
@@ -43,28 +45,29 @@ void timer0_init()
 /*中断1， 寄存器组1 (普通函数默认用寄存器组0)*/
 
 
-
+extern unsigned char on_duty ;
 void timer0(void) interrupt 1 using 2   
 {   
 
-	pwm_1kHz();
+	 pwm_1kHz();
 
 #if 0
+///////// mode 1: tickless mode
     if(PWM_PIN) { //need close PWM
    
    	   PWM_PIN = 0;
-	   settimer0(PWM_CYCLE-on_duty);
+	   settimer0(PWM_CYCLE-on_duty+1);
      //  vledx0();
 
 	 
      }else { //need open PWM
   
        PWM_PIN = 1;
-	   settimer0(on_duty);//on_duty);
+	   settimer0(on_duty+1);//on_duty);
 //	   vledx1();
 
-     }  
-#endif
+     }
+#endif  
 
 }  
 
@@ -72,7 +75,7 @@ void timer0(void) interrupt 1 using 2
 void timer1_init()
 {
   /* timer0 init */
-   /*  timer 0 in mode 2   */
+   /*  timer 0 in mode 1   */
    TMOD |= 0x10;   
    // set timer speed   
    settimer1(MS_CYCLE);   	//per 250us
@@ -87,7 +90,7 @@ void timer1_init()
 
 void timer1(void) interrupt 3 using 1   
 {   
- 	 //ms_scan_segvled(); //扫描显示
+ 	 ms_scan_segvled(); //扫描显示
 
 	 
 	 jiffers++;

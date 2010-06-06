@@ -15,6 +15,7 @@ unsigned char on_duty = 0;
 void pwm_init()
 {
   PWM_PIN = 0;
+  //pwm_off();
 }
 
 static unsigned char step=0; 
@@ -42,7 +43,6 @@ void pwm_setduty(unsigned short duty)
 {
    if( duty <=  PWM_STEP)
        on_duty = duty;
-
 }
 
 void pwm_safeoff()

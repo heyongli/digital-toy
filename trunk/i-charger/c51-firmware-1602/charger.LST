@@ -1,4 +1,4 @@
-C51 COMPILER V8.01   CHARGER                                                               12/13/2009 18:48:30 PAGE 1   
+C51 COMPILER V8.01   CHARGER                                                               06/06/2010 00:14:00 PAGE 1   
 
 
 C51 COMPILER V8.01, COMPILATION OF MODULE CHARGER
@@ -62,7 +62,7 @@ line level    source
   53   2                               showV(ic);
   54   2      #ifdef SEG_VLED 
                                        vledmod(VLED_V);
-C51 COMPILER V8.01   CHARGER                                                               12/13/2009 18:48:30 PAGE 2   
+C51 COMPILER V8.01   CHARGER                                                               06/06/2010 00:14:00 PAGE 2   
 
               #endif
   57   2                               return;
@@ -126,7 +126,7 @@ line level    source
  115   1          if(!timeafter(jiffers,lasttime+HZ/4) ){
  116   2                   return;
  117   2          } 
-C51 COMPILER V8.01   CHARGER                                                               12/13/2009 18:48:30 PAGE 3   
+C51 COMPILER V8.01   CHARGER                                                               06/06/2010 00:14:00 PAGE 3   
 
  118   1          lasttime = jiffers;
  119   1      
@@ -190,7 +190,7 @@ line level    source
  177   1            
  178   1      }
  179          
-C51 COMPILER V8.01   CHARGER                                                               12/13/2009 18:48:30 PAGE 4   
+C51 COMPILER V8.01   CHARGER                                                               06/06/2010 00:14:00 PAGE 4   
 
  180          
  181          /* NOW: only NiCd cell-array V9PACK */
@@ -254,7 +254,7 @@ line level    source
  239   2                ic->cell_pack = 7; 
  240   2                ic->i_stage = PRE;
  241   2                pwm_safeoff();
-C51 COMPILER V8.01   CHARGER                                                               12/13/2009 18:48:30 PAGE 5   
+C51 COMPILER V8.01   CHARGER                                                               06/06/2010 00:14:00 PAGE 5   
 
  242   2                return;
  243   2         }
@@ -318,7 +318,7 @@ line level    source
  301   1      
  302   1         if(ic->cell_pack == 7)
  303   1         {
-C51 COMPILER V8.01   CHARGER                                                               12/13/2009 18:48:30 PAGE 6   
+C51 COMPILER V8.01   CHARGER                                                               06/06/2010 00:14:00 PAGE 6   
 
  304   2            PRE_chaging_mA = 50;
  305   2                PRE_chaging_max_mA  = NICD_PRE_CHAGE_MA+20;     
@@ -382,7 +382,7 @@ line level    source
  363   2             ic->i_stage = TRICKLE;
  364   2                  pwm_safeoff();
  365   2                 return;
-C51 COMPILER V8.01   CHARGER                                                               12/13/2009 18:48:30 PAGE 7   
+C51 COMPILER V8.01   CHARGER                                                               06/06/2010 00:14:00 PAGE 7   
 
  366   2         }
  367   1         if(ic->cell_pack == 7)
@@ -446,7 +446,7 @@ line level    source
  425   2                 pwm_safeoff(); 
  426   2                 mdelay(5);
  427   2                 lasttime = jiffers;
-C51 COMPILER V8.01   CHARGER                                                               12/13/2009 18:48:30 PAGE 8   
+C51 COMPILER V8.01   CHARGER                                                               06/06/2010 00:14:00 PAGE 8   
 
  428   2                 if( adc_V() < 1.38*ic->cell_pack){
  429   3                ic->i_stage = FAST; 
@@ -510,7 +510,7 @@ line level    source
  487   1      }
  488          
 
-C51 COMPILER V8.01   CHARGER                                                               12/13/2009 18:48:30 PAGE 9   
+C51 COMPILER V8.01   CHARGER                                                               06/06/2010 00:14:00 PAGE 9   
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE

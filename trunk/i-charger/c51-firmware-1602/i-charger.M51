@@ -1,9 +1,9 @@
-BL51 BANKED LINKER/LOCATER V6.00                                                        12/13/2009  20:14:40  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.00                                                        06/06/2010  23:48:45  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.00, INVOKED BY:
-C:\KEIL\C51\BIN\BL51.EXE main.obj, 4x4keyboard.obj, delay.obj, timer0.obj, pwm.obj, adc0832.obj, charger.obj, 1602.obj, 
->> vsprintf.obj TO i-charger RAMSIZE (256)
+C:\KEIL\C51\BIN\BL51.EXE main.obj, delay.obj, pwm.obj, adc0832.obj, 3digi-seg.obj, timer0.obj, 3key.obj, 4wire-1602.obj 
+>> TO i-charger RAMSIZE (256)
 
 
 MEMORY MODEL: SMALL WITH FLOATING POINT ARITHMETIC
@@ -11,61 +11,23 @@ MEMORY MODEL: SMALL WITH FLOATING POINT ARITHMETIC
 
 INPUT MODULES INCLUDED:
   main.obj (MAIN)
-  4x4keyboard.obj (4X4KEYBOARD)
   delay.obj (DELAY)
-  timer0.obj (TIMER0)
   pwm.obj (PWM)
   adc0832.obj (ADC0832)
-  charger.obj (CHARGER)
-  1602.obj (1602)
-  vsprintf.obj (VSPRINTF)
+  3digi-seg.obj (3DIGI_SEG)
+  timer0.obj (TIMER0)
+  3key.obj (3KEY)
+  4wire-1602.obj (4WIRE_1602)
   C:\KEIL\C51\LIB\C51FPS.LIB (?C?FPMUL)
   C:\KEIL\C51\LIB\C51FPS.LIB (?C?FPDIV)
-  C:\KEIL\C51\LIB\C51FPS.LIB (?C?FPCMP)
   C:\KEIL\C51\LIB\C51FPS.LIB (?C?FCAST)
   C:\KEIL\C51\LIB\C51FPS.LIB (?C?FPGETOPN)
   C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
   C:\KEIL\C51\LIB\C51S.LIB (?C?CLDPTR)
-  C:\KEIL\C51\LIB\C51S.LIB (?C?CLDOPTR)
-  C:\KEIL\C51\LIB\C51S.LIB (?C?CILDOPTR)
-  C:\KEIL\C51\LIB\C51S.LIB (?C?CSTPTR)
-  C:\KEIL\C51\LIB\C51S.LIB (?C?CSTOPTR)
-  C:\KEIL\C51\LIB\C51S.LIB (?C?IMUL)
-  C:\KEIL\C51\LIB\C51S.LIB (?C?SIDIV)
-  C:\KEIL\C51\LIB\C51S.LIB (?C?ILDPTR)
-  C:\KEIL\C51\LIB\C51S.LIB (?C?LADD)
-  C:\KEIL\C51\LIB\C51S.LIB (?C?LSUB)
-  C:\KEIL\C51\LIB\C51S.LIB (?C?LNEG)
-  C:\KEIL\C51\LIB\C51S.LIB (?C?SLCMP)
-  C:\KEIL\C51\LIB\C51S.LIB (?C?LLDOPTR)
-  C:\KEIL\C51\LIB\C51S.LIB (?C?LSTOPTR)
-  C:\KEIL\C51\LIB\C51S.LIB (?C?LLDOPTR0)
-  C:\KEIL\C51\LIB\C51S.LIB (?C?PLDIIDATA)
-  C:\KEIL\C51\LIB\C51S.LIB (?C?PLDPTR)
-  C:\KEIL\C51\LIB\C51S.LIB (?C?PLDIPTR)
-  C:\KEIL\C51\LIB\C51S.LIB (?C?CCASE)
-  C:\KEIL\C51\LIB\C51S.LIB (?C_INIT)
   C:\KEIL\C51\LIB\C51S.LIB (?C?UIDIV)
-  C:\KEIL\C51\LIB\C51S.LIB (?C?LLDIDATA)
-  C:\KEIL\C51\LIB\C51S.LIB (?C?LLDXDATA)
-  C:\KEIL\C51\LIB\C51S.LIB (?C?LLDPDATA)
-  C:\KEIL\C51\LIB\C51S.LIB (?C?LLDCODE)
-  C:\KEIL\C51\LIB\C51S.LIB (?C?LLDIDATA0)
-  C:\KEIL\C51\LIB\C51S.LIB (?C?LLDXDATA0)
-  C:\KEIL\C51\LIB\C51S.LIB (?C?LLDPDATA0)
-  C:\KEIL\C51\LIB\C51S.LIB (?C?LLDCODE0)
-  C:\KEIL\C51\LIB\C51S.LIB (?C?LSTIDATA)
-  C:\KEIL\C51\LIB\C51S.LIB (?C?LSTXDATA)
-  C:\KEIL\C51\LIB\C51S.LIB (?C?LSTPDATA)
-  C:\KEIL\C51\LIB\C51S.LIB (?C?PLDIDATA)
-  C:\KEIL\C51\LIB\C51S.LIB (?C?PLDXDATA)
-BL51 BANKED LINKER/LOCATER V6.00                                                      12/13/2009  20:14:40  PAGE 2
-
-
-  C:\KEIL\C51\LIB\C51S.LIB (?C?PLDIXDATA)
-  C:\KEIL\C51\LIB\C51S.LIB (?C?PLDPDATA)
-  C:\KEIL\C51\LIB\C51S.LIB (?C?PLDIPDATA)
-  C:\KEIL\C51\LIB\C51S.LIB (?C?PLDCODE)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?LADD)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?LNEG)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_INIT)
 
 
 LINK MAP OF MODULE:  i-charger (MAIN)
@@ -78,75 +40,72 @@ LINK MAP OF MODULE:  i-charger (MAIN)
             REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
             REG     0008H     0008H     ABSOLUTE     "REG BANK 1"
             REG     0010H     0008H     ABSOLUTE     "REG BANK 2"
-            DATA    0018H     0008H     UNIT         ?DT?CHARGER
+            DATA    0018H     0007H     UNIT         ?DT?4WIRE_1602
+                    001FH     0001H                  *** GAP ***
             BIT     0020H.0   0000H.1   UNIT         _BIT_GROUP_
                     0020H.1   0000H.7                *** GAP ***
-            DATA    0021H     001BH     UNIT         ?DT?_VSPRINTF?VSPRINTF
-            DATA    003CH     001AH     UNIT         _DATA_GROUP_
-            DATA    0056H     0018H     UNIT         ?DT?_D_SPRINTF?VSPRINTF
-            DATA    006EH     0011H     UNIT         ?DT?MAIN
-            IDATA   007FH     0001H     UNIT         ?STACK
+            DATA    0021H     000DH     UNIT         _DATA_GROUP_
+            DATA    002EH     0006H     UNIT         ?DT?3DIGI_SEG
+            DATA    0034H     0005H     UNIT         ?DT?ADC_A?ADC0832
+            DATA    0039H     0004H     UNIT         ?DT?ADC0832
+            DATA    003DH     0004H     UNIT         ?DT?TIMER0
+            DATA    0041H     0003H     UNIT         ?DT?MAIN
+            DATA    0044H     0002H     UNIT         ?DT?PWM
+            DATA    0046H     0002H     UNIT         ?DT?ADC_V?ADC0832
+            IDATA   0048H     0001H     UNIT         ?STACK
 
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
             CODE    0000H     0003H     ABSOLUTE     
-            CODE    0003H     0008H     INBLOCK      ?PR?_LCD_START?1602
+            CODE    0003H     0006H     INBLOCK      ?PR?IO_DELAY?4WIRE_1602
+                    0009H     0002H                  *** GAP ***
             CODE    000BH     0003H     ABSOLUTE     
-            CODE    000EH     000CH     INBLOCK      ?PR?IO_INIT?MAIN
-            CODE    001AH     0001H     INBLOCK      ?PR?_SHOWX?CHARGER
+BL51 BANKED LINKER/LOCATER V6.00                                                      06/06/2010  23:48:45  PAGE 2
+
+
+            CODE    000EH     000CH     INBLOCK      ?PR?_PWM_SETDUTY?PWM
+                    001AH     0001H                  *** GAP ***
             CODE    001BH     0003H     ABSOLUTE     
-            CODE    001EH     0627H     UNIT         ?C?LIB_CODE
-            CODE    0645H     0196H     INBLOCK      ?PR?_TRICKLE_CHARGING?CHARGER
-            CODE    07DBH     0025H     INBLOCK      ?PR?PWM_1KHZ?PWM
-            CODE    0800H     01FEH     INBLOCK      ?PR?_VSPRINTF?VSPRINTF
-            CODE    09FEH     01CFH     INBLOCK      ?PR?_FAST_CHARGING?CHARGER
-            CODE    0BCDH     017FH     INBLOCK      ?PR?_PRE_CHARGING?CHARGER
-            CODE    0D4CH     015FH     INBLOCK      ?PR?_NUMBER?VSPRINTF
-            CODE    0EABH     00DBH     INBLOCK      ?PR?_CHARGING?CHARGER
-            CODE    0F86H     0070H     INBLOCK      ?PR?_ERR_STOP?CHARGER
-            CODE    0FF6H     0007H     INBLOCK      ?PR?_SHOWA?CHARGER
-            CODE    0FFDH     0003H     INBLOCK      ?PR?PWM_INIT?PWM
-            CODE    1000H     00D5H     INBLOCK      ?PR?_DETECT_ARRAY?CHARGER
-            CODE    10D5H     00B4H     INBLOCK      ?PR?_STOP?CHARGER
-            CODE    1189H     00AFH     INBLOCK      ?PR?ADC0832?ADC0832
-            CODE    1238H     0095H     INBLOCK      ?PR?_IC_SHOW?CHARGER
-            CODE    12CDH     008DH     INBLOCK      ?PR?LCD_LOGO?1602
-            CODE    135AH     008CH     UNIT         ?C_C51STARTUP
-            CODE    13E6H     008BH     INBLOCK      ?PR?KEYSCAN?4X4KEYBOARD
-            CODE    1471H     0083H     INBLOCK      ?PR?MAIN?MAIN
-            CODE    14F4H     0081H     INBLOCK      ?PR?_DETECT_TYPE?CHARGER
-            CODE    1575H     007DH     INBLOCK      ?PR?_SKIP_ATOI?VSPRINTF
-            CODE    15F2H     006BH     INBLOCK      ?PR?ADC_A?ADC0832
-            CODE    165DH     004FH     INBLOCK      ?PR?ADC_V?ADC0832
-            CODE    16ACH     004EH     INBLOCK      ?PR?_D_MEMCHR?VSPRINTF
-            CODE    16FAH     0033H     INBLOCK      ?PR?_DETECT_CELL?CHARGER
-BL51 BANKED LINKER/LOCATER V6.00                                                      12/13/2009  20:14:40  PAGE 3
-
-
-            CODE    172DH     0032H     UNIT         ?C_INITSEG
-            CODE    175FH     002EH     INBLOCK      ?PR?LCD_INIT?1602
-            CODE    178DH     002BH     INBLOCK      ?PR?TIMER1?TIMER0
-            CODE    17B8H     0028H     INBLOCK      ?PR?_STRNLEN?VSPRINTF
-            CODE    17E0H     001FH     INBLOCK      ?PR?_SLEEP?DELAY
-                    17FFH     0001H                  *** GAP ***
-            CODE    1800H     0025H     INBLOCK      ?PR?_D_SPRINTF?VSPRINTF
-            CODE    1825H     001BH     INBLOCK      ?PR?TIMER0?TIMER0
-            CODE    1840H     001BH     UNIT         ?CO?1602
-            CODE    185BH     001AH     INBLOCK      ?PR?_LCD_WCMD?1602
-            CODE    1875H     0015H     INBLOCK      ?PR?_MDELAY?DELAY
-            CODE    188AH     0014H     INBLOCK      ?PR?_TODIGITS?VSPRINTF
-            CODE    189EH     0012H     INBLOCK      ?PR?_LCD_DATA?1602
-            CODE    18B0H     0011H     INBLOCK      ?PR?___TOLOWER?VSPRINTF
-            CODE    18C1H     0011H     INBLOCK      ?PR?___TOUPPER?VSPRINTF
-            CODE    18D2H     0010H     INBLOCK      ?PR?LCD_BZ?1602
-            CODE    18E2H     000EH     INBLOCK      ?PR?TIMER0_INIT?TIMER0
-            CODE    18F0H     000EH     INBLOCK      ?PR?TIMER1_INIT?TIMER0
-            CODE    18FEH     000EH     INBLOCK      ?PR?PWM_SAFEOFF?PWM
-            CODE    190CH     000CH     INBLOCK      ?PR?_PWM_SETDUTY?PWM
-            CODE    1918H     000BH     INBLOCK      ?PR?PWM_SAFEON?PWM
-            CODE    1923H     0007H     INBLOCK      ?PR?_SHOWV?CHARGER
-            CODE    192AH     0007H     UNIT         ?CO?VSPRINTF
-            CODE    1931H     0005H     INBLOCK      ?PR?__2CYCLE?DELAY
-            CODE    1936H     0003H     INBLOCK      ?PR?PWM_GETDUTY?PWM
+            CODE    001EH     02B7H     UNIT         ?C?LIB_CODE
+            CODE    02D5H     00AFH     INBLOCK      ?PR?ADC0832?ADC0832
+            CODE    0384H     00AEH     INBLOCK      ?PR?_HD44870_SEND?4WIRE_1602
+            CODE    0432H     009DH     INBLOCK      ?PR?MAIN?MAIN
+            CODE    04CFH     009BH     INBLOCK      ?PR?_PRINT10?4WIRE_1602
+            CODE    056AH     008CH     UNIT         ?C_C51STARTUP
+            CODE    05F6H     0081H     INBLOCK      ?PR?_SEG0_F?3DIGI_SEG
+            CODE    0677H     006BH     INBLOCK      ?PR?ADC_A?ADC0832
+            CODE    06E2H     004FH     INBLOCK      ?PR?ADC_V?ADC0832
+            CODE    0731H     0049H     INBLOCK      ?PR?MS_SCAN_SEGVLED?3DIGI_SEG
+            CODE    077AH     0042H     INBLOCK      ?PR?_PRINTHEX?3DIGI_SEG
+            CODE    07BCH     0042H     INBLOCK      ?PR?_SEGPRINT10?3DIGI_SEG
+                    07FEH     0002H                  *** GAP ***
+            CODE    0800H     0042H     INBLOCK      ?PR?LCD1602_INIT?4WIRE_1602
+            CODE    0842H     003DH     INBLOCK      ?PR?TESTSEG?3DIGI_SEG
+            CODE    087FH     003AH     INBLOCK      ?PR?TIMER1?TIMER0
+            CODE    08B9H     0030H     INBLOCK      ?PR?__SWAP4?4WIRE_1602
+            CODE    08E9H     002BH     UNIT         ?C_INITSEG
+            CODE    0914H     0025H     INBLOCK      ?PR?PWM_1KHZ?PWM
+            CODE    0939H     0025H     INBLOCK      ?PR?_LCD_PUTS?4WIRE_1602
+            CODE    095EH     0022H     INBLOCK      ?PR?_KEY?3KEY
+            CODE    0980H     001FH     UNIT         ?CO?MAIN
+            CODE    099FH     001FH     INBLOCK      ?PR?_MDELAY?DELAY
+            CODE    09BEH     001FH     INBLOCK      ?PR?_SLEEP?DELAY
+            CODE    09DDH     001EH     INBLOCK      ?PR?IO_INIT?MAIN
+            CODE    09FBH     001BH     INBLOCK      ?PR?TIMER0?TIMER0
+            CODE    0A16H     0014H     INBLOCK      ?PR?_HEX2C?4WIRE_1602
+            CODE    0A2AH     0013H     INBLOCK      ?PR?_SEGOFF?3DIGI_SEG
+            CODE    0A3DH     0013H     INBLOCK      ?PR?_SEGON?3DIGI_SEG
+            CODE    0A50H     0012H     INBLOCK      ?PR?_LCD_CURSOR?4WIRE_1602
+            CODE    0A62H     0011H     INBLOCK      ?PR?SEG_INIT?3DIGI_SEG
+            CODE    0A73H     000EH     INBLOCK      ?PR?PWM_SAFEOFF?PWM
+            CODE    0A81H     000EH     INBLOCK      ?PR?TIMER0_INIT?TIMER0
+            CODE    0A8FH     000EH     INBLOCK      ?PR?TIMER1_INIT?TIMER0
+            CODE    0A9DH     000BH     INBLOCK      ?PR?PWM_SAFEON?PWM
+            CODE    0AA8H     0006H     INBLOCK      ?PR?IO_50MS?4WIRE_1602
+            CODE    0AAEH     0006H     INBLOCK      ?PR?_LCD_PUTC?4WIRE_1602
+            CODE    0AB4H     0005H     INBLOCK      ?PR?__2CYCLE?DELAY
+            CODE    0AB9H     0003H     INBLOCK      ?PR?PWM_INIT?PWM
+            CODE    0ABCH     0003H     INBLOCK      ?PR?PWM_GETDUTY?PWM
+            CODE    0ABFH     0003H     INBLOCK      ?PR?_SETDOT?3DIGI_SEG
 
 
 
@@ -160,154 +119,91 @@ SEGMENT                                  BIT_GROUP          DATA_GROUP
   +--> ?PR?PWM_1KHZ?PWM
 
 *** NEW ROOT ***************************************************
+BL51 BANKED LINKER/LOCATER V6.00                                                      06/06/2010  23:48:45  PAGE 3
+
+
+
+?PR?TIMER1?TIMER0                     -----    -----      -----    -----
+  +--> ?PR?MS_SCAN_SEGVLED?3DIGI_SEG
+
+?PR?MS_SCAN_SEGVLED?3DIGI_SEG         -----    -----      -----    -----
+  +--> ?PR?_SEGOFF?3DIGI_SEG
+  +--> ?PR?_SEGON?3DIGI_SEG
+
+*** NEW ROOT ***************************************************
 
 ?C_C51STARTUP                         -----    -----      -----    -----
   +--> ?PR?MAIN?MAIN
   +--> ?C_INITSEG
 
-?PR?MAIN?MAIN                         -----    -----      003CH    0006H
-  +--> ?PR?PWM_INIT?PWM
+?PR?MAIN?MAIN                         -----    -----      0021H    0008H
   +--> ?PR?IO_INIT?MAIN
   +--> ?PR?TIMER0_INIT?TIMER0
-  +--> ?PR?TIMER1_INIT?TIMER0
   +--> ?PR?_SLEEP?DELAY
-  +--> ?PR?KEYSCAN?4X4KEYBOARD
+  +--> ?PR?_KEY?3KEY
   +--> ?PR?_PWM_SETDUTY?PWM
-  +--> ?PR?_CHARGING?CHARGER
+  +--> ?PR?ADC0832?ADC0832
+  +--> ?PR?_LCD_CURSOR?4WIRE_1602
+  +--> ?CO?MAIN
+  +--> ?PR?_LCD_PUTS?4WIRE_1602
+  +--> ?PR?_PRINT10?4WIRE_1602
 
 ?PR?IO_INIT?MAIN                      -----    -----      -----    -----
-  +--> ?PR?LCD_INIT?1602
+  +--> ?PR?PWM_INIT?PWM
+  +--> ?PR?LCD1602_INIT?4WIRE_1602
+  +--> ?PR?_LCD_CURSOR?4WIRE_1602
+  +--> ?CO?MAIN
+  +--> ?PR?_LCD_PUTS?4WIRE_1602
+  +--> ?PR?SEG_INIT?3DIGI_SEG
   +--> ?PR?_MDELAY?DELAY
-  +--> ?PR?LCD_LOGO?1602
-BL51 BANKED LINKER/LOCATER V6.00                                                      12/13/2009  20:14:40  PAGE 4
 
+?PR?LCD1602_INIT?4WIRE_1602           -----    -----      -----    -----
+  +--> ?PR?_HD44870_SEND?4WIRE_1602
+  +--> ?PR?IO_50MS?4WIRE_1602
 
+?PR?_HD44870_SEND?4WIRE_1602          -----    -----      002CH    0002H
+  +--> ?PR?IO_DELAY?4WIRE_1602
+  +--> ?PR?__SWAP4?4WIRE_1602
 
-?PR?LCD_INIT?1602                     -----    -----      -----    -----
+?PR?IO_DELAY?4WIRE_1602               -----    -----      -----    -----
+  +--> ?PR?__2CYCLE?DELAY
+
+?PR?IO_50MS?4WIRE_1602                -----    -----      -----    -----
   +--> ?PR?_MDELAY?DELAY
-  +--> ?PR?_LCD_WCMD?1602
 
 ?PR?_MDELAY?DELAY                     -----    -----      -----    -----
   +--> ?PR?__2CYCLE?DELAY
 
-?PR?_LCD_WCMD?1602                    -----    -----      0046H    0001H
-  +--> ?PR?LCD_BZ?1602
-  +--> ?PR?__2CYCLE?DELAY
+?PR?_LCD_CURSOR?4WIRE_1602            -----    -----      -----    -----
+  +--> ?PR?_HD44870_SEND?4WIRE_1602
 
-?PR?LCD_BZ?1602                       0020H.0  0000H.1    -----    -----
+?PR?_LCD_PUTS?4WIRE_1602              -----    -----      0029H    0003H
+  +--> ?PR?_HD44870_SEND?4WIRE_1602
+BL51 BANKED LINKER/LOCATER V6.00                                                      06/06/2010  23:48:45  PAGE 4
 
-?PR?LCD_LOGO?1602                     -----    -----      0042H    0004H
-  +--> ?PR?_LCD_START?1602
+
+
+?PR?SEG_INIT?3DIGI_SEG                -----    -----      -----    -----
+  +--> ?PR?_SEGOFF?3DIGI_SEG
+  +--> ?PR?TESTSEG?3DIGI_SEG
+
+?PR?TESTSEG?3DIGI_SEG                 -----    -----      0029H    0001H
+  +--> ?PR?_SEGON?3DIGI_SEG
+  +--> ?PR?_SEG0_F?3DIGI_SEG
   +--> ?PR?_MDELAY?DELAY
-  +--> ?CO?1602
-  +--> ?PR?_LCD_DATA?1602
-
-?PR?_LCD_START?1602                   -----    -----      -----    -----
-  +--> ?PR?_LCD_WCMD?1602
-
-?PR?_LCD_DATA?1602                    -----    -----      -----    -----
-  +--> ?PR?LCD_BZ?1602
 
 ?PR?_SLEEP?DELAY                      -----    -----      -----    -----
   +--> ?PR?_MDELAY?DELAY
 
-?PR?KEYSCAN?4X4KEYBOARD               -----    -----      0042H    0002H
+?PR?_KEY?3KEY                         -----    -----      0029H    0001H
+  +--> ?PR?_MDELAY?DELAY
+
+?PR?ADC0832?ADC0832                   0020H.0  0000H.1    0029H    0003H
   +--> ?PR?__2CYCLE?DELAY
 
-?PR?_CHARGING?CHARGER                 -----    -----      0042H    0003H
-  +--> ?PR?ADC_V?ADC0832
-  +--> ?PR?ADC_A?ADC0832
-  +--> ?PR?_DETECT_CELL?CHARGER
-  +--> ?PR?_DETECT_TYPE?CHARGER
-  +--> ?PR?_DETECT_ARRAY?CHARGER
-  +--> ?PR?_PRE_CHARGING?CHARGER
-  +--> ?PR?_FAST_CHARGING?CHARGER
-  +--> ?PR?_TRICKLE_CHARGING?CHARGER
-  +--> ?PR?_STOP?CHARGER
-  +--> ?PR?_ERR_STOP?CHARGER
-
-?PR?ADC_V?ADC0832                     -----    -----      0051H    0002H
-  +--> ?PR?ADC0832?ADC0832
-  +--> ?PR?_MDELAY?DELAY
-
-?PR?ADC0832?ADC0832                   0020H.0  0000H.1    0053H    0003H
-  +--> ?PR?__2CYCLE?DELAY
-
-?PR?ADC_A?ADC0832                     -----    -----      0045H    0005H
-  +--> ?PR?ADC0832?ADC0832
-  +--> ?PR?_MDELAY?DELAY
-
-?PR?_DETECT_CELL?CHARGER              -----    -----      0045H    0003H
-  +--> ?PR?_PWM_SETDUTY?PWM
-BL51 BANKED LINKER/LOCATER V6.00                                                      12/13/2009  20:14:40  PAGE 5
-
-
-  +--> ?PR?PWM_SAFEON?PWM
-  +--> ?PR?PWM_SAFEOFF?PWM
-
-?PR?_DETECT_TYPE?CHARGER              -----    -----      0045H    0003H
-  +--> ?PR?_PWM_SETDUTY?PWM
-  +--> ?PR?PWM_SAFEON?PWM
-  +--> ?PR?PWM_SAFEOFF?PWM
-
-?PR?_DETECT_ARRAY?CHARGER             -----    -----      0045H    0003H
-  +--> ?PR?_PWM_SETDUTY?PWM
-  +--> ?PR?PWM_SAFEON?PWM
-  +--> ?PR?PWM_SAFEOFF?PWM
-
-?PR?_PRE_CHARGING?CHARGER             -----    -----      0045H    000CH
-  +--> ?PR?PWM_GETDUTY?PWM
-  +--> ?PR?ADC_V?ADC0832
-  +--> ?PR?PWM_SAFEON?PWM
-  +--> ?PR?PWM_SAFEOFF?PWM
-  +--> ?PR?_PWM_SETDUTY?PWM
-
-?PR?_FAST_CHARGING?CHARGER            -----    -----      0045H    000CH
-  +--> ?PR?PWM_GETDUTY?PWM
-  +--> ?PR?ADC_V?ADC0832
-  +--> ?PR?PWM_SAFEON?PWM
-  +--> ?PR?PWM_SAFEOFF?PWM
-  +--> ?PR?_PWM_SETDUTY?PWM
-
-?PR?_TRICKLE_CHARGING?CHARGER         -----    -----      0045H    0003H
-  +--> ?PR?_PWM_SETDUTY?PWM
-  +--> ?PR?ADC_V?ADC0832
-  +--> ?PR?PWM_SAFEON?PWM
-  +--> ?PR?PWM_SAFEOFF?PWM
-  +--> ?PR?_MDELAY?DELAY
-
-?PR?_STOP?CHARGER                     -----    -----      0045H    0003H
-  +--> ?PR?PWM_SAFEOFF?PWM
-  +--> ?PR?ADC_V?ADC0832
-
-?PR?_ERR_STOP?CHARGER                 -----    -----      0045H    0003H
-  +--> ?PR?PWM_SAFEOFF?PWM
-
-
-
-IGNORED SEGMENTS:
-   ?DT?TIMER0
-   ?DT?PWM
-   ?DT?ADC0832
-   ?DT?_SHOWA?CHARGER
-   ?DT?_SHOWV?CHARGER
-   ?DT?_IC_SHOW?CHARGER
-   ?DT?_NUMBER?VSPRINTF
-   ?DT?_D_MEMCHR?VSPRINTF
-   ?DT?_STRNLEN?VSPRINTF
-   ?DT?_SKIP_ATOI?VSPRINTF
-
-
-
-BL51 BANKED LINKER/LOCATER V6.00                                                      12/13/2009  20:14:40  PAGE 6
-
-
-IGNORED SYMBOLS:
-   ?_D_MEMCHR?BYTE
-   ?_NUMBER?BYTE
-   JIFFERS
-   ON_DUTY
-   REFV
+?PR?_PRINT10?4WIRE_1602               -----    -----      -----    -----
+  +--> ?PR?_HEX2C?4WIRE_1602
+  +--> ?PR?_LCD_PUTS?4WIRE_1602
 
 
 
@@ -324,350 +220,60 @@ SYMBOL TABLE OF MODULE:  i-charger (MAIN)
   C:0127H         PUBLIC        ?C?FPDIV
   -------         ENDMOD        ?C?FPDIV
 
-  -------         MODULE        ?C?FPCMP
-  C:01C6H         PUBLIC        ?C?FPCMP
-  C:01C4H         PUBLIC        ?C?FPCMP3
-  -------         ENDMOD        ?C?FPCMP
-
   -------         MODULE        ?C?FCAST
-  C:023BH         PUBLIC        ?C?FCASTC
-  C:0236H         PUBLIC        ?C?FCASTI
-  C:0231H         PUBLIC        ?C?FCASTL
+  C:01CEH         PUBLIC        ?C?FCASTC
+  C:01C9H         PUBLIC        ?C?FCASTI
+  C:01C4H         PUBLIC        ?C?FCASTL
   -------         ENDMOD        ?C?FCAST
 
   -------         MODULE        ?C?CLDPTR
-  C:02B9H         PUBLIC        ?C?CLDPTR
+  C:024CH         PUBLIC        ?C?CLDPTR
   -------         ENDMOD        ?C?CLDPTR
 
-  -------         MODULE        ?C?CLDOPTR
-  C:02D2H         PUBLIC        ?C?CLDOPTR
-  -------         ENDMOD        ?C?CLDOPTR
-
-  -------         MODULE        ?C?CILDOPTR
-  C:02FFH         PUBLIC        ?C?CILDOPTR
-  -------         ENDMOD        ?C?CILDOPTR
-
-  -------         MODULE        ?C?CSTPTR
-  C:0332H         PUBLIC        ?C?CSTPTR
-  -------         ENDMOD        ?C?CSTPTR
-
-  -------         MODULE        ?C?CSTOPTR
-  C:0344H         PUBLIC        ?C?CSTOPTR
-  -------         ENDMOD        ?C?CSTOPTR
-
-  -------         MODULE        ?C?IMUL
-  C:0366H         PUBLIC        ?C?IMUL
-  -------         ENDMOD        ?C?IMUL
-
-BL51 BANKED LINKER/LOCATER V6.00                                                      12/13/2009  20:14:40  PAGE 7
-
-
-  -------         MODULE        ?C?SIDIV
-  C:0378H         PUBLIC        ?C?SIDIV
-  -------         ENDMOD        ?C?SIDIV
-
-  -------         MODULE        ?C?ILDPTR
-  C:03AEH         PUBLIC        ?C?ILDPTR
-  -------         ENDMOD        ?C?ILDPTR
-
-  -------         MODULE        ?C?LADD
-  C:03D9H         PUBLIC        ?C?LADD
-  -------         ENDMOD        ?C?LADD
-
-  -------         MODULE        ?C?LSUB
-  C:03E6H         PUBLIC        ?C?LSUB
-  -------         ENDMOD        ?C?LSUB
-
-  -------         MODULE        ?C?LNEG
-  C:03F4H         PUBLIC        ?C?LNEG
-  -------         ENDMOD        ?C?LNEG
-
-  -------         MODULE        ?C?SLCMP
-  C:0402H         PUBLIC        ?C?SLCMP
-  -------         ENDMOD        ?C?SLCMP
-
-  -------         MODULE        ?C?LLDOPTR
-  C:0418H         PUBLIC        ?C?LLDOPTR
-  -------         ENDMOD        ?C?LLDOPTR
-
-  -------         MODULE        ?C?LSTOPTR
-  C:0448H         PUBLIC        ?C?LSTOPTR
-  -------         ENDMOD        ?C?LSTOPTR
-
-  -------         MODULE        ?C?LLDOPTR0
-  C:046CH         PUBLIC        ?C?LLDOPTR0
-  -------         ENDMOD        ?C?LLDOPTR0
-
-  -------         MODULE        ?C?PLDIIDATA
-  C:049CH         PUBLIC        ?C?PLDIIDATA
-  -------         ENDMOD        ?C?PLDIIDATA
-
-  -------         MODULE        ?C?PLDPTR
-  C:04ACH         PUBLIC        ?C?PLDPTR
-  -------         ENDMOD        ?C?PLDPTR
-
-  -------         MODULE        ?C?PLDIPTR
-  C:04CCH         PUBLIC        ?C?PLDIPTR
-  -------         ENDMOD        ?C?PLDIPTR
-
-  -------         MODULE        ?C?CCASE
-  C:04EEH         PUBLIC        ?C?CCASE
-  -------         ENDMOD        ?C?CCASE
-
   -------         MODULE        ?C?UIDIV
-  C:0514H         PUBLIC        ?C?UIDIV
+  C:0265H         PUBLIC        ?C?UIDIV
   -------         ENDMOD        ?C?UIDIV
 
-  -------         MODULE        ?C?LLDIDATA
-BL51 BANKED LINKER/LOCATER V6.00                                                      12/13/2009  20:14:40  PAGE 8
+  -------         MODULE        ?C?LADD
+  C:02BAH         PUBLIC        ?C?LADD
+  -------         ENDMOD        ?C?LADD
+
+  -------         MODULE        ?C?LNEG
+BL51 BANKED LINKER/LOCATER V6.00                                                      06/06/2010  23:48:45  PAGE 5
 
 
-  C:0569H         PUBLIC        ?C?LLDIDATA
-  -------         ENDMOD        ?C?LLDIDATA
-
-  -------         MODULE        ?C?LLDXDATA
-  C:0575H         PUBLIC        ?C?LLDXDATA
-  -------         ENDMOD        ?C?LLDXDATA
-
-  -------         MODULE        ?C?LLDPDATA
-  C:0581H         PUBLIC        ?C?LLDPDATA
-  -------         ENDMOD        ?C?LLDPDATA
-
-  -------         MODULE        ?C?LLDCODE
-  C:058DH         PUBLIC        ?C?LLDCODE
-  -------         ENDMOD        ?C?LLDCODE
-
-  -------         MODULE        ?C?LLDIDATA0
-  C:059DH         PUBLIC        ?C?LLDIDATA0
-  -------         ENDMOD        ?C?LLDIDATA0
-
-  -------         MODULE        ?C?LLDXDATA0
-  C:05AAH         PUBLIC        ?C?LLDXDATA0
-  -------         ENDMOD        ?C?LLDXDATA0
-
-  -------         MODULE        ?C?LLDPDATA0
-  C:05B6H         PUBLIC        ?C?LLDPDATA0
-  -------         ENDMOD        ?C?LLDPDATA0
-
-  -------         MODULE        ?C?LLDCODE0
-  C:05C3H         PUBLIC        ?C?LLDCODE0
-  -------         ENDMOD        ?C?LLDCODE0
-
-  -------         MODULE        ?C?LSTIDATA
-  C:05D3H         PUBLIC        ?C?LSTIDATA
-  -------         ENDMOD        ?C?LSTIDATA
-
-  -------         MODULE        ?C?LSTXDATA
-  C:05DFH         PUBLIC        ?C?LSTXDATA
-  -------         ENDMOD        ?C?LSTXDATA
-
-  -------         MODULE        ?C?LSTPDATA
-  C:05EBH         PUBLIC        ?C?LSTPDATA
-  -------         ENDMOD        ?C?LSTPDATA
-
-  -------         MODULE        ?C?PLDIDATA
-  C:05F7H         PUBLIC        ?C?PLDIDATA
-  -------         ENDMOD        ?C?PLDIDATA
-
-  -------         MODULE        ?C?PLDXDATA
-  C:0600H         PUBLIC        ?C?PLDXDATA
-  -------         ENDMOD        ?C?PLDXDATA
-
-  -------         MODULE        ?C?PLDIXDATA
-  C:0609H         PUBLIC        ?C?PLDIXDATA
-  -------         ENDMOD        ?C?PLDIXDATA
-
-  -------         MODULE        ?C?PLDPDATA
-  C:0620H         PUBLIC        ?C?PLDPDATA
-BL51 BANKED LINKER/LOCATER V6.00                                                      12/13/2009  20:14:40  PAGE 9
-
-
-  -------         ENDMOD        ?C?PLDPDATA
-
-  -------         MODULE        ?C?PLDIPDATA
-  C:0629H         PUBLIC        ?C?PLDIPDATA
-  -------         ENDMOD        ?C?PLDIPDATA
-
-  -------         MODULE        ?C?PLDCODE
-  C:0639H         PUBLIC        ?C?PLDCODE
-  -------         ENDMOD        ?C?PLDCODE
+  C:02C7H         PUBLIC        ?C?LNEG
+  -------         ENDMOD        ?C?LNEG
 
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_SHOWX?CHARGER
+    SEGMENT: ?PR?PWM_SAFEOFF?PWM
 
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_IC_SHOW?CHARGER
+    SEGMENT: ?PR?PWM_SAFEON?PWM
 
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?___TOLOWER?VSPRINTF
+    SEGMENT: ?PR?PWM_GETDUTY?PWM
 
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?___TOUPPER?VSPRINTF
+    SEGMENT: ?PR?ADC_V?ADC0832
 
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_SKIP_ATOI?VSPRINTF
+    SEGMENT: ?PR?ADC_A?ADC0832
 
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_D_SPRINTF?VSPRINTF
+    SEGMENT: ?PR?_PRINTHEX?3DIGI_SEG
 
-*** ERROR L107: ADDRESS SPACE OVERFLOW
-    SPACE:   DATA    
-    SEGMENT: ?DT?_NUMBER?VSPRINTF
-    LENGTH:  0013H
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SETDOT?3DIGI_SEG
 
-*** ERROR L107: ADDRESS SPACE OVERFLOW
-    SPACE:   DATA    
-    SEGMENT: ?DT?_D_MEMCHR?VSPRINTF
-    LENGTH:  000CH
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SEGPRINT10?3DIGI_SEG
 
-*** ERROR L107: ADDRESS SPACE OVERFLOW
-    SPACE:   DATA    
-    SEGMENT: ?DT?_STRNLEN?VSPRINTF
-    LENGTH:  0007H
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?TIMER1_INIT?TIMER0
 
-*** ERROR L107: ADDRESS SPACE OVERFLOW
-    SPACE:   DATA    
-    SEGMENT: ?DT?_SKIP_ATOI?VSPRINTF
-    LENGTH:  0005H
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_LCD_PUTC?4WIRE_1602
 
-*** ERROR L107: ADDRESS SPACE OVERFLOW
-    SPACE:   DATA    
-    SEGMENT: ?DT?TIMER0
-    LENGTH:  0004H
-
-*** ERROR L107: ADDRESS SPACE OVERFLOW
-    SPACE:   DATA    
-    SEGMENT: ?DT?ADC0832
-    LENGTH:  0004H
-BL51 BANKED LINKER/LOCATER V6.00                                                      12/13/2009  20:14:40  PAGE 10
-
-
-
-*** ERROR L107: ADDRESS SPACE OVERFLOW
-    SPACE:   DATA    
-    SEGMENT: ?DT?_SHOWA?CHARGER
-    LENGTH:  0003H
-
-*** ERROR L107: ADDRESS SPACE OVERFLOW
-    SPACE:   DATA    
-    SEGMENT: ?DT?_SHOWV?CHARGER
-    LENGTH:  0003H
-
-*** ERROR L107: ADDRESS SPACE OVERFLOW
-    SPACE:   DATA    
-    SEGMENT: ?DT?_IC_SHOW?CHARGER
-    LENGTH:  0003H
-
-*** ERROR L107: ADDRESS SPACE OVERFLOW
-    SPACE:   DATA    
-    SEGMENT: ?DT?PWM
-    LENGTH:  0002H
-
-*** ERROR L105: PUBLIC REFERS TO IGNORED SEGMENT
-    SYMBOL:  JIFFERS
-    SEGMENT: ?DT?TIMER0
-
-*** ERROR L105: PUBLIC REFERS TO IGNORED SEGMENT
-    SYMBOL:  ON_DUTY
-    SEGMENT: ?DT?PWM
-
-*** ERROR L105: PUBLIC REFERS TO IGNORED SEGMENT
-    SYMBOL:  REFV
-    SEGMENT: ?DT?ADC0832
-
-*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
-    SYMBOL:  JIFFERS
-    MODULE:  charger.obj (CHARGER)
-    ADDRESS: 0EC3H
-
-*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
-    SYMBOL:  JIFFERS
-    MODULE:  charger.obj (CHARGER)
-    ADDRESS: 0EC5H
-
-*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
-    SYMBOL:  JIFFERS
-    MODULE:  charger.obj (CHARGER)
-    ADDRESS: 0EC7H
-
-*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
-    SYMBOL:  JIFFERS
-    MODULE:  charger.obj (CHARGER)
-    ADDRESS: 0EC9H
-
-*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
-    SYMBOL:  JIFFERS
-    MODULE:  charger.obj (CHARGER)
-    ADDRESS: 0EE1H
-BL51 BANKED LINKER/LOCATER V6.00                                                      12/13/2009  20:14:40  PAGE 11
-
-
-
-*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
-    SYMBOL:  JIFFERS
-    MODULE:  charger.obj (CHARGER)
-    ADDRESS: 0EE3H
-
-*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
-    SYMBOL:  JIFFERS
-    MODULE:  charger.obj (CHARGER)
-    ADDRESS: 0EE5H
-
-*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
-    SYMBOL:  JIFFERS
-    MODULE:  charger.obj (CHARGER)
-    ADDRESS: 0EE7H
-
-*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
-    SYMBOL:  JIFFERS
-    MODULE:  charger.obj (CHARGER)
-    ADDRESS: 06DFH
-
-*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
-    SYMBOL:  JIFFERS
-    MODULE:  charger.obj (CHARGER)
-    ADDRESS: 06E1H
-
-*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
-    SYMBOL:  JIFFERS
-    MODULE:  charger.obj (CHARGER)
-    ADDRESS: 06E3H
-
-*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
-    SYMBOL:  JIFFERS
-    MODULE:  charger.obj (CHARGER)
-    ADDRESS: 06E5H
-
-*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
-    SYMBOL:  JIFFERS
-    MODULE:  charger.obj (CHARGER)
-    ADDRESS: 0727H
-
-*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
-    SYMBOL:  JIFFERS
-    MODULE:  charger.obj (CHARGER)
-    ADDRESS: 0729H
-
-*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
-    SYMBOL:  JIFFERS
-    MODULE:  charger.obj (CHARGER)
-    ADDRESS: 072BH
-
-*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
-    SYMBOL:  JIFFERS
-    MODULE:  charger.obj (CHARGER)
-    ADDRESS: 072DH
-
-*** ERROR L105: PUBLIC REFERS TO IGNORED SEGMENT
-BL51 BANKED LINKER/LOCATER V6.00                                                      12/13/2009  20:14:40  PAGE 12
-
-
-    SYMBOL:  ?_D_MEMCHR?BYTE
-    SEGMENT: ?DT?_D_MEMCHR?VSPRINTF
-
-*** ERROR L105: PUBLIC REFERS TO IGNORED SEGMENT
-    SYMBOL:  ?_NUMBER?BYTE
-    SEGMENT: ?DT?_NUMBER?VSPRINTF
-
-Program Size: data=189.1 xdata=0 code=6456
-LINK/LOCATE RUN COMPLETE.  6 WARNING(S),  31 ERROR(S)
+Program Size: data=71.1 xdata=0 code=2749
+LINK/LOCATE RUN COMPLETE.  10 WARNING(S),  0 ERROR(S)
