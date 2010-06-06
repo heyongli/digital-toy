@@ -2,7 +2,8 @@
 #define _4x4_KEYBOARD_H_
 
 
-unsigned char keyscan(void);
+
+unsigned char key(unsigned char key);
 
 #endif 
 
