@@ -1,8 +1,8 @@
 
 /******************
-  12M Hz
+  20M Hz
 
-  1 cycle:  12/12M = 1us 
+  1 cycle:  12/20M = 0.6us 
 
 *******************/
 #include  "config.h"
@@ -43,8 +43,10 @@ C:0x0010    120027   LCALL    _2cycle(C:0027)   2 cyc
 C:0x0013    80F0     SJMP     C:0005           2 cyc
 */
    while(ms--){	  
-     udelay(489); //²¹³¥12cyc*2 us
-	 udelay(499);
+     udelay(400); //²¹³¥12cyc*2 us
+	 udelay(412);
+	 udelay(415);
+	 udelay(415);
    }
   
 }

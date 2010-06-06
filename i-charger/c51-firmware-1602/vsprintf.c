@@ -125,6 +125,7 @@ int sprintf(char * buf, const char *fmt, ...);
  */
 int vsprintf(char *buf, const char *fmt, va_list args)
 {
+#if 0
 	int len;
 	unsigned long num;
 	int i, base;
@@ -209,6 +210,7 @@ int vsprintf(char *buf, const char *fmt, va_list args)
 	}
 	*str = '\0';
 	return str-buf;
+	#endif
 }
 
 char d_sprintf(char * buf, const char *fmt, ...)

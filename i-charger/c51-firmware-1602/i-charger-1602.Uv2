@@ -6,14 +6,13 @@ Target (Target 1), 0x0000 // Tools: 'MCS-51'
 Group (Source Group 1)
 
 File 1,1,<.\main.c><main.c> 0x0 
-File 1,1,<.\driver\4x4keyboard.c><4x4keyboard.c> 0x0 
 File 1,1,<.\driver\delay.c><delay.c> 0x0 
-File 1,1,<.\driver\timer0.c><timer0.c> 0x0 
 File 1,1,<.\driver\pwm.c><pwm.c> 0x0 
 File 1,1,<.\driver\adc0832.c><adc0832.c> 0x0 
-File 1,1,<.\charger.c><charger.c> 0x0 
-File 1,1,<.\driver\1602.c><1602.c> 0x0 
-File 1,1,<.\vsprintf.c><vsprintf.c> 0x0 
+File 1,1,<.\driver\3digi-seg.c><3digi-seg.c> 0x0 
+File 1,1,<.\driver\timer0.c><timer0.c> 0x0 
+File 1,1,<.\driver\3key.c><3key.c> 0x0 
+File 1,1,<.\driver\4wire-1602.c><4wire-1602.c> 0x0 
 
 
 Options 1,0,0  // Target 'Target 1'
@@ -40,7 +39,7 @@ Options 1,0,0  // Target 'Target 1'
  EnvLib ()
  EnvReg (ÿAtmel\)
  OrgReg (ÿAtmel\)
- TgStat=27
+ TgStat=16
  OutDir (.\)
  OutName (i-charger)
  GenApp=1

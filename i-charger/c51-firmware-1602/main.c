@@ -1,5 +1,7 @@
 #include "config.h"
 #include <adc.h>
+#include <pwm.h>
+
 #include <adc0832.h>
 
 #include <charger.h>
@@ -7,54 +9,67 @@
 #include <1602.h>
 
 
+
 extern float  refV ; 
+char t=0;
+unsigned short i=0;
 
 
-i_charger charger = INIT_CHARGER;
+//i_charger charger = INIT_CHARGER;
 
 
 void io_init()
 {
-   lcd_init();
+   pwm_init(); //pull down pwm
+   lcd1602_init();
+    lcd_cursor(0,0);
+   lcd_puts("Welcom!! Dtoy");
+   seg_init();
    mdelay(100);
-   lcd_logo();
+ 
 }
 void main()
 {
-   unsigned short n,x;
+   unsigned short n,x=0;
    unsigned short onduty=0;
+   unsigned short adc;
 
 
-   pwm_init(); //pull down pwm
-   /*power on test*/
    io_init();
 	   
-   timer0_init();
-   timer1_init();
+   timer0_init(); //pwm
+  // timer1_init();
 
    //adc_init(); 
    irqon();   //enable global interrupt		
    sleep(0); // just refrence 
+   while(1){
+   
+// KEY_FUNC P3_3  KEY_DISCHARGER  P3_2  KEY_RESUME    P3_1  
+    
+     if(key(KEY_OK))
+	    pwm_setduty(i++);
 
-   while(1){ 
-        n = keyscan();
- 		if(n == 15){	// key F
-			 pwm_setduty(onduty);
-			 onduty = 0;
-		}
- 		if(n!=-1)
-		{
-           if(n<10)
-		      if( 9==n)
-			     x=0;
-			  else
-		         x=(n+1);	
-		    onduty = 10*onduty+x;   
-		}
+   	 if(key(KEY_DIS))
+	    bl_on();
+    
+	 if(key(KEY_RES))
+	    bl_off();
 
-	
-        charging(&charger);  //charger auto control
+	  adc=adc0832(0);
+      lcd_cursor(0,0);
+      lcd_puts("Ch 0: ");
+	  print10(adc);
 
-     
-  }
+	  adc=adc0832(1);
+  	  lcd_cursor(0,1);
+      lcd_puts("Ch 1: ");
+  	  print10(adc);
+	  
+	  lcd_puts("  ");
+  	  print10(x++);
+	  
+   }
+  
+  
 }
