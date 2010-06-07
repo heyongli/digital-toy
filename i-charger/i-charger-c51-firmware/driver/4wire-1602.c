@@ -180,6 +180,27 @@ void print10(unsigned short n)
 	 	lcd_puts(four);
 }
 
+void showVA(unsigned short n)
+{
+     static char four[6];
+     //irqoff();
+	 four[0]= hex2c( (n/1000) );
+	 n = n%1000;
+	 four[1]= hex2c(n/100);
+	 n = n%100;
+		   
+	 four[2] = '.';	   	
+	 four[3]= hex2c( (n/10) );
+	 n = n%10;
+	
+	 four[4]= hex2c( (n) );
+	 four[5]= 0;
+
+     if(four[0] == '0')
+	    lcd_puts(four+1);
+	 else
+	 	lcd_puts(four);
+}
 
 
 void lcd_putc(char datax) //ÁÐx=0~15,ÐÐy=0,1

@@ -65,47 +65,62 @@ unsigned char adc0832(bit ch)
    CLK=1;
 
    if(dat0==dat1) {
-	//	vledmod('V'); 
      	return dat1;
 
 	}
-   //vledmod('H'); 
-  
+    
    return dat0;
 
 }
 
 
 
-float  refV = 4.10 ; 
+float  refV = 5.09 ; 
 
 float adc_V()
 {
-     unsigned short adc_v;
-		    
-     adc_v = adc0832(1);  
-	 mdelay(10);
-	 adc_v += adc0832(1);  
-
-	 adc_v /=2;
+     static unsigned short adc_v=0,adc,delta;
+     float a=0;		    
+     adc = adc0832(1);  
 	 
-	 return (((float)adc_v)/255)*refV*1.9; //10mV
+	 if(adc_v>adc) 
+	    delta=adc_v-adc;
+	 else 
+	    delta = adc-adc_v;
+
+	 if(delta>3)
+	    adc_v= adc;
+	  else{
+	    adc_v+=delta/2;
+	  }
+
+     a=adc_A();	 
+	 return (((float)adc_v)/255)*refV*1.9-a*0.1; //10mV
 }
 
 
 
 float adc_A()
 {
-   	unsigned char adc_i;
+   	static unsigned char adc_i=0,adc,delta;
 	float tmp=0.0;
     /*sample the charger current*/
-	adc_i = adc0832(0);
-	mdelay(10);
-	adc_i += adc0832(0);
-	adc_i /=2;
+	adc = adc0832(0);
+
+	if(adc_i>adc) 
+	    delta=adc_i-adc;
+	else 
+	    delta = adc-adc_i;
+
+    if(delta>5)
+	    adc_i= adc;
+    else{
+	    adc_i+=delta/2;
+     }
+
   	
   	tmp= ((float)adc_i/255)*refV;
-	tmp = tmp/20;
-	return tmp = tmp/0.10;
+	tmp = tmp/19;
+	return tmp = tmp/0.17;
 	
 }

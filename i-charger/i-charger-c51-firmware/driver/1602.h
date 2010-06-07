@@ -12,6 +12,7 @@ void lcd_puts(unsigned char *s);
 
 #define bl_off() BLK = 1
 
-void print10(unsigned short n);
+void print10(unsigned short n);	
+void showVA(unsigned short n);
 
 #endif
