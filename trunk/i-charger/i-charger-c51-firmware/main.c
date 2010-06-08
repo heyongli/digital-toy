@@ -15,7 +15,7 @@ char t=0;
 unsigned short i=0;
 
 //easy charging
-unsigned char duty=0, max_duty=15;
+unsigned char duty=0, max_duty=11;
 float current=0, voltage=0;
 float vlimit = 7.0 ; //V
 float climit = 1.1 ; //A
@@ -40,8 +40,8 @@ void io_init()
 }
 void main()
 {
-   unsigned short n,x=0;
-   unsigned short onduty=0;
+   unsigned short n,loop=0;
+   unsigned short mode=0;
    float adc;
 
 
@@ -56,16 +56,46 @@ void main()
    while(1){
    
 // KEY_FUNC P3_3  KEY_DISCHARGER  P3_2  KEY_RESUME    P3_1  
-    
-     if(key(KEY_OK))
-	    ;
 
-   	 if(key(KEY_DIS)) i++;
+   modeloop:
+    loop++;
+   if(1000==loop&&mode==0) goto motor_charging;
+    
+   if(0==mode){
+      lcd_cursor(0,0);
+      lcd_puts("mode     ");        
+	}
+     if(key(KEY_OK)){
+	 motor_charging:
+	   	vlimit = 6.9;
+  	    climit = 1.2;
+		mode=1;
+		lcd_puts("6.9V");
+	 }
 	   
-    
-	 if(key(KEY_RES)) i--;
 
+   	 if(key(KEY_DIS)){
+	 
+	 	 vlimit = 1.4*3;
+	     climit = 0.8;
+  		 mode=1;
+		 lcd_puts("4.2V");
+	  }
+
+	 if(key(KEY_RES)) {
+	   vlimit = 1.4*4;
+  	   climit = 0.8;
+	   mode=1;
+	   lcd_puts("5.6V");
+	 }
+     
    
+	if(0==mode) goto modeloop;   
+	else{
+	  lcd_puts("."); 
+	} 
+    
+
 	  voltage=adc_V();
       lcd_cursor(0,0);
       lcd_puts("V: ");
@@ -108,7 +138,7 @@ adj_c()
         if(duty>0)
 	         duty-=1;
 	    if(duty==0)
-	       duty==1;
+	       duty=1;
     }
 
 	 pwm_setduty(duty);
@@ -137,7 +167,7 @@ void isdone()
 
     /*try new charging */
     /*para*/
-	vlimit = 7.0; /*test battry*/
+
 
     /*test battery*/
      pwm_setduty(0);
@@ -180,8 +210,6 @@ void isdone()
 	}
 	   
 	/*set parameter */
-	 vlimit = 6.9;
-	 climit = 1.2;
 
      /*init start*/
      pwm_setduty(1);

@@ -75,7 +75,7 @@ unsigned char adc0832(bit ch)
 
 
 
-float  refV = 5.09 ; 
+float  refV = 5.08; 
 
 float adc_V()
 {
@@ -95,7 +95,7 @@ float adc_V()
 	  }
 
      a=adc_A();	 
-	 return (((float)adc_v)/255)*refV*1.9-a*0.1; //10mV
+	 return (((float)adc_v)/255)*refV*1.9-a*0.17; //10mV
 }
 
 
