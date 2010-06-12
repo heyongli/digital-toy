@@ -2,7 +2,7 @@
 
 #include "adc0832.h"
 
-
+#define  refV  5.08
 		
 #define CS	 P1_1
 #define CLK	 P1_4
@@ -75,7 +75,7 @@ unsigned char adc0832(bit ch)
 
 
 
-float  refV = 5.08; 
+
 
 float adc_V()
 {

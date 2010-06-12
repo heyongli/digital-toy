@@ -90,9 +90,8 @@ void timer1_init()
 
 void timer1(void) interrupt 3 using 1   
 {   
- 	 ms_scan_segvled(); //…®√Ëœ‘ æ
-
-	 
+ 	 // ms_scan_segvled(); //…®√Ëœ‘ æ, use LCD disable this
+		 
 	 jiffers++;
 	 settimer1(MS_CYCLE);
 }

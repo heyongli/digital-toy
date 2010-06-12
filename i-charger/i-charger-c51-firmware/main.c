@@ -7,16 +7,16 @@
 #include <charger.h>
 
 #include <1602.h>
+#include <timer.h>
 
 
 
-extern float  refV ; 
 
 //easy charging
-unsigned char duty=0, max_duty=11;
+unsigned char duty=0;
 float current=0, voltage=0;
-float vlimit = 7.0 ; //V
-float climit = 1.1 ; //A
+float vlimit = 0 ; //V
+float climit = 0 ; //A
 float ir = 0 ;  //battery internal resistor
 void easy_charging();
 
@@ -40,7 +40,6 @@ void io_init()
 unsigned short mode=0;
 /*mode==2/ -Dv*/
 float top_voltage=0;
-float low_voltage=0;
 char dvc=0,burst=0;
 
 void select_battery()
@@ -56,14 +55,17 @@ void select_battery()
 	   if(key(KEY_OK)){
 	      if(0==vlimit) {
 	         motor_charging:
-	     	   vlimit = 6.9;
+	     	   vlimit = 7.1;
   	           climit = 1.2;
 		       mode=1;
 			   lcd_cursor(0,0);
 			   lcd_puts("vlimit: ");   
                showVA(vlimit*100);
+			   mdelay(200);	  mdelay(200);	 mdelay(200);
+			   return;
+
 		}
-		mode =2;
+		mode =1; /*mode2:-dv cannot work now*/
 		return;
 	  }
 
@@ -83,25 +85,43 @@ void select_battery()
 
 }
 
+float maH = 0;
+void  countmaH()
+{
+   	static long now=0;
+	if(0==now)
+	    now=jiffers;
+    if(timeafter(jiffers, now+200))	{
+	   maH+=current/3.6; /* I*time 1s, I*1s/(3600)aH *1000maH = I/3.6*/
+	   now=jiffers;
+	}
+
+}
 void charging_update_lcd()
 {
   	  voltage=adc_V();
       lcd_cursor(0,0);
-      lcd_puts("V: ");
+      lcd_puts("V:");
 	  showVA(voltage*100);
 
-      lcd_puts("TV: ");
-	  showVA(top_voltage*100);
+      lcd_puts(" PWM:");
+	  print10(duty);
+	  //showVA(top_voltage*100);
 
 	  current=adc_A();
   	  lcd_cursor(0,1);
-      lcd_puts("A: ");
+      lcd_puts("A:");
   	  showVA(current*100);
 	  
-	  lcd_puts(" pwm:");
-  	  print10(duty);
+	  //lcd_puts(" pwm:");
+  	  //print10(duty);
+	  lcd_puts(" maH:");
+	  print10(maH); /*maH*/
+
 
 }
+
+
 void main()
 {
    unsigned short n,loop=0;
@@ -111,7 +131,7 @@ void main()
    io_init();
 	   
    timer0_init(); //pwm
-  // timer1_init();
+   timer1_init(); //1ms
 
    //adc_init(); 
    irqon();   //enable global interrupt		
@@ -129,6 +149,7 @@ void main()
 	  isdone();
 	  easy_charging();
   	 
+	  countmaH();
    /*end charging*/	
 	  
    }
@@ -136,6 +157,7 @@ void main()
   
 }
 
+#define max_duty 11
 adj_c()
 {
 
@@ -195,7 +217,7 @@ void isdone()
 	    return;
 
 	/*test internal resistor*/
-	pwm_setduty(3);
+	pwm_setduty(5);
 	mdelay(150);
 	voltage=adc_V();
 	current=adc_A();
@@ -221,16 +243,18 @@ void isdone()
 	pwm_setduty(0);
 	ir = (voltage-bv)/current;
     
-	lcd_cursor(9,0);
+	lcd_cursor(0,0);
+    lcd_puts("                  ");
+	lcd_cursor(0,0);
     lcd_puts("ir:");
 	print10(1000*ir);
-
+    mdelay(100); mdelay(100);	mdelay(100);
+       
 	if(ir>1.5) {
 	   lcd_cursor(9,0) ;
 	 
        lcd_puts("bad ir  ");
 	   mdelay(100); mdelay(100);	mdelay(100);
-       mdelay(100);	mdelay(100);
 	}
 	   
 	/*set parameter */
