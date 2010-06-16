@@ -22,6 +22,7 @@ void easy_charging();
 
 char charging = 0;  //not incharging
 void isdone();
+void easy_discharing();
 
 //i_charger charger = INIT_CHARGER;
 
@@ -37,8 +38,12 @@ void io_init()
  
 }
 
-unsigned short mode=0;
+
+
+unsigned char mode=0;
 /*mode==2/ -Dv*/
+/**/
+
 float top_voltage=0;
 char dvc=0,burst=0;
 
@@ -48,12 +53,13 @@ void select_battery()
   if(mode) //mode selected done
      return; 
 
-  while( ((loop++<300)||(num_nicd!=0)) && 0==mode ){
-        lcd_cursor(0,0);
+  while( loop++<300 ){
+
             
 	 
-	   if(key(KEY_OK)){
-	      if(0==vlimit) {
+	  if(key(KEY_OK)){
+
+          if(0==vlimit && DIS_CHA!=mode) { //if not select mode&& not discharging, start charging 6V lead acid now
 	         motor_charging:
 	     	   vlimit = 7.1;
   	           climit = 1.2;
@@ -64,24 +70,40 @@ void select_battery()
 			   mdelay(200);	  mdelay(200);	 mdelay(200);
 			   return;
 
-		}
-		mode =1; /*mode2:-dv cannot work now*/
-		return;
+		 }
+         
+		 if(DIS_CHA!=mode){ /*if not discharging, charging at selected vlimit*/
+			climit=0.8;
+			mode =1; /*mode2:-dv cannot work now*/
+		 }
+
+		 return;
 	  }
 
    	 if(key(KEY_RES))
 	       num_nicd++;
 
-	 if(key(KEY_DIS)) 
+	 if(key(KEY_DIS)){ 
 	     if(num_nicd) 
 	      	num_nicd--;
-	   lcd_cursor(0,0);
-	   lcd_puts("vlimit: ");   
-       vlimit = num_nicd*1.4;     
-  	   showVA(vlimit*100);
+		 else{
+		    mode= DIS_CHA;
+			climit=300;	
+		  }
+		 
 	 }
-
-	 goto motor_charging;
+	 
+	 lcd_cursor(0,0);
+	 if(DIS_CHA==mode){
+	      lcd_puts("Discharging?..");   
+	 }else{
+	     lcd_puts("vlimit: ");   
+         vlimit = num_nicd*1.4;     
+  	     showVA(vlimit*100);
+	 }
+   }
+   //time out
+   goto motor_charging;
 
 }
 
@@ -122,6 +144,7 @@ void charging_update_lcd()
 }
 
 
+
 void main()
 {
    unsigned short n,loop=0;
@@ -146,8 +169,13 @@ void main()
 	  charging_update_lcd();
 
 	/*charging core*/
-	  isdone();
-	  easy_charging();
+	 if(DIS_CHA != mode){
+	   isdone();
+	   easy_charging();
+	 }else{
+	   easy_discharing();
+	 }
+
   	 
 	  countmaH();
    /*end charging*/	
@@ -217,7 +245,7 @@ void isdone()
 	    return;
 
 	/*test internal resistor*/
-	pwm_setduty(5);
+	adj_c();
 	mdelay(150);
 	voltage=adc_V();
 	current=adc_A();
@@ -346,3 +374,26 @@ void easy_charging()
 
 }
 
+
+void easy_discharing()
+{
+   PWM_PIN = 0;
+   if(voltage < 1.0)
+      goto done;
+
+   if(0==duty)
+      adj_c();
+
+   return;
+   done:
+   {
+   	  charging_update_lcd();
+	  bl_off();
+	  mdelay(50);
+	  bl_on();
+  	  mdelay(150);
+
+      duty=0;
+	  pwm_setduty(0);
+   }
+}

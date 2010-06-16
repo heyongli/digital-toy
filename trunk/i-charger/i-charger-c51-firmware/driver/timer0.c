@@ -44,12 +44,16 @@ void timer0_init()
  */
 /*中断1， 寄存器组1 (普通函数默认用寄存器组0)*/
 
-
+extern unsigned char mode;
 extern unsigned char on_duty ;
 void timer0(void) interrupt 1 using 2   
 {   
 
-	 pwm_1kHz();
+     if(DIS_CHA==mode)
+	     pwm_discharging(); 
+	 else
+	     pwm_1kHz();
+	  
 
 #if 0
 ///////// mode 1: tickless mode

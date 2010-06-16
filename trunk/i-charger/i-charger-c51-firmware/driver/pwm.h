@@ -8,6 +8,7 @@
 
 #define PWM_DIS   P3_0
 
+#define DIS_CHA 100  /*charging mode*/
 
 /*250us update*/
 void pwm_init();
