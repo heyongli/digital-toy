@@ -1,0 +1,10 @@
+"charger.obj",
+"main.obj",
+"4x4keyboard.obj",
+"4x8seg_vled.obj",
+"adc0832.obj",
+"delay.obj",
+"pwm.obj",
+"timer0.obj" 
+TO "i-charger" 
+RAMSIZE(256) 
