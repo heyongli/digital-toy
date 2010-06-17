@@ -1,0 +1,15 @@
+========================================
+i-charger-51
+1.the line width is thin in almost all signal
+2.does not consideration the heat sink footprint for PMOSFET: about 1.5W..., >100oC in 1.2A/6.5V
+3.the 3W resistor footprint is smaller than the component, it's a error
+4.the 1117 packages is wrong that's the 7805's package!!!
+5.CPU  51 should pull down not up. 
+6. 51 pin not pull up in some nets.
+====
+7. big error, discharging current direction is reverse, so ADC for current failed.....
+8. and, discharging PWM PIN not pull up
+
+
+get so many experience
+

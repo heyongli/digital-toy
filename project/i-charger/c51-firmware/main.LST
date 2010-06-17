@@ -1,0 +1,137 @@
+C51 COMPILER V8.01   MAIN                                                                  12/13/2009 18:13:49 PAGE 1   
+
+
+C51 COMPILER V8.01, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE main.c ROM(COMPACT) BROWSE INCDIR(.\driver) DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include "config.h"
+   2          #include <adc.h>
+   3          #include <adc0832.h>
+   4          
+   5          #include <math.h>
+   6          #include <charger.h>
+   7          
+   8          
+   9          
+  10          
+  11          extern float  refV ; 
+  12          
+  13          
+  14          i_charger charger = INIT_CHARGER;
+  15          
+  16          
+  17          char action= 0;
+  18          
+  19          void  update_display()
+  20          {
+  21   1        
+  22   1          static unsigned long start=0;
+  23   1              if(10==action){ // key a
+  24   2                  //vledmod(VLED_A); 
+  25   2                  // print10((short)charging_current);
+  26   2              start = jiffers;
+  27   2                      action = 12     ;
+  28   2              }
+  29   1              
+  30   1              if(11==action){ // key b 
+  31   2                   //vledmod(VLED_V); 
+  32   2                  // print10((short)(battery_voltage*100));
+  33   2                      unsigned long total = (((long)(jiffers) - (long)(start) ));
+  34   2      
+  35   2                      float x = ((float)total/(HZ*60.0));
+  36   2      
+  37   2                      print10(10*x); //minute
+  38   2              setdot(2);
+  39   2      
+  40   2              } 
+  41   1                      
+  42   1              if(12==action){ //key c
+  43   2                //count second
+  44   2                 setdot(2);
+  45   2                 print10( (jiffers-start)/(HZ/10) );  
+  46   2      
+  47   2              }
+  48   1      
+  49   1      
+  50   1              if(14==action){ // key E
+  51   2                 refV=5.03;
+  52   2              }
+  53   1          if(15==action){ //key f
+  54   2                  ic_show(&charger);
+  55   2          }
+C51 COMPILER V8.01   MAIN                                                                  12/13/2009 18:13:49 PAGE 2   
+
+  56   1      
+  57   1      }
+  58          void main()
+  59          {
+  60   1         unsigned short n,x;
+  61   1         unsigned short onduty=0;
+  62   1         static unsigned long lasttime= 0;
+  63   1      
+  64   1         pwm_init(); //pull down pwm
+  65   1         /*power on test*/
+  66   1         segvled_init();
+  67   1      
+  68   1         timer0_init();
+  69   1         timer1_init();
+  70   1      
+  71   1         //adc_init(); 
+  72   1         irqon();   //enable global interrupt         
+  73   1         sleep(0); // just refrence 
+  74   1      
+  75   1         while(1){ 
+  76   2              n = keyscan();
+  77   2      
+  78   2                      if(n<=15 && n>=10) /*A .. F*/
+  79   2                         action = n;
+  80   2              
+  81   2                      if(n == 15){    // key F
+  82   3                               pwm_setduty(onduty);
+  83   3                               onduty = 0;
+  84   3                      }
+  85   2                      if(n!=-1)
+  86   2                      {
+  87   3                 if(n<10)
+  88   3                            if( 9==n)
+  89   3                                   x=0;
+  90   3                                else
+  91   3                               x=(n+1);       
+  92   3                          onduty = 10*onduty+x;   
+  93   3                      }
+  94   2      
+  95   2                      if(13==action){ //key d
+  96   3                 charger.dump++;
+  97   3                         if(charger.dump>=ICS_END)
+  98   3                            charger.dump=ICS_DEFAULT;
+  99   3                         action = 15;
+ 100   3                  }   
+ 101   2              charging(&charger);  //charger auto control
+ 102   2      
+ 103   2                      if(timeafter(jiffers, lasttime+HZ/10)){
+ 104   3                               update_display();
+ 105   3                               update_vled(); //vled mode 
+ 106   3                               lasttime = jiffers;
+ 107   3                      }
+ 108   2           
+ 109   2        }
+ 110   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    430    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+C51 COMPILER V8.01   MAIN                                                                  12/13/2009 18:13:49 PAGE 3   
+
+   DATA SIZE        =     26      14
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
