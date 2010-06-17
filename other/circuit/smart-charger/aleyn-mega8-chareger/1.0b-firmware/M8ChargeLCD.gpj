@@ -1,0 +1,109 @@
+Option:[%RootKey%]
+[%
+  Version:2.0.0.11
+  Author:""
+  Descript:""
+  ExportToOnFile:TRUE
+  ExportToEachFile:FALSE
+  ExportMenuTree:FALSE
+  ExportExecuteEvent:TRUE
+  ExportLCDModule:TRUE
+  ExportKeyboard:FALSE
+  ExportTools:TRUE
+  Compiler:"CVAVR"
+  McuType:"ATMega8"
+  Clock:16
+%]
+
+MenuOption:[%RootKey%]
+[%
+  CaptionLength:16
+  Format:1
+%]
+
+LCDModule:[%RootKey%]
+[%
+  ModuleLib:"LMB162ADC.lcd"
+  PortType:3
+  PortLow:""
+  PortHigh:"PD4~7"
+  PinLow:""
+  PinHigh:""
+  PinCustom0:""
+  PinCustom1:""
+  PinCustom2:""
+  PinCustom3:""
+  PinCustom4:""
+  PinCustom5:""
+  PinCustom6:""
+  PinCustom7:""
+  PinRS:"PB5"
+  PinRW:""
+  PinE:"PC4"
+  PinRWGnd:TRUE
+  ModuleName:"LMB162ADC ( 16 Char * 2 Line )"
+  COL:16
+  ROW:2
+  Type:"Char"
+  ICON:FALSE
+  REVERSE:FALSE
+  DataWidth:1
+  DDRAM:"0x00, 0x40"
+  TC:1500ns
+  TPW:175ns
+  TR:20ns
+  TF:20ns
+  TAS:5ns
+  TAH:13ns
+  TDSW:50ns
+  TDDR:125ns
+  TH:13ns
+%]
+
+KeyModule:[%RootKey%]
+[%
+  KeyType:0
+  Data1:""
+  Data2:""
+  Data3:""
+  Data4:""
+  Data5:""
+  Data6:""
+  Data7:""
+  Data8:""
+  Check1:FALSE
+  Check2:FALSE
+  Check3:FALSE
+  Check4:FALSE
+  Check5:FALSE
+  Check6:FALSE
+  Check7:FALSE
+  Check8:FALSE
+  Support1:""
+  Support2:""
+  Support3:""
+  Support4:""
+  Support5:""
+  Support6:""
+  Support7:""
+  Support8:""
+%]
+
+Tools:[%RootKey%]
+[%
+  KeyDelay:FALSE
+  CreateExecuteEvent:FALSE
+  DisplayVersion:TRUE
+  CreateMainProgram:TRUE
+  ProgressMessage:1
+%]
+
+MenuData:[%RootKey%]
+[%
+  Style:MENU_TEXT
+  ParentID:0
+  Format:0
+  Caption:"New Item"
+  Define:"NEW_ITEM"
+  ControlWidth:1
+%]
