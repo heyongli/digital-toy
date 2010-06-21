@@ -1,0 +1,16 @@
+# High_Current_Supply_p1.png
+
+A high current regulated electrolysis power supply, with high efficiency, high power factor and digital control. This page illustrates the power input and PFC section, capable of producing 410VDC at up to 1.2A from any input over the 90-250VAC range. Testing has shown the FAN7527 to be quite unstable, especially with negative resistance loads (such as a switching power supply).
+# High_Current_Supply_p2.png
+
+A high current regulated electrolysis power supply, with high efficiency, high power factor and digital control. This page illustrates the forward converter and synchronous rectifier sections. In order to obtain high efficiency at 100A output, a synchronous rectifier must be used, yielding an impressive 0.2V drop maximum at full load.
+# High_Current_Supply_p3.png
+
+A high current regulated electrolysis power supply, with high efficiency, high power factor and digital control. This page illustrates the PWM control circuit, which drives the forward converter and synchronous rectifier sections. Testing has shown the FDS8333C's to draw incredibly high shoot-through current during the 40 nanoseconds they take to transition; during this time, about 20A peak is gulped from the supply rail (mostly the 10uF tantalum and 0.1uF bypass at the TL598), drawing anomalously high current and making things heat up. This was later changed to a 1 ohm series resistor supplying the gate drivers, limiting shoot-through current to a quiet 5A.
+# High_Current_Supply_p4.png
+
+A high current regulated electrolysis power supply, with high efficiency, high power factor and digital control. This page illustrates the microcontroller and PWM DAC filter sections.
+# High_Current_Supply_p5.png
+
+A high current regulated electrolysis power supply, with high efficiency, high power factor and digital control. This page illustrates the remaining microcontroller peripherial circuits: RS232 interface for remote control, a 20x4 LCD display, external PWM drive and 1-of-16 selector for driving external process devices.
+
