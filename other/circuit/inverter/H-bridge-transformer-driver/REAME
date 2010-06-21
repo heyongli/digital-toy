@@ -1,0 +1,9 @@
+# H_Bridge_Transformer_Driver.png
+
+Gate drive transformer H bridge driver. Since open-collector BJTs do not handle reactive current, a choke-input filter is required to force the dead-time voltage to zero. Downside: fall time is limited by inductor current, which already has to handle magnetizing current. As a result, switching can be dangerously slow.
+# H_Bridge_Transformer_Driver_2.png
+
+Gate drive transformer H bridge driver. Since open-collector BJTs do not handle reactive current, a complementary emitter follower supplies drive. Downside: requires bipolar power supplies, and the additional switching stage adds delay and skew. Dead-time drive is limited by the 1k resistor to ground, which is poor.
+# H_Bridge_Transformer_Driver_3.png
+
+Gate drive transformer H bridge driver. Since open-collector BJTs do not handle reactive current, complementary emitter followers drive the transformer. For open-collector outputs, current sources were added to improve saturation voltage. Downside: although deadtime drive is excellent, the two series emitter followers have a total 2.8V dead band where the voltage is uncontrolled. As a result, this circuit is unsuitable for low-threshold transistors.
