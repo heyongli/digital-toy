@@ -212,9 +212,41 @@ adj_c()
    }  
 
 }
+
+void try_ir(char setpwm)
+{
+    
+    
+	float bv;
+	pwm_setduty(0);
+	mdelay(200);mdelay(100);
+	bv=adc_V();
+    
+    if(setpwm)
+	  adj_c();
+	else 
+	   	pwm_setduty(duty);
+
+	mdelay(150);
+	voltage=adc_V();
+	current=adc_A();
+	
+	mdelay(130);
+	voltage+=adc_V();
+	current+=adc_A();
+	
+   	voltage/=2;
+	current/=2;
+	
+	if(setpwm)
+	    pwm_setduty(0);
+	
+	ir = (voltage-bv)/current;
+	   
+}
 void isdone()
 {
-    float bv=0;
+
   
    if(voltage < 0.5 || voltage>10.0) /*no battery or pull out*/	   {
       charging = 0;
@@ -237,7 +269,7 @@ void isdone()
  	 mdelay(100); mdelay(100);
 	 //PWM_DIS=0;
 	 charging_update_lcd();
-     bv=voltage=adc_V();    	
+     voltage=adc_V();    	
      if(voltage> 0.8 && voltage <9)
 	    charging = 1;
 
@@ -245,46 +277,25 @@ void isdone()
 	    return;
 
 	/*test internal resistor*/
-	adj_c();
-	mdelay(150);
-	voltage=adc_V();
-	current=adc_A();
-	
-	mdelay(130);
-	voltage+=adc_V();
-	current+=adc_A();
-	
-	mdelay(130);
-	voltage+=adc_V();
-	current+=adc_A();
-	
-    mdelay(130);
-	voltage+=adc_V();
-	current+=adc_A();
-	
-    mdelay(130);
-	voltage+=adc_V();
-    current+=adc_A();
-	
-	voltage/=5;
-	current/=5;
-	pwm_setduty(0);
-	ir = (voltage-bv)/current;
-    
+re_tryir:
+	try_ir(1);
 	lcd_cursor(0,0);
     lcd_puts("                  ");
 	lcd_cursor(0,0);
     lcd_puts("ir:");
 	print10(1000*ir);
-    mdelay(100); mdelay(100);	mdelay(100);
+    mdelay(100); mdelay(100);
        
-	if(ir>1.5) {
+	if((ir>0.99) && duty>3) {
 	   lcd_cursor(9,0) ;
 	 
        lcd_puts("bad ir  ");
-	   mdelay(100); mdelay(100);	mdelay(100);
+	   mdelay(100);
+	   if(climit>0.2)
+	   	  climit -= 0.1; 
+	   goto re_tryir;
 	}
-	   
+
 	/*set parameter */
 
      /*init start*/
@@ -346,12 +357,16 @@ void easy_charging()
 
    if(mode!=2)
    if( voltage > (vlimit+ir*current)){
-   	   if(duty>0)
+   	   if(duty>0){
 	        duty-=1;
+			pwm_setduty(duty);	
+			try_ir(0);//retest ir
+		}
 	    stable=0;
 
 	   if(duty==0)
 	      goto done;
+
    
    }
     
