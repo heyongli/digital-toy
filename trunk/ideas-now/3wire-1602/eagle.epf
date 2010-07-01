@@ -1,0 +1,22 @@
+[Eagle]
+Version="05 07 00"
+Platform="Linux"
+Serial="62191E841E-LSR-WLM-NCP"
+Globals="Globals"
+Desktop="Desktop"
+
+[Globals]
+AutoSaveProject=1
+UsedLibrary="/home/yhe/digital-toy/dtoy-eagle-lbr/digital-toy/SparkFun.lbr"
+UsedLibrary="/home/yhe/digital-toy/dtoy-eagle-lbr/digital-toy/digital-toy.lbr"
+UsedLibrary="/home/yhe/digital-toy/dtoy-eagle-lbr/digital-toy/led-seg.lbr"
+
+[Win_1]
+Type="Control Panel"
+Loc="0 25 599 424"
+State=2
+Number=0
+
+[Desktop]
+Screen="1680 1050"
+Window="Win_1"
