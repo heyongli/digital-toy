@@ -1,0 +1,21 @@
+BEAM is an acronym standing for Biology, Electronics, Aesthetics, Mechanics:
+
+    Biology -- It's tough to beat 4 billion years of evolution; the world around us is a wonderful source of inspiration and education. Bear in mind, of course, that unlike Mother Nature, you also have the advantage of gears, motors, bearings, and good glues!
+
+    Electronics -- It kind of goes without saying, but this is what we'll use to drive our creations. BEAM robotics, though, strives for rich behaviors from simple circuits. Here's the key: simple and understandable circuits, surprisingly complex in behavior.
+
+    Aesthetics -- This just means your creations should look good. I'm an engineer, but even I appreciate a good-looking design. Besides, if a design looks "clean," it's more likely to work (and easier to test / debug) than a design that's tangled and unruly.
+
+    Mechanics -- This is the less-than-obvious secret of many successful BEAMbots -- with a clever mechanical design, you can reduce the complexity of the rest of your robot (reducing the number of motors and sensors, for example).
+
+
+BEAM robotics basically starts from 3 philosophical tenets:
+
+    * Use minimalist electronics
+      This keeps complexity from "snowballing", and keeps costs down
+    * Recycle & reuse components out of technoscrap
+      This keeps things cheap, and avoids a lot of trips to parts stores; virtually all the parts required to make a BEAM robot can be found in broken electronics (ovens, walkman's, CD players, VCRs, pagers...).
+    * Solar power your critter if possible
+      While less powerful than even a small battery (and, up-front, more expensive), solar cell s last for years; solar-powered BEAMbots don't require constant battery replacements or down-time for battery recharging.
+
+While BEAM robots are often simple (consisting of a solar cell , motor, 2 transistors , and capacitor ), robots as complicated as 8-jointed, 4-legged walking spiders have been built using the principles of BEAM.
