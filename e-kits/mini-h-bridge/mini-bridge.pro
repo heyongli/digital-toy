@@ -1,15 +1,15 @@
 EAGLE AutoRouter Statistics:
 
-Job           : Z:/home/digital-toy/e-kits/mini-h-bridge/mini-bridge.brd
+Job           : /home/yhe/digital-toy/e-kits/mini-h-bridge/mini-bridge.brd
 
-Start at      : 23:11:49 (2010-4-17)
-End at        : 23:11:49 (2010-4-17)
+Start at      : 05:41:26 (10-7-9)
+End at        : 05:41:26 (10-7-9)
 Elapsed time  : 00:00:00
 
-Signals       :    20   RoutingGrid: 50 mil  Layers: 1
-Connections   :    68   predefined:  68 ( 0 Vias )
+Signals       :    11   RoutingGrid: 50 mil  Layers: 1
+Connections   :    35   predefined:  35 ( 0 Vias )
 
-Router memory :   6624
+Router memory :   3366
 
 Passname          :     Route Optimize1 Optimize2 Optimize3 Optimize4
 
