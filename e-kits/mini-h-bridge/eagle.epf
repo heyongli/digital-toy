@@ -7,19 +7,13 @@ Desktop="Desktop"
 
 [Globals]
 AutoSaveProject=1
-UsedLibrary="/home/yhe/digital-toy/dtoy-eagle-lbr/digital-toy/SparkFun.lbr"
-UsedLibrary="/home/yhe/digital-toy/dtoy-eagle-lbr/digital-toy/digital-toy.lbr"
-UsedLibrary="/home/yhe/digital-toy/dtoy-eagle-lbr/digital-toy/led-seg.lbr"
+UsedLibrary="/home/hyl/digital-toy/dtoy-eagle-lbr/digital-toy/SparkFun.lbr"
+UsedLibrary="/home/hyl/digital-toy/dtoy-eagle-lbr/digital-toy/digital-toy.lbr"
+UsedLibrary="/home/hyl/digital-toy/dtoy-eagle-lbr/digital-toy/led-seg.lbr"
 
 [Win_1]
-Type="Control Panel"
-Loc="0 25 599 424"
-State=2
-Number=0
-
-[Win_2]
 Type="Schematic Editor"
-Loc="-80 25 921 763"
+Loc="0 25 1001 763"
 State=2
 Number=2
 File="mini-bridge.sch"
@@ -58,17 +52,17 @@ Layer=91
 Views=" 1: 474955 224506 1291239 946190"
 Sheet=1
 
-[Win_3]
+[Win_2]
 Type="Board Editor"
-Loc="246 118 1505 932"
-State=2
+Loc="246 117 1505 931"
+State=1
 Number=1
 File="mini-bridge.brd"
-View="-325746 -161677 640390 413865"
-WireWidths=" 0 2540 3048 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 4064"
-PadDiameters=" 2540 3048 4064 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 0"
+View="-110031 -321254 925677 413022"
+WireWidths=" 0 2540 19304 21844 25400 38100 64516 17780 16764 14224 12700 10160 6096 3048 4064 8128"
+PadDiameters=" 2540 3048 4064 6096 8128 10160 12700 17780 19304 21844 25400 38100 64516 0 14224 16764"
 PadDrills=" 5000 6000 7000 9000 10000 11000 12000 13000 14000 15000 16000 20000 22000 28000 32000 8000"
-ViaDiameters=" 2540 3048 4064 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 0"
+ViaDiameters=" 2540 3048 4064 6096 8128 10160 12700 17780 19304 21844 25400 38100 64516 0 14224 16764"
 ViaDrills=" 5000 7000 8000 9000 10000 11000 12000 13000 14000 15000 16000 20000 22000 28000 32000 6000"
 HoleDrills=" 5000 7000 8000 9000 10000 11000 12000 13000 14000 15000 16000 20000 22000 28000 32000 6000"
 TextSizes=" 2540 3048 4064 6096 8128 10160 12700 14224 16764 19304 21844 25400 38100 50800 64516 17780"
@@ -97,8 +91,14 @@ AddLevel=2
 PadsSameType=0
 Layer=1
 
+[Win_3]
+Type="Control Panel"
+Loc="492 448 1397 1079"
+State=2
+Number=0
+
 [Desktop]
-Screen="1680 1050"
+Screen="3840 1080"
 Window="Win_1"
 Window="Win_2"
 Window="Win_3"
