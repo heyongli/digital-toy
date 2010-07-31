@@ -1,0 +1,27 @@
+cp $1/*.ps .
+cp $1/*.eps .
+
+#psmerge *.ps *.eps >all.ps 
+#ps2pdf all.ps
+#pdf2svg all.pdf all%d.svg all
+
+for x in *.eps
+do
+ps2pdf $x 
+done
+
+for x in *.ps
+do
+ps2pdf $x 
+done
+
+
+for x in *.pdf
+do
+pdf2svg $x  $x.svg
+done
+
+rm *.eps *.ps *.pdf
+
+exit
+
