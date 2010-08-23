@@ -34,3 +34,4 @@ mini h birdge
 1. protect diode can be removed
 2. 弯针可以放入pcb “内部”
 3. 注意双面器件，应该在反面（焊接面）走线
+4. bottom layer 的自定义文字需要mirror
