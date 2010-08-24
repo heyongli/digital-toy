@@ -73,7 +73,7 @@ void select_battery()
 		 }
          
 		 if(DIS_CHA!=mode){ /*if not discharging, charging at selected vlimit*/
-			climit=0.8;
+			climit=1.55;
 			mode =1; /*mode2:-dv cannot work now*/
 		 }
 
@@ -185,7 +185,7 @@ void main()
   
 }
 
-#define max_duty 11
+#define max_duty 15
 adj_c()
 {
 
@@ -286,7 +286,7 @@ re_tryir:
 	print10(1000*ir);
     mdelay(100); mdelay(100);
        
-	if((ir>0.99) && duty>3) {
+	if((ir>1.5) && duty>3) {
 	   lcd_cursor(9,0) ;
 	 
        lcd_puts("bad ir  ");
@@ -336,7 +336,7 @@ void easy_charging()
    if(top_voltage-voltage>0.022) /*20mV*/{
       // low_voltage -= (top_voltage-voltage)/5;
 	    dvc++;
-        stable =50;		
+        stable =70;		
     }
 	 if(dvc>5) {
 	 	lcd_cursor(9,0) ;
@@ -361,6 +361,7 @@ void easy_charging()
 	        duty-=1;
 			pwm_setduty(duty);	
 			try_ir(0);//retest ir
+
 		}
 	    stable=0;
 
