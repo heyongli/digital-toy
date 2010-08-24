@@ -1,4 +1,4 @@
-BL51 BANKED LINKER/LOCATER V6.00                                                        06/23/2010  21:11:22  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.00                                                        08/24/2010  20:14:11  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.00, INVOKED BY:
@@ -59,7 +59,7 @@ LINK MAP OF MODULE:  i-charger (MAIN)
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
             CODE    0000H     0003H     ABSOLUTE     
             CODE    0003H     0006H     INBLOCK      ?PR?IO_DELAY?4WIRE_1602
-BL51 BANKED LINKER/LOCATER V6.00                                                      06/23/2010  21:11:22  PAGE 2
+BL51 BANKED LINKER/LOCATER V6.00                                                      08/24/2010  20:14:11  PAGE 2
 
 
                     0009H     0002H                  *** GAP ***
@@ -69,9 +69,9 @@ LINK MAP OF MODULE:  i-charger (MAIN)
             CODE    001BH     0003H     ABSOLUTE     
             CODE    001EH     0477H     UNIT         ?C?LIB_CODE
             CODE    0495H     0170H     INBLOCK      ?PR?EASY_CHARGING?MAIN
-            CODE    0605H     015BH     INBLOCK      ?PR?ISDONE?MAIN
-            CODE    0760H     009BH     INBLOCK      ?PR?_PRINT10?4WIRE_1602
-            CODE    07FBH     0005H     INBLOCK      ?PR?__2CYCLE?DELAY
+            CODE    0605H     015AH     INBLOCK      ?PR?ISDONE?MAIN
+            CODE    075FH     009BH     INBLOCK      ?PR?_PRINT10?4WIRE_1602
+            CODE    07FAH     0006H     INBLOCK      ?PR?IO_50MS?4WIRE_1602
             CODE    0800H     0132H     INBLOCK      ?PR?SELECT_BATTERY?MAIN
             CODE    0932H     00FCH     INBLOCK      ?PR?_TRY_IR?MAIN
             CODE    0A2EH     00B4H     INBLOCK      ?PR?ADC_V?ADC0832
@@ -112,14 +112,14 @@ LINK MAP OF MODULE:  i-charger (MAIN)
             CODE    1424H     000EH     INBLOCK      ?PR?TIMER0_INIT?TIMER0
             CODE    1432H     000EH     INBLOCK      ?PR?TIMER1_INIT?TIMER0
             CODE    1440H     000BH     INBLOCK      ?PR?PWM_SAFEON?PWM
-            CODE    144BH     0006H     INBLOCK      ?PR?IO_50MS?4WIRE_1602
-            CODE    1451H     0006H     INBLOCK      ?PR?_LCD_PUTC?4WIRE_1602
-            CODE    1457H     0005H     INBLOCK      ?PR?PWM_INIT?PWM
-            CODE    145CH     0003H     INBLOCK      ?PR?PWM_GETDUTY?PWM
-            CODE    145FH     0003H     INBLOCK      ?PR?_SETDOT?3DIGI_SEG
+            CODE    144BH     0006H     INBLOCK      ?PR?_LCD_PUTC?4WIRE_1602
+            CODE    1451H     0005H     INBLOCK      ?PR?__2CYCLE?DELAY
+            CODE    1456H     0005H     INBLOCK      ?PR?PWM_INIT?PWM
+            CODE    145BH     0003H     INBLOCK      ?PR?PWM_GETDUTY?PWM
+            CODE    145EH     0003H     INBLOCK      ?PR?_SETDOT?3DIGI_SEG
 
 
-BL51 BANKED LINKER/LOCATER V6.00                                                      06/23/2010  21:11:22  PAGE 3
+BL51 BANKED LINKER/LOCATER V6.00                                                      08/24/2010  20:14:11  PAGE 3
 
 
 
@@ -179,7 +179,7 @@ SEGMENT                                  BIT_GROUP          DATA_GROUP
   +--> ?PR?_HD44870_SEND?4WIRE_1602
 
 ?PR?SEG_INIT?3DIGI_SEG                -----    -----      -----    -----
-BL51 BANKED LINKER/LOCATER V6.00                                                      06/23/2010  21:11:22  PAGE 4
+BL51 BANKED LINKER/LOCATER V6.00                                                      08/24/2010  20:14:11  PAGE 4
 
 
   +--> ?PR?_SEGOFF?3DIGI_SEG
@@ -239,7 +239,7 @@ SEGMENT                                  BIT_GROUP          DATA_GROUP
   +--> ?PR?_MDELAY?DELAY
   +--> ?PR?_PWM_SETDUTY?PWM
   +--> ?PR?ADC_V?ADC0832
-BL51 BANKED LINKER/LOCATER V6.00                                                      06/23/2010  21:11:22  PAGE 5
+BL51 BANKED LINKER/LOCATER V6.00                                                      08/24/2010  20:14:11  PAGE 5
 
 
   +--> ?PR?_TRY_IR?MAIN
@@ -299,7 +299,7 @@ SYMBOL TABLE OF MODULE:  i-charger (MAIN)
   -------         MODULE        ?C?FPCMP
   C:02BEH         PUBLIC        ?C?FPCMP
   C:02BCH         PUBLIC        ?C?FPCMP3
-BL51 BANKED LINKER/LOCATER V6.00                                                      06/23/2010  21:11:22  PAGE 6
+BL51 BANKED LINKER/LOCATER V6.00                                                      08/24/2010  20:14:11  PAGE 6
 
 
   -------         ENDMOD        ?C?FPCMP
@@ -359,11 +359,11 @@ SYMBOL TABLE OF MODULE:  i-charger (MAIN)
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_SEGPRINT10?3DIGI_SEG
 
-BL51 BANKED LINKER/LOCATER V6.00                                                      06/23/2010  21:11:22  PAGE 7
+BL51 BANKED LINKER/LOCATER V6.00                                                      08/24/2010  20:14:11  PAGE 7
 
 
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_LCD_PUTC?4WIRE_1602
 
-Program Size: data=127.1 xdata=0 code=5215
+Program Size: data=127.1 xdata=0 code=5214
 LINK/LOCATE RUN COMPLETE.  8 WARNING(S),  0 ERROR(S)
