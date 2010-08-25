@@ -9,6 +9,11 @@ Project File Date:  06/17/2010
 <h2>Output:</h2>
 Build target 'Target 1'
 compiling main.c...
+MAIN.C(115): error C202: 'now': undefined identifier
+MAIN.C(116): error C202: 'now': undefined identifier
+MAIN.C(117): error C202: 'now': undefined identifier
+MAIN.C(119): error C202: 'now': undefined identifier
+MAIN.C(131): error C202: 'time': undefined identifier
 compiling delay.c...
 compiling pwm.c...
 compiling adc0832.c...
@@ -17,50 +22,19 @@ compiling timer0.c...
 DRIVER\TIMER0.C(53): warning C206: 'pwm_discharging': missing function-prototype
 compiling 3key.c...
 compiling 4wire-1602.c...
-linking...
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?PWM_SAFEOFF?PWM
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?PWM_SAFEON?PWM
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?PWM_GETDUTY?PWM
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?MS_SCAN_SEGVLED?3DIGI_SEG
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINTHEX?3DIGI_SEG
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_SETDOT?3DIGI_SEG
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_SEGPRINT10?3DIGI_SEG
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_LCD_PUTC?4WIRE_1602
-Program Size: data=127.1 xdata=0 code=5214
-creating hex file from "i-charger"...
-"i-charger" - 0 Error(s), 9 Warning(s).
+Target not created
 Build target 'Target 1'
 compiling main.c...
-linking...
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?PWM_SAFEOFF?PWM
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?PWM_SAFEON?PWM
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?PWM_GETDUTY?PWM
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?MS_SCAN_SEGVLED?3DIGI_SEG
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINTHEX?3DIGI_SEG
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_SETDOT?3DIGI_SEG
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_SEGPRINT10?3DIGI_SEG
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_LCD_PUTC?4WIRE_1602
-Program Size: data=127.1 xdata=0 code=5214
-creating hex file from "i-charger"...
-"i-charger" - 0 Error(s), 8 Warning(s).
-compiling main.c...
-main.c - 0 Error(s), 0 Warning(s).
+MAIN.C(131): error C202: 'time': undefined identifier
+compiling delay.c...
+compiling pwm.c...
+compiling adc0832.c...
+compiling 3digi-seg.c...
+compiling timer0.c...
+DRIVER\TIMER0.C(53): warning C206: 'pwm_discharging': missing function-prototype
+compiling 3key.c...
+compiling 4wire-1602.c...
+Target not created
 Build target 'Target 1'
 compiling main.c...
 compiling delay.c...
@@ -88,9 +62,230 @@ linking...
     SEGMENT: ?PR?_SEGPRINT10?3DIGI_SEG
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_LCD_PUTC?4WIRE_1602
-Program Size: data=127.1 xdata=0 code=5214
-creating hex file from "i-charger"...
-"i-charger" - 0 Error(s), 9 Warning(s).
+*** ERROR L107: ADDRESS SPACE OVERFLOW
+    SPACE:   DATA    
+    SEGMENT: ?DT?TIMER0
+    LENGTH:  0004H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0E37H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0E39H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0E3BH
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0E3DH
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0E47H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0E49H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0E4BH
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0E4DH
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0EA3H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0EA5H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0EA7H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0EA9H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0594H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0596H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0598H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 059AH
+*** ERROR L105: PUBLIC REFERS TO IGNORED SEGMENT
+    SYMBOL:  JIFFERS
+    SEGMENT: ?DT?TIMER0
+Program Size: data=131.1 xdata=0 code=5509
+Target not created
+Build target 'Target 1'
+compiling main.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?PWM_SAFEOFF?PWM
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?PWM_SAFEON?PWM
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?PWM_GETDUTY?PWM
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?MS_SCAN_SEGVLED?3DIGI_SEG
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINTHEX?3DIGI_SEG
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SETDOT?3DIGI_SEG
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SEGPRINT10?3DIGI_SEG
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_LCD_PUTC?4WIRE_1602
+*** ERROR L107: ADDRESS SPACE OVERFLOW
+    SPACE:   DATA    
+    SEGMENT: ?DT?TIMER0
+    LENGTH:  0004H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0E44H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0E46H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0E48H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0E4AH
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0E54H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0E56H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0E58H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0E5AH
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0EB0H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0EB2H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0EB4H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0EB6H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0BC5H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0BCAH
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0BCFH
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0BD4H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0594H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0596H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0598H
+*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SYMBOL:  JIFFERS
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 059AH
+*** ERROR L105: PUBLIC REFERS TO IGNORED SEGMENT
+    SYMBOL:  JIFFERS
+    SEGMENT: ?DT?TIMER0
+Program Size: data=131.1 xdata=0 code=5522
+Target not created
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(330): error C202: 'top_voltage': undefined identifier
+MAIN.C(333): error C202: 'top_voltage': undefined identifier
+MAIN.C(341): error C202: 'top_voltage': undefined identifier
+MAIN.C(397): error C233: 'done': undefined label
+Target not created
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(330): error C202: 'top_voltage': undefined identifier
+MAIN.C(333): error C202: 'top_voltage': undefined identifier
+MAIN.C(341): error C202: 'top_voltage': undefined identifier
+MAIN.C(397): error C233: 'done': undefined label
+compiling delay.c...
+compiling pwm.c...
+compiling adc0832.c...
+compiling 3digi-seg.c...
+compiling timer0.c...
+DRIVER\TIMER0.C(53): warning C206: 'pwm_discharging': missing function-prototype
+compiling 3key.c...
+compiling 4wire-1602.c...
+Target not created
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(341): error C202: 'top_voltage': undefined identifier
+MAIN.C(355): error C233: 'done': undefined label
+MAIN.C(358): error C141: syntax error near 'if'
+MAIN.C(358): error C141: syntax error near '!=', expected ')'
+MAIN.C(359): error C141: syntax error near '<', expected ')'
+MAIN.C(363): error C141: syntax error near 'if'
+MAIN.C(363): error C141: syntax error near '!=', expected ')'
+MAIN.C(364): error C141: syntax error near '>', expected ')'
+MAIN.C(364): error C141: syntax error near '+', expected ')'
+MAIN.C(364): error C129: missing ';' before '*'
+compiling delay.c...
+compiling pwm.c...
+compiling adc0832.c...
+compiling 3digi-seg.c...
+compiling timer0.c...
+DRIVER\TIMER0.C(53): warning C206: 'pwm_discharging': missing function-prototype
+compiling 3key.c...
+compiling 4wire-1602.c...
+Target not created
 Build target 'Target 1'
 compiling main.c...
 compiling delay.c...
@@ -118,6 +313,6 @@ linking...
     SEGMENT: ?PR?_SEGPRINT10?3DIGI_SEG
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_LCD_PUTC?4WIRE_1602
-Program Size: data=127.1 xdata=0 code=5214
+Program Size: data=127.1 xdata=0 code=5319
 creating hex file from "i-charger"...
 "i-charger" - 0 Error(s), 9 Warning(s).

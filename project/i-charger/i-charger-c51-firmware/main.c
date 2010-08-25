@@ -18,6 +18,7 @@ float current=0, voltage=0;
 float vlimit = 0 ; //V
 float climit = 0 ; //A
 float ir = 0 ;  //battery internal resistor
+unsigned long stime=0;
 void easy_charging();
 
 char charging = 0;  //not incharging
@@ -44,7 +45,7 @@ unsigned char mode=0;
 /*mode==2/ -Dv*/
 /**/
 
-float top_voltage=0;
+
 char dvc=0,burst=0;
 
 void select_battery()
@@ -126,13 +127,15 @@ void charging_update_lcd()
       lcd_puts("V:");
 	  showVA(voltage*100);
 
-      lcd_puts(" PWM:");
-	  print10(duty);
+      lcd_puts(" ");
+	  print10((jiffers-stime)/200);
+	  lcd_puts("Sec");
+        	  
 	  //showVA(top_voltage*100);
 
 	  current=adc_A();
   	  lcd_cursor(0,1);
-      lcd_puts("A:");
+	  lcd_puts("A:");
   	  showVA(current*100);
 	  
 	  //lcd_puts(" pwm:");
@@ -316,11 +319,13 @@ void easy_charging()
    if(!charging) return;
 
    if(duty==0) goto done; /*already complete charging*/
-  	
 
+   if(stime==0)
+       stime=jiffers;
+       	
    if(stable++<100) return; /*stable the pwm and adc*/
    
-
+#if 0
    if(mode==2){
    if(voltage >top_voltage){
         burst ++;
@@ -332,7 +337,7 @@ void easy_charging()
 
 		dvc=0;  /*elimate the burst to low*/
    }
-   
+  
    if(top_voltage-voltage>0.022) /*20mV*/{
       // low_voltage -= (top_voltage-voltage)/5;
 	    dvc++;
@@ -348,7 +353,7 @@ void easy_charging()
 	    goto done;
 	  }
    }
-         
+#endif          
    /*ending test*/
    if(mode!=2)
    if(current <0.08) /*drop to 50mA, so done*/
@@ -377,6 +382,7 @@ void easy_charging()
 /* complete the charging */
    done:
    {
+      stime=0;
    	  charging_update_lcd();
 	  bl_off();
 	  mdelay(50);
