@@ -1,26 +1,24 @@
 [Eagle]
 Version="05 07 00"
-Platform="Linux"
-Serial="62191E841E-LSR-WLM-NCP"
+Platform="Windows"
+Serial="3E3CDD2BD4-LSR-WLM-NCP"
 Globals="Globals"
 Desktop="Desktop"
 
 [Globals]
 AutoSaveProject=1
+UsedLibrary="Z:/home/digital-toy/dtoy-eagle-lbr/digital-toy/SparkFun.lbr"
+UsedLibrary="Z:/home/digital-toy/dtoy-eagle-lbr/digital-toy/digital-toy.lbr"
+UsedLibrary="Z:/home/digital-toy/dtoy-eagle-lbr/digital-toy/led-seg.lbr"
+UsedLibrary="Z:/home/digital-toy/dtoy-eagle-lbr/digital-toy/yhf_spec-RF.lbr"
 
 [Win_1]
-Type="Control Panel"
-Loc="155 94 1009 756"
-State=2
-Number=0
-
-[Win_2]
 Type="Schematic Editor"
-Loc="0 25 1020 693"
-State=2
+Loc="413 73 1433 741"
+State=1
 Number=2
 File="mini-bridge.sch"
-View="-339946 -95437 3214978 1943713"
+View="-187588 576382 804526 1145470"
 WireWidths=" 0 3048 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 4064 1524"
 PadDiameters=" 2540 3048 4064 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 0"
 PadDrills=" 5000 6000 7000 9000 10000 11000 12000 13000 14000 15000 16000 20000 22000 28000 32000 8000"
@@ -52,16 +50,16 @@ ArcDirection=0
 AddLevel=2
 PadsSameType=0
 Layer=91
-Views=" 1: -339946 -95437 3214978 1943713"
+Views=" 1: -187588 576382 804526 1145470"
 Sheet=1
 
-[Win_3]
+[Win_2]
 Type="Board Editor"
-Loc="286 168 1338 928"
-State=2
+Loc="286 113 1338 873"
+State=1
 Number=1
 File="mini-bridge.brd"
-View="-102089 -73779 483641 340231"
+View="-249449 95508 720107 123600"
 WireWidths=" 0 2540 19304 21844 25400 38100 64516 17780 16764 14224 12700 10160 6096 3048 4064 8128"
 PadDiameters=" 2540 3048 4064 6096 8128 10160 12700 17780 19304 21844 25400 38100 64516 0 14224 16764"
 PadDrills=" 5000 6000 7000 9000 10000 11000 12000 13000 14000 15000 16000 20000 22000 28000 32000 8000"
@@ -94,8 +92,14 @@ AddLevel=2
 PadsSameType=0
 Layer=16
 
+[Win_3]
+Type="Control Panel"
+Loc="389 85 1192 604"
+State=2
+Number=0
+
 [Desktop]
-Screen="1680 1050"
+Screen="1638 904"
 Window="Win_1"
 Window="Win_2"
 Window="Win_3"
