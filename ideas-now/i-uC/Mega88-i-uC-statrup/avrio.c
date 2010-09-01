@@ -22,9 +22,9 @@ void __set_port_mode(volatile char* port_addr, char mode, char n, char m)
 void delay(unsigned long ticks)
 {
   
-//   unsigned long long lt = jiffers;
+   unsigned long long lt = jiffers;
 
-//   while(!timeafter(jiffers,(lt+ ticks)));
+   while(!timeafter(jiffers,(lt+ ticks)));
    
    return;
 
