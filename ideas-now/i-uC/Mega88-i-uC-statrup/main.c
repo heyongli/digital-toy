@@ -10,10 +10,8 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include "pwm.h"
-#include "charger.h"
 
 
-i_charger charger;
 
 #define KEY_PORT PORTD
 #define KEYUP  2
@@ -45,23 +43,8 @@ char i=0;
   0000mA        0000mV
        5        10
 */
-void print10(unsigned short n);
-void updata_lcd(void)
-{
-   long x;
-   //first line
-   ic_update_lcd(&charger);
 
-   //second line
-   lcd_cursor(0,1);
-   x = adc_A()*1000;
-   print10(x);
-   lcd_puts("mA");
-   lcd_cursor(9,1);
-   x= adc_V()*1000;
-   print10(x);
-   lcd_puts("mV");
-}
+
 
 
 
@@ -143,22 +126,7 @@ int main()
 
 
 	while (1){
-	    if(!force_stop)
-		   charging(&charger);
 
-		updata_lcd();
-	
-		if( key(KEYDOWN)){
-            pwm =  pwm_getduty();
-			pwm_setduty(0);
-			force_stop = 1;
-		 }  
-		 if( key(KEYUP)){
-            
-			pwm_setduty(pwm);
-			force_stop = 0;
-		  
-		 }  
 	}
 #endif
 }
