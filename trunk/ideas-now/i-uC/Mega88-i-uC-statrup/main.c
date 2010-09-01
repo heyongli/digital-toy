@@ -59,29 +59,29 @@ void sharp_flash()
     char x;
 
     for(x=0;x<19;x++){
-   	   LED_On(0);
-	   LED_On(1);
-	   LED_On(2);
+   	   //LED_On(0);
+	   //LED_On(1);
+	   //LED_On(2);
        
-	   LED_On(3);
-       LED_On(4);
-       LED_On(5);
-       LED_On(6);
+	   //LED_On(3);
+       //LED_On(4);
+       //LED_On(5);
+       //LED_On(6);
        LED_On(7);
        
 
-       _delay_ms(200);
+       _delay_ms(100);
 	 
 
-	   LED_Off(0);
- 	   LED_Off(1);
-	   LED_Off(2);
-	   LED_Off(3);
-	   LED_Off(4);
-	   LED_Off(5);
-	   LED_Off(6);
+	   //LED_Off(0);
+ 	   //LED_Off(1);
+	   //LED_Off(2);
+	   //LED_Off(3);
+	   //LED_Off(4);
+	   //LED_Off(5);
+	   //LED_Off(6);
 	   LED_Off(7);
-	   	_delay_ms(200);
+	   	_delay_ms(100);
 	}
    mod++;
 }
@@ -91,22 +91,25 @@ int main()
     char force_stop = 0;
 	char pwm =0;
 	
+_pins_mode(LED_PORT,0,7,OUTPUT);//_nm8(0b11,0,1);
+	
 
-
+sharp_flash();
     cli();
 
-	//timer0_init();
-	//enable_timer0();
-    //sei();
+	timer0_init();
+	sharp_flash();
+
+	enable_timer0();
+    sei();
 
 
     
 
-	_pins_mode(LED_PORT,0,7,OUTPUT);//_nm8(0b11,0,1);
 	
 	while(1){
 	
-	sharp_flash();
+	   sharp_flash();
 	
 	
 	}
