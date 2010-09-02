@@ -12,3 +12,8 @@ Add your content here.  Format your content with:
   * Text in *bold* or _italic_
   * Headings, paragraphs, and lists
   * Automatic links to other wiki pages
+
+
+=pic gallay
+
+<img src=http://sns.linuxpk.com/attachment/201008/28/15894_1283008781pwLM.jpg>
