@@ -1,4 +1,2 @@
-#summary One-sentence summary of this page.
-
-
 = Hrduino =
+<img src=http://sns.linuxpk.com/attachment/201008/28/15894_1283008781pwLM.jpg>
