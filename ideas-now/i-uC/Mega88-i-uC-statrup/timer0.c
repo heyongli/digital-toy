@@ -26,7 +26,7 @@ ISR(TIMER0_OVF_vect)
    jiffers++;
    static unsigned long mark= 0;
    if(timeafter(jiffers,mark+ HZ/8 )){ //4times per second
-      _toggle_bits(LED_PORT,0b100); //hart beats
+      //_toggle_bits(LED_PORT,1); //hart beats
 	  mark = jiffers;
    }
 

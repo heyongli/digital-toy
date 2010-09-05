@@ -14,12 +14,14 @@
 
 
 
-#define KEY_PORT PORTD
+#define KEY_PORT PORTC
 #define KEYUP  2
 #define KEYDOWN  3
+#define KEYOK    4
 #define _key_init() \
 			 _pin_mode(KEY_PORT,KEYUP, INPUT);\
-			 _pin_mode(KEY_PORT,KEYDOWN, INPUT)
+			 _pin_mode(KEY_PORT,KEYDOWN, INPUT); \
+			  _pin_mode(KEY_PORT,KEYOK, INPUT)
 
 
 #define _test_key(n) 								\
@@ -67,8 +69,8 @@ void sharp_flash()
        //LED_On(4);
        //LED_On(5);
        //LED_On(6);
-       LED_On(7);
-       
+       LED_On(2);
+       //write_74hc595(0xC0);
 
        _delay_ms(100);
 	 
@@ -80,7 +82,8 @@ void sharp_flash()
 	   //LED_Off(4);
 	   //LED_Off(5);
 	   //LED_Off(6);
-	   LED_Off(7);
+	   LED_Off(2);
+	  // write_74hc595(0);
 	   	_delay_ms(100);
 	}
    mod++;
@@ -91,26 +94,36 @@ int main()
     char force_stop = 0;
 	char pwm =0;
 	
-_pins_mode(LED_PORT,0,7,OUTPUT);//_nm8(0b11,0,1);
-	
+    
 
-sharp_flash();
     cli();
 
-	timer0_init();
-	sharp_flash();
+     //init_74hc595();
+	lcd1602_init();
+    lcd_puts("Hello Hrdunio!");
 
+	//sharp_flash();
+	timer0_init();
 	enable_timer0();
+	_key_init();
     sei();
 
 
     
 
-	
+	//_pins_mode(LED_PORT,0,2,OUTPUT);//_nm8(0b11,0,1);
 	while(1){
 	
-	   sharp_flash();
-	
+	   //sharp_flash();
+	  if(key(KEYUP))
+	     lcd_puts("key up");
+	  if(key(KEYDOWN))
+	     lcd_puts("key down");
+	  if(key(KEYOK))
+	     lcd_puts("key Ok");
+
+	  _delay_ms(100);
+	  
 	
 	}
 

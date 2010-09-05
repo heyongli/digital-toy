@@ -26,36 +26,11 @@
 	  _pins_mode(LCD_RSWE_PORT,5,7,OUTPUT)
 #endif
 
-static char bus4w = 0;
+static char bus4w = 0xC0;
 
 #ifdef USE_74HC595  
-#if 1
-  static void _rswe(void ) 
-  {
-    /*    0    1    2     3    4   5  6  7  */
-/*bus4w:|res| _RS| _RW | _EN | d4  d5 d6 d7 | */
-  /*595:  x   d7    d6   d5    d4  en rw rs*/
- //swap   d7   d6   d5    d4   en  rw rs res
-   
-     unsigned char t = 0; 
-	 
-//   #define m(d,s)   _mov_bits8(t,bus4w,d,d,s,s);
-    /*100 bytes code*/
-//	  m(5,3); m(6,2);m(7,1);
-//swap m(4,3); m(5,2); m(6,1);m(7,0);
-
-//	  m(1,7); m(2,6);m(3,5);m(4,4);
-//swap   m(0,7); m(1,6);m(2,5);m(3,4);
-  
-  	  t = _swap8(bus4w);
-	  t <<=1;
-	  write_74hc595(t);
-  } 
-  #define  _data() _rswe()
-#else
   	#define  _rswe()  write_74hc595(bus4w)
-  	#define  _data()  write_74hc595(bus4w>>1)
-#endif
+  	#define  _data()  write_74hc595(bus4w)
 #else
   #define  _rswe()  _mov_bits8(LCD_RSWE_PORT,bus4w,5,7,1,3)
   #define  _data()  _mov_bits8(LCD_DATA_PORT,bus4w,0,3,4,7);
@@ -64,19 +39,14 @@ static char bus4w = 0;
 
 /*  74hc595 data format 
  *  Ver0.1 
- *  |res| _RS| _RW | _EN | 4bit DATA |
- *    0    1    2     3     4 5 6 7 
- *  4wire direct to IO
- *  PORTD: 5    6     7 
- *  PORTC:                  0 1 2 3 
+ *  |d4| d5| d6 | d7 | _EN RW  RS  BL |
+ *   0   1    2   3     4   5   6  7 
  */
-#define _RS          (1<<1) 
-#define _RW          (1<<2)
-#define _EN          (1<<3) 
+#define _RS          (1<<6) 
+#define _RW          (1<<5)
+#define _EN          (1<<4) 
 #define _RSWE        (_RS|_RW|_EN)
-#define _DATA        (0xf0)
-
-
+#define _DATA        (0x0f)
 
 
 
@@ -89,11 +59,11 @@ static char bus4w = 0;
 */
 void io_delay()
 {
-   _delay_us(14);
+   _delay_us(15);
 }
 void io_50ms()
 {
-   _delay_ms(50);
+   _delay_ms(70);
 }
 
 static void hd44870_send(unsigned char data, char is_cmd) 
@@ -113,7 +83,7 @@ static void hd44870_send(unsigned char data, char is_cmd)
   
   /* 4 MSB*/
   bus4w &= ~(_DATA);    
-  bus4w |= data&_DATA; 
+  bus4w |= (data>>4)&_DATA; 
   _data();
   
   io_delay();
@@ -127,7 +97,7 @@ static void hd44870_send(unsigned char data, char is_cmd)
   
   /*send low 4 lsb*/
   bus4w&=~_DATA;         
-  bus4w|=(data<<4)&_DATA; 
+  bus4w|=(data)&_DATA; 
   _data();
   io_delay();
 
