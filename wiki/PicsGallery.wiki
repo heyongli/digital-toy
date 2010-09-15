@@ -1,7 +1,7 @@
 = Hrduino =
 
 breakout board for i-uC
-<img width=1000px  height=433px src="http://sns.linuxpk.com/attachment/201009/7/15894_1283826936Q5xe.jpg">
+<img width=1000px  height=453px src="http://sns.linuxpk.com/attachment/201009/7/15894_1283826936Q5xe.jpg">
 
 
 <img src=http://sns.linuxpk.com/attachment/201008/28/15894_1283008781pwLM.jpg>
