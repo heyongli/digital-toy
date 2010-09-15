@@ -8,4 +8,4 @@ breakout board for i-uC
 
 = VHF Aircraft Receiver = 
 
-<img width=1000px  height=800px src=http://blogimg.chinaunix.net/blog/upfile2/100804203404.jpg>
+<img width=1000px  height=1000px src=http://blogimg.chinaunix.net/blog/upfile2/100804203404.jpg>
