@@ -1,3 +1,31 @@
+=========================================================================
+热转印说明：（2010.9.16）
+1. SparkFun-HP1007-600x600dpi.dru
+设定了各种限制为12mil, 打印机在打印到很薄很光滑的不干胶衬纸上时，精度有时会下降（纸张轻微变形）.
+加上热转印时候油墨的扩散，设定在12mil比较安全。 除非必要，尽力使用16mil线宽.
+实例：
+ a）0805 电阻空隙不能走线，热转印精度或许跟不上（跟熟练程度也有关系）
+ b）2.54 排针在空隙走12mil线条，打印到不干胶衬纸上时有粘连，精度下降厉害。打印到A4纸就没有问题。
+   long pad中间可以走12mil线条。
+
+2.插接结构需要一定的支撑力度，应该有支撑的考虑。
+
+3.元件可以密集一些，暂时建议16mil间距（或者更密集？）。
+
+4.注意双面器件，应该在反面（焊接面）走线，但是diy时插针经过处理可以在任意面焊接的。
+
+5. bottom layer 的自定义文字需要mirror
+
+6. PAD SIZE
+   0.0354 drill  with 0.074 Diameter is OK(i.e the axial-0.3
+   but 0.4 with 0.074 Diameter is a little bit thin after drill, 0.78 or 0.8 is acceptable
+
+other：
+1.the 3W resistor footprint is smaller than the component, it's a error
+2.the 1117 packages is wrong that's the 7805's package!!!
+3.CPU  51 should pull down not up. 
+4. 51 pin not pull up in some nets.
+
 －－－－－－－－－－－－－－－－－－－－－－－－－－
 目的
 	保证电源接口防呆以达到保护设备之目的，
