@@ -9,12 +9,6 @@ Desktop="Desktop"
 AutoSaveProject=1
 
 [Win_1]
-Type="Control Panel"
-Loc="81 170 1139 775"
-State=2
-Number=0
-
-[Win_2]
 Type="Schematic Editor"
 Loc="0 25 599 424"
 State=2
@@ -55,13 +49,13 @@ Layer=91
 Views=" 1: -1164477 121862 948669 1133306"
 Sheet=1
 
-[Win_3]
+[Win_2]
 Type="Board Editor"
 Loc="163 83 1364 835"
 State=2
 Number=2
 File="3wire-1602-v0.brd"
-View="-87846 -152714 981654 578132"
+View="-355411 -57414 714089 673432"
 WireWidths=" 0 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 2540 4064 3556"
 PadDiameters=" 2540 3048 4064 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 0"
 PadDrills=" 5080"
@@ -94,8 +88,14 @@ AddLevel=2
 PadsSameType=0
 Layer=16
 
+[Win_3]
+Type="Control Panel"
+Loc="0 0 1040 556"
+State=2
+Number=0
+
 [Desktop]
-Screen="1680 1050"
+Screen="3840 1080"
 Window="Win_1"
 Window="Win_2"
 Window="Win_3"
