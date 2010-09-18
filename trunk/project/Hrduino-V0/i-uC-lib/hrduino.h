@@ -1,6 +1,14 @@
 #ifndef HRDUINO_RESOURCE
 #define HRDUINO_RESOURCE
 
+/*
+ *Fuse config:
+ * 	CKSEL: 0111   外部满幅晶振，CLKDIV8:1 ==> 10M 其他默认
+ *  SUT：  11   16K CK/65ms
+ *  low byte:77  high byte: DF  exten byte: f9
+ *   
+ */
+
 //debug key lcd shield via io-extention board 
 #define HRDU_KEY_LCD_SHIELD  1
 #define KEY_LCD_SHIELD_EXT_CONNETOR  1 //via PORTB*/

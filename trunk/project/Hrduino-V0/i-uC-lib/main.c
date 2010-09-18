@@ -1,10 +1,3 @@
-/*
- *Fuse config:
- * 	CKSEL: 0111   外部满幅晶振，CLKDIV8:1 ==> 10M 其他默认
- *  SUT：  11   16K CK/65ms
- *  low byte:77  high byte: DF  exten byte: f9
- *   
- */
 #include "hrduino.h"
 #include "include/bitops.h"
 #include "include/avrio.h"
