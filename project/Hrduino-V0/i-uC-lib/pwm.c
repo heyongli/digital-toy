@@ -52,7 +52,7 @@ GTCCR ¨C General Timer/Counter Control Register
 /*channal A, TOP= ICR1, match:OCR1A, PWMhz= 15khz , fcpu=4Mhz*/
 void pwm_init()
 {
-
+#if 0
   TCCR1A  =   (_bits8(0b10,WGM10,WGM11) )  |  ( _bits8(0b10, COM1A0,COM1A1) );  
   TCCR1B  =   (_bits8(0b001, CS10,CS12))  | (_bits8(0b11,WGM12,WGM13));     
   TCNT1  = 0;
@@ -60,15 +60,33 @@ void pwm_init()
   
   //only attiny13?  GTCCR = 1; /*reset prescaler*/
   _pin_mode(PORTB,1,OUTPUT);
+#endif
 
+  //OCR2B PD3
+  TCCR2A  =   (_bits8(0b10,WGM10,WGM11) )  |  ( _bits8(0b10, COM1A0,COM1A1) );  
+  TCCR2B  =   (_bits8(0b001, CS10,CS12))  | (_bits8(0b11,WGM12,WGM13));     
+  TCNT2  = 0;
+  ICR1 = 0xff ;  /* top = 0; */
+  
+  //only attiny13?  GTCCR = 1; /*reset prescaler*/
+  _pin_mode(PORTD,3,OUTPUT);
+  PORTD &= ~(1<<3);
 }
 
 void pwm_setduty(unsigned char duty)
 {
-  OCR1A = duty;
+#if 0  
+  OCR2A = duty;
+#endif
+  OCR2B = duty;
+
 }
 
 unsigned char pwm_getduty()
 {
+#if 0
   return OCR1A;
+#endif 
+  return OCR2B;
+
 }

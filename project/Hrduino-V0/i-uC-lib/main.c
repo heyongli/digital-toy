@@ -42,7 +42,6 @@ void led_flash_init(void)
 }
 void led_flash(void)
 {
-    char x;
 
        LED_On(0);
 	   LED_On(1);
@@ -67,8 +66,30 @@ void led_flash(void)
 	   LED_Off(7);
 	   	_delay_ms(50);
 }
+/***********************************************************************/
+// DEMO 2 : PWM 0n OCR1A
+void pwm_demo_init(void)
+{
+   pwm_init();
+}
 
-#define DEMO_MAX 1
+void pwm_demo(void)
+{
+   static unsigned char duty = 0;
+   if(key(KEYUP))
+      duty++;
+   if(key(KEYDOWN))
+      duty++;
+    
+   pwm_setduty(duty);
+
+   if(key(KEYOK))//stop pwm
+   	return;
+      
+   _delay_ms(100);
+}
+
+
 char    demo_i = 0;
 
 char    demo_flag = 0; 
@@ -83,7 +104,7 @@ char    demo_flag = 0;
 #define stop_demo()   _clear_bit(demo_flag, DEMO_START)
 #define is_start()   _test_bit(demo_flag, DEMO_START)
 
-struct {
+struct _s_demo{
 	void (*init)(void);
 	void (*it)(void);
     char name[16];
@@ -95,9 +116,17 @@ struct {
 		"flash led       ",
 		"on PORTD 0-7",
 	},
+	{
+		&pwm_demo_init,
+		&pwm_demo,
+		"pwm demo        ",
+		"on OCR2B PD3 ",
 
-
+	},
 };
+
+#define DEMO_MAX (sizeof(demo)/(sizeof(struct _s_demo)))
+
 int main()
 {
 
@@ -129,18 +158,19 @@ int main()
 	    	enter_demo(); //any key start
 	  if(! is_enter_demo())
 	     continue;
-				
-			   //sharp_flash();
+	
+	  if(!is_start())
 	  if(wait_key(KEYUP)){
 		if(demo_i< (DEMO_MAX-1) )
 		   demo_i++;
-		stop_demo();
+	
 	  }
-
+	   
+	  if(!is_start())
 	  if(wait_key(KEYDOWN)){
 	  	if(demo_i > 0 )
 		   demo_i--;
-		stop_demo();
+	
 	  }
 	  
 	  //update demo LCD
