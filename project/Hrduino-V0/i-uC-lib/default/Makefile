@@ -5,7 +5,7 @@
 ## General Flags
 PROJECT = i-uC-startup
 MCU = atmega88
-TARGET = i-uC-Mega88-startup.elf
+TARGET = i-uC-lib-demo.elf
 CC = avr-gcc
 
 CPP = avr-g++
@@ -15,7 +15,7 @@ COMMON = -mmcu=$(MCU)
 
 ## Compile options common for all C compilation units.
 CFLAGS = $(COMMON)
-CFLAGS += -Wall -gdwarf-2 -std=gnu99           -DF_CPU=10000000UL -Os -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
+CFLAGS += -Wall -gdwarf-2 -std=gnu99               -DF_CPU=10000000UL -Os -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
 CFLAGS += -MD -MP -MT $(*F).o -MF dep/$(@F).d 
 
 ## Assembly specific flags
@@ -25,7 +25,7 @@ ASMFLAGS += -x assembler-with-cpp -Wa,-gdwarf2
 
 ## Linker flags
 LDFLAGS = $(COMMON)
-LDFLAGS +=  -Wl,-Map=i-uC-Mega88-startup.map
+LDFLAGS +=  -Wl,-Map=i-uC-lib-demo.map
 
 
 ## Intel Hex file production flags
@@ -43,7 +43,7 @@ OBJECTS = 4wire-1602.o 74hc595.o adc.o avrio.o led.o main.o pwm.o timer0.o
 LINKONLYOBJECTS = 
 
 ## Build
-all: $(TARGET) i-uC-Mega88-startup.hex i-uC-Mega88-startup.eep i-uC-Mega88-startup.lss size
+all: $(TARGET) i-uC-lib-demo.hex i-uC-lib-demo.eep i-uC-lib-demo.lss size
 
 ## Compile
 4wire-1602.o: ../4wire-1602.c
@@ -90,7 +90,7 @@ size: ${TARGET}
 ## Clean target
 .PHONY: clean
 clean:
-	-rm -rf $(OBJECTS) i-uC-Mega88-startup.elf dep/* i-uC-Mega88-startup.hex i-uC-Mega88-startup.eep i-uC-Mega88-startup.lss i-uC-Mega88-startup.map
+	-rm -rf $(OBJECTS) i-uC-lib-demo.elf dep/* i-uC-lib-demo.hex i-uC-lib-demo.eep i-uC-lib-demo.lss i-uC-lib-demo.map
 
 
 ## Other dependencies
