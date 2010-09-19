@@ -184,6 +184,13 @@ void print10(unsigned short n)
 }
 
 
+void lcd_clear()
+{
+   io_50ms();
+   send_cmd(0x01);  /*清屏*/
+   io_50ms();
+   
+}
 
 void lcd_putc(char data) //列x=0~15,行y=0,1
 {
@@ -212,11 +219,4 @@ void lcd_scroll(signed char steps)
 }
 
 
-void lcd_clear()
-{
-   io_50ms();
-   send_cmd(0x01);  /*清屏*/
-   io_50ms();
-   
-}
 #endif

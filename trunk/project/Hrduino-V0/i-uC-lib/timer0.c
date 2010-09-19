@@ -1,3 +1,4 @@
+#include "hrduino.h"
 #include "include/avrio.h"
 #include <avr/interrupt.h>
 

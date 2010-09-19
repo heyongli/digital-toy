@@ -52,7 +52,7 @@ GTCCR ¨C General Timer/Counter Control Register
 /*channal A, TOP= ICR1, match:OCR1A, PWMhz= 15khz , fcpu=4Mhz*/
 void pwm_init()
 {
-#if 0
+#if defined (__AVR_ATmega8__)
   TCCR1A  =   (_bits8(0b10,WGM10,WGM11) )  |  ( _bits8(0b10, COM1A0,COM1A1) );  
   TCCR1B  =   (_bits8(0b001, CS10,CS12))  | (_bits8(0b11,WGM12,WGM13));     
   TCNT1  = 0;
@@ -60,33 +60,38 @@ void pwm_init()
   
   //only attiny13?  GTCCR = 1; /*reset prescaler*/
   _pin_mode(PORTB,1,OUTPUT);
-#endif
+#elif  defined (__AVR_ATmega88__)
 
-  //OCR2B PD3
-  TCCR2A  =   (_bits8(0b10,WGM10,WGM11) )  |  ( _bits8(0b10, COM1A0,COM1A1) );  
-  TCCR2B  =   (_bits8(0b001, CS10,CS12))  | (_bits8(0b11,WGM12,WGM13));     
+  //OC2B (PD3), 8-bit Timer/Counter2, FAST PWM, TCNTn from 0 to 255,mach OCR2B, NO interrupt
+  //Focnx = fclk/(N*256), N=1.8.32.64.128.256.1024, defualt N=8, Focnx = 1.9Khz, setonmach
+  TCCR2A  =   (_bits8(0b11,WGM20,WGM21) )  |  ( _bits8(0b10, COM2B0,COM2B1) );  
+  TCCR2B  =   (_bits8(0b010, CS20,CS22));     
   TCNT2  = 0;
   ICR1 = 0xff ;  /* top = 0; */
   
   //only attiny13?  GTCCR = 1; /*reset prescaler*/
   _pin_mode(PORTD,3,OUTPUT);
-  PORTD &= ~(1<<3);
+#elif 
+	#error "PWM: cpu not support !"
+#endif 
+
 }
 
 void pwm_setduty(unsigned char duty)
 {
-#if 0  
+#if defined (__AVR_ATmega8__)
   OCR2A = duty;
-#endif
+#elif  defined (__AVR_ATmega88__)
   OCR2B = duty;
+#endif
 
 }
 
 unsigned char pwm_getduty()
 {
-#if 0
+#if defined (__AVR_ATmega8__)
   return OCR1A;
-#endif 
+#elif  defined (__AVR_ATmega88__)
   return OCR2B;
-
+#endif 
 }

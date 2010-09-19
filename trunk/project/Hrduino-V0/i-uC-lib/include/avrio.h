@@ -41,19 +41,6 @@ void __set_port_mode(volatile char* port_addr, char mode, char n, char m);
 
 
 
-/*  
- * tick system      
- */
 
-#define HZ  1000UL
-#define timeafter(a,b)         \
-         (((long)(b) - (long)(a) < 0))
-
-
-extern volatile unsigned  long jiffers;
-
-void timer0_init();
-
-void _delay_s(unsigned char s);
 
 #endif
