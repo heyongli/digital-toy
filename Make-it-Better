@@ -12,13 +12,18 @@
 
 3.元件可以密集一些，暂时建议16mil间距（或者更密集？）。
 
-4.注意双面器件，应该在反面（焊接面）走线，但是diy时插针经过处理可以在任意面焊接的。
+4.注意双面器件，应该在反面（焊接面）走线，但是diy时插针经过处理可以在任意面焊接的
 
 5. bottom layer 的自定义文字需要mirror
 
 6. PAD SIZE
    0.0354 drill  with 0.074 Diameter is OK(i.e the axial-0.3
    but 0.4 with 0.074 Diameter is a little bit thin after drill, 0.78 or 0.8 is acceptable
+
+7.pth是双面焊盘，diy对不齐，可以采用单面焊盘. 不要使用lock模式的排针封装，上下的位移导致相邻排
+的焊盘在转印之后粘连。i-uC-extention试制时处理了不少这种粘连，并且遗留的铜粉导致短路。很难查，最后
+用酒精浸润，通电发现冒烟才找到了短路的地方：有10几欧姆的电阻。可以看到200mA以上的电流导致铜粉被
+加热冒出火星。这种短路肉眼看不到。
 
 other：
 1.the 3W resistor footprint is smaller than the component, it's a error
