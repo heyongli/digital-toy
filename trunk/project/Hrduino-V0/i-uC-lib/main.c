@@ -28,7 +28,7 @@ char wait_key(char key)
 
 
 
-char in_progress[] = {'|','/','-','\','|'};
+char in_progress[5] = { '|', '/', '-','\\','|',};
 char in_progress_i = 0;
 show_one_step()
 {
@@ -89,14 +89,17 @@ void pwm_demo(void)
    if(key(KEYUP))
       duty++;
    if(key(KEYDOWN))
-      duty++;
+      duty--;
     
    pwm_setduty(duty);
 
    if(key(KEYOK))//stop pwm
    	return;
-      
-   _delay_ms(100);
+   
+   lcd_cursor(0,1);
+   print10(duty);
+   _delay_ms(10);
+         
 }
 
 /***********************************************************************/
@@ -109,7 +112,10 @@ void adc_demo_init(void)
 void adc_demo(void)
 {
    
-   
+   int ad= _adc(0);
+   lcd_cursor(0,1);
+   print10(ad);
+   _delay_ms(10);
 
 }
 
