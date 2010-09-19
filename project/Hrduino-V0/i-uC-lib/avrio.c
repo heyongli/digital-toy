@@ -1,4 +1,7 @@
+#include "hrduino.h"
+
 #include "include/avrio.h"
+
 
 
 void __set_port_mode(volatile char* port_addr, char mode, char n, char m)

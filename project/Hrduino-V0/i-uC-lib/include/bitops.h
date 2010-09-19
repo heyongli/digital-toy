@@ -23,8 +23,6 @@
 #define  _bits8(val,n,m)  ( (val<<(n))&(_MASK8(n,m)) )
 
 
-
-
 /*
  * mov specifed bits in src to specified bits in dst
  * by ONE move INST, and KEEP other bits in dst un-touched 
@@ -57,6 +55,30 @@
 		   ) 
 
 unsigned char _swap8(unsigned char x);
+
+
+
+/*******************************************************************/
+/*  obsolute                 */
+#if 0
+
+
+/*advance bitops*/
+#define  _clear_nm8(x,n,m)  x&= ~( _MASK8(n,m))
+#define  _nm8(val,n,m)      (val<<(n))&(_MASK8(n,m))
+#define  _set_nm8(x,val,n,m) _clear_nm8(x,n,m); \
+							x |= _nm8(val,n,m)
+
+
+/*for AVR */
+#define  _pin_in(port,n) /* (D, 3)*/ \
+			DDR##port &= ~(1<< DD##port##n);  /*enable input*/   \
+			PORT##port |= (1<< P##port##n)    /*pull-up-enable*/  
+
+#define  _pin_out(port,n)\
+			DDR##port |= (1<< DD##port##n);  /*enable input*/   \
+			
+#endif
 
 
 #endif

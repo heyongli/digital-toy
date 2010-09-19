@@ -28,6 +28,16 @@ char wait_key(char key)
 
 
 
+char in_progress[] = {'|','/','-','\','|'};
+char in_progress_i = 0;
+show_one_step()
+{
+   lcd_putc(in_progress[in_progress_i]);
+
+	in_progress_i++;
+	if(in_progress_i>=5)
+	   in_progress_i=0;
+}
 
 /***********************************************************************/
 // DEMO 1 : led flash
@@ -89,9 +99,23 @@ void pwm_demo(void)
    _delay_ms(100);
 }
 
+/***********************************************************************/
+// DEMO 3 : ADC PC0...5, up/down select the ch
+void adc_demo_init(void)
+{
+   adc_init();
+}
 
+void adc_demo(void)
+{
+   
+   
+
+}
+
+
+/*******************************************************************/
 char    demo_i = 0;
-
 char    demo_flag = 0; 
 
 #define BEGIN_DEMO  1 //begin demo main program
@@ -113,19 +137,34 @@ struct _s_demo{
 	{
 		&led_flash_init,
     	&led_flash,
-		"flash led       ",
+		"flash led",
 		"on PORTD 0-7",
 	},
 	{
 		&pwm_demo_init,
 		&pwm_demo,
-		"pwm demo        ",
+		"pwm demo",
 		"on OCR2B PD3 ",
+
+	},
+	{
+		&adc_demo_init,
+		&adc_demo,
+		"adc demo",
+		"use PC0...5",
 
 	},
 };
 
 #define DEMO_MAX (sizeof(demo)/(sizeof(struct _s_demo)))
+
+void show_demo_menu(){
+    lcd_clear();
+  	lcd_cursor(0,0);
+  	lcd_puts(demo[demo_i].name);
+  	lcd_cursor(0,1);
+   	lcd_puts(demo[demo_i].exp);
+}
 
 int main()
 {
@@ -153,32 +192,26 @@ int main()
 	//_pins_mode(LED_PORT,0,2,OUTPUT);//_nm8(0b11,0,1);
 	while(1){
 	
+	  //start select demo?
 	  if(! is_enter_demo())
 	  if(wait_key(KEYUP)|| wait_key(KEYDOWN) || wait_key(KEYOK))
 	    	enter_demo(); //any key start
 	  if(! is_enter_demo())
 	     continue;
 	
+	  // is a demo running?, if no, select one
 	  if(!is_start())
 	  if(wait_key(KEYUP)){
 		if(demo_i< (DEMO_MAX-1) )
 		   demo_i++;
-	
+		 show_demo_menu();
 	  }
 	   
 	  if(!is_start())
 	  if(wait_key(KEYDOWN)){
 	  	if(demo_i > 0 )
 		   demo_i--;
-	
-	  }
-	  
-	  //update demo LCD
-	  if(! is_start()){
-	  	lcd_cursor(0,0);
-      	lcd_puts(demo[demo_i].name);
-	  	lcd_cursor(0,1);
-      	lcd_puts(demo[demo_i].exp);
+		 show_demo_menu();
 	  }
 
 	  if(wait_key(KEYOK)){
@@ -186,21 +219,21 @@ int main()
 			fn = demo[demo_i].init;
 	     	if(fn)
 		 		fn();
+			//bottom line is used by the demo
+			lcd_cursor(0,1);
+			lcd_puts("                ");
+
          	start_demo();
+
 		 }else
 		 	stop_demo();
 
 	  }
-	  
+
       if(is_start()){
-	  		static char c=0;
 	  		fn = demo[demo_i].it;
 	     	if(fn)
 		 		fn();
-	  		lcd_cursor(0,1);
-			lcd_puts("                ");
-			lcd_cursor(0,1);
-			lcd_putc(c++);
 
 	  }
 	  

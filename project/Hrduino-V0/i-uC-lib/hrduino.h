@@ -15,6 +15,48 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+/*************************************************************/
+/*  
+ * tick system      
+ */
+
+#define HZ  1000UL
+#define timeafter(a,b)         \
+         (((long)(b) - (long)(a) < 0))
+
+
+extern volatile unsigned  long jiffers;
+
+void timer0_init();
+
+void _delay_s(unsigned char s);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*************************************************************/
 #ifdef HRDU_KEY_LCD_SHIELD
 
@@ -73,7 +115,22 @@
 
 #endif  //HRDU_KEY_LCD_SHIELD
 
+
+
+
+
+
+
+
+
+
+
 /*************************************************************/
+
+
+
+
+
 
 
 
