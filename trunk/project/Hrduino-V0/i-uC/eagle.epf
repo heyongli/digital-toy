@@ -7,7 +7,6 @@ Desktop="Desktop"
 
 [Globals]
 AutoSaveProject=1
-UsedLibrary="/home/hyl/eagle-5.7.0/lbr/Arduino/arduino.lbr"
 
 [Win_1]
 Type="Board Editor"
@@ -96,7 +95,7 @@ Views=" 1: 772952 12876 1529158 769082"
 Sheet=1
 
 [Desktop]
-Screen="3840 1080"
+Screen="1680 1050"
 Window="Win_1"
 Window="Win_2"
 Window="Win_3"
