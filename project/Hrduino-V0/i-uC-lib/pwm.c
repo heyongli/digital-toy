@@ -4,31 +4,20 @@
 
 
 /* FAST PWM mode
-The counter counts from BOTTOM to TOP then restarts from BOTTOM. 
+ * The TCNTn counts from BOTTOM to TOP then restarts from BOTTOM, mach OCRnX (n=1,2, X=A,B)
+ * one TCNTn for one timer
+ *
+ * //mega88 resouce:
+ * //timer0(counter0,8bit)
+ * //OC0B(PD5),OC0A(PD6),     OC1B(PB2),OC1A(PB1),    OC2B(PD3),OC2A(PB3), 
+ * //TCNT0/OCR0A,OCR0B
+ * //TCCR0A:COM0A/COM0B/WGM
+ * //TCCR0B:WGM/CS
+ * //TMASK0
 
-
----------------
-TCCR0A :  COM0A1 COM0A0 
-
-WGM2:0 
-TOP is defined as 0xFF when WGM2:0 = 3  *
-and OCR0A when WGM2:0 = 7
-
-COM01 COM00: 
-1       0     Clear OC0A on Compare Match, set OC0A at TOP *
-
-------------------
-TCCR0B :
-WGM20  
-
-CS02 CS01 CS00 £º
-0     1      0       clkI/O/8 (From prescaler)
-
-
-------------------
-TCNT0  -
-
-OCR0A ¨C Output Compare Register , cmpare to TCN0
+ * OC2B (PD3), 8-bit Timer/Counter2,  OCR2B, NO interrupt
+  //Focnx = fclk/(N*256), N=1.8.32.64.128.256.1024, defualt N=8, Focnx = 1.9Khz, setonmach
+ *
 
 GTCCR ¨C General Timer/Counter Control Register
              Bit              7            0
