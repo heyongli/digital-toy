@@ -8,35 +8,54 @@
  * one TCNTn for one timer
  *
  * //mega88 resouce:
- * //timer0(counter0,8bit)
- * //OC0B(PD5),OC0A(PD6),     OC1B(PB2),OC1A(PB1),    OC2B(PD3),OC2A(PB3), 
- * //TCNT0/OCR0A,OCR0B
- * //TCCR0A:COM0A/COM0B/WGM
- * //TCCR0B:WGM/CS
- * //TMASK0
-
- * OC2B (PD3), 8-bit Timer/Counter2,  OCR2B, NO interrupt
-  //Focnx = fclk/(N*256), N=1.8.32.64.128.256.1024, defualt N=8, Focnx = 1.9Khz, setonmach
+ * //timer0(counter0,8bit)			time1(count1)16bit 					timer2(counter2)
+ * //OC0B(PD5),OC0A(PD6),			OC1B(PB2),OC1A(PB1),				OC2B(PD3),OC2A(PB3), 
  *
-
-GTCCR 每 General Timer/Counter Control Register
+ * //TCNT0/OCR0A,OCR0B				TCNT1H(/L)/OCR1AH(/L),OCR1BH(/L)	TCNT2/OCR2A/OCR2B
+ * //TCCR0A:COM0A/COM0B/WGM			TCCR1A:COM1A/COM1B/WGM				TCCR2A:COM2A/COM2B/WGM
+ * //TCCR0B:FOC/WGM/CS				TCCR1B:WGM/CS						TCCR2B:FOC/WGM/CS
+ * 									TCCR1C:FOC(force output)
+ *									ICR1H(/L): input capture						
+ * //TMASK0/TIFR0					TMASK1/TIFR1						TMASK2/TIFR2/ASSR
+ * //N=(1,8,64,256.1024)			N=(1, 8, 64, 256, or 1024)			(1,8,32,64,128,256,1024)
+ * //f=fclk/(N*256)					f=Fclk/(N*log(1+TOP))				f=fclk/(N*256)
+ * //BOTTOM:0 TOP:OCR0Z/0xff 		MAX=0xFFFF/TOP(selectable)			TOP=OCR2A/0xFF,MAX=255
+ *
+ *
+ *  GTCCR 每 General Timer/Counter Control Register
              Bit              7            0
                             TSM          PSR10     
              Read/Write     R/W           R/W
              Initial Value    0             0
-            Bit 7 每 TSM: Timer/Counter Synchronization Mode
-            Writing the TSM bit to one activates the Timer/Counter Synchronization mode. In this mode, the
-            value that is written to the PSR10 bit is kept, hence keeping the Prescaler Reset signal asserted.
-            This ensures that the Timer/Counter is halted and can be configured without the risk of advanc-
-            ing during configuration. When the TSM bit is written to zero, the PSR10 bit is cleared by
-            hardware, and the Timer/Counter start counting.
-            Bit 0 每 PSR10: Prescaler Reset Timer/Counter0
-            When this bit is one, the Timer/Counter0 prescaler will be Reset. This bit is normally cleared
-            immediately by hardware, except ifexcept )
-
-*/
+             Bit 7 每 TSM: Timer/Counter Synchronization Mode
+ *  
+ */
 
 
+/*
+ * PD 3,5,6
+ * PD3:OC2B, PD5:OC0B, PD6:OC0A
+ */
+void pwm_PD(char pin,char n)
+{
+#if defined (__AVR_ATmega8__)
+
+#elif  defined (__AVR_ATmega88__)
+
+  //OC2B (PD3), 8-bit Timer/Counter2, FAST PWM, TCNTn from 0 to 255,mach OCR2B, NO interrupt
+  //Focnx = fclk/(N*256), N=1.8.32.64.128.256.1024, defualt N=8, Focnx = 1.9Khz, setonmach
+  TCCR2A  =   (_bits8(0b11,WGM20,WGM21) )  |  ( _bits8(0b10, COM2B0,COM2B1) );  
+  TCCR2B  =   (_bits8((n&0b111), CS20,CS22));     
+  TCNT2  = 0;
+  ICR1 = 0xff ;  /* top = 0; */
+  
+  //only attiny13?  GTCCR = 1; /*reset prescaler*/
+  _pin_mode(PORTD,pin,OUTPUT);
+#elif 
+	#error "PWM: cpu not support !"
+#endif 
+
+}
 
 /*channal A, TOP= ICR1, match:OCR1A, PWMhz= 15khz , fcpu=4Mhz*/
 void pwm_init()
