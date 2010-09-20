@@ -29,14 +29,14 @@ char wait_key(char key)
 
 
 char in_progress[5] = { '|', '/', '-','\\','|',};
-char in_progress_i = 0;
+unsigned char ci = 0; //common index, for in_progress or other used by demo
 show_one_step()
 {
-   lcd_putc(in_progress[in_progress_i]);
+   lcd_putc(in_progress[ci]);
 
-	in_progress_i++;
-	if(in_progress_i>=5)
-	   in_progress_i=0;
+	ci++;
+	if(ci>=5)
+	   ci=0;
 }
 
 /***********************************************************************/
@@ -49,23 +49,25 @@ show_one_step()
 void led_flash_init(void)
 {
    _pins_mode(LED_PORT, 0,7,OUTPUT);
+   ci = 1|8|128;
 }
 void led_flash(void)
 {
 
+#if 0
        LED_On(0);
 	   LED_On(1);
 	   LED_On(2);
-       
-	   LED_On(3);
+       LED_On(3);
        LED_On(4);
        LED_On(5);
        LED_On(6);
        LED_On(7);
-       
-       _delay_ms(50);
-	 
-
+#endif
+       LED_PORT = (~ci);
+       _delay_ms(150);
+	  
+#if 0	 
 	   LED_Off(0);
  	   LED_Off(1);
 	   LED_Off(2);
@@ -74,7 +76,12 @@ void led_flash(void)
 	   LED_Off(5);
 	   LED_Off(6);
 	   LED_Off(7);
-	   	_delay_ms(50);
+#endif
+	   LED_PORT = 0xFF;
+	   	_delay_ms(150);        
+	   ci=ror8(ci,1);
+	   lcd_cursor(0,1);
+   	   print10(ci);
 }
 /***********************************************************************/
 // DEMO 2 : PWM 0n OCR1A
@@ -158,7 +165,6 @@ struct _s_demo{
 		&adc_demo,
 		"adc demo",
 		"use PC0...5",
-
 	},
 };
 
@@ -200,8 +206,10 @@ int main()
 	
 	  //start select demo?
 	  if(! is_enter_demo())
-	  if(wait_key(KEYUP)|| wait_key(KEYDOWN) || wait_key(KEYOK))
+	  if(wait_key(KEYUP)|| wait_key(KEYDOWN) || wait_key(KEYOK)){
 	    	enter_demo(); //any key start
+			show_demo_menu();
+	  }
 	  if(! is_enter_demo())
 	     continue;
 	
