@@ -33,27 +33,28 @@
 
 
 /*
- * PD 3,5,6
- * PD3:OC2B, PD5:OC0B, PD6:OC0A
+ *  timer2 pwm
+ * 
  */
-void pwm_PD(char pin,char n)
+#define _fast_pwm8_OCnX(n,X,cs) \
+do  \
+{ \
+  /*OC2B (PD3), 8-bit Timer/Counter2, FAST PWM, TCNTn from 0 to 255,mach OCR2B, NO interrupt\
+   *Focnx = fclk/(N*256), N=1.8.32.64.128.256.1024, defualt N=8, Focnx = 1.9Khz, setonmach \
+   */\
+   TCCR##n##X   |=  (_bits8(0b11,WGM##n##0,WGM##n##1) )  |  ( _bits8(0b10, COM##n##X##0,COM##n##X##1) );  \
+   TCCR##n##X   |=  (_bits8(( (cs)&0b111 ), CS##n##0,CS##n##2));     \
+   TCNT##n  	= 0;\
+}while(0)
+
+
+void fast_pwm(char port, char cs, char duty)
 {
-#if defined (__AVR_ATmega8__)
-
-#elif  defined (__AVR_ATmega88__)
-
-  //OC2B (PD3), 8-bit Timer/Counter2, FAST PWM, TCNTn from 0 to 255,mach OCR2B, NO interrupt
-  //Focnx = fclk/(N*256), N=1.8.32.64.128.256.1024, defualt N=8, Focnx = 1.9Khz, setonmach
-  TCCR2A  =   (_bits8(0b11,WGM20,WGM21) )  |  ( _bits8(0b10, COM2B0,COM2B1) );  
-  TCCR2B  =   (_bits8((n&0b111), CS20,CS22));     
-  TCNT2  = 0;
-  ICR1 = 0xff ;  /* top = 0; */
-  
-  //only attiny13?  GTCCR = 1; /*reset prescaler*/
-  _pin_mode(PORTD,pin,OUTPUT);
-#elif 
-	#error "PWM: cpu not support !"
-#endif 
+   //OC2B(PD3),OC2A(PB3)
+	if(1==port)
+  		_fast_pwm8_OCnX(2,B,cs);
+    if(2==port)
+		_fast_pwm8_OCnX(2,A,cs),
 
 }
 
@@ -75,10 +76,14 @@ void pwm_init()
   TCCR2A  =   (_bits8(0b11,WGM20,WGM21) )  |  ( _bits8(0b10, COM2B0,COM2B1) );  
   TCCR2B  =   (_bits8(0b010, CS20,CS22));     
   TCNT2  = 0;
-  ICR1 = 0xff ;  /* top = 0; */
-  
+
+  //OC2B
+  char cs;
+  _fast_pwm8_OCnX(2,B,cs);
+
   //only attiny13?  GTCCR = 1; /*reset prescaler*/
   _pin_mode(PORTD,3,OUTPUT);
+
 #elif 
 	#error "PWM: cpu not support !"
 #endif 
