@@ -1,6 +1,7 @@
 #include <util/delay.h>
 /*fast pwm mode*/
 #include "include/avrio.h"
+#include "pwm.h"
 
 
 /* FAST PWM mode
@@ -31,80 +32,68 @@
  *  
  */
 
+void fast_pwm(char port, char cs, char duty)
+{
+	unsigned volatile char *tccRA;
+#if defined (__AVR_ATmega8__)
+#elif  defined (__AVR_ATmega88__)
+  //TCCR2A  =   (_bits8(0b11,WGM20,WGM21) )  |  ( _bits8(0b10, COM2B0,COM2B1) );  
+
+  //TCNT2  = 0;
+	/* memory 
+	 * TCCRnB <---- tccR
+	 * TCCRnA +1
+	 * TCNTn  +2
+	 * TCCRnB +3
+	 * TCCRnA +4
+	 */
+	 #define TCCRnA  (*(volatile uint8_t *)(tccRA))
+	 #define TCCRnB  *(volatile uint8_t *)(tccRA+1)  //COMnA1 COMnA0  COMnB1 COMnB0  R R  WGM21 WGM20
+	 #define TCNTn   *(volatile uint8_t *)(tccRA+2)
+	 #define OCRnA   *(volatile uint8_t *)(tccRA+3)
+	 #define OCRnB   *(volatile uint8_t *)(tccRA+4)
+	 
+
+	if(OC2B==port || OC2A==port){
+          	tccRA = &TCCR2A;
+	}else { //(OC0B == port || OC0A == port )
+	 		tccRA = &TCCR0A;
+	}
+  	barrier();
+	if(OC2B == port || OC0B == port){ //B pin
+		OCRnB = duty;
+	}else{ //A pin
+		OCRnA = duty;
+	}
+	TCCRnA =  0b10100011 ;//set on bottom, clear on match, fast PWM
+	TCCRnB =  cs&0b111; //clock divider
+
+	 _pin_mode(_SFR_IO8 ((port&0xF0)>>4), port&0xF, OUTPUT);
+     //TCNTn  = 0; //TCNTn need not reset
+#elif 
+	#error "PWM: cpu not support !"
+#endif 
+}
 
 /*
  *  timer2 pwm
- * 
+ *  usage:  _fast_pwm8_OCnX(2,A,0b10);
  */
 #define _fast_pwm8_OCnX(n,X,cs) \
 do  \
 { \
   /*OC2B (PD3), 8-bit Timer/Counter2, FAST PWM, TCNTn from 0 to 255,mach OCR2B, NO interrupt\
-   *Focnx = fclk/(N*256), N=1.8.32.64.128.256.1024, defualt N=8, Focnx = 1.9Khz, setonmach \
+   *Focnx = fclk/(N*256), N=1.8.32.64.128.256.1024, defualt N=8, Focnx = 1.9Khz, set on mach \
    */\
-   TCCR##n##X   |=  (_bits8(0b11,WGM##n##0,WGM##n##1) )  |  ( _bits8(0b10, COM##n##X##0,COM##n##X##1) );  \
-   TCCR##n##X   |=  (_bits8(( (cs)&0b111 ), CS##n##0,CS##n##2));     \
+   TCCR##n##A  |=  (_bits8(0b11,WGM##n##0,WGM##n##1) )  |  ( _bits8(0b10, COM##n##X##0,COM##n##X##1) );  \
+   TCCR##n##B  |=  (_bits8(( (cs) ), CS##n##0,CS##n##2));     \
    TCNT##n  	= 0;\
 }while(0)
 
-
-void fast_pwm(char port, char cs, char duty)
-{
-   //OC2B(PD3),OC2A(PB3)
-	if(1==port)
-  		_fast_pwm8_OCnX(2,B,cs);
-    if(2==port)
-		_fast_pwm8_OCnX(2,A,cs),
-
-}
-
-/*channal A, TOP= ICR1, match:OCR1A, PWMhz= 15khz , fcpu=4Mhz*/
-void pwm_init()
-{
-#if defined (__AVR_ATmega8__)
-  TCCR1A  =   (_bits8(0b10,WGM10,WGM11) )  |  ( _bits8(0b10, COM1A0,COM1A1) );  
-  TCCR1B  =   (_bits8(0b001, CS10,CS12))  | (_bits8(0b11,WGM12,WGM13));     
-  TCNT1  = 0;
-  ICR1 = 0xff ;  /* top = 0; */
-  
-  //only attiny13?  GTCCR = 1; /*reset prescaler*/
-  _pin_mode(PORTB,1,OUTPUT);
-#elif  defined (__AVR_ATmega88__)
-
   //OC2B (PD3), 8-bit Timer/Counter2, FAST PWM, TCNTn from 0 to 255,mach OCR2B, NO interrupt
   //Focnx = fclk/(N*256), N=1.8.32.64.128.256.1024, defualt N=8, Focnx = 1.9Khz, setonmach
-  TCCR2A  =   (_bits8(0b11,WGM20,WGM21) )  |  ( _bits8(0b10, COM2B0,COM2B1) );  
-  TCCR2B  =   (_bits8(0b010, CS20,CS22));     
-  TCNT2  = 0;
+  //TCCR2A  =   (_bits8(0b11,WGM20,WGM21) )  |  ( _bits8(0b10, COM2B0,COM2B1) );  
+  //TCCR2B  =   (_bits8(0b010, CS20,CS22));     
+  //TCNT2  = 0;
 
-  //OC2B
-  char cs;
-  _fast_pwm8_OCnX(2,B,cs);
 
-  //only attiny13?  GTCCR = 1; /*reset prescaler*/
-  _pin_mode(PORTD,3,OUTPUT);
-
-#elif 
-	#error "PWM: cpu not support !"
-#endif 
-
-}
-
-void pwm_setduty(unsigned char duty)
-{
-#if defined (__AVR_ATmega8__)
-  OCR2A = duty;
-#elif  defined (__AVR_ATmega88__)
-  OCR2B = duty;
-#endif
-
-}
-
-unsigned char pwm_getduty()
-{
-#if defined (__AVR_ATmega8__)
-  return OCR1A;
-#elif  defined (__AVR_ATmega88__)
-  return OCR2B;
-#endif 
-}

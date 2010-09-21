@@ -87,7 +87,7 @@ void led_flash(void)
 // DEMO 2 : PWM 0n OCR1A
 void pwm_demo_init(void)
 {
-   pwm_init();
+   //pwm_init();
 }
 
 void pwm_demo(void)
@@ -97,15 +97,17 @@ void pwm_demo(void)
       duty++;
    if(key(KEYDOWN))
       duty--;
-    
-   pwm_setduty(duty);
+
+   fast_pwm(OC2B, 0b10,duty); 
+   fast_pwm(OC0B, 0b10,duty); 
+   //pwm_setduty(duty);
 
    if(key(KEYOK))//stop pwm
    	return;
    
    lcd_cursor(0,1);
-   print10(duty);
-   _delay_ms(10);
+   print10(duty++);
+   _delay_ms(5);
          
 }
 
@@ -193,8 +195,8 @@ int main()
 	_key_init();
 
     //system timer init
-	timer0_init();
-	enable_timer0();
+//	timer0_init();
+//	enable_timer0();
 
     sei();
 
