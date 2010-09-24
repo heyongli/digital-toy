@@ -34,7 +34,7 @@ void io_init()
    lcd1602_init();
    lcd_cursor(0,0);
    //lcd_puts("Welcom!");
-   seg_init();
+  // seg_init();
    mdelay(100);
  
 }
@@ -54,7 +54,7 @@ void select_battery()
   if(mode) //mode selected done
      return; 
 
-  while( loop++<300 ){
+  while( 1 ){ //loop++<300, wait forerver, if unknown reset occur, stay there 
 
             
 	 
@@ -74,7 +74,7 @@ void select_battery()
 		 }
          
 		 if(DIS_CHA!=mode){ /*if not discharging, charging at selected vlimit*/
-			climit=1.55;
+			climit=1.2;
 			mode =1; /*mode2:-dv cannot work now*/
 		 }
 
@@ -99,12 +99,14 @@ void select_battery()
 	      lcd_puts("Discharging?..");   
 	 }else{
 	     lcd_puts("vlimit: ");   
-         vlimit = num_nicd*1.4;     
+         vlimit = num_nicd*1.4;    
+		 if(1==num_nicd)
+		    vlimit = 1.45+0.04; //40mV for adc 
   	     showVA(vlimit*100);
 	 }
    }
    //time out
-   goto motor_charging;
+   //goto motor_charging;
 
 }
 

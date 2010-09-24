@@ -79,47 +79,57 @@ unsigned char adc0832(bit ch)
 
 float adc_V()
 {
-     static unsigned short adc_v=0,adc,delta;
-     float a=0;		    
-     adc = adc0832(1);  
-	 
-	 if(adc_v>adc) 
-	    delta=adc_v-adc;
-	 else 
-	    delta = adc-adc_v;
+    unsigned int adc=0;
+	unsigned char i,max=0,min=0,adc_t;
+	
+    float a=0;		    
 
-	 if(delta>3)
-	    adc_v= adc;
-	  else{
-	    adc_v+=delta/2;
-	  }
+	max=min= adc0832(1);
+	     /*sample the charger current*/
+    for(i=0;i<18;i++){
+	    adc_t = adc0832(1);
+		if(adc_t> max)
+		 	max = adc_t;
+		if(adc_t < min)
+			min = adc_t;
 
-     a=adc_A();	 
-	 return (((float)adc_v)/255)*refV*1.9-a*0.17; //10mV
+		adc += adc_t;
+
+	}
+	adc -= max;
+	adc -= min;
+
+	adc >>= 4;//div 8
+   
+    a=adc_A();	 
+	return (((float)adc)/255)*refV*1.9-a*0.17; //10mV
 }
 
 
 
 float adc_A()
 {
-   	static unsigned char adc_i=0,adc,delta;
+    unsigned int adc=0;    
+   	unsigned char i,max=0,min=0,adc_t;
 	float tmp=0.0;
-    /*sample the charger current*/
-	adc = adc0832(0);
 
-	if(adc_i>adc) 
-	    delta=adc_i-adc;
-	else 
-	    delta = adc-adc_i;
+   	max=min= adc0832(0);
+	     /*sample the charger current*/
+    for(i=0;i<18;i++){
+	    adc_t = adc0832(0);
+		if(adc_t> max)
+		 	max = adc_t;
+		if(adc_t < min)
+			min = adc_t;
 
-    if(delta>5)
-	    adc_i= adc;
-    else{
-	    adc_i+=delta/2;
-     }
+		adc += adc_t;
 
-  	
-  	tmp= ((float)adc_i/255)*refV;
+	}
+	adc -= max;
+	adc -= min;
+	adc >>=4; //16 times
+ 	
+  	tmp= ((float)adc/255)*refV;
 	tmp = tmp/19;
 	return tmp = tmp/0.17;
 	

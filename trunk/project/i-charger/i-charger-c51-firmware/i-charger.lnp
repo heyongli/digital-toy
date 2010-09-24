@@ -2,7 +2,6 @@
 "delay.obj",
 "pwm.obj",
 "adc0832.obj",
-"3digi-seg.obj",
 "timer0.obj",
 "3key.obj",
 "4wire-1602.obj" 
