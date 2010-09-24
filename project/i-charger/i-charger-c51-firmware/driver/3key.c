@@ -4,8 +4,6 @@
 
 		   
 
-
-
 unsigned char key(unsigned char key)
 {
     KEY_PORT= KEY_PORT|(KEY_ALL);  //set input
