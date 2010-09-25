@@ -107,7 +107,7 @@ void pwm_demo(void)
    
    lcd_cursor(0,1);
    print10(duty++);
-   _delay_ms(5);
+   _delay_ms(15);
          
 }
 
@@ -120,13 +120,82 @@ void adc_demo_init(void)
 
 void adc_demo(void)
 {
-   
-   int ad= _adc(0);
+ 
+   if(key(KEYUP))
+      ci++;
+   if(key(KEYDOWN))
+      ci--;
+
+   int ad= _adc(ci);
    lcd_cursor(0,1);
    print10(ad);
-   _delay_ms(10);
+   lcd_puts(" ch:");
+   print10(ci);
+   _delay_ms(50);
 
 }
+/***********************************************************************/
+// DEMO 4 : program car 
+void pcar_init()
+{
+
+	//motor(char fwd_bk,char duty)
+	
+	//lmotor fwd
+	lmotor(1,255);
+	delay(2);
+	lmotor(1,0); //stop
+	delay(2);
+	//lmotr backward
+	lmotor(0,255);
+	delay(2);
+	lmotor(1,0);
+    delay(2);
+	//half speed
+	lmotor(1,100);
+	delay(2);
+	lmotor(1,0); //stop
+	delay(2);
+	//lmotr backward
+	lmotor(0,100);
+	delay(2);
+	lmotor(1,0); //stop
+    delay(2);
+
+
+	//motor(char fwd_bk,char duty)
+	
+	//lmotor fwd
+	rmotor(1,255);
+	delay(2);
+	rmotor(1,0); //stop
+	delay(2);
+	//lmotr backward
+	rmotor(0,255);
+	delay(2);
+	rmotor(1,0);
+    delay(2);
+	//half speed
+	rmotor(1,100);
+	delay(2);
+	rmotor(1,0); //stop
+	delay(2);
+	//lmotr backward
+	rmotor(0,100);
+	delay(2);
+	rmotor(1,0); //stop
+    delay(2);
+
+}
+void pcar_demo()
+{
+
+
+
+}
+
+
+
 
 
 /*******************************************************************/
@@ -167,6 +236,12 @@ struct _s_demo{
 		&adc_demo,
 		"adc demo",
 		"use PC0...5",
+	},
+	{
+		&pcar_init,
+		&pcar_demo,
+		"Program RC CAR DEMO",
+		"",
 	},
 };
 
