@@ -90,12 +90,12 @@ Layer=16
 
 [Win_3]
 Type="Control Panel"
-Loc="0 0 599 399"
+Loc="0 0 1040 556"
 State=2
 Number=0
 
 [Desktop]
-Screen="1680 1050"
+Screen="3840 1080"
 Window="Win_1"
 Window="Win_2"
 Window="Win_3"
