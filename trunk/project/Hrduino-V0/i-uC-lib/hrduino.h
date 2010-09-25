@@ -42,8 +42,7 @@ extern volatile unsigned  long jiffers;
 void timer0_init();
 
 void _delay_s(unsigned char s);
-
-
+void delay(unsigned long ticks);
 
 
 

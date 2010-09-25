@@ -75,6 +75,9 @@ void fast_pwm(char port, char cs, char duty)
 #endif 
 }
 
+
+
+
 /*
  *  timer2 pwm
  *  usage:  _fast_pwm8_OCnX(2,A,0b10);
