@@ -22,17 +22,25 @@
 unsigned char MOTOR_PWM_CS = 0b10;
 
 
-
+void mini_h_bridge_init()
+{
+ _pins_mode(LMOTOR_PORT, LMOTOR_CTL,LMOTOR_CTL,OUTPUT);
+ _pins_mode(RMOTOR_PORT, RMOTOR_CTL,RMOTOR_CTL,OUTPUT);
+} 
 /*
  * fwd_bk: 1 fwd, 0 bak
  * duty: pwm duty for speed 
  */
 void lmotor(char fwd_bk,char duty)
 {
-	LMOTOR_PORT |= LMOTOR_CTL<<fwd_bk;
+    if(fwd_bk)
+		LMOTOR_PORT |= 1<<LMOTOR_CTL;
+    else 
+		LMOTOR_PORT &= ~(1<<LMOTOR_CTL);
 
 
-    if(duty = 0){ //define this is stop
+
+    if(0== duty){ //define this is stop
 		LMOTOR_PORT |= LMOTOR_CTL<<1; //set 1
 		fast_pwm(LMOTOR_PWM, MOTOR_PWM_CS, 255); //continue 1, so motor stop
 		return;
@@ -49,9 +57,12 @@ void lmotor(char fwd_bk,char duty)
 
 void rmotor(char fwd_bk,char duty)
 {
-	RMOTOR_PORT |= RMOTOR_CTL<<fwd_bk;
+	if(fwd_bk)
+		RMOTOR_PORT |= 1<<RMOTOR_CTL;
+    else 
+		RMOTOR_PORT &= ~(1<<RMOTOR_CTL);
 
-	if(duty = 0){ //define this is stop
+	if(0 == duty){ //define this is stop
 		RMOTOR_PORT |= RMOTOR_CTL<<1; //set 1
 		fast_pwm(RMOTOR_PWM, MOTOR_PWM_CS, 255); //continue 1, so motor stop
 		return;

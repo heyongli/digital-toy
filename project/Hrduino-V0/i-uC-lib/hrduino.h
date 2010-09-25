@@ -17,10 +17,11 @@
 
 
 
+unsigned int _adc(unsigned char ch);
 
-
-
-
+void adc_init();
+void lmotor(char fwd_bk,char duty);
+void rmotor(char fwd_bk,char duty);
 
 
 
@@ -35,6 +36,7 @@
 #define HZ  1000UL
 #define timeafter(a,b)         \
          (((long)(b) - (long)(a) < 0))
+
 
 
 extern volatile unsigned  long jiffers;
@@ -59,8 +61,17 @@ void delay(unsigned long ticks);
 /*************************************************************/
 #ifdef HRDU_KEY_LCD_SHIELD
 
+void lcd1602_init(void) ;
+void lcd_putc(char data) ;
+void print10(unsigned short n);
+void lcd_cursor(char x, char y);
+void lcd_puts(char *s);
+void lcd_clear();
+
 #define KEY_SHILD_LOGO  "Key LCD shiled"
 #define KEY_SHILD_LOGO1 "PORTB 3-5:key" 
+
+
 
 #define KEY_PORT PORTB
 #define KEYUP  	 3

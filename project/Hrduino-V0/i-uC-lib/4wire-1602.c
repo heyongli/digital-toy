@@ -142,7 +142,7 @@ void lcd_cursor(char x, char y)
 	send_cmd(x+(y?0xc0:0x80));  
 }
 
-void lcd_puts(unsigned char *s) 
+void lcd_puts(char *s) 
 {
     while (*s) 
     {
