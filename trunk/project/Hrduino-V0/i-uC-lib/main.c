@@ -30,7 +30,7 @@ char wait_key(char key)
 
 char in_progress[5] = { '|', '/', '-','\\','|',};
 unsigned char ci = 0; //common index, for in_progress or other used by demo
-show_one_step()
+void show_one_step()
 {
    lcd_putc(in_progress[ci]);
 
@@ -136,62 +136,114 @@ void adc_demo(void)
 }
 /***********************************************************************/
 // DEMO 4 : program car 
-void pcar_init()
-{
+#define HZz 60
+wait1s(unsigned char x) {
+  while(x--)
+  _delay_ms(10);
 
-	//motor(char fwd_bk,char duty)
-	
-	//lmotor fwd
-	lmotor(1,255);
-	delay(2);
-	lmotor(1,0); //stop
-	delay(2);
-	//lmotr backward
-	lmotor(0,255);
-	delay(2);
-	lmotor(1,0);
-    delay(2);
-	//half speed
-	lmotor(1,100);
-	delay(2);
-	lmotor(1,0); //stop
-	delay(2);
-	//lmotr backward
-	lmotor(0,100);
-	delay(2);
-	lmotor(1,0); //stop
-    delay(2);
-
-
-	//motor(char fwd_bk,char duty)
-	
-	//lmotor fwd
-	rmotor(1,255);
-	delay(2);
-	rmotor(1,0); //stop
-	delay(2);
-	//lmotr backward
-	rmotor(0,255);
-	delay(2);
-	rmotor(1,0);
-    delay(2);
-	//half speed
-	rmotor(1,100);
-	delay(2);
-	rmotor(1,0); //stop
-	delay(2);
-	//lmotr backward
-	rmotor(0,100);
-	delay(2);
-	rmotor(1,0); //stop
-    delay(2);
 
 }
+void pcar_init()
+{
+	mini_h_bridge_init();
+
+	//motor(char fwd_bk,char duty)
+   lcd_cursor(0,1);
+   lcd_puts("left motor fwd");
+	//lmotor fwd
+	lmotor(1,254);
+	wait1s(1*HZz);
+	lmotor(1,0); //stop
+	wait1s(1*HZz);
+	//lmotr backward
+	lcd_cursor(0,255);
+    lcd_puts("left motor back");
+
+	lmotor(0,254);
+	wait1s(1*HZz);
+	lmotor(1,0);
+    wait1s(1*HZz);
+	//half speed
+	lcd_cursor(0,1);
+    lcd_puts("left half speed");
+	lmotor(1,180);
+	wait1s(1*HZz);
+	lmotor(1,0); //stop
+	wait1s(1*HZz);
+	//lmotr bakward
+	lmotor(0,180);
+	wait1s(1*HZz);
+	lmotor(1,0); //stop
+    wait1s(1*HZz);
+
+
+	
+	//rmotor fwd
+	lcd_cursor(0,1);
+    lcd_puts("right motor fwd");
+	
+	rmotor(1,255);
+	wait1s(HZz);
+	rmotor(1,0); //stop
+	wait1s(1*HZz);
+	//rmotr backward
+	lcd_cursor(0,1);
+    lcd_puts("right motor back");
+	
+	rmotor(0,255);
+	wait1s(1*HZz);
+	rmotor(1,0);
+    wait1s(1*HZz);
+	//half speed
+		lcd_cursor(0,1);
+    lcd_puts("right half speed ");
+	rmotor(1,180);
+	wait1s(1*HZz);
+	rmotor(1,0); //stop
+	wait1s(1*HZz);
+	//lmotr backward
+	rmotor(0,180);
+	wait1s(1*HZz);
+	rmotor(1,0); //stop
+    wait1s(1*HZz);
+
+    ci=200; //start from 100
+}
+#define STOP rmotor(1,0); lmotor(1,0); wait1s(HZ/2);
+
 void pcar_demo()
 {
+   if(key(KEYUP))
+      ci+=10;
+   if(key(KEYDOWN))
+      ci-=10;
 
+   lcd_cursor(0,1);
+   lcd_puts("speed:");
+   print10(ci);
+  
+   //forwand 1s
+   rmotor(1,ci);
+   lmotor(1,ci);
+   wait1s(HZ);
 
-
+STOP
+    
+   //turn right
+   rmotor(0,ci);
+   lmotor(1,ci);
+   wait1s(HZ/4); //0.5s
+STOP
+   //back 0.5s
+   rmotor(0,ci);
+   lmotor(0,ci);
+   wait1s(HZ/4);   //0.5s
+STOP
+  //turn left
+   rmotor(1,ci);
+   lmotor(0,ci);
+   wait1s(HZ/4); //0.5s
+STOP
 }
 
 
@@ -199,8 +251,8 @@ void pcar_demo()
 
 
 /*******************************************************************/
-char    demo_i = 0;
-char    demo_flag = 0; 
+unsigned char    demo_i = 0;
+unsigned char    demo_flag = 0; 
 
 #define BEGIN_DEMO  1 //begin demo main program
 #define enter_demo()  _set_bit(demo_flag, BEGIN_DEMO)
@@ -240,7 +292,7 @@ struct _s_demo{
 	{
 		&pcar_init,
 		&pcar_demo,
-		"Program RC CAR DEMO",
+		"Program RC CAR ",
 		"",
 	},
 };
@@ -250,9 +302,9 @@ struct _s_demo{
 void show_demo_menu(){
     lcd_clear();
   	lcd_cursor(0,0);
-  	lcd_puts(demo[demo_i].name);
+  	lcd_puts(&demo[demo_i].name[0]);
   	lcd_cursor(0,1);
-   	lcd_puts(demo[demo_i].exp);
+   	lcd_puts(&demo[demo_i].exp[0]);
 }
 
 int main()
