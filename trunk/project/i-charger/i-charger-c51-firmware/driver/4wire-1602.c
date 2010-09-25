@@ -203,13 +203,14 @@ void showVA(unsigned short n)
 }
 
 
+
+#if 0
+
 void lcd_putc(char datax) //ÁÐx=0~15,ÐÐy=0,1
 {
   send_data( datax);
 }
 
-
-#if 0
 
 /*
  * note: char in some C compiled is 'unsigned"

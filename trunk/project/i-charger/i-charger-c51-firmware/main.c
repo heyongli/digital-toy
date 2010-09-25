@@ -27,7 +27,19 @@ void easy_discharing();
 
 //i_charger charger = INIT_CHARGER;
 
+#if 0
+void get_voltage()
+{
+  float v = adc_V();
+  if( (v - voltage > 0.05) || (v-voltage < -0.05))
+     voltage = v;
+  else {
+     voltage += (v-voltage)/2; //for better resolution
+  }
 
+
+}
+#endif
 void io_init()
 {
    pwm_init(); //pull down pwm
@@ -52,7 +64,9 @@ void select_battery()
 {
   static short loop=0, num_nicd=0;
   if(mode) //mode selected done
-     return; 
+      return; 
+
+  climit = 1.2;
 
   while( 1 ){ //loop++<300, wait forerver, if unknown reset occur, stay there 
 
@@ -74,7 +88,6 @@ void select_battery()
 		 }
          
 		 if(DIS_CHA!=mode){ /*if not discharging, charging at selected vlimit*/
-			climit=1.2;
 			mode =1; /*mode2:-dv cannot work now*/
 		 }
 
@@ -100,8 +113,10 @@ void select_battery()
 	 }else{
 	     lcd_puts("vlimit: ");   
          vlimit = num_nicd*1.4;    
-		 if(1==num_nicd)
-		    vlimit = 1.45+0.04; //40mV for adc 
+		 if(1==num_nicd) {
+		    vlimit = 1.45-0.04; //40mV resolution for adc, addtional 10mV
+		  	climit = 1.4;
+		  }
   	     showVA(vlimit*100);
 	 }
    }
@@ -124,7 +139,7 @@ void  countmaH()
 }
 void charging_update_lcd()
 {
-  	  voltage=adc_V();
+  	  voltage = adc_V();;
       lcd_cursor(0,0);
       lcd_puts("V:");
 	  showVA(voltage*100);
@@ -152,10 +167,8 @@ void charging_update_lcd()
 
 void main()
 {
-   unsigned short n,loop=0;
-   float adc;
-
-
+  
+   
    io_init();
 	   
    timer0_init(); //pwm
@@ -190,13 +203,14 @@ void main()
   
 }
 
-#define max_duty 15
+#define max_duty 19
 adj_c()
 {
 
   char  i=0;
 
    for( i=1;i<max_duty;i++){
+     mdelay(10);
      current=adc_A();    
      if(current < climit){
         duty+=1;
@@ -206,8 +220,10 @@ adj_c()
      }
      
      if(current > climit){
-        if(duty>0)
+        if(duty>0){	//from 1 to max, use the latest duty
 	         duty-=1;
+			 return;
+		}
 	    if(duty==0)
 	       duty=1;
     }
@@ -224,7 +240,7 @@ void try_ir(char setpwm)
     
 	float bv;
 	pwm_setduty(0);
-	mdelay(200);mdelay(100);
+	mdelay(100);
 	bv=adc_V();
     
     if(setpwm)
@@ -232,11 +248,11 @@ void try_ir(char setpwm)
 	else 
 	   	pwm_setduty(duty);
 
-	mdelay(150);
+	mdelay(100);
 	voltage=adc_V();
 	current=adc_A();
 	
-	mdelay(130);
+	mdelay(100);
 	voltage+=adc_V();
 	current+=adc_A();
 	
@@ -259,7 +275,7 @@ void isdone()
 	  bl_off();
 	  mdelay(50);
 	  bl_on();
-  	  mdelay(150);
+  	  mdelay(50);
 
    }
     if(1==charging) return; /*in charging*/
@@ -271,10 +287,11 @@ void isdone()
     /*test battery*/
      pwm_setduty(0);
 	 //PWM_DIS=1;
- 	 mdelay(100); mdelay(100);
+ 	 mdelay(100); 
 	 //PWM_DIS=0;
 	 charging_update_lcd();
-     voltage=adc_V();    	
+     voltage=adc_V();
+	     	
      if(voltage> 0.8 && voltage <9)
 	    charging = 1;
 
@@ -289,8 +306,8 @@ re_tryir:
 	lcd_cursor(0,0);
     lcd_puts("ir:");
 	print10(1000*ir);
-    mdelay(100); mdelay(100);
-       
+    mdelay(150);       
+
 	if((ir>1.5) && duty>3) {
 	   lcd_cursor(9,0) ;
 	 
@@ -305,7 +322,7 @@ re_tryir:
 
      /*init start*/
      pwm_setduty(1);
-	 mdelay(100);
+	 mdelay(50);
 	 charging_update_lcd();
 	 duty=1;
 	 /*adjust the current*/
@@ -325,7 +342,7 @@ void easy_charging()
    if(stime==0)
        stime=jiffers;
        	
-   if(stable++<100) return; /*stable the pwm and adc*/
+   if(stable++<5) return; /*stable the pwm and adc*/
    
 #if 0
    if(mode==2){
@@ -361,6 +378,8 @@ void easy_charging()
    if(current <0.08) /*drop to 50mA, so done*/
        goto done;
 
+   current = adc_A();
+	voltage = adc_V();
 
    if(mode!=2)
    if( voltage > (vlimit+ir*current)){
@@ -389,7 +408,7 @@ void easy_charging()
 	  bl_off();
 	  mdelay(50);
 	  bl_on();
-  	  mdelay(150);
+  	  mdelay(50);
 
       duty=0;
 	  pwm_setduty(0);

@@ -64,31 +64,4 @@ void pwm_setduty(unsigned short duty)
        on_duty = duty;
 }
 
-void pwm_safeoff()
-{
-   irqoff();
-   PWM_PIN  = 0;
-   ET0 = 0;
-   step = PWM_STEP+1;
-   PWM_PIN  = 0;
-   irqon();
-
-}
-
-void pwm_safeon()
-{
-	irqoff();
-   	PWM_PIN  = 0;
-  	ET0 = 1;
-	PWM_PIN  = 0;
-	irqon();
-}
  
- 
-
-unsigned char pwm_getduty()
-{
-  return on_duty;  
-
-}
-
