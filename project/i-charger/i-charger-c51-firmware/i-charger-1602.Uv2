@@ -9,7 +9,6 @@ File 1,1,<.\main.c><main.c> 0x0
 File 1,1,<.\driver\delay.c><delay.c> 0x0 
 File 1,1,<.\driver\pwm.c><pwm.c> 0x0 
 File 1,1,<.\driver\adc0832.c><adc0832.c> 0x0 
-File 1,1,<.\driver\3digi-seg.c><3digi-seg.c> 0x0 
 File 1,1,<.\driver\timer0.c><timer0.c> 0x0 
 File 1,1,<.\driver\3key.c><3key.c> 0x0 
 File 1,1,<.\driver\4wire-1602.c><4wire-1602.c> 0x0 
