@@ -21,7 +21,8 @@
 
 #define INPUT   (char)0
 #define OUTPUT  (char)1
-void __set_port_mode(volatile uint8_t* port_addr, char mode, char n, char m);
+void __set_port_mode(volatile char* port_addr, char mode, char n, char m);
+
 
 /*i.e.  _pins_mode(PORTD,3,INPUT) */
 #define _pin_mode(PORT,pin,mode) __set_port_mode(&PORT,mode,pin,pin)
