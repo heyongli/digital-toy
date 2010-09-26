@@ -145,7 +145,7 @@ unsigned char  state = 0;
 
 #define mStop rmotor(1,0); lmotor(1,0);    state |= STOP;
 #define mRun  rmotor(1,250);lmotor(1,250); state |= RUN; 
-#define mRoll rmotor(0,150); lmotor(0,150); state |= ROLL
+#define mRoll rmotor(0,200); lmotor(0,200); state |= ROLL
 
 char mTime(unsigned long ticks){
 
@@ -212,7 +212,7 @@ void pcar_demo()
    lcd_puts("speed:");
    print10(ci);
   
-   if( mTime(HZ/2) )
+   if( mTime(HZ/1.5) )
    {
         act++;    
 		if(act>=MAX_ACT)
@@ -225,6 +225,8 @@ void pcar_demo()
    if(3==act){mRun}
    if(4==act){mStop}
    if(5==act){lmotor(1,ci); rmotor(0,ci); }
+
+
 
 }
 
