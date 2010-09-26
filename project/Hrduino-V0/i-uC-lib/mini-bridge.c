@@ -10,29 +10,26 @@
 #define LMOTOR_PWM 	OC2B
 #define LMOTOR_CTL  PD4
  
-#define RMOTOR_PORT PORTD
-#define RMOTOR_PWM 	OC0A
-#define RMOTOR_CTL  PD7
+#define RMOTOR_PORT PORTB
+#define RMOTOR_PWM 	OC2A
+#define RMOTOR_CTL  PB4
 
 #define MOTOR_FWD	 1
 #define MOTOR_BACK 	 0
 
 
-//#define MOTOR_PWM_CS  0b10  // clk/(8*256)
-unsigned char MOTOR_PWM_CS = 0b10;
+
+unsigned char MOTOR_PWM_CS = 0b11;  // clk/(32*256)
 
 
-void mini_h_bridge_init()
-{
- _pins_mode(LMOTOR_PORT, LMOTOR_CTL,LMOTOR_CTL,OUTPUT);
- _pins_mode(RMOTOR_PORT, RMOTOR_CTL,RMOTOR_CTL,OUTPUT);
-} 
 /*
  * fwd_bk: 1 fwd, 0 bak
  * duty: pwm duty for speed 
  */
 void lmotor(char fwd_bk,char duty)
 {
+	
+	_pins_mode(LMOTOR_PORT, LMOTOR_CTL,LMOTOR_CTL,OUTPUT);
     if(fwd_bk)
 		LMOTOR_PORT |= 1<<LMOTOR_CTL;
     else 
@@ -49,14 +46,13 @@ void lmotor(char fwd_bk,char duty)
 	if(1 == fwd_bk)
 			duty = 255-duty; //pwm is clear on mach, so reverse the PWM duty, use the perid mach to top 
 
-	if(MOTOR_PWM_CS>1) //Lmotor is timer2, but still not same as timer0
-		fast_pwm(LMOTOR_PWM, MOTOR_PWM_CS+1, duty); 
-	else
-		fast_pwm(LMOTOR_PWM, MOTOR_PWM_CS, duty); 
+	fast_pwm(LMOTOR_PWM, MOTOR_PWM_CS, duty); 
 }
 
 void rmotor(char fwd_bk,char duty)
 {
+ 	_pins_mode(RMOTOR_PORT, RMOTOR_CTL,RMOTOR_CTL,OUTPUT);
+
 	if(fwd_bk)
 		RMOTOR_PORT |= 1<<RMOTOR_CTL;
     else 
@@ -69,7 +65,7 @@ void rmotor(char fwd_bk,char duty)
 	}
 	if(1 == fwd_bk)
 			duty = 255-duty; //pwm is clear on mach, so reverse the PWM duty, use the perid mach to top 
-	fast_pwm(RMOTOR_PWM, MOTOR_PWM_CS+1, duty); 
+	fast_pwm(RMOTOR_PWM, MOTOR_PWM_CS, duty); 
 }
 
 

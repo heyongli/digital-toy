@@ -1,5 +1,6 @@
 #include <util/delay.h>
 /*fast pwm mode*/
+#include "hrduino.h"
 #include "include/avrio.h"
 #include "pwm.h"
 
@@ -58,6 +59,7 @@ void fast_pwm(char port, char cs, char duty)
           	tccRA = &TCCR2A;
 	}else { //(OC0B == port || OC0A == port )
 	 		tccRA = &TCCR0A;
+			cs = TIMER0_CS; //keep same as system timer0, temp solution, both timer0 and timer0 pwm 
 	}
   	barrier();
 	if(OC2B == port || OC0B == port){ //B pin

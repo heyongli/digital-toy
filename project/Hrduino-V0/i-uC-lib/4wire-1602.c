@@ -8,9 +8,10 @@
  *
  * CopyLeft hyl 2009.12.19
  */
-
+#include "hrduino.h"
 #include "include/avrio.h"
 #include <util/delay.h>
+
 
 #define USE_74HC595
 //#undef  USE_74HC595

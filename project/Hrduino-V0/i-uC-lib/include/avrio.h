@@ -19,9 +19,9 @@
 	#define PORTD	_SFR_IO8(0x12)
 */
 
-#define INPUT   0
-#define OUTPUT  1
-void __set_port_mode(volatile char* port_addr, char mode, char n, char m);
+#define INPUT   (char)0
+#define OUTPUT  (char)1
+void __set_port_mode(volatile uint8_t* port_addr, char mode, char n, char m);
 
 /*i.e.  _pins_mode(PORTD,3,INPUT) */
 #define _pin_mode(PORT,pin,mode) __set_port_mode(&PORT,mode,pin,pin)
