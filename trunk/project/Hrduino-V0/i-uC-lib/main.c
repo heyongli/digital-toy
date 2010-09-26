@@ -136,83 +136,73 @@ void adc_demo(void)
 }
 /***********************************************************************/
 // DEMO 4 : program car 
-#define HZz 60
-wait1s(unsigned char x) {
-  while(x--)
-  _delay_ms(10);
+static unsigned long mott= 0;
+//if(timeafter(jiffers,mark+ HZ/8 ))
+unsigned char  state = 0;
+#define STOP  1
+#define RUN   2
+#define ROLL  4
 
+#define mStop rmotor(1,0); lmotor(1,0);    state |= STOP;
+#define mRun  rmotor(1,250);lmotor(1,250); state |= RUN; 
+#define mRoll rmotor(0,150); lmotor(0,150); state |= ROLL
 
+char mTime(unsigned long ticks){
+
+  if(timeafter(jiffers,mott+ ticks )){
+     mott = jiffers;
+     return 1;
+  }
+  return 0;
 }
+
 void pcar_init()
 {
-	mini_h_bridge_init();
-
+    mott = jiffers;
+	
 	//motor(char fwd_bk,char duty)
-   lcd_cursor(0,1);
-   lcd_puts("left motor fwd");
+    lcd_cursor(0,1);
+    lcd_puts("left motor fwd");
 	//lmotor fwd
 	lmotor(1,254);
-	wait1s(1*HZz);
+	delay(HZ);
 	lmotor(1,0); //stop
-	wait1s(1*HZz);
+	delay(2*HZ);
 	//lmotr backward
 	lcd_cursor(0,255);
     lcd_puts("left motor back");
 
 	lmotor(0,254);
-	wait1s(1*HZz);
+	delay(2*HZ);
 	lmotor(1,0);
-    wait1s(1*HZz);
-	//half speed
-	lcd_cursor(0,1);
-    lcd_puts("left half speed");
-	lmotor(1,180);
-	wait1s(1*HZz);
-	lmotor(1,0); //stop
-	wait1s(1*HZz);
-	//lmotr bakward
-	lmotor(0,180);
-	wait1s(1*HZz);
-	lmotor(1,0); //stop
-    wait1s(1*HZz);
-
-
-	
+    delay(2*HZ);
+		
 	//rmotor fwd
 	lcd_cursor(0,1);
     lcd_puts("right motor fwd");
-	
 	rmotor(1,255);
-	wait1s(HZz);
+	delay(2*HZ);
 	rmotor(1,0); //stop
-	wait1s(1*HZz);
+	delay(2*HZ);
 	//rmotr backward
 	lcd_cursor(0,1);
     lcd_puts("right motor back");
 	
 	rmotor(0,255);
-	wait1s(1*HZz);
+	delay(2*HZ);
 	rmotor(1,0);
-    wait1s(1*HZz);
-	//half speed
-		lcd_cursor(0,1);
-    lcd_puts("right half speed ");
-	rmotor(1,180);
-	wait1s(1*HZz);
-	rmotor(1,0); //stop
-	wait1s(1*HZz);
-	//lmotr backward
-	rmotor(0,180);
-	wait1s(1*HZz);
-	rmotor(1,0); //stop
-    wait1s(1*HZz);
-
-    ci=200; //start from 100
+    delay(2*HZ);
+	
+    ////
+    ci=150; //start from 100
 }
-#define STOP rmotor(1,0); lmotor(1,0); wait1s(HZ/2);
+
 
 void pcar_demo()
 {
+#define MAX_ACT  5
+   static char act =0;
+
    if(key(KEYUP))
       ci+=10;
    if(key(KEYDOWN))
@@ -222,31 +212,21 @@ void pcar_demo()
    lcd_puts("speed:");
    print10(ci);
   
-   //forwand 1s
-   rmotor(1,ci);
-   lmotor(1,ci);
-   wait1s(HZ);
+   if( mTime(HZ/2) )
+   {
+        act++;    
+		if(act>=MAX_ACT)
+		  act = 0;   
+   }
 
-STOP
-    
-   //turn right
-   rmotor(0,ci);
-   lmotor(1,ci);
-   wait1s(HZ/4); //0.5s
-STOP
-   //back 0.5s
-   rmotor(0,ci);
-   lmotor(0,ci);
-   wait1s(HZ/4);   //0.5s
-STOP
-  //turn left
-   rmotor(1,ci);
-   lmotor(0,ci);
-   wait1s(HZ/4); //0.5s
-STOP
+   if(0==act){mRoll;}
+   if(1==act){mStop;}
+   if(2==act){lmotor(1,ci); rmotor(0,ci); }
+   if(3==act){mRun}
+   if(4==act){mStop}
+   if(5==act){lmotor(1,ci); rmotor(0,ci); }
+
 }
-
-
 
 
 
@@ -313,6 +293,10 @@ int main()
     void (*fn)(void);
     
 	cli();
+    //system timer init
+	timer0_init();
+	enable_timer0();
+    sei();
 
      //key LCD shiled
 	lcd1602_init();
@@ -321,11 +305,7 @@ int main()
     lcd_puts(KEY_SHILD_LOGO1);
 	_key_init();
 
-    //system timer init
-//	timer0_init();
-//	enable_timer0();
 
-    sei();
 
 
     

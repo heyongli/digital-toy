@@ -1,6 +1,8 @@
 #ifndef HRDUINO_RESOURCE
 #define HRDUINO_RESOURCE
 
+#include "include/avrio.h"
+
 /*
  *Fuse config:
  * 	CKSEL: 0111   外部满幅晶振，CLKDIV8:1 ==> 10M 其他默认
@@ -18,12 +20,14 @@
 
 
 unsigned int _adc(unsigned char ch);
-
 void adc_init();
+
 void lmotor(char fwd_bk,char duty);
 void rmotor(char fwd_bk,char duty);
 
-
+/*595*/
+void init_74hc595(void);
+void write_74hc595(unsigned char data);
 
 
 
@@ -33,7 +37,19 @@ void rmotor(char fwd_bk,char duty);
  * tick system      
  */
 
-#define HZ  1000UL
+
+
+/* timer0,  fcpu=8Mhz 
+ * TCN: 8M/(8*256) = 3906.25HZ (PWM)
+ * 
+ */
+#define TIMER0_CS 0b11  //CS = 64
+#define TIMER0_HZ  ((F_CPU)/(64UL))
+#define TIMER0_TCN (255UL- ((TIMER0_HZ)/(HZ)) )  /*62.5 times OVERFLOW, 0.5 for ISR overhead...*/
+
+
+
+#define HZ  1000  
 #define timeafter(a,b)         \
          (((long)(b) - (long)(a) < 0))
 
@@ -42,6 +58,7 @@ void rmotor(char fwd_bk,char duty);
 extern volatile unsigned  long jiffers;
 
 void timer0_init();
+void enable_timer0();
 
 void _delay_s(unsigned char s);
 void delay(unsigned long ticks);
@@ -73,13 +90,13 @@ void lcd_clear();
 
 
 
-#define KEY_PORT PORTB
-#define KEYUP  	 3
-#define KEYDOWN  4
-#define KEYOK    5
+#define KEY_PORT PORTD
+#define KEYUP  	 0
+#define KEYDOWN  1
+#define KEYOK    2
 #define _key_init() \
 			 _pin_mode(KEY_PORT,KEYUP, INPUT);\
-			 _pin_mode(KEY_PORT,KEYDOWN, INPUT); \
+			 _pin_mode(KEY_PORT,KEYDOWN,INPUT); \
 			  _pin_mode(KEY_PORT,KEYOK, INPUT)
 
 
@@ -119,7 +136,7 @@ void lcd_clear();
 #define  CLK    3    /* raise-edge , shift clock: 74HC595 pin 11*/
 #define  LATCH  4	 /* raise-edge output to Qx, latch clock: 74HC595 pin 12*/
 #define  SDI    2	 /* CLK raise edge deposit, sserial data in: 74HC595 pin14*/
-#define pin_init() _pins_mode(PORT_74HC595, SDI,LATCH,OUTPUT)
+#define pin_init() _pins_mode(PORT_74HC595, (char)SDI,(char)LATCH,(char)OUTPUT)
 #endif
 
 
