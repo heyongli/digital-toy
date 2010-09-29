@@ -3,10 +3,10 @@
 <img width=921px  height=556px src=http://sns.linuxpk.com/attachment/album/201009/19/15894_1284863443v0Au.jpg>
 
 breakout board for i-uC
-<img width=963px  height=462px src="http://sns.linuxpk.com/attachment/201009/7/15894_1283826936Q5xe.jpg">
+<img width=963px  height=462px src="http://sns.linuxpk.com/attachment/album/201009/7/15894_1283826936Q5xe.jpg">
 
 
-<img src=http://sns.linuxpk.com/attachment/201008/28/15894_1283008781pwLM.jpg>
+<img src=http://sns.linuxpk.com/attachment/album/201008/28/15894_1283008781pwLM.jpg>
 
 = VHF Aircraft Receiver = 
 
