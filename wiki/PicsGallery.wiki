@@ -1,6 +1,6 @@
 = Hrduino =
 
-<img width=921px  height=556px src=http://bbs.linuxpk.com/data/attachment/album/201009/19/15894_1284863444SKKp.jpg>
+<img src=http://bbs.linuxpk.com/data/attachment/album/201009/19/15894_1284863444SKKp.jpg>
 
 = VHF Aircraft Receiver = 
 
