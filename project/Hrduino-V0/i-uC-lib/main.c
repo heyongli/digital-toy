@@ -137,15 +137,17 @@ void adc_demo(void)
 /***********************************************************************/
 // DEMO 4 : program car 
 static unsigned long mott= 0;
+
 //if(timeafter(jiffers,mark+ HZ/8 ))
 unsigned char  state = 0;
 #define STOP  1
 #define RUN   2
 #define ROLL  4
+unsigned char act =0;
 
 #define mStop rmotor(1,0); lmotor(1,0);    state |= STOP;
 #define mRun  rmotor(1,250);lmotor(1,250); state |= RUN; 
-#define mRoll rmotor(0,200); lmotor(0,200); state |= ROLL
+#define mRoll rmotor(1,210); lmotor(1,210); state |= ROLL
 
 char mTime(unsigned long ticks){
 
@@ -156,9 +158,45 @@ char mTime(unsigned long ticks){
   return 0;
 }
 
+char font_stop()
+{
+  static unsigned char f_b = 0;
+  //unsigned int ad= _adc(0);
+  //#define block ad<50
+  unsigned char ad =  _inb(PORTC)&0x1;
+#define  block ad == 0
+
+  if( block){
+     f_b++;
+	 lmotor(1,180);
+	 rmotor(1,200);
+ 	 lcd_cursor(0,8);
+     lcd_puts("obs:");
+     print10(f_b);
+  
+  }
+  else{
+	 f_b=0;
+	 return 0;
+  }
+
+  if(f_b>5){
+     lcd_cursor(0,8);
+     lcd_puts("obs:");
+     print10(f_b);
+
+     mStop;act = 200; //find something
+	 f_b = 0;
+     return 1;
+  }
+
+}
+
 void pcar_init()
 {
     mott = jiffers;
+//  adc_init();
+	_pins_mode(PORTC, 0,0,INPUT);
 	
 	//motor(char fwd_bk,char duty)
     lcd_cursor(0,1);
@@ -167,41 +205,41 @@ void pcar_init()
 	lmotor(1,254);
 	delay(HZ);
 	lmotor(1,0); //stop
-	delay(2*HZ);
+	delay(HZ);
 	//lmotr backward
 	lcd_cursor(0,255);
     lcd_puts("left motor back");
 
 	lmotor(0,254);
-	delay(2*HZ);
+	delay(HZ);
 	lmotor(1,0);
-    delay(2*HZ);
+    delay(HZ);
 		
 	//rmotor fwd
 	lcd_cursor(0,1);
     lcd_puts("right motor fwd");
 	rmotor(1,255);
-	delay(2*HZ);
+	delay(HZ);
 	rmotor(1,0); //stop
-	delay(2*HZ);
+	delay(HZ);
 	//rmotr backward
 	lcd_cursor(0,1);
     lcd_puts("right motor back");
 	
 	rmotor(0,255);
-	delay(2*HZ);
+	delay(HZ);
 	rmotor(1,0);
-    delay(2*HZ);
+    delay(HZ);
 	
     ////
-    ci=150; //start from 100
+    ci=230; //start from 100
 }
 
 
 void pcar_demo()
 {
-#define MAX_ACT  5
-   static char act =0;
+#define MAX_ACT  2
+
 
    if(key(KEYUP))
       ci+=10;
@@ -209,24 +247,34 @@ void pcar_demo()
       ci-=10;
 
    lcd_cursor(0,1);
-   lcd_puts("speed:");
+   lcd_puts("pwm:");
    print10(ci);
   
-   if( mTime(HZ/1.5) )
+   if(act<100)
+   if( mTime(2*HZ) )
    {
         act++;    
 		if(act>=MAX_ACT)
 		  act = 0;   
    }
+   
+   font_stop();
 
    if(0==act){mRoll;}
-   if(1==act){mStop;}
-   if(2==act){lmotor(1,ci); rmotor(0,ci); }
-   if(3==act){mRun}
-   if(4==act){mStop}
-   if(5==act){lmotor(1,ci); rmotor(0,ci); }
-
-
+   //if(1==act){mStop;}
+   if(1==act){lmotor(1,220); rmotor(1,220); }
+   if(2==act){mRun}
+   //if(4==act){mStop}
+   if(200==act){
+     //find something
+	 #define carback lmotor(0,220); rmotor(0,220); delay(HZ/2);
+	 #define turnr   lmotor(0,220); rmotor(1,0);  delay(HZ/2);
+	 carback; 
+	 turnr;
+	 act = 0;
+   
+   }
+   if(100==act){lmotor(1,ci); rmotor(0,ci); }
 
 }
 
