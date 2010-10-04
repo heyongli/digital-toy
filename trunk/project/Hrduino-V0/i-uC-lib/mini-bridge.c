@@ -19,7 +19,7 @@
 
 
 
-unsigned char MOTOR_PWM_CS = 0b11;  // clk/(32*256)
+unsigned char MOTOR_PWM_CS = 0b101;  // clk/(128*256)
 
 
 /*
