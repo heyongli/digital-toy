@@ -1,11 +1,11 @@
 = what's in svn trunk =
   * *Hrduino-V0*  : the Arduino like electronics build block and more
-    * 3wire-1602   3key+LCD1602 extension board
-    * IR-proximity-sensor 
-    * i-uC : the controller for our robot
-    * i-uC-io-extent i-uC IO expansion board
-    * i-uC-lib: driven lib and demo for all building blocks
-    * mini-h-bridge-V1 : DC motor h-bridge (about 1V voltage drop)
+    * *3wire-1602*   3key+LCD1602 extension board
+    * *IR-proximity-sensor*
+    * *i-uC* : the controller for our robot
+    * *i-uC-io-extent* i-uC IO expansion board
+    * *i-uC-lib*: electronics building block driven lib and demo program 
+    * *mini-h-bridge-V1* : DC motor h-bridge (about *1V* voltage drop)
   * *dtoy-eagle-lbr*: chip/component packages for digital toy
   * *e-kits*
       * 555-pwm-v0
