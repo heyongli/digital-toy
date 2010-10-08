@@ -1,7 +1,6 @@
+==1. Prepare Develop tool chain on Linux ==
 
-==1. Prepare Develop tool chain ==
-
-[http://www.cs.hut.fi/Studies/T-106.530/2006/installation.html AVR development tools] http://www.cs.hut.fi/Studies/T-106.530/2006/installation.html
+[http://www.cs.hut.fi/Studies/T-106.530/2006/installation.html AVR development tools] 
 
 
 ==2. check out hole project(view mode)==
