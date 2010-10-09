@@ -1,0 +1,199 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=GB2312">
+
+
+<title>2-Wire PIC LCD Interface by Myke Predko</title>
+<meta name="description" content="Myke Predko's 2-wire LCD interface using the microchip pic microcontroller">
+<meta name="keywords" content="pic projects,pic,8051,microcontroller projects,Microcontrollers,Intel 8051,serial port,Microchip Pic,microcontroller,
+electronic projects,embedded systems,control systems,technical books,assembly language,programming intels 8051,
+serial communications,rs232,Electronics Projects,Books,Home Automation,Computer Software,Assemblers,applications Programming,
+Embedded Systems Design,8052,AT89C2051,robotics applications,Circuit Examples,Robots,micro code">
+
+
+
+<meta name="Microsoft Theme" content="rings2 111">
+<meta name="Microsoft Border" content="none">
+</head><body leftmargin="50" alink="#0000ff" background="2-wried-hc174-lcd-interface_files/spiral.gif" bgcolor="#cccccc" vlink="#0000ff" text="#000000" link="#0000ff"><!--mstheme--><font face="Verdana">
+</font><div align="left">
+
+<!--mstheme--><font face="Verdana"></font><table background="2-wried-hc174-lcd-interface_files/spider.gif" border="0" width="100%">
+  <tbody><tr>
+    <td width="100%"><!--mstheme--><font face="Verdana"></font><p align="center"><map name="FPMap3">
+<font face="Verdana">  <area href="http://www.rentron.com/BasicStamp.htm" shape="rect" coords="7, 2, 95, 21">
+  <area href="http://www.rentron.com/listinfoadd/signup.htm" shape="rect" coords="7, 27, 94, 47">
+  <area href="http://www.rentron.com/PicBasic2.htm" shape="rect" coords="106, 2, 196, 21">
+  <area href="http://www.rentron.com/Robo-Ware.htm" shape="rect" coords="108, 28, 195, 48">
+  <area href="http://www.rentron.com/8051.htm" shape="rect" coords="206, 3, 294, 22">
+  <area href="http://www.rentron.com/PicBasic/Rentron.htm" shape="rect" coords="206, 29, 294, 48">
+  <area href="http://www.rentron.com/remote.htm" shape="rect" coords="303, 3, 397, 23">
+  <area href="http://www.rentron.com/index.html" shape="rect" coords="303, 27, 395, 47">
+  <area href="http://www.rentron.com/pic.htm" shape="rect" coords="405, 2, 494, 23">
+  <area href="http://www.rentron.com/books.htm" shape="rect" coords="407, 27, 492, 48"></font></map>
+<font face="Verdana">        <img src="2-wried-hc174-lcd-interface_files/rentron-buttons.gif" usemap="#FPMap3" border="0" height="49" width="500"></font></p>
+<font face="Verdana">    </font><p align="center"><font face="Verdana"><strong><font face="Arial" size="2"><big>Build
+    your own "2-Wire</big> </font><font face="Arial" size="3">LCD Interface" using
+    the</font><font face="Arial" size="2"> PIC16C84 </font><font face="Arial" size="3">microcontroller</font></strong></font></p>
+<font face="Verdana">    <font face="Arial" size="2"></font></font><p align="center"><font face="Verdana"><font face="Arial" size="2"><strong>A Special "Thanks" to Myke
+    Predko for submitting the following project/article.</strong></font></font></p>
+<font face="Verdana"><font face="Arial" size="2">    </font></font><p><font face="Verdana"><font face="Arial" size="2">About the Author</font></font></p>
+<font face="Verdana"><font face="Arial" size="2">    </font></font><p><font face="Verdana"><font face="Arial" size="2">Myke Predko is the author of "</font><a href="http://www.amazon.com/exec/obidos/ASIN/007913646X/reynoldselectron"><font face="Arial" size="2">Programming and Customizing the PIC Microcontroller</font></a><font face="Arial" size="2">", the "</font><a href="http://www.amazon.com/exec/obidos/ASIN/0079137164/reynoldselectron"><font face="Arial" size="2">Handbook of Microcontrollers</font></a><font face="Arial" size="2">"
+    and "</font><a href="http://www.amazon.com/exec/obidos/ASIN/0071341951/reynoldselectron"><font face="Arial" size="2">Programming and Customizing the 8051 Microcontroller</font></a><font face="Arial" size="2">" as well as the soon to be released "PC PhD" and
+    "PC Interfacing Pocketbook" which are all published by McGraw-Hill. </font></font></p>
+<font face="Verdana">    </font><p><font face="Verdana"><font face="Arial" size="2">As well as writing books on electronics and programming,
+    Myke works for Celestica, Inc. in the area of New Products Test Engineering. His wife,
+    Patience, and he have three children, Joel, Elliot and Marya.  </font></font></p>
+<font face="Verdana">    </font><p align="center"><font face="Verdana"><font face="Arial" size="2"><strong>2-Wire LCD Interface for the
+    PICMicro</strong></font></font></p>
+<font face="Verdana">    </font><p><font face="Verdana"><font face="Arial" size="2">Alphanumeric LCD displays have become very popular for
+    microcontroller applications because they can add a lot to a project in a variety of
+    different ways. A text message giving the user instructions as well as feedback can make
+    the application seem much more "professional" and easy to use. I like to use
+    LCD's to help debug applications, with breakpoints set to display variable and I/O
+    conditions and they are a lot cheaper than using a microcontroller emulator. To top it
+    off, surplus LCD's can be found for a dollar or less. </font></font></p>
+<font face="Verdana"><font face="Arial" size="2">    </font></font><p><font face="Verdana"><font face="Arial" size="2">The most popular LCD interface is the Hitachi 44780 based LCD controller chip which
+    provides a fairly easy to work with interface and low power consumption. The major
+    drawback of the interface is the perceived complexity of working with the interface. This
+    perception has been promoted by the lack of good (i.e. well translated) and accurate
+    datasheets and web site information. </font></font></p>
+<font face="Verdana"><font face="Arial" size="2">    </font></font><p><font face="Verdana"><font face="Arial" size="2">This has been largely mitigated by the availability of a new data sheet from Hitachi;
+    (available at <a href="http://semiconductor.hitachi.com/products/pdf/99rtd006d2.pdf">here</a>
+    and user sites (such as my own at <a href="http://www.myke.com/lcd.htm">LCD Page</a>
+    with accurate information and example code that can be downloaded. </font></font></p>
+<font face="Verdana"><font face="Arial" size="2">    </font></font><p><font face="Verdana"><font face="Arial" size="2">Often the biggest stumbling block to using
+    alphanumeric LCD displays is the number of pins required to control them. For the Hitachi
+    44780, twelve pins are required from the microcontroller to interface to the display for
+    it to work in eight bit mode. For many smaller microcontrollers, twelve pins are not
+    available or will be better served in the application. To be fair, this can be reduced to
+    six by using the 44780's "Four Bit" mode, but this can still be more than
+    acceptable for most applications. </font></font></p>
+<font face="Verdana"><font face="Arial" size="2">    </font></font><p><font face="Verdana"><font face="Arial" size="2">In this case, different approaches have to be made. The most popular one is to use
+    synchronous serial data (requiring a "clock" and "data") pin to load a
+    serial-in/parallel-out shift register with the data bits and "R/S" pin
+    information. The "E" Strobe Pin is driven directly by the microcontroller to
+    latch in the data from the LCD. This is shown in the diagram below: </font></font></p>
+<font face="Verdana"><font face="Arial" size="2">    </font></font><p align="center">
+<font face="Verdana"><font face="Arial" size="2">    <img src="2-wried-hc174-lcd-interface_files/lcd3.gif" alt="Shift Register LCD Data Write" style="border: 1px none rgb(0, 0, 0);" height="299" width="399"><br>
+    </font></font></p>
+<font face="Verdana"><font face="Arial" size="2">    </font></font><p><font face="Verdana"><font face="Arial" size="2">The project presented in this article is an enhancement of this circuit. By combining
+    the shift register's "Data Line" with the most significant bit of the shift
+    register, the "E" Strobe can be implemented without resorting to a separate line
+    for the function. The 1 K resistor and diode act as an "AND" gate. A schematic
+    of the circuit is shown below. </font></font></p>
+<font face="Verdana"><font face="Arial" size="2">    </font></font><p align="center"><font face="Verdana"><font face="Arial" size="2"><img src="2-wried-hc174-lcd-interface_files/2wirelcd.jpg" border="0" height="235" width="473"></font></font></p>
+<font face="Verdana"><font face="Arial" size="2">    </font></font><p><font face="Verdana"><font face="Arial" size="2">The operation of the resistor/diode "AND" gate may not be immediately
+    obvious. When the shift register bit is low, the diode pulls the connection to the
+    "E" pin low. When the shift register bit is high, the diode will not cause any
+    current flow from the connection at the "E" pin to the shift register. The
+    resistor from "Data" to the "E" pin is a current limiting resistor.
+    When the shift register bit is low and the data bit is high, then the current through the
+    resistor will be limited to 5 mA (for a 5 Volt logic application). At the "Data"
+    side of the resistor, the voltage will still be high, even though the diode is pulling the
+    "E" pin low. </font></font></p>
+<font face="Verdana"><font face="Arial" size="2">    </font></font><p><font face="Verdana"><font face="Arial" size="2">When both the "Data" line and the shift register bit are high, the
+    "E" pin will be high. The "AND" circuit could be a TTL two input AND
+    gate (such as a 7408), if you have an extra one available for your application. When I
+    originally created this circuit, I used the same two transistor and two resistor circuit
+    that I used for the 89C2051 emulator in "Programming and Customizing the 8051
+    Microcontroller". I saw this "AND" equivalent circuit in an old copy of
+    "Electronics Now" and found that it worked well in this application. </font></font></p>
+<font face="Verdana"><font face="Arial" size="2">    </font></font><p><font face="Verdana"><font face="Arial" size="2">To load the shift register, it first has to be cleared to ensure that the "E"
+    will not be strobed to the LCD inadvertently. This is done by first shifting in six
+    "0"s to make sure that while the correct data is being loaded into the shift
+    register, no "high" voltage level is passed to the "E" pin of the LCD.
+    </font></font></p>
+<font face="Verdana"><font face="Arial" size="2">    </font></font><p><font face="Verdana"><font face="Arial" size="2">Once this is done, the data can be shifted in. The diagram below shows how the shift
+    register is initially cleared and then loaded with the data to be strobed (using
+    "E") into the LCD:</font></font></p>
+<font face="Verdana"><font face="Arial" size="2">    </font></font><p align="center"><font face="Verdana"><font face="Arial" size="2"><img src="2-wried-hc174-lcd-interface_files/2wirewf.jpg" border="0" height="317" width="470"></font></font></p>
+<font face="Verdana"><font face="Arial" size="2">    </font></font><p><font face="Verdana"><font face="Arial" size="2">The application code, "<a href="http://www.rentron.com/Files/2wirelcd.asm">2wirelcd.asm</a>" is an assembler source file written for
+    the PIC16C84. The file is written to be used with the "MPASM" assembler built
+    into Microchip's "MPLAB". I wrote the code with the idea that it should be
+    easily portable to any low-end or mid-range PICMicro without modification. </font></font></p>
+<font face="Verdana"><font face="Arial" size="2">    </font></font><p><font face="Verdana"><font face="Arial" size="2">For the two I/O pins ("Data" and "Clock"), I "defined"
+    them to allow you to use virtually any pins in your PICMicro application. I say
+    "virtually any" because PORTA pin 4 (also known as "RA4") is of
+    "open drain" configuration and cannot source a positive voltage. The code itself
+    is a very straightforward example of writing a 4-bit LCD application which displays the
+    string "Hello" on the LCD display. The important difference between this code
+    and a straight 4-bit LCD output is the "NybbleOut" subroutine, which is called
+    twice by each of the "SendCHAR" and "SendINS" subroutines (which send
+    characters and instructions, respectively, to the LCD).</font></font></p>
+<font face="Verdana"><font face="Arial" size="2">    </font></font><p><font face="Verdana"><font face="Arial" size="2">"NybbleOut" first drops the "Data" line and then strobes the
+    "Clock" bit six times to clear the shift register. Next, a "1" is
+    strobed in, followed by the "R/S" pin value, which is stored in the PICMicro's
+    "Carry" flag. I used Carry for this purpose because in this application I used
+    RA0 and RA1 as the output pins and to simplify the operation of the code, I shift PORTA
+    with Carry loaded with the "Data" Pin Value.</font></font></p>
+<font face="Verdana"><font face="Arial" size="2">    </font></font><p><font face="Verdana"><font face="Arial" size="2">If this is not possible in your application, then "NybbleOut" should be
+    changed to the following code. I have marked changed lines with "####' in comments. </font></font></p>
+<font face="Verdana"><font face="Arial" size="2">    </font></font><p><font face="Verdana"><font size="2"><font face="Andale Mono">NybbleOut2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    ; Send a Nybble to the LCD<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; movwf&nbsp;&nbsp;&nbsp;&nbsp; NOTemp&nbsp;&nbsp;&nbsp; ;
+    Save the Nybble to Shift Out<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; swapf&nbsp;&nbsp;&nbsp;&nbsp; NOTemp&nbsp;&nbsp;&nbsp; ;
+    Setup to Output to the High Part of the Byte<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; movlw&nbsp;&nbsp;&nbsp;&nbsp; 6
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; Clear the Shift Register<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; movwf&nbsp;&nbsp;&nbsp;&nbsp; Dlay</font></font></font></p>
+<font face="Verdana"><font size="2">    </font></font><p><font face="Verdana"><font size="2"><font face="Andale Mono">NO2Loop1<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ClockStrobe<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; decfsz&nbsp;&nbsp;&nbsp; Dlay<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; goto&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NO2Loop1<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; movlw&nbsp;&nbsp;&nbsp;&nbsp; 5
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ; #### - Now, Shift out the Data with the
+    "RS" Bit<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; movwf&nbsp;&nbsp;&nbsp;&nbsp; Dlay<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bsf&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Data
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ; Put out the Gate Bit<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ClockStrobe</font></font></font></p>
+<font face="Verdana"><font size="2">    </font></font><p><font face="Verdana"><font size="2"><font face="Andale Mono">&nbsp;NO2Loop2<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bcf&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Data
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; #### - Clear the Data Bit (which is the Clock)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; btfsc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STATUS, C&nbsp;&nbsp;;
+    #### - If the Bit to be output is a "1", Shift it Out<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bsf&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Data
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ClockStrobe<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rlf &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOTemp
+    &nbsp;&nbsp;&nbsp;&nbsp;; #### - Shift the Next Bit into the Carry Flag<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; decfsz&nbsp;&nbsp;&nbsp; Dlay<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; goto&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NO2Loop2 </font></font></font></p>
+<font face="Verdana">    <font size="2"><p><font face="Andale Mono">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; EStrobe
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; Strobe out
+    the LCD Data</font></p>
+    </font></font><p><font face="Verdana"><font face="Andale Mono" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return</font></font></p>
+<font face="Verdana">    <font face="Arial" size="2"></font></font><p><font face="Verdana"><font face="Arial" size="2">The only point to notice with this code is that the
+    "E" strobe will become active on the last bit if the least significant data bit
+    is high. This lack of "settling time" before "E" is active does
+    violate the "true" 44780 specification, but I haven't found it to be a problem
+    when I've built this circuit. </font></font></p>
+<font face="Verdana"><font face="Arial" size="2">    </font></font><p><font face="Verdana"><font face="Arial" size="2">Good luck with building this circuit. If you have any problems, please send me an email
+    and I'll see what I can do to point out where the problem is. Click <a href="http://www.rentron.com/Files/2wirelcd.asm">HERE</a> to download the code for this project.</font></font></p>
+<font face="Verdana">    </font><p><font face="Verdana"><font face="Arial" size="3"><strong>Myke</strong></font></font></p>
+<font face="Verdana">    <font face="Arial" size="2"></font></font><p><font face="Verdana"><font face="Arial" size="2"><strong>Copyright and Warranty Statement</strong></font></font></p>
+<font face="Verdana"><font face="Arial" size="2">    </font></font><p><font face="Verdana"><font face="Arial" size="2">This article is presented on an "AS IS" basis. I have tested the circuit and
+    code that I have presented here and I am confident that it works on the hardware that I
+    have used. Different hardware may result in different results. </font></font></p>
+<font face="Verdana"><font face="Arial" size="2">    </font></font><p align="center"><font face="Verdana"><font face="Arial" size="2"><strong>The information contained here
+    cannot be reproduced without the author's permission.</strong>
+    </font></font></p><p align="center"><font face="Verdana"><font face="Arial" size="2"><strong>Program
+    the PIC in simple BASIC using the PicBasic Compiler.&nbsp; Visit: <a href="http://www.rentron.com/PicBasic2.htm">http://www.rentron.com/PicBasic2.htm</a></strong></font></font></p><p align="center">
+<font face="Verdana"><font face="Arial" size="2">    <map name="FPMap4">
+  <area href="http://www.rentron.com/BasicStamp.htm" shape="rect" coords="7, 2, 95, 21">
+  <area href="http://www.rentron.com/listinfoadd/signup.htm" shape="rect" coords="7, 27, 94, 47">
+  <area href="http://www.rentron.com/PicBasic2.htm" shape="rect" coords="106, 2, 196, 21">
+  <area href="http://www.rentron.com/Robo-Ware.htm" shape="rect" coords="108, 28, 195, 48">
+  <area href="http://www.rentron.com/8051.htm" shape="rect" coords="206, 3, 294, 22">
+  <area href="http://www.rentron.com/PicBasic/Rentron.htm" shape="rect" coords="206, 29, 294, 48">
+  <area href="http://www.rentron.com/remote.htm" shape="rect" coords="303, 3, 397, 23">
+  <area href="http://www.rentron.com/index.html" shape="rect" coords="303, 27, 395, 47">
+  <area href="http://www.rentron.com/pic.htm" shape="rect" coords="405, 2, 494, 23">
+  <area href="http://www.rentron.com/books.htm" shape="rect" coords="407, 27, 492, 48"></map>
+        <img src="2-wried-hc174-lcd-interface_files/rentron-buttons.gif" usemap="#FPMap4" border="0" height="49" width="500"></font><!--mstheme--></font></p></td>
+  </tr>
+</tbody></table><!--mstheme--><font face="Verdana">
+</font></div>
+
+<!--webbot bot="Navigation" S-Type="children" S-Orientation="horizontal" S-Rendering="graphics" B-Include-Home="TRUE" B-Include-Up="TRUE" U-Page S-Target startspan --><!--webbot bot="Navigation" i-checksum="0" endspan --><p></p>
+<font face="Verdana">&nbsp;<!--mstheme--></font></body></html>
