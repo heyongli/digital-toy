@@ -1,0 +1,296 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=GB2312">
+
+<title>2-transistor Black Regulator</title>
+<meta name="description" content="a 2-transistor switchmode buck voltage regulator">
+<meta name="keywords" content="Simple SMPS voltage regulator, buck regulator using 
+discrete parts, 2-transistor Black Regulator, switchmode drivers for high-power
+white LEDs, DIY high efficiency LED drivers">
+</head><body alink="#8f0000" bgcolor="#808080" vlink="#6f004f" text="#000000" link="#00008f">
+<font face="Arial,Helvetica,Verdana,Geneva,sans-serif">
+<font size="-1"> <!-- default font-->
+<!-- ---------------------------------------------------------------------->
+<font size="2">
+<a href="http://www.romanblack.com/smps/smps.htm#apps">[Back to SMPS Page]</a></font>
+<br>
+<br>
+
+<!-- ---------------------------------------------------------------------->
+<font size="+2"><b>www.RomanBlack.com</b></font>
+<!-- ---------------------------------------------------------------------->
+<br>
+<br>
+
+<!-- ---------------------------------------------------------------------->
+<font color="#ffff00" size="+2"><b>NEW!! Drivers for high-power white LEDs </b></font>
+<!-- ---------------------------------------------------------------------->
+<br> 
+<br>
+
+
+<!-- ---------------------------------------------------------------------->
+<font color="#000000" size="+1"><b>App a05; Assorted constant-current SMPS 
+drivers for LEDs</b></font>
+<!-- ---------------------------------------------------------------------->
+<br>
+5th August 2009, web 15th August 2009.
+
+<br> 
+<br>
+<br>
+
+
+
+<!-- ---------------------------------------------------------------------->
+<font color="#ffff00" size="+1"><b>About these SMPS LED designs </b></font>
+<!-- ---------------------------------------------------------------------->
+<br>
+<br>
+
+A thread started on the Electro-Tech internet forum asking for drivers
+to drive high-power white LEDs from 12v. A few high-efficiency switchmode
+SMPS designs quickly emerged.
+<br>
+<br>
+
+The full thread with other circuits and discussion of each circuit etc
+can be read on the forum, see;
+<a href="http://www.electro-tech-online.com/electronic-projects-design-ideas-reviews/95832-high-power-led-controller.html">
+<b>www.electro-tech-online.com ... high-power-led-controller THREAD
+</b></a>
+
+<br>
+<br>
+<br>
+
+
+<!-- ---------------------------------------------------------------------->
+</font></font><hr>
+<font face="Arial,Helvetica,Verdana,Geneva,sans-serif"><font size="-1"><font color="#ffff00" size="+1"><b>Hero999 - a high power constant-current Black regulator </b></font>
+<!-- ---------------------------------------------------------------------->
+<br>
+<br>
+
+Hero999 from England posted his LED SMPS circuit;
+<br>
+<br>
+<img src="smps-a05-driver-high-power-led_files/MOS_Black_Reg.gif">
+<br>
+<br>
+
+It is a variation of my original 3-transistor current-limited black regulator
+which has its
+<a href="http://www.romanblack.com/smps/a04.htm">own page here.</a>
+<br>
+<br>
+
+However Hero999 has improved my design by changing the main switch
+to a PFET which allows a much higher total current (needed for driving
+high-power LEDs). Part of this change to my 3-tran circuit meant adding
+another transistor to drive the gate of the PFET more efficiently so
+technically this is a 4-transistor design, and a very clever improvement
+to my original design that allows quite a high current from a simple
+circuit that provides both regulated current AND voltage.
+<br>
+<br>
+
+Hero999 said he tested this circuit on the simulator and it worked well
+but it has not been tested in hardware. It should work fine provided the
+12v input voltage is highish (12v to 15v) and the PFET is a device
+that will work from a few volts gate-source (usually called a logic-level
+FET).
+<br>
+<br>
+
+Because is uses the basic black regulator topology it will be very
+efficient provided the headroom between Vin and Vout is high enough,
+so with 12v to 15v in, and one or two LEDs as the load (4v to 8v out).
+To drive ONE 3watt or 5watt white LED from 12v suuply this circuit is 
+probably the most energy efficient on this page, and it is still high
+efficiency driving 2 LEDs in series provided you use a "logic-level"
+gate FET.
+<br>
+<br>
+
+<b>Hero999 has provided a simulator file for his design
+<a href="http://www.romanblack.com/smps/MOS_Black_Reg.asc">HERE.</a></b>
+<br>
+<br>
+
+
+
+<b>NOTE!</b> For driving a single 4v LED from a 12v battery, this is the
+only SMPS on this page that actually regulates voltage as well as current.
+Using the right value of zener (about 4.9v) means that given an
+open-circuit disconnect/re-connect of the LED it will never be exposed
+to a cap charged with full 12v battery voltage, so it is much
+safer than all the other designs on this page to protect your expensive
+5 watt white LED! But if driving 2 or 3 LEDs in series this is less
+of a safety issue, especially if the Vout cap is a smaller value.
+<br>
+<br>
+<br>
+
+
+<!-- ---------------------------------------------------------------------->
+</font></font><hr>
+<font face="Arial,Helvetica,Verdana,Geneva,sans-serif"><font size="-1"><font color="#ffff00" size="+1"><b>MikeMl - good SMPS constant current LED driver </b></font>
+<!-- ---------------------------------------------------------------------->
+<br>
+<br>
+
+MikeMl from Utah posted this SMPS circuit which is his own design (ie nothing
+to do with a Black regulator).
+<br>
+<br>
+<img src="smps-a05-driver-high-power-led_files/W724C0sreg.gif">
+<br>
+<br>
+
+This seems to be a good simple 3-transistor design which allows driving
+LEDs at a constant-current with a good efficiency. It's main benefit
+is that it will still work well with a low Vin to Vout overhead. So to
+drive THREE white LEDs from 12v supply (where there is not much headroom)
+this circuit will work well.
+<br>
+<br>
+
+MikeMl tested this circuit in the simulator and it worked well but
+as far as I know it has not been built.
+<br>
+<br>
+<br>
+
+
+<!-- ---------------------------------------------------------------------->
+</font></font><hr>
+<font face="Arial,Helvetica,Verdana,Geneva,sans-serif"><font size="-1"><font color="#ffff00" size="+1"><b>RomanBlack - 2-tran SMPS constant current LED driver </b></font>
+<!-- ---------------------------------------------------------------------->
+<br>
+<br>
+
+I quickly designed and posted my own design for a LED constant-current
+SMPS in the thread. Keeping with my "2-transistor" minimalist
+philosophy I call it a <b>"2-transistor Black Current Regulator"</b>;
+<br>
+<br>
+
+<img src="smps-a05-driver-high-power-led_files/black_reg_current.gif">
+<br>
+<br>
+
+I refined the concept to the absolute minimal number of parts to provide
+a constant-current switchmode supply. There is one FET as the main
+switch and one trasistor acting as oscilator/regulator.
+<br>
+<br>
+
+By turning the buck circuit upside down I could use a NFET (instead
+of the PFET needed by both of the above designs) since a NFET is easier
+to find and usually has better performance (lower on-resistance
+and higher efficiency etc).
+<br>
+<br>
+
+I also moved the current sense resistor to OUTSIDE the main buck loop.
+This is a weakness of the above 2 designs since the current sense
+resistor will always be dropping 0.6v and wasting power. By moving
+the sense resistor into the swich path and not the buck loop, the
+sense resistor only gets a 0.6v voltage drop and wastes power during
+the ON part of the switching cycle, this can almost halve the power
+lost in that one resistor.
+<br>
+<br>
+
+The benefit is a VERY simple design with the possibility of quite
+high efficiency (with a "logic-level" NFET). However is has a
+drawback based on the fact that the current regulation is set
+at the MAX current at the end of the buck ON cycle. If the input
+voltage remains fixed the output current will remain regulated.
+BUT the problem remains where if the input voltage changes
+through a large range (like full-flat 12v battery range of 11v to
+15v) the output current will change slightly.
+<br>
+<br>
+
+I haven't built the circuit, only
+tested it in my head, but I think by fiddling with the values of
+Cfb and Ctime this regulation issue can be largely resolved, and
+if not, by adding the resistor Rcomp of maybe 47k to 120k should add
+a small amount of current compensation so the output current
+remains nice and stable with input voltages in the typical
+12v battery range of 11v to 15v.
+<br>
+<br>
+
+<b>NOTE!</b> This design should work equally well using a BC337
+NPN transistor instead of a NFET, provided of course you reduce
+the output current to under 600mA. For example; to 300mA to run a
+standard 1watt white LED from 12v. You may also need to change the
+value of the 680 resistor slightly to drive a transistor instead of
+a FET.
+<br>
+<br>
+<br>
+
+
+<!-- ---------------------------------------------------------------------->
+</font></font><hr>
+<font face="Arial,Helvetica,Verdana,Geneva,sans-serif"><font size="-1"><font color="#ffff00" size="+1"><b>MikeMl - radically revised his SMPS driver</b></font>
+<!-- ---------------------------------------------------------------------->
+<br>
+<br>
+
+MikeMl changed his 3-tran constant current circuit to take on the
+high performance features of my design, namely; turning the buck loop
+upside down to use a NFET, and moving the current sense resistor
+(R1) outside the buck loop;
+<br>
+<br>
+
+<img src="smps-a05-driver-high-power-led_files/W274C1sreg.gif">
+<br>
+<br>
+
+He also seems to be compensating the current regulation as I mentioned
+with my circuit, with a compensating resistor (R2) from Vin to the base
+of the regulator transistor.
+<br>
+<br>
+
+Basically this is my circuit with all its strengths, however MikeMl has
+made a big improvement to the drive circuit of the FET by adding another
+transistor (Q2) to speed up the turn on of the FET and make it more
+efficient due to faster FET turn-on (and make the FET type less critical
+as my design requires a "logic-level" NFET with low gate capacitance).
+<br>
+<br>
+
+This extra transistor to "bootstrap" the FET seems to be borrowed
+directly from Hero999's Black regulator (top of page) and is a great
+example of the benefits of developing a circuit in a communal thread
+like this. MikeMl has distilled the best features from my 2-tran Black
+Current Regulator and Hero999's 4-tran Black regulator and combined them
+to make what is possibly the best and most efficient constant-current
+SMPS LED driver in the thread.
+<br>
+<br>
+<br>
+
+
+
+
+<!-- ---------------------------------------------------------------------->
+</font></font><hr>
+<!-- ---------------------------------------------------------------------->
+<font face="Arial,Helvetica,Verdana,Geneva,sans-serif"><font size="-1"> - end - 
+<br>
+<br>
+
+<font size="2">
+<a href="http://www.romanblack.com/index.htm#elec">[Back to Home Page]</a>
+</font>
+
+<br>
+</font>
+</font></body></html>

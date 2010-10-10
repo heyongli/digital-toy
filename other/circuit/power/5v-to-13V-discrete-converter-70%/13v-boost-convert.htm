@@ -1,0 +1,248 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=GB2312">
+
+<title>+5v to +12v converter</title>
+<meta name="description" content="2-trsnsistor simple volatge boost converter">
+<meta name="keywords" content="Simple SMPS voltage regulator, buck regulator using 
+discrete parts, 2-transistor Black Regulator">
+<meta name="keywords" content="Simple SMPS voltage regulator, buck regulator using 
+discrete parts, 2-transistor Black Regulator">
+</head><body alink="#8f0000" bgcolor="#808080" vlink="#6f004f" text="#000000" link="#00008f">
+<font face="Arial,Helvetica,Verdana,Geneva,sans-serif">
+<font size="-1"> <!-- default font-->
+<!-- ---------------------------------------------------------------------->
+<font size="2">
+<a href="http://www.romanblack.com/smps/smps.htm#apps">[Back to SMPS Page]</a></font>
+<br>
+<br>
+
+<!-- ---------------------------------------------------------------------->
+<font size="+2"><b>www.RomanBlack.com</b></font>
+<!-- ---------------------------------------------------------------------->
+<br>
+<br>
+
+<!-- ---------------------------------------------------------------------->
+<font color="#ffff00" size="+2"><b>+5v to +13v Converter </b></font><br>
+<!-- ---------------------------------------------------------------------->
+<b>A cheap circuit to make +13v from a +5v supply</b><br>
+Roman Black - orig Sep 2002 - updated Aug 2006
+<br> 
+<br>
+<br>
+
+
+<!-- ---------------------------------------------------------------------->
+<font color="#ffff00" size="+1"><b>What is it? </b></font>
+<!-- ---------------------------------------------------------------------->
+<br>
+<br>
+
+<b>This is a simple smps voltage converter,</b> it makes an output voltage of
++13.3v from a "standard" +5v supply as used with logic chips.
+<br>
+<br>
+
+I was contacted by hobby PIC programmer legend
+<b>Myke Predko</b> about designing a simple
+and cheap circuit to produce the 13v Vpp voltage needed to program PIC chips
+from a standard 5v regulated supply. This would eliminate the need for an
+smps 13v converter chip.
+<br>
+<br>
+
+The circuit I settled on worked out very cheap, using a cheap
+470uH "RF choke" type inductor and a very cheap 1N4148 small signal
+diode as the rectifier. The two transistor types are not critical.
+Measured efficiency was 72% which is quite reasonable from such a simple low
+power circuit.
+<br>
+<br>
+<br>
+
+<img src="13v-boost-convert_files/conv01.jpg">
+<br>
+<br>
+
+The inductor can be a cheap small "RF choke" type.
+
+<br>
+<br>
+<br>
+
+
+
+<!-- ---------------------------------------------------------------------->
+<font color="#ffff00" size="+1"><b>Specs </b></font>
+<!-- ---------------------------------------------------------------------->
+<br>
+<br>
+
+<li> Tiny cheap RF type inductor
+</li><li> Very cheap circuit (under 50 cents in parts!)
+</li><li> Reliable self-starting
+</li><li> 72% efficiency
+</li><li> Input: 5v regulated
+</li><li> Output: 13.3v @ 12mA maximum
+
+<br>
+<br>
+<br>
+
+
+
+<!-- ---------------------------------------------------------------------->
+<font color="#ffff00" size="+1"><b>The Circuit </b></font>
+<!-- ---------------------------------------------------------------------->
+<br>
+<br>
+<br>
+
+<img src="13v-boost-convert_files/conv_cir.gif">
+<br>
+<br>
+<br>
+
+
+<!-- ---------------------------------------------------------------------->
+<font color="#ffff00" size="+1"><b>How it works </b></font>
+<!-- ---------------------------------------------------------------------->
+<br>
+<br>
+
+The circuit regulates around <b>peak inductor current,</b> and since input
+voltage remains constant it also regulates input current and hence
+input power.
+<br>
+<br>
+
+The <b>regulation mechanism is R2,</b> by ensuring that if R2 volts exceeds 0.6v
+main switch Q1 will turn off. The input current path is via L1, Q1 and R2.
+<br>
+<br>
+
+Oscillation duty cycle is close to 50:50 so with an R2 of 6.8 ohms,
+peak inductor current is about 90mA and the average input current
+is about 46mA. Total current requirements can be reduced by
+increasing R2.
+
+<br>
+<br>
+<br>
+
+<!-- ---------------------------------------------------------------------->
+<font color="#ffff00" size="+1"><b>Notes </b></font>
+<!-- ---------------------------------------------------------------------->
+<br>
+<br>
+
+<b>DO NOT run the circuit with no zener, and do not remove the zener
+when the circuit is running!</b> Like any boost converter it may
+produce high voltages without the zener output clamp,
+and may damage transistors or the diode etc.
+<br>
+<br>
+
+The circuit oscillates mainly based on inductor characteristics,
+and the cap C1 is not really a tuning cap, instead it provides
+some stability of oscillation waveform at a frequency determined
+mainly by inductance and the total load.
+<br>
+<br>
+
+
+<b>This booster is a CONSTANT POWER regulator.</b>
+It always draws 46mA from the 5v supply (230mW), and delivers this
+power to the load at about 72% efficiency. So the load always gets
+about 13.3v and 12mA. If the output is overloaded at currents greater
+than 12mA the output voltage drops, providing a crude current regulation.
+If the output voltage is further overloaded to the point where it drops below
+5v the diode starts passing current directly from the 5v supply
+and input current rises a LOT. <b>Overloads like this should be avoided!</b>
+<br>
+<br>
+<br>
+
+
+<!-- ---------------------------------------------------------------------->
+<font color="#ffff00" size="+1"><b>Important Notes! </b></font>
+<!-- ---------------------------------------------------------------------->
+<br>
+<br>
+
+The 13.3v output can be <b>turned on or off</b> by attaching the R1
+resistor to +5v (as shown) or to 0v to turn it off. R1 can be attached
+to a PIC output pin to control the circuit.
+<br>
+<br>
+
+When the circuit is OFF the output is about 4.3v and total current
+consumption is about 0.4mA.
+<br>
+<br>
+
+When the circuit is ON the output is 13.3v and total current consumption
+is about 46mA.
+<br>
+<br>
+
+<b>For a PIC programmer application;</b> the MCLR must rise very quickly
+to 13v to initiate programming. Use a 3k3 resistor in series with the
+output, going to the MCLR pin. Then use an additional NPN transistor to hold MCLR
+low as an open-collector pull-down. This transistor can then be switched
+and will switch the output voltage very quickly from 0v to 13v.
+(This is necessary with the smps 13v generator chips also.) 
+<br>
+<br>
+<br>
+
+<!-- ---------------------------------------------------------------------->
+<font color="#ffff00" size="+1"><b>High Power / High Voltage? </b></font>
+<!-- ---------------------------------------------------------------------->
+<br>
+<br>
+
+<b>Note!</b> This circuit can be quite usable for higher power applications,
+and will oscillate reliably with a larger (high power) version of Q1
+like a TO-220 darlington type. Remember it regulates INPUT current,
+and will provide a fairly regulated amount of power to the high voltage
+output load. It can be used as a simple 4 watt fluoro tube driver with
+a 12 volt input (for example). If you try this, try these values;
+<br>
+<br><ul>
+
+Q1 = TIP122 darlington (see note)<br>
+L1 = 470uH 500mA ferrite core inductor<br>
+D1 = 1N4937 600v 1A fast rectifier<br>
+R1 = 4k7<br>
+R2 = 3.3 ohm<br>
+R4 = 56k<br>
+CLOAD = 0.1uF (not critical) but must be 630 volt type<br>
+</ul>
+<br>
+
+With a 12v input this will run about 2 watts and make a usable light
+from the fluoro tube. Remove the zener and connect the
+output to a 4 watt (5 inch) fluoro tube like a F4T5 type. You may need
+a heatsink for Q1. I used a TIP-122 as it was lying around, but a high voltage
+darlington (&gt;300v) is better. Remember this produces <b>high voltages</b> and
+you MUST always have the tube connected. Have fun and <b>work safely with high
+voltages!</b>
+
+<br>
+<br>
+<br>
+
+<!-- ---------------------------------------------------------------------->
+<!-- ---------------------------------------------------------------------->
+ - end - 
+<br>
+<br>
+
+<font size="2">
+<a href="http://www.romanblack.com/index.htm#elec">[Back to Home Page]</a>
+</font>
+
+<br>
+</li></font>
+</font></body></html>
