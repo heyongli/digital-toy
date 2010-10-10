@@ -1,0 +1,207 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=GB2312">
+
+<title>Motor over-current sensor</title>
+<meta name="description" content="Monitor motor over-current condition with one transistor">
+<meta name="keywords" content="electronics, mnotor control, current sensor">
+</head><body alink="#8f0000" bgcolor="#808080" vlink="#6f004f" text="#000000" link="#00008f">
+<font face="Arial,Helvetica,Verdana,Geneva,sans-serif">
+<font size="-1"> <!-- default font-->
+<!-- ---------------------------------------------------------------------->
+<font size="2">
+<a href="http://www.romanblack.com/index.htm#elec">[Back to Home Page]</a></font>
+<br>
+<br>
+
+<!-- ---------------------------------------------------------------------->
+<font size="+2"><b>www.RomanBlack.com</b></font>
+<br>
+<br>
+
+<!-- ---------------------------------------------------------------------->
+<font color="#ffff00" size="+2"><b>Motor Over-Current Sensor</b></font><br>
+<b>Detects over-current situation with a motor or other DC device.</b><br>
+Roman Black - April 2004 - web Aug 2006
+<br>
+<br>
+<br>
+
+<!-- ---------------------------------------------------------------------->
+<!-- ---------------------------------------------------------------------->
+<!-- ---------------------------------------------------------------------->
+
+<!-- ---------------------------------------------------------------------->
+<font color="#ffff00" size="+1"><b>What is it? </b></font>
+<!-- ---------------------------------------------------------------------->
+<br>
+<br>
+
+<b>This simple circuit detects when the motor (or other device) draws too much
+current and activates a digital output.</b> The current setpoint can be easily
+adjusted with the trimpot.
+<br>
+<br>
+
+Over-current indication is by a LED, and/or by sending
+a digital output signal to a PIC or other controller. This circuit is cheap and
+reliable and I have used it with great success for many years.
+<br>
+<br>
+
+One <b>big advantage</b> is that the voltage on the current sense resistor
+during operation is very low, giving benefits in good overall efficiency and
+it only needs a small cheap current sense resistor.
+<br>
+<br>
+<br>
+
+<img src="motor-over-current-sensor_files/current.gif">
+<br>
+<br>
+<br>
+
+
+ 
+
+<!-- ---------------------------------------------------------------------->
+<font color="#ffff00" size="+1"><b>How it works </b></font>
+<!-- ---------------------------------------------------------------------->
+<br>
+<br>
+
+<b>The circuit is very simple;</b>
+<li> Motor current path is through the motor and R1 only
+</li><li> Voltage at R1 (point A) is proportional to motor current
+</li><li> When over current setpoint is reached, voltage at R1 is about 50mV
+</li><li> Trimpot is adjusted so the transistor turns on when point A reaches about 50mV
+</li><li> Digital output goes LOW when over-current condition
+</li><li> (optional) LED lights up when over-current condition
+
+<br>
+<br>
+<br>
+
+
+ 
+
+<!-- ---------------------------------------------------------------------->
+<font color="#ffff00" size="+1"><b>Advantages and Limitations? </b></font>
+<!-- ---------------------------------------------------------------------->
+<br>
+<br>
+
+<b>Advantages;</b>
+</li><li> Small, cheap and simple to build
+</li><li> Low R1 sense volts (good efficiency)
+</li><li> Good adjustability to your desired current setpoint
+</li><li> Adaptable for most sizes of loads
+</li><li> Also adjustable for over-current time
+</li><li> Usable for most DC loads, not just motors
+<br>
+<br>
+
+<b>Some minor limitations;</b>
+</li><li> PIC ground must be connected to motor power ground
+</li><li> When motor is operated near the limit point the output can be linear
+(or slowly varying) and not a sharp digital output signal
+
+<br>
+<br>
+<br>
+
+
+
+<!-- ---------------------------------------------------------------------->
+<font color="#ffff00" size="+1"><b>Tips for using it </b></font>
+<!-- ---------------------------------------------------------------------->
+<br>
+<br>
+
+In cases where you need to detect the running current of a motor or load,
+where the motor is always operated near the current limit and you need
+to detect just a slight increase in current, the output may vary through a
+linear range and not make a nice fast transition from 5v to 0v.
+The circuit will still detect the current set point accurately, and the
+slow transition can be eliminated if you use a schmitt trigger (ST) digital
+input pin on the PIC (or a schmitt inverter 7414 chip etc).
+<br>
+<br>
+
+<b>It works great for detecting large overcurrent situations</b> like "end of travel"
+condition where a motor/gearbox etc hits the end stop and the current jumps up
+high. In that case the output switches
+quite fast and there are no problems, although using a ST digital
+input is still helpful. Set up properly this circuit can eliminate the need for 2
+limit switches (one at each end of travel).
+<br>
+<br>
+
+For very high current loads you can use less than 50mV as the setpoint and clean
+the digital output with an ST, but keep in mind that there will be some
+hysteresis between the over current trigger and the reset when the current
+later drops. Likewise if hysteresis is not wanted and the load current
+is not too high you can use a higher voltage setpoint like 100mV and waste a
+bit more power in R1.
+<br>
+<br>
+
+<b>The value of R1 can be calculated by this formula;</b><br>
+ohms = 0.05 / amps<br>
+(so for example to get a setpoint of 2A needs 0.05/2 or 0.025 ohms)<br>
+Low value resistors can be made by putting resistors in parallel so 0.025 ohms
+would be 0.1 ohm resistors x4 in parallel. Alternatively, a thin strand of wire
+or fine pcb track can be used as a low-ohms resistor but make sure it does not get
+hot in normal operation. For example, a 25mm (1") length of PCB track of width
+0.010" has a resistance of 0.025 ohms. If you want to calculate PCB track resistors
+you can <a href="http://www.romanblack.com/pcbtemp.htm">download a great freeware calculator program here.</a>
+<br>
+<br>
+
+The <b>trimpot</b> provides a good range of adjustability of the current setpoint,
+generally a range of +/- 30% around the setpoint. If you need more than that it
+is better to change the value of R1.
+<br>
+<br>
+
+The value of C1 provides noise immunity and also <b>determines the time</b>
+before the over-current situation is detected. Keeping this large (even 470uF)
+can stop the motor start-up current (or short surge currents) 
+triggering the circuit and can give some
+extra overhead when the circuit is used for emergency shutdown.
+<br>
+<br>
+
+If you have trouble with <b>motor noise</b> causing triggering
+try adding a 1000uF cap and 0.1uF cap
+both across R1, and also a 0.1uF cap across C1. However using a good
+regulated +5v supply and the parts values shown I have never needed
+to do this, reliability is excellent.
+<br>
+<br>
+
+<b>This circuit is also good for other DC loads</b> besides motors, if you need a system
+to detect over-current conditions or catastrophic parts failure etc.
+<br>
+<br>
+
+
+<a href="http://www.romanblack.com/encoder.htm">I also have a motor speed sensing circuit here.</a>
+<br>
+<br>
+<br>
+
+
+
+<!-- ---------------------------------------------------------------------->
+<!-- ---------------------------------------------------------------------->
+ - end - 
+<br>
+<br>
+
+<font size="2">
+<a href="http://www.romanblack.com/index.htm#elec">[Back to Home Page]</a>
+</font>
+
+<br>
+</li></font>
+</font></body></html>

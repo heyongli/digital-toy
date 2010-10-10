@@ -1,0 +1,177 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=GB2312">
+
+<title>PIC switching itself OFF</title>
+<meta name="description" content="A self-switching circuit that uses no power">
+<meta name="keywords" content="PIC self-switch, control on/off switch">
+</head><body alink="#8f0000" bgcolor="#808080" vlink="#6f004f" text="#000000" link="#00008f">
+<font face="Arial,Helvetica,Verdana,Geneva,sans-serif">
+<font size="-1"> <!-- default font-->
+<!-- ---------------------------------------------------------------------->
+<font size="2">
+<a href="http://www.romanblack.com/index.htm#elec">[Back to Home Page]</a></font>
+<br>
+<br>
+
+<!-- ---------------------------------------------------------------------->
+<font size="+2"><b>www.RomanBlack.com</b></font>
+<br>
+<br>
+
+<!-- ---------------------------------------------------------------------->
+<font color="#ffff00" size="+2"><b>Zero-power PIC self-switch!</b></font><br>
+<b>A very simple PIC self-switching system, that uses
+zero power when not switched on.</b><br>
+Roman Black - January 2002
+<br>
+<br>
+<br>
+
+<img src="cpu-zero-self_swich_files/self_swi.gif">
+<br>
+<br>
+<br>
+
+
+<!-- ---------------------------------------------------------------------->
+<!-- ---------------------------------------------------------------------->
+<!-- ---------------------------------------------------------------------->
+
+
+<!-- ---------------------------------------------------------------------->
+<font color="#ffff00" size="+1"><b>How it works </b></font>
+<!-- ---------------------------------------------------------------------->
+<br>
+<br>
+
+<b>The SCR (Q1) is the heart of the circuit;</b>
+<li> The SCR remains switched OFF and ZERO current is drawn from the battery
+</li><li> When the button (S1) is pressed the SCR turns on
+</li><li> The PIC powers up, and operates a LED etc to draw &gt;5mA total
+</li><li> With current over 5mA, the SCR stays on even after the button is released
+</li><li> The PIC performs its task
+</li><li> The PIC then turns off the LED, goes into sleep mode
+</li><li> Current is now &lt;5mA so the SCR turns off
+</li><li> Circuit again draws ZERO current is drawn from the battery
+
+<br>
+<br>
+<br>
+
+
+<!-- ---------------------------------------------------------------------->
+<font color="#ffff00" size="+1"><b>Thyristor theory</b></font>
+<!-- ---------------------------------------------------------------------->
+<br>
+<br>
+
+<b>SCR's and triacs are thyristors.</b>
+<br>
+<br>
+
+They are one of the early forms of semiconductor invented just after diodes,
+they are in fact controlled diodes. SCR means Silicon Controlled Rectifier.
+<br>
+<br>
+
+Apart from their excellent ruggedness, the most important feature of thyristors
+is that <b>once they are turned on they STAY on!</b>
+<br>
+<br>
+
+Mostly now they are used for phase-angle mains power controlling like
+drill speed controllers and electric heater controllers. In the earlier days
+SCR's were used for more interesting tasks like special purpose oscillators
+and even as the switching components in TV sets and very early switchmode
+PSU's.
+<br>
+<br>
+
+The entire operation of the circuit depends on the fact that the SCR will
+remain on when the current is &gt;5mA. The PIC makes this happen. When the PIC
+later reduces current to &lt;5mA (the SCR Ihold or Ih value) the SCR turns off.
+<br>
+<br>
+
+The circuit could also be used without a PIC, with something like a 555 timer
+driving a buzzer or waterpump etc so after activation the task is performed
+for a set time and then when the 555 turns the load off the SCR also turns off
+and the whole system returns to a zero current state. Useful for an
+energy efficient pump floatlevel or similar.
+<br>
+<br>
+<br>
+
+
+<!-- ---------------------------------------------------------------------->
+<font color="#ffff00" size="+1"><b>Tips for using it</b></font>
+<!-- ---------------------------------------------------------------------->
+<br>
+<br>
+
+<b>SCR turn-on requirements.</b> Most SCRs this size and
+price range require Igate &gt;0.2mA and Vgt &gt;0.8v to turn on
+and conduct. This is very easy, the resistor values shown
+will work with most batteries.
+<br>
+<br>
+
+<b>SCR hold requirements.</b> Most SCRs need Ih &gt;5mA to
+remain in hold (on). In the first few instructions in the
+PIC you should set at least one pin as an output, and either
+activate "the load" which must be more than 5mA, or my
+preference to drive a led at &gt;5mA from a PIC pin through
+led and resistor to ground. That will hold the SCR on until
+you are done. <b>You must keep the PIC circuit drawing &gt;5mA at all
+times.</b> Just putting a 470 ohm resistor from one PIC
+output hi pin to gnd will also do it with no led.
+<br>
+<br>
+
+<b>SCR turn-off requirements.</b> Make sure after the PIC has done
+it's task that you turn all outputs to off, which should
+be their natural high impedance state. Then put the PIC into
+sleep and when the total SCR current falls somewhere less
+than 5mA the entire device will turn off.
+<br>
+<br>
+
+<b>Watch out for some 7805 regulators</b> that can have large
+quiescent currents, maybe over 5mA used by the 7805
+even with no load. Test the 7805 quiescent current by
+attaching Vin and gnd but not Vout, and use your multimeter
+on 20mA range.
+<br>
+<br>
+
+<b>It is possible that spikes</b> etc may cause turn-on of the
+SCR by causing a brief positive voltage at its gate, or that
+negative current spikes through the PIC (or it's load) may drive the
+total current below the hold current for a short period of
+time causing premature turn-off. Adding a small cap (0.1uF)
+across R2 will help keep SCR turned off if it is turning on by itself.
+Reducing the value of R2 may also help.
+<br>
+<br>
+
+If you get problems with premature turn-off, try increasing
+C3 to 47uF or 100uF and maybe add a 0.1uF cap in parallel with it.
+<br>
+<br>
+<br>
+
+
+
+<!-- ---------------------------------------------------------------------->
+<!-- ---------------------------------------------------------------------->
+ - end - 
+<br>
+<br>
+
+<font size="2">
+<a href="http://www.romanblack.com/index.htm#elec">[Back to Home Page]</a>
+</font>
+
+<br>
+</li></font>
+</font></body></html>
