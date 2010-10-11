@@ -50,17 +50,17 @@ void led_flash_init(void)
 {
 
  
-     init_shift1(PORTC,0);
-     ci = 1|8|128;
+     init_shift1(PORTD,7);
+     ci = ~0b10101010;
 }
 void led_flash(void)
 {
    	 ci=ror8(ci,1);
-     write_shift1(PORTC, 0, ci);
-	 _delay_ms(150);        
-
-	 lcd_cursor(0,1);
-   	 print10(ci);
+     write_shift1(PORTD, 7, ci);
+ 	 //_delay_ms(50);
+	 delay(HZ/4);
+ 	 lcd_cursor(0,1);
+  	 print10(ci);
 }
 /***********************************************************************/
 // DEMO 2 : PWM 0n OCR1A
