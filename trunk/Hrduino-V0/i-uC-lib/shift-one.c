@@ -5,7 +5,7 @@
        |--[1.5k] -- DAT
 	   |--[33k ] --- LATCH	
  *                |
-                  == 1.7n
+                  == 1.2n(origin from author:2.2n)
  *( stay 5V on default)
  *  send 1:  pull to low 1uS, then high 15uS
  *  send 0:  pull to low 15uS, then high 30uS
@@ -38,22 +38,22 @@ static void _send_1(volatile unsigned char* port_addr, unsigned char bit)
 	_clear_bit(*port_addr,bit);
 	_delay_us(1);
 	_set_bit(*port_addr, bit);
-	_delay_us(15);
+	_delay_us(8);
 }
 static void _send_0(volatile unsigned char* port_addr, unsigned char bit)
 {
 	_clear_bit(*port_addr,bit);
-	_delay_us(15);
+	_delay_us(8);
 	_set_bit(*port_addr, bit);
-	_delay_us(30);
+	_delay_us(16);
 
 }
 static void _latch(volatile unsigned char* port_addr, unsigned char bit)
 {
 	_clear_bit(*port_addr,bit);
-	_delay_hus(2); /* 200us delay */
+	_delay_hus(1); /* 200us delay */
 	_set_bit(*port_addr, bit);
-	_delay_hus(3); /* 300us delay*/
+	_delay_hus(2); /* 300us delay*/
 }
 
 
