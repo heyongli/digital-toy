@@ -4,7 +4,7 @@
 
 
 
-void __set_port_mode(volatile char* port_addr, char mode, char n, char m)
+void __set_port_mode(volatile unsigned char* port_addr, char mode, char n, char m)
 {
 	if(INPUT == mode){
     	/* DDR */

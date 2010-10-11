@@ -21,7 +21,7 @@
 
 #define INPUT   (char)0
 #define OUTPUT  (char)1
-void __set_port_mode(volatile char* port_addr, char mode, char n, char m);
+void __set_port_mode(volatile unsigned char* port_addr, char mode, char n, char m);
 
 
 /*i.e.  _pins_mode(PORTD,3,INPUT) */

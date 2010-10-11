@@ -30,6 +30,10 @@ void init_74hc595(void);
 void write_74hc595(unsigned char data);
 
 
+/*shift1  one wired 595*/
+#define write_shift1(PORT, bit, data)  _write_shif1(&PORT, bit, data)
+#define init_shift1(PORT,bit)  _init_shift1(&PORT,bit)
+
 
 
 /*************************************************************/
