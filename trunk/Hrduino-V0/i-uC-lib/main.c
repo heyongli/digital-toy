@@ -48,40 +48,19 @@ void show_one_step()
 
 void led_flash_init(void)
 {
-   _pins_mode(LED_PORT, 0,7,OUTPUT);
-   ci = 1|8|128;
+
+ 
+     init_shift1(PORTC,0);
+     ci = 1|8|128;
 }
 void led_flash(void)
 {
+   	 ci=ror8(ci,1);
+     write_shift1(PORTC, 0, ci);
+	 _delay_ms(150);        
 
-#if 0
-       LED_On(0);
-	   LED_On(1);
-	   LED_On(2);
-       LED_On(3);
-       LED_On(4);
-       LED_On(5);
-       LED_On(6);
-       LED_On(7);
-#endif
-       LED_PORT = (~ci);
-       _delay_ms(150);
-	  
-#if 0	 
-	   LED_Off(0);
- 	   LED_Off(1);
-	   LED_Off(2);
-	   LED_Off(3);
-	   LED_Off(4);
-	   LED_Off(5);
-	   LED_Off(6);
-	   LED_Off(7);
-#endif
-	   LED_PORT = 0xFF;
-	   	_delay_ms(150);        
-	   ci=ror8(ci,1);
-	   lcd_cursor(0,1);
-   	   print10(ci);
+	 lcd_cursor(0,1);
+   	 print10(ci);
 }
 /***********************************************************************/
 // DEMO 2 : PWM 0n OCR1A
@@ -189,6 +168,8 @@ char font_stop()
 	 f_b = 0;
      return 1;
   }
+
+  return 0;
 
 }
 
