@@ -6,7 +6,7 @@
 	   |--[33k ] --- LATCH	
  *                |
                   == 1.2n(origin from author:2.2n)
- *( stay 5V on default)
+ *( stay 5V on default), following is the defualt configure for 2.2n cap-to-GND
  *  send 1:  pull to low 1uS, then high 15uS
  *  send 0:  pull to low 15uS, then high 30uS
  *  latch command: pull to low 200us, high 300us
@@ -17,14 +17,16 @@
 #include "include/avrio.h"
 
 //#define write_shift1(PORT, bit, data)  _write_shif1(&PORT, bit, data)
-//#define init_shift1(PORT,bit)  _init_shift1(&PORT,bit)
-
+//#define init_shift1(PORT,bit)  _init_shift1(&PORT,bit)
+
+
+
 
 
 /*
  * note _delay_us max time: 768/F_CPU (Mhz), 20Mhz-> 30uS, 10Mhz->76.8uS
  */
-void _delay_hus(unsigned char hus) 
+static void _delay_hus(unsigned char hus) 
 {
   hus <<= 2; /* 4* hus */
   while(hus--){
@@ -57,12 +59,14 @@ static void _latch(volatile unsigned char* port_addr, unsigned char bit)
 }
 
 
-void _init_shift1(volatile unsigned char *port_addr, unsigned char bit)
+void _init_shift1(volatile unsigned char *port_addr, unsigned char bit)
+
 {
     _pins_mode(*port_addr,bit,bit,OUTPUT);
 	_send_1(port_addr,bit);
 
-}
+}
+
 
 void shift1_out(volatile unsigned char* port_addr, unsigned char bit, unsigned char data)
 {
@@ -73,11 +77,7 @@ void shift1_out(volatile unsigned char* port_addr, unsigned char bit, unsigned c
 	     _send_1(port_addr, bit);
 	   else
    	     _send_0(port_addr, bit);
-	   //delay_io();
-	  //_set_bit(PORT_74HC595,CLK); 
-      // delay_io();
-	  //_clear_bit(PORT_74HC595, CLK);
-   }
+	}
 
 }
 
@@ -85,9 +85,9 @@ void shift1_out(volatile unsigned char* port_addr, unsigned char bit, unsigned c
 
 void _write_shif1(volatile unsigned char* port_addr, unsigned char bit, unsigned char data)
 {
-	//_clear_bit(PORT_74HC595,CLK); //prepare send data
-	 _delay_us(1);
-	 shift1_out(port_addr,bit,data);
-     _latch(port_addr,bit);
+	
+	_delay_us(1);
+	shift1_out(port_addr,bit,data);
+	_latch(port_addr,bit);
 
 }
