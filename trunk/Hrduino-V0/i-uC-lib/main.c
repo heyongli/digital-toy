@@ -260,6 +260,22 @@ void pcar_demo()
 }
 
 
+//JVC IR decoding demo
+void ir_decode_init(void)
+{
+ 	_pins_mode(PORTC, 0,0,INPUT);
+}
+void ir_decoding(void)
+{
+	uint32_t x;
+
+	x = IR_NEC_busy_decode(PORTC,0);
+	lcd_cursor(0,1);
+   	print10(x);
+	delay(HZ);
+	lcd_puts("  READY");
+
+}
 
 /*******************************************************************/
 unsigned char    demo_i = 0;
@@ -304,6 +320,12 @@ struct _s_demo{
 		&pcar_init,
 		&pcar_demo,
 		"Program RC CAR ",
+		"",
+	},
+	{
+		&ir_decode_init,
+		&ir_decoding,
+		"IR Decoder    ",
 		"",
 	},
 };

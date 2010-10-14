@@ -37,7 +37,7 @@ HEX_EEPROM_FLAGS += --change-section-lma .eeprom=0 --no-change-warnings
 
 
 ## Objects that must be built in order to link
-OBJECTS = 4wire-1602.o 74hc595.o adc.o avrio.o led.o main.o pwm.o timer0.o mini-bridge.o shift-one.o 
+OBJECTS = 4wire-1602.o 74hc595.o adc.o avrio.o led.o main.o pwm.o timer0.o mini-bridge.o shift-one.o ir-decode-nec.o 
 
 ## Objects explicitly added by the user
 LINKONLYOBJECTS = 
@@ -74,6 +74,9 @@ mini-bridge.o: ../mini-bridge.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 
 shift-one.o: ../shift-one.c
+	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+
+ir-decode-nec.o: ../ir-decode-nec.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 
 ##Link

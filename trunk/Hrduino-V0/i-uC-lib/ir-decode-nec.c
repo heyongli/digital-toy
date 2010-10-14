@@ -13,12 +13,12 @@
                  _____
  *   sender     |     |______________________
  *                     ______________________
- *   receiver   ______|
+ *   receiver   |_____|
  *  Logical 0:  560us pulse(21cycle) + (1.12 - 526us silent)
  				 _____
  *   sender     |     |______ 
                        ______          
-     receiver   ______|
+     receiver   |_____|
  *  Protocol:
  *        ___________                                                     _________
  *      _|           |_______|_|||_|_|........  <no repeat>      >108ms  _|         |____....<repeated code>
@@ -32,7 +32,7 @@
 #include "include/avrio.h"
 
 
-unsigned int IR_JVC_code = 0;  //store the last time decoded value
+uint32_t IR_JVC_code = 0;  //store the last time decoded value
 static unsigned int ir_ticks = 0;   //inc per 100us in decoding 
 
 
@@ -44,16 +44,17 @@ static unsigned int ir_ticks = 0;   //inc per 100us in decoding
 
 #define irTicks		25   /*us*/
 #define START_CODE_L  ((9000-1000)/irTicks )
-#define START_CODE_H  ( 4500-500)/irTicks )
+#define START_CODE_H  (( 4500-500)/irTicks )
 
 #define DATA_L  ((560-100)/irTicks )
-#define DATA_H  ((1120-560-100)/irTicks )  
+#define DATA_0  ((900)/irTicks )  /* bit '1' stay HIGH  1.69ms, 'bit0' stay HIGH 0.56ms*/
+								/*so if stay HIGH >0.56 it's 1, for safty, use 900us  */
+
 
 #define ir_read()  ((_inb(*port_addr)) &(1<<bit))
-
-int IR_NEC_busy_decode(volatile unsigned char* port_addr, unsigned char bit)
+int _IR_NEC_busy_decode(volatile unsigned char* port_addr, unsigned char bit)
 {
-
+    char bit_pos = 0; //receive LSB first
 
     //step 0: wait a 9ms start code(or repeat code) 
 	while(1==ir_read()); //busy wait a low pulse
@@ -63,8 +64,8 @@ int IR_NEC_busy_decode(volatile unsigned char* port_addr, unsigned char bit)
 		_delay_us(irTicks);
     	if(0==ir_read()){
 			ir_ticks++;
-		}esle {
-		   IR_JVC_code = 0xffffFFFF;
+		}else{
+		   IR_JVC_code = 0xffffFFF0;
 		   return IR_JVC_code; //failed to detect the start code
 		}
 	}
@@ -76,28 +77,50 @@ int IR_NEC_busy_decode(volatile unsigned char* port_addr, unsigned char bit)
 		_delay_us(irTicks);
     	if(1==ir_read()){
 			ir_ticks++;
-		}esle {
-		   IR_JVC_code = 0xffffFFFF;
+		}else {
+		   IR_JVC_code = 0xffffFFF1;
 		   return IR_JVC_code; //failed to detect the start code
 		}
 	}
 		
     // start decoding 
    	while(1==ir_read()); //busy wait a low pulse for  LSB 
+next_bit:
 	ir_ticks = 0;   
 	while(ir_ticks<DATA_L){
 		_delay_us(irTicks);
     	if(0==ir_read()){
 			ir_ticks++;
-		}esle {  //data encode corrut 
-		   IR_JVC_code = 0xffffFFFF;
+		}else {  //data encode corrut 
+		   IR_JVC_code = 0xffffFFF2;
 		   return IR_JVC_code; //failed to detect the start code
 		}
 	}
     
-
-   
-       
+    _clear_bit(IR_JVC_code,bit_pos);
+	//wait Data pulse(HIGH)
+    while(0==ir_read());
+    ir_ticks = 0; 
+	while(ir_ticks<DATA_0){
+		_delay_us(irTicks);
+    	if(1==ir_read()){
+			ir_ticks++;
+		}else
+			break;
+	} 
+   	//here is the next bit beginning ...       
+    if(ir_ticks > DATA_0)
+	    _set_bit(IR_JVC_code,bit_pos);
+	
+	if(ir_ticks < DATA_L){//wrong nex bit? at least 0.56ms for 'bit0'
+		IR_JVC_code = 0xffffFFF3;
+		return IR_JVC_code; //failed to detect the start code			
+	}
+    bit_pos++;
+	if(bit_pos>=32){
+		return IR_JVC_code;
+	}
+	goto next_bit;
 
 }
 
