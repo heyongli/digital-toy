@@ -31,9 +31,14 @@ void write_74hc595(unsigned char data);
 
 
 /*shift1  one wired 595*/
+void _write_shif1(volatile unsigned char* port_addr, unsigned char bit, unsigned char data);
+void _init_shift1(volatile unsigned char *port_addr, unsigned char bit);
 #define write_shift1(PORT, bit, data)  _write_shif1(&PORT, bit, data)
 #define init_shift1(PORT,bit)  _init_shift1(&PORT,bit)
 
+/* IR decoding*/
+int _IR_NEC_busy_decode(volatile unsigned char* port_addr, unsigned char bit);
+#define IR_NEC_busy_decode(PORT,bit) _IR_NEC_busy_decode(&PORT,bit)
 
 
 /*************************************************************/
