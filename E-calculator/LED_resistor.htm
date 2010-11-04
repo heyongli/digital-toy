@@ -1,0 +1,235 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+
+
+
+
+  <script><head>
+  <script><head>
+  <script></script>
+  
+  <meta http-equiv="Content-Language" content="en-us">
+
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=Big5">
+
+  
+  <meta name="GENERATOR" content="Microsoft FrontPage 6.0">
+
+  
+  <meta name="ProgId" content="FrontPage.Editor.Document"><title>LED限流電阻速算</title></head><body oncontextmenu="return false">
+<table style="border-collapse: collapse;" id="AutoNumber1" bgcolor="#ffffff" border="0" bordercolor="#111111" cellpadding="6" cellspacing="0" width="800">
+
+  <tbody>
+    <tr>
+      <td>
+      <p style="margin-top: 0pt; margin-bottom: 0pt;" align="center"><img src="e-calculator-res/resistant_title.gif" border="0" height="62" width="468"></p>
+      <form name="led">
+        <div align="center">
+        <center>
+        <table style="border-collapse: collapse;" id="AutoNumber2" border="0" bordercolor="#111111" cellpadding="3" cellspacing="3" width="70%">
+          <tbody>
+            <tr>
+              <td colspan="2" bgcolor="#ffff00" width="100%">
+              <p style="margin-top: 0pt; margin-bottom: 0pt;"><b>說明：</b></p>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" bgcolor="#ffffcc" width="100%">
+              <ol>
+                <li>
+                  <p style="margin-top: 0pt; margin-bottom: 0pt;">當我們拿
+LED來做指示燈時，若來源電壓過高，若直接接上LED勢必造成燒毀，簡單的解決方法就是加上一顆「限流電阻」，本程式提供您簡易的計算限流電阻大小。
+                  </p>
+                </li>
+                <li>
+                  <p style="margin-top: 0pt; margin-bottom: 0pt;">本程式適用<span lang="zh-tw">常見的</span>5<span lang="en"><font face="Symbol">&#198;</font></span>或3<span lang="en"><font face="Symbol">&#198;</font></span>外徑的LED<span lang="zh-tw">，
+亦可自行定義LED規格</span>。 </p>
+                </li>
+              </ol>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" bgcolor="#ffff00" width="100%">
+              <p style="margin-top: 0pt; margin-bottom: 0pt;"><b>參考線路：</b></p>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" bgcolor="#ffffcc" width="100%">
+              <p style="margin-top: 0pt; margin-bottom: 0pt;" align="center"> <img src="e-calculator-res/refchart.gif" border="0" height="85" width="460"></p>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" bgcolor="#ffff00" width="100%">
+              <p style="margin-top: 0pt; margin-bottom: 0pt;"><b>計算：</b></p>
+              </td>
+            </tr>
+            <tr>
+              <td bgcolor="#ffffcc" width="16%">
+              <p style="margin-top: 0pt; margin-bottom: 0pt;" align="right">輸入電壓：</p>
+              </td>
+              <td bgcolor="#ffffcc" width="84%">
+              <p style="margin-top: 0pt; margin-bottom: 0pt;"> <input value="5" name="V" size="4"> 伏特(DCV)</p>
+              </td>
+            </tr>
+            <tr>
+              <td bgcolor="#ffffcc" width="16%">
+              <p style="margin-top: 0pt; margin-bottom: 0pt;" align="right">LED顏色：</p>
+              </td>
+              <td bgcolor="#ffffcc" width="84%">
+              <p style="margin-top: 0pt; margin-bottom: 0pt;"> <input name="LEDTYPE" checked="checked" value="1" type="radio">紅(綠)光&nbsp; <input name="LEDTYPE" value="2" type="radio">藍光&nbsp; <input name="LEDTYPE" value="3" type="radio">白光</p>
+              <p style="margin-top: 0pt; margin-bottom: 0pt;"> <input name="LEDTYPE" value="4" type="radio">其他：<span lang="zh-tw">順向電壓</span>
+              <input name="FV" size="3"> V<span lang="zh-tw">，最大驅動電流 </span>
+              <input name="I" size="3"> mA</p>
+              </td>
+            </tr>
+            <tr>
+              <td bgcolor="#ffffcc" width="16%">
+              <p style="margin-top: 0pt; margin-bottom: 0pt;" align="right">希望亮度：</p>
+              </td>
+              <td bgcolor="#ffffcc" width="84%">
+              <p style="margin-top: 0pt; margin-bottom: 0pt;"> <input name="BRIGHT" value="1" type="radio">低&nbsp; <input name="BRIGHT" value="2" checked="checked" type="radio">中&nbsp; <input name="BRIGHT" value="3" type="radio">高</p>
+              </td>
+            </tr>
+            <tr>
+              <td bgcolor="#ffffcc" width="16%">
+              <p align="right"><span lang="zh-tw">校正：</span></p>
+              </td>
+              <td bgcolor="#ffffcc" width="84%"> <input name="CLOSERST" value="ON" checked="checked" type="checkbox"><span lang="zh-tw">自動選取相近之
+市售
+              <select size="1" name="RRES" style="font-family: Arial; font-size: 12pt;">
+              <option selected="selected" value="0">5%</option>
+              <option value="1">1%</option>
+              </select>
+電阻值</span></td>
+            </tr>
+            <tr>
+              <td colspan="2" bgcolor="#ffff00" width="100%">
+              <p style="margin-top: 0pt; margin-bottom: 0pt;"> <b>結果：</b></p>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" bgcolor="#ffffcc" width="100%">
+              <p style="margin-top: 0pt; margin-bottom: 0pt;" align="center"><font color="#800000" size="5"><b>限流電阻：</b></font><input name="R" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"><font color="#800000" size="5"><b> <font face="Symbol">W</font>&nbsp; /&nbsp; </b></font><input name="Rw" size="3" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"><b><font color="#800000" size="5"> W</font></b></p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        </center>
+        </div>
+        <p style="margin-top: 0pt; margin-bottom: 0pt;" align="center">　</p>
+        <p style="margin-top: 0pt; margin-bottom: 0pt;" align="center"><input value="計算" name="Bcalc" onclick="calc(led.form)" type="button">&nbsp; <input value="重設" name="Breset" type="reset"><font size="3">&nbsp; </font> <font face="標楷體" size="3"><input value="列印" onclick="window.print()" type="button"> </font> <input value="回上頁" onclick="Javascript:history.back()" type="button"></p>
+        
+        
+        
+        
+        
+        <script language="JavaScript">
+
+function rv2Str(v)
+{
+	if( v<1000){ 
+		return Math.round(v);
+	}else if(v>=1000 && v<1000000){
+		return Math.round((v/1000)*100)/100 + "K";
+	}else if(v>=1000000){
+		return Math.round((v/1000000)*100)/100 + "M";
+	}
+}
+
+//Find a 1%, %5 serials resistor value
+function realR(R)
+{
+
+	//E96 1% Resistors
+	if(led.RRES.value == "0")
+		RstListStr = "0,1.0,1.1,1.2,1.3,1.5,1.6,1.8,2.0,2.2,2.4,2.7,3.0,3.3,3.6,3.9,4.3,4.7,5.1,5.6,6.2,6.8,7.5,8.2,9.1,10.0";
+	else if (led.RRES.value == "1")
+		RstListStr = "0,1.00,1.02,1.05,1.07,1.10,1.13,1.15,1.18,1.21,1.24,1.27,1.30,1.33,1.37,1.40,1.43,1.47,1.50,1.54,1.58,1.62,1.65,1.69,1.74,1.78,1.82,1.87,1.91,1.96,2.00,2.05,2.10,2.15,2.21,2.26,2.32,2.37,2.43,2.49,2.55,2.61,2.67,2.74,2.80,2.87,2.94,3.01,3.09,3.16,3.24,3.32,3.40,3.48,3.57,3.65,3.74,3.83,3.92,4.02,4.12,4.22,4.32,4.42,4.53,4.64,4.75,4.87,4.99,5.11,5.23,5.36,5.49,5.62,5.76,5.90,6.04,6.19,6.34,6.49,6.65,6.81,6.98,7.15,7.32,7.50,7.68,7.87,8.06,8.25,8.45,8.66,8.87,9.09,9.31,9.53,9.76,10.00";
+		
+	RstList = RstListStr.split(",");
+
+	for(j=0;j<=6;j++){
+		Ts = Math.pow(10,j);
+		for(i=1; i<(RstList.length-1);i++){
+			RstDownRange = (parseFloat(RstList[i-1])+parseFloat(RstList[i]))*Ts / 2;
+			RstUpRange =   (parseFloat(RstList[i+1])+parseFloat(RstList[i]))*Ts / 2;
+
+			if(  (R > RstDownRange)  && (R <= RstUpRange) ){
+				return parseFloat(RstList[i])*Ts;	
+			}
+		} 
+
+	}
+
+ 	//should never here..
+	return R;
+	
+}
+
+
+
+// give a Watt value, return sutable resistor W
+function rw2Str(a)
+{
+	if(  a*2<(1/8) ) return "1/8";
+	if(  (a*2>=(1/8)) && (a*2<(1/4))  )return "1/4";
+	if ( (a*2>=(1/4)) && (a*2<(1/2)) ) return "1/2";
+	if ( (a*2>=(1/2)) && (a*2<1)   )return "1";
+	if ( (a*2>=1) && (a*2<2) )	return "2";
+	if ( (a*2>=2) && (a*2<3) ) return "3";
+	if ( (a*2>=3) && (a*2<5) )return "5";
+	if ( (a*2>=5) ) return ">10";
+}
+
+function calc()
+{
+
+	powerVoltage = document.led.V.value;
+
+	//get led forward voltage 
+	if(document.led.LEDTYPE[0].checked == true){
+		c = 25  ; //紅(綠)光
+		lv = 1.7;
+	}
+	if(document.led.LEDTYPE[1].checked == true){
+		c = 20  ; //&#34013;光
+		lv = 2.6;
+	}
+	if(document.led.LEDTYPE[2].checked == true){
+		c = 20  ; //白光
+		lv = 2.7;
+	}
+	if(document.led.LEDTYPE[3].checked == true){
+		c =  document.led.I.value; //其他
+		lv = document.led.FV.value;
+	}
+
+        //get brightness
+	if(document.led.BRIGHT[0].checked == true){
+		c=c*0.05;
+	}
+	if(document.led.BRIGHT[1].checked == true){
+		c=c*0.2;
+	}
+
+	
+	if( document.led.CLOSERST.checked == true){
+		document.led.R.value = rv2Str(realR((powerVoltage-lv)/(c/1000)));
+	}else{
+		document.led.R.value = rv2Str((powerVoltage-lv)/(c/1000));	
+	
+	}  
+	led.Rw.value = rw2Str((powerVoltage-lv)*(c/1000));
+}
+
+        </script><p style="margin-top: 0pt; margin-bottom: 0pt;" align="center"><font color="#808080" face="Arial" size="2">Designed by Eric
+Chu in 2008 Version 2.1, revised by hyl 2010.11.3<br>
+</font></p>
+      </form>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+</body></html>
