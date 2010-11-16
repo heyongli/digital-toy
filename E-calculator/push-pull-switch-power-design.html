@@ -1,9 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head>
-
-
-
-
+  
   <script><head>
   <script><head>
   <script></script>
@@ -17,118 +14,206 @@
   <meta name="GENERATOR" content="Microsoft FrontPage 6.0">
 
   
-  <meta name="ProgId" content="FrontPage.Editor.Document"><title>LED限流電阻速算</title></head><body oncontextmenu="return false">
+  <meta name="ProgId" content="FrontPage.Editor.Document">
+  <title>Push-Pull Switch power design</title>
+
+  
+</head><body oncontextmenu="return false">
+<br>
+
+
 <table style="border-collapse: collapse;" id="AutoNumber1" bgcolor="#ffffff" border="0" bordercolor="#111111" cellpadding="6" cellspacing="0" width="800">
 
   <tbody>
     <tr>
       <td>
-      <p style="margin-top: 0pt; margin-bottom: 0pt;" align="center"><img src="e-calculator-res/resistant_title.gif" border="0" height="62" width="468"></p>
-      <form name="led">
+      <p style="margin-top: 0pt; margin-bottom: 0pt;" align="center"><br>
+      </p>
+      <form id="switch" name="switch">
         <div align="center">
         <center>
-        <table style="border-collapse: collapse;" id="AutoNumber2" border="0" bordercolor="#111111" cellpadding="3" cellspacing="3" width="70%">
+        <table style="border-collapse: collapse; width: 683px; height: 918px;" id="AutoNumber2" border="0" bordercolor="#111111" cellpadding="3" cellspacing="3">
           <tbody>
             <tr>
               <td colspan="2" bgcolor="#ffff00" width="100%">
-              <p style="margin-top: 0pt; margin-bottom: 0pt;"><b>說明：</b></p>
+              <p style="margin-top: 0pt; margin-bottom: 0pt;"><b><img style="width: 1024px; height: 599px;" alt="lm5030 push pull switch power circuit" src="e-calculator-res/lm5030-push-pull-switch-power.jpg"><br>
+說明：<br>
+1.推挽DC-DC拓扑可以充分利用磁芯<br>
+2.MOSFET &#30005;&#21387;&#20026;&#36755;入&#30005;&#21387;的&#20004;倍<br>
+              </b></p>
               </td>
             </tr>
             <tr>
               <td colspan="2" bgcolor="#ffffcc" width="100%">
               <ol>
-                <li>
-                  <p style="margin-top: 0pt; margin-bottom: 0pt;">當我們拿
-LED來做指示燈時，若來源電壓過高，若直接接上LED勢必造成燒毀，簡單的解決方法就是加上一顆「限流電阻」，本程式提供您簡易的計算限流電阻大小。
-                  </p>
-                </li>
-                <li>
-                  <p style="margin-top: 0pt; margin-bottom: 0pt;">本程式適用<span lang="zh-tw">常見的</span>5<span lang="en"><font face="Symbol">&#198;</font></span>或3<span lang="en"><font face="Symbol">&#198;</font></span>外徑的LED<span lang="zh-tw">，
-亦可自行定義LED規格</span>。 </p>
-                </li>
               </ol>
               </td>
             </tr>
             <tr>
+              <td colspan="2" bgcolor="#ffff00" width="100%"> <span style="font-weight: bold;">&#36755;入&#36755;出:</span><br>
+              </td>
+            </tr>
+            <tr>
+              <td style="background-color: rgb(238, 196, 89);" bgcolor="#ffffcc" width="16%">
+              <div style="text-align: right;"> </div>
+              <p style="margin-top: 0pt; margin-bottom: 0pt; text-align: right;">輸入&#30005;&#21387;<br>
+              </p>
+              </td>
+              <td bgcolor="#ffffcc" width="84%">
+              <p style="margin-top: 0pt; margin-bottom: 0pt;">最低:<input value="35" name="Vi_min" size="4">伏特(DC/V)&nbsp;&nbsp;&nbsp; 最高:<input value="75" name="Vi_max" size="4">伏特(DC/V)&nbsp;&nbsp;&nbsp; 正常: <input value="48" name="Vi_nom" size="4">伏特(DC/V)&nbsp;&nbsp;&nbsp; </p>
+              </td>
+            </tr>
+            <tr>
+              <td style="background-color: rgb(238, 196, 89);" bgcolor="#ffffcc" width="16%">
+              <p style="margin-top: 0pt; margin-bottom: 0pt;" align="right">&#36755;出1</p>
+              </td>
+              <td bgcolor="#ffffcc" width="84%">
+              <p style="margin-top: 0pt; margin-bottom: 0pt;"><span lang="zh-tw">&#30005;&#21387;:</span><input value="12" name="Vo1" size="3"> V<span lang="zh-tw">&nbsp;&nbsp;&nbsp; 最低&#30005;流: </span> <input value="0.5" name="Io1_min" size="3"> A&nbsp; &nbsp; 最大&#30005;流:<input value="5" name="Io1_max" size="3"> A &nbsp; 波&#32441;:<input value="100" name="Vrp1" size="3"> mV<br>
+              </p>
+              </td>
+            </tr>
+            <tr>
+              <td style="background-color: rgb(238, 196, 89);" bgcolor="#ffffcc" width="16%">
+              <p style="margin-top: 0pt; margin-bottom: 0pt;" align="right">&#36755;出2<br>
+              </p>
+              </td>
+              <td bgcolor="#ffffcc" width="84%">
+              <p style="margin-top: 0pt; margin-bottom: 0pt;"> <span lang="zh-tw">&#30005;</span><span lang="zh-tw">&#21387;:</span><input value="3.7" name="Vo2" size="3"> V<span lang="zh-tw">&nbsp;&nbsp;&nbsp; 最低&#30005;流: </span>
+              <input value="0.1" name="Io2_min" size="3"> A&nbsp;
+&nbsp; 最大&#30005;流:<input value="0.5" name="Io2_max" size="3"> A &nbsp; 波&#32441;:<input value="120" name="Vrp2" size="3"> mV</p>
+              </td>
+            </tr>
+            <tr>
+              <td style="background-color: rgb(238, 196, 89);" bgcolor="#ffffcc" width="16%">
+              <p align="right"><span lang="zh-tw">整流/&#24320;&#20851;管&#21387;降</span></p>
+              </td>
+              <td bgcolor="#ffffcc" width="84%">整流二极管&#21387;降: <span lang="zh-tw"></span><input value="0.9" name="Vd_fw" size="3">V<span lang="zh-tw"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+MOSFET&#23548;通&#30005;阻:</span><input value="0.1" name="Rds_on" size="3"><span lang="zh-tw">ohm</span><span lang="zh-tw"> </span></td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top; text-align: right; background-color: rgb(238, 196, 89);">&#24320;
+&#20851;&#30005;源&#21442;&#25968;<br>
+              </td>
+              <td style="vertical-align: top;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+推挽&#39057;率:<input value="250" name="fsw" size="3">
+kHz&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &#24320;&#20851;&#30005;源效率η :<input value="0.95" name="n" size="3">(估&#35745;值)</td>
+            </tr>
+            <tr>
               <td colspan="2" bgcolor="#ffff00" width="100%">
-              <p style="margin-top: 0pt; margin-bottom: 0pt;"><b>參考線路：</b></p>
+              <p style="margin-top: 0pt; margin-bottom: 0pt;"> Vds<small>on
+              </small>:= Po<small>max</small>/(η &#8901;Vi<small>min</small>)&#8901;Rds<small>on</small>
+              <br>
+功率分析:<input value="&#35745;算" name="Initcalc" onclick="Pcalc()" type="button"></p>
               </td>
             </tr>
             <tr>
               <td colspan="2" bgcolor="#ffffcc" width="100%">
-              <p style="margin-top: 0pt; margin-bottom: 0pt;" align="center"> <img src="e-calculator-res/refchart.gif" border="0" height="85" width="460"></p>
+              <div style="text-align: left;"> </div>
+              <p style="margin-top: 0pt; margin-bottom: 0pt; text-align: left;"><span lang="zh-tw"></span><span lang="zh-tw"></span><span lang="zh-tw"></span><span lang="zh-tw"></span><span lang="zh-tw"></span><small><font color="#800000" size="5"><small><b>最大功率Pomax：</b></small></font><input name="Po_max" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"><font color="#800000" size="5"><small><b>W&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+最小功率Pomin:</b></small></font><input name="Po_min" size="3" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small><b><font color="#800000" size="5"><small> W</small><br>
+              </font></b><font color="#800000" size="5"><small style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&#24320;&#20851;周期T:&nbsp; </small></font><small><input name="T" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small><font color="#800000" size="5"><small style="color: black;"> uSec &nbsp;&nbsp;&nbsp;&nbsp; 主&#32469;&#32452;每&#20010;wing的&#24320;&#20851;周期: </small></font><small><input name="Tch" size="3" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small><font color="#800000" size="5"><small style="color: black;"> uSec<br>
+&nbsp; MOFET最大&#21387;降:&nbsp; </small></font><small><input name="Vds_on" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small> V<span lang="zh-tw"></span></p>
               </td>
             </tr>
             <tr>
-              <td colspan="2" bgcolor="#ffff00" width="100%">
-              <p style="margin-top: 0pt; margin-bottom: 0pt;"><b>計算：</b></p>
+              <td style="vertical-align: top;"><br>
               </td>
-            </tr>
-            <tr>
-              <td bgcolor="#ffffcc" width="16%">
-              <p style="margin-top: 0pt; margin-bottom: 0pt;" align="right">輸入電壓：</p>
-              </td>
-              <td bgcolor="#ffffcc" width="84%">
-              <p style="margin-top: 0pt; margin-bottom: 0pt;"> <input value="5" name="V" size="4"> 伏特(DCV)</p>
-              </td>
-            </tr>
-            <tr>
-              <td bgcolor="#ffffcc" width="16%">
-              <p style="margin-top: 0pt; margin-bottom: 0pt;" align="right">LED顏色：</p>
-              </td>
-              <td bgcolor="#ffffcc" width="84%">
-              <p style="margin-top: 0pt; margin-bottom: 0pt;"> <input name="LEDTYPE" checked="checked" value="1" type="radio">紅(綠)光&nbsp; <input name="LEDTYPE" value="2" type="radio">藍光&nbsp; <input name="LEDTYPE" value="3" type="radio">白光</p>
-              <p style="margin-top: 0pt; margin-bottom: 0pt;"> <input name="LEDTYPE" value="4" type="radio">其他：<span lang="zh-tw">順向電壓</span>
-              <input name="FV" size="3"> V<span lang="zh-tw">，最大驅動電流 </span>
-              <input name="I" size="3"> mA</p>
-              </td>
-            </tr>
-            <tr>
-              <td bgcolor="#ffffcc" width="16%">
-              <p style="margin-top: 0pt; margin-bottom: 0pt;" align="right">希望亮度：</p>
-              </td>
-              <td bgcolor="#ffffcc" width="84%">
-              <p style="margin-top: 0pt; margin-bottom: 0pt;"> <input name="BRIGHT" value="1" type="radio">低&nbsp; <input name="BRIGHT" value="2" checked="checked" type="radio">中&nbsp; <input name="BRIGHT" value="3" type="radio">高</p>
-              </td>
-            </tr>
-            <tr>
-              <td bgcolor="#ffffcc" width="16%">
-              <p align="right"><span lang="zh-tw">校正：</span></p>
-              </td>
-              <td bgcolor="#ffffcc" width="84%"> <input name="CLOSERST" value="ON" checked="checked" type="checkbox"><span lang="zh-tw">自動選取相近之
-市售
+              <td style="vertical-align: top;"><input name="CLOSERST" value="ON" checked="checked" type="checkbox"><span lang="zh-tw">自動選取相近之
+市售 &nbsp;</span><span lang="zh-tw">
               <select size="1" name="RRES" style="font-family: Arial; font-size: 12pt;">
               <option selected="selected" value="0">5%</option>
               <option value="1">1%</option>
               </select>
-電阻值</span></td>
-            </tr>
-            <tr>
-              <td colspan="2" bgcolor="#ffff00" width="100%">
-              <p style="margin-top: 0pt; margin-bottom: 0pt;"> <b>結果：</b></p>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="2" bgcolor="#ffffcc" width="100%">
-              <p style="margin-top: 0pt; margin-bottom: 0pt;" align="center"><font color="#800000" size="5"><b>限流電阻：</b></font><input name="R" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"><font color="#800000" size="5"><b> <font face="Symbol">W</font>&nbsp; /&nbsp; </b></font><input name="Rw" size="3" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"><b><font color="#800000" size="5"> W</font></b></p>
-              </td>
+              </span></td>
             </tr>
           </tbody>
         </table>
         </center>
         </div>
         <p style="margin-top: 0pt; margin-bottom: 0pt;" align="center">　</p>
-        <p style="margin-top: 0pt; margin-bottom: 0pt;" align="center"><input value="計算" name="Bcalc" onclick="calc(led.form)" type="button">&nbsp; <input value="重設" name="Breset" type="reset"><font size="3">&nbsp; </font> <font face="標楷體" size="3"><input value="列印" onclick="window.print()" type="button"> </font> <input value="回上頁" onclick="Javascript:history.back()" type="button"></p>
-        
-        
-        
-        
-        
+        <p style="margin-top: 0pt; margin-bottom: 0pt;" align="center">
         <script language="JavaScript">
+
+var Vi_min,Vi_max,Vi_nom; //V
+var Vo1,Vrp1,Io1_min,Io1_max; //V,mV,A,A
+var Vo2,Vrp2,Io2_min,Io2_max;
+var n; //switch effecncy
+var fsw; //KHz
+var Vd_fw, Rds_on;
+
+//output
+var Po_min=0,Po_max=0;
+var T=0,Tch=0;
+var Vds_on=0;
+
+var formid = "switch";
+function getVar(name)
+{
+    var x=document.getElementById(formid);
+    for (var i=0;i<x.length;i++)
+    {
+	if(x.elements[i].name==name)
+		return parseFloat(x.elements[i].value);    
+    }
+}
+
+function setVar(name,v)
+{
+    var x=document.getElementById(formid);
+    for (var i=0;i<x.length;i++)
+    {
+	if(x.elements[i].name==name)
+		x.elements[i].value = v;    
+    }
+}
+
+function get_switch_para()
+{
+  Vi_min = getVar("Vi_min");
+   Vi_max = getVar("Vi_max");
+   Vi_nom = getVar("Vi_nom");
+
+   Vo1 = getVar("Vo1");
+   Vrp1= getVar("Vrp1");
+   Io1_min= getVar("Io1_min");
+   Io1_max = getVar("Io1_max");
+
+   Vo2 = getVar("Vo2");
+   Vrp2= getVar("Vrp2");
+   Io2_min= getVar("Io2_min");
+   Io2_max = getVar("Io2_max");
+
+   n = getVar("n");
+   fsw = getVar("fsw");
+
+   Vd_fw =  getVar("Vd_fw");
+   Rds_on =  getVar("Rds_on");
+
+}
+function Pcalc()
+{
+  
+   get_switch_para();
+   Po_min = (Vo1+Vd_fw)*Io1_min+(Vo2+Vd_fw)*Io2_min;
+   Po_max = (Vo1+Vd_fw)*Io1_max+(Vo2+Vd_fw)*Io2_max;
+ 
+   T = (1/fsw)*1000;  //fsw xxKhz
+   Tch= (2/fsw)*1000;
+
+   Vds_on = Math.round((  (Po_max*Rds_on)/(n*Vi_min)  )*1000)/1000;
+
+   setVar("Po_max",Po_max);
+   setVar("Po_min",Po_min);
+   setVar("T",T);
+   setVar("Tch",Tch);
+   setVar("Vds_on",Vds_on);
+
+}
 
 function rv2Str(v)
 {
-	if( v<1000){ 
+	if( v<1000){
 		return Math.round(v);
 	}else if(v>=1000 && v<1000000){
 		return Math.round((v/1000)*100)/100 + "K";
@@ -141,30 +226,30 @@ function rv2Str(v)
 function realR(R)
 {
 
-	//E96 1% Resistors
-	if(led.RRES.value == "0")
-		RstListStr = "0,1.0,1.1,1.2,1.3,1.5,1.6,1.8,2.0,2.2,2.4,2.7,3.0,3.3,3.6,3.9,4.3,4.7,5.1,5.6,6.2,6.8,7.5,8.2,9.1,10.0";
-	else if (led.RRES.value == "1")
-		RstListStr = "0,1.00,1.02,1.05,1.07,1.10,1.13,1.15,1.18,1.21,1.24,1.27,1.30,1.33,1.37,1.40,1.43,1.47,1.50,1.54,1.58,1.62,1.65,1.69,1.74,1.78,1.82,1.87,1.91,1.96,2.00,2.05,2.10,2.15,2.21,2.26,2.32,2.37,2.43,2.49,2.55,2.61,2.67,2.74,2.80,2.87,2.94,3.01,3.09,3.16,3.24,3.32,3.40,3.48,3.57,3.65,3.74,3.83,3.92,4.02,4.12,4.22,4.32,4.42,4.53,4.64,4.75,4.87,4.99,5.11,5.23,5.36,5.49,5.62,5.76,5.90,6.04,6.19,6.34,6.49,6.65,6.81,6.98,7.15,7.32,7.50,7.68,7.87,8.06,8.25,8.45,8.66,8.87,9.09,9.31,9.53,9.76,10.00";
-		
-	RstList = RstListStr.split(",");
+//E96 1% Resistors
+if(led.RRES.value == "0")
+RstListStr = "0,1.0,1.1,1.2,1.3,1.5,1.6,1.8,2.0,2.2,2.4,2.7,3.0,3.3,3.6,3.9,4.3,4.7,5.1,5.6,6.2,6.8,7.5,8.2,9.1,10.0";
+else if (led.RRES.value == "1")
+RstListStr = "0,1.00,1.02,1.05,1.07,1.10,1.13,1.15,1.18,1.21,1.24,1.27,1.30,1.33,1.37,1.40,1.43,1.47,1.50,1.54,1.58,1.62,1.65,1.69,1.74,1.78,1.82,1.87,1.91,1.96,2.00,2.05,2.10,2.15,2.21,2.26,2.32,2.37,2.43,2.49,2.55,2.61,2.67,2.74,2.80,2.87,2.94,3.01,3.09,3.16,3.24,3.32,3.40,3.48,3.57,3.65,3.74,3.83,3.92,4.02,4.12,4.22,4.32,4.42,4.53,4.64,4.75,4.87,4.99,5.11,5.23,5.36,5.49,5.62,5.76,5.90,6.04,6.19,6.34,6.49,6.65,6.81,6.98,7.15,7.32,7.50,7.68,7.87,8.06,8.25,8.45,8.66,8.87,9.09,9.31,9.53,9.76,10.00";
 
-	for(j=0;j<=6;j++){
-		Ts = Math.pow(10,j);
-		for(i=1; i<(RstList.length-1);i++){
-			RstDownRange = (parseFloat(RstList[i-1])+parseFloat(RstList[i]))*Ts / 2;
-			RstUpRange =   (parseFloat(RstList[i+1])+parseFloat(RstList[i]))*Ts / 2;
+RstList = RstListStr.split(",");
 
-			if(  (R > RstDownRange)  && (R <= RstUpRange) ){
-				return parseFloat(RstList[i])*Ts;	
-			}
-		} 
+for(j=0;j<=6;j++){
+Ts = Math.pow(10,j);
+for(i=1; i<(RstList.length-1);i++){
+RstDownRange = (parseFloat(RstList[i-1])+parseFloat(RstList[i]))*Ts / 2;
+RstUpRange = (parseFloat(RstList[i+1])+parseFloat(RstList[i]))*Ts / 2;
 
-	}
+if( (R > RstDownRange) && (R <= RstUpRange) ){
+return parseFloat(RstList[i])*Ts;
+}
+}
 
- 	//should never here..
-	return R;
-	
+}
+
+//should never here..
+return R;
+
 }
 
 
@@ -172,61 +257,20 @@ function realR(R)
 // give a Watt value, return sutable resistor W
 function rw2Str(a)
 {
-	if(  a*2<(1/8) ) return "1/8";
-	if(  (a*2>=(1/8)) && (a*2<(1/4))  )return "1/4";
-	if ( (a*2>=(1/4)) && (a*2<(1/2)) ) return "1/2";
-	if ( (a*2>=(1/2)) && (a*2<1)   )return "1";
-	if ( (a*2>=1) && (a*2<2) )	return "2";
-	if ( (a*2>=2) && (a*2<3) ) return "3";
-	if ( (a*2>=3) && (a*2<5) )return "5";
-	if ( (a*2>=5) ) return ">10";
+if( a*2<(1/8) ) return "1/8";
+if( (a*2>=(1/8)) && (a*2<(1/4)) )return "1/4";
+if ( (a*2>=(1/4)) && (a*2<(1/2)) ) return "1/2";
+if ( (a*2>=(1/2)) && (a*2<1) )return "1";
+if ( (a*2>=1) && (a*2<2) ) return "2";
+if ( (a*2>=2) && (a*2<3) ) return "3";
+if ( (a*2>=3) && (a*2<5) )return "5";
+if ( (a*2>=5) ) return ">10";
 }
-
-function calc()
-{
-
-	powerVoltage = document.led.V.value;
-
-	//get led forward voltage 
-	if(document.led.LEDTYPE[0].checked == true){
-		c = 25  ; //紅(綠)光
-		lv = 1.7;
-	}
-	if(document.led.LEDTYPE[1].checked == true){
-		c = 20  ; //&#34013;光
-		lv = 2.6;
-	}
-	if(document.led.LEDTYPE[2].checked == true){
-		c = 20  ; //白光
-		lv = 2.7;
-	}
-	if(document.led.LEDTYPE[3].checked == true){
-		c =  document.led.I.value; //其他
-		lv = document.led.FV.value;
-	}
-
-        //get brightness
-	if(document.led.BRIGHT[0].checked == true){
-		c=c*0.05;
-	}
-	if(document.led.BRIGHT[1].checked == true){
-		c=c*0.2;
-	}
-
-	
-	if( document.led.CLOSERST.checked == true){
-		document.led.R.value = rv2Str(realR((powerVoltage-lv)/(c/1000)));
-	}else{
-		document.led.R.value = rv2Str((powerVoltage-lv)/(c/1000));	
-	
-	}  
-	led.Rw.value = rw2Str((powerVoltage-lv)*(c/1000));
-}
-
-        </script><p style="margin-top: 0pt; margin-bottom: 0pt;" align="center"><font color="#808080" face="Arial" size="2">Designed by Eric
-Chu in 2008 Version 2.1, revised by hyl 2010.11.3<br>
-</font></p>
-      </form>
+        </script><font color="#808080" face="Arial" size="2">by hyl 2010.11.3<br>
+        </font></p>
+        <p style="margin-top: 0pt; margin-bottom: 0pt;" align="center"><font color="#808080" face="Arial" size="2">by hyl 2010.11.3<br>
+        </font></p>
+</form>
       </td>
     </tr>
   </tbody>
