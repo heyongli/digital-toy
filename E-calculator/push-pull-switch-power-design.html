@@ -1,6 +1,9 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head>
 
+
+
+
   
   <script><head>
   <script><head>
@@ -121,9 +124,14 @@ W&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; 程瞯Pomin:</b></small></font><input 
               <span style="font-weight: bold;">程&#36755;&#30005;&#21387;程ゑ:</span> <small><input name="Dmin" size="4" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small> Dmin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">タ盽&#36755;&#30005;&#21387;ゑ</span>:&nbsp;&nbsp;  <small><input name="Dnom" size="4" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>Dnom</td>
             </tr>
 <tr>
-              <td colspan="2" rowspan="1" style="vertical-align: top;"><font color="#800000" size="5"><small style="color: black;">MOSFET程&#23548;硄&#21387;:</small></font><small><input name="Vds_on" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small> V&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">MOSFET程は&#30005;&#21387;:</span><small><input name="Vsw_max" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small> (程DC&#30005;&#21387;+30%&#30005;稰畃)</td>
+              <td colspan="2" rowspan="1" style="vertical-align: top;"><span style="font-weight: bold;">MOSFET程は&#30005;&#21387;:</span><small><input name="Vsw_max" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>V <small>(程DC&#30005;&#21387;+30%&#30005;稰畃)</small>&nbsp; <span style="font-weight: bold;">MOSFET畃&#30005;瑈:(lp_ft):</span><small><input name="Ip_ft" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"> <big>A </big></small><small><br>
+              </small></td>
             </tr>
             <tr>
+              <td colspan="2" rowspan="1" style="vertical-align: top;"><font color="#800000" size="5"><small style="color: black;">MOSFET程&#23548;硄&#21387;:</small></font><small><input name="Vds_on" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>V &nbsp; &nbsp;<br>
+ </td>
+            </tr>
+<tr>
               <td colspan="2" rowspan="1" style="vertical-align: top;"><span style="font-weight: bold;">俱瑈恨程は&#30005;&#21387;</span>:&nbsp; <small><input name="Vdiode1_max" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>V&nbsp;&nbsp;&nbsp;&nbsp; &#36755;1俱瑈恨程:<small><input name="Pdiode1_max" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>W &nbsp;&nbsp; &#36755;2俱瑈恨程:<small><input name="Pdiode2_max" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>W &nbsp;&nbsp; <span style="font-weight: bold;">俱瑈恨&#24635;:</span><small><input name="Pdiode_tot" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>W</td>
             </tr>
 <tr>
@@ -154,7 +162,7 @@ Secondary2&nbsp;&nbsp;&nbsp; ac current &nbsp; : <small><input name="Is2_ac" siz
             <tr>
               <td style="vertical-align: top; background-color: rgb(84, 210, 126);">猧&#32441;北&#35745;衡<br>
               </td>
-              <td style="vertical-align: top; background-color: rgb(84, 210, 126);">&nbsp;&nbsp; <input value="&#35745;衡" name="ripple_calc_button" onclick="ripple_calc()" type="button"></td>
+              <td style="vertical-align: top; background-color: rgb(176, 220, 220);">&nbsp; <input value="&#35745;衡" name="ripple_calc_button" onclick="ripple_calc()" type="button"></td>
             </tr>
             <tr>
               <td colspan="2" rowspan="1" style="vertical-align: top;"><span style="font-weight: bold;">&#36755;1猧&#32441;&#30005;瑈 di1:</span><small><input name="Di1" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>A &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <span style="font-weight: bold;">&#36755;1&#28388;猧&#30005;甧Co1:</span><small><input name="Co1" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>uF &nbsp;&nbsp; <span style="font-weight: bold;">&#36755;1&#28388;猧&#30005;甧程甧&#35768;ESR:</span><small><input name="Esr1" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>Ohm  <br>
@@ -163,23 +171,56 @@ Secondary2&nbsp;&nbsp;&nbsp; ac current &nbsp; : <small><input name="Is2_ac" siz
             <tr>
               <td colspan="2" rowspan="1" style="vertical-align: top;"><span style="font-weight: bold;">&#36755;2猧&#32441;&#30005;瑈 di2:</span><small><input name="Di2" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>A &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">&#36755;2&#28388;猧&#30005;甧Co2:</span><small><input name="Co2" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>uF &nbsp;&nbsp; <span style="font-weight: bold;">&#36755;2&#28388;猧&#30005;甧程甧&#35768;ESR:</span><small><input name="Esr2" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>Ohm</td>
             </tr>
+            <tr>
+              <td style="vertical-align: top; background-color: rgb(86, 215, 129);">MOSFET&#36873;<br>
+              </td>
+              <td style="vertical-align: top; background-color: rgb(192, 240, 240);">&nbsp;
+              <select size="1" name="MOSFET" style="font-family: Arial; font-size: 12pt;">
+
+            <option selected="selected" value="SUD19N20-90">SUD19N20-90</option>
+            <option value="IRF640">IRF640</option>
+	    <option value="other">other</option>
+              
+              </select>
+&nbsp;&nbsp;&nbsp;<big><span lang="zh-tw"></span></big><span lang="zh-tw"></span>&nbsp; &nbsp;&nbsp;
+
+
+              </td>
+            </tr>
 <tr>
+              <td colspan="2" rowspan="1" style="vertical-align: top;"><span lang="zh-tw"></span><big><span lang="zh-tw">&#23548;硄&#30005;:</span></big><input value="0.09" name="Rds_on_u" size="3"><span lang="zh-tw">ohm&nbsp;&nbsp; <big>Coss</big>:</span><input value="180" name="Coss" size="3"><span lang="zh-tw">pF&nbsp;&nbsp; <big>Qg</big><small>tot</small>:</span><input value="34" name="Qg_tot" size="3"><span lang="zh-tw">nC(&#32435;&#24211;&#20177;)&nbsp; <big>Qgd</big>:</span><input value="12" name="Qgd" size="3"><span lang="zh-tw">nC &nbsp; <big>Qgs:</big></span><input value="8" name="Qgs" size="3"><span lang="zh-tw">nC&nbsp;&nbsp; <big>Vgs<small><small>th</small></small>:</big></span><input value="2" name="Vgs_th" size="3"><span lang="zh-tw">V </span>&nbsp;&nbsp; <span lang="zh-tw"></span></td>
+              
+            </tr><tr>
+              <td style="vertical-align: top; background-color: rgb(228, 228, 228);">MOSFET&#39537;&#21160;</td>
+              <td style="vertical-align: top;"><big><span lang="zh-tw">&#39537;&#21160;&#30005;&#21387;:</span></big><input value="9" name="Vdr" size="3"><big><span lang="zh-tw">V&nbsp;&nbsp; L-H&#39537;&#21160;&#20869;(&#39537;&#21160;&#30005;&#21387;/程&#39537;&#21160;&#30005;瑈):</span></big><input value="5" name="Rdr_on" size="3"><span lang="zh-tw">ohm</span><big><span lang="zh-tw">&nbsp;&nbsp; H-L&#39537;&#21160;&#20869;(&#24378;┰):</span></big><input value="0.5" name="Rdr_off" size="3"><span lang="zh-tw">ohm</span></td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top; background-color: rgb(136, 228, 136);">MOSFET床瞯 <br>
+              </td>
+              <td style="vertical-align: top;">&nbsp;  <input value="&#35745;衡" name="mosfet_power_dissipation_button" onclick="mosfet_Pdispt()" type="button"> &nbsp;&nbsp; &nbsp; </td>
+            </tr>
+            <tr>
+              <td colspan="2" rowspan="1" style="vertical-align: top;">畃&#24320;&#21551;&#39537;&#21160;&#30005;瑈:<small><input name="Idriver_LH" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>A&nbsp;&nbsp; 畃&#20851;&#38381;&#39537;&#21160;&#30005;瑈:<small><input name="Idriver_HL" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>A&nbsp;&nbsp;&nbsp;&nbsp; ︳&#35745;&#24320;&#21551;&#26102;&#38388;:<small><input name="Tsw_LH" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>nS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ︳&#35745;&#20851;&#26029;&#26102;&#38388;:<small><input name="Tsw_HL" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>nS<br>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" rowspan="1" style="vertical-align: top;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">&#23548;硄&#25439;:</span><small><input name="Pcond" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>W&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">&#24320;&#20851;&#25439;:</span><small><input name="Psw_max" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>W&nbsp; <span style="font-weight: bold;">&#26629;体&#30005;颤&#25439;:</span><small><input name="Pgate" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>W&nbsp;&nbsp; <span style="font-weight: bold;">MOSFET&#24635;&#25439;:</span><small><input name="Pmosfet_tot" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>W </td>
+            </tr>
+<tr>
+              <td style="vertical-align: top;"><input name="CLOSERST" value="ON" checked="checked" type="checkbox"><span lang="zh-tw">笆匡ぇ
+カ</span></td>
               <td style="vertical-align: top;"><br>
               </td>
-              <td style="vertical-align: top;"><input name="CLOSERST" value="ON" checked="checked" type="checkbox"><span lang="zh-tw">笆匡ぇ
-カ扳 &nbsp;</span><span lang="zh-tw">
-              <select size="1" name="RRES" style="font-family: Arial; font-size: 12pt;">
-              <option selected="selected" value="0">5%</option>
-              <option value="1">1%</option>
-              </select>
-              </span></td>
             </tr>
+
           </tbody>
         </table>
         </center>
         </div>
         <p style="margin-top: 0pt; margin-bottom: 0pt;" align="center"></p>
         <p style="margin-top: 0pt; margin-bottom: 0pt;" align="center">
+        
+        
         
         <script language="JavaScript">
 //----stage0 ----------
@@ -207,6 +248,7 @@ var Vsw_max = 0;
 //--stage 3----
 var Ip_dc, Ip_ft,Ip_rms,Ip_ac;
 var Is1_rms, Is2_rms, Is1_ac, Is2_ac;
+
 
 //---stage 4---
 var Vdiode1_max=0;
@@ -376,6 +418,58 @@ function  ripple_calc()
   
 }
 
+//MOSFET power dissipation calc
+var Rds_on_u ; // chosen mosfet on resistor
+var Coss, Qg_tot, Qgd, Qgs, Vgs_th;
+var Vdr, Rdr_on, Rdr_off; //driver voltage, driver swith on internal Resistant
+//--out put--
+var Pcond = 0, Idriver_LH =0 ; Idriver_HL=0,Tsw_LH=0, Tsw_HL=0;
+var Psw_max = 0, Pgate = 0, Pmosfet_tot=0;
+
+function mosfet_Pdispt()
+{
+  var Qg_sw, Igate_awg;
+
+  Rds_on_u = getVar("Rds_on_u");
+  Pcond = Rds_on_u*Ip_ft*Ip_ft*D_max;
+ 
+  Vdr = getVar("Vdr");
+  Vgs_th =  getVar("Vgs_th");
+  Rdr_on =  getVar("Rdr_on");
+  Rdr_off = getVar("Rdr_off");
+  
+  Idriver_LH = (Vdr-Vgs_th)/Rdr_on;
+  Idriver_HL = (Vdr-Vgs_th)/Rdr_off;
+
+  Qgd = getVar("Qgd");
+  Qgs = getVar("Qgs");
+  Coss = getVar("Coss");
+
+  //switch loss
+  Qg_sw = Qgd+Qgs/2;
+  Tsw_LH = Qg_sw/Idriver_LH;
+  Tsw_HL = Qg_sw/Idriver_HL;
+  //khz, pf, ns
+  Psw_max = Vi_min*Ip_ft*fsw*((Tsw_LH+Tsw_HL)/1000000) + (Coss/1000000000*Vi_min*Vi_min*fsw)/2;
+
+
+  //gate charge loss
+  Qg_tot=getVar("Qg_tot");
+  Igate_awg = fsw*Qg_tot*1000/1000000000;  
+  Pgate = Igate_awg*Vdr;
+
+  Pmosfet_tot = Pcond+Psw_max+Pgate;
+
+ 
+  setVar("Pcond",round2(Pcond));
+  setVar("Idriver_LH",round2(Idriver_LH));
+  setVar("Idriver_HL",round2(Idriver_HL));
+  setVar("Tsw_LH",round2(Tsw_LH));
+  setVar("Tsw_HL",round2(Tsw_HL)); 
+  setVar("Psw_max",round2(Psw_max));
+  setVar("Pgate",round2(Pgate));
+  setVar("Pmosfet_tot",round2(Pmosfet_tot));
+}
 function rv2Str(v)
 {
 	if( v<1000){
