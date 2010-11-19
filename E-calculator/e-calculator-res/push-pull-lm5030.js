@@ -199,9 +199,12 @@ function ripple_calc()
 var Rds_on_u ; // chosen mosfet on resistor
 var Coss, Qg_tot, Qgd, Qgs, Vgs_th;
 var Vdr, Rdr_on, Rdr_off; //driver voltage, driver swith on internal Resistant
+
+var Tj_max, Ta_max;
 //--out put--
 var Pcond = 0, Idriver_LH =0 ; Idriver_HL=0,Tsw_LH=0, Tsw_HL=0;
 var Psw_max = 0, Pgate = 0, Pmosfet_tot=0;
+var Theta_ja = 0;
 
 function mosfet_Pdispt()
 {
@@ -237,7 +240,12 @@ function mosfet_Pdispt()
 	
 	Pmosfet_tot = Pcond+Psw_max+Pgate;
 	
-	
+        //requement ¦Èja 
+	Tj_max=getVar("Tj_max");
+	Ta_max=getVar("Ta_max");
+	Theta_ja = (Tj_max-Ta_max)/Pmosfet_tot;        
+
+
 	setVar("Pcond",round2(Pcond));
 	setVar("Idriver_LH",round2(Idriver_LH));
 	setVar("Idriver_HL",round2(Idriver_HL));
@@ -246,7 +254,26 @@ function mosfet_Pdispt()
 	setVar("Psw_max",round2(Psw_max));
 	setVar("Pgate",round2(Pgate));
 	setVar("Pmosfet_tot",round2(Pmosfet_tot));
+	setVar("Theta_ja",round2(Theta_ja));
 }
+
+
+function transformer_init()
+{
+
+
+
+}
+
+
+function transformer_design()
+{
+
+
+
+}
+
+
 function rv2Str(v)
 {
 	if( v<1000){
