@@ -1,12 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head>
-
-
-
-
   
-  <script><head>
-  <script><head>
+  <script></script>
+  
   <script></script>
   
   <meta http-equiv="Content-Language" content="en-us">
@@ -18,10 +14,12 @@
   <meta name="GENERATOR" content="Microsoft FrontPage 6.0">
 
   
-  <meta name="ProgId" content="FrontPage.Editor.Document"><title>Push-Pull Switch power design</title></head><body oncontextmenu="return false">
+  <meta name="ProgId" content="FrontPage.Editor.Document">
+  <title>Push-Pull Switch power design</title>
 
-
-
+  
+</head><body oncontextmenu="return false">
+<script src="e-calculator-res/push-pull-lm5030.js"> </script>
 <table style="border-collapse: collapse;" id="AutoNumber1" bgcolor="#ffffff" border="0" bordercolor="#111111" cellpadding="6" cellspacing="0" width="800">
 
   <tbody>
@@ -37,7 +35,7 @@
             <tr>
               <td style="background-color: rgb(47, 94, 237);" colspan="2" bgcolor="#ffff00" width="100%">
               <p style="margin-top: 0pt; margin-bottom: 0pt; background-color: rgb(178, 223, 223);"><b><img style="width: 1024px; height: 599px;" alt="lm5030 push pull switch power circuit" src="e-calculator-res/lm5030-push-pull-switch-power.jpg"><br>
-說明：<br>
+&#35828;明：<br>
 1.推挽DC-DC拓扑可以充分利用磁芯<br>
 2.MOSFET &#30005;&#21387;&#20026;&#36755;入&#30005;&#21387;的&#20004;倍<br>
               </b></p>
@@ -87,7 +85,8 @@
               <td style="background-color: rgb(238, 196, 89);" bgcolor="#ffffcc" width="16%">
               <p align="right"><span lang="zh-tw">整流/&#24320;&#20851;管&#21387;降</span></p>
               </td>
-              <td style="background-color: white;" bgcolor="#ffffcc" width="84%">整流二极管&#21387;降: <span lang="zh-tw"></span><input value="0.9" name="Vd_fw" size="3">V<span lang="zh-tw"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <td style="background-color: white;" bgcolor="#ffffcc" width="84%">整流二极管&#21387;降: <span lang="zh-tw"></span><input value="0.9" name="Vd_fw" size="3">V<span lang="zh-tw">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 MOSFET&#23548;通&#30005;阻:</span><input value="0.1" name="Rds_on" size="3"><span lang="zh-tw">ohm</span><span lang="zh-tw"> </span></td>
             </tr>
             <tr>
@@ -95,439 +94,149 @@ MOSFET&#23548;通&#30005;阻:</span><input value="0.1" name="Rds_on" size="3"><spa
 &#20851;&#30005;源&#21442;&#25968;<br>
               </td>
               <td style="vertical-align: top;">推挽&#39057;率:<input value="250" name="fsw" size="3">
-kHz&nbsp;&nbsp;&nbsp; &#24320;&#20851;&#30005;源效率η :<input value="0.95" name="n" size="3">(估&#35745;值)&nbsp;&nbsp; 最大占空比: <input value="0.365" name="D_max" size="3">D<small>max (此芯片要求最小&#36755;入&#30005;&#21387;下&lt;&lt;40%)</small><br>
-</td>
+kHz&nbsp;&nbsp;&nbsp; &#24320;&#20851;&#30005;源效率η :<input value="0.95" name="n" size="3">(估&#35745;
+值)&nbsp;&nbsp; 最大占空比: <input value="0.365" name="D_max" size="3">D<small>max
+(此芯片要求最小&#36755;入&#30005;&#21387;下&lt;&lt;40%)</small><br>
+              </td>
             </tr>
             <tr>
               <td colspan="2" bgcolor="#ffff00" width="100%">
-              <p style="margin-top: 0pt; margin-bottom: 0pt; background-color: rgb(86, 216, 130);"><big>前提</big>&nbsp;  <big><big><input value="&#35745;算" name="Initcalc" onclick="Pcalc()" type="button"> &nbsp;</big></big>  <input value="复位" name="Initcalc" onclick="this.form.reset()" type="button"></p>
+              <p style="margin-top: 0pt; margin-bottom: 0pt; background-color: rgb(86, 216, 130);"><big>前
+提</big>&nbsp; <big><big><input value="&#35745;算" name="Initcalc" onclick="Pcalc()" type="button"> &nbsp;</big></big> <input value="复位" name="Initcalc" onclick="this.form.reset()" type="button"></p>
               </td>
             </tr>
             <tr>
               <td style="background-color: rgb(235, 235, 235);" colspan="2" bgcolor="#ffffcc" width="100%">
               <div style="text-align: left;"> </div>
-              
               <p style="margin-top: 0pt; margin-bottom: 0pt; text-align: left; background-color: rgb(173, 173, 173);"><span lang="zh-tw"></span><span lang="zh-tw"></span><span lang="zh-tw"></span><span lang="zh-tw"></span><span lang="zh-tw"></span><small><font color="#800000" size="5"><small><b> 最大功率Pomax：</b></small></font><input name="Po_max" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"><font color="#800000" size="5"><small><b>
 W&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; 最小功率Pomin:</b></small></font><input name="Po_min" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small><b><font color="#800000" size="5"><small> W</small></font></b><font color="#800000" size="5"><small style="color: black;">&nbsp;&nbsp;</small></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <br>
-<span lang="zh-tw"></span></p>
-
+              <span lang="zh-tw"></span></p>
               </td>
             </tr>
             <tr>
-              <td colspan="2" rowspan="1" style="vertical-align: top; background-color: rgb(235, 235, 235);"><font color="#800000" size="5"><small style="color: black;">&#24320;&#20851;周期T:&nbsp; </small></font><small><input name="T" size="4" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small><font color="#800000" size="5"><small style="color: black;"> uSec </small></font><font color="#800000" size="5"><small style="color: black;">主&#32469;&#32452;每&#20010;wing的&#24320;&#20851;周期: </small></font><small><input name="Tch" size="4" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small><font color="#800000" size="5"><small style="color: black;"> uSec &nbsp;&nbsp; 每wing的Ton<small><small>max<big><big>:&nbsp; &nbsp;  </big></big></small></small></small></font><small><input name="Ton_max" size="4" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>uSec&nbsp;&nbsp;&nbsp; <br>
-              <span style="font-weight: bold;"></span>
-              </td>
+              <td colspan="2" rowspan="1" style="vertical-align: top; background-color: rgb(235, 235, 235);"><font color="#800000" size="5"><small style="color: black;">&#24320;&#20851;周期T:&nbsp; </small></font><small><input name="T" size="4" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small><font color="#800000" size="5"><small style="color: black;"> uSec </small></font><font color="#800000" size="5"><small style="color: black;">主&#32469;&#32452;每&#20010;wing的&#24320;&#20851;周期: </small></font><small><input name="Tch" size="4" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small><font color="#800000" size="5"><small style="color: black;"> uSec &nbsp;&nbsp; 每wing的Ton<small><small>max<big><big>:&nbsp;
+&nbsp; </big></big></small></small></small></font><small><input name="Ton_max" size="4" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>uSec&nbsp;&nbsp;&nbsp; <br>
+              <span style="font-weight: bold;"></span> </td>
             </tr>
             <tr>
-              <td colspan="2" rowspan="1" style="vertical-align: top; background-color: rgb(235, 235, 235);">
-              <span style="font-weight: bold;">最大&#36755;入&#30005;&#21387;的最小占空比:</span> <small><input name="Dmin" size="4" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small> Dmin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">正常&#36755;入&#30005;&#21387;占空比</span>:&nbsp;&nbsp;  <small><input name="Dnom" size="4" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>Dnom</td>
+              <td colspan="2" rowspan="1" style="vertical-align: top; background-color: rgb(235, 235, 235);"> <span style="font-weight: bold;">最大&#36755;入&#30005;&#21387;的最小占空比:</span> <small><input name="Dmin" size="4" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small> Dmin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">正常&#36755;入&#30005;&#21387;占空比</span>:&nbsp;&nbsp; <small><input name="Dnom" size="4" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>Dnom</td>
             </tr>
-<tr>
+            <tr>
               <td colspan="2" rowspan="1" style="vertical-align: top;"><span style="font-weight: bold;">MOSFET最大反向&#30005;&#21387;:</span><small><input name="Vsw_max" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>V <small>(最大DC&#30005;&#21387;+30%&#30005;感尖峰)</small>&nbsp; <span style="font-weight: bold;">MOSFET峰值&#30005;流:(lp_ft):</span><small><input name="Ip_ft" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"> <big>A </big></small><small><br>
               </small></td>
             </tr>
             <tr>
               <td colspan="2" rowspan="1" style="vertical-align: top;"><font color="#800000" size="5"><small style="color: black;">MOSFET最大&#23548;通&#21387;降:</small></font><small><input name="Vds_on" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>V &nbsp; &nbsp;<br>
- </td>
+              </td>
             </tr>
-<tr>
+            <tr>
               <td colspan="2" rowspan="1" style="vertical-align: top;"><span style="font-weight: bold;">整流管最大反向&#30005;&#21387;</span>:&nbsp; <small><input name="Vdiode1_max" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>V&nbsp;&nbsp;&nbsp;&nbsp; &#36755;出1整流管最大功耗:<small><input name="Pdiode1_max" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>W &nbsp;&nbsp; &#36755;出2整流管最大功耗:<small><input name="Pdiode2_max" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>W &nbsp;&nbsp; <span style="font-weight: bold;">整流管&#24635;功耗:</span><small><input name="Pdiode_tot" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>W</td>
             </tr>
-<tr>
-              <td colspan="2" rowspan="1" style="vertical-align: top; background-color: rgb(244, 244, 244);"><font color="#800000" size="5"><small style="color: black;"><span style="font-weight: bold;">匝比(s/p):</span>&nbsp;</small></font><font color="#800000" size="5"><small style="color: black;">  </small></font><small><input name="Nsp1" size="4" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small><font color="#800000" size="5"><small style="color: black;"> </small></font><font color="#800000" size="5"><small style="color: black;"></small></font></td>
+            <tr>
+              <td colspan="2" rowspan="1" style="vertical-align: top; background-color: rgb(244, 244, 244);"><font color="#800000" size="5"><small style="color: black;"><span style="font-weight: bold;">匝比(s/p):</span>&nbsp;</small></font><font color="#800000" size="5"><small style="color: black;"> </small></font><small><input name="Nsp1" size="4" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small><font color="#800000" size="5"><small style="color: black;"> </small></font></td>
             </tr>
             <tr>
               <td colspan="2" rowspan="1" style="vertical-align: top;"><img style="width: 307px; height: 266px;" alt="secondary-wing current" src="e-calculator-res/lm5030-switch-secondary-wing-current.jpg" align="left"><br>
 Primary&nbsp; wing&nbsp;&nbsp; DC&nbsp; current: <small><input name="Ip_dc" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>A&nbsp; (Ip_dc)<br>
-              <span style="font-weight: bold;">Primary flat top&nbsp; current:</span> <small><input name="Ip_ft" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>A&nbsp;&nbsp; (Ip_ft)<br>
-              <span style="font-weight: bold;">Primary rms&nbsp; current &nbsp;&nbsp;&nbsp; :</span> <small><input name="Ip_rms" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>A&nbsp; (Ip_rms)<br>
-Primary&nbsp;&nbsp; AC&nbsp;&nbsp; current&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; : <small><input name="Ip_ac" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>A&nbsp; (Ip_ac)<br>
+              <span style="font-weight: bold;">Primary flat top&nbsp;
+current:</span> <small><input name="Ip_ft" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>A&nbsp;&nbsp; (Ip_ft)<br>
+              <span style="font-weight: bold;">Primary rms&nbsp;
+current &nbsp;&nbsp;&nbsp; :</span> <small><input name="Ip_rms" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>A&nbsp; (Ip_rms)<br>
+Primary&nbsp;&nbsp; AC&nbsp;&nbsp;
+current&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; : <small><input name="Ip_ac" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>A&nbsp; (Ip_ac)<br>
               <br>
               <br>
               <br>
-              <span style="font-weight: bold;">Secondary1 rms current:</span> <small><input name="Is1_rms" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>A&nbsp; (Is1_rms)<br>
+              <span style="font-weight: bold;">Secondary1 rms current:</span>
+              <small><input name="Is1_rms" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>A&nbsp; (Is1_rms)<br>
               <span style="font-weight: bold;">Secondary2 rms current: </span><small><input name="Is2_rms" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>A&nbsp; (Is2_rms)<br>
 Secondary1&nbsp;&nbsp;&nbsp; ac current &nbsp; : <small><input name="Is1_ac" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>A&nbsp; (Is1_ac)<br>
 Secondary2&nbsp;&nbsp;&nbsp; ac current &nbsp; : <small><input name="Is2_ac" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>A&nbsp; (Is2_ac)<br>
               </td>
             </tr>
             <tr>
-              <td colspan="2" rowspan="1" style="vertical-align: top; background-color: rgb(223, 223, 223);">secondary1 整流&#36755;出&#30005;&#21387;:<small><input name="Vf1" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>V &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; secondary2整流&#36755;出&#30005;&#21387;:<small><input name="Vf2" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>V<br>
- </td>
-            </tr>
-            <tr>
-              <td colspan="2" rowspan="1" style="vertical-align: top; background-color: rgb(223, 223, 223);"><span style="font-weight: bold;">&#36755;出&#30005;感Lo1:</span><small><input style="color: rgb(255, 0, 0); text-align: center;" name="Lo1" size="5"></small>uH (需要向上取&#23454;用值) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; <span style="font-weight: bold;">&#36755;出&#30005;感Lo2:</span><small><input style="color: rgb(255, 0, 0); text-align: center;" name="Lo2" size="5"></small>uH (需要向上取&#23454;用值)</td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top; background-color: rgb(84, 210, 126);">波&#32441;控制&#35745;算<br>
+              <td colspan="2" rowspan="1" style="vertical-align: top; background-color: rgb(223, 223, 223);">secondary1
+整流&#36755;出&#30005;&#21387;:<small><input name="Vf1" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>V &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+secondary2整流&#36755;出&#30005;&#21387;:<small><input name="Vf2" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>V<br>
               </td>
-              <td style="vertical-align: top; background-color: rgb(176, 220, 220);">&nbsp; <input value="&#35745;算" name="ripple_calc_button" onclick="ripple_calc()" type="button"></td>
             </tr>
             <tr>
-              <td colspan="2" rowspan="1" style="vertical-align: top;"><span style="font-weight: bold;">&#36755;出1波&#32441;&#30005;流 di1:</span><small><input name="Di1" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>A &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <span style="font-weight: bold;">&#36755;出1&#28388;波&#30005;容Co1:</span><small><input name="Co1" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>uF &nbsp;&nbsp; <span style="font-weight: bold;">&#36755;出1&#28388;波&#30005;容最大容&#35768;ESR:</span><small><input name="Esr1" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>Ohm  <br>
+              <td colspan="2" rowspan="1" style="vertical-align: top; background-color: rgb(223, 223, 223);"><span style="font-weight: bold;">&#36755;出&#30005;感Lo1:</span><small><input style="color: rgb(255, 0, 0); text-align: center;" name="Lo1" size="5"></small>uH
+(需要向上取&#23454;用值) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp;&nbsp; <span style="font-weight: bold;">&#36755;出&#30005;感Lo2:</span><small><input style="color: rgb(255, 0, 0); text-align: center;" name="Lo2" size="5"></small>uH
+(需要向上取&#23454;用值)</td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top; background-color: rgb(84, 210, 126);">波&#32441;控制&#35745;
+算<br>
+              </td>
+              <td style="vertical-align: top; background-color: rgb(176, 220, 220);">&nbsp;
+              <input value="&#35745;算" name="ripple_calc_button" onclick="ripple_calc()" type="button"></td>
+            </tr>
+            <tr>
+              <td colspan="2" rowspan="1" style="vertical-align: top;"><span style="font-weight: bold;">&#36755;出1波&#32441;&#30005;流 di1:</span><small><input name="Di1" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>A &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">&#36755;出1&#28388;波&#30005;容Co1:</span><small><input name="Co1" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>uF &nbsp;&nbsp; <span style="font-weight: bold;">&#36755;出1&#28388;波&#30005;容最大容&#35768;ESR:</span><small><input name="Esr1" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>Ohm <br>
               </td>
             </tr>
             <tr>
               <td colspan="2" rowspan="1" style="vertical-align: top;"><span style="font-weight: bold;">&#36755;出2波&#32441;&#30005;流 di2:</span><small><input name="Di2" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>A &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">&#36755;出2&#28388;波&#30005;容Co2:</span><small><input name="Co2" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>uF &nbsp;&nbsp; <span style="font-weight: bold;">&#36755;出2&#28388;波&#30005;容最大容&#35768;ESR:</span><small><input name="Esr2" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>Ohm</td>
             </tr>
             <tr>
-              <td style="vertical-align: top; background-color: rgb(86, 215, 129);">MOSFET&#36873;型<br>
+              <td style="vertical-align: top; background-color: rgb(86, 215, 129);">MOSFET
+&#36873;型<br>
               </td>
               <td style="vertical-align: top; background-color: rgb(192, 240, 240);">&nbsp;
               <select size="1" name="MOSFET" style="font-family: Arial; font-size: 12pt;">
-
-            <option selected="selected" value="SUD19N20-90">SUD19N20-90</option>
-            <option value="IRF640">IRF640</option>
-	    <option value="other">other</option>
-              
+              <option selected="selected" value="SUD19N20-90">SUD19N20-90</option>
+              <option value="IRF640">IRF640</option>
+              <option value="other">other</option>
               </select>
-&nbsp;&nbsp;&nbsp;<big><span lang="zh-tw"></span></big><span lang="zh-tw"></span>&nbsp; &nbsp;&nbsp;
-
-
-              </td>
-            </tr>
-<tr>
-              <td colspan="2" rowspan="1" style="vertical-align: top;"><span lang="zh-tw"></span><big><span lang="zh-tw">&#23548;通&#30005;阻:</span></big><input value="0.09" name="Rds_on_u" size="3"><span lang="zh-tw">ohm&nbsp;&nbsp; <big>Coss</big>:</span><input value="180" name="Coss" size="3"><span lang="zh-tw">pF&nbsp;&nbsp; <big>Qg</big><small>tot</small>:</span><input value="34" name="Qg_tot" size="3"><span lang="zh-tw">nC(&#32435;&#24211;&#20177;)&nbsp; <big>Qgd</big>:</span><input value="12" name="Qgd" size="3"><span lang="zh-tw">nC &nbsp; <big>Qgs:</big></span><input value="8" name="Qgs" size="3"><span lang="zh-tw">nC&nbsp;&nbsp; <big>Vgs<small><small>th</small></small>:</big></span><input value="2" name="Vgs_th" size="3"><span lang="zh-tw">V </span>&nbsp;&nbsp; <span lang="zh-tw"></span></td>
-              
-            </tr><tr>
-              <td style="vertical-align: top; background-color: rgb(228, 228, 228);">MOSFET&#39537;&#21160;能力</td>
-              <td style="vertical-align: top;"><big><span lang="zh-tw">&#39537;&#21160;&#30005;&#21387;:</span></big><input value="9" name="Vdr" size="3"><big><span lang="zh-tw">V&nbsp;&nbsp; L-H&#39537;&#21160;&#20869;阻(&#39537;&#21160;&#30005;&#21387;/最大&#39537;&#21160;&#30005;流):</span></big><input value="5" name="Rdr_on" size="3"><span lang="zh-tw">ohm</span><big><span lang="zh-tw">&nbsp;&nbsp; H-L&#39537;&#21160;&#20869;阻(&#24378;下拉):</span></big><input value="0.5" name="Rdr_off" size="3"><span lang="zh-tw">ohm</span></td>
+&nbsp;&nbsp;&nbsp;<big><span lang="zh-tw"></span></big><span lang="zh-tw"></span>&nbsp; &nbsp;&nbsp; </td>
             </tr>
             <tr>
-              <td style="vertical-align: top; background-color: rgb(136, 228, 136);">MOSFET耗散功率 <br>
-              </td>
-              <td style="vertical-align: top;">&nbsp;  <input value="&#35745;算" name="mosfet_power_dissipation_button" onclick="mosfet_Pdispt()" type="button"> &nbsp;&nbsp; &nbsp; </td>
+              <td colspan="2" rowspan="1" style="vertical-align: top;"><span lang="zh-tw"></span><big><span lang="zh-tw">&#23548;通&#30005;阻:</span></big><input value="0.09" name="Rds_on_u" size="3"><span lang="zh-tw">ohm&nbsp;&nbsp;
+              <big>Coss</big>:</span><input value="180" name="Coss" size="3"><span lang="zh-tw">pF&nbsp;&nbsp; <big>Qg</big><small>tot</small>:</span><input value="34" name="Qg_tot" size="3"><span lang="zh-tw">nC(&#32435;&#24211;&#20177;)&nbsp; <big>Qgd</big>:</span><input value="12" name="Qgd" size="3"><span lang="zh-tw">nC &nbsp; <big>Qgs:</big></span><input value="8" name="Qgs" size="3"><span lang="zh-tw">nC&nbsp;&nbsp; <big>Vgs<small><small>th</small></small>:</big></span><input value="2" name="Vgs_th" size="3"><span lang="zh-tw">V </span>&nbsp;&nbsp;
+              <span lang="zh-tw"></span></td>
             </tr>
             <tr>
-              <td colspan="2" rowspan="1" style="vertical-align: top;">峰值&#24320;&#21551;&#39537;&#21160;&#30005;流:<small><input name="Idriver_LH" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>A&nbsp;&nbsp; 峰值&#20851;&#38381;&#39537;&#21160;&#30005;流:<small><input name="Idriver_HL" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>A&nbsp;&nbsp;&nbsp;&nbsp; 估&#35745;&#24320;&#21551;&#26102;&#38388;:<small><input name="Tsw_LH" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>nS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 估&#35745;&#20851;&#26029;&#26102;&#38388;:<small><input name="Tsw_HL" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>nS<br>
+              <td style="vertical-align: top; background-color: rgb(228, 228, 228);">MOSFET
+&#39537;&#21160;能力</td>
+              <td style="vertical-align: top;"><big><span lang="zh-tw">&#39537;
+&#21160;&#30005;&#21387;:</span></big><input value="9" name="Vdr" size="3"><big><span lang="zh-tw">V&nbsp;&nbsp; L-H&#39537;&#21160;&#20869;阻(&#39537;&#21160;&#30005;&#21387;/最大&#39537;&#21160;&#30005;流):</span></big><input value="5" name="Rdr_on" size="3"><span lang="zh-tw">ohm</span><big><span lang="zh-tw">&nbsp;&nbsp; H-L&#39537;&#21160;&#20869;阻(&#24378;下拉):</span></big><input value="0.5" name="Rdr_off" size="3"><span lang="zh-tw">ohm</span></td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top; background-color: rgb(136, 228, 136);">MOSFET
+耗散功率 <br>
+              </td>
+              <td style="vertical-align: top;">&nbsp; <input value="&#35745;算" name="mosfet_power_dissipation_button" onclick="mosfet_Pdispt()" type="button"> &nbsp;&nbsp; &nbsp; </td>
+            </tr>
+            <tr>
+              <td colspan="2" rowspan="1" style="vertical-align: top;">峰
+值&#24320;&#21551;&#39537;&#21160;&#30005;流:<small><input name="Idriver_LH" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>A&nbsp;&nbsp; 峰值&#20851;&#38381;&#39537;&#21160;&#30005;流:<small><input name="Idriver_HL" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>A&nbsp;&nbsp;&nbsp;&nbsp; 估&#35745;&#24320;&#21551;&#26102;&#38388;:<small><input name="Tsw_LH" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>nS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+估&#35745;&#20851;&#26029;&#26102;&#38388;:<small><input name="Tsw_HL" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>nS<br>
               </td>
             </tr>
             <tr>
-              <td colspan="2" rowspan="1" style="vertical-align: top;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">&#23548;通&#25439;耗:</span><small><input name="Pcond" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>W&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">&#24320;&#20851;&#25439;耗:</span><small><input name="Psw_max" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>W&nbsp; <span style="font-weight: bold;">&#26629;极&#30005;荷&#25439;耗:</span><small><input name="Pgate" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>W&nbsp;&nbsp; <span style="font-weight: bold;">MOSFET&#24635;&#25439;耗:</span><small><input name="Pmosfet_tot" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>W </td>
+              <td colspan="2" rowspan="1" style="vertical-align: top;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <span style="font-weight: bold;">&#23548;通&#25439;耗:</span><small><input name="Pcond" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>W&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <span style="font-weight: bold;">&#24320;&#20851;&#25439;耗:</span><small><input name="Psw_max" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>W&nbsp; <span style="font-weight: bold;">&#26629;
+极&#30005;荷&#25439;耗:</span><small><input name="Pgate" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>W&nbsp;&nbsp; <span style="font-weight: bold;">MOSFET&#24635;&#25439;耗:</span><small><input name="Pmosfet_tot" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>W </td>
             </tr>
-<tr>
+            <tr>
               <td style="vertical-align: top;"><input name="CLOSERST" value="ON" checked="checked" type="checkbox"><span lang="zh-tw">自動選取相近之
 市</span></td>
               <td style="vertical-align: top;"><br>
               </td>
             </tr>
-
           </tbody>
         </table>
         </center>
         </div>
         <p style="margin-top: 0pt; margin-bottom: 0pt;" align="center">　</p>
         <p style="margin-top: 0pt; margin-bottom: 0pt;" align="center">
-        
-        
-        
-        <script language="JavaScript">
-//----stage0 ----------
-var Vi_min,Vi_max,Vi_nom; //V
-var Vo1,Vrp1,Io1_min,Io1_max; //V,mV,A,A
-var Vo2,Vrp2,Io2_min,Io2_max;
-var n; //switch effecncy
-var fsw; //KHz
-var Vd_fw, Rds_on;
-//output stage 0 
-var Po_min=0,Po_max=0;
-var T=0,Tch=0;
-var Vds_on=0;
-
-//---- stage 1-----
-var D_max = 0;
-//output_stage 1
-var Ton_max=0;
-var Nsp1=0; //匝比
-var Dmin = 0, Dnom = 0;
-
-//----stage 2-----
-var Vsw_max = 0;
-
-//--stage 3----
-var Ip_dc, Ip_ft,Ip_rms,Ip_ac;
-var Is1_rms, Is2_rms, Is1_ac, Is2_ac;
-
-
-//---stage 4---
-var Vdiode1_max=0;
-var Pdiode1_max=0,Pdiode2_max=0, Pdiode_tot=0;
-
-//---stage 5---
-var Vf2=0, Vf1=0; //rectification out put voltage
-var Lo1=0, Lo2=0; //output inductor 
-var Lo1_u=0, Lo2_u=0; //user specify inductor value for outpu
-var Di1=0, Di2=0, Co1=0,Co2=0, Esr1=0,Esr2=0;
-
-//-------
-var formid = "switch";
-function getVar(name)
-{
-    var x=document.getElementById(formid);
-    for (var i=0;i<x.length;i++)
-    {
-	if(x.elements[i].name==name)
-		return parseFloat(x.elements[i].value);    
-    }
-}
-
-function setVar(name,v)
-{
-    var x=document.getElementById(formid);
-    for (var i=0;i<x.length;i++)
-    {
-	if(x.elements[i].name==name)
-		x.elements[i].value = v;    
-    }
-}
-
-function get_switch_para()
-{
-  Vi_min = getVar("Vi_min");
-   Vi_max = getVar("Vi_max");
-   Vi_nom = getVar("Vi_nom");
-
-   Vo1 = getVar("Vo1");
-   Vrp1= getVar("Vrp1");
-   Io1_min= getVar("Io1_min");
-   Io1_max = getVar("Io1_max");
-
-   Vo2 = getVar("Vo2");
-   Vrp2= getVar("Vrp2");
-   Io2_min= getVar("Io2_min");
-   Io2_max = getVar("Io2_max");
-
-   n = getVar("n");
-   fsw = getVar("fsw");
-
-   Vd_fw =  getVar("Vd_fw");
-   Rds_on =  getVar("Rds_on");
-
-}
-function round3(v)
-{
-   return Math.round(v*1000)/1000;
-}
-function round2(v)
-{
-   return Math.round(v*100)/100;
-}
-
-function Pcalc()
-{
-  
-   get_switch_para();
-   //----stage 0
-   Po_min = (Vo1+Vd_fw)*Io1_min+(Vo2+Vd_fw)*Io2_min;
-   Po_max = (Vo1+Vd_fw)*Io1_max+(Vo2+Vd_fw)*Io2_max;
-   
-    //&#24320;&#20851;&#39057;率
-   T = (1/fsw)*1000;  //fsw xxKhz
-   Tch= (2/fsw)*1000;
-
-   Vds_on = (Po_max*Rds_on)/(n*Vi_min);
-   setVar("Po_max",round3(Po_max));
-   setVar("Po_min",round3(Po_min));
-   setVar("T",round3(T));
-   setVar("Tch",round3(Tch));
-   setVar("Vds_on",round3(Vds_on));
-  
-   
-   //--------stage 1
-   //&#35774;定的占空比信息
-   D_max = getVar("D_max");
-   Ton_max = Tch*D_max;
-   Nsp1 = (Vo1/(2*D_max)+Vd_fw)/(Vi_min-Vds_on);
-   Dmin = Vo1/(2*Nsp1*(Vi_max-Vds_on)-Vd_fw);
-   Dnom = Vo1/(2*Nsp1*(Vi_nom-Vds_on)-Vd_fw);
-   
-   setVar("Dnom",round2(Dnom)); 
-   setVar("Dmin",round2(Dmin));
-   setVar("Ton_max",round3(Ton_max));
-   setVar("Nsp1",round2(Nsp1));
-
-   //--stage2 ---
-   Vsw_max = 2*(1.15*Vi_max);
-   setVar("Vsw_max",Vsw_max);
-
-   //--stage3 -- , primary and secondary current
-   Ip_dc = Po_max/((Vi_min-Vds_on)*n);
-   Ip_ft = Po_max/((Vi_min-Vds_on)*n*2*D_max);
-   Ip_rms = Ip_ft* (Math.sqrt(D_max));
-   Ip_ac  = Ip_ft* (Math.sqrt(D_max*(1-D_max)) );
-  
-   Is1_rms = Io1_max*(Math.sqrt(D_max) );
-   Is2_rms = Io2_max*(Math.sqrt(D_max) ); 
-   Is1_ac  = Io1_max*(Math.sqrt(D_max*(1-D_max)) );
-   Is2_ac  = Io2_max*(Math.sqrt(D_max*(1-D_max)) ); 
-  
-   setVar("Ip_dc",round2(Ip_dc)); 
-   setVar("Ip_ft",round2(Ip_ft));
-   setVar("Ip_rms",round2(Ip_rms));
-   setVar("Ip_ac",round2(Ip_ac));
-   setVar("Is1_rms",round2(Is1_rms));
-   setVar("Is2_rms",round2(Is2_rms));
-   setVar("Is1_ac",round2(Is1_ac));
-   setVar("Is2_ac",round2(Is2_ac));
-
-   //--stage 4----
-   Vdiode1_max = 2*Vi_max*Nsp1;
-   Pdiode1_max = Io1_max*Vd_fw;
-   Pdiode2_max = Io2_max*Vd_fw;
-   Pdiode_tot = Pdiode1_max + Pdiode2_max;
-   
-   setVar("Vdiode1_max",round2(Vdiode1_max));  
-   setVar("Pdiode1_max",round2(Pdiode1_max));  
-   setVar("Pdiode2_max",round2(Pdiode2_max));  
-   setVar("Pdiode_tot",round2(Pdiode_tot));  
-
-   //--- stage 5--- top half 
-   Vf2 = (Vo2*Tch)/(2*Ton_max);
-   Vf1 = (Vo1*Tch)/(2*Ton_max);
-   Lo1 = ((Vf1-Vo1)*Ton_max)/(2*Io1_min);
-   Lo2 = ((Vf2-Vo2)*Ton_max)/(2*Io2_min);
-
-   setVar("Vf2",round2(Vf2));  
-   setVar("Vf1",round2(Vf1));  
-   setVar("Lo1",round2(Lo1)); 
-   setVar("Lo2",round2(Lo2)); 
-}
-
-function  ripple_calc()
-{
-  //--- stage5 bottom half 
-  Lo1_u = getVar("Lo1");
-  Lo2_u = getVar("Lo2");
-
-  Di1 = ((Vf1-Vo1)*Ton_max)/(Lo1_u);
-  Di2 = ((Vf2-Vo2)*Ton_max)/(Lo2_u);
- 
-  Co1 = (Di1*Ton_max)/(Vrp1*0.25);
-  Co2 = (Di2*Ton_max)/(Vrp2*0.25);
-
-  Esr1 = (Vrp1*0.75)/Di1;
-  Esr2 = (Vrp2*0.75)/Di2;
-
-  setVar("Di1",round2(Di1) );
-  setVar("Di2",round2(Di2) );
-  setVar("Co1", round2(1000*Co1));
-  setVar("Co2", round2(1000*Co2));
-  setVar("Esr1",round2(Esr1/1000) );
-  setVar("Esr2",round2(Esr2/1000) );
-  
-}
-
-//MOSFET power dissipation calc
-var Rds_on_u ; // chosen mosfet on resistor
-var Coss, Qg_tot, Qgd, Qgs, Vgs_th;
-var Vdr, Rdr_on, Rdr_off; //driver voltage, driver swith on internal Resistant
-//--out put--
-var Pcond = 0, Idriver_LH =0 ; Idriver_HL=0,Tsw_LH=0, Tsw_HL=0;
-var Psw_max = 0, Pgate = 0, Pmosfet_tot=0;
-
-function mosfet_Pdispt()
-{
-  var Qg_sw, Igate_awg;
-
-  Rds_on_u = getVar("Rds_on_u");
-  Pcond = Rds_on_u*Ip_ft*Ip_ft*D_max;
- 
-  Vdr = getVar("Vdr");
-  Vgs_th =  getVar("Vgs_th");
-  Rdr_on =  getVar("Rdr_on");
-  Rdr_off = getVar("Rdr_off");
-  
-  Idriver_LH = (Vdr-Vgs_th)/Rdr_on;
-  Idriver_HL = (Vdr-Vgs_th)/Rdr_off;
-
-  Qgd = getVar("Qgd");
-  Qgs = getVar("Qgs");
-  Coss = getVar("Coss");
-
-  //switch loss
-  Qg_sw = Qgd+Qgs/2;
-  Tsw_LH = Qg_sw/Idriver_LH;
-  Tsw_HL = Qg_sw/Idriver_HL;
-  //khz, pf, ns
-  Psw_max = Vi_min*Ip_ft*fsw*((Tsw_LH+Tsw_HL)/1000000) + (Coss/1000000000*Vi_min*Vi_min*fsw)/2;
-
-
-  //gate charge loss
-  Qg_tot=getVar("Qg_tot");
-  Igate_awg = fsw*Qg_tot*1000/1000000000;  
-  Pgate = Igate_awg*Vdr;
-
-  Pmosfet_tot = Pcond+Psw_max+Pgate;
-
- 
-  setVar("Pcond",round2(Pcond));
-  setVar("Idriver_LH",round2(Idriver_LH));
-  setVar("Idriver_HL",round2(Idriver_HL));
-  setVar("Tsw_LH",round2(Tsw_LH));
-  setVar("Tsw_HL",round2(Tsw_HL)); 
-  setVar("Psw_max",round2(Psw_max));
-  setVar("Pgate",round2(Pgate));
-  setVar("Pmosfet_tot",round2(Pmosfet_tot));
-}
-function rv2Str(v)
-{
-	if( v<1000){
-		return Math.round(v);
-	}else if(v>=1000 && v<1000000){
-		return Math.round((v/1000)*100)/100 + "K";
-	}else if(v>=1000000){
-		return Math.round((v/1000000)*100)/100 + "M";
-	}
-}
-
-//Find a 1%, %5 serials resistor value
-function realR(R)
-{
-
-//E96 1% Resistors
-if(led.RRES.value == "0")
-RstListStr = "0,1.0,1.1,1.2,1.3,1.5,1.6,1.8,2.0,2.2,2.4,2.7,3.0,3.3,3.6,3.9,4.3,4.7,5.1,5.6,6.2,6.8,7.5,8.2,9.1,10.0";
-else if (led.RRES.value == "1")
-RstListStr = "0,1.00,1.02,1.05,1.07,1.10,1.13,1.15,1.18,1.21,1.24,1.27,1.30,1.33,1.37,1.40,1.43,1.47,1.50,1.54,1.58,1.62,1.65,1.69,1.74,1.78,1.82,1.87,1.91,1.96,2.00,2.05,2.10,2.15,2.21,2.26,2.32,2.37,2.43,2.49,2.55,2.61,2.67,2.74,2.80,2.87,2.94,3.01,3.09,3.16,3.24,3.32,3.40,3.48,3.57,3.65,3.74,3.83,3.92,4.02,4.12,4.22,4.32,4.42,4.53,4.64,4.75,4.87,4.99,5.11,5.23,5.36,5.49,5.62,5.76,5.90,6.04,6.19,6.34,6.49,6.65,6.81,6.98,7.15,7.32,7.50,7.68,7.87,8.06,8.25,8.45,8.66,8.87,9.09,9.31,9.53,9.76,10.00";
-
-RstList = RstListStr.split(",");
-
-for(j=0;j<=6;j++){
-Ts = Math.pow(10,j);
-for(i=1; i<(RstList.length-1);i++){
-RstDownRange = (parseFloat(RstList[i-1])+parseFloat(RstList[i]))*Ts / 2;
-RstUpRange = (parseFloat(RstList[i+1])+parseFloat(RstList[i]))*Ts / 2;
-
-if( (R > RstDownRange) && (R <= RstUpRange) ){
-return parseFloat(RstList[i])*Ts;
-}
-}
-
-}
-
-//should never here..
-return R;
-
-}
-
-
-
-// give a Watt value, return sutable resistor W
-function rw2Str(a)
-{
-if( a*2<(1/8) ) return "1/8";
-if( (a*2>=(1/8)) && (a*2<(1/4)) )return "1/4";
-if ( (a*2>=(1/4)) && (a*2<(1/2)) ) return "1/2";
-if ( (a*2>=(1/2)) && (a*2<1) )return "1";
-if ( (a*2>=1) && (a*2<2) ) return "2";
-if ( (a*2>=2) && (a*2<3) ) return "3";
-if ( (a*2>=3) && (a*2<5) )return "5";
-if ( (a*2>=5) ) return ">10";
-}
-        </script><font color="#808080" face="Arial" size="2">by hyl 2010.11.3<br>
+        <font color="#808080" face="Arial" size="2">by hyl 2010.11.3<br>
         </font></p>
-</form>
+      </form>
       </td>
     </tr>
   </tbody>
