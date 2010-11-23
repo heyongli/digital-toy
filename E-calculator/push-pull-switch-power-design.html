@@ -1,6 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head>
 
+
   
   <script></script>
   
@@ -302,7 +303,7 @@ secondary2整流&#36755;出&#30005;&#21387;:<small><input name="Vf2" size="5" style
             </tr>
             <tr>
               <td style="vertical-align: top; background-color: rgb(120, 201, 120);">&#33033;&#20914;&#21464;&#21387;器工作&#28857;</td>
-              <td style="vertical-align: top; background-color: rgb(198, 248, 248);">&nbsp;<input value="&#35745;算" name="transformer_init_button" onclick="transformer_init()" type="button">&nbsp; <br>
+              <td style="vertical-align: top; background-color: rgb(198, 248, 248);">&nbsp;<input onclick="transformer_init()" value="&#35745;算" name="transformer_init_button" type="button">&nbsp; <br>
               </td>
               <td style="vertical-align: top;"><br>
               </td>
@@ -318,11 +319,17 @@ secondary2整流&#36755;出&#30005;&#21387;:<small><input name="Vf2" size="5" style
             <tr>
               <td style="vertical-align: top; background-color: rgb(244, 244, 244);">磁通密度估算&#21442;&#25968;<br>
               </td>
-              <td style="vertical-align: top;"><span style="color: rgb(109, 109, 109);">P型材料&nbsp;</span>&nbsp; a1:<input value="0.158" name="a1" size="3">&nbsp;&nbsp; b1:<input value="1.36" name="b1" size="3">&nbsp; c1:<input value="2.86" name="c1" size="3">&nbsp;&nbsp;&nbsp; <span style="font-weight: bold; color: rgb(168, 67, 67);">ΔB:</span><input value="0.158" name="deltaB" size="3">G&nbsp;  (&#35745;算后可直接修改ΔB)</td>
+              <td style="vertical-align: top;"><span style="color: rgb(109, 109, 109);">P型材料&nbsp;</span>&nbsp; a1:<input value="0.158" name="a1" size="3">&nbsp;&nbsp; b1:<input value="1.36" name="b1" size="3">&nbsp; c1:<input value="2.86" name="c1" size="3">&nbsp;&nbsp;&nbsp; <span style="font-weight: bold; color: rgb(168, 67, 67);">ΔB:</span><input name="deltaB" size="5">G&nbsp;  (&#35745;算后可直接修改ΔB)</td>
               <td style="vertical-align: top;"><br>
               </td>
             </tr>
             <tr>
+              <td style="vertical-align: top; background-color: rgb(123, 205, 123);">&#36873;&#25321;<span style="font-weight: bold; color: rgb(168, 67, 67);">ΔB</span></td>
+              <td style="vertical-align: top; background-color: rgb(190, 238, 238);">&nbsp;<input onclick="transformer_deltaB()" value="&#35745;算" name="transformer_deltaB_button" type="button"> &nbsp; &nbsp; </td>
+              <td style="vertical-align: top;"><br>
+              </td>
+            </tr>
+<tr>
               <td style="vertical-align: top;">有效面&#31215;乘&#31215;<br>
               </td>
               <td style="vertical-align: top;"><span style="font-weight: bold;">WaAc&gt;:</span><small><input name="WaAc" size="5" style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly"></small>cm4</td>
