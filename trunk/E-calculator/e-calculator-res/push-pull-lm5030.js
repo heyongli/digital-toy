@@ -15,7 +15,7 @@ var Vds_on=0;
 var D_max = 0;
 //output_stage 1
 var Ton_max=0;
-var Nsp1=0; //匝比
+var Nsp1=0; //winding nuber
 var Dmin = 0, Dnom = 0;
 
 //----stage 2-----
@@ -99,7 +99,7 @@ function Pcalc()
 	Po_min = (Vo1+Vd_fw)*Io1_min+(Vo2+Vd_fw)*Io2_min;
 	Po_max = (Vo1+Vd_fw)*Io1_max+(Vo2+Vd_fw)*Io2_max;
 
-	//开关频率
+	//switch frequncy
 	T = (1/fsw)*1000; //fsw xxKhz
 	Tch= (2/fsw)*1000;
 
@@ -112,7 +112,7 @@ function Pcalc()
 
 
 	//--------stage 1
-	//占空比信息
+	//duty cycle
 	D_max = getVar("D_max");
 	Ton_max = Tch*D_max;
 	Nsp1 = (Vo1/(2*D_max)+Vd_fw)/(Vi_min-Vds_on);
@@ -257,15 +257,38 @@ function mosfet_Pdispt()
 	setVar("Theta_ja",round2(Theta_ja));
 }
 
+//---- step 11: transformer design --- 
+var J;//current density
+var Pcored; //Maximum core loss density
+var a1,b1,c1;//
+//--out
+var deltaB =0; //ΔB
+var WaAc =0;
 
 function transformer_init()
 {
+  var B;
 
+  Pcored = getVar("Pcored");
+  a1 =  getVar("a1");
+  b1 =  getVar("b1");
+  c1 =  getVar("c1");
+   
+  B =  Math.pow( ( Pcored/(a1*Math.pow( (fsw),b1)) ), (1/c1))*1000;
+  deltaB = 2*B;
 
+  setVar("deltaB",round2(deltaB/1000)*1000);
 
 }
 
+function transformer_deltaB()
+{
+   var Kt = (0.0005/1.97)*1000;
+   J = getVar("J");
+   WaAc = Po_max/(Kt*deltaB*fsw*J);
 
+   setVar("WaAc", 33);//round2(WaAc));
+}
 function transformer_design()
 {
 
