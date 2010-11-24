@@ -90,6 +90,11 @@ function round2(v)
 {
 	return Math.round(v*100)/100;
 }
+function round0(v)
+{
+	return Math.round(v);
+}
+
 
 function Pcalc()
 {
@@ -232,7 +237,8 @@ function mosfet_Pdispt()
 	//khz, pf, ns
 	Psw_max = Vi_min*Ip_ft*fsw*((Tsw_LH+Tsw_HL)/1000000) + (Coss/1000000000*Vi_min*Vi_min*fsw)/2;
 	
-	
+	setVar("Ns2_c", round2(Ns2_c));
+
 	//gate charge loss
 	Qg_tot=getVar("Qg_tot");
 	Igate_awg = fsw*Qg_tot*1000/1000000000;
@@ -291,12 +297,55 @@ function transformer_deltaB()
 
    setVar("WaAc", round2(WaAc));
 }
+
+var Ac,Wa,Lw,Ve,Lt;
+var Lpath, ur;
+//---out
+var WaAc_u=0;
+var Np_c,Ns1_c,Ns2_c;
+var Lp2,I_mag;
+
 function transformer_design()
 {
+	Ac = getVar("Ac");
+	Wa = getVar("Wa");
+	Lw = getVar("Lw");
+	Ve = getVar("Ve");
+	Lt = getVar("Lt");
+	Lpath = getVar("Lpath");
+    ur = getVar("ur");
+  
+    WaAc_u = Ac*Wa;
 
+    Np_c = ((Vi_min-Vds_on)*Tch*D_max)/(deltaB*Ac)*100;  //why 100?
+    Ns1_c = (Np_c*((Vo1*Tch)/(2*Ton_max)+Vd_fw))/(Vi_min-Vds_on);
+	Ns2_c = (Np_c*((Vo2*Tch)/(2*Ton_max)+Vd_fw))/(Vi_min-Vds_on);
+
+    Np_c = round0(Np_c);
+	Ns1_c = round0(Ns1_c);
+	Ns2_c = round0(Ns2_c);
+
+    u0 = (4*3.1415926)/10000000;
+ 
+    Lp2  = (Ac*Np_c*Np_c*ur*u0)/Lpath;
+    I_mag = (Vi_min*Ton_max)/Lp2;
+
+	I_mag /= 10000; //to Amp
+	Lp2  *= 10000;  // to uH
+    
+
+    
+
+    setVar("WaAc_u", round2(WaAc_u));
+    setVar("Np_c", round2(Np_c));
+    setVar("Ns1_c", round2(Ns1_c));
+    setVar("Ns2_c", round2(Ns2_c));
+	setVar("Lp2", round2(Lp2));
+	setVar("I_mag", round2(I_mag));
 
 
 }
+
 
 
 function rv2Str(v)

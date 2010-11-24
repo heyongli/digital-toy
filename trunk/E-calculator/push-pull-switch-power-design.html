@@ -2,6 +2,8 @@
 <html><head>
 
 
+
+
   
   <script></script>
   
@@ -302,8 +304,8 @@ secondary2整流&#36755;出&#30005;&#21387;:<small><input name="Vf2" size="5" style
 
             </tr>
             <tr>
-              <td style="vertical-align: top; background-color: rgb(120, 201, 120);">&#33033;&#20914;&#21464;&#21387;器工作&#28857;</td>
-              <td style="vertical-align: top; background-color: rgb(198, 248, 248);">&nbsp;<input onclick="transformer_init()" value="&#35745;算" name="transformer_init_button" type="button">&nbsp; <br>
+              <td style="vertical-align: top; background-color: rgb(120, 201, 120);">&#33033;&#20914;&#21464;&#21387;器&#39044;估<span style="font-weight: bold; color: rgb(168, 67, 67);">ΔB</span></td>
+              <td style="vertical-align: top; background-color: rgb(198, 248, 248);">&nbsp;<input onclick="transformer_init()" value="&#35745;算" name="transformer_init_button" type="button">&nbsp;&nbsp; (&#35745;算后可直接修改ΔB) 
               </td>
               <td style="vertical-align: top;"><br>
               </td>
@@ -311,7 +313,7 @@ secondary2整流&#36755;出&#30005;&#21387;:<small><input name="Vf2" size="5" style
             <tr>
               <td style="vertical-align: top; background-color: rgb(244, 244, 244);">初始&#35774;&#35745;&#21442;&#25968;<br>
               </td>
-              <td style="vertical-align: top;"><span style="color: rgb(109, 109, 109);">&#30005;流密度J:</span><input style="color: rgb(109, 109, 109);" value="390" name="J" size="3"><span style="color: rgb(109, 109, 109);">A/cm2 (280-390)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 最大磁芯&#25439;耗密度:</span><input style="color: rgb(109, 109, 109);" value="75" name="Pcored" size="3"><span style="color: rgb(109, 109, 109);">mW/cm3 (&#28201;升&#32422;40度)</span><br>
+              <td style="vertical-align: top;"><span style="color: rgb(109, 109, 109);">&#30005;流密度J:</span><input style="color: rgb(109, 109, 109);" value="390" name="J" size="3"><span style="color: rgb(109, 109, 109);">A/cm2 (280-390)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; 最大磁芯&#25439;耗密度:</span><input style="color: rgb(109, 109, 109);" value="75" name="Pcored" size="3"><span style="color: rgb(109, 109, 109);">mW/cm3 (&#28201;升&#32422;40度)</span><br>
               </td>
               <td style="vertical-align: top;"><br>
               </td>
@@ -319,13 +321,13 @@ secondary2整流&#36755;出&#30005;&#21387;:<small><input name="Vf2" size="5" style
             <tr>
               <td style="vertical-align: top; background-color: rgb(244, 244, 244);">磁通密度估算&#21442;&#25968;<br>
               </td>
-              <td style="vertical-align: top;"><span style="color: rgb(109, 109, 109);">P型材料&nbsp;</span>&nbsp; a1:<input value="0.158" name="a1" size="3">&nbsp;&nbsp; b1:<input value="1.36" name="b1" size="3">&nbsp; c1:<input value="2.86" name="c1" size="3">&nbsp;&nbsp;&nbsp; <span style="font-weight: bold; color: rgb(168, 67, 67);">ΔB:</span><input name="deltaB" size="5">G&nbsp;  (&#35745;算后可直接修改ΔB)</td>
+              <td style="vertical-align: top;"><span style="color: rgb(109, 109, 109);">P型材料&nbsp;</span>&nbsp; a1:<input value="0.158" name="a1" size="3">&nbsp;&nbsp; b1:<input value="1.36" name="b1" size="3">&nbsp; c1:<input value="2.86" name="c1" size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &#32469;&#32452;最高容&#35768;&#28201;度:<input style="color: rgb(109, 109, 109);" value="80" name="Pcored" size="3">C</td>
               <td style="vertical-align: top;"><br>
               </td>
             </tr>
             <tr>
               <td style="vertical-align: top; background-color: rgb(123, 205, 123);">&#36873;&#25321;<span style="font-weight: bold; color: rgb(168, 67, 67);">ΔB</span></td>
-              <td style="vertical-align: top; background-color: rgb(190, 238, 238);">&nbsp;<input onclick="transformer_deltaB()" value="&#35745;算" name="transformer_deltaB_button" type="button"> &nbsp; &nbsp; </td>
+              <td style="vertical-align: top; background-color: rgb(190, 238, 238);"><span style="font-weight: bold; color: rgb(168, 67, 67);">&nbsp;ΔB:</span><input name="deltaB" size="5">G&nbsp;   <input onclick="transformer_deltaB()" value="&#35745;算" name="transformer_deltaB_button" type="button"> &nbsp; &nbsp; </td>
               <td style="vertical-align: top;"><br>
               </td>
             </tr>
@@ -353,47 +355,162 @@ secondary2整流&#36755;出&#30005;&#21387;:<small><input name="Vf2" size="5" style
               <option value="other">other</option>
               
               </select>
-&nbsp;&nbsp; <input value="&#35745;算" name="transformer_button" onclick="transformer_design()" type="button"> </td>
+&nbsp;&nbsp; <input value="&#35745;算" name="transformer_button" onclick="transformer_design()" type="button"> </td><td style="vertical-align: top;"><br>
+              </td>
+
             </tr>
             <tr>
               <td style="vertical-align: top;">&#33033;&#20914;&#21464;&#21387;器体&#31215;&#21442;&#25968;<br>
               </td>
-              <td style="vertical-align: top;"><span style="font-weight: bold;">Ac:</span><input value="0.69" name="Ac" size="3">cm2&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">Wa:</span><input value="0.52" name="Wa" size="3">cm2&nbsp;&nbsp; Lw:<input value="2.01" name="Lw" size="3">cm&nbsp; Ve:<input value="4.7" name="Ve" size="3">cm3(体&#31215;)&nbsp;&nbsp; Lt:<input value="4.8" name="Lt" size="3">cm <br>
-              </td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top;">&#33033;&#20914;&#21464;&#21387;器磁性&#21442;&#25968;<br>
-              </td>
-              <td style="vertical-align: top;"> Lpath:<input value="6.8" name="Lpath" size="3">cm&nbsp;&nbsp;&nbsp;&nbsp;  磁&#23548;率μ<small> r</small> :<input value="1720" name="ur" size="3">(P型材料&#20026;1720) <br>
-              </td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top; background-color: rgb(195, 244, 244);">&#32469;&#32452;匝&#25968;<br>
-              </td>
-              <td style="vertical-align: top; background-color: rgb(195, 244, 244);">主&#32469;&#32452;匝&#25968;:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Np_c" size="3" readonly="readonly"></small>turns &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &#36755;出1:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Ns1_c" size="3" readonly="readonly"></small>turns&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &#36755;出2:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Ns1_c" size="3" readonly="readonly"></small>turns <br>
-              </td>
-            </tr>
-            <tr>
-              <td style="vertical-align: top; background-color: rgb(195, 244, 244);">主&#32469;&#32452;<br>
-              </td>
-              <td style="vertical-align: top; background-color: rgb(195, 244, 244);">主&#32469;&#32452;&#30005;感:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Lp2" size="3" readonly="readonly"></small>uH&nbsp;&nbsp;&nbsp;&nbsp; 主&#32469;&#32452;&#21169;磁&#30005;流:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="I_mag" size="3" readonly="readonly"></small>A<br>
-              </td>
-            </tr>
-<tr>
-              <td style="vertical-align: top;"><input name="CLOSERST" value="ON" checked="checked" type="checkbox"><span lang="zh-tw">自動選取相近之
-市</span></td>
-              <td style="vertical-align: top;"><br>
+              <td style="vertical-align: top;"><span style="font-weight: bold;"><span style="color: rgb(195, 78, 78);">Ac</span>:</span><input value="0.69" name="Ac" size="3">cm2&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">Wa:</span><input value="0.52" name="Wa" size="3">cm2&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">Lw:</span><input value="2.01" name="Lw" size="3">cm&nbsp; Ve(体&#31215;):<input value="4.7" name="Ve" size="3">cm3&nbsp;&nbsp; Lt:<input value="4.8" name="Lt" size="3">cm <br>
               </td><td style="vertical-align: top;"><br>
               </td>
 
             </tr>
+            <tr>
+              <td style="vertical-align: top;">&#33033;&#20914;&#21464;&#21387;器磁性&#21442;&#25968;<br>
+              </td>
+              <td style="vertical-align: top;"> Lpath:<input value="6.8" name="Lpath" size="3">cm&nbsp;&nbsp;&nbsp;&nbsp;  磁&#23548;率μ<small> r</small> :<input value="1720" name="ur" size="3">(P型材料&#20026;1720)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="font-weight: bold; color: rgb(218, 87, 87);">&#23454;&#38469;Ac*Wa</span> <small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="WaAc_u" size="3" readonly="readonly">cm4</small>
+              </td><td style="vertical-align: top;"><br>
+              </td>
+
+            </tr>
+            <tr>
+              <td style="vertical-align: top; background-color: rgb(179, 224, 224);">&#32469;&#32452;匝&#25968;<br>
+              </td>
+              <td style="vertical-align: top; background-color: rgb(229, 229, 189);"><span style="font-weight: bold;">主&#32469;&#32452;匝&#25968;</span>:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Np_c" size="3" readonly="readonly"></small>turns &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; <span style="font-weight: bold;">&#36755;出1</span>:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Ns1_c" size="3" readonly="readonly"></small>turns&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">&#36755;出2</span>:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Ns2_c" size="3" readonly="readonly"></small>turns&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+              <span style="color: rgb(37, 151, 189);">Np = ((Vi_min-Vds_on)*Tch*D_max)/(deltaB*Ac)*100</span><br>
+              </td><td style="vertical-align: top;"><br>
+              </td>
+
+            </tr>
+            <tr>
+              <td style="vertical-align: top; background-color: rgb(179, 224, 224);">主&#32469;&#32452;<br>
+              </td>
+              <td style="vertical-align: top; background-color: rgb(229, 229, 189);">主&#32469;&#32452;&#30005;感:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Lp2" size="3" readonly="readonly"></small>uH&nbsp;&nbsp;&nbsp;&nbsp; 主&#32469;&#32452;&#21169;磁&#30005;流:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="I_mag" size="3" readonly="readonly"></small>A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+              </td><td style="vertical-align: top;"><br>
+              </td>
+
+            </tr>
+            <tr>
+              <td style="vertical-align: top; background-color: rgb(204, 255, 255);">&#39044;估主&#32469;&#32452;&#32447;&#21495;<br>
+              </td>
+              <td style="vertical-align: top; background-color: rgb(254, 254, 206);">&nbsp;&#23548;&#32447;截面&#31215;(Wp_cu)<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Wp_cu" size="3" readonly="readonly"></small>cm2 &nbsp;&nbsp;  估&#35745;AWG:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="AWGp" size="3" readonly="readonly"></small>&nbsp; </td>
+              <td style="vertical-align: top;"><br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top; background-color: rgb(204, 255, 255);">&#39044;估次&#32423;&#32469;&#32452;1&#32447;&#21495;<br>
+              </td>
+              <td style="vertical-align: top; background-color: rgb(254, 254, 206);">&nbsp;&#23548;&#32447;截面&#31215;(Wp_cu)<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Ws1_cu" size="3" readonly="readonly"></small>cm2 &nbsp;&nbsp;  估&#35745;AWG:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="AWGs1" size="3" readonly="readonly"></small> <br>
+              </td>
+              <td style="vertical-align: top;"><br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top; background-color: rgb(204, 255, 255);">&#39044;估&#32469;&#32452;2&#32447;&#21495;<br>
+              </td>
+              <td style="vertical-align: top; background-color: rgb(254, 254, 206);">&nbsp;&#23548;&#32447;截面&#31215;(Wp_cu)<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Ws2_cu" size="3" readonly="readonly"></small>cm2 &nbsp;&nbsp;  估&#35745;AWG:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="AWGs2" size="3" readonly="readonly"></small></td>
+              <td style="vertical-align: top;"><br>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" rowspan="1" style="vertical-align: top;"><img style="width: 474px; height: 474px;" alt="AWG wire table" src="e-calculator-res/wire-table-AWG18-31.jpg" align="left"><br>
+              <br><br>
+
+              
+              <div style="margin-left: 40px;">&nbsp;<br>
+              </div>
+&nbsp;
+              <br>
+              <br>
+&nbsp;&nbsp; <br>
+</td>
+              <td style="vertical-align: top;"><br>
+              <br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top; background-color: rgb(153, 191, 191);">&#36873;&#25321;&#32447;&#21495;<br>
+              </td>
+              <td style="vertical-align: top;">主&#32469;&#32452;&#32447;&#21495;:<input value="21" name="AWG_Lp" size="3"> (AWG_Lp)&nbsp;&nbsp; 次&#32423;&#32469;&#32452;1:<input value="31" name="AWG_Ls1" size="3"> (AWG_Ls1)&nbsp; 次&#32423;&#32469;&#32452;2:<input value="31" name="AWG_Ls2" size="3"> (AWG_Ls2)</td>
+              <td style="vertical-align: top;"><br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top; background-color: rgb(133, 223, 133);"> &#35745;算&#32469;&#32447;&#21442;&#25968;</td>
+              <td style="vertical-align: top; background-color: rgb(197, 247, 247);">&nbsp;  <input value="&#35745;算" name="transformer_button" onclick="transformer_design()" type="button"> </td>
+              <td style="vertical-align: top;"><br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">主&#32469;&#32452;<br>
+              </td>
+              <td style="vertical-align: top;">每&#23618;<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Ntl_Lp" size="3" readonly="readonly"></small>圈&nbsp;&nbsp; 共<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Nly_Lp" size="3" readonly="readonly"></small>&#23618;<br>
+              </td>
+              <td style="vertical-align: top;"><br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">次&#32423;&#32469;&#32452;1<br>
+              </td>
+              <td style="vertical-align: top;">每&#23618;<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Ntl_Ls1" size="3" readonly="readonly"></small>圈&nbsp;&nbsp; 共<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Nly_Ls1" size="3" readonly="readonly"></small>&#23618;</td>
+              <td style="vertical-align: top;"><br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">次&#32423;&#32469;&#32452;2<br>
+              </td>
+              <td style="vertical-align: top;">每&#23618;<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Ntl_Ls2" size="3" readonly="readonly"></small>圈&nbsp;&nbsp; 共<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Nly_Ls2" size="3" readonly="readonly"></small>&#23618;</td>
+              <td style="vertical-align: top;"><br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">窗口利用率<br>
+              </td>
+              <td style="vertical-align: top;">&#32469;&#32452;&#24635;面&#31215;:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Wcu_tot" size="3" readonly="readonly"></small>cm3&nbsp;&nbsp; 窗口利用率Wu:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Wu" size="3" readonly="readonly"></small>(必&#39035;小于95%)&nbsp;&nbsp; <br>
+              </td>
+              <td style="vertical-align: top;"><br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">&#33033;&#20914;&#21464;&#21387;器&#25439;耗<br>
+              </td>
+              <td style="vertical-align: top;">&nbsp;&nbsp; 磁芯&#25439;耗:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Pcore" size="3" readonly="readonly"></small>W&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 主&#32469;&#32452;&#38108;&#25439;:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Pcu_Lp" size="3" readonly="readonly"></small>W&nbsp;&nbsp; 次&#32423;&#32469;&#32452;1&#38108;&#25439;:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Pcu_Lp" size="3" readonly="readonly"></small>W&nbsp;&nbsp; 次&#32423;&#32469;&#32452;2&#38108;&#25439;:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Pcu_Lp" size="3" readonly="readonly"></small>W<br>
+              </td>
+              <td style="vertical-align: top;"><br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top;">&#33033;&#20914;&#21464;&#21387;器效率<br>
+              </td>
+              <td style="vertical-align: top;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &#24635;&#38108;&#25439;:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Pcu_tot" size="3" readonly="readonly"></small>W&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &#21464;&#21387;器&#24635;&#25439;耗:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Ptrans_tot" size="3" readonly="readonly"></small>W<br>
+              </td>
+              <td style="vertical-align: top;"><br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top; background-color: rgb(124, 207, 124);">&#30005;源&#24635;&#25439;耗<br>
+              </td>
+              <td style="vertical-align: top; background-color: rgb(204, 255, 255);">&#36755;入&#30005;感&#30005;阻:<input value="0.085" name="R_L1" size="3">Ohm &nbsp; PCB&#25439;耗估&#35745;:<input value="1" name="Ppcb" size="3">W&nbsp; <input value="&#35745;算" name="transformer_n" onclick="transformer_n()" type="button"></td>
+              <td style="vertical-align: top;"><br>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: top; background-color: rgb(255, 111, 111);">&#30005;源&#24635;效率<br>
+              </td>
+              <td style="vertical-align: top; background-color: rgb(255, 255, 153);">效率ηtot:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="n_tot" size="3" readonly="readonly"></small>&nbsp;&nbsp;&nbsp; &#24635;&#25439;耗功率:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Ploss" size="3" readonly="readonly"></small>W<br>
+              </td>
+              <td style="vertical-align: top;"><br>
+              </td>
+            </tr>
+
           </tbody>
         </table>
         </center>
         </div>
         <p style="margin-top: 0pt; margin-bottom: 0pt;" align="center">　</p>
-        <p style="margin-top: 0pt; margin-bottom: 0pt;" align="center">
-        <font color="#808080" face="Arial" size="2">by hyl 2010.11.3<br>
+        <p style="margin-top: 0pt; margin-bottom: 0pt;" align="center"><font color="#808080" face="Arial" size="2">GPL , </font><font color="#808080" face="Arial" size="2">by hyl Copyleft 2010.11.3&nbsp;&nbsp; <br>
         </font></p>
       </form>
       </td>
