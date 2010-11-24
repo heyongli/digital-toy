@@ -285,9 +285,11 @@ function transformer_deltaB()
 {
    var Kt = (0.0005/1.97)*1000;
    J = getVar("J");
-   WaAc = Po_max/(Kt*deltaB*fsw*J);
+   WaAc = Po_max/(Kt*deltaB*fsw*1000*J); //fsw:kHz
 
-   setVar("WaAc", 33);//round2(WaAc));
+   WaAc = 100*100*100*100*WaAc; //m4--> cm4
+
+   setVar("WaAc", round2(WaAc));
 }
 function transformer_design()
 {
