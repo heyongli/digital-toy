@@ -304,12 +304,14 @@ var Lpath, ur;
 var WaAc_u=0;
 var Np_c,Ns1_c,Ns2_c;
 var Lp2,I_mag;
+var Wp_cu, AWGp, Ws1_cu; 
+var AWGs1,Ws2_cu, AWGs2; //估计线号
+var AWG_Lp, AWG_Ls1,AWG_Ls2;//采纳线号
 
 function transformer_design()
 {
 	Ac = getVar("Ac");
 	Wa = getVar("Wa");
-	Lw = getVar("Lw");
 	Ve = getVar("Ve");
 	Lt = getVar("Lt");
 	Lpath = getVar("Lpath");
@@ -333,8 +335,14 @@ function transformer_design()
 	I_mag /= 10000; //to Amp
 	Lp2  *= 10000;  // to uH
     
+    //primary wing wrie size
+	Wp_cu = Ip_rms/J;  //cm2
+    AWGp =  -4.2*Math.log(Wp_cu);
 
-    
+    Ws1_cu = Is1_rms/J;
+	AWGs1 = -4.2*Math.log(Ws1_cu);
+    Ws2_cu = Is2_rms/J;
+	AWGs2 = -4.2*Math.log(Ws2_cu);
 
     setVar("WaAc_u", round2(WaAc_u));
     setVar("Np_c", round2(Np_c));
@@ -343,10 +351,125 @@ function transformer_design()
 	setVar("Lp2", round2(Lp2));
 	setVar("I_mag", round2(I_mag));
 
+	setVar("Wp_cu", round2(100*Wp_cu));  //to mm2
+	setVar("AWGp", round2(AWGp));
+	setVar("Ws1_cu", round2(100*Ws1_cu));  //to mm2
+	setVar("AWGs1", round2(AWGs1));
+	setVar("Ws2_cu", round2(100*Ws2_cu));  //to mm2
+	setVar("AWGs2", round2(AWGs2));
+
+    //get around awg to use
+    AWG_Lp = Math.ceil(AWGp);
+	AWG_Ls1 = Math.ceil(AWGs1);
+	AWG_Ls2 = Math.ceil(AWGs2);
+    if(Math.abs(AWG_Lp-AWG_Ls1)<3)
+		AWG_Lp=AWG_Ls1 = Math.min(AWG_Lp,AWG_Ls1);
+
+	setVar("AWG_Lp",  AWG_Lp);
+	setVar("AWG_Ls1", AWG_Ls1);
+	setVar("AWG_Ls2", AWG_Ls2);
+
 
 }
 
+//from AWG  18 to AWG 31
+//cm2, bare area: copper area
+var AWG_BA   ="8.23,6.53,5.188,4.116,3.243,2.588,2.047,1.623,1.28,1.021,0.8046,0.647,0.5067,0.4013";
+//cm2  copper+insulation
+var AWG_Area ="9.32,7.54,6.065,4.837,3.857,3.135,2.514,2.002,1.603,1.313,1.0515,0.8548,0.6785,0.5596";
+//cm, diameter
+var AWG_Dia  ="0.109,0.098,0.0879,0.0785,0.0701,0.0632,0.0566,0.0505,0.0452,0.0409,0.0366,0.033,0.0294,0.0267"; 
 
+//return cm2
+function awg_ba(awg)
+{
+	if(awg<18 || awg>31)
+	  return 0;
+	AWG_BA_list = AWG_BA.split(",");
+	return AWG_BA_list[awg-18]/1000;
+}
+//return cm2
+function awg_a(awg)
+{
+	if(awg<18 || awg>31)
+	  return 0;
+	AWG_Area_list = AWG_Area.split(",");
+	return AWG_Area_list[awg-18]/1000;
+}
+//return cm
+function awg_d(awg)
+{
+	if(awg<18 || awg>31)
+	  return 0;
+	AWG_Dia_list = AWG_Dia.split(",");
+	return AWG_Dia_list[awg-18];
+}
+
+
+
+// -- fill AWG info from predefine function
+var Wa_Lp, Wcu_Lp, Dcu_Lp,Nst_Lp=1;
+var Wa_Ls1,Wcu_Ls1, Dcu_Ls1, Nst_Ls1;
+var Wa_Ls2,Wcu_Ls2, Dcu_Ls2, Nst_Ls2;
+var Ntl_Lp, Nly_Lp;
+
+function transformer_design_wire()
+{
+    
+   
+	Lw = getVar("Lw");
+
+	AWG_Lp =  round0(getVar("AWG_Lp"));
+	AWG_Ls1 = round0(getVar("AWG_Ls1"));
+	AWG_Ls2 = round0(getVar("AWG_Ls2"));
+
+    //Primary 
+	Wa_Lp = awg_ba(AWG_Lp);
+	Wcu_Lp = awg_a(AWG_Lp);
+	Dcu_Lp = awg_d(AWG_Lp);
+
+	Nst_Lp  = Math.ceil(Wp_cu/Wcu_Lp);
+    Ntl_Lp = Math.floor(Lw/Dcu_Lp);
+	Nly_Lp = Math.ceil((Np_c*Nst_Lp)/(Ntl_Lp/2));
+
+	setVar("Nst_Lp",Nst_Lp);
+	setVar("Ntl_Lp",Ntl_Lp);
+	setVar("Nly_Lp",Nly_Lp);
+	setVar("Dcu_Lp",round2(10*Dcu_Lp));//cm->mm
+	
+    //sencondar 1,master
+	Wa_Ls1 = awg_ba(AWG_Ls1);
+	Wcu_Ls1 = awg_a(AWG_Ls1);
+	Dcu_Ls1 = awg_d(AWG_Ls1);
+	
+	Nst_Ls1  = Math.ceil(Ws1_cu/Wcu_Ls1);
+
+    Ntl_Ls1 = Math.floor(Lw/Dcu_Ls1);
+	Nly_Ls1 = Math.ceil((Ns1_c*Nst_Ls1)/(Ntl_Ls1/2));
+
+	setVar("Nst_Ls1",Nst_Ls1);
+	setVar("Ntl_Ls1",Ntl_Ls1);
+	setVar("Nly_Ls1",Nly_Ls1);
+	setVar("Dcu_Ls1",round2(10*Dcu_Ls1));//cm->mm
+
+   //sencondar 2,slave
+	Wa_Ls2 = awg_ba(AWG_Ls2);
+	Wcu_Ls2 = awg_a(AWG_Ls2);
+	Dcu_Ls2 = awg_d(AWG_Ls2);
+	
+	Nst_Ls2  = Math.ceil(Ws2_cu/Wcu_Ls2);
+
+    Ntl_Ls2 = Math.floor(Lw/Dcu_Ls2);
+	Nly_Ls2 = Math.ceil((Ns2_c*Nst_Ls2)/(Ntl_Ls2/2));
+
+	setVar("Nst_Ls2",Nst_Ls2);
+	setVar("Ntl_Ls2",Ntl_Ls2);
+	setVar("Nly_Ls2",Nly_Ls2);
+	setVar("Dcu_Ls2",round2(10*Dcu_Ls2));//cm->mm
+
+
+	
+}
 
 function rv2Str(v)
 {
