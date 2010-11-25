@@ -395,14 +395,14 @@ secondary2整流&#36755;出&#30005;&#21387;:<small><input name="Vf2" size="5" style
             <tr>
               <td style="vertical-align: top; background-color: rgb(204, 255, 255);">&#39044;估主&#32469;&#32452;&#32447;&#21495;<br>
               </td>
-              <td style="vertical-align: top; background-color: rgb(254, 254, 206);">&nbsp;&#23548;&#32447;截面&#31215;(Wp_cu)<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Wp_cu" size="3" readonly="readonly"></small>cm2 &nbsp;&nbsp;  估&#35745;AWG:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="AWGp" size="3" readonly="readonly"></small>&nbsp; </td>
+              <td style="vertical-align: top; background-color: rgb(254, 254, 206);">&nbsp;&#23548;&#32447;截面&#31215;(Wp_cu)<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Wp_cu" size="3" readonly="readonly"></small>mm2 &nbsp;&nbsp;  估&#35745;AWG:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="AWGp" size="3" readonly="readonly"></small>&nbsp; </td>
               <td style="vertical-align: top;"><br>
               </td>
             </tr>
             <tr>
               <td style="vertical-align: top; background-color: rgb(204, 255, 255);">&#39044;估次&#32423;&#32469;&#32452;1&#32447;&#21495;<br>
               </td>
-              <td style="vertical-align: top; background-color: rgb(254, 254, 206);">&nbsp;&#23548;&#32447;截面&#31215;(Wp_cu)<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Ws1_cu" size="3" readonly="readonly"></small>cm2 &nbsp;&nbsp;  估&#35745;AWG:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="AWGs1" size="3" readonly="readonly"></small> <br>
+              <td style="vertical-align: top; background-color: rgb(254, 254, 206);">&nbsp;&#23548;&#32447;截面&#31215;(Wp_cu)<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Ws1_cu" size="3" readonly="readonly"></small>mm2 &nbsp;&nbsp;  估&#35745;AWG:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="AWGs1" size="3" readonly="readonly"></small> <br>
               </td>
               <td style="vertical-align: top;"><br>
               </td>
@@ -410,7 +410,7 @@ secondary2整流&#36755;出&#30005;&#21387;:<small><input name="Vf2" size="5" style
             <tr>
               <td style="vertical-align: top; background-color: rgb(204, 255, 255);">&#39044;估&#32469;&#32452;2&#32447;&#21495;<br>
               </td>
-              <td style="vertical-align: top; background-color: rgb(254, 254, 206);">&nbsp;&#23548;&#32447;截面&#31215;(Wp_cu)<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Ws2_cu" size="3" readonly="readonly"></small>cm2 &nbsp;&nbsp;  估&#35745;AWG:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="AWGs2" size="3" readonly="readonly"></small></td>
+              <td style="vertical-align: top; background-color: rgb(254, 254, 206);">&nbsp;&#23548;&#32447;截面&#31215;(Wp_cu)<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Ws2_cu" size="3" readonly="readonly"></small>mm2 &nbsp;&nbsp;  估&#35745;AWG:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="AWGs2" size="3" readonly="readonly"></small></td>
               <td style="vertical-align: top;"><br>
               </td>
             </tr>
@@ -433,35 +433,34 @@ secondary2整流&#36755;出&#30005;&#21387;:<small><input name="Vf2" size="5" style
             <tr>
               <td style="vertical-align: top; background-color: rgb(153, 191, 191);">&#36873;&#25321;&#32447;&#21495;<br>
               </td>
-              <td style="vertical-align: top;">主&#32469;&#32452;&#32447;&#21495;:<input value="21" name="AWG_Lp" size="3"> (AWG_Lp)&nbsp;&nbsp; 次&#32423;&#32469;&#32452;1:<input value="31" name="AWG_Ls1" size="3"> (AWG_Ls1)&nbsp; 次&#32423;&#32469;&#32452;2:<input value="31" name="AWG_Ls2" size="3"> (AWG_Ls2)</td>
+              <td style="vertical-align: top;">主&#32469;&#32452;&#32447;&#21495;:<input value="21" name="AWG_Lp" size="3"> (AWG_Lp)&nbsp;&nbsp; 次&#32423;&#32469;&#32452;1:<input value="21" name="AWG_Ls1" size="3"> (AWG_Ls1)&nbsp; 次&#32423;&#32469;&#32452;2:<input value="30" name="AWG_Ls2" size="3"> (AWG_Ls2)</td>
               <td style="vertical-align: top;"><br>
               </td>
             </tr>
             <tr>
               <td style="vertical-align: top; background-color: rgb(133, 223, 133);"> &#35745;算&#32469;&#32447;&#21442;&#25968;</td>
-              <td style="vertical-align: top; background-color: rgb(197, 247, 247);">&nbsp;  <input value="&#35745;算" name="transformer_button" onclick="transformer_design()" type="button"> </td>
+              <td style="vertical-align: top; background-color: rgb(197, 247, 247);">&nbsp;  <input value="&#35745;算" name="transformer_wire_button" onclick="transformer_design_wire()" type="button"> </td>
               <td style="vertical-align: top;"><br>
               </td>
             </tr>
             <tr>
               <td style="vertical-align: top;">主&#32469;&#32452;<br>
               </td>
-              <td style="vertical-align: top;">每&#23618;<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Ntl_Lp" size="3" readonly="readonly"></small>圈&nbsp;&nbsp; 共<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Nly_Lp" size="3" readonly="readonly"></small>&#23618;<br>
-              </td>
+              <td style="vertical-align: top;">&#32447;&#21495;<input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly" name="AWG_Lp" size="3">&nbsp; 直&#24452;<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Dcu_Lp" size="3" readonly="readonly"></small>mm&nbsp;&nbsp; <small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Nst_Lp" size="3" readonly="readonly"></small>股并&#32469;&nbsp; &nbsp; <small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Np_c" size="3" readonly="readonly"></small>圈&nbsp; 共<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Nly_Lp" size="3" readonly="readonly"></small>&#23618;&nbsp;&nbsp;&nbsp;&nbsp; 每&#23618;可容&#32435;<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Ntl_Lp" size="3" readonly="readonly"></small>圈</td>
               <td style="vertical-align: top;"><br>
               </td>
             </tr>
             <tr>
               <td style="vertical-align: top;">次&#32423;&#32469;&#32452;1<br>
               </td>
-              <td style="vertical-align: top;">每&#23618;<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Ntl_Ls1" size="3" readonly="readonly"></small>圈&nbsp;&nbsp; 共<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Nly_Ls1" size="3" readonly="readonly"></small>&#23618;</td>
+              <td style="vertical-align: top;">&#32447;&#21495;<input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly" name="AWG_Ls1" size="3">&nbsp; 直&#24452;<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Dcu_Ls1" size="3" readonly="readonly"></small>mm &nbsp;   <small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Nst_Ls1" size="3" readonly="readonly"></small>股并&#32469;&nbsp;&nbsp;&nbsp; <small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Ns1_c" size="3" readonly="readonly"></small>圈&nbsp; 共<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Nly_Ls1" size="3" readonly="readonly"></small>&#23618;&nbsp; &nbsp;&nbsp; 每&#23618;可容&#32435;<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Ntl_Ls1" size="3" readonly="readonly"></small>圈</td>
               <td style="vertical-align: top;"><br>
               </td>
             </tr>
             <tr>
               <td style="vertical-align: top;">次&#32423;&#32469;&#32452;2<br>
               </td>
-              <td style="vertical-align: top;">每&#23618;<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Ntl_Ls2" size="3" readonly="readonly"></small>圈&nbsp;&nbsp; 共<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Nly_Ls2" size="3" readonly="readonly"></small>&#23618;</td>
+              <td style="vertical-align: top;">&#32447;&#21495;<input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" readonly="readonly" name="AWG_Ls2" size="3">&nbsp; 直&#24452;<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Dcu_Ls2" size="3" readonly="readonly"></small>mm&nbsp;&nbsp;  <small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Nst_Ls2" size="3" readonly="readonly"></small>股并&#32469;&nbsp;&nbsp;&nbsp; <small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Ns2_c" size="3" readonly="readonly"></small>圈&nbsp; 共<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Nly_Ls2" size="3" readonly="readonly"></small>&#23618;&nbsp;&nbsp;&nbsp;&nbsp; 每&#23618;可容&#32435;<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Ntl_Ls2" size="3" readonly="readonly"></small>圈</td>
               <td style="vertical-align: top;"><br>
               </td>
             </tr>
