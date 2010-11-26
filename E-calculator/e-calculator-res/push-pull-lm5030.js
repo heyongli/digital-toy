@@ -386,7 +386,7 @@ function awg_ba(awg)
 	if(awg<18 || awg>31)
 	  return 0;
 	AWG_BA_list = AWG_BA.split(",");
-	return AWG_BA_list[awg-18]/1000;
+	return parseFloat(AWG_BA_list[awg-18])/1000;
 }
 //return cm2
 function awg_a(awg)
@@ -394,7 +394,7 @@ function awg_a(awg)
 	if(awg<18 || awg>31)
 	  return 0;
 	AWG_Area_list = AWG_Area.split(",");
-	return AWG_Area_list[awg-18]/1000;
+	return parseFloat(AWG_Area_list[awg-18])/1000;
 }
 //return cm
 function awg_d(awg)
@@ -402,7 +402,7 @@ function awg_d(awg)
 	if(awg<18 || awg>31)
 	  return 0;
 	AWG_Dia_list = AWG_Dia.split(",");
-	return AWG_Dia_list[awg-18];
+	return parseFloat(AWG_Dia_list[awg-18]);
 }
 
 
@@ -413,6 +413,11 @@ var Wa_Ls1,Wcu_Ls1, Dcu_Ls1, Nst_Ls1;
 var Wa_Ls2,Wcu_Ls2, Dcu_Ls2, Nst_Ls2;
 var Ntl_Lp, Nly_Lp;
 
+var Wcu_tot, Wu; //tot copper area, window utilization
+var Pcore; //core loss
+
+//function winding_copper_loss();
+
 function transformer_design_wire()
 {
     
@@ -422,6 +427,10 @@ function transformer_design_wire()
 	AWG_Lp =  round0(getVar("AWG_Lp"));
 	AWG_Ls1 = round0(getVar("AWG_Ls1"));
 	AWG_Ls2 = round0(getVar("AWG_Ls2"));
+	
+	setVar("AWG_Lp_u",  AWG_Lp);
+	setVar("AWG_Ls1_u", AWG_Ls1);
+	setVar("AWG_Ls2_u", AWG_Ls2);
 
     //Primary 
 	Wa_Lp = awg_ba(AWG_Lp);
@@ -467,9 +476,81 @@ function transformer_design_wire()
 	setVar("Nly_Ls2",Nly_Ls2);
 	setVar("Dcu_Ls2",round2(10*Dcu_Ls2));//cm->mm
 
+    //tot
+	Wcu_tot = (Dcu_Lp*Nly_Lp + Dcu_Ls1*Nly_Ls1 + Dcu_Ls2*Nly_Ls2)*1.15*Lw;
+	Wu = Wcu_tot/Wa;
+	setVar("Wcu_tot",round2(Wcu_tot));
+	setVar("Wu",round2(Wu));
+	//core loss
+	Pcore = ( Ve*(Math.pow((deltaB/2000),c1)*a1*Math.pow(fsw,b1) ) )/1000 ;//here  use the B, ¦¤B/2
+	setVar("Pcore",round2(Pcore));
 
+	//Winding copper losser
+	winding_copper_loss();
 	
 }
+
+
+//lt:start layer round lenth
+//d: diameter of the wire
+//ly: how many layers to winding
+function next_layer_len(lt,d,ly)
+{
+	L1 = lt;
+	for(i=0; i<=ly; i++)
+		L1 += 4*d;		
+	return L1;
+}
+//lt:start layer round lenth
+//d: diameter of the wire
+//ly: how many layers to winding
+//tl: turns per layer
+//nt: number of turns total
+function winding_wire_len(lt,d,ly,tl,nt)
+{
+	L1 = lt;
+	L = 0;
+	for(i=0; i<=ly; i++){
+		L  +=L1*tl;
+		L1 += 4*d;		
+	}
+	if(ly==1)
+	   L=0;
+	return L+L1*(nt-(ly-1)*tl);
+}
+
+
+//--skin effect
+var Sd;//surface depth, cm
+
+var Ldf_Lp;//the Lt after primary winding
+var Lcu_Lp;//primary winding total lenth
+var Ldf_Ls1, Lcu_Ls1,Ldf_Ls2, Lcu_Ls2;
+
+function winding_copper_loss()
+{
+    //Winding copper losses
+	//skin and proximity effects
+	Sd = 6.61/Math.sqrt(fsw*1000);
+	
+    //primary winding len
+	Ldf_Lp = next_layer_len(Lt,Dcu_Lp,Nly_Lp);
+	Lcu_Lp = winding_wire_len(Lt,Dcu_Lp,Nly_Lp,Ntl_Lp,Np_c);
+
+    //Ls1 winding len
+	Ldf_Ls1 = next_layer_len(Ldf_Lp,Dcu_Ls1,Nly_Ls1);
+	Lcu_Ls1 = winding_wire_len(Ldf_Lp,Dcu_Ls1,Nly_Ls1,Ntl_Ls1,Ns1_c);
+
+    //Ls2 winding len
+	Ldf_Ls2 = next_layer_len(Ldf_Ls1,Dcu_Ls2,Nly_Ls2);
+	Lcu_Ls2 = winding_wire_len(Ldf_Ls1,Dcu_Ls2,Nly_Ls2,Ntl_Ls2,Ns2_c);
+
+	setVar("Pcu_Lp",Sd);	
+	setVar("Pcu_Ls1",Ldf_Ls2);	
+	setVar("Pcu_Ls2",Lcu_Ls2);	
+
+}
+
 
 function rv2Str(v)
 {
