@@ -321,7 +321,7 @@ secondary2整流&#36755;出&#30005;&#21387;:<small><input name="Vf2" size="5" style
             <tr>
               <td style="vertical-align: top; background-color: rgb(244, 244, 244);">磁通密度估算&#21442;&#25968;<br>
               </td>
-              <td style="vertical-align: top;"><span style="color: rgb(109, 109, 109);">P型材料&nbsp;</span>&nbsp; a1:<input value="0.158" name="a1" size="3">&nbsp;&nbsp; b1:<input value="1.36" name="b1" size="3">&nbsp; c1:<input value="2.86" name="c1" size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &#32469;&#32452;最高容&#35768;&#28201;度:<input style="color: rgb(109, 109, 109);" value="80" name="Pcored" size="3">C</td>
+              <td style="vertical-align: top;"><span style="color: rgb(109, 109, 109);">P型材料&nbsp;</span>&nbsp; a1:<input value="0.158" name="a1" size="3">&nbsp;&nbsp; b1:<input value="1.36" name="b1" size="3">&nbsp; c1:<input value="2.86" name="c1" size="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &#32469;&#32452;最高容&#35768;&#28201;度:<input style="color: rgb(109, 109, 109);" value="80" name="Tmax_cu" size="3">C</td>
               <td style="vertical-align: top;"><br>
               </td>
             </tr>
@@ -483,22 +483,21 @@ secondary2整流&#36755;出&#30005;&#21387;:<small><input name="Vf2" size="5" style
             <tr>
               <td style="vertical-align: top;">&#33033;&#20914;&#21464;&#21387;器效率<br>
               </td>
-              <td style="vertical-align: top;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &#24635;&#38108;&#25439;:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Pcu_tot" size="3" readonly="readonly"></small>W&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &#21464;&#21387;器&#24635;&#25439;耗:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Ptrans_tot" size="3" readonly="readonly"></small>W<br>
-              </td>
+              <td style="vertical-align: top;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &#24635;&#38108;&#25439;:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Pcu_tot" size="3" readonly="readonly"></small>W&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &#21464;&#21387;器&#24635;&#25439;耗:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Ptrans_tot" size="3" readonly="readonly"></small>W &nbsp;&nbsp; &#21464;&#21387;器&#24635;效率:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="nTra" size="5" readonly="readonly"></small></td>
               <td style="vertical-align: top;"><br>
               </td>
             </tr>
             <tr>
               <td style="vertical-align: top; background-color: rgb(124, 207, 124);">&#30005;源&#24635;&#25439;耗<br>
               </td>
-              <td style="vertical-align: top; background-color: rgb(204, 255, 255);">&#36755;入&#30005;感&#30005;阻:<input value="0.085" name="R_L1" size="3">Ohm &nbsp; PCB&#25439;耗估&#35745;:<input value="1" name="Ppcb" size="3">W&nbsp; <input value="&#35745;算" name="transformer_n" onclick="transformer_n()" type="button"></td>
+              <td style="vertical-align: top; background-color: rgb(204, 255, 255);">&#36755;入&#30005;感&#30005;阻:<input value="0.085" name="R_L1" size="3">Ohm &nbsp; PCB&#25439;耗估&#35745;:<input value="1" name="Ppcb" size="3">W&nbsp; <input value="&#35745;算" name="transformer_n_button" onclick="transformer_n()" type="button"></td>
               <td style="vertical-align: top;"><br>
               </td>
             </tr>
             <tr>
               <td style="vertical-align: top; background-color: rgb(255, 111, 111);">&#30005;源&#24635;效率<br>
               </td>
-              <td style="vertical-align: top; background-color: rgb(255, 255, 153);">效率ηtot:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="n_tot" size="3" readonly="readonly"></small>&nbsp;&nbsp;&nbsp; &#24635;&#25439;耗功率:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Ploss" size="3" readonly="readonly"></small>W<br>
+              <td style="vertical-align: top; background-color: rgb(255, 255, 153);">效率ηtot:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="n_tot" size="5" readonly="readonly"></small>&nbsp;&nbsp;&nbsp; &#24635;&#25439;耗功率:<small><input style="background-color: rgb(204, 255, 153); color: rgb(255, 0, 0); text-align: center;" name="Ploss" size="3" readonly="readonly"></small>W<br>
               </td>
               <td style="vertical-align: top;"><br>
               </td>

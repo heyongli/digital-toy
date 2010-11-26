@@ -380,7 +380,7 @@ var AWG_Area ="9.32,7.54,6.065,4.837,3.857,3.135,2.514,2.002,1.603,1.313,1.0515,
 //cm, diameter
 var AWG_Dia  ="0.109,0.098,0.0879,0.0785,0.0701,0.0632,0.0566,0.0505,0.0452,0.0409,0.0366,0.033,0.0294,0.0267"; 
 
-//return cm2
+//return cm2, copper area
 function awg_ba(awg)
 {
 	if(awg<18 || awg>31)
@@ -388,7 +388,7 @@ function awg_ba(awg)
 	AWG_BA_list = AWG_BA.split(",");
 	return parseFloat(AWG_BA_list[awg-18])/1000;
 }
-//return cm2
+//return cm2, copper and insulation
 function awg_a(awg)
 {
 	if(awg<18 || awg>31)
@@ -408,7 +408,7 @@ function awg_d(awg)
 
 
 // -- fill AWG info from predefine function
-var Wa_Lp, Wcu_Lp, Dcu_Lp,Nst_Lp=1;
+var Wa_Lp, Wcu_Lp, Dcu_Lp,Nst_Lp;
 var Wa_Ls1,Wcu_Ls1, Dcu_Ls1, Nst_Ls1;
 var Wa_Ls2,Wcu_Ls2, Dcu_Ls2, Nst_Ls2;
 var Ntl_Lp, Nly_Lp;
@@ -433,11 +433,11 @@ function transformer_design_wire()
 	setVar("AWG_Ls2_u", AWG_Ls2);
 
     //Primary 
-	Wa_Lp = awg_ba(AWG_Lp);
-	Wcu_Lp = awg_a(AWG_Lp);
+	Wa_Lp = awg_a(AWG_Lp);
+	Wcu_Lp = awg_ba(AWG_Lp);
 	Dcu_Lp = awg_d(AWG_Lp);
 
-	Nst_Lp  = Math.ceil(Wp_cu/Wcu_Lp);
+	Nst_Lp  = Math.floor(Wp_cu/Wcu_Lp);
     Ntl_Lp = Math.floor(Lw/Dcu_Lp);
 	Nly_Lp = Math.ceil((Np_c*Nst_Lp)/(Ntl_Lp/2));
 
@@ -447,8 +447,8 @@ function transformer_design_wire()
 	setVar("Dcu_Lp",round2(10*Dcu_Lp));//cm->mm
 	
     //sencondar 1,master
-	Wa_Ls1 = awg_ba(AWG_Ls1);
-	Wcu_Ls1 = awg_a(AWG_Ls1);
+	Wa_Ls1 = awg_a(AWG_Ls1);
+	Wcu_Ls1 = awg_ba(AWG_Ls1);
 	Dcu_Ls1 = awg_d(AWG_Ls1);
 	
 	Nst_Ls1  = Math.ceil(Ws1_cu/Wcu_Ls1);
@@ -462,11 +462,11 @@ function transformer_design_wire()
 	setVar("Dcu_Ls1",round2(10*Dcu_Ls1));//cm->mm
 
    //sencondar 2,slave
-	Wa_Ls2 = awg_ba(AWG_Ls2);
-	Wcu_Ls2 = awg_a(AWG_Ls2);
+	Wa_Ls2 = awg_a(AWG_Ls2);
+	Wcu_Ls2 = awg_ba(AWG_Ls2);
 	Dcu_Ls2 = awg_d(AWG_Ls2);
 	
-	Nst_Ls2  = Math.ceil(Ws2_cu/Wcu_Ls2);
+	Nst_Ls2  = Math.floor(Ws2_cu/Wcu_Ls2);
 
     Ntl_Ls2 = Math.floor(Lw/Dcu_Ls2);
 	Nly_Ls2 = Math.ceil((Ns2_c*Nst_Ls2)/(Ntl_Ls2/2));
@@ -476,7 +476,7 @@ function transformer_design_wire()
 	setVar("Nly_Ls2",Nly_Ls2);
 	setVar("Dcu_Ls2",round2(10*Dcu_Ls2));//cm->mm
 
-    //tot
+    //totPtrans_tot
 	Wcu_tot = (Dcu_Lp*Nly_Lp + Dcu_Ls1*Nly_Ls1 + Dcu_Ls2*Nly_Ls2)*1.15*Lw;
 	Wu = Wcu_tot/Wa;
 	setVar("Wcu_tot",round2(Wcu_tot));
@@ -527,8 +527,18 @@ var Ldf_Lp;//the Lt after primary winding
 var Lcu_Lp;//primary winding total lenth
 var Ldf_Ls1, Lcu_Ls1,Ldf_Ls2, Lcu_Ls2;
 
+var Tmax_cu;
+var p20 = 1.724/1000000; //ohm/cm, Copper resistivity at 20 Ceils
+var pwork; //winding resistivity at  highest tempture,
+var Rdc_Lp, Rac_Lp, Rdc_Ls1, Rac_Ls1, Rdc_Ls2,Rac_Ls2;
+var Pcu_Lp, Pcu_Ls1, Pcu_Ls2; //copper loss power
+var Pcu_top ;//all copper loss
+
+var Ptrans_tot, nTra;
 function winding_copper_loss()
 {
+
+	Tmax_cu = getVar("Tmax_cu");
     //Winding copper losses
 	//skin and proximity effects
 	Sd = 6.61/Math.sqrt(fsw*1000);
@@ -536,19 +546,73 @@ function winding_copper_loss()
     //primary winding len
 	Ldf_Lp = next_layer_len(Lt,Dcu_Lp,Nly_Lp);
 	Lcu_Lp = winding_wire_len(Lt,Dcu_Lp,Nly_Lp,Ntl_Lp,Np_c);
+	
+	pwork = p20*(1+0.0042*(Tmax_cu-20));
+
+	Lcu_Lp = 312.89;
+	Rdc_Lp = pwork*(Lcu_Lp/(Wcu_Lp*Nst_Lp)); 
+	//it = Math.pow(Dcu_Lp/(2*Sd),2);
+	Rac_Lp =     (Rdc_Lp*Math.pow(Dcu_Lp/(2*Sd),2))/
+             ( Math.pow(Dcu_Lp/(2*Sd),2)- Math.pow(Dcu_Lp/(2*Sd)-1,2));
+
+    Pcu_Lp = Rdc_Lp*Math.pow(Ip_dc/2,2) + Rac_Lp*Math.pow(Ip_ac/2,2);
 
     //Ls1 winding len
 	Ldf_Ls1 = next_layer_len(Ldf_Lp,Dcu_Ls1,Nly_Ls1);
 	Lcu_Ls1 = winding_wire_len(Ldf_Lp,Dcu_Ls1,Nly_Ls1,Ntl_Ls1,Ns1_c);
 
+	Rdc_Ls1 = pwork*(Lcu_Ls1/(Wcu_Ls1*Nst_Ls1)); 
+	Rac_Ls1 =     (Rdc_Ls1*Math.pow(Dcu_Ls1/(2*Sd),2))/
+             ( Math.pow(Dcu_Ls1/(2*Sd),2)- Math.pow(Dcu_Ls1/(2*Sd)-1,2));
+
+    Pcu_Ls1 = Rdc_Ls1*Math.pow(Io1_max/2,2) + Rac_Ls1*Math.pow(Is1_ac/2,2);
+
     //Ls2 winding len
 	Ldf_Ls2 = next_layer_len(Ldf_Ls1,Dcu_Ls2,Nly_Ls2);
 	Lcu_Ls2 = winding_wire_len(Ldf_Ls1,Dcu_Ls2,Nly_Ls2,Ntl_Ls2,Ns2_c);
+    
+    Rdc_Ls2 = pwork*(Lcu_Ls2/(Wcu_Ls2*Nst_Ls2)); 
+	Rac_Ls2 =     (Rdc_Ls2*Math.pow(Dcu_Ls2/(2*Sd),2))/
+             ( Math.pow(Dcu_Ls2/(2*Sd),2)- Math.pow(Dcu_Ls2/(2*Sd)-1,2));
 
-	setVar("Pcu_Lp",Sd);	
-	setVar("Pcu_Ls1",Ldf_Ls2);	
-	setVar("Pcu_Ls2",Lcu_Ls2);	
+    Pcu_Ls2 = Rdc_Ls2*Math.pow(Io2_max,2) + Rac_Ls1*Math.pow(Is2_ac,2);
 
+	setVar("Pcu_Lp",round2(Pcu_Lp));	
+	setVar("Pcu_Ls1",round2(Pcu_Ls1));	
+	setVar("Pcu_Ls2",round2(Pcu_Ls2));	
+
+    //all copper loss
+    Pcu_tot = Pcu_Lp + Pcu_Ls1 + Pcu_Ls2;
+
+	setVar("Pcu_tot",round2(Pcu_tot));	
+
+    //trans tot: ¦Ç
+	Ptrans_tot = Pcu_tot + Pcore;
+	
+	nTra = Po_max/(Po_max+Ptrans_tot);
+	setVar("Ptrans_tot",round2(Ptrans_tot));
+	setVar("nTra",round3(nTra));
+
+
+}
+
+var Pout, Pinput_inductor;
+var Ppcb;
+var n_tot;
+
+function transformer_n()
+{
+	Ppcb = getVar("Ppcb");
+	R_L1 = getVar("R_L1");
+	Pout = Vo1*Io1_max +Vo2*Io2_max;
+	
+	Pinput_inductor = R_L1*Ip_dc*Ip_dc;
+
+	n_tot = Pout/(Pout+Ptrans_tot+Pdiode_tot+Pmosfet_tot*2+Pinput_inductor+Ppcb);
+	Ploss = Ptrans_tot+Pdiode_tot+Pmosfet_tot*2+Pinput_inductor+Ppcb;
+
+    setVar("n_tot",round3(n_tot));
+    setVar("Ploss",round2(Ploss));
 }
 
 
