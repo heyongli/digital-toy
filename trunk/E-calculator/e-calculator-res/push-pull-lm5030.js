@@ -549,7 +549,7 @@ function winding_copper_loss()
 	
 	pwork = p20*(1+0.0042*(Tmax_cu-20));
 
-	Lcu_Lp = 312.89;
+	//Lcu_Lp = 312.89;
 	Rdc_Lp = pwork*(Lcu_Lp/(Wcu_Lp*Nst_Lp)); 
 	//it = Math.pow(Dcu_Lp/(2*Sd),2);
 	Rac_Lp =     (Rdc_Lp*Math.pow(Dcu_Lp/(2*Sd),2))/
