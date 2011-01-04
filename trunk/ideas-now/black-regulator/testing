@@ -1,0 +1,15 @@
+====================
+
+
+(4.68×0.232)÷(12.61×(0.105−0.005))  = 86%  stop cap 470pf speed cap on regulator C to switch B 
+
+(4.68×0.232)÷(12.61×(0.105−0.005))  =86%   stop cap 1.5nf, and speed cap on regulator C to switch B 
+
+====================
+(4.90×0.72)÷(0.34×12.07)   = 85%    
+1. switch transistor : tip127    
+2.R1 change to 4k    (very key change, otherwise ouput keep at 4.3V instead of at 5V)
+3.add speed cap (from 10mA to 700mA works well)
+
+
+
