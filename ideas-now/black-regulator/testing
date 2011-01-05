@@ -11,5 +11,6 @@
 2.R1 change to 4k    (very key change, otherwise ouput keep at 4.3V instead of at 5V)
 3.add speed cap (from 10mA to 700mA works well)
 
-
-
+============ R1 500R ==============
+(0.3×4.8)÷(12.22×0.14) =  82%
+R1 may not very critical for circuit starting...????
