@@ -1,0 +1,8 @@
+"main.obj",
+"delay.obj",
+"timer0.obj",
+"3key.obj",
+"digit-segs.obj",
+"i2c-master.obj" 
+TO "i-charger" 
+RAMSIZE(256) 
