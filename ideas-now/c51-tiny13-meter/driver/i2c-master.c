@@ -42,7 +42,7 @@ i2c_master_init()
 */
 void i2c_dly(void)
 {
-  udelay(0);
+  udelay(400);
   //mdelay(350);
 }
 
@@ -119,12 +119,14 @@ unsigned char  i2c_tx(unsigned char d)
     d <<= 1;
 	i2c_dly(); //dont need?, by hyl
     SCL = 0;   //master is prepareing next bit
+	i2c_dly(); //dont need?, by hyl
   }
   SDA = 1;  //pin ready for input ?
   SCL = 1;  //the bit 9 clock event, might a ACK
   i2c_dly();
   b = sda_in();          // possible ACK bit
   SCL = 0;   /*end the tx*/
+  i2c_dly(); //dont need?, by hyl
   return b;
 }
 

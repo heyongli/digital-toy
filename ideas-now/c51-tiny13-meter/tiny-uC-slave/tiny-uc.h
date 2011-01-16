@@ -1,8 +1,8 @@
 #include "bitops.h"
 #include "avrio.h"
 
-#define ucLED 4 /* 1:on ,need jumper*/
-#define ucKEY 0 
+#define ucLED PB4 /* 1:on ,need jumper*/
+#define ucKEY PB0 
 #define ucCC  1 /*charger control, high for close output*/
 
 #define ucADC_CH 1 /*PB2, ADC1*/

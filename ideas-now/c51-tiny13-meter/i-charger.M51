@@ -1,9 +1,9 @@
-BL51 BANKED LINKER/LOCATER V6.00                                                        01/14/2011  16:00:16  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.00                                                        01/16/2011  12:34:48  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.00, INVOKED BY:
-C:\KEIL-C51\C51\BIN\BL51.EXE main.obj, delay.obj, timer0.obj, 3key.obj, digit-segs.obj, i2c-master.obj TO i-charger RAMS
->> IZE (256)
+C:\KEIL\C51\BIN\BL51.EXE main.obj, delay.obj, timer0.obj, 3key.obj, digit-segs.obj, i2c-master.obj TO i-charger RAMSIZE 
+>> (256)
 
 
 MEMORY MODEL: SMALL
@@ -16,10 +16,10 @@ INPUT MODULES INCLUDED:
   3key.obj (3KEY)
   digit-segs.obj (DIGIT_SEGS)
   i2c-master.obj (I2C_MASTER)
-  C:\KEIL-C51\C51\LIB\C51S.LIB (?C_STARTUP)
-  C:\KEIL-C51\C51\LIB\C51S.LIB (?C?UIDIV)
-  C:\KEIL-C51\C51\LIB\C51S.LIB (?C?LADD)
-  C:\KEIL-C51\C51\LIB\C51S.LIB (?C_INIT)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?UIDIV)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?LADD)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_INIT)
 
 
 LINK MAP OF MODULE:  i-charger (MAIN)
@@ -57,28 +57,28 @@ LINK MAP OF MODULE:  i-charger (MAIN)
             CODE    0256H     0055H     INBLOCK      ?PR?MS_SCAN_SEGVLED?DIGIT_SEGS
             CODE    02ABH     004EH     INBLOCK      ?PR?_I2C_RX?I2C_MASTER
             CODE    02F9H     0042H     INBLOCK      ?PR?_PRINTHEX?DIGIT_SEGS
-            CODE    033BH     003DH     INBLOCK      ?PR?TESTSEG?DIGIT_SEGS
-            CODE    0378H     003CH     INBLOCK      ?PR?_I2C_TX?I2C_MASTER
-BL51 BANKED LINKER/LOCATER V6.00                                                      01/14/2011  16:00:16  PAGE 2
+            CODE    033BH     0042H     INBLOCK      ?PR?_I2C_TX?I2C_MASTER
+            CODE    037DH     003DH     INBLOCK      ?PR?TESTSEG?DIGIT_SEGS
+BL51 BANKED LINKER/LOCATER V6.00                                                      01/16/2011  12:34:48  PAGE 2
 
 
-            CODE    03B4H     003AH     INBLOCK      ?PR?TIMER1?TIMER0
-            CODE    03EEH     0022H     INBLOCK      ?PR?_KEY?3KEY
-            CODE    0410H     001FH     INBLOCK      ?PR?_MDELAY?DELAY
-            CODE    042FH     001FH     INBLOCK      ?PR?_SLEEP?DELAY
-            CODE    044EH     0019H     UNIT         ?C_INITSEG
-            CODE    0467H     0019H     INBLOCK      ?PR?_SEGOFF?DIGIT_SEGS
-            CODE    0480H     0019H     INBLOCK      ?PR?_SEGON?DIGIT_SEGS
-            CODE    0499H     0015H     INBLOCK      ?PR?I2C_START?I2C_MASTER
-            CODE    04AEH     0011H     INBLOCK      ?PR?SEG_INIT?DIGIT_SEGS
-            CODE    04BFH     0010H     INBLOCK      ?PR?I2C_STOP?I2C_MASTER
-            CODE    04CFH     000EH     INBLOCK      ?PR?TIMER0_INIT?TIMER0
-            CODE    04DDH     000EH     INBLOCK      ?PR?TIMER1_INIT?TIMER0
-            CODE    04EBH     0008H     INBLOCK      ?PR?SDA_IN?I2C_MASTER
-            CODE    04F3H     0006H     INBLOCK      ?PR?I2C_DLY?I2C_MASTER
-            CODE    04F9H     0005H     INBLOCK      ?PR?__2CYCLE?DELAY
-            CODE    04FEH     0005H     INBLOCK      ?PR?I2C_MASTER_INIT?I2C_MASTER
-            CODE    0503H     0001H     INBLOCK      ?PR?TIMER0?TIMER0
+            CODE    03BAH     003AH     INBLOCK      ?PR?TIMER1?TIMER0
+            CODE    03F4H     0022H     INBLOCK      ?PR?_KEY?3KEY
+            CODE    0416H     001FH     INBLOCK      ?PR?_MDELAY?DELAY
+            CODE    0435H     001FH     INBLOCK      ?PR?_SLEEP?DELAY
+            CODE    0454H     0019H     UNIT         ?C_INITSEG
+            CODE    046DH     0019H     INBLOCK      ?PR?_SEGOFF?DIGIT_SEGS
+            CODE    0486H     0019H     INBLOCK      ?PR?_SEGON?DIGIT_SEGS
+            CODE    049FH     0015H     INBLOCK      ?PR?I2C_START?I2C_MASTER
+            CODE    04B4H     0011H     INBLOCK      ?PR?SEG_INIT?DIGIT_SEGS
+            CODE    04C5H     0010H     INBLOCK      ?PR?I2C_STOP?I2C_MASTER
+            CODE    04D5H     000EH     INBLOCK      ?PR?TIMER0_INIT?TIMER0
+            CODE    04E3H     000EH     INBLOCK      ?PR?TIMER1_INIT?TIMER0
+            CODE    04F1H     0008H     INBLOCK      ?PR?SDA_IN?I2C_MASTER
+            CODE    04F9H     0006H     INBLOCK      ?PR?I2C_DLY?I2C_MASTER
+            CODE    04FFH     0005H     INBLOCK      ?PR?__2CYCLE?DELAY
+            CODE    0504H     0005H     INBLOCK      ?PR?I2C_MASTER_INIT?I2C_MASTER
+            CODE    0509H     0001H     INBLOCK      ?PR?TIMER0?TIMER0
 
 
 
@@ -119,7 +119,7 @@ SEGMENT                                  DATA_GROUP
 ?PR?SEG_INIT?DIGIT_SEGS                -----    -----
   +--> ?PR?_SEGOFF?DIGIT_SEGS
   +--> ?PR?TESTSEG?DIGIT_SEGS
-BL51 BANKED LINKER/LOCATER V6.00                                                      01/14/2011  16:00:16  PAGE 3
+BL51 BANKED LINKER/LOCATER V6.00                                                      01/16/2011  12:34:48  PAGE 3
 
 
 
@@ -179,12 +179,12 @@ SYMBOL TABLE OF MODULE:  i-charger (MAIN)
 
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?I2C_MASTER_INIT?I2C_MASTER
-BL51 BANKED LINKER/LOCATER V6.00                                                      01/14/2011  16:00:16  PAGE 4
+BL51 BANKED LINKER/LOCATER V6.00                                                      01/16/2011  12:34:48  PAGE 4
 
 
 
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_I2C_RX?I2C_MASTER
 
-Program Size: data=37.1 xdata=0 code=1284
+Program Size: data=37.1 xdata=0 code=1290
 LINK/LOCATE RUN COMPLETE.  6 WARNING(S),  0 ERROR(S)
