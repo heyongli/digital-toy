@@ -42,7 +42,7 @@ i2c_master_init()
 */
 void i2c_dly(void)
 {
-  udelay(400);
+  udelay(100);
   //mdelay(350);
 }
 
@@ -115,8 +115,10 @@ unsigned char  i2c_tx(unsigned char d)
   for(x=8; x; x--) {
     if(d&0x80) SDA = 1;
     else SDA = 0;
+	i2c_dly();
     SCL = 1;	 //data ready, relase clock
     d <<= 1;
+	i2c_dly(); //dont need?, by hyl
 	i2c_dly(); //dont need?, by hyl
     SCL = 0;   //master is prepareing next bit
 	i2c_dly(); //dont need?, by hyl

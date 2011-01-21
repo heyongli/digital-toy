@@ -49,27 +49,27 @@ void main()
    }
 #endif
 
-#define DL 500
+#define DL 1
 /*sent start ADC to attiny13, address A2, cmd 12*/
 again:
  segprint10(0);
- mdelay(DL);
+ //mdelay(DL);
 
    i2c_start();              // send start sequence
   segprint10(1);
-  mdelay(DL);
+  //mdelay(DL);
 
    i2c_tx(0xA2);             // SRF08 I2C address with R/W bit clear
    segprint10(2);
-   mdelay(DL);
+   //mdelay(DL);
 
    i2c_tx(0x12);             // SRF08 command register address
    segprint10(3);
-   mdelay(DL);
+   //mdelay(DL);
 
    i2c_stop();               // send stop sequence
    segprint10(4);
-   mdelay(DL);
+   //mdelay(DL);
 
 goto again;
 
