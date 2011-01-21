@@ -59,11 +59,11 @@ again:
   segprint10(1);
   //mdelay(DL);
 
-   i2c_tx(0xA2);             // SRF08 I2C address with R/W bit clear
+   i2c_tx(0x55);             // SRF08 I2C address with R/W bit clear
    segprint10(2);
    //mdelay(DL);
 
-   i2c_tx(0x12);             // SRF08 command register address
+   i2c_tx(0xAA);             // SRF08 command register address
    segprint10(3);
    //mdelay(DL);
 
