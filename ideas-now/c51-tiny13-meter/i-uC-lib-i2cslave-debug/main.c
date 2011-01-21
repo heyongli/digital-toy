@@ -356,10 +356,10 @@ int main()
 	lcd_puts(KEY_SHILD_LOGO);
 	lcd_cursor(0,1);
     lcd_puts(KEY_SHILD_LOGO1);
+
+
+    i2c_demo();
 	_key_init();
-
-
-     i2c_demo();
 
     
     
