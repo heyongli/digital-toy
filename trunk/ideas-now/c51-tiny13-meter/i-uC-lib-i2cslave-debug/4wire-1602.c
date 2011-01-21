@@ -14,17 +14,17 @@
 
 
 #define USE_74HC595
-//#undef  USE_74HC595
+#undef  USE_74HC595
 
 #define LCD_RSWE_PORT  PORTD 
-#define LCD_DATA_PORT  PORTC  
+#define LCD_DATA_PORT  PORTD  
 
 #ifdef USE_74HC595  
   #define io_init() init_74hc595()
 #else
   #define io_init() \
-      _pins_mode(LCD_DATA_PORT,0,3,OUTPUT); \
-	  _pins_mode(LCD_RSWE_PORT,5,7,OUTPUT)
+      _pins_mode(LCD_DATA_PORT,4,7,OUTPUT); \
+	  _pins_mode(LCD_RSWE_PORT,0,3,OUTPUT)
 #endif
 
 static char bus4w = 0xC0;
@@ -33,8 +33,8 @@ static char bus4w = 0xC0;
   	#define  _rswe()  write_74hc595(bus4w)
   	#define  _data()  write_74hc595(bus4w)
 #else
-  #define  _rswe()  _mov_bits8(LCD_RSWE_PORT,bus4w,5,7,1,3)
-  #define  _data()  _mov_bits8(LCD_DATA_PORT,bus4w,0,3,4,7);
+  #define  _rswe()  _mov_bits8(LCD_RSWE_PORT,bus4w,0,2,4,6)
+  #define  _data()  _mov_bits8(LCD_DATA_PORT,bus4w,4,7,0,3);
 #endif
 /*************以下内容无需修改，移植请修改以上内容******************/
 
@@ -162,9 +162,11 @@ char hex2c(char hex)
    else
       return 'a'+hex-0xa;
 }
+
+static char four[6];
+     
 void print10(unsigned short n)
 {
-     static char four[6];
      //irqoff();
 	 four[0]= hex2c( (n/10000) );
 	 n = n%10000;
@@ -186,9 +188,8 @@ void print10(unsigned short n)
 
 void print16(unsigned char n)
 {
-     static char four[6];
      //irqoff();
-	 four[0]= hex2c( (n&0xF0)>>4 );
+	 four[0]= hex2c(n>>4 );
 	 four[1]= hex2c(n&0xF);
 	 four[2]= 0;
 

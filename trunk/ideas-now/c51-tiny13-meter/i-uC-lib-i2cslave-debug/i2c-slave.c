@@ -12,6 +12,18 @@
 #define  SCL()  (_test_bit(_inb(I2C_PORT),I2C_SCL))
 #define  SDA()  (_test_bit(_inb(I2C_PORT),I2C_SDA))
 
+#define  HOLD_SCL() do{ _pin_mode(I2C_PORT,I2C_SCL,OUTPUT);}while(0)
+#define  RELE_SCL() do{ _pin_mode(I2C_PORT,I2C_SCL,INPUT); }while(0) 
+
+#define  HOLD_SDA() do{ _pin_mode(I2C_PORT,I2C_SDA,OUTPUT); }while(0)
+#define  RELE_SDA() do{ _pin_mode(I2C_PORT,I2C_SDA,INPUT); }while(0) 
+
+#define  SDA_H()  do{ _set_bit(I2C_PORT,I2C_SDA); }while(0)
+#define  SDA_L()  do{ _clear_bit(I2C_PORT,I2C_SDA); }while(0)
+#define  SCL_H()  do{ _set_bit(I2C_PORT,I2C_SCL); }while(0)
+#define  SCL_L()  do{ _clear_bit(I2C_PORT,I2C_SCL); }while(0)
+
+
 #define i2c_led_on()   // ucLED_On()
 #define i2c_led_off()  //ucLED_Off()
 
@@ -52,7 +64,7 @@ char i2c_shutdown()
 
 char i2c_wakeup()
 {
-   if(SCL()&&SDA()){
+  if(SCL()&&SDA()){
       while(SCL()&&SDA());
 	  if( SCL()&&(!SDA()) ){
          i2c_led_on();
@@ -68,25 +80,43 @@ char i2c_wakeup()
 char i2c_receive_address()
 {
    unsigned char addr=0;
-   char i = 7; 
+   signed char i = 7; 
    while(SCL()); //after start ...
    //mast set bit 1
-   for(i=0;i<8;i++){
+   for(i=7;i>=0;i--){
    		while(!SCL());//wait master
-		_delay_us(2);
 		//SCL up, get bit 
-		addr |= SDA()<<i; 
+		if(SDA())
+			addr |= 1<<i;
    		while(SCL());
 		
    }
+
+    //Sent back ACK
+	HOLD_SCL(); //clock strench
+	SCL_L();
   
-   if(addr == 0xA2)
+   lcd_cursor(0,1);
+   lcd_puts("i2c_addr:0x");
+   print16(addr);
+   
+   if(addr == 0x55)
      i2c_led_off();
    
-    lcd_cursor(0,1);
-    lcd_puts("i2c_addr:");
-    print16(addr);
+   if( addr&0x1)
+   		lcd_puts(" w");
+    else 
+   		lcd_puts(" r");
+
+   
+    //SENT_BACK ACK 
+	SDA_L(); 
+	RELE_SCL();
+
+    		
+    return addr;
 	
+
     //ack
     //while(!SCL()); //first bit prepare by master
    	//if(SDA())  //write
@@ -101,9 +131,13 @@ char i2c_receive_address()
 i2c_demo()
 {
    i2c_init();
+   lcd_cursor(0,0);
+   lcd_puts("i2c slave 0x");
+   print16(0xA2);
+   char addr=0;
 	while (1){
 		while(i2c_wakeup());
-		i2c_receive_address();
+		addr=i2c_receive_address();
  		while(i2c_shutdown());
 	}
 }
