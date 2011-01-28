@@ -1,9 +1,9 @@
-C51 COMPILER V8.01   4X8SEGMENTLED                                                         10/07/2009 00:04:25 PAGE 1   
+C51 COMPILER V8.01   4X8SEGMENTLED                                                         01/14/2011 10:10:24 PAGE 1   
 
 
 C51 COMPILER V8.01, COMPILATION OF MODULE 4X8SEGMENTLED
 OBJECT MODULE PLACED IN 4x8segmentLED.OBJ
-COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 4x8segmentLED.c BROWSE DEBUG OBJECTEXTEND
+COMPILER INVOKED BY: C:\Keil-c51\C51\BIN\C51.EXE 4x8segmentLED.c BROWSE DEBUG OBJECTEXTEND
 
 line level    source
 
@@ -62,7 +62,7 @@ line level    source
   53   1         while(t--){
   54   2               mdelay(250);
   55   2               mdelay(250);
-C51 COMPILER V8.01   4X8SEGMENTLED                                                         10/07/2009 00:04:25 PAGE 2   
+C51 COMPILER V8.01   4X8SEGMENTLED                                                         01/14/2011 10:10:24 PAGE 2   
 
   56   2           mdelay(250);
   57   2           mdelay(250);
@@ -126,7 +126,7 @@ line level    source
  115          
  116          void segoff( unsigned char segbit)
  117          {
-C51 COMPILER V8.01   4X8SEGMENTLED                                                         10/07/2009 00:04:25 PAGE 3   
+C51 COMPILER V8.01   4X8SEGMENTLED                                                         01/14/2011 10:10:24 PAGE 3   
 
  118   1         if(segbit&0x1)
  119   1              segENA1=1;
@@ -190,7 +190,7 @@ line level    source
  177   2           
  178   2         }
  179   1      }
-C51 COMPILER V8.01   4X8SEGMENTLED                                                         10/07/2009 00:04:25 PAGE 4   
+C51 COMPILER V8.01   4X8SEGMENTLED                                                         01/14/2011 10:10:24 PAGE 4   
 
  180          testseg()
  181          {
@@ -199,14 +199,14 @@ line level    source
  184   1                
  185   1         for(n=0;n<=9;n++){
  186   2                 segData = seg0_9[n];
- 187   2                mdelay(255);
+ 187   2      
  188   2                mdelay(128);
  189   2                 
  190   2         }
  191   1         
  192   1         for(n=0;n<=9;n++){
  193   2                 segData = seg0_9[n] & segDOT;
- 194   2                mdelay(255);
+ 194   2      
  195   2            mdelay(128);         
  196   2         }
  197   1      
@@ -229,34 +229,33 @@ line level    source
  214   1         
  215   1        for(n=0;n<=8;n++){
  216   2                segData = ~(1<<n);
- 217   2                mdelay(255);
- 218   2                mdelay(128);
- 219   2        }
- 220   1      
- 221   1        vledoff();
- 222   1      }
+ 217   2                mdelay(128);
+ 218   2        }
+ 219   1      
+ 220   1        vledoff();
+ 221   1      }
+ 222          
  223          
- 224          
- 225          void main()
- 226          {
- 227   1        segoff(0xF);
- 228   1      
- 229   1      again:
- 230   1        testseg();
- 231   1        testvled();
- 232   1        goto again;
- 233   1      }
+ 224          void main()
+ 225          {
+ 226   1        segoff(0xF);
+ 227   1      
+ 228   1      again:
+ 229   1        testseg();
+ 230   1        testvled();
+ 231   1        goto again;
+ 232   1      }
+ 233          
  234          
- 235          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    269    ----
+   CODE SIZE        =    264    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
-C51 COMPILER V8.01   4X8SEGMENTLED                                                         10/07/2009 00:04:25 PAGE 5   
-
    PDATA SIZE       =   ----    ----
+C51 COMPILER V8.01   4X8SEGMENTLED                                                         01/14/2011 10:10:24 PAGE 5   
+
    DATA SIZE        =     10    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
