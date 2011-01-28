@@ -184,14 +184,14 @@ testseg()
 	  
    for(n=0;n<=9;n++){
 	   segData = seg0_9[n];
-	  mdelay(255);
+
 	  mdelay(128);
 	   
    }
    
    for(n=0;n<=9;n++){
 	   segData = seg0_9[n] & segDOT;
-	  mdelay(255);
+
       mdelay(128);	   
    }
 
@@ -214,7 +214,6 @@ testvled()
    
   for(n=0;n<=8;n++){
 	  segData = ~(1<<n);
-	  mdelay(255);
 	  mdelay(128);
   }
 

@@ -1,8 +1,8 @@
-BL51 BANKED LINKER/LOCATER V6.00                                                        10/07/2009  00:04:25  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.00                                                        01/14/2011  10:10:24  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.00, INVOKED BY:
-C:\KEIL\C51\BIN\BL51.EXE 4x8segmentLED.obj TO 4x8segmentLED RAMSIZE (256)
+C:\KEIL-C51\C51\BIN\BL51.EXE 4x8segmentLED.obj TO 4x8segmentLED RAMSIZE (256)
 
 
 MEMORY MODEL: SMALL
@@ -10,8 +10,8 @@ MEMORY MODEL: SMALL
 
 INPUT MODULES INCLUDED:
   4x8segmentLED.obj (4X8SEGMENTLED)
-  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
-  C:\KEIL\C51\LIB\C51S.LIB (?C_INIT)
+  C:\KEIL-C51\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL-C51\C51\LIB\C51S.LIB (?C_INIT)
 
 
 LINK MAP OF MODULE:  4x8segmentLED (4X8SEGMENTLED)
@@ -27,18 +27,17 @@ LINK MAP OF MODULE:  4x8segmentLED (4X8SEGMENTLED)
 
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
             CODE    0000H     0003H     ABSOLUTE     
-                    0003H     07FDH                  *** GAP ***
-            CODE    0800H     008CH     UNIT         ?C_C51STARTUP
-            CODE    088CH     003DH     UNIT         ?PR?TESTVLED?4X8SEGMENTLED
-            CODE    08C9H     002DH     UNIT         ?PR?_SEGCHAR?4X8SEGMENTLED
-            CODE    08F6H     0024H     UNIT         ?PR?TESTSEG?4X8SEGMENTLED
-            CODE    091AH     001FH     UNIT         ?PR?_SLEEP?4X8SEGMENTLED
-            CODE    0939H     001EH     UNIT         ?PR?_MDELAY?4X8SEGMENTLED
-            CODE    0957H     0019H     UNIT         ?PR?_SEGOFF?4X8SEGMENTLED
-            CODE    0970H     0019H     UNIT         ?PR?_SEGON?4X8SEGMENTLED
-            CODE    0989H     000DH     UNIT         ?PR?MAIN?4X8SEGMENTLED
-            CODE    0996H     000DH     UNIT         ?C_INITSEG
-            CODE    09A3H     0003H     UNIT         ?PR?__2CYCLE?4X8SEGMENTLED
+            CODE    0003H     008CH     UNIT         ?C_C51STARTUP
+            CODE    008FH     003DH     UNIT         ?PR?TESTVLED?4X8SEGMENTLED
+            CODE    00CCH     002DH     UNIT         ?PR?_SEGCHAR?4X8SEGMENTLED
+            CODE    00F9H     0024H     UNIT         ?PR?TESTSEG?4X8SEGMENTLED
+            CODE    011DH     001FH     UNIT         ?PR?_SLEEP?4X8SEGMENTLED
+            CODE    013CH     0019H     UNIT         ?PR?_MDELAY?4X8SEGMENTLED
+            CODE    0155H     0019H     UNIT         ?PR?_SEGOFF?4X8SEGMENTLED
+            CODE    016EH     0019H     UNIT         ?PR?_SEGON?4X8SEGMENTLED
+            CODE    0187H     000DH     UNIT         ?PR?MAIN?4X8SEGMENTLED
+            CODE    0194H     000DH     UNIT         ?C_INITSEG
+            CODE    01A1H     0003H     UNIT         ?PR?__2CYCLE?4X8SEGMENTLED
 
 
 
@@ -59,10 +58,10 @@ SEGMENT
 
 ?PR?TESTSEG?4X8SEGMENTLED
   +--> ?PR?_SEGON?4X8SEGMENTLED
-BL51 BANKED LINKER/LOCATER V6.00                                                      10/07/2009  00:04:25  PAGE 2
-
-
   +--> ?PR?_MDELAY?4X8SEGMENTLED
+BL51 BANKED LINKER/LOCATER V6.00                                                      01/14/2011  10:10:24  PAGE 2
+
+
 
 ?PR?_MDELAY?4X8SEGMENTLED
   +--> ?PR?__2CYCLE?4X8SEGMENTLED
@@ -80,172 +79,169 @@ SYMBOL TABLE OF MODULE:  4x8segmentLED (4X8SEGMENTLED)
 
   -------         MODULE        4X8SEGMENTLED
   C:0000H         SYMBOL        _ICE_DUMMY_
-  C:0970H         PUBLIC        _segon
+  C:016EH         PUBLIC        _segon
   D:0080H         PUBLIC        P0
-  C:08F6H         PUBLIC        testseg
-  C:09A3H         PUBLIC        __2cycle
+  C:00F9H         PUBLIC        testseg
+  C:01A1H         PUBLIC        __2cycle
   D:0008H         PUBLIC        seg0_9
   B:00A0H.0       PUBLIC        P2_0
   B:00A0H.1       PUBLIC        P2_1
   B:00A0H.2       PUBLIC        P2_2
   B:00A0H.3       PUBLIC        P2_3
   B:00A0H.4       PUBLIC        P2_4
-  C:0989H         PUBLIC        main
-  C:08C9H         PUBLIC        _segchar
-  C:0957H         PUBLIC        _segoff
-  C:0942H         PUBLIC        _mdelay
-  C:088CH         PUBLIC        testvled
-  C:091AH         PUBLIC        _sleep
+  C:0187H         PUBLIC        main
+  C:00CCH         PUBLIC        _segchar
+  C:0155H         PUBLIC        _segoff
+  C:0140H         PUBLIC        _mdelay
+  C:008FH         PUBLIC        testvled
+  C:011DH         PUBLIC        _sleep
   -------         PROC          __2CYCLE
   D:0007H         SYMBOL        cyc
-  C:09A3H         LINE#         7
-  C:09A3H         LINE#         8
-  C:09A3H         LINE#         9
-  C:09A5H         LINE#         11
+  C:01A1H         LINE#         7
+  C:01A1H         LINE#         8
+  C:01A1H         LINE#         9
+  C:01A3H         LINE#         11
   -------         ENDPROC       __2CYCLE
-  C:0939H         SYMBOL        L?0043
+  C:013CH         SYMBOL        L?0043
   -------         PROC          L?0042
   -------         ENDPROC       L?0042
-  C:0939H         SYMBOL        L?0043
+  C:013CH         SYMBOL        L?0043
   -------         PROC          _MDELAY
   D:0006H         SYMBOL        ms
-  C:0942H         LINE#         24
-  C:0944H         LINE#         25
-  C:0944H         LINE#         41
-  C:094AH         LINE#         42
-  C:094FH         LINE#         43
-  C:0954H         LINE#         44
-  C:0956H         LINE#         46
+  C:0140H         LINE#         24
+  C:0142H         LINE#         25
+  C:0142H         LINE#         41
+  C:0148H         LINE#         42
+  C:014DH         LINE#         43
+  C:0152H         LINE#         44
+  C:0154H         LINE#         46
   -------         ENDPROC       _MDELAY
   -------         PROC          _SLEEP
   D:0005H         SYMBOL        t
-BL51 BANKED LINKER/LOCATER V6.00                                                      10/07/2009  00:04:25  PAGE 3
+  C:011DH         LINE#         51
+BL51 BANKED LINKER/LOCATER V6.00                                                      01/14/2011  10:10:24  PAGE 3
 
 
-  C:091AH         LINE#         51
-  C:091CH         LINE#         52
-  C:091CH         LINE#         53
-  C:0922H         LINE#         54
-  C:0927H         LINE#         55
-  C:092CH         LINE#         56
-  C:0931H         LINE#         57
-  C:0936H         LINE#         58
-  C:0938H         LINE#         60
+  C:011FH         LINE#         52
+  C:011FH         LINE#         53
+  C:0125H         LINE#         54
+  C:012AH         LINE#         55
+  C:012FH         LINE#         56
+  C:0134H         LINE#         57
+  C:0139H         LINE#         58
+  C:013BH         LINE#         60
   -------         ENDPROC       _SLEEP
   -------         PROC          _SEGOFF
   D:0007H         SYMBOL        segbit
-  C:0957H         LINE#         116
-  C:0957H         LINE#         117
-  C:0957H         LINE#         118
-  C:095BH         LINE#         119
-  C:095DH         LINE#         120
-  C:0961H         LINE#         121
-  C:0963H         LINE#         122
-  C:0967H         LINE#         123
-  C:0969H         LINE#         124
-  C:096DH         LINE#         125
-  C:096FH         LINE#         139
+  C:0155H         LINE#         116
+  C:0155H         LINE#         117
+  C:0155H         LINE#         118
+  C:0159H         LINE#         119
+  C:015BH         LINE#         120
+  C:015FH         LINE#         121
+  C:0161H         LINE#         122
+  C:0165H         LINE#         123
+  C:0167H         LINE#         124
+  C:016BH         LINE#         125
+  C:016DH         LINE#         139
   -------         ENDPROC       _SEGOFF
   -------         PROC          _SEGON
   D:0007H         SYMBOL        segbit
-  C:0970H         LINE#         141
-  C:0970H         LINE#         142
-  C:0970H         LINE#         143
-  C:0974H         LINE#         144
-  C:0976H         LINE#         145
-  C:097AH         LINE#         146
-  C:097CH         LINE#         147
-  C:0980H         LINE#         148
-  C:0982H         LINE#         149
-  C:0986H         LINE#         150
-  C:0988H         LINE#         152
+  C:016EH         LINE#         141
+  C:016EH         LINE#         142
+  C:016EH         LINE#         143
+  C:0172H         LINE#         144
+  C:0174H         LINE#         145
+  C:0178H         LINE#         146
+  C:017AH         LINE#         147
+  C:017EH         LINE#         148
+  C:0180H         LINE#         149
+  C:0184H         LINE#         150
+  C:0186H         LINE#         152
   -------         ENDPROC       _SEGON
   -------         PROC          _SEGCHAR
   D:0006H         SYMBOL        c
   D:0005H         SYMBOL        segbit
-  C:08C9H         LINE#         157
-  C:08CBH         LINE#         158
-  C:08CBH         LINE#         159
-  C:08D0H         LINE#         160
-  C:08D2H         LINE#         161
-  C:08E1H         LINE#         162
-  C:08E1H         LINE#         163
-  C:08E3H         LINE#         164
-  C:08E4H         LINE#         165
-  C:08E4H         LINE#         166
-  C:08E6H         LINE#         167
-  C:08E7H         LINE#         168
-  C:08E7H         LINE#         169
-  C:08E9H         LINE#         170
-  C:08EAH         LINE#         171
-  C:08EAH         LINE#         172
-BL51 BANKED LINKER/LOCATER V6.00                                                      10/07/2009  00:04:25  PAGE 4
+  C:00CCH         LINE#         157
+  C:00CEH         LINE#         158
+  C:00CEH         LINE#         159
+  C:00D3H         LINE#         160
+  C:00D5H         LINE#         161
+  C:00E4H         LINE#         162
+  C:00E4H         LINE#         163
+  C:00E6H         LINE#         164
+  C:00E7H         LINE#         165
+  C:00E7H         LINE#         166
+  C:00E9H         LINE#         167
+  C:00EAH         LINE#         168
+  C:00EAH         LINE#         169
+  C:00ECH         LINE#         170
+  C:00EDH         LINE#         171
+  C:00EDH         LINE#         172
+  C:00EFH         LINE#         173
+BL51 BANKED LINKER/LOCATER V6.00                                                      01/14/2011  10:10:24  PAGE 4
 
 
-  C:08ECH         LINE#         173
-  C:08EDH         LINE#         174
-  C:08EDH         LINE#         175
-  C:08F2H         LINE#         176
-  C:08F5H         LINE#         178
-  C:08F5H         LINE#         179
+  C:00F0H         LINE#         174
+  C:00F0H         LINE#         175
+  C:00F5H         LINE#         176
+  C:00F8H         LINE#         178
+  C:00F8H         LINE#         179
   -------         ENDPROC       _SEGCHAR
   -------         PROC          TESTSEG
   -------         DO            
   D:0005H         SYMBOL        n
   -------         ENDDO         
-  C:08F6H         LINE#         180
-  C:08F6H         LINE#         181
-  C:08F6H         LINE#         183
-  C:08FBH         LINE#         185
-  C:08FDH         LINE#         186
-  C:0902H         LINE#         187
-  C:0902H         LINE#         188
-  C:0905H         LINE#         190
-  C:0909H         LINE#         192
-  C:090BH         LINE#         193
-  C:0912H         LINE#         194
-  C:0912H         LINE#         195
-  C:0915H         LINE#         196
-  C:0919H         LINE#         198
+  C:00F9H         LINE#         180
+  C:00F9H         LINE#         181
+  C:00F9H         LINE#         183
+  C:00FEH         LINE#         185
+  C:0100H         LINE#         186
+  C:0105H         LINE#         188
+  C:0108H         LINE#         190
+  C:010CH         LINE#         192
+  C:010EH         LINE#         193
+  C:0115H         LINE#         195
+  C:0118H         LINE#         196
+  C:011CH         LINE#         198
   -------         ENDPROC       TESTSEG
   -------         PROC          TESTVLED
   -------         DO            
   D:0005H         SYMBOL        n
   -------         ENDDO         
-  C:088CH         LINE#         201
-  C:088CH         LINE#         202
-  C:088CH         LINE#         204
-  C:0893H         LINE#         206
-  C:0896H         LINE#         207
-  C:0899H         LINE#         208
-  C:089EH         LINE#         209
-  C:08A1H         LINE#         210
-  C:08A6H         LINE#         211
-  C:08A9H         LINE#         212
-  C:08AEH         LINE#         213
-  C:08B1H         LINE#         215
-  C:08B3H         LINE#         216
-  C:08BFH         LINE#         217
-  C:08BFH         LINE#         218
-  C:08C2H         LINE#         219
-  C:08C6H         LINE#         221
-  C:08C8H         LINE#         222
+  C:008FH         LINE#         201
+  C:008FH         LINE#         202
+  C:008FH         LINE#         204
+  C:0096H         LINE#         206
+  C:0099H         LINE#         207
+  C:009CH         LINE#         208
+  C:00A1H         LINE#         209
+  C:00A4H         LINE#         210
+  C:00A9H         LINE#         211
+  C:00ACH         LINE#         212
+  C:00B1H         LINE#         213
+  C:00B4H         LINE#         215
+  C:00B6H         LINE#         216
+  C:00C2H         LINE#         217
+  C:00C5H         LINE#         218
+  C:00C9H         LINE#         220
+  C:00CBH         LINE#         221
   -------         ENDPROC       TESTVLED
   -------         PROC          MAIN
   -------         DO            
-  C:098EH         SYMBOL        again
+  C:018CH         SYMBOL        again
   -------         ENDDO         
-  C:0989H         LINE#         225
-  C:0989H         LINE#         226
-  C:0989H         LINE#         227
-  C:098EH         LINE#         229
-BL51 BANKED LINKER/LOCATER V6.00                                                      10/07/2009  00:04:25  PAGE 5
-
-
-  C:098EH         LINE#         230
-  C:0991H         LINE#         231
-  C:0994H         LINE#         232
+  C:0187H         LINE#         224
+  C:0187H         LINE#         225
+  C:0187H         LINE#         226
+  C:018CH         LINE#         228
+  C:018CH         LINE#         229
+  C:018FH         LINE#         230
+  C:0192H         LINE#         231
   -------         ENDPROC       MAIN
+BL51 BANKED LINKER/LOCATER V6.00                                                      01/14/2011  10:10:24  PAGE 5
+
+
   -------         ENDMOD        4X8SEGMENTLED
 
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
@@ -254,9 +250,5 @@ SYMBOL TABLE OF MODULE:  4x8segmentLED (4X8SEGMENTLED)
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_SEGCHAR?4X8SEGMENTLED
 
-******************************************************************************
-* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 0119H BYTE (13%) *
-******************************************************************************
-
-Program Size: data=19.0 xdata=0 code=425
+Program Size: data=19.0 xdata=0 code=420
 LINK/LOCATE RUN COMPLETE.  2 WARNING(S),  0 ERROR(S)
