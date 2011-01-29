@@ -1,0 +1,22 @@
+1. single layer big USBasp, circuit use usbasp.2009-02-28.tar.gz
+
+
+2. firmware and AVR burn software : following is the Best than fischl.de. 
+fischl's firmware use to show "can not enter program mode" until you jumpe
+the SLOW SCK.
+  following firmware and softwear use AUTO SPEED MODE, very good. 
+
+refer to ourdev.cn
+http://218.16.124.200/bbs/bbs_content_all.jsp?bbs_sn=915298 
+floor 503. 
+
+Hex:  USBASP.zip/firmware-Hex/AVR_S5x/314forever_main-auto-speed.hex
+Win Driver: USBASP.zp/USBasp_WinDrv
+Windows GUI Burn Soft: AVR_fighter.zip
+
+
+3. USBASP.zip include firmware and sourcecode for autospeed/upgrade boot loader firmware, 
+thanks 314forever
+
+
+
