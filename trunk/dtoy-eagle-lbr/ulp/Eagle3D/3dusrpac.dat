@@ -18,10 +18,12 @@ TO92-EBC:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:TR_TO92_L(:
 HC49US:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:SPC_CRYSTAL_ABRACON_ABS13(:SMD 32.768 Hz Crystal:
 PANASONIC_D:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:CAP_DIS_ELKO_2MM5_6MM3(:Elko 2,5mm Pitch, 6mm Durchmesser, 11,2mm Hoehe:Elko 2,5mm Pitch, 6mm  Diameter, 11,2mm High
 CHIP-LED0805:0:0:0:1:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:DIODE_SMD_LED_CHIP_0805(:SMD-LED im 0805:
-CHIP-LED0805:0:0:0:1:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:DIODE_SMD_LED_CHIP_0805(:SMD-LED im 0805:
+
+CPOL-SMD-10UF-25V:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:CAP_DIS_ELKO_2MM5_6MM3(:Elko 2,5mm Pitch, 6mm Durchmesser, 11,2mm Hoehe:Elko 2,5mm Pitch, 6mm  Diameter, 11,2mm High
+
+
 2,54/0,8:0:0:0:0:0:0:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:NOMACRO:SMD-Loetjumper:SMD-Solder Jumper
 2,54/1,1:0:0:0:0:0:0:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:NOMACRO:SMD-Loetjumper:SMD-Solder Jumper
-CHIP-LED0805:0:0:0:1:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:DIODE_SMD_LED_CHIP_0805(:SMD-LED im 0805:
 2,54/0,8:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:PH_1X4(:Jumper 2,54mm Raster 4Pin 1Reihe (jumper.lib):Jumper 2,54mm Grid 4Pin 1Row (jumper.lib)
 2,54/0,8:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:PH_1X4(:Jumper 2,54mm Raster 4Pin 1Reihe (jumper.lib):Jumper 2,54mm Grid 4Pin 1Row (jumper.lib)
 2,54/1,0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:PH_1X4(:Jumper 2,54mm Raster 4Pin 1Reihe (jumper.lib):Jumper 2,54mm Grid 4Pin 1Row (jumper.lib)
@@ -32,9 +34,9 @@ TO220AV:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:TR_TO220_S(:
 DIP08-L:0:1:0:0:0:1:0:0:0:SOCKET_DIP8(:30:IC-Sockel 8Pin:0:0:0:0:0:0:0:1:0:0:0:0:0:0:0:0:0:0:IC_DIS_DIP8(:DIP8:
 1X4:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:PH_1X4(:Jumper 2,54mm Raster 4Pin 1Reihe (jumper.lib):Jumper 2,54mm Grid 4Pin 1Row (jumper.lib)
 TO92-RAC:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:TR_TO92_L(:TO92 gerade stehend:TO92 straight vertical
-CPOL-SMD-10UF-25V:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:CAP_DIS_ELKO_2MM5_6MM3(:Elko 2,5mm Pitch, 6mm Durchmesser, 11,2mm Hoehe:Elko 2,5mm Pitch, 6mm  Diameter, 11,2mm High
 DIODE-IN4148-SMD:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:DIODE_DIS_DO35_076MM_H(:Diode DO35 7mm hor.:
 XTAL:0:1:0:0:0:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:SPC_XTAL_5MM(:Quarz 4,9MM:
+
 AXIAL-0.3-SMD:0:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:RES_DIS_0207_075MM(:Diskreter Widerstand 0,3W 7,5MM Raster:Discrete Resistor 0,3W 7,5MM Grid
 TACTILE-PTH-2:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:SWITCH_B3F_10XX1(:Taster Switch-Omron:Tactile Switch-Omron
 1X04/90_LOCK:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:-3.8:0:0:0:0:0:0:0:0:0:0:0:0:0:PHW_1X4(:Stiftleiste 2,54MM Raster Winkel (con-lstb.lib):Header 2,54MM Grid 90deg (con-lstb.lib)
@@ -43,6 +45,16 @@ XH-1X2-LONG-LOCK:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:CON
 1X04_LOCK_LONGPADS:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:-3.8:0:0:0:0:0:0:0:0:0:0:0:0:0:PHW_1X4(:Stiftleiste 2,54MM Raster Winkel (con-lstb.lib):Header 2,54MM Grid 90deg (con-lstb.lib)
 CHIPLED_0805:0:0:0:1:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:DIODE_SMD_LED_CHIP_0805(:SMD-LED im 0805:
 
-1X03/90_LOCK:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:-3.8:0:0:0:0:0:0:0:0:0:0:0:0:0:PHW_1X3(:Stiftleiste 2,54MM Raster Winkel (con-lstb.lib):Header 2,54MM Grid 90deg (con-lstb.lib)
+ALPS-SKHV:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:SWITCH_SKHH_V_4_3MM_YELL(:Tactile switch:
+2X5-SHROUDED_LOCK:0:0:0:0:0:0:0:0:0:0:0:0:0:180:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:CON_DIS_WS10G(:Wannenstecker 10Pin:Shrouded Header 10Pin
+DB9:0:0:0:0:0:0:0:0:0:0:0:0:0:180:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:CON_DSUB_M9(:SUB-D 9polig 90 Grad maennlich:SUB-D 9 Pins 90deg male
 
+B25P:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:SWITCH_ROTARYDIP10(:Rotary-Dip BCD switch:
+2X8:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:CON_BL_F_2X8(:Buchsenleiste (flach) 8Pin 2Reihen (con-lsta.lib):Female Header (low profile) 8Pin 2Rows (con-lsta.lib)   
+EIA3216:0:1:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:CAP_SMD_CHIP_TT_SCT_A(:SMD Tantal Chip:
+EIA3528:0:1:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:CAP_SMD_CHIP_TT_SCT_A(:SMD Tantal Chip:
+GRM43D:0:0:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:CAP_SMD_CHIP_1812(DarkWood:SMD Kondensator 2220:SMD Capacitor 2220
+1X02_LOCK:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:PH_1X2(:Stiftleiste 2,54mm Raster 2Pin 1Reihe (pinhead.lib):Header 2,54mm Grid 2Pin 1Row (jumper.lib)
+
+1X03/90_LOCK:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:-3.8:0:0:0:0:0:0:0:0:0:0:0:0:0:PHW_1X3(:Stiftleiste 2,54MM Raster Winkel (con-lstb.lib):Header 2,54MM Grid 90deg (con-lstb.lib)
 TRIM_POT_PTH:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:RES_DIS_TRIM_TS53_YJ(:Trimmer TSM53YJ:
