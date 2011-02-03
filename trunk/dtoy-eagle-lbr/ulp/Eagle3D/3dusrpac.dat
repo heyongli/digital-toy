@@ -39,10 +39,8 @@ XTAL:0:1:0:0:0:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:SPC_XTAL_5MM(:Q
 
 AXIAL-0.3-SMD:0:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:RES_DIS_0207_075MM(:Diskreter Widerstand 0,3W 7,5MM Raster:Discrete Resistor 0,3W 7,5MM Grid
 TACTILE-PTH-2:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:SWITCH_B3F_10XX1(:Taster Switch-Omron:Tactile Switch-Omron
-1X04/90_LOCK:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:-3.8:0:0:0:0:0:0:0:0:0:0:0:0:0:PHW_1X4(:Stiftleiste 2,54MM Raster Winkel (con-lstb.lib):Header 2,54MM Grid 90deg (con-lstb.lib)
 ALPS-SKHV:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:SWITCH_B3F_10XX1(:Taster Switch-Omron:Tactile Switch-Omron
 XH-1X2-LONG-LOCK:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:CON_MOLEX_53047_2(:Molex 53047:
-1X04_LOCK_LONGPADS:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:-3.8:0:0:0:0:0:0:0:0:0:0:0:0:0:PHW_1X4(:Stiftleiste 2,54MM Raster Winkel (con-lstb.lib):Header 2,54MM Grid 90deg (con-lstb.lib)
 CHIPLED_0805:0:0:0:1:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:DIODE_SMD_LED_CHIP_0805(:SMD-LED im 0805:
 
 ALPS-SKHV:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:SWITCH_SKHH_V_4_3MM_YELL(:Tactile switch:
@@ -54,7 +52,13 @@ B25P:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:SWITCH_ROTARYDI
 EIA3216:0:1:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:CAP_SMD_CHIP_TT_SCT_A(:SMD Tantal Chip:
 EIA3528:0:1:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:CAP_SMD_CHIP_TT_SCT_A(:SMD Tantal Chip:
 GRM43D:0:0:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:CAP_SMD_CHIP_1812(DarkWood:SMD Kondensator 2220:SMD Capacitor 2220
-1X02_LOCK:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:PH_1X2(:Stiftleiste 2,54mm Raster 2Pin 1Reihe (pinhead.lib):Header 2,54mm Grid 2Pin 1Row (jumper.lib)
 
-1X03/90_LOCK:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:-3.8:0:0:0:0:0:0:0:0:0:0:0:0:0:PHW_1X3(:Stiftleiste 2,54MM Raster Winkel (con-lstb.lib):Header 2,54MM Grid 90deg (con-lstb.lib)
 TRIM_POT_PTH:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:RES_DIS_TRIM_TS53_YJ(:Trimmer TSM53YJ:
+
+1X04/90_LOCK:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:-0:0:0:0:0:0:0:0:0:0:0:0:0:0:PHW_1X4(:Stiftleiste 2,54MM Raster Winkel (con-lstb.lib):Header 2,54MM Grid 90deg (con-lstb.lib)
+1X04_LOCK_LONGPADS:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:-0:0:0:0:0:0:0:0:0:0:0:0:0:0:PH_1X4(:Stiftleiste 2,54MM Raster Winkel (con-lstb.lib):Header 2,54MM Grid 90deg (con-lstb.lib)
+1X03/90_LOCK:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:-3.8:0:0:0:0:0:0:0:0:0:0:0:0:0:PHW_1X3(:Stiftleiste 2,54MM Raster Winkel (con-lstb.lib):Header 2,54MM Grid 90deg (con-lstb.lib)
+1X02_LOCK:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:PH_1X2(:Stiftleiste 2,54mm Raster 2Pin 1Reihe (pinhead.lib):Header 2,54mm Grid 2Pin 1Row (jumper.lib)
+1X08_LOCK:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:PH_1X8(:Stiftleiste 2,54mm Raster 8Pin 1Reihe (pinhead.lib):Header 2,54mm Grid 8Pin 1Row (jumper.lib)
+
+HC49U-V-SOCK:0:1:0:0:0:0:1:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:SPC_XTAL_5MM(:Quarz 4,9MM:
