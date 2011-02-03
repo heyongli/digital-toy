@@ -1,20 +1,24 @@
 [Eagle]
 Version="05 07 00"
-Platform="Windows"
-Serial="3E3CDD2BD4-LSR-WLM-NCP"
+Platform="Linux"
+Serial="62191E841E-LSR-WLM-NCP"
 Globals="Globals"
 Desktop="Desktop"
 
 [Globals]
 AutoSaveProject=1
+UsedLibrary="/home/hyl/digital-toy/dtoy-eagle-lbr/SparkFun.lbr"
+UsedLibrary="/home/hyl/digital-toy/dtoy-eagle-lbr/digital-toy.lbr"
+UsedLibrary="/home/hyl/digital-toy/dtoy-eagle-lbr/led-seg.lbr"
+UsedLibrary="/home/hyl/digital-toy/dtoy-eagle-lbr/yhf_spec-RF.lbr"
 
 [Win_1]
 Type="Schematic Editor"
-Loc="0 0 1298 845"
+Loc="164 86 1700 950"
 State=2
 Number=2
 File="51-zduino.sch"
-View="-23104 371513 1322226 1385067"
+View="715055 1035456 2283127 2251720"
 WireWidths=" 0 3048 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 4064 2032"
 PadDiameters=" 2540 3048 4064 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 0"
 PadDrills=" 5000 6000 7000 9000 10000 11000 12000 13000 14000 15000 16000 20000 22000 28000 32000 8000"
@@ -46,17 +50,17 @@ ArcDirection=0
 AddLevel=2
 PadsSameType=0
 Layer=91
-Views=" 1: -23104 371513 1322226 1385067"
+Views=" 1: 715055 1035456 2283127 2251720"
 Sheet=1
 
 [Win_2]
 Type="Board Editor"
-Loc="0 0 1278 845"
+Loc="25 105 1303 950"
 State=2
 Number=1
 File="51-zduino.brd"
-View="-92206 -13110 852582 751426"
-WireWidths=" 0 16764 17780 19304 21844 25400 38100 64516 2540 3048 4064 6096 14224 12700 10160 8128"
+View="-119199 -70755 1014547 846689"
+WireWidths=" 0 16764 17780 19304 21844 25400 38100 64516 2540 3048 6096 14224 12700 10160 8128 4064"
 PadDiameters=" 2540 3048 4064 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 0"
 PadDrills=" 5080"
 ViaDiameters=" 2540 3048 4064 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 0"
@@ -90,12 +94,12 @@ Layer=16
 
 [Win_3]
 Type="Control Panel"
-Loc="274 155 1521 829"
+Loc="503 335 1750 1009"
 State=2
 Number=0
 
 [Desktop]
-Screen="1568 876"
+Screen="3840 1080"
 Window="Win_1"
 Window="Win_2"
 Window="Win_3"
