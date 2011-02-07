@@ -33,3 +33,17 @@ Added chips:
 Also fixed problem with tiny15 and tiny11
 
 **********************
+
+09.11.2010
+Firmware v3:
+Fixed Attiny15 timings on PB3
+Fixed data in chip erase command
+
+PCB V3:
+FIxed reset issues by adding 1K pulldown resistor for reset line.
+
+THIS IS THE LAST UPDATE!
+NO MORE SUPPORT, SCINCE THERE IS A "ATMEGA FUSEBIT DOCTOR" WHICH SUPPORTS ATTINY FAMILY.
+FOR MORE, VISIT http://diy.elektroda.eu/atmega-fusebit-doctor-hvpp/
+
+**********************
