@@ -1,7 +1,7 @@
 '------------------------------------------------------------------------------'
 '      Program: Attiny fusebit HV-doctor       autor: Manekinen                '
-'   kompilator: bascom 1.11.9.0                 data: 09.05.2010               '
-'           strona domowa projektu: http://diy.elektroda.eu/                   '
+'   kompilator: bascom 1.11.9.0                 data: 09.11.2010               '
+' strona domowa projektu: http://diy.elektroda.eu/attiny-fusebit-hvsp-doctor/  '
 '               WY£¥CZNIE DO U¯YTKU NIEKOMERCYJNEGO                            '
 '------------------------------------------------------------------------------'
 
@@ -42,6 +42,7 @@ Dim Fusebit(3) As Byte
 Dim Lock As Bit
 Dim Fuse_nr As Byte
 Dim Ok As Bit
+Dim T15_clock As Byte
 
 Declare Sub _init
 Declare Sub _read_sig
@@ -217,14 +218,20 @@ Return
 
 _clock:
 'jeden takt zegara trwa 2us, prawie 10 razy dluzej niz wymagane
-'1us przerwy
+
+T15_clock = 0
+Do
+   Set Sci_t15
+   Waitus 1
+   Reset Sci_t15
+   Waitus 1
+   Incr T15_clock
+Loop Until T15_clock = 16
+
 Waitus 1
 Set Sci
-Set Sci_t15
-'1us trwania
 Waitus 1
 Reset Sci
-Reset Sci_t15
 Return
 '_______________________________________________________________________________
 
@@ -448,11 +455,17 @@ Sdi_data = &B00000000
 Sii_data = &B01100100
 _send
 
-Sdi_data = &B10000000
+'Sdi_data = &B00000000
 Sii_data = &B01101100
 _send
 
 _wait_sdo
+
+If Signature(1) = &H90 And Signature(2) = &H06 Then
+   'Sdi_data = &B00000000
+   Sii_data = &B01001100
+   _send
+End If
 
 Return
 '_______________________________________________________________________________
@@ -533,8 +546,8 @@ At00 - Low = 252
          1
          1
          1
-Fstrt  = 1
-Rstdisbl=1
+Fstrt = 1
+Rstdisbl = 1
 Cksel2 = 1
 Cksel1 = 0
 Cksel0 = 0
@@ -709,7 +722,7 @@ Spien = 0
         1
         1
         1
-Rcen =  0
+Rcen = 0
 '______________
 Attiny22
    1e = 00011110 = 30
@@ -719,12 +732,12 @@ Attiny22
 At00 - Low = 222
         1
         1
-SPIEN = 0
+Spien = 0
         1
         1
         1
         1
-RCEN  = 0
+Rcen = 0
 '_____________
 Attiny261
    1e = 00011110 = 30
@@ -740,24 +753,24 @@ Attiny861
    0d = 00001101 = 13
 
 At00 - Low = 98
-CKDIV8 = 0
-CKOUT  = 1
-SUT1   = 1
-SUT0   = 0
-CKSEL3 = 0
-CKSEL2 = 0
-CKSEL1 = 1
-CKSEL0 = 0
+Ckdiv8 = 0
+Ckout = 1
+Sut1 = 1
+Sut0 = 0
+Cksel3 = 0
+Cksel2 = 0
+Cksel1 = 1
+Cksel0 = 0
 
 At01 - Hig = 223
-RSTDISBL=1
-DWEN   = 1
-SPIEN  = 0
-WDTON  = 1
-EESAVE = 1
-BODLVL2= 1
-BODLVL1= 1
-BODLVL0= 1
+Rstdisbl = 1
+Dwen = 1
+Spien = 0
+Wdton = 1
+Eesave = 1
+Bodlvl2 = 1
+Bodlvl1 = 1
+Bodlvl0 = 1
 
 At10 - Ext = 255
          1
@@ -767,7 +780,7 @@ At10 - Ext = 255
          1
          1
          1
-SELFPRGE=1
+Selfprge = 1
 
 
 ')
