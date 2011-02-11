@@ -1,0 +1,328 @@
+BL51 BANKED LINKER/LOCATER V6.00                                                        09/25/2010  21:12:38  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.00, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE main.obj, delay.obj, pwm.obj, adc0832.obj, timer0.obj, 3key.obj, 4wire-1602.obj TO i-charger RA
+>> MSIZE (256)
+
+
+MEMORY MODEL: SMALL WITH FLOATING POINT ARITHMETIC
+
+
+INPUT MODULES INCLUDED:
+  main.obj (MAIN)
+  delay.obj (DELAY)
+  pwm.obj (PWM)
+  adc0832.obj (ADC0832)
+  timer0.obj (TIMER0)
+  3key.obj (3KEY)
+  4wire-1602.obj (4WIRE_1602)
+  C:\KEIL\C51\LIB\C51FPS.LIB (?C?FPADD)
+  C:\KEIL\C51\LIB\C51FPS.LIB (?C?FPMUL)
+  C:\KEIL\C51\LIB\C51FPS.LIB (?C?FPDIV)
+  C:\KEIL\C51\LIB\C51FPS.LIB (?C?FPCMP)
+  C:\KEIL\C51\LIB\C51FPS.LIB (?C?FCAST)
+  C:\KEIL\C51\LIB\C51FPS.LIB (?C?CASTF)
+  C:\KEIL\C51\LIB\C51FPS.LIB (?C?FPGETOPN)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?CLDPTR)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?UIDIV)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?LADD)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?LSUB)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?ULDIV)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?LNEG)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?SLCMP)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?ULCMP)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  i-charger (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            REG     0008H     0008H     ABSOLUTE     "REG BANK 1"
+            REG     0010H     0008H     ABSOLUTE     "REG BANK 2"
+            DATA    0018H     0004H     UNIT         ?DT?TIMER0
+            DATA    001CH     0002H     UNIT         ?DT?PWM
+                    001EH     0002H                  *** GAP ***
+            BIT     0020H.0   0000H.1   UNIT         _BIT_GROUP_
+                    0020H.1   0000H.7                *** GAP ***
+            DATA    0021H     002BH     UNIT         ?DT?MAIN
+            DATA    004CH     001DH     UNIT         _DATA_GROUP_
+            DATA    0069H     000DH     UNIT         ?DT?4WIRE_1602
+            IDATA   0076H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0006H     INBLOCK      ?PR?IO_DELAY?4WIRE_1602
+BL51 BANKED LINKER/LOCATER V6.00                                                      09/25/2010  21:12:38  PAGE 2
+
+
+                    0009H     0002H                  *** GAP ***
+            CODE    000BH     0003H     ABSOLUTE     
+            CODE    000EH     000CH     INBLOCK      ?PR?_PWM_SETDUTY?PWM
+                    001AH     0001H                  *** GAP ***
+            CODE    001BH     0003H     ABSOLUTE     
+            CODE    001EH     0556H     UNIT         ?C?LIB_CODE
+            CODE    0574H     0150H     INBLOCK      ?PR?ISDONE?MAIN
+            CODE    06C4H     013BH     INBLOCK      ?PR?SELECT_BATTERY?MAIN
+                    07FFH     0001H                  *** GAP ***
+            CODE    0800H     00F7H     INBLOCK      ?PR?_TRY_IR?MAIN
+            CODE    08F7H     00F3H     INBLOCK      ?PR?EASY_CHARGING?MAIN
+            CODE    09EAH     00CFH     INBLOCK      ?PR?ADC_V?ADC0832
+            CODE    0AB9H     00C2H     INBLOCK      ?PR?ADC_A?ADC0832
+            CODE    0B7BH     00B0H     INBLOCK      ?PR?CHARGING_UPDATE_LCD?MAIN
+            CODE    0C2BH     00AFH     INBLOCK      ?PR?ADC0832?ADC0832
+            CODE    0CDAH     00AEH     INBLOCK      ?PR?_HD44870_SEND?4WIRE_1602
+            CODE    0D88H     009BH     INBLOCK      ?PR?_PRINT10?4WIRE_1602
+            CODE    0E23H     0090H     INBLOCK      ?PR?COUNTMAH?MAIN
+            CODE    0EB3H     008CH     UNIT         ?C_C51STARTUP
+            CODE    0F3FH     007FH     INBLOCK      ?PR?_SHOWVA?4WIRE_1602
+            CODE    0FBEH     0042H     INBLOCK      ?PR?LCD1602_INIT?4WIRE_1602
+            CODE    1000H     0076H     INBLOCK      ?PR?ADJ_C?MAIN
+            CODE    1076H     005BH     UNIT         ?C_INITSEG
+            CODE    10D1H     004AH     UNIT         ?CO?MAIN
+            CODE    111BH     0038H     INBLOCK      ?PR?EASY_DISCHARING?MAIN
+            CODE    1153H     0031H     INBLOCK      ?PR?MAIN?MAIN
+            CODE    1184H     0030H     INBLOCK      ?PR?__SWAP4?4WIRE_1602
+            CODE    11B4H     002BH     INBLOCK      ?PR?TIMER1?TIMER0
+            CODE    11DFH     0025H     INBLOCK      ?PR?PWM_1KHZ?PWM
+            CODE    1204H     0025H     INBLOCK      ?PR?PWM_DISCHARGING?PWM
+            CODE    1229H     0025H     INBLOCK      ?PR?TIMER0?TIMER0
+            CODE    124EH     0025H     INBLOCK      ?PR?_LCD_PUTS?4WIRE_1602
+            CODE    1273H     0022H     INBLOCK      ?PR?_KEY?3KEY
+            CODE    1295H     001FH     INBLOCK      ?PR?_MDELAY?DELAY
+            CODE    12B4H     001FH     INBLOCK      ?PR?_SLEEP?DELAY
+            CODE    12D3H     0014H     INBLOCK      ?PR?_HEX2C?4WIRE_1602
+            CODE    12E7H     0012H     INBLOCK      ?PR?IO_INIT?MAIN
+            CODE    12F9H     0012H     INBLOCK      ?PR?_LCD_CURSOR?4WIRE_1602
+            CODE    130BH     000EH     INBLOCK      ?PR?TIMER0_INIT?TIMER0
+            CODE    1319H     000EH     INBLOCK      ?PR?TIMER1_INIT?TIMER0
+            CODE    1327H     0006H     INBLOCK      ?PR?IO_50MS?4WIRE_1602
+            CODE    132DH     0005H     INBLOCK      ?PR?__2CYCLE?DELAY
+            CODE    1332H     0005H     INBLOCK      ?PR?PWM_INIT?PWM
+
+
+
+OVERLAY MAP OF MODULE:   i-charger (MAIN)
+
+
+SEGMENT                                 BIT_GROUP          DATA_GROUP 
+  +--> CALLED SEGMENT                START    LENGTH     START    LENGTH
+------------------------------------------------------------------------
+?PR?TIMER0?TIMER0                    -----    -----      -----    -----
+  +--> ?PR?PWM_DISCHARGING?PWM
+  +--> ?PR?PWM_1KHZ?PWM
+
+*** NEW ROOT ***************************************************
+BL51 BANKED LINKER/LOCATER V6.00                                                      09/25/2010  21:12:38  PAGE 3
+
+
+
+?C_C51STARTUP                        -----    -----      -----    -----
+  +--> ?PR?MAIN?MAIN
+  +--> ?C_INITSEG
+
+?PR?MAIN?MAIN                        -----    -----      -----    -----
+  +--> ?PR?IO_INIT?MAIN
+  +--> ?PR?TIMER0_INIT?TIMER0
+  +--> ?PR?TIMER1_INIT?TIMER0
+  +--> ?PR?_SLEEP?DELAY
+  +--> ?PR?SELECT_BATTERY?MAIN
+  +--> ?PR?CHARGING_UPDATE_LCD?MAIN
+  +--> ?PR?ISDONE?MAIN
+  +--> ?PR?EASY_CHARGING?MAIN
+  +--> ?PR?EASY_DISCHARING?MAIN
+  +--> ?PR?COUNTMAH?MAIN
+
+?PR?IO_INIT?MAIN                     -----    -----      -----    -----
+  +--> ?PR?PWM_INIT?PWM
+  +--> ?PR?LCD1602_INIT?4WIRE_1602
+  +--> ?PR?_LCD_CURSOR?4WIRE_1602
+  +--> ?PR?_MDELAY?DELAY
+
+?PR?LCD1602_INIT?4WIRE_1602          -----    -----      -----    -----
+  +--> ?PR?_HD44870_SEND?4WIRE_1602
+  +--> ?PR?IO_50MS?4WIRE_1602
+
+?PR?_HD44870_SEND?4WIRE_1602         -----    -----      0055H    0002H
+  +--> ?PR?IO_DELAY?4WIRE_1602
+  +--> ?PR?__SWAP4?4WIRE_1602
+
+?PR?IO_DELAY?4WIRE_1602              -----    -----      -----    -----
+  +--> ?PR?__2CYCLE?DELAY
+
+?PR?IO_50MS?4WIRE_1602               -----    -----      -----    -----
+  +--> ?PR?_MDELAY?DELAY
+
+?PR?_MDELAY?DELAY                    -----    -----      -----    -----
+  +--> ?PR?__2CYCLE?DELAY
+
+?PR?_LCD_CURSOR?4WIRE_1602           -----    -----      -----    -----
+  +--> ?PR?_HD44870_SEND?4WIRE_1602
+
+?PR?_SLEEP?DELAY                     -----    -----      -----    -----
+  +--> ?PR?_MDELAY?DELAY
+
+?PR?SELECT_BATTERY?MAIN              -----    -----      -----    -----
+  +--> ?PR?_KEY?3KEY
+  +--> ?PR?_LCD_CURSOR?4WIRE_1602
+  +--> ?CO?MAIN
+  +--> ?PR?_LCD_PUTS?4WIRE_1602
+  +--> ?PR?_SHOWVA?4WIRE_1602
+  +--> ?PR?_MDELAY?DELAY
+
+?PR?_KEY?3KEY                        -----    -----      004CH    0001H
+  +--> ?PR?_MDELAY?DELAY
+
+BL51 BANKED LINKER/LOCATER V6.00                                                      09/25/2010  21:12:38  PAGE 4
+
+
+?PR?_LCD_PUTS?4WIRE_1602             -----    -----      0052H    0003H
+  +--> ?PR?_HD44870_SEND?4WIRE_1602
+
+?PR?_SHOWVA?4WIRE_1602               -----    -----      -----    -----
+  +--> ?PR?_HEX2C?4WIRE_1602
+  +--> ?PR?_LCD_PUTS?4WIRE_1602
+
+?PR?CHARGING_UPDATE_LCD?MAIN         -----    -----      -----    -----
+  +--> ?PR?ADC_V?ADC0832
+  +--> ?PR?_LCD_CURSOR?4WIRE_1602
+  +--> ?CO?MAIN
+  +--> ?PR?_LCD_PUTS?4WIRE_1602
+  +--> ?PR?_SHOWVA?4WIRE_1602
+  +--> ?PR?_PRINT10?4WIRE_1602
+  +--> ?PR?ADC_A?ADC0832
+
+?PR?ADC_V?ADC0832                    -----    -----      0052H    000AH
+  +--> ?PR?ADC0832?ADC0832
+  +--> ?PR?ADC_A?ADC0832
+
+?PR?ADC0832?ADC0832                  0020H.0  0000H.1    0066H    0003H
+  +--> ?PR?__2CYCLE?DELAY
+
+?PR?ADC_A?ADC0832                    -----    -----      005CH    000AH
+  +--> ?PR?ADC0832?ADC0832
+
+?PR?_PRINT10?4WIRE_1602              -----    -----      -----    -----
+  +--> ?PR?_HEX2C?4WIRE_1602
+  +--> ?PR?_LCD_PUTS?4WIRE_1602
+
+?PR?ISDONE?MAIN                      -----    -----      -----    -----
+  +--> ?PR?CHARGING_UPDATE_LCD?MAIN
+  +--> ?PR?_MDELAY?DELAY
+  +--> ?PR?_PWM_SETDUTY?PWM
+  +--> ?PR?ADC_V?ADC0832
+  +--> ?PR?_TRY_IR?MAIN
+  +--> ?PR?_LCD_CURSOR?4WIRE_1602
+  +--> ?CO?MAIN
+  +--> ?PR?_LCD_PUTS?4WIRE_1602
+  +--> ?PR?_PRINT10?4WIRE_1602
+  +--> ?PR?ADJ_C?MAIN
+
+?PR?_TRY_IR?MAIN                     -----    -----      004CH    0005H
+  +--> ?PR?_PWM_SETDUTY?PWM
+  +--> ?PR?_MDELAY?DELAY
+  +--> ?PR?ADC_V?ADC0832
+  +--> ?PR?ADJ_C?MAIN
+  +--> ?PR?ADC_A?ADC0832
+
+?PR?ADJ_C?MAIN                       -----    -----      0051H    0001H
+  +--> ?PR?_MDELAY?DELAY
+  +--> ?PR?ADC_A?ADC0832
+  +--> ?PR?_PWM_SETDUTY?PWM
+  +--> ?PR?CHARGING_UPDATE_LCD?MAIN
+
+?PR?EASY_CHARGING?MAIN               -----    -----      -----    -----
+  +--> ?PR?ADC_A?ADC0832
+BL51 BANKED LINKER/LOCATER V6.00                                                      09/25/2010  21:12:38  PAGE 5
+
+
+  +--> ?PR?ADC_V?ADC0832
+  +--> ?PR?_PWM_SETDUTY?PWM
+  +--> ?PR?_TRY_IR?MAIN
+  +--> ?PR?CHARGING_UPDATE_LCD?MAIN
+  +--> ?PR?_MDELAY?DELAY
+
+?PR?EASY_DISCHARING?MAIN             -----    -----      -----    -----
+  +--> ?PR?ADJ_C?MAIN
+  +--> ?PR?CHARGING_UPDATE_LCD?MAIN
+  +--> ?PR?_MDELAY?DELAY
+  +--> ?PR?_PWM_SETDUTY?PWM
+
+
+
+SYMBOL TABLE OF MODULE:  i-charger (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ?C?FPADD
+  C:0025H         PUBLIC        ?C?FPADD
+  C:0021H         PUBLIC        ?C?FPSUB
+  -------         ENDMOD        ?C?FPADD
+
+  -------         MODULE        ?C?FPMUL
+  C:0116H         PUBLIC        ?C?FPMUL
+  -------         ENDMOD        ?C?FPMUL
+
+  -------         MODULE        ?C?FPDIV
+  C:021FH         PUBLIC        ?C?FPDIV
+  -------         ENDMOD        ?C?FPDIV
+
+  -------         MODULE        ?C?FPCMP
+  C:02BEH         PUBLIC        ?C?FPCMP
+  C:02BCH         PUBLIC        ?C?FPCMP3
+  -------         ENDMOD        ?C?FPCMP
+
+  -------         MODULE        ?C?FCAST
+  C:0333H         PUBLIC        ?C?FCASTC
+  C:032EH         PUBLIC        ?C?FCASTI
+  C:0329H         PUBLIC        ?C?FCASTL
+  -------         ENDMOD        ?C?FCAST
+
+  -------         MODULE        ?C?CASTF
+  C:0367H         PUBLIC        ?C?CASTF
+  -------         ENDMOD        ?C?CASTF
+
+  -------         MODULE        ?C?CLDPTR
+  C:03E8H         PUBLIC        ?C?CLDPTR
+  -------         ENDMOD        ?C?CLDPTR
+
+  -------         MODULE        ?C?UIDIV
+  C:0401H         PUBLIC        ?C?UIDIV
+  -------         ENDMOD        ?C?UIDIV
+
+  -------         MODULE        ?C?LADD
+  C:0456H         PUBLIC        ?C?LADD
+BL51 BANKED LINKER/LOCATER V6.00                                                      09/25/2010  21:12:38  PAGE 6
+
+
+  -------         ENDMOD        ?C?LADD
+
+  -------         MODULE        ?C?LSUB
+  C:0463H         PUBLIC        ?C?LSUB
+  -------         ENDMOD        ?C?LSUB
+
+  -------         MODULE        ?C?ULDIV
+  C:04ADH         PUBLIC        ?C?ULDIV
+  -------         ENDMOD        ?C?ULDIV
+
+  -------         MODULE        ?C?LNEG
+  C:053FH         PUBLIC        ?C?LNEG
+  -------         ENDMOD        ?C?LNEG
+
+  -------         MODULE        ?C?SLCMP
+  C:054DH         PUBLIC        ?C?SLCMP
+  -------         ENDMOD        ?C?SLCMP
+
+  -------         MODULE        ?C?ULCMP
+  C:0563H         PUBLIC        ?C?ULCMP
+  -------         ENDMOD        ?C?ULCMP
+
+Program Size: data=116.1 xdata=0 code=4915
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
