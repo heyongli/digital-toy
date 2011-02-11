@@ -1,0 +1,155 @@
+BL51 BANKED LINKER/LOCATER V6.00                                                        02/11/2011  17:19:52  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.00, INVOKED BY:
+C:\KEIL-C51\C51\BIN\BL51.EXE main.obj, delay.obj, timer0.obj, 3key.obj, 4wire-1602.obj TO 51z-firmware RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  main.obj (MAIN)
+  delay.obj (DELAY)
+  timer0.obj (TIMER0)
+  3key.obj (3KEY)
+  4wire-1602.obj (4WIRE_1602)
+  C:\KEIL-C51\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL-C51\C51\LIB\C51S.LIB (?C?CLDPTR)
+  C:\KEIL-C51\C51\LIB\C51S.LIB (?C?UIDIV)
+  C:\KEIL-C51\C51\LIB\C51S.LIB (?C?LADD)
+  C:\KEIL-C51\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  51z-firmware (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            REG     0008H     0008H     ABSOLUTE     "REG BANK 1"
+            DATA    0010H     000DH     UNIT         ?DT?4WIRE_1602
+            DATA    001DH     0005H     UNIT         _DATA_GROUP_
+            DATA    0022H     0004H     UNIT         ?DT?TIMER0
+            IDATA   0026H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0015H     INBLOCK      ?PR?_MDELAY?DELAY
+                    0018H     0003H                  *** GAP ***
+            CODE    001BH     0003H     ABSOLUTE     
+            CODE    001EH     00AEH     INBLOCK      ?PR?_HD44870_SEND?4WIRE_1602
+            CODE    00CCH     009BH     INBLOCK      ?PR?_PRINT10?4WIRE_1602
+            CODE    0167H     008CH     UNIT         ?C_C51STARTUP
+            CODE    01F3H     007FH     INBLOCK      ?PR?_SHOWVA?4WIRE_1602
+            CODE    0272H     007BH     UNIT         ?C?LIB_CODE
+            CODE    02EDH     0046H     INBLOCK      ?PR?UPDATE_LCD?MAIN
+            CODE    0333H     0042H     INBLOCK      ?PR?LCD1602_INIT?4WIRE_1602
+            CODE    0375H     0030H     INBLOCK      ?PR?__SWAP4?4WIRE_1602
+            CODE    03A5H     002BH     INBLOCK      ?PR?TIMER1?TIMER0
+            CODE    03D0H     0025H     INBLOCK      ?PR?_LCD_PUTS?4WIRE_1602
+            CODE    03F5H     0022H     INBLOCK      ?PR?_KEY?3KEY
+            CODE    0417H     001FH     INBLOCK      ?PR?_SLEEP?DELAY
+            CODE    0436H     0014H     INBLOCK      ?PR?_HEX2C?4WIRE_1602
+            CODE    044AH     0012H     INBLOCK      ?PR?_LCD_CURSOR?4WIRE_1602
+            CODE    045CH     0010H     UNIT         ?CO?MAIN
+            CODE    046CH     000FH     INBLOCK      ?PR?IO_INIT?MAIN
+            CODE    047BH     000EH     INBLOCK      ?PR?MAIN?MAIN
+            CODE    0489H     000EH     INBLOCK      ?PR?TIMER1_INIT?TIMER0
+            CODE    0497H     000AH     UNIT         ?C_INITSEG
+BL51 BANKED LINKER/LOCATER V6.00                                                      02/11/2011  17:19:52  PAGE 2
+
+
+            CODE    04A1H     0006H     INBLOCK      ?PR?IO_DELAY?4WIRE_1602
+            CODE    04A7H     0006H     INBLOCK      ?PR?IO_50MS?4WIRE_1602
+            CODE    04ADH     0005H     INBLOCK      ?PR?__2CYCLE?DELAY
+
+
+
+OVERLAY MAP OF MODULE:   51z-firmware (MAIN)
+
+
+SEGMENT                                DATA_GROUP 
+  +--> CALLED SEGMENT                START    LENGTH
+----------------------------------------------------
+?C_C51STARTUP                        -----    -----
+  +--> ?PR?MAIN?MAIN
+  +--> ?C_INITSEG
+
+?PR?MAIN?MAIN                        -----    -----
+  +--> ?PR?IO_INIT?MAIN
+  +--> ?PR?_SLEEP?DELAY
+  +--> ?PR?UPDATE_LCD?MAIN
+
+?PR?IO_INIT?MAIN                     -----    -----
+  +--> ?PR?TIMER1_INIT?TIMER0
+  +--> ?PR?LCD1602_INIT?4WIRE_1602
+  +--> ?PR?_LCD_CURSOR?4WIRE_1602
+
+?PR?LCD1602_INIT?4WIRE_1602          -----    -----
+  +--> ?PR?_HD44870_SEND?4WIRE_1602
+  +--> ?PR?IO_50MS?4WIRE_1602
+
+?PR?_HD44870_SEND?4WIRE_1602         0020H    0002H
+  +--> ?PR?IO_DELAY?4WIRE_1602
+  +--> ?PR?__SWAP4?4WIRE_1602
+
+?PR?IO_DELAY?4WIRE_1602              -----    -----
+  +--> ?PR?__2CYCLE?DELAY
+
+?PR?IO_50MS?4WIRE_1602               -----    -----
+  +--> ?PR?_MDELAY?DELAY
+
+?PR?_MDELAY?DELAY                    -----    -----
+  +--> ?PR?__2CYCLE?DELAY
+
+?PR?_LCD_CURSOR?4WIRE_1602           -----    -----
+  +--> ?PR?_HD44870_SEND?4WIRE_1602
+
+?PR?_SLEEP?DELAY                     -----    -----
+  +--> ?PR?_MDELAY?DELAY
+
+?PR?UPDATE_LCD?MAIN                  -----    -----
+  +--> ?PR?_KEY?3KEY
+  +--> ?PR?_LCD_CURSOR?4WIRE_1602
+  +--> ?CO?MAIN
+  +--> ?PR?_LCD_PUTS?4WIRE_1602
+
+?PR?_KEY?3KEY                        001DH    0001H
+  +--> ?PR?_MDELAY?DELAY
+BL51 BANKED LINKER/LOCATER V6.00                                                      02/11/2011  17:19:52  PAGE 3
+
+
+
+?PR?_LCD_PUTS?4WIRE_1602             001DH    0003H
+  +--> ?PR?_HD44870_SEND?4WIRE_1602
+
+
+
+SYMBOL TABLE OF MODULE:  51z-firmware (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ?C?CLDPTR
+  C:0272H         PUBLIC        ?C?CLDPTR
+  -------         ENDMOD        ?C?CLDPTR
+
+  -------         MODULE        ?C?UIDIV
+  C:028BH         PUBLIC        ?C?UIDIV
+  -------         ENDMOD        ?C?UIDIV
+
+  -------         MODULE        ?C?LADD
+  C:02E0H         PUBLIC        ?C?LADD
+  -------         ENDMOD        ?C?LADD
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+
+Program Size: data=39.0 xdata=0 code=1199
+LINK/LOCATE RUN COMPLETE.  2 WARNING(S),  0 ERROR(S)
