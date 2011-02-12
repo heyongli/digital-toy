@@ -35,38 +35,73 @@ http://www.k7mem.150m.com/Electronic_Notebook/inductors/straight_wire.html
 3. testing:
 ===========================================
    step 1: keep the circuit untuch
-     coil length:                                 coil lead len:   
+     coil length: 25mm                                coil lead len:  11mm+12mm 
      coil inductance:                             lead inductance:
-     cap leadlen:                                 lead inductance:
+     cap leadlen: 10mm+9.5mm                      lead inductance:
 
    total inductance:                              total cap: 22+4 =26pF
 
-   prediction freq:                                real freq:
+   prediction freq:                                real freq: 90.3Mhz
 =============
 step 2: remove cap lead
-     coil length:                                 coil lead len:   
+     coil length:  25mm                           coil lead len:  11mm +12mm
      coil inductance:                             lead inductance:
-     cap leadlen:                                 lead inductance:
+     cap leadlen:   2.8mm+3mm                     lead inductance:
 
    total inductance:                              total cap: 22+4 =26pF
 
-   prediction freq:                                real freq:
+   prediction freq:                                real freq: 92.1Mhz
 ==================
 step 3: remove coil lead
-     coil length:                                 coil lead len:   
+     coil length:  25mm                            coil lead len: 2mm + 2mm 
      coil inductance:                             lead inductance:
-     cap leadlen:                                 lead inductance:
+     cap leadlen: 2.8mm+3mm                       lead inductance: 
 
    total inductance:                              total cap: 22+4 =26pF
 
-   prediction freq:                                real freq:
+   prediction freq:                                real freq:99.65Mhz
 =====================
-step 4: replace cap to another type: ÔÆÄ¸
-     coil length:                                 coil lead len:   
+step 4: replace cap to another type: MONOLITHIC CAPACITORS
+     coil length:  25mm                           coil lead len:  2mm+2mm
      coil inductance:                             lead inductance:
-     cap leadlen:                                 lead inductance:
+     cap leadlen:  2mm+1mm                        lead inductance:
 
    total inductance:                              total cap: 22+4 =26pF
 
-   prediction freq:                                real freq:
+   prediction freq:                                real freq: 100.15Mhz
 ===================
+
+step 5: change coil length to 16mm ( MONOLITHIC CAPACITORS)
+     coil length:  16mm                           coil lead len:  2mm+2mm
+     coil inductance:                             lead inductance:
+     cap leadlen:  2mm+1mm                        lead inductance:
+
+   total inductance:                              total cap: 22+4 =26pF
+
+   prediction freq:                                real freq: 93.2Mhz
+===================
+
+step 6:  10pF Feed back cap short lead length  (LC:MONOLITHIC CAPACITORS )
+     coil length:  16mm                           coil lead len:  2mm+2mm
+     coil inductance:                             lead inductance:
+     cap leadlen:  2mm+1mm                        lead inductance:
+
+   total inductance:                              total cap: 22+4 =26pF
+
+   prediction freq:                                real freq: 92.35Mhz (92.7Mhz--93.7Mhz on diffrent env)
+                                                  FB cap lead len: 2mm+2mm
+
+=====================
+step 7:  5.6pF feedback short lead length (LC:MONOLITHIC CAPACITORS )
+     coil length:  16mm                           coil lead len:  2mm+2mm
+     coil inductance:                             lead inductance:
+     cap leadlen:  2mm+1mm                        lead inductance:
+
+   total inductance:                              total cap: 22+4 =26pF
+`
+   prediction freq:                                real freq: 94.1Mhz
+===================
+
+
+
+
