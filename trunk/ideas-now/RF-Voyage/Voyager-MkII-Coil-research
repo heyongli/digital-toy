@@ -1,0 +1,71 @@
+1. the mini scew driver for the standard
+  d: 4.96 mm (0.195275591 inch),  R: 4.96/2mm=0.097637795 inch
+  7turns, the coil lengh from 1.5cm(0.590551181 inch) to 1.75cm(0.688976378 inch)
+  coil inductance from  0.069uH to 0.06 uH
+
+2. wasp fm tansmiter tank circuit:
+  cap: 33 + 5-10p  MID:33+7 =40pF
+  frequncy F=1/(2*3.1415926*sqrt(L*C)) 
+  L from 0.069uH to 0.06uH, F from: 95Mhz to 102Mhz 
+=============================================================
+NEW TOOLS: http://hamwaves.com/antennas/inductance.html
+D=5.3mm (line center to line center,4.9+0.4) 
+7 turn
+
+lenth: 15mm ==> 90nH  (old 69nH)     lenth: 17.5mm=> 88nH  (old 60nH)     lenth: 22mm  => 87nH  
+
+==========
+strait wire induct: 
+  4x10mm= > 17nH(.3 CAP) + 13nH(.8 COIL) = 30nH
+
+====== debuging  result anylysis======
+1. 89.1Mhz , 
+    22mm len=>87 + straitwire=>30 = 117nH
+    cap: 22+4pF(Cbc)= 26pF   
+    thoery : 91.2M   
+   
+2. original design why fail:
+    15mm: 90nH + 30 = 120nH
+    cap:  33p+ (5-20p) = 40p
+   thoey: => 72Mhz
+   remove 5-20p:=> 80Mhz
+   stench to 22mm: => 81Mhz
+
+3. testing:
+===========================================
+   step 1: keep the circuit untuch
+     coil length:                                 coil lead len:   
+     coil inductance:                             lead inductance:
+     cap leadlen:                                 lead inductance:
+
+   total inductance:                              total cap: 22+4 =26pF
+
+   prediction freq:                                real freq:
+=============
+step 2: remove cap lead
+     coil length:                                 coil lead len:   
+     coil inductance:                             lead inductance:
+     cap leadlen:                                 lead inductance:
+
+   total inductance:                              total cap: 22+4 =26pF
+
+   prediction freq:                                real freq:
+==================
+step 3: remove coil lead
+     coil length:                                 coil lead len:   
+     coil inductance:                             lead inductance:
+     cap leadlen:                                 lead inductance:
+
+   total inductance:                              total cap: 22+4 =26pF
+
+   prediction freq:                                real freq:
+=====================
+step 4: replace cap to another type: ÔÆÄ¸
+     coil length:                                 coil lead len:   
+     coil inductance:                             lead inductance:
+     cap leadlen:                                 lead inductance:
+
+   total inductance:                              total cap: 22+4 =26pF
+
+   prediction freq:                                real freq:
+===================
