@@ -1,0 +1,83 @@
+.std { font-family: Arial,Helvetica; font-size: 12pt; text-decoration: none }
+.std_bold { font-family: Arial,Helvetica; font-weight: bold; font-size: 12pt; text-decoration: none }
+.std_bold_black { font-family: Arial,Helvetica; font-size: 10pt; font-weight: bold; color: #000000; text-decoration: none }
+.std_bold_blue { font-family: Arial,Helvetica; font-size: 10pt; font-weight: bold; color: #0000af; text-decoration: none }
+.std_bold_red { font-family: Arial,Helvetica; font-size: 10pt; font-weight: bold; color: #af0000; text-decoration: none }
+.std_8 { font-family: Arial,Helvetica; font-size: 8pt; text-decoration: none }
+.std_9 { font-family: Arial,Helvetica; font-size: 9pt; text-decoration: none }
+.std_10 { font-family: Arial,Helvetica; font-size: 10pt; text-decoration: none }
+.std_12 { font-family: Arial,Helvetica; font-size: 12pt; text-decoration: none }
+.std_8_bold { font-family: Arial,Helvetica; font-weight: bold; font-size: 8pt; text-decoration: none }
+.std_10_bold { font-family: Arial,Helvetica; font-weight: bold; font-size: 10pt; text-decoration: none }
+.std_12_bold { font-family: Arial,Helvetica; font-weight: bold; font-size: 12pt; text-decoration: none }
+.std_14_bold { font-family: Arial,Helvetica; font-weight: bold; font-size: 14pt; text-decoration: none }
+.std_10_fbrick { font-family: Arial,Helvetica; font-size: 10pt; font-weight: bold; color: #B22222; text-decoration: none }
+.std_12_fbrick { font-family: Arial,Helvetica; font-size: 12pt; font-weight: bold; color: #B22222; text-decoration: none }
+.std_14_fbrick { font-family: Arial,Helvetica; font-size: 14pt; font-weight: bold; color: #B22222; text-decoration: none }
+.std_16_fbrick { font-family: Arial,Helvetica; font-size: 16pt; font-weight: bold; color: #B22222; text-decoration: none }
+.std_14_aqua { font-family: Arial,Helvetica; font-size: 14pt; color: #00ffff; text-decoration: none }
+.std_16_aqua { font-family: Arial,Helvetica; font-size: 16pt; color: #00ffff; text-decoration: none }
+.calc_10 { font-family: Arial,Helvetica; font-size: 10pt; padding: 3px; border-width: 1;
+ border: solid; border-color: #00af00; background: #fff2d2; text-decoration: none }
+.calc_10_blue { font-family: Arial,Helvetica; font-size: 10pt; padding: 3px; border-width: 1;
+ border: solid; border-color: #00008b; background: #ADD8E6; text-decoration: none }
+.calc_10_green { font-family: Arial,Helvetica; font-size: 10pt; padding: 3px; border-width: 1;
+ border: solid; border-color: #008b00; background: #aaffaa; text-decoration: none }
+.calc_10_bold { font-family: Arial,Helvetica; font-size: 10pt; font-weight: bold; padding: 3px; border-width: 1;
+ border: solid; border-color: #00af00; background: #fff2d2; text-decoration: none }
+td.green {font:12px arial,helvetica,sans-serif; color:#000000; background:#bde1ab}
+td.yellow {font:12px arial,helvetica,sans-serif; color:#000000; background:#fff2d2}
+th.green {font:12px arial,helvetica,sans-serif; font-weight: bold; color:#000000; background:#bde1ab}
+th.yellow {font:12px arial,helvetica,sans-serif; font-weight: bold; color:#000000; background:#fff2d2}
+/***********************************************************************************/
+/* These styles are for the test menu */
+/***********************************************************************************/
+.bodyText { font-family: Arial,Helvetica; font-size: 10pt; font-weight: bold; color: #000000; text-decoration: none; line-height: 125%; }
+.bodyLink { font-family: Arial,Helvetica; font-size: 12pt; color: #003399; text-decoration: underline; }
+.bodyLink_10 { font-family: Arial,Helvetica; font-size: 10pt; color: #003399; text-decoration: underline; }
+/*.bodyLink:hover { font-family: Arial,Helvetica; font-size: 10pt; color: red; text-decoration: underline; }*/
+.headingBlock { color: #5A8CC6; background-color: #5A8CC6; }
+.sideHeading { background-color: #00CC66; border-left: solid 1px #00CC66; border-right: solid 1px #00CC66; }
+/*.categoryHeading { font-family: Arial,Helvetica; font-size: 14pt;  text-align: center;color: #003399; font-weight: bold; }*/
+.categoryHeading { font-family: Arial,Helvetica; font-size: 14pt;  text-align: center; color: #000000; font-weight: bold; }
+/*.sideBlock { background-color: #F1F1F1; border-left: solid 1px #CCCCCC; border-right: solid 1px #CCCCCC; }*/
+.sideBlock { background-color: #C6F7BD; border-left: solid 1px #C6F7BD; border-right: solid 1px #C6F7BD; }
+.bodyHeading { font-family: Verdana; font-size: 12pt; font-weight: bold; padding-top: 10px;
+ line-height: 120%;
+ /*padding-left: 10px;*/
+ /*border-bottom: dashed 1px #5A8CC6;*/
+ border-bottom: dotted 1px #CCCCCC;
+ color: #000000;
+ /*background-color: #EDF1F5;*/
+ text-decoration: none; }
+.special { font-family: Arial,Helvetica; font-size: 10pt; font-weight: bold; color: #B22222; text-decoration: none }
+/***********************************************************************************/
+/* Email style shamelessly lifted from another web site. I don't remember where but */
+/* they had obiewebsite__AT__yahoo.com on the site. */
+/***********************************************************************************/
+.nuts {background-color: #DFDFDF; border: 0px solid black; font-family: Verdana; font-size: 10pt; }
+/***********************************************************************************/
+/* This style is needed for the drop down menus */
+/***********************************************************************************/
+#dropmenudiv{ position:absolute; border:1px solid #6666ff; font:normal 12px Verdana; line-height:16px; z-index:100; }
+P  {}
+H1  {}
+H2  {}
+H3  {}
+/* A  { color : Green; text-decoration : underline; } */
+/* A:Visited  { color : Green; text-decoration : underline; } */
+/* A:Active  { color : Green; text-decoration : underline; } */
+/* A:Hover  { color : Black; text-decoration : none; background : #fff2d2; } */
+/* A  { color : Green; text-decoration : none; } */
+/* A:Visited  { color : Green; text-decoration : none; } */
+/* A:Active  { color : Green; text-decoration : none; } */
+/* A:Hover  { color : Black; text-decoration : none; background : #fff2d2; } */
+A:link {color: #0000FF; text-decoration: none}
+A:active {color: #0000FF; text-decoration: none}
+A:visited {color: #0000FF; text-decoration: none}
+/* A:Hover  { color : Black; text-decoration : none; background : #fff2d2; } */
+/* A:Hover  { color : Black; text-decoration : none; background : #BC8F8F; } */
+/* A:Hover  { color : #8B0000; text-decoration : none; background : #90EE90; } */
+/* A:Hover  { color : #B22222; text-decoration : none; } */
+A:hover { color:#B22222; }
+BODY  {  }

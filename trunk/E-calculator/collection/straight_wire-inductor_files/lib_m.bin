@@ -1,0 +1,221 @@
+//**************************************************************************
+// JavaScript Function Library
+//**************************************************************************
+
+//**************************************************************************
+// Functions to add and remove commas from a number.
+//**************************************************************************
+
+function comma_ins( Plain_Num ) {
+   Str_Num = new String( Plain_Num );
+   With_Commas = "";
+
+   for ( Index = Str_Num.length; Index > 0; Index = Index-3 ) {
+      if ( Index-3 > 0 ) {
+         With_Commas = "," + Str_Num.substring( Index-3 ,Index ) + With_Commas; }
+      else {
+         With_Commas = Str_Num.substring( Index-3 ,Index ) + With_Commas; }
+   }
+   return With_Commas;
+}
+
+function comma_rem(form) {
+   var re = /,/g
+   form.plainOutput.value = form.commaInput.value.replace(re,"")
+}
+
+//**************************************************************************
+// Log, base 10, of x. The systems Log function is natural log.
+//**************************************************************************
+
+function Log_10(x) {
+   return Math.log(x)/Math.LN10;
+}
+
+//**************************************************************************
+// Round off to N decimal places as specified in the Dec parameter.
+//**************************************************************************
+
+function Rnd(Val,Dec) {
+   Mult = Math.pow( 10, Dec );
+   Num_Pre = ""; Num_Post = "";
+
+   //***********************************************************************
+   // On numbers that are > 0.1 but < 1.0, force a preceeding zero.
+   //***********************************************************************
+
+   if ( Val >= 0.1 && Val < 1.0 ) Num_Pre = "0";
+
+   //***********************************************************************
+   // If the fractional portion is zero, pad with zeros.
+   //***********************************************************************
+
+   if ( (Math.round(Val*Mult)/Mult)-Math.round(Val) == 0.0 ) {
+      if ( Dec > 0 ) {
+         Num_Post = ".";
+         for ( NZER= 0; NZER<Dec; NZER++ ) {
+            Num_Post = Num_Post + "0"; }
+         }
+      }
+
+   return Num_Pre + Math.round(Val*Mult)/Mult + Num_Post;
+}
+
+//**************************************************************************
+// Convert Decimal Feet to Feet-Inches.
+//
+// This function only extracts the whole number of Feet of the Decimal Feet
+// and depends on the function DIN2FIN() to convert the left over portion
+// that is less than 12 inches.
+//
+// FRIN  = Round to the nearest inch (0), or nearest fraction of an inch (1).
+// F_Res = Fractional Resolution. (Nearest 1/4, 1/8, 1/16, 1/32, or 1/64ths)
+//         Valid numbers are 4, 8, 16, 32, 64. Only valid when FRIN = 1.
+//
+// When FRIN = 0, the return value, FTIN, is a string of the form FF'II"
+// where FF is Feet and II is Inches.
+//
+// When FRIN = 1, the return value, FTIN, is a string of the form FF'II-Y/Z"
+// where FF is the integer number of Feet, II is the integer portion of the
+// number of inches, less than 12, and Y/Z is the fractional portion.
+// Z is defined by F_Res.
+//**************************************************************************
+
+function DFTtoFTIN( DFT, FRIN, F_Res ) {
+   IFT=Math.floor(DFT);             // Get Integer Feet
+
+   //***********************************************************************
+   // If FRIN= 0, round to the nearest inch.
+   //***********************************************************************
+
+   if ( FRIN == 0 ) {
+
+      IIN=Math.round((DFT-IFT)*12);    // Get Integer Inches
+
+      if ( IIN > 11 ) {
+        IFT = IFT +1; IIN = 0; }
+      FTIN = IFT + "' " + IIN + "\"";
+      }
+
+   //***********************************************************************
+   // If FRIN = 1, convert to the nearest fractional inch based on F_Res.
+   //***********************************************************************
+
+   else {
+
+      IIN=(DFT-IFT)*12;               // Get Decimal Inches
+      FTIN = IFT + "' " + DIN2FIN( IIN, F_Res );
+      }
+
+   return FTIN;
+}
+
+//**************************************************************************
+// Convert Decimal Inches to Inches-Fractional Inches. The fraction base
+// is defined by F_Res and is rounded to the nearest 1/F_Res of an inch.
+// This function only extracts the integer portion of the Decimal Inches
+// and depends on the function Dec2Frac() to convert the fractional
+// portion.
+//
+// DIN   = Decimal Inches.
+// F_Res = Fractional Resolution. (Nearest 1/4, 1/8, 1/16, 1/32, or 1/64ths.
+//         Valid numbers are 4, 8, 16, 32, 64
+//
+// The return value, FOUT, is a string of the form XX-Y/Z". Where XX is
+// the integer portion of the input value, DIN, and Y/Z is the fraction.
+// Z is resolution defined by F_Res.
+//**************************************************************************
+
+function DIN2FIN( DIN, F_Res ) {
+   IIN = Math.floor(DIN);    // Get Integer Portion
+   FIN = DIN - IIN;          // Get Fractional Portion
+   FOUT = 0;
+
+   //Min_Val = 1/(F_Res*2); Max_Val = F_Res + (1/(F_Res*2));
+   Min_Val = 1/(F_Res*2); Max_Val = 1 - 1/(F_Res*2);
+
+   if (FIN < Min_Val) {
+      FOUT = Math.round(IIN) + "\"";
+      }
+   else if ((FIN >= Min_Val) && (FIN < Max_Val)) {
+      FOUT = Math.round(IIN) + "-" + Dec2Frac( FIN, F_Res ) + "\"";
+      }
+   else if (FIN >= Max_Val) {
+      IIN = IIN + 1;
+      FOUT = Math.round(IIN) + "\"";
+      }
+
+   return FOUT;
+}
+
+//**************************************************************************
+// Convert a decimal number between 0 and 1 to a fracton.
+//
+// D_Num = The Decimal number to be converted.
+// F_Res = The Fractional Resolution required. (Nearest 1/4, 1/8, 1/16,
+//         1/32, or 1/64th. Valid numbers are 4, 8, 16, 32, 64.
+//
+// The return value, Frac_Out, is a string of the form X/Y. Where Y is
+// the specified resolution, F_Res, and X is the resolved fractional
+// portion.
+//**************************************************************************
+
+function Dec2Frac( D_Num, F_Res ) {
+
+   var Res_04 = new Array ("", "1/4", "1/2", "3/4", "1");
+
+   var Res_08 = new Array ("", "1/8", "1/4", "3/8", "1/2", "5/8", "3/4", "7/8", "1");
+
+   var Res_16 = new Array ("", "1/16", "1/8", "3/16", "1/4", "5/16", "3/8",
+      "7/16", "1/2", "9/16", "5/8", "11/16", "3/4", "13/16", "7/8", "15/16", "1");
+
+   var Res_32 = new Array ("", "1/32", "1/16", "3/32", "1/8", "5/32", "3/16",
+      "7/32", "1/4", "9/32", "5/16", "11/32", "3/8", "13/32", "7/16", "15/32",
+      "1/2", "17/32", "9/16", "19/32", "5/8", "21/32", "11/16", "23/32",
+      "3/4", "25/32", "13/16", "27/32", "7/8", "29/32", "15/16", "31/32", "1");
+
+   var Res_64 = new Array ("", "1/64", "1/32", "3/64", "1/16", "5/64",
+      "3/32", "7/64", "1/8", "9/64", "5/32", "11/64", "3/16", "13/64",
+      "7/32", "15/64", "1/4", "17/64", "9/32", "19/64", "5/16", "21/64",
+      "11/32", "23/64", "3/8", "25/64", "13/32", "27/64", "7/16", "29/64",
+      "15/32", "31/64", "1/2", "33/64", "17/32", "35/64", "9/16", "37/64",
+      "19/32", "39/64", "5/8", "41/64", "21/32", "43/64", "11/16", "45/64",
+      "23/32", "47/64", "3/4", "49/64", "25/32", "51/64", "13/16", "53/64",
+      "27/32", "55/64", "7/8", "57/64", "29/32", "59/64", "15/16", "61/64",
+      "31/32", "63/64", "1");
+
+   Frac_Out = 0;
+
+   //***********************************************************************
+   // Res_Inc = Resolution Increment. The loop will exit when either
+   //             Res_Inc = 1.
+   // Arr_Ind = Array Index. Used as a index for the fraction arrays.
+   //
+   // When a fraction is resolved, Res_Inc is set to 1 to force a loop
+   // exit.
+   //***********************************************************************
+
+   for (Res_Inc = 1/F_Res, Arr_Ind = 1; Res_Inc <= 1.0;
+      Res_Inc = Res_Inc+1/F_Res, Arr_Ind = Arr_Ind+1) {
+
+      FROM = Res_Inc - 1/(F_Res*2); TO = Res_Inc + 1/(F_Res*2);
+
+      if ( F_Res == 4 ) {
+         if ( D_Num >= FROM && D_Num < TO ) {
+            Frac_Out = Res_04[Arr_Ind]; Res_Inc = 1.0; } }
+      else if ( F_Res == 8 ) {
+         if ( D_Num >= FROM && D_Num < TO ) {
+            Frac_Out = Res_08[Arr_Ind]; Res_Inc = 1.0; } }
+      else if ( F_Res == 16 ) {
+         if ( D_Num >= FROM && D_Num < TO ) {
+            Frac_Out = Res_16[Arr_Ind]; Res_Inc = 1.0; } }
+      else if ( F_Res == 32 ) {
+         if ( D_Num >= FROM && D_Num < TO ) {
+            Frac_Out = Res_32[Arr_Ind]; Res_Inc = 1.0; } }
+      else if ( F_Res == 64 ) {
+         if ( D_Num >= FROM && D_Num < TO ) {
+            Frac_Out = Res_64[Arr_Ind]; Res_Inc = 1.0; } }
+      }
+
+   return Frac_Out;
+}

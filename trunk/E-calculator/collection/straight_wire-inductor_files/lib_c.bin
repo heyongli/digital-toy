@@ -1,0 +1,116 @@
+//**************************************************************************
+// JavaScript Catalog Viewing Function Library
+//
+// Variables are preceeded with Lib_C_ to insure that they are not
+// accidentally declared in the main program and mixed up with other
+// variables. The exception to this is loop variables, i.e. I, J, K, etc..
+//
+// Requires lib_m.js
+//
+//**************************************************************************
+//
+// Available Functions
+//
+// Get_Std_Res( Lib_E_R_Prec, Lib_E_V_Ctrl, Lib_E_R_Std );
+//
+//    Where: Lib_E_R_Prec = Precise resistor value to match with.
+//           Lib_E_V_Ctrl = Value Control. Select a standard resistor
+//                          value that is Greater ("GT"), Lower ("LT"),
+//                          or Near ("EQ") the specified value Lib_E_R_Prec.
+//           Lib_E_R_Std  = Standard Resistor Precision - "05", "10"
+//
+//    Returns: Standard resistor value near Lib_E_R_Prec based
+//             on Lib_E_V_Ctrl, and Lib_E_R_Std.
+//
+//**************************************************************************
+
+var BW_Ind_Array = new Array(36);
+
+var BW_Cat_Num    = new Array();
+
+var BW_Coil_Dia   = new Array(0,.5,.5,.5,.5,.625,.625,.625,.625,.750,.750,.750,.750,
+   1,1,1,1,1.25,1.25,1.25,1.25,1.75,1.75,1.75,1.75,2,2,2,2,2.5,2.5,2.5,2.5,3,3,3,3);
+
+var BW_Coil_Turns = new Array(0,4,8,16,32,4,8,16,32,4,8,16,32,4,8,16,32,4,8,16,32,
+   4,8,16,32,6,8,10,0,6,8,10,0,6,8,10,0,6,8,10,0);
+
+var BW_Coil_Len   = new Array(0,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,
+   10,10,10,10,10,10,10,10,10,10,10,10);
+
+var BW_Wire_AWG   = new Array(0,18,18,20,24,16,18,20,24,16,18,20,24,16,18,20,24,
+   14,16,18,24,14,14,18,24,12,14,16,0,12,14,16,0,12,14,16,0);
+
+function View_BW_Ind_Cat() {
+
+   for(Z = 1; Z <= 36; Z++) {
+      BW_Cat_Num[Z] = 3000+Z;
+   }
+
+//   window2=window.open('','window2',
+//       'scrollbars=yes,status=yes,width=400,height=500')
+
+   BW_Ind_View = window.open('','BW_Ind_View_Win',
+      'menubar=yes,resizable=yes,scrollbars=yes,status=yes,width=550,height=750');
+
+   with (BW_Ind_View.document) {
+      write("<HTML>\n")
+      write("<HEAD>\n")
+      write("<title>B & W Air Core Inductors</title>\n")
+      write("<!-- Set the base location -->\n")
+      write("<SCRIPT TYPE=\"text/javascript\" LANGUAGE=\"JavaScript\">Menu_Loc=\"../\"</script>\n")
+      write("<style type=\"text/css\">\n")
+      write(".nav { font-family: Arial; font-size: 8pt; font-weight: bold; color: #ffffff; text-decoration: none }\n")
+      write("A:link {color: #0000FF; text-decoration: none}\n")
+      write("A:active {color: #0000FF; text-decoration: none}\n")
+      write("A:visited {color: #0000FF; text-decoration: none}\n")
+      write("</style>\n")
+      write("</HEAD>\n\n")
+
+      write("<BODY ALINK=\"#AF0000\" BACKGROUND=\"../graphics/whtmarb.gif\" BGCOLOR=\"#FFFFFF\"\n")
+      write(" LINK=\"#AF0000\" TEXT=\"#000000\" VLINK=\"#AF0000\">\n\n")
+
+      write("<center><FONT COLOR=\"00AF00\">\n")
+      write("<H1>JavaScript<SUP><FONT SIZE=4>&reg;</FONT></SUP> Electronic Notebook</H1></FONT>\n")
+      write("<FONT COLOR=\"AF0000\">\n")
+      write("<H2>Barker & Williamson Air Core Inductors</H2></FONT>\n")
+      write("</center>\n\n")
+
+      write("<table align=center border=\"1\" cellpadding=\"2\" cellspacing=\"1\" width=\"400\">\n")
+//      write("  <TR>\n")
+//      write("    <TH COLSPAN=5>BARKER & WILLIAMSON AIR-CORE INDUCTORS\n")
+      write("<TR ALIGN=CENTER>\n")
+      write("  <TH>Cat.<BR>No.\n")
+      write("  <TH>Dia.<BR>(in.)\n")
+      write("  <TH>Turns<BR>per in.\n")
+      write("  <TH>Lgth.<BR>(in.)\n")
+      write("  <TH><BR>AWG#\n")
+
+      for(Z = 1; Z <= 36; Z++) {
+         if ( BW_Wire_AWG[Z] > 0 ) {
+            write("<TR>\n")
+            write("  <TH>" + BW_Cat_Num[Z] + "\n")
+            write("  <TH>" + BW_Coil_Dia[Z] + "\n")
+            write("  <TH>" + BW_Coil_Turns[Z] + "\n")
+            write("  <TH>" + BW_Coil_Len[Z] + "\n")
+            write("  <TH>" + BW_Wire_AWG[Z] + "\n")
+            }
+         }//end for loop
+
+
+      write("</TABLE>\n\n")
+
+      write("<BR><BR>\n\n")
+
+      write("<center>\n")
+      write("<H4><I>&copy; <A HREF=\"mailto:martin.e.meserve@lmco.com\">Martin E. Meserve, K7MEM</A></I></H4></FONT>\n")
+      write("<H5>Click to view <A href=\"javascript:Credits_Main(Menu_Loc);\">Credits</A>\n")
+      write("or Return to the <a href=\"../index.html\" TARGET=\"_top\">Main Index</A></H5>\n")
+      write("<FONT size=1><B>Java is a trademark of Sun Microsystems, Inc.<BR>\n")
+      write("JavaScript is a trademark of Netscape Communications Corporation.</B>\n")
+      write("</center>\n")
+      write("</body>\n")
+      write("</html>\n")
+
+      close()
+      } // End of "with (BW_Ind_View.document)" statement
+}

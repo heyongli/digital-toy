@@ -1,0 +1,289 @@
+//**************************************************************************
+// Javascript for inductance calculations.
+//**************************************************************************
+
+var Unit_Mult, Unit_Dim;
+var Straight_Wire_Radius, Straight_Wire_Length, Straight_Wire_Inductance;
+var GS_Wire_Radius, GS_Wire_Length, GS_Wire_Height, GS_Wire_Inductance;
+var Strip_Width, Strip_Length, Thickness, Strip_Inductance;
+
+var AWG_Array = new Array(40);
+
+//**************************************************************************
+// Straight, Round, Nonmagnetic wire in free space.
+//**************************************************************************
+
+function Straight_Wire_Calc() {
+
+   //***********************************************************************
+   // Set up the AWG array
+   //***********************************************************************
+
+   K = Math.pow((0.46/0.005),(1/39));  // Increment Multiplier
+   for ( I = 1; I <= 40; I++ ) {
+      N = I+3; AWG_Array[I] = .46/Math.pow(K,N); }
+
+   //***********************************************************************
+   // Get the dimension and wire diameter.
+   //***********************************************************************
+
+   if (document.Straight_Wire.Wire_Dia_Dim.options[0].selected) {
+      Wire_Dia_Dim = document.Straight_Wire.Wire_Dia_Dim.options[0].value;
+      Wire_Num = parseInt(document.Straight_Wire.Wire_Size.value);
+      Wire_Dia = AWG_Array[Wire_Num];
+      }
+   else if (document.Straight_Wire.Wire_Dia_Dim.options[1].selected) {
+      Wire_Dia_Dim = document.Straight_Wire.Wire_Dia_Dim.options[1].value;
+      Wire_Dia = parseFloat(document.Straight_Wire.Wire_Size.value);
+      }
+   else {
+      Wire_Dia_Dim = document.Straight_Wire.Wire_Dia_Dim.options[2].value;
+      Wire_Dia = parseFloat(document.Straight_Wire.Wire_Size.value)/25.4;
+      }
+
+   //***********************************************************************
+   // Get the dimension and wire length.
+   //***********************************************************************
+
+   if (document.Straight_Wire.Wire_Len_Dim.options[0].selected) {
+      Wire_Len_Dim = document.Straight_Wire.Wire_Len_Dim.options[0].value;
+      Wire_Len = parseFloat(document.Straight_Wire.Wire_Len.value);
+      }
+   else {
+      Wire_Len_Dim = document.Straight_Wire.Wire_Len_Dim.options[1].value;
+      Wire_Len = parseFloat(document.Straight_Wire.Wire_Len.value)/25.4;
+      }
+
+   Straight_Wire_Inductance = 0.00508 * Wire_Len * ( Math.log((2*Wire_Len)/Wire_Dia) - 0.75 );
+   document.Straight_Wire.Wire_Inductance.value = Rnd(Straight_Wire_Inductance,3) + " uH";
+}
+
+//**************************************************************************
+//  Straight wire Parallel to a Ground Plane, with one end Grounded.
+//**************************************************************************
+
+function GS_Wire_Calc() {
+
+   //***********************************************************************
+   // Set up the AWG array
+   //***********************************************************************
+
+   K = Math.pow((0.46/0.005),(1/39));  // Increment Multiplier
+   for ( I = 1; I <= 40; I++ ) {
+      N = I+3; AWG_Array[I] = .46/Math.pow(K,N); }
+
+   //***********************************************************************
+   // Get the dimension and wire diameter.
+   //***********************************************************************
+
+   if (document.GS_Wire.Wire_Dia_Dim.options[0].selected) {
+      Wire_Dia_Dim = document.GS_Wire.Wire_Dia_Dim.options[0].value;
+      Wire_Num = parseInt(document.GS_Wire.Wire_Size.value);
+      Wire_Radius = AWG_Array[Wire_Num];
+      }
+   else if (document.GS_Wire.Wire_Dia_Dim.options[1].selected) {
+      Wire_Dia_Dim = document.GS_Wire.Wire_Dia_Dim.options[1].value;
+      Wire_Radius = parseFloat(document.GS_Wire.Wire_Size.value);
+      }
+   else {
+      Wire_Dia_Dim = document.GS_Wire.Wire_Dia_Dim.options[2].value;
+      Wire_Radius = parseFloat(document.GS_Wire.Wire_Size.value)/25.4;
+      }
+
+   //***********************************************************************
+   // Get the wire length.
+   //***********************************************************************
+
+   if (document.GS_Wire.Wire_Len_Dim.options[0].selected) {
+      Wire_Len_Dim = document.GS_Wire.Wire_Len_Dim.options[0].value;
+      Wire_Length = parseFloat(document.GS_Wire.Wire_Len.value);
+      }
+   else {
+      Wire_Len_Dim = document.GS_Wire.Wire_Len_Dim.options[1].value;
+      Wire_Length = parseFloat(document.GS_Wire.Wire_Len.value)/25.4;
+      }
+
+   //***********************************************************************
+   // Get the wire height.
+   //***********************************************************************
+
+   if (document.GS_Wire.Wire_Height_Dim.options[0].selected) {
+      Wire_Height_Dim = document.GS_Wire.Wire_Height_Dim.options[0].value;
+      Wire_Height = parseFloat(document.GS_Wire.Wire_Height.value);
+      }
+   else {
+      Wire_Height_Dim = document.GS_Wire.Wire_Height_Dim.options[1].value;
+      Wire_Height = parseFloat(document.GS_Wire.Wire_Height.value)/25.4;
+      }
+
+   Q1 = Math.sqrt(Math.pow(Wire_Length,2) + Math.pow(Wire_Radius,2));
+   Q2 = Math.sqrt(Math.pow(Wire_Length,2) + (4*Math.pow(Wire_Height,2)));
+   Q3 = (2*Wire_Height)/Wire_Radius;
+   Q4 = Wire_Length/4;
+   Q5 = 0.0117*Wire_Length*Log_10(Q3*((Wire_Length + Q1)/(Wire_Length + Q2)));
+   Q6 = 0.00508 * ( Q2-Q1+Q4-(2*Wire_Height)+Wire_Radius );
+
+   GS_Wire_Inductance = Q5 + Q6;
+
+   document.GS_Wire.Wire_Inductance.value = Rnd(GS_Wire_Inductance,4) + " uH";
+}
+
+//**************************************************************************
+// Flat Strip
+//**************************************************************************
+
+function Flat_Strip_Calc() {
+
+   //***********************************************************************
+   // Get the Strip Width.
+   //***********************************************************************
+
+   if (document.Flat_Strip.Strip_Width_Dim.options[0].selected) {
+      Strip_Width_Dim = document.Flat_Strip.Strip_Width_Dim.options[0].value;
+      Strip_Width = parseFloat(document.Flat_Strip.Strip_Width.value);
+      }
+   else {
+      Strip_Width_Dim = document.Flat_Strip.Strip_Width_Dim.options[1].value;
+      Strip_Width = parseFloat(document.Flat_Strip.Strip_Width.value)/25.4;
+      }
+
+   //***********************************************************************
+   // Get the Strip Length.
+   //***********************************************************************
+
+   if (document.Flat_Strip.Strip_Length_Dim.options[0].selected) {
+      Strip_Length_Dim = document.Flat_Strip.Strip_Length_Dim.options[0].value;
+      Strip_Length = parseFloat(document.Flat_Strip.Strip_Length.value);
+      }
+   else {
+      Strip_Length_Dim = document.Flat_Strip.Strip_Length_Dim.options[1].value;
+      Strip_Length = parseFloat(document.Flat_Strip.Strip_Length.value)/25.4;
+      }
+
+   //***********************************************************************
+   // Get the Thickness.
+   //***********************************************************************
+
+   if (document.Flat_Strip.Thickness_Dim.options[0].selected) {
+      Thickness_Dim = document.Flat_Strip.Thickness_Dim.options[0].value;
+      Thickness = parseFloat(document.Flat_Strip.Thickness.value);
+      }
+   else {
+      Thickness_Dim = document.Flat_Strip.Thickness_Dim.options[1].value;
+      Thickness = parseFloat(document.Flat_Strip.Thickness.value)/25.4;
+      }
+
+   Q1 = 0.5+0.2235*((Strip_Width+Thickness)/Strip_Length);
+   Q2 = Math.log((2*Strip_Length)/(Strip_Width+Thickness));
+
+   Strip_Inductance = 0.00508 * Strip_Length * (Q1+Q2);
+   document.Flat_Strip.Wire_Inductance.value = Rnd(Strip_Inductance,3) + " uH";
+}
+
+//**************************************************************************
+// Display window with design information.
+//**************************************************************************
+
+function View_Ind_Data() {
+
+   View_Ind = window.open('','Des_Win',
+      'menubar=yes,resizable=yes,scrollbars=yes,status=yes,width=550,height=750');
+
+   with (View_Ind.document) {
+      write("<HTML>\n")
+      write("<HEAD>\n")
+      write("<title>Wire/Flat Strip Inductance</title>\n")
+      write("<!-- Set the base location -->\n")
+      write("<SCRIPT TYPE=\"text/javascript\" LANGUAGE=\"JavaScript\">Menu_Loc=\"../\"</script>\n")
+      write("<style type=\"text/css\">\n")
+      write(".nav { font-family: Arial; font-size: 8pt; font-weight: bold; color: #ffffff; text-decoration: none }\n")
+      write("A:link {color: #0000FF; text-decoration: none}\n")
+      write("A:active {color: #0000FF; text-decoration: none}\n")
+      write("A:visited {color: #0000FF; text-decoration: none}\n")
+      write("</style>\n")
+      write("</HEAD>\n\n")
+
+      write("<BODY ALINK=\"#AF0000\" BACKGROUND=\"../graphics/whtmarb.gif\" BGCOLOR=\"#FFFFFF\"\n")
+      write(" LINK=\"#AF0000\" TEXT=\"#000000\" VLINK=\"#AF0000\">\n\n")
+
+      write("<center><FONT COLOR=\"00AF00\">\n")
+      write("<H1>JavaScript<SUP><FONT SIZE=4>&reg;</FONT></SUP> Electronic Notebook</H1></FONT>\n")
+      write("<FONT COLOR=\"AF0000\">\n")
+      write("<H2>Wire/Flat Strip Inductance</H2></FONT>\n")
+      write("</center>\n\n")
+
+      write("<table align=center border=\"1\" cellpadding=\"2\" cellspacing=\"1\" width=\"400\">\n")
+      write("  <TR>\n")
+      write("    <TH COLSPAN=3><TT>Inductance of a Straight, Round, Nonmagnetic Wire in Free Space</TT>\n")
+      write("  <TR>\n")
+      write("    <TH ALIGN=RIGHT><FONT COLOR=\"0000AF\"><TT>Wire Radius:</TT></FONT>\n")
+      write("    <TH><FONT COLOR=\"0000AF\"><TT>" + Rnd(FS_Wire_Radius,3) + "\" (" + DIN2FIN(FS_Wire_Radius,64) + ")</TT></FONT>\n")
+      write("    <TH><FONT COLOR=\"0000AF\"><TT>" + Rnd(FS_Wire_Radius*25.4,2) + " mm</TT></FONT>\n")
+      write("  <TR>\n")
+      write("    <TH ALIGN=RIGHT><FONT COLOR=\"0000AF\"><TT>Wire Length:</TT></FONT>\n")
+      write("    <TH><FONT COLOR=\"0000AF\"><TT>" + Rnd(FS_Wire_Length,3) + "\" (" + DIN2FIN(FS_Wire_Length,64) + ")</TT></FONT>\n")
+      write("    <TH><FONT COLOR=\"0000AF\"><TT>" + Rnd(FS_Wire_Length*25.4,2) + " mm</TT></FONT>\n")
+      write("  <TR>\n")
+      write("    <TH ALIGN=RIGHT><FONT COLOR=\"0000AF\"><TT>Wire Inductance:</TT></FONT>\n")
+      write("    <TH COLSPAN=2><FONT COLOR=\"0000AF\"><TT>" + Rnd(FS_Wire_Inductance,5) + " uH</TT></FONT>\n")
+      write("</TABLE>\n\n")
+
+      write("<BR>\n\n")
+
+      write("<table align=center border=\"1\" cellpadding=\"2\" cellspacing=\"1\" width=\"400\">\n")
+      write("  <TR>\n")
+      write("    <TH COLSPAN=3><TT>Inductance of a Straight wire Parallel to a Ground Plane, with one end Grounded</TT>\n")
+      write("  <TR>\n")
+      write("    <TH ALIGN=RIGHT><FONT COLOR=\"0000AF\"><TT>Wire Radius:</TT></FONT>\n")
+      write("    <TH><FONT COLOR=\"0000AF\"><TT>" + Rnd(GS_Wire_Radius,3) + "\" (" + DIN2FIN(GS_Wire_Radius,64) + ")</TT></FONT>\n")
+      write("    <TH><FONT COLOR=\"0000AF\"><TT>" + Rnd(GS_Wire_Radius*25.4,2) + " mm</TT></FONT>\n")
+      write("  <TR>\n")
+      write("    <TH ALIGN=RIGHT><FONT COLOR=\"0000AF\"><TT>Wire Length:</TT></FONT>\n")
+      write("    <TH><FONT COLOR=\"0000AF\"><TT>" + Rnd(GS_Wire_Length,3) + "\" (" + DIN2FIN(GS_Wire_Length,64) + ")</TT></FONT>\n")
+      write("    <TH><FONT COLOR=\"0000AF\"><TT>" + Rnd(GS_Wire_Length*25.4,2) + " mm</TT></FONT>\n")
+      write("  <TR>\n")
+      write("    <TH ALIGN=RIGHT><FONT COLOR=\"0000AF\"><TT>Wire Height:</TT></FONT>\n")
+      write("    <TH><FONT COLOR=\"0000AF\"><TT>" + Rnd(GS_Wire_Height,3) + "\" (" + DIN2FIN(GS_Wire_Height,64) + ")</TT></FONT>\n")
+      write("    <TH><FONT COLOR=\"0000AF\"><TT>" + Rnd(GS_Wire_Height*25.4,2) + " mm</TT></FONT>\n")
+      write("  <TR>\n")
+      write("    <TH ALIGN=RIGHT><FONT COLOR=\"0000AF\"><TT>Wire Inductance:</TT></FONT>\n")
+      write("    <TH COLSPAN=2><FONT COLOR=\"0000AF\"><TT>" + Rnd(GS_Wire_Inductance,5) + " uH</TT></FONT>\n")
+      write("</TABLE>\n\n")
+
+      write("<BR>\n\n")
+
+      write("<table align=center border=\"1\" cellpadding=\"2\" cellspacing=\"1\" width=\"400\">\n")
+      write("  <TR>\n")
+      write("    <TH COLSPAN=3><TT>Flat Strip over Ground Plane</TT>\n")
+      write("  <TR>\n")
+      write("    <TH ALIGN=RIGHT><FONT COLOR=\"0000AF\"><TT>Strip Width:</TT></FONT>\n")
+      write("    <TH><FONT COLOR=\"0000AF\"><TT>" + Rnd(Strip_Width,3) + "\" (" + DIN2FIN(Strip_Width,64) + ")</TT></FONT>\n")
+      write("    <TH><FONT COLOR=\"0000AF\"><TT>" + Rnd(Strip_Width*25.4,2) + " mm</TT></FONT>\n")
+      write("  <TR>\n")
+      write("    <TH ALIGN=RIGHT><FONT COLOR=\"0000AF\"><TT>Strip Length:</TT></FONT>\n")
+      write("    <TH><FONT COLOR=\"0000AF\"><TT>" + Rnd(Strip_Length,3) + "\" (" + DIN2FIN(Strip_Length,64) + ")</TT></FONT>\n")
+      write("    <TH><FONT COLOR=\"0000AF\"><TT>" + Rnd(Strip_Length*25.4,2) + " mm</TT></FONT>\n")
+      write("  <TR>\n")
+      write("    <TH ALIGN=RIGHT><FONT COLOR=\"0000AF\"><TT>Thickness:</TT></FONT>\n")
+      write("    <TH><FONT COLOR=\"0000AF\"><TT>" + Rnd(Thickness,3) + "\" (" + DIN2FIN(Thickness,64) + ")</TT></FONT>\n")
+      write("    <TH><FONT COLOR=\"0000AF\"><TT>" + Rnd(Thickness*25.4,2) + " mm</TT></FONT>\n")
+      write("  <TR>\n")
+      write("    <TH ALIGN=RIGHT><FONT COLOR=\"0000AF\"><TT>Strip Inductance:</TT></FONT>\n")
+      write("    <TH COLSPAN=2><FONT COLOR=\"0000AF\"><TT>" + Rnd(Strip_Inductance,5) + " uH</TT></FONT>\n")
+      write("</TABLE>\n\n")
+
+      write("<BR><BR>\n\n")
+
+      write("<center>\n")
+      write("<H4><I>&copy; <A HREF=\"mailto:martin.e.meserve@lmco.com\">Martin E. Meserve, K7MEM</A></I></H4></FONT>\n")
+      write("<H5>Click to view <A href=\"javascript:Credits_Main(Menu_Loc);\">Credits</A>\n")
+      write("or Return to the <a href=\"../index.html\" TARGET=\"_top\">Main Index</A></H5>\n")
+      write("<FONT size=1><B>Java is a trademark of Sun Microsystems, Inc.<BR>\n")
+      write("JavaScript is a trademark of Netscape Communications Corporation.</B>\n")
+      write("</center>\n")
+      write("</body>\n")
+      write("</html>\n")
+
+      close()
+      } // End of "with (Des_Win.document)" statement
+}

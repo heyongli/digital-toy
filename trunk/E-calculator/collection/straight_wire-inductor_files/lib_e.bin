@@ -1,0 +1,437 @@
+//**************************************************************************
+// JavaScript Electronic Function Library
+//
+// Variables are preceeded with Lib_E_ to insure that they are not
+// accidentally declared in the main program and mixed up with other
+// variables. The exception to this is loop variables, i.e. I, J, K, etc..
+//
+// Requires lib_m.js
+//
+//**************************************************************************
+//
+// Available Functions
+//
+// Get_Std_Res( Lib_E_R_Prec, Lib_E_V_Ctrl, Lib_E_R_Std );
+//
+//    Where: Lib_E_R_Prec = Precise resistor value to match with.
+//           Lib_E_V_Ctrl = Value Control. Select a standard resistor
+//                          value that is Greater ("GT"), Lower ("LT"),
+//                          or Near ("EQ") the specified value Lib_E_R_Prec.
+//           Lib_E_R_Std  = Standard Resistor Precision - "05", "10"
+//
+//    Returns: Standard resistor value near Lib_E_R_Prec based
+//             on Lib_E_V_Ctrl, and Lib_E_R_Std.
+//
+// C_Scale(C_Val);
+//
+//   Where: C_Val = Capacitance value in Farads.
+//
+//   Returns: Scaled Capacitance value for printing, i.e. F, uF, pf.
+//
+// I_Scale(I_Val);
+//
+//   Where: I_Val = Current value in Amperes
+//
+//   Returns: Scaled Current value for printing, i.e. A, mA, uA.
+//
+// P_Scale(P_Val);
+//
+//   Where: P_Val = Power value in Watts
+//
+//   Returns: Scaled Power value for printing, i.e. MW, KW, W, mW, uW.
+//
+// R_Scale(R_Val);
+//
+//   Where: R_Val = Resistance value in Ohms
+//
+//   Returns: Scaled Resistance value for printing, i.e. Ohms, K Ohms, M Ohms.
+//
+//
+//**************************************************************************
+
+//**************************************************************************
+// 2% and 5% % Resistors
+//**************************************************************************
+
+R_Std_05 = new Array(10,11,12,13,15,16,18,20,22,24,27,30,33,36,39,
+   43,47,51,56,62,68,75,82,91,100);
+
+//**************************************************************************
+// 10 % Resistors
+//**************************************************************************
+
+R_Std_10 = new Array(10,12,15,18,22,27,33,39,47,56,68,82,100);
+
+//**************************************************************************
+// Calculate a standard resistor value based on the supplied resistance
+// value. GT, LT, EQ control whether the value calculated is Greater, Lower,
+// or Near the specified value. User specifies whether 5% or 10% resistors
+// are to be used.
+//
+// Lib_E_R_Prec = Exact value of resistance that we need to match.
+// Lib_E_V_Ctrl = "GE", "GT", "LE", "LT", or "EQ".
+// Lib_E_R_Std  = Standard Resistor Precision - "05", "10"
+//
+//**************************************************************************
+
+function Get_Std_Res( Lib_E_R_Prec, Lib_E_V_Ctrl, Lib_E_R_Std ) {
+
+//   Debug_Win=window.open('','Debug_Win','toolbar=yes,scrollbars=yes,width=400,hight=300,resizable=yes');
+//   Debug_Win_Write( "open" );
+//   Debug_Win_Write( "break" );
+//   Debug_Win_Write( "comment", "Initial Parameters");
+//   Debug_Win_Write( "append", "Lib_E_R_Prec", Lib_E_R_Prec );
+//   Debug_Win_Write( "append", "Lib_E_V_Ctrl", Lib_E_V_Ctrl );
+//   Debug_Win_Write( "append", "Lib_E_R_Std", Lib_E_R_Std );
+
+   Lib_E_R_Mult = 0.1; Lib_E_I = 0;
+//   Debug_Win_Write( "append", "Lib_E_R_Mult", Lib_E_R_Mult );
+//   Debug_Win_Write( "append", "Lib_E_I", Lib_E_I );
+
+   if ( Lib_E_R_Std == "05" ) {
+      Max_Index = 24;
+      Lib_E_RT_Std = R_Std_05[0] * Lib_E_R_Mult;
+//      Debug_Win_Write( "comment", "Setup for While");
+//      Debug_Win_Write( "append", "Lib_E_RT_Std", Lib_E_RT_Std );
+//      Debug_Win_Write( "append", "Lib_E_R_Prec", Lib_E_R_Prec );
+      while( Lib_E_RT_Std < Lib_E_R_Prec ){
+
+//         Debug_Win_Write( "comment", "Inside While");
+//         Debug_Win_Write( "append", "Lib_E_RT_Std", Lib_E_RT_Std );
+//         Debug_Win_Write( "append", "Lib_E_R_Prec", Lib_E_R_Prec );
+
+         //*****************************************************************
+         // If the index points to the end of the resistor array, i.e. 100,
+         // reset the array pointer to zero and 10x the multiplier for the
+         // next loop through. Otherwise just increment the array pointer.
+         //*****************************************************************
+
+         if ( R_Std_05[Lib_E_I] == 100 ) {
+            Lib_E_R_Mult = Lib_E_R_Mult * 10; Lib_E_I = 0;}
+         else {
+            Lib_E_I = Lib_E_I + 1;}
+
+         Lib_E_RT_Std = R_Std_05[Lib_E_I] * Lib_E_R_Mult;
+         Lib_E_RT_Std = R_Std_05[Lib_E_I] * Lib_E_R_Mult;
+
+         if ( Lib_E_RT_Std == Lib_E_R_Prec )  break;
+         }
+      }
+   else {
+      Max_Index = 12;
+      Lib_E_RT_Std = R_Std_10[0];
+      while( Lib_E_RT_Std < Lib_E_R_Prec ){
+
+         //*****************************************************************
+         // If the index points to the end of the resistor array, i.e. 100,
+         // reset the array pointer to zero and 10x the multiplier for the
+         // next loop through. Otherwise just increment the array pointer.
+         //*****************************************************************
+
+         if ( R_Std_10[Lib_E_I] == 100 ) {
+            Lib_E_R_Mult = Lib_E_R_Mult * 10; Lib_E_I = 0;}
+         else {
+            Lib_E_I = Lib_E_I + 1;}
+
+         Lib_E_RT_Std = R_Std_10[Lib_E_I] * Lib_E_R_Mult;
+         Lib_E_RT_Std = R_Std_10[Lib_E_I] * Lib_E_R_Mult;
+
+         if ( Lib_E_RT_Std == Lib_E_R_Prec )  break;
+         }
+      }
+
+   //***********************************************************************
+   // If the value passed is exactly equal to a standard value, check to
+   // see if the control variable forces the issue.
+   //***********************************************************************
+
+   if ( Lib_E_RT_Std == Lib_E_R_Prec ) {
+      //********************************************************************
+      // If we are specifically asking for "GT", but we hit upon an exact
+      // match, increment to the next resistor in sequence.
+      //********************************************************************
+
+      if ( Lib_E_V_Ctrl == "GT" ) {
+         if ( Lib_E_R_Std == "05" ) {
+            if ( R_Std_05[Lib_E_I] == 100 ) {
+               Lib_E_R_Mult = Lib_E_R_Mult * 10; Lib_E_I = 0;
+               Lib_E_RT_Std = R_Std_05[Lib_E_I] * Lib_E_R_Mult;}
+            else {
+               Lib_E_RT_Std = R_Std_05[Lib_E_I+1] * Lib_E_R_Mult;} }
+         else {
+            if ( R_Std_10[Lib_E_I] == 100 ) {
+               Lib_E_R_Mult = Lib_E_R_Mult * 10; Lib_E_I = 0;
+               Lib_E_RT_Std = R_Std_10[Lib_E_I] * Lib_E_R_Mult;}
+            else {
+               Lib_E_RT_Std = R_Std_10[Lib_E_I+1] * Lib_E_R_Mult;} } }
+
+      //********************************************************************
+      // If we are specifically asking for "LT", but we hit upon an exact
+      // match, increment to the next resistor in sequence.
+      //********************************************************************
+
+      if ( Lib_E_V_Ctrl == "LT" ) {
+         if ( Lib_E_R_Std == "05" ) {
+            if ( R_Std_05[Lib_E_I] == 10 ) {
+               Lib_E_R_Mult = Lib_E_R_Mult / 10; Lib_E_I = Max_Index;
+               Lib_E_RT_Std = R_Std_05[Lib_E_I] * Lib_E_R_Mult;}
+            else {
+               Lib_E_RT_Std = R_Std_05[Lib_E_I-1] * Lib_E_R_Mult;} }
+         else {
+            if ( R_Std_10[Lib_E_I] == 10 ) {
+               Lib_E_R_Mult = Lib_E_R_Mult / 10; Lib_E_I = Max_Index;
+               Lib_E_RT_Std = R_Std_10[Lib_E_I] * Lib_E_R_Mult;}
+            else {
+               Lib_E_RT_Std = R_Std_10[Lib_E_I-1] * Lib_E_R_Mult;} } }
+
+      return Lib_E_RT_Std; }
+
+   //***********************************************************************
+   // If the Value Control parameter is GT return the closest standard value
+   // that is greater than the value passed in the first parameter.
+   //***********************************************************************
+
+   if ( Lib_E_V_Ctrl == "GE" ) return Lib_E_RT_Std;
+   if ( Lib_E_V_Ctrl == "GT" ) return Lib_E_RT_Std;
+
+   //***********************************************************************
+   // If the Value Control parameter is LT return the closest standard value
+   // that is less than the value passed in the first parameter.
+   //***********************************************************************
+
+//   if ( Lib_E_V_Ctrl == "LT" ) {
+//      if ( R_Std_10[Lib_E_I] == 10 ) {
+//         Lib_E_R_Mult = Lib_E_R_Mult / 10; Lib_E_I = Max_Index;
+//         Lib_E_RT_Std = R_Std_10[Lib_E_I] * Lib_E_R_Mult;}
+//      else {
+//         Lib_E_RT_Std = R_Std_10[Lib_E_I-1] * Lib_E_R_Mult;}
+//      return Lib_E_RT_Std; }
+
+      if ( Lib_E_V_Ctrl == "LT" ) {
+         if ( Lib_E_R_Std == "05" ) {
+            if ( R_Std_05[Lib_E_I] == 10 ) {
+               Lib_E_R_Mult = Lib_E_R_Mult / 10; Lib_E_I = Max_Index;
+               Lib_E_RT_Std = R_Std_05[Lib_E_I] * Lib_E_R_Mult;
+               return Lib_E_RT_Std;}
+            else {
+               Lib_E_RT_Std = R_Std_05[Lib_E_I-1] * Lib_E_R_Mult;
+               return Lib_E_RT_Std;} }
+         else {
+            if ( R_Std_10[Lib_E_I] == 10 ) {
+               Lib_E_R_Mult = Lib_E_R_Mult / 10; Lib_E_I = Max_Index;
+               Lib_E_RT_Std = R_Std_10[Lib_E_I] * Lib_E_R_Mult;
+               return Lib_E_RT_Std;}
+            else {
+               Lib_E_RT_Std = R_Std_10[Lib_E_I-1] * Lib_E_R_Mult;
+               return Lib_E_RT_Std; } } }
+
+   //***********************************************************************
+   // If the Value Control parameter is LT return the closest standard value
+   // that is less than or equal to the value passed in the first parameter.
+   //***********************************************************************
+
+   if ( Lib_E_V_Ctrl == "LE" ) {
+      if ( Lib_E_R_Std == "05" ) {
+         Lib_E_RT_Std = R_Std_05[Lib_E_I-1] * Lib_E_R_Mult; }
+      else {
+         Lib_E_RT_Std = R_Std_10[Lib_E_I-1] * Lib_E_R_Mult; }
+
+      return Lib_E_RT_Std; }
+
+   //***********************************************************************
+   // If the Value Control parameter is EQ return the closest standard value
+   // that is closest to the value passed in the first parameter.
+   //***********************************************************************
+
+   if ( Lib_E_V_Ctrl == "EQ" ) {
+//         if ( R_Std_10[Lib_E_I] == 100 ) {
+//            Lib_E_R_Mult = Lib_E_R_Mult * 10; Lib_E_I = 0;
+//            Lib_E_GT_Value = R_Std_10[Lib_E_I] * Lib_E_R_Mult;}
+//         else {
+//            Lib_E_GT_Value = R_Std_10[Lib_E_I+1] * Lib_E_R_Mult;}
+
+         Lib_E_GT_Value = Lib_E_RT_Std;
+         Lib_E_GT_Delta = Lib_E_GT_Value - Lib_E_R_Prec;
+
+         if ( Lib_E_R_Std == "05" ) {
+            if ( R_Std_05[Lib_E_I] == 10 ) {
+               Lib_E_R_Mult = Lib_E_R_Mult / 10; Lib_E_I = Max_Index;
+               Lib_E_LT_Value = R_Std_10[Lib_E_I] * Lib_E_R_Mult;}
+            else {
+               Lib_E_LT_Value = R_Std_10[Lib_E_I-1] * Lib_E_R_Mult;} }
+         else {
+            if ( R_Std_10[Lib_E_I] == 10 ) {
+               Lib_E_R_Mult = Lib_E_R_Mult / 10; Lib_E_I = Max_Index;
+               Lib_E_LT_Value = R_Std_10[Lib_E_I] * Lib_E_R_Mult;}
+            else {
+               Lib_E_LT_Value = R_Std_10[Lib_E_I-1] * Lib_E_R_Mult;} }
+
+         Lib_E_LT_Delta = Lib_E_R_Prec - Lib_E_LT_Value;
+
+      if ( Lib_E_GT_Delta < Lib_E_LT_Delta ) {
+         return Lib_E_RT_Std; }
+      else {
+         if ( Lib_E_R_Std == "05" ) { Lib_E_RT_Std = R_Std_05[Lib_E_I-1] * Lib_E_R_Mult; }
+         else { Lib_E_RT_Std = R_Std_10[Lib_E_I-1] * Lib_E_R_Mult; }
+         return Lib_E_RT_Std; }
+      }
+   return Lib_E_RT_Std;
+//   Debug_Win_Write( "close" );
+}
+
+//**************************************************************************
+// Scale a Capacitance value for printing.
+//**************************************************************************
+
+function C_Scale(Lib_E_C_Val) {
+if ( Lib_E_C_Val < 0.000001 ) {
+   return Rnd((Lib_E_C_Val*1000000000000),0) + " pF";}
+else if ( Lib_E_C_Val < 0.001 ) {
+   return Rnd((Lib_E_C_Val*1000000),0) + " uF";}
+else {
+   return Rnd(Lib_E_C_Val,3) + " F";}
+}
+
+//**************************************************************************
+// Scale a Current value for printing.
+//**************************************************************************
+
+function I_Scale(Lib_E_I_Val) {
+if ( Lib_E_I_Val < 0.001 ) {
+   return Rnd((Lib_E_I_Val*1000000),3) + " uA";}
+else if ( Lib_E_I_Val < 1.0 ) {
+   return Rnd((Lib_E_I_Val*1000),3) + " mA";}
+else {
+   return Rnd(Lib_E_I_Val,3) + " A";}
+}
+
+//**************************************************************************
+// Scale a Power value for printing.
+//**************************************************************************
+
+function P_Scale(Lib_E_P_Val) {
+if ( Lib_E_P_Val < 0.001 ) {
+   return Rnd((Lib_E_P_Val*1000000),3) + " uW";}
+else if ( Lib_E_P_Val < 1.0 ) {
+   return Rnd((Lib_E_P_Val*1000),3) + " mW";}
+else if ( Lib_E_P_Val < 1000.0 ) {
+   return Rnd(Lib_E_P_Val,2) + " W";}
+else if ( Lib_E_P_Val < 1000000.0 ) {
+   return Rnd((Lib_E_P_Val/1000),2) + " KW";}
+else {
+   return Rnd((Lib_E_P_Val/1000000),2) + " MW";}
+}
+
+//**************************************************************************
+// Scale a Resistance value for printing.
+//**************************************************************************
+
+function R_Scale(Lib_E_R_Val) {
+if ( Lib_E_R_Val < 1000 ) {
+   return (Rnd(Lib_E_R_Val,0) + " Ohm");}
+else if ( Lib_E_R_Val >= 1000 && Lib_E_R_Val < 1000000) {
+   return (Rnd(Lib_E_R_Val/1000,3) + " K Ohms");}
+else if ( Lib_E_R_Val >= 1000000 ) {
+   return (Rnd(Lib_E_R_Val/1000000,3) + " M Ohms");}
+}
+
+//**************************************************************************
+// Scale a Frequency value for printing.
+// Where: Lib_E_F_Val  = Frequency Value to scale
+//        Lib_E_F_Ctrl = Number of decimal points
+//        Lib_E_F_Unit = Unit Marker On (default) or Off
+//**************************************************************************
+
+function R_Format(Lib_E_R_Val, Lib_E_R_Ctrl, Lib_E_R_Unit) {
+if ( Lib_E_R_Val < 1000 ) {
+   if ( Lib_E_R_Unit == "off" ) {
+      return (Rnd(Lib_E_R_Val, Lib_E_R_Ctrl)); }
+   else {
+      return (Rnd(Lib_E_R_Val, Lib_E_R_Ctrl) + " Ohm"); }
+   }
+else if ( Lib_E_R_Val >= 1000 && Lib_E_R_Val < 100000) {
+   if ( Lib_E_R_Unit == "off" ) {
+      return (Rnd(Lib_E_R_Val/1000, Lib_E_R_Ctrl) + "K");}
+   else {
+      return (Rnd(Lib_E_R_Val/1000, Lib_E_R_Ctrl) + "K Ohms");}
+   }
+else if ( Lib_E_R_Val >= 10000 && Lib_E_R_Val < 1000000) {
+   if ( Lib_E_R_Unit == "off" ) {
+      return (Rnd(Lib_E_R_Val/1000, Lib_E_R_Ctrl) + "K");}
+   else {
+      return (Rnd(Lib_E_R_Val/1000, Lib_E_R_Ctrl) + "K Ohms");}
+   }
+else if ( Lib_E_R_Val >= 1000000 ) {
+   if ( Lib_E_R_Unit == "off" ) {
+      return (Rnd(Lib_E_R_Val/1000000, Lib_E_R_Ctrl) + "M");}
+   else {
+      return (Rnd(Lib_E_R_Val/1000000, Lib_E_R_Ctrl) + "M Ohms");}
+   }
+}
+
+//**************************************************************************
+// Scale a Voltage value for printing.
+//**************************************************************************
+
+function E_Scale(Lib_E_E_Val) {
+if ( Lib_E_E_Val < 0.001 ) {
+   return Rnd((Lib_E_E_Val*1000000),3) + " uV";}
+else if ( Lib_E_E_Val < 1.0 ) {
+   return Rnd((Lib_E_E_Val*1000),3) + " mV";}
+else if ( Lib_E_E_Val < 1000.0 ) {
+   return Rnd(Lib_E_E_Val,2) + " V";}
+else if ( Lib_E_E_Val < 1000000.0 ) {
+   return Rnd((Lib_E_E_Val/1000),2) + " KV";}
+else {
+  return Rnd((Lib_E_E_Val/1000000),2) + " MV";}
+}
+
+//**************************************************************************
+// Scale a Frequency value for printing.
+// Where: Lib_E_F_Val  = Frequency Value to scale
+//        Lib_E_F_Ctrl = Number of decimal points
+//        Lib_E_F_Unit = Unit Marker On (default) or Off
+//**************************************************************************
+
+function F_Scale(Lib_E_F_Val, Lib_E_F_Ctrl, Lib_E_F_Unit) {
+if ( Lib_E_F_Val < 1000 ) {
+   if ( Lib_E_F_Unit == "off" ) {
+      return (Rnd(Lib_E_F_Val, Lib_E_F_Ctrl)); }
+   else {
+      return (Rnd(Lib_E_F_Val, Lib_E_F_Ctrl) + " Hz"); }
+   }
+else if ( Lib_E_F_Val >= 1000 && Lib_E_F_Val < 1000000 ) {
+   if ( Lib_E_F_Unit == "off" ) {
+      return (Rnd(Lib_E_F_Val/1000, Lib_E_F_Ctrl));}
+   else {
+      return (Rnd(Lib_E_F_Val/1000, Lib_E_F_Ctrl) + " KHz");}
+   }
+else if ( Lib_E_F_Val >= 1000000 ) {
+   if ( Lib_E_F_Unit == "off" ) {
+      return (Rnd(Lib_E_F_Val/1000000, Lib_E_F_Ctrl));}
+   else {
+      return (Rnd(Lib_E_F_Val/1000000, Lib_E_F_Ctrl) + " MHz");}
+   }
+}
+
+//**************************************************************************
+// Scale a Inductance value for printing.
+// Where: Lib_E_L_Val  = Inductance Value to scale
+//        Lib_E_L_Ctrl = Number of decimal points
+//        Lib_E_L_Unit = Unit Marker On (default) or Off
+//**************************************************************************
+
+function L_Scale(Lib_E_L_Val, Lib_E_L_Ctrl, Lib_E_L_Unit) {
+if ( Lib_E_L_Val < 0.001 ) {
+   if ( Lib_E_L_Unit == "off" ) {
+      return (Rnd(Lib_E_L_Val*1000000, Lib_E_L_Ctrl)); }
+   else {
+      return (Rnd(Lib_E_L_Val*1000000, Lib_E_L_Ctrl) + " uH"); }
+   }
+else if ( Lib_E_L_Val < 1.0 ) {
+   if ( Lib_E_L_Unit == "off" ) {
+      return (Rnd(Lib_E_L_Val*1000, Lib_E_L_Ctrl));}
+   else {
+      return (Rnd(Lib_E_L_Val*1000, Lib_E_L_Ctrl) + " mH");}
+   }
+}

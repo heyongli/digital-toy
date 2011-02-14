@@ -1,0 +1,89 @@
+//**************************************************************************
+// JavaScript Debug Function Library
+//**************************************************************************
+
+//**************************************************************************
+// Debug Window.
+//
+// This function gives you the ability to open a small window and display
+// intermediate calculations. It is used by inserting Debug_Win_Write
+// commands in your code.
+//
+// In the example below, the first two lines opens a window for display of
+// your data. Be sure to insert these lines outside of any loops or they
+// will erase any data each time they are encountered.
+//
+// The third line, break, places a break line in the output. Useful to delimit
+// data in the display window. The fourth line is similar to the third in that
+// it can be used to delimit data or just insert a comment about it's location
+// in your code.
+//
+// The next three lines, the appends, are examples of outputting data. The
+// second parameter, in quotes, is simply a comment and is output to the
+// display window followed by a space, equal sign, and another space. The
+// third parameter is the variable you wish to display and is appended on
+// to the comment parameter in the display window.
+//
+// The last line, close, adds some ending statements to the window and then
+// closes it. You can choose to not use this line but the window will stay
+// open and continue to look for data. As with the open command keep this
+// command outside of any loops or an error may be flaged.
+//
+// Example:
+//
+//   Debug_Win=window.open('','','toolbar=yes,scrollbars=yes,width=400,height=300');
+//   Debug_Win=window.open('','','toolbar=yes,scrollbars=yes,width=400,resizable=yes');
+//   Debug_Win_Write( "open" );
+//   Debug_Win_Write( "break" );
+//   Debug_Win_Write( "comment", "Enter comment here");
+//   Debug_Win_Write( "append", "Integer Inches, IFT", IFT );
+//   Debug_Win_Write( "append", "Decimal Inches, DIN", DIN );
+//   Debug_Win_Write( "append", "Integer Inches, IIN", IIN );
+//   Debug_Win_Write( "close" );
+//
+//**************************************************************************
+
+function Debug_Win_Write( Control, Name, Value ) {
+   with (Debug_Win.document) {
+      if ( Control == "open" ) {
+         open("text/html","replace")
+         write("<HTML>\n")
+         write("<HEAD>\n")
+         write("<title>Debug Window</title>\n")
+         write("</HEAD>\n")
+         write("<BODY ALINK=\"#FF0000\" BGCOLOR=\"#EFEFEF\"")
+         write(" LINK=\"#C40026\" TEXT=\"#000000\" VLINK=\"#C40026\">\n")
+
+//         write("<center><FONT COLOR=\"00AF00\">\n")
+//         write("<H1>JavaScript<SUP><FONT SIZE=4>&reg;</FONT></SUP> Electronic Notebook</H1></FONT>\n")
+//         write("<FONT COLOR=\"AF0000\">\n")
+//         write("<H2>Debug Window</H2></FONT>\n")
+//         write("</center>\n")
+//         write("<HR NOSHADE=\"NOSHADE\">\n")
+
+         write("<FONT FACE=\"Courier\">\n")
+      }
+      else if ( Control == "close" ) {
+         write("</FONT>")
+         write("<HR NOSHADE=\"NOSHADE\">\n\n")
+
+         write("<center>\n")
+         write("<H4><I>&copy; <A HREF=\"mailto:martin.e.meserve@lmco.com\">Martin E. Meserve, K7MEM</A></I></H4></FONT>\n")
+//         write("<FONT size=1><B>Java is a trademark of Sun Microsystems, Inc.<BR>\n")
+//         write("JavaScript is a trademark of Netscape Communications Corporation.</B>\n")
+         write("</center>\n\n")
+
+         write("<HR NOSHADE=\"NOSHADE\">\n\n")
+         write("</body>\n")
+         write("</html>\n")
+         close() }
+      else if ( Control == "break" ) {
+         write("<BR>" + "<B>----------------------------</B>\n" ) }
+      else if ( Control == "comment" ) {
+         write("<BR>" + Name + "\n" ) }
+      else {
+         write("<BR>" + Name + " = " + Value + "\n" )
+      }
+   } // End of "with (Debug_Win.document)" statement
+
+}
