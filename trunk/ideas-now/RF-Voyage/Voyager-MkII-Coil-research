@@ -9,11 +9,12 @@
   L from 0.069uH to 0.06uH, F from: 95Mhz to 102Mhz 
 =============================================================
 NEW TOOLS: http://hamwaves.com/antennas/inductance.html
-D=5.3mm (line center to line center,4.9+0.4) 
-7 turn
+D=5.76mm, d=0.8mm, 7 turns (line center to line center,4.96+0.8/2*2) 
 
-lenth: 15mm ==> 90nH  (old 69nH)     lenth: 17.5mm=> 88nH  (old 60nH)     lenth: 22mm  => 87nH  
+lenth: 15mm ==> 103nH  (old 69nH)     lenth: 17.5mm=> 99nH  (old 60nH)     lenth: 22mm  => 97nH 
+even at 25mm-> 97nH,it remarkable, it's because the Parasitic cap of the Coil
 
+discrate cap of coil: 6.5pF at 22mm, 4pf at 16mm
 ==========
 strait wire induct: 
 http://www.k7mem.150m.com/Electronic_Notebook/inductors/straight_wire.html
@@ -21,88 +22,88 @@ http://www.k7mem.150m.com/Electronic_Notebook/inductors/straight_wire.html
 
 ====== debuging  result anylysis======
 1. 89.1Mhz , 
-    22mm len=>87 + straitwire=>30 = 117nH
-    cap: 22+4pF(Cbc)= 26pF   
-    thoery : 91.2M   
+    22mm len=>96 + straitwire=>30 = 126nH
+    cap: 20+2pF(Cbc+other)= 24pF   
+    thoery : 95.2M   
    
 2. original design why fail:
-    15mm: 90nH + 30 = 120nH
-    cap:  33p+ (5-20p) = 40p
-   thoey: => 72Mhz
-   remove 5-20p:=> 80Mhz
-   stench to 22mm: => 81Mhz
+    15mm: 103nH + 30 = 133nH
+    cap:  33p+ 7pf(var cap) = 40p + 2pf(othe cap and Cbc)
+   thoey: => 67Mhz
+   remove 5-20p:=> 73Mhz
+   stench to 22mm: => 76Mhz
 
 3. testing:
 NOTE:
-      (7-8turns, calc use 7.5 turns..),D: 5+0.8, d=0.8
+      7turns,D: 4.96+0.8, d=0.8
       caps : 10%, 20p, from 18p-22p
 ===========================================
    step 1: keep the circuit untuch
      coil length: 25mm                            coil lead len:  11mm+12mm 
-     coil inductance:   105nH                     coil lead inductance: 15nH
+     coil inductance:   97nH                     coil lead inductance: 15nH
      cap leadlen: 10mm+9.5mm                      cap lead inductance:16nH
 
-   total inductance: 136nH                        total cap: (18-22)+2(Cbc+distributed capacitance) 
+   total inductance: 128nH                        total cap: (18-22)+2(Cbc+distributed capacitance) 
 
-   prediction freq:  88Mhz-96Mhz                  real freq: 90.3Mhz
+   prediction freq:  90Mhz-99Mhz                  real freq: 90.3Mhz
 =============
 step 2: remove cap lead
      coil length:  25mm                           coil lead len:  11mm +12mm
-     coil inductance: 105nH                       lead inductance: 15nH
+     coil inductance: 97nH                        lead inductance: 15nH
      cap leadlen:   2.8mm+3mm                     lead inductance: 3nH
 
    total inductance: 123                          total cap: (18-22)+2(Cbc+distributed capacitance) 
 
-   prediction freq: 92Mhz - 101Mhz                real freq: 92.1Mhz
+   prediction freq: 95Mhz - 104Mhz                real freq: 92.1Mhz
 ==================
 step 3: remove coil lead
      coil length:  25mm                            coil lead len: 2mm + 2mm 
-     coil inductance: 105nH                       lead inductance:1nH
+     coil inductance: 97nH                        lead inductance:1nH
      cap leadlen: 2.8mm+3mm                       lead inductance: 3nH
 
-   total inductance: 109nH                        total cap:(18-22)+2(Cbc+distributed capacitance) 
+   total inductance: 101nH                        total cap:(18-22)+2(Cbc+distributed capacitance) 
 
-   prediction freq:  98Mhz - 107Mhz    real freq:99.65Mhz
+   prediction freq:  102Mhz - 111Mhz              real freq:99.65Mhz
 =====================
 step 4: replace cap to another type: MONOLITHIC CAPACITORS
      coil length:  25mm                           coil lead len:  2mm+2mm
-     coil inductance:105nH                        lead inductance: 1nH
+     coil inductance:97nH                        lead inductance: 1nH
      cap leadlen:  2mm+1mm                        lead inductance: 3nH
 
-   total inductance: 109nH                       total cap: (18-20)+2(Cbc+distributed capacitance) 
+   total inductance: 101nH                       total cap: (18-20)+2(Cbc+distributed capacitance) 
 
-   prediction freq:  98Mhz - 107Mhz             real freq: 100.15Mhz
+   prediction freq:  102Mhz - 111Mhz            real freq: 100.15Mhz
 ===================
 
 step 5: change coil length to 16mm ( MONOLITHIC CAPACITORS)
      coil length:  16mm                           coil lead len:  2mm+2mm
-     coil inductance: 113nH                       lead inductance:1nH
+     coil inductance: 101nH                       lead inductance:1nH
      cap leadlen:  2mm+1mm                        lead inductance:3nH
 
-   total inductance:117nH                         total cap: (18-22)+2(Cbc+distributed capacitance) 
+   total inductance:105nH                         total cap: (18-22)+2(Cbc+distributed capacitance) 
 
-   prediction freq:  94Mhz - 104Mhz              real freq: 93.2Mhz
+   prediction freq:  100Mhz - 109Mhz              real freq: 93.2Mhz
 ===================
 
 step 6:  10pF Feed back cap short lead length  (LC:MONOLITHIC CAPACITORS )
      coil length:  16mm                           coil lead len:  2mm+2mm
-     coil inductance:113nH                        lead inductance:1nH
+     coil inductance:101nH                        lead inductance:1nH
      cap leadlen:  2mm+1mm                        lead inductance:3nH
 
-   total inductance: 117nH                        total cap: (18-22)+2(Cbc+distributed capacitance) 
+   total inductance: 105nH                         total cap: (18-22)+2(Cbc+distributed capacitance) 
 
-   prediction freq: 94Mhz - 104Mhz               real freq: 92.35Mhz (92.7Mhz--93.7Mhz on diffrent env)
-                                                  FB cap lead len: 2mm+2mm
+   prediction freq: 100Mhz - 109Mhz           real freq: 92.35Mhz (92.7Mhz--93.7Mhz on diffrent env)
+                                              FB cap lead len: 2mm+2mm
 
 =====================
 step 7:  5.6pF feedback short lead length (LC:MONOLITHIC CAPACITORS )
      coil length:  16mm                           coil lead len:  2mm+2mm
-     coil inductance:                             lead inductance:
-     cap leadlen:  2mm+1mm                        lead inductance:
+     coil inductance:  101nH                      lead inductance:1
+     cap leadlen:  2mm+1mm                        lead inductance:3
 
-   total inductance:                              total cap: (18-22)+2(Cbc+distributed capacitance) 
-`
-   prediction freq:  94Mhz - 104Mhz               real freq: 94.1Mhz
+   total inductance:  105nH                       total cap: (18-22)+2(Cbc+distributed capacitance) 
+
+   prediction freq:  100Mhz - 109Mhz              real freq: 94.1Mhz
 ===================
 
 
