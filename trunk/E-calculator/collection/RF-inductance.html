@@ -1,0 +1,716 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+
+
+
+
+  <title>RF Inductance Calculator - HAMwaves.com</title>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+  <link rel="shortcut icon" href="http://www.stroobandt.com/favicon.ico" type="image/x-icon">
+
+  <link rel="stylesheet" type="text/css" href="RF-inductance_files/my_style.css">
+
+  <meta name="description" content="This page allows you to calculate in the most accurate way high-Q inductor coils.">
+
+
+  <meta name="KeyWords" content="high-Q single-layer helical round wire coil RF inductor calculator, loading coil, solenoid, coils, inductors, solenoid,  
+
+RF inductance calculator, coil designer, inductance, Q-factor, quality factor, applet, inductor formulas, 
+
+High-Q loading coils for antenna size reduction
+
+loop antenna,
+helical antenna,
+Tesla coil,
+RF coil, receiving coil, magnetic resonance imaging, MRI,
+travelling wave tube helix, TWT,
+
+Stroobandt's formula, effective diameter, proximity factor, 
+
+chemical silver plating process,
+
+HAMwaves, HAMwaves.com, stroobandt.com, ON4AA, Serge Stroobandt">
+
+  <meta name="author" content="Serge Stroobandt, ON4AA">
+  <meta name="generator" content="NoteTab Pro 4.86c">
+  <meta name="distribution" content="Global">
+
+  <!--meta http-equiv=Pragma content=no-cache-->
+  <!--meta http-equiv=Refresh content=43200--><!--12h-->
+</head><body onload="showRhoMur();">
+<script language="javascript" type="text/javascript" src="RF-inductance_files/my_lib.js"></script>
+<script language="javascript" type="text/javascript" src="RF-inductance_files/math.js"></script>
+<script language="javascript" type="text/javascript" src="RF-inductance_files/fzero.js"></script>
+<script language="javascript" type="text/javascript" src="RF-inductance_files/inductance.js"></script>
+
+<div id="container">
+<script language="javascript" type="text/javascript">
+var root_dir = "../"; //necessary for header(), homeButton(), next() and close().
+var toc_dir = ""; //DO NOT CHANGE! - necessary for toc.js
+var long_ad = true;
+header("Antenna Notes", "antennas", 2007, "Serge Stroobandt, ON4AA", true);
+</script><!--[if lt IE 7]>
+<style>
+#container {width: 1600px;}
+#main {width: 577px;}
+#too_wide {position:relative;}
+</style>
+<![endif]-->
+<div id="header">
+<table align="center" border="0" cellpadding="0" cellspacing="0" width="740">
+<tbody><tr>
+<td align="center" bgcolor="#cccccc" valign="middle">
+<table cellpadding="5">
+<tbody><tr><td align="center">
+<p>Antenna Notes</p>
+</td>
+</tr></tbody></table>
+</td>
+<td width="518">
+<a target="_top" href="http://hamwaves.com/">
+<img src="RF-inductance_files/hamwaves.jpg" border="0" height="115" width="518"></a>
+</td>
+</tr>
+</tbody></table>
+</div><!--header-->
+<div id="subheader">
+<div id="best_viewed">
+<div id="img-left">
+<div id="donation"><p>Keep this site on-line</p>
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+<input name="cmd" value="_xclick" type="hidden">
+<input name="business" value="serge@stroobandt.com" type="hidden">
+<input name="item_name" value="HAMwaves.com - Help keeping this site on-line!" type="hidden">
+<input name="item_number" value="1month = EUR5.00 - More is welcome - Thank you for your generous support!" type="hidden">
+<input name="no_shipping" value="1" type="hidden">
+<input name="no_note" value="1" type="hidden">
+<input name="currency_code" value="EUR" type="hidden">
+<input name="tax" value="0" type="hidden">
+<input name="lc" value="BE" type="hidden">
+<input name="bn" value="PP-DonationsBF" type="hidden">
+<input src="RF-inductance_files/make_a_donation.gif" name="submit" alt="Make a donation" border="0" height="23" width="110" type="image">
+<img alt="" src="RF-inductance_files/transparent_dot.gif" border="0" height="1" width="1">
+</form>
+</div>
+</div>
+<div id="img-left"><a target="_blank" href="http://www.adobe.com/products/acrobat/readstep2.html">
+<img src="RF-inductance_files/get_acrobat.gif" alt="Get Acrobat Reader" border="0" height="31" width="88"></a></div>
+</div><!--best_viewed-->
+<div id="counter">
+<script language="Javascript" src="RF-inductance_files/gc.html" border="0"></script><table border="0" cellpadding="0" cellspacing="0" height="20" width="90"><tbody><tr><td><center><img src="RF-inductance_files/1.gif" alt="1" border="0" height="20" width="15"><img src="RF-inductance_files/0.gif" alt="0" border="0" height="20" width="15"><img src="RF-inductance_files/7.gif" alt="7" border="0" height="20" width="15"><img src="RF-inductance_files/8.gif" alt="8" border="0" height="20" width="15"><img src="RF-inductance_files/2.gif" alt="2" border="0" height="20" width="15"><img src="RF-inductance_files/0.gif" alt="0" border="0" height="20" width="15"></center></td></tr></tbody></table><br>Last&nbsp;modified: 20&nbsp;January&nbsp;2009<br>©2007-2009 Serge Stroobandt, ON4AA
+</div>
+</div><!--subheader-->
+
+<script language="javascript" type="text/javascript" src="RF-inductance_files/toc.js"></script><div id="toc">
+<a href="http://hamwaves.com/index.html"><img src="RF-inductance_files/home_small.gif" alt="Go to homepage" border="0" height="30" width="128"></a>
+<p><a href="http://hamwaves.com/antennas/index.html">Antenna Components</a>
+</p><ul>
+<li><a href="http://hamwaves.com/antennas/index.html">Antenna Wire</a></li>
+<li><a href="http://hamwaves.com/antennas/insulators.html">Antenna Insulators</a></li>
+<li><a href="http://hamwaves.com/antennas/rope.html">Rope &amp; Knots</a></li>
+<li><a href="http://hamwaves.com/antennas/capacitors.html">High-Voltage RF Capacitors</a></li>
+<li><a class="current" href="http://hamwaves.com/antennas/inductance.html">RF Inductance Calculator</a></li>
+<li><a href="http://hamwaves.com/antennas/coils.html">High-Q RF Coil Construction Techniques</a></li>
+<li><a href="http://hamwaves.com/antennas/baluns.html">Baluns</a></li>
+<li><a href="http://hamwaves.com/antennas/choke.html">Coax Sheath Current Choke</a></li>
+<li><a href="http://hamwaves.com/antennas/tl-calculator.html">Transmission Line Calculator</a></li>
+<li><a href="http://hamwaves.com/antennas/connectors.html">Coaxial Connector Assembly</a></li>
+<li><a href="http://hamwaves.com/antennas/towers.html">Antenna Towers</a></li>
+</ul>
+<p><a href="http://hamwaves.com/antennas/modelling.html">Computer-Aided Antenna Modelling</a></p>
+<p><a href="http://hamwaves.com/antennas/gnd-sigma.html">World Atlas of Ground Conductivity</a></p>
+<p><a href="http://hamwaves.com/antennas/tapers.html">Element Tapers</a>
+</p><ul>
+<li><a href="http://hamwaves.com/antennas/tapers.html#mechanical_taper">Mechanical Design</a></li>
+<li><a href="http://hamwaves.com/antennas/tapers.html#electrical_taper">Electrical Modelling</a></li>
+</ul>
+<p><a href="http://hamwaves.com/antennas/ob6-3m.html">Practical Antennas</a>
+</p><ul>
+<li><a href="http://hamwaves.com/antennas/ob6-3m.html">3-Band Moxon-Yagi Beam</a></li>
+<li><a href="http://hamwaves.com/antennas/diel-rod.html">10GHz Dielectric Rod Antenna</a></li>
+</ul>
+<p><a href="http://hamwaves.com/antennas/radiator.html">Stroobandt&#8217;s Radiator Theorem</a></p>
+<p><a href="http://hamwaves.com/antennas/measuring.html">Measuring Antenna Performance</a></p>
+<p><a href="http://hamwaves.com/antennas/books.html">Books on Antennas</a></p>
+<p><a href="http://hamwaves.com/antennas/more.html">More Excellent Antenna Notes</a></p>
+<p><a href="http://hamwaves.com/antennas/rf-tools.html">More RF Tools &amp;<br>Reference Material</a></p>
+<p><a href="http://hamwaves.com/antennas/humour.html">Antenna Humour</a></p>
+<div id="donation"><p>Keep this site on-line</p>
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+<input name="cmd" value="_xclick" type="hidden">
+<input name="business" value="serge@stroobandt.com" type="hidden">
+<input name="item_name" value="HAMwaves.com - Help keeping this site on-line!" type="hidden">
+<input name="item_number" value="1month = EUR5.00 - More is welcome - Thank you for your generous support!" type="hidden">
+<input name="no_shipping" value="1" type="hidden">
+<input name="no_note" value="1" type="hidden">
+<input name="currency_code" value="EUR" type="hidden">
+<input name="tax" value="0" type="hidden">
+<input name="lc" value="BE" type="hidden">
+<input name="bn" value="PP-DonationsBF" type="hidden">
+<input src="RF-inductance_files/make_a_donation.gif" name="submit" alt="Make a donation" border="0" height="23" width="110" type="image">
+<img alt="" src="RF-inductance_files/transparent_dot.gif" border="0" height="1" width="1">
+</form>
+</div>
+<div id="advertisement">
+<script type="text/javascript" src="RF-inductance_files/show_ads.js"></script><script src="RF-inductance_files/show_ads_impl.js"></script><script src="RF-inductance_files/expansion_embed.js"></script><script src="RF-inductance_files/test_domain.js"></script><script>google_protectAndRun("ads_core.google_render_ad", google_handleError, google_render_ad);</script><ins style="display: inline-table; border: medium none; height: 600px; margin: 0pt; padding: 0pt; position: relative; visibility: visible; width: 120px;"><ins id="google_ads_frame1_anchor" style="display: block; border: medium none; height: 600px; margin: 0pt; padding: 0pt; position: relative; visibility: visible; width: 120px;"><iframe allowtransparency="true" hspace="0" id="google_ads_frame1" marginheight="0" marginwidth="0" name="google_ads_frame" src="RF-inductance_files/ads.html" style="left: 0pt; position: absolute; top: 0pt;" vspace="0" frameborder="0" height="600" width="120" scrolling="no"></iframe></ins></ins>
+</div>
+<p><a href="javascript:;" onclick="window.close();"><img src="RF-inductance_files/close_small.gif" alt="Close" border="0" height="30" width="128"></a></p>
+</div><!--toc-->
+
+
+
+<div id="main">
+<div class="top" id="img-left">
+<img src="RF-inductance_files/calculator.gif" border="0" height="90" width="90">
+</div>
+<h1 class="top">Single-Layer Helical Round Wire Coil Inductor Calculator</h1>
+
+<form name="calculator">
+<div id="calculator">
+<div id="enter">
+<div id="img-right" style="width: 270px;">
+<img src="RF-inductance_files/coil_dimensions.gif" alt="Round wire coil with dimensions and its current-sheet approximation" border="0" height="245" width="270">
+<p>Round wire coil with dimensions and<br>its current-sheet approximation<sup>[2]</sup></p>
+</div>
+<p>ENTER:</p><br clear="left">
+<table>
+<col><col><col>
+<tbody><tr>
+	<td>D</td>
+	<td>=&nbsp;<input name="D" size="3" type="text">&nbsp;mm</td>
+	<td>Mean diameter of the air core coil, <em>measured from wire centre to wire centre</em></td>
+</tr>
+<tr>
+	<td>N</td>
+	<td>=&nbsp;<input name="N" size="3" type="text"></td>
+	<td>Number of turns</td>
+</tr>
+<tr>
+	<td>&#8467;</td>
+	<td>=&nbsp;<input name="el" size="3" type="text">&nbsp;mm</td>
+	<td>Lenght of the coil, <em>measured from the connecting wires centre to centre</em></td>
+</tr>
+<tr>
+	<td>d</td>
+	<td>=&nbsp;<input name="d" size="3" type="text">&nbsp;mm</td>
+	<td>Wire or tubing diameter</td>
+</tr>
+<tr>
+	<td colspan="2" style="text-align: left;">
+		<select name="material" type="text" size="1" onchange="showRhoMur();">
+			<option selected="selected" value="0">Cu, annealed</option>
+			<option value="1">Cu, hard-drawn</option>
+			<option value="2">Ag</option>
+			<option value="3">Al</option>
+		</select>
+	</td>
+	<td>Plating material</td>
+</tr>
+<tr>
+	<td>&#961;</td>
+	<td>=&nbsp;<input value="17.241" name="rho" size="4" readonly="readonly" type="text">&nbsp;n&#937;·m</td>
+	<td>Plating conductivity</td>
+</tr>
+<tr>
+	<td>&#956;<sub>r</sub></td>
+	<td>=&nbsp;<input value="0.99999044" name="mur_plating" size="9" readonly="readonly" type="text"></td>
+	<td>Plating permeability</td>
+</tr>
+<tr>
+	<td>f</td>
+	<td>=&nbsp;<input name="freq" size="4" type="text">&nbsp;MHz</td>
+	<td>Design frequency</td>
+</tr>
+</tbody></table>
+<div class="center"><input name="calculate" value="Calculate" onclick="calculateInd();" type="button"><input value="Clear" onclick="document.forms.calculator.reset(); showRhoMur();" type="button"></div>
+</div><!--enter-->
+
+<div class="top" id="img-left">
+<img src="RF-inductance_files/weird_scientist.gif" border="0" height="71" width="64">
+</div>
+<h1 class="top">&nbsp;</h1>
+<div id="results_dark">
+<p>INTERMEDIATE RESULTS:</p><br clear="left">
+<table>
+<col><col><col>
+<tbody><tr>
+	<td>p</td>
+	<td>=&nbsp;<input name="p" size="3" readonly="readonly" type="text">&nbsp;mm</td>
+	<td>Winding pitch</td>
+</tr>
+<tr>
+	<td>&#934;</td>
+	<td>=&nbsp;<input name="Phi" size="4" readonly="readonly" type="text"></td>
+	<td>Proximity factor according to empirical Medhurst data<sup>[2,3]</sup></td>
+</tr>
+<tr>
+	<td>D<sub>eff</sub></td>
+	<td>=&nbsp;<input name="Deff" size="3" readonly="readonly" type="text">&nbsp;mm</td>
+	<td>Effective coil diameter according to Stroobandt (see below)</td>
+</tr>
+
+<tr>
+	<td colspan="3" class="ruler"></td>
+</tr>
+<tr>
+	<td colspan="3" class="comment">Correction factors:</td>
+</tr>
+<tr>
+	<td>k<sub>L</sub></td>
+	<td>=&nbsp;<input name="kL" size="6" readonly="readonly" type="text"></td>
+	<td>Field non-uniformity correction factor according to Lundin<sup>[2,4]</sup></td>
+</tr>
+<tr>
+	<td>k<sub>s</sub></td>
+	<td>=&nbsp;<input name="ks" size="6" readonly="readonly" type="text"></td>
+	<td>Round wire self-inductance correction factor according to Rosa<sup>[2,5,6]</sup></td>
+</tr>
+<tr>
+	<td>k<sub>m</sub></td>
+	<td>=&nbsp;<input name="km" size="6" readonly="readonly" type="text"></td>
+	<td>Round wire mutual-inductance correction factor according to Grover and Knight<sup>[2,7]</sup></td>
+</tr>
+
+<tr>
+	<td colspan="3" class="ruler"></td>
+</tr>
+<tr>
+	<td colspan="3" class="comment">Wire:</td>
+</tr>
+<tr>
+	<td>&#8467;<sub>wire, phys</sub></td>
+	<td>=&nbsp;<input name="elwire_phys" size="4" readonly="readonly" type="text">&nbsp;mm</td>
+	<td>Physical wire length</td>
+</tr>
+<tr>
+	<td>&#8467;<sub>wire, eff</sub></td>
+	<td>=&nbsp;<input name="elwire_eff" size="4" readonly="readonly" type="text">&nbsp;mm</td>
+	<td>Effective wire length</td>
+</tr>
+<tr>
+	<td>&#948;<sub>i</sub></td>
+	<td>=&nbsp;<input name="deltai" size="4" readonly="readonly" type="text">&nbsp;µm</td>
+	<td>Skin depth at design frequency</td>
+</tr>
+
+<tr>
+	<td colspan="3" class="ruler"></td>
+</tr>
+<tr>
+	<td colspan="3" class="comment">Sheath helix waveguide mode:</td>
+</tr>
+<tr>
+	<td>&#968;</td>
+	<td>=&nbsp;<input name="psi" size="4" readonly="readonly" type="text">&nbsp;°</td>
+	<td>Effective pitch angle</td>
+</tr>
+<tr>
+	<td>&#946;</td>
+	<td>=&nbsp;<input name="beta" size="4" readonly="readonly" type="text">&nbsp;rad/m</td>
+	<td>Axial propagation factor of n=0 sheath helix waveguide mode at design frequency<sup>[1,8]</sup></td>
+</tr>
+<tr>
+	<td>Z<sub>c</sub></td>
+	<td>=&nbsp;<input name="Zc" size="4" readonly="readonly" type="text">&nbsp;&#937;</td>
+	<td>Characteristic impedance of n=0 sheath helix waveguide mode at design frequency<sup>[1]</sup></td>
+</tr>
+</tbody></table>
+</div>
+
+<div class="top" id="img-left">
+<img src="RF-inductance_files/roll_printer.gif" border="0" height="90" width="78">
+</div>
+<h1 class="top">&nbsp;</h1>
+<div id="results_light">
+<p>RESULTS:</p><br clear="left">
+<div id="img-right" style="width: 150px;">
+<img src="RF-inductance_files/eff_circuit.gif" alt="Effective circuit equivalent at design frequency" border="0" height="75" width="150">
+</div>
+<table>
+<col><col><col>
+<tbody><tr>
+	<td>L<sub>eff,s</sub></td>
+	<td>=&nbsp;<input name="Leffs" size="4" readonly="readonly" type="text">&nbsp;µH</td>
+	<td>Effective series inductance <em>at design frequency</em> from Corum &amp; Corum's sheath helix <em>waveguide formula,</em> corrected for field non-uniformity and round wire<sup>[1,2,4-7]</sup></td>
+</tr>
+<tr>
+	<td>X<sub>eff,s</sub></td>
+	<td>=&nbsp;<input name="Xeffs" size="4" readonly="readonly" type="text">&nbsp;&#937;</td>
+	<td>Effective series reactance of round wire coil at design frequency</td>
+</tr>
+<tr>
+	<td>R<sub>eff,s</sub></td>
+	<td>=&nbsp;<input name="Reffs" size="4" readonly="readonly" type="text">&nbsp;&#937;</td>
+	<td>Effective series AC resistance of round wire coil at design frequency</td>
+</tr>
+<tr>
+	<td>Q<sub>eff,ul</sub></td>
+	<td>=&nbsp;<input name="Qeff" size="4" readonly="readonly" type="text"></td>
+	<td>Effective unloaded quality factor of round wire coil at design frequency</td>
+</tr>
+</tbody></table>
+<div id="img-right" style="width: 150px;">
+<img src="RF-inductance_files/lumped_circuit.gif" alt="Lumped circuit equivalent at design frequency" border="0" height="120" width="150">
+</div>
+<table>
+<col><col><col>
+<tbody><tr>
+	<td colspan="3" class="ruler"></td>
+</tr>
+<tr>
+	<td colspan="3" class="comment">Lumped circuit equivalent:</td>
+</tr>
+<tr>
+	<td>L<sub>s</sub></td>
+	<td>=&nbsp;<input name="Ls" size="4" readonly="readonly" type="text">&nbsp;µH</td>
+	<td><em>Frequency-independent</em> series inductance from the current-sheet coil <em>geometrical formula,</em> corrected for field non-uniformity and round wire<sup>[2,4-7]</sup></td>
+</tr>
+<tr>
+	<td>X<sub>L,s</sub></td>
+	<td>=&nbsp;<input name="XLs" size="4" readonly="readonly" type="text">&nbsp;&#937;</td>
+	<td>Series reactance of round wire coil</td>
+</tr>
+<tr>
+	<td>R<sub>L,s</sub></td>
+	<td>=&nbsp;<input name="RLs" size="4" readonly="readonly" type="text">&nbsp;&#937;</td>
+	<td>Series AC resistance of round wire coil at design frequency</td>
+</tr>
+<tr>
+	<td>Q<sub>L,ul</sub></td>
+	<td>=&nbsp;<input name="QL" size="4" readonly="readonly" type="text"></td>
+	<td>Unloaded quality factor of round wire coil at design frequency</td>
+</tr>
+<tr>
+	<td>C<sub>L,p</sub></td>
+	<td>=&nbsp;<input name="CLp" size="4" readonly="readonly" type="text">&nbsp;pF</td>
+	<td>Parallel stray capacitance at design frequency<sup>[1]</sup></td>
+</tr>
+
+<tr>
+	<td colspan="3" class="ruler"></td>
+</tr>
+<tr>
+	<td colspan="3" class="comment">Self-resonant frequency:</td>
+</tr>
+<tr>
+	<td>f<sub>res,L</sub></td>
+	<td>=&nbsp;<input name="fresL" size="4" readonly="readonly" type="text">&nbsp;MHz</td>
+	<td>&#955;/4 (parallel) self-resonant frequency of n=0 sheath helix mode<sup>[1,8]</sup></td>
+</tr>
+</tbody></table>
+</div><!--results_light-->
+</div><!--calculator-->
+</form>
+
+<h1>Frequently Asked Questions</h1>
+
+<h2>In what does this inductance calculator differ from the rest?</h2>
+<div id="img-right">
+<a target="_blank" href="http://www.teslasociety.com/corum.htm">
+	<img src="RF-inductance_files/james_f_corum.jpg" alt="Dr. James F. Corum, K1AON" border="0" height="134" width="164"><!--jcorum()ieee.org-->
+</a>
+<p>Dr. James F. Corum,<br>K1AON</p>
+</div>
+<p>
+The inductor calculator presented on this page is unique in that it <em>employs the n=0 sheath helix waveguide mode to determine the inductance of a coil,</em> irrespective of its electrical length. This allows for more accurate inductance predictions at high frequencies. Furthermore, <em>the calculator closely follows the National Institute of Standards and Technology (NIST) methodology</em> for applying round wire and non-uniformity correction factors and <em>takes into account both the proximity effect and the skin effect.</em>
+</p>
+<p>
+The development of this calculator has been primarily based on the 2001 <a target="_blank" href="http://hamwaves.com/antennas/inductance/corum.pdf"><i>IEEE Microwave Review</i> article by the Corum brothers</a><sup>[1]</sup> and the correction formulas presented in <a target="_blank" href="http://www.g3ynh.info/zdocs/magnetics/part_1.html">David Knight's, G3YNH, theoretical overview</a><sup>[2]</sup>, extended with a couple of personal additions.
+</p>
+
+<h2>Which equivalent circuit should be used?</h2>
+<p><em>Both equivalent circuits yield exactly the same coil impedance at the design frequency.</em></p>
+<p>For narrowband applications around a <em>single design frequency</em>
+ the effective equivalent circuit may be used. When needed, additional 
+equivalent circuits may be calculated for additional design frequencies.</p>
+<p><em>The lumped equivalent circuit</em> is given here mainly for the 
+purpose of comparing with other calculators. By adding a lumped stray 
+capacitance in parallel, this equivalent circuit tries to mimic the 
+frequency response of the coil impedance. This will be accurate only <em>for a limited band of frequencies centred around the design frequency.</em></p>
+
+<h2>What can this calculator be used for?</h2>
+<div id="img-right">
+<img src="RF-inductance_files/helical_antenna.jpg" alt="helical antenna" border="0" height="135" width="267">
+<p>helical antenna</p>
+</div>
+<p>
+The calculator returns values for the axial propagation factor &#946; and characteristic impedance Z<sub>c</sub> of the n=0 (T<sub>0</sub>) sheath helix waveguide mode for any helix dimensions at any frequency.
+</p>
+<p class="list">
+<br>This information is <em>useful for designing:</em>
+<br clear="all">
+</p><ul>
+	<li>High-Q <em>loading coils</em> for antenna size reduction 
+	<br>(see <a target="_blank" href="http://www.vk1od.net/coaxtrap/8040.htm">VK1OD's 80 &amp; 40m band dipole</a> and <a href="http://hamwaves.com/antennas/coils.html">next page</a>),</li>
+	<li>Single or multi-<em>loop reception antennas</em> with known resonant frequency,</li>
+	<li><em>Helical antennas</em>, which are equivalent to <a href="http://hamwaves.com/antennas/diel-rod.html">my dielectric rod antenna</a>,</li>
+	<li><em>Tesla coil</em> high-voltage sources (see <a href="http://hamwaves.com/antennas/inductance.html#tesla_coil">picture further on</a>),</li>
+	<li>RF coils for <em>Magnetic Resonance Imaging (MRI)</em>,</li>
+	<li><em>Travelling wave tube (TWT)</em> helices (picture below).</li>
+</ul>
+
+<p class="caption-center-bottom">
+<img src="RF-inductance_files/twt.gif" alt="travelling wave tube" border="0" height="280" width="460">
+<br>travelling wave tube
+</p><br>
+
+<h2 class="top">What is the problem with other inductor calculators?</h2>
+<div id="img-right">
+<a target="_blank" href="http://www.w8ji.com/antennas.htm">
+	<img src="RF-inductance_files/w8ji_tom_rauch.jpg" alt="Tom Rauch, W8IJ" border="0" height="200" width="155">
+</a>
+<p>Tom Rauch, W8JI</p>
+</div>
+<p class="list">
+Tom Rauch, W8JI, in his well-known <a target="_blank" href="http://www.w8ji.com/loading_inductors.htm">high-Q inductor study</a> once complained that many inductor modeling programs fail to consider two important effects:
+</p><ul>
+	<li>The <em>stray capacitance</em> across the inductor,</li>
+	<li><em>The proximity effect,</em> causing <em>Q to decrease as turns are brought closer together.</em></li>
+</ul>
+For example, the <a target="_blank" href="http://www.rac.ca/tca/RF_Coil_Design.html">RF Coil Design Javascript calculator by VE3KL</a> ignores these effects.
+
+<p>
+Likewise, a once very popular computer program, named «COIL» by Brian Beezley ex-K6STI <!--k6sti()n2.net--> <a target="_blank" href="http://www.g3ynh.info/zdocs/magnetics/refs.html#08">happened to be based on a set of faulty formulas</a><sup>[2,9,10]</sup>, as has been carefully pointed out by David Knight, G3YNH. The program is luckily no longer commercially available.
+</p>
+
+<h2>How is the helical waveguide mode being calculated?</h2>
+<div id="img-left">
+<a target="_blank" href="http://en.wikipedia.org/wiki/Bessel_function">
+	<img src="RF-inductance_files/friedrich_wilhelm_bessel.jpg" alt="Friedrich Wilhelm Bessel" border="0" height="223" width="155">
+</a>
+<p>Friedrich Wilhelm Bessel</p>
+</div>
+<p>
+<em>A coil can be best seen as a helical waveguide with a kind of helical surface wave propagating along it.</em> The phase propagation velocity of such a helical waveguide is <em>dispersive,</em>
+ meaning it is different for different frequencies. (This is not the 
+case with  ordinary transmission lines like coax or open wire.) Lower 
+frequencies propagate slower along a coil. The actual phase velocity at a
+ specific frequency for a specific wave mode is obtained by solving a 
+transcendental eigenvalue equation involving <a target="_blank" href="http://mathworld.wolfram.com/ModifiedBesselFunctionoftheFirstKind.html">modified Bessel functions of the first</a> (I<sub>n</sub>) and <a target="_blank" href="http://mathworld.wolfram.com/ModifiedBesselFunctionoftheSecondKind.html">second kind</a> (K<sub>n</sub>) for, respectively, the inside and the outside of the helix.<sup>[1,8]</sup>
+</p><br clear="all">
+<img src="RF-inductance_files/pointing_hand.gif" align="left" border="0" height="39" width="83">
+<div id="howto">
+<form id="BesselKind">
+  <select name="selection" onchange="changeBesselPlots();">
+    <option selected="selected" value="I0">Modified Bessel function of the first kind, order 0; inside the helix</option>
+    <option value="K0">Modified Bessel function of the second kind, order 0; outside the helix</option>
+  </select>
+</form>
+</div>
+<img name="surfacePlot" src="RF-inductance_files/bessel_i0_surface.gif" alt="modified Bessel function of order 0 - surface plot" border="0" height="137" width="540">
+<img name="contourPlot" src="RF-inductance_files/bessel_i0_contour.gif" alt="modified Bessel function of order 0 - contour plot" border="0" height="187" width="540">
+
+<div id="img-left">
+<img src="RF-inductance_files/t_j_dekker.jpg" alt="Dr. T. J. Dekker" border="0" height="223" width="155">
+<p>Dr. T. J. Dekker</p>
+</div>
+<p class="top">
+Since such an equation cannot be solved by ordinary analytical means, 
+the present calculator will determine the phase velocity of the lowest 
+order (n=0) sheath helix mode at the design frequency using T. J. 
+Dekker's combined <a target="_blank" href="http://en.wikipedia.org/wiki/Bisection_method">bisection</a>-<a target="_blank" href="http://mathworld.wolfram.com/SecantMethod.html">secant</a> <em>numerical root-finding technique.<sup>[11]</sup></em> The <a target="_blank" href="http://www.netlib.org/slatec/src/fzero.f">original FORTRAN code</a> was translated to <a target="_blank" href="http://hamwaves.com/fzero.js">JavaScript</a>.
+</p>
+<p>
+A similar algorithm is also employed to home in on <em>the frequency for which the coil appears as a quarter-wave resonator. This is the first self-resonant frequency of the coil.</em>
+</p><br clear="all">
+<p class="caption-center-bottom">
+<img src="RF-inductance_files/secant_method.png" alt="the secant root-finding method" border="0" height="252" width="408">
+<br>the secant root-finding method
+</p>
+<p>
+More details about the employed formulas and algorithms can be obtained immediatly from the <a target="_blank" href="http://hamwaves.com/antennas/inductance/inductance.js">Javascript source code of this calculator</a>.
+</p>
+
+<h2>Why are correction factors still needed?</h2>
+<p>
+Eventhough the sheath helix waveguide model is the most accurate model 
+available to date, it certainly suffers from a number of limitations. 
+These have their origin in the very definition of <em>a sheath helix,</em> being: <em><i>an idealised anisotropically conducting cylindrical surface that conducts only in the helical direction.</i><sup>[1]</sup></em>
+</p>
+<p class="list">
+By chosing a sheath helix as the model for a cylindrical round wire coil, the following assumptions are made:
+</p><ol>
+	<li>The wire is perfectly conducting.</li>
+	<li>The wire is infinitesimal thin.</li>
+	<li>The coil´s turns are infinitely closed-spaced.</li>
+	<li>Finally, since higher (n&gt;0) sheath helix waveguide modes are 
+disregarded, end-effects in the form of field non-uniformities are not 
+dealt with. Hence, the sheath helix needs to be assumed to be very long 
+and relatively thin in order for the end-effects to become negligible.</li>
+</ol>
+
+<div id="img-right">
+<img src="RF-inductance_files/correction_fluid.gif" alt="correction fluid" border="0" height="199" width="98">
+</div>
+<p class="list">
+<em>Luckily, these assumptions happen to be identical to the assumptions made when using a geometrical inductance formula.</em> This implies that the very same correction factors may be applied to the results of the sheath helix waveguide model, being:
+</p><ul>
+	<li><em>A field non-uniformity correction factor</em> according to Lundin<sup>[2,4]</sup> for modelling the end-effects of short &amp; thick coils (high D/&#8467;-ratio),</li>
+	<li><em>A round wire self-inductance correction factor</em> according to Rosa<sup>[2,5,6]</sup>,</li>
+	<li><em>A round wire mutual-inductance correction factor</em> according to Grover and Knight<sup>[2,7]</sup>,</li>
+	<li><em>A reduced effective coil diameter</em> for modelling the current quenching in the wire under the proximity effect of nearby windings,</li>
+	<li><em>A series AC resistance</em> for modelling the skin effect including <em>an additional end-correction</em> for the two end-turns that are subject to only half the proximity effect.</li>
+</ul>
+
+
+<a name="discont">
+</a><h2><a name="discont">Is there a small discontinuity in calculated inductances around &#8467;&nbsp;=&nbsp;D?</a></h2>
+<p>
+<a name="discont">Yes, there is. </a><a target="_blank" href="http://www.qrz.com/callsign/k7itm">Thomas Bruhns, K7ITM</a> discovered this little flaw.
+It is entirely due to the intrinsically discontinuous formulation of <a target="_blank" href="http://www.g3ynh.info/zdocs/magnetics/part_1.html#3-6.2">Lundin's Handbook Formula</a>, used to obtain the field non-uniformity correction factor k<sub>L</sub>. Nonetheless, this is a state-of-the-art formulation, since alternative formulations produce even larger errors<sup>[2]</sup>. <em>The discontinuity in calculated inductances appears only around &#8467;&nbsp;=&nbsp;D. It is only pronounced when the sum (k<sub>s</sub>&nbsp;+&nbsp;k<sub>m</sub>) is relatively small in comparison to k<sub>L</sub>; i.e. for really thick, closed-spaced turns.</em> However, even then, the error in calculated inductances amounts to only approximately 0.5%.
+</p>
+
+<div id="img-right">
+<a target="_blank" href="http://www.g3ynh.info/zdocs/index.html">
+  <img src="RF-inductance_files/g3ynh_david_knight.jpg" alt="Dr. David W. Knight, G3YNH" border="0" height="162" width="155">
+</a>
+<p>Dr. David W. Knight,<br>G3YNH</p>
+</div>
+<h2>Does this calculator rely on any empirical data?</h2>
+<p>
+<a target="_blank" href="http://www.g3ynh.info/zdocs/magnetics/part_1.html">David Knight's empirical formula</a><sup>[2]</sup> is employed to determine the round wire mutual-inductance correction factor k<sub>m</sub>, whereas <em>the proximity factor &#934;, used for calculating the AC resistance of the coil,</em> is interpolated from <a target="_blank" href="http://hamwaves.com/antennas/inductance/medhurst.zip">Medhurst's table of experimental data</a><sup>[2,3]</sup>.
+</p>
+
+<h2>How is the effecitve diameter D<sub>eff</sub> related to the proximity factor &#934;?</h2>
+<p class="list">
+Other inductor calculators typically employ the mean and inner physical 
+diameters (respectively: D and D-d) to bracket the inductance of the 
+coil between two widely-spaced theoretical limits<sup>[2]</sup>. However, it has often been alluded that the actual effective diameter D<sub>eff</sub> of a coil aught to be linked to the proximity factor &#934;. In order to do away with the ambiguity of an inductance range result, <em><a target="_blank" href="http://hamwaves.com/antennas/inductance/effective_diameter.pdf">a new formula</a> [PDF] (Stroobandt's formula?) is deduced in which the effective diameter D<sub>eff</sub> is a mere function of the proximity factor &#934;.</em> As a result of this effort, this inductance calculator will return only a single value of inductance.
+</p>
+<p class="caption-center-bottom">
+<img src="RF-inductance_files/eff_diameter.png" alt="The effective diameter" border="0" height="229" width="587">
+<br>the effective diameter and its relation to the proximity factor &#934;
+</p>
+<p>
+Although being more determined than effective diameter bracketing, 
+inductance calculations based on this formula remain approximative for 
+two reasons:
+</p><ol>
+	<li>As is the case with diameter bracketing, this formula equally 
+assumes that current under the proximity effect will quench while 
+retaining a circular transversal distribution. This is most probably not
+ the case.</li>
+	<li>As with diameter bracketing, the formula does not take into account
+ frequency-dependent disturbances of the transversal current 
+distribution, such as the skin effect.</li>
+</ol>
+
+<p>
+These transversal current distribution disturbances which are not 
+accounted for, may move the current centre further inward thereby 
+reducing the effective diameter and the resulting inductance even more. 
+The inductance obtained by this calculator will therefore be slightly 
+overstated. Nonetheless, the result will be in most cases more accurate 
+and certainly less ambiguous than the theoretical extremes (or average 
+of these) given by other inductance calculators.
+</p>
+
+<a name="tesla_coil">
+</a><h2><a name="tesla_coil">The inductance, and hence the Q-factor, near resonance are enormous;
+<br>Can this be right?</a></h2>
+<p>
+<a name="tesla_coil">As explained before, the correct way to see an 
+inductor is as a helical waveguide, short-circuited at one end (because 
+it is assumed to be fed with a voltage-source). At any frequency, the 
+axial propagation factor &#946; and the characteristic impedance Z<sub>c</sub> of an equivalent transmission line can be determined.
+</a></p>
+<p>
+<a name="tesla_coil">The input impedance seen at the other end will be a
+ tangential function of the coil's electrical length. Therefore, when 
+the electrical length approaches a quarter wave length or &#928;/2 rad, the 
+resulting input impedance, and hence inductance, will be extremely high.
+</a></p>
+<p>
+<a name="tesla_coil"><em>A Tesla coil makes intelligent use of this phenomenon to produce extremely high voltages in the range of several hundreds of kV.<sup>[1]</sup></em>
+Inductance calculators that do not show this real-world behaviour are based on geometrical formulas.
+</a></p>
+<p class="caption-center-bottom">
+<a name="tesla_coil"><img src="RF-inductance_files/tesla_coil_breakdown.jpg" alt="tesla coil breakdown" border="0" height="206" width="587">
+<br>voltage-breakdown of the air at one end of a Tesla coil
+</a></p>
+
+<h2><a name="tesla_coil">The calculated inductance is negative;
+<br>Can this be right?</a></h2>
+<p><a name="tesla_coil">You are operating the coil above its first self-resonant frequency. <em>A
+ coil with an electrical length in-between 90° and 180° (and odd 
+multiples of this) will behave like a capacitor instead of an inductor.</em>
+ This is once more an indication that the first self-resonance of a coil
+ is in fact a parallel resonance. Because of its capacitive behaviour, 
+the coil's inductance will be stated as negative in this range.</a></p>
+
+<h2><a name="tesla_coil">Stray capacitance is much higher than that of other calculators;
+<br>Can this be right?</a></h2>
+<p>
+<a name="tesla_coil"><em>The concept of stray capacitance is what it is;
+ a correction element in a coil's lumped circuit equivalent in order to 
+deal with the frequency-independency of the inferior geometrical 
+inductance formula.<sup>[1]</sup></em>
+</a></p>
+<p>
+<a name="tesla_coil">By employing helical waveguide-based formulas, the 
+present calculator performs much better in estimating inductances at 
+high frequencies. Therefore, it knows it needs to compensate the lumped 
+circuit equivalent even more than others calculators do and does so by 
+stating higher values for C<sub>L,s</sub>.
+</a></p>
+<p>
+<a name="tesla_coil">At the end of the day, one can really better do 
+away with the old-fashioned concept of lumped circuit equivalent and 
+instead focus on the <em>effective</em> values of inductance, reactance,
+ series resistance and unloaded Q at the design frequency, values which 
+this calculator evidently delivers.
+</a></p>
+
+<h2><a name="tesla_coil">What is the problem with designing coils using EZNEC?</a></h2>
+<p class="list">
+<a name="tesla_coil">The pragmatists among us would probably like to employ
+</a><a target="_blank" href="http://hamwaves.com/antennas/modelling.html#eznec">EZNEC</a>,
+ an antenna modelling program, which allows you to define in a very 
+user-friendly way helical coil structures. However, this valuable method
+ is not without its pitfalls:
+</p><div id="img-right">
+	<img src="RF-inductance_files/eznec_coil.png" alt="An EZNEC model of a helical coil" border="0" height="264" width="276">
+	<p>EZNEC coil model</p>
+</div>
+<ul>
+	<li>Coils in EZNEC are in fact defined as polyline structures. <em>The projected polygon of the polyline should have the same area as the projected circle of the real helical coil.</em> I will leave it up to the reader to do this trigonometric calculation.</li>
+	<li>The more segments in the polyline, the more accurate the model would respresent the real helical coil. However, <em>EZNEC has a lower limit for the segment length which is proportional to the wavelength.</em></li>
+	<li>With respect to the two previous points, <em>it is quite cumbersome to optimise a coil design using EZNEC.</em></li>
+</ul>
+In practice, it is often much easier, quicker and more accurate to 
+resort to the above calculator instead of creating a geometrical EZNEC 
+coil model. <em>Once the results are obtained from the calculator, the 
+coil can be easily modeled as a Laplace load within any EZNEC antenna 
+model.</em>
+
+
+<div id="ref">
+<h1>References</h1>
+<ol>
+<li>Corum K. L. and Corum J. F., "<a target="_blank" href="http://hamwaves.com/antennas/inductance/corum.pdf">RF coils, helical resonators and voltage magnification by coherent spatial modes</a>," <i>Microwave Review</i>, IEEE, Vol. 7, No. 2, Sep. 2001, pp. 36-45</li>
+<li>Knight David W., G3YNH, "Inductors and transformers," <i>From Transmitter to Antenna</i>, <a target="_blank" href="http://www.g3ynh.info/zdocs/magnetics/part_1.html">http://www.g3ynh.info/zdocs/magnetics/part_1.html</a></li>
+<li>Medhurst R. G., "<a target="_blank" href="http://hamwaves.com/antennas/inductance/medhurst.zip">H.F. resistance and self-capacitance of single-layer solenoids</a>," <i>Wireless Engineer</i>, Feb. 1947, pp. 35-43 &amp; Mar. 1947 pp. 80-92</li>
+<li>Lundin R., "A handbook formula for the inductance of a single-layer circular coil," <i>Proc. IEEE</i>, Vol. 73, No. 9, Sep. 1985, pp.1428-1429.</li>
+<li>Rosa E. B., <i>Bulletin of the Bureau of Standards</i>, Vol. 2, 1906, pp. 161-187</li>
+<li>Rosa E. B. and Grover F. W., <a target="_blank" href="http://www.g3ynh.info/zdocs/refs/Rosa-Grover1911/Contents.html">Formulas and Tables for the Calculation of Mutual and Self Induction</a>," [Revised], <i>Bulletin of the Bureau of Standards</i>, Vol. 8, No. 1, 1911, p. 122</li>
+<li>Grover F. W., <i>Inductance Calculations: Working Formulas and Tables</i>, 1946 &amp; 1973, Dover Phoenix Edition, 2004, p. 150</li>
+<li>Collin Robert E., <a target="_blank" href="http://eu.wiley.com/WileyCDA/WileyTitle/productCd-0780360311,miniSiteCd-IEEE2,descCd-authorInfo.html"><i>Foundations for Microwave Engineering</i></a>, 2<sup>nd</sup> Edition, pp. 580-583</li>
+<li>Meyer Hank, W6GGV, "Accurate single-layer-solenoid inductance calculations," <a target="_blank" href="http://www.arrl.org/qst/"><i>QST</i></a>, April 1992, pp. 76-77</li>
+<li>Meyer Hank, W6GGV, "Corrections to accurate single-layer solenoid inductance calculations," <a target="_blank" href="http://www.arrl.org/qst/"><i>QST</i></a>, July 1992, p. 73</li>
+<li>Dekker T. J., "<a target="_blank" href="http://www.netlib.org/slatec/src/fzero.f">FZERO.F</a>", <i>SLATEC Common Mathematical Library</i>, Version 4.1, July 1993, http://www.netlib.org/slatec/src/fzero.f</li>
+</ol>
+</div><!--ref-->
+
+<div id="footer">
+<script language="javascript">prev("capacitors");next("coils");</script><a href="http://hamwaves.com/antennas/capacitors.html"><img src="RF-inductance_files/prev.gif" align="left" border="0" height="52" width="225"></a>
+<a href="http://hamwaves.com/antennas/coils.html"><img src="RF-inductance_files/next.gif" align="right" border="0" height="52" width="225"></a>
+<div id="translator"><script src="RF-inductance_files/ifr"></script></div>
+
+</div><!--footer-->
+
+
+</div><!--main-->
+</div><!--container-->
+</body></html>

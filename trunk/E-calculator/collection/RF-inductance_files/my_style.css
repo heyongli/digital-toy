@@ -1,0 +1,718 @@
+/*GENERAL*/
+
+
+BODY {
+	background: #ffffff url(background.gif);
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-size: 11pt;
+	color: #003366
+} 
+
+#container {
+	width: 760px; /*760px for all browsers, at least 10px more for MSIE <= 6, otherwise #main will not fit*/
+	margin: 0px auto;
+}
+
+A:link {color: #0000ff}
+
+A:active {color: #ff3300}
+
+A.none {text-decoration: none}
+
+P {text-align: justify}
+
+.center {text-align: center}
+
+.left {text-align: left}
+
+.right {text-align: right}
+
+.bold {font-weight: bold}
+
+.small {font-size: 9pt}
+
+.small_bold {
+	font-size: 8pt !important;
+	font-weight: bold;
+}
+
+.middle {vertical-align: middle}
+
+.times {font-family: times !important}
+
+
+/*COLOURS*/
+
+
+.steelblue {color: #003366}
+
+.yellow {background: #ffcc33}
+
+.orange {background: #ff9900}
+
+.brown {background: #660000}
+
+.white {background: #ffffff}
+
+.grey {color: #808080}
+
+.red {color: #cc0000}
+
+
+/*HEADER*/
+
+
+#header {
+	margin-top: 10px;
+	width: 760px;
+	overflow: visible;
+}
+
+#header P {
+	text-align: center;
+	vertical-align: middle;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	font-style: italic;
+	font-size: x-large;
+	overflow: visible;
+}
+
+
+/*SUBHEADER*/
+
+
+#subheader {
+	clear: both;
+	width: 760px;
+	height: 45px;
+	margin-top: 10px;
+}
+
+#subheader #best_viewed {
+	height: 45px;
+	margin-left: 10px;
+	font-weight: bold;
+	color: #545454;
+	float: left;
+}
+
+#subheader #best_viewed #img-left {
+	float: left;
+	margin-right: 10px;
+}
+
+#subheader #best_viewed #img-left P {
+	margin-top: 0em;
+	margin-left: 0px;
+	margin-bottom: 0em;
+	text-align: left;
+	font-size: 9pt;
+}
+
+#subheader #best_viewed #donation {
+	width: 128px;
+	background: #003366;
+	color: #ffffff;
+	font-size: 8pt;
+	font-weight: bold;
+	float: left;
+}
+
+#subheader #best_viewed #donation P{
+	margin: 2px;
+	text-align: center;
+	font-family: arial, helvetica, sans-serif;
+	font-size: 8pt;
+}
+
+#subheader #best_viewed #donation FORM{
+	margin: 2px;
+}
+
+#subheader #best_viewed #donation INPUT{
+	margin-top: 0px;
+	margin-left: 7px;
+	margin-bottom: 0px;
+}
+
+#subheader #best_viewed #donation IMG{
+	margin: 0px;
+}
+
+#subheader #counter {
+	margin-left: 10px;
+	margin-right: 10px;
+	font-size: 9pt;
+	text-align: center;
+	float: right;
+}
+
+#subheader #counter TABLE {
+ 	display: inline;
+}
+
+/*TOC*/
+
+
+#toc {
+	width: 143px;
+	margin-top: 10px;
+	margin-left: 10px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	clear: both;
+	float: left;
+}
+
+#toc A {text-decoration: none}
+
+#toc A:hover {color: #ff3300}
+
+#toc A.current {color: #ff3300}
+
+#toc P {
+	text-align: left;
+	margin-bottom: 0;
+}
+
+#toc UL {
+	margin-top: 0em;
+	padding-left: 0em;
+	margin-left: 1.5em;
+	margin-bottom: 0.25em;
+}
+
+#toc LI {
+	margin-top: 0.3em;
+}
+
+#toc #donation {
+	width: 128px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	background: #003366;
+	color: #ffffff;
+	font-size: 9pt !important;
+	font-weight: bold;
+	float: left;
+}
+
+#toc #donation P{
+	margin: 2px;
+	text-align: center;
+	font-family: arial, helvetica, sans-serif;
+	font-size: 8pt;
+}
+
+#toc #donation FORM{
+	margin: 2px;
+}
+
+#toc #donation INPUT{
+	margin-top: 0px;
+	margin-left: 7px;
+	margin-bottom: 0px;
+}
+
+#toc #donation IMG{
+	margin: 0px;
+}
+
+#toc #advertisement {
+	margin-bottom: 20px; /*Opera*/
+	float: left !important;
+	overflow: hidden !important;
+}
+
+
+/*MAIN*/
+
+
+#main {
+	width: 587px; /*587px*/
+	margin-top: 10px;
+	margin-left: 10px;
+	margin-right: 10px;
+	float: left;
+	overflow: visible; /*bug in MSIE 6, see my_lib.js for solution*/
+}
+
+#main .top {margin-top: 0px !important}
+
+#main H1 {
+	font-family: arial, helvetica, sans-serif;
+	font-size: large;
+	margin-top: 2em;
+}
+
+#main H2 {
+	font-family: arial, helvetica, sans-serif;
+	font-size: medium;
+	margin-top: 2em;
+	text-decoration: none;
+}
+
+#main H2 A {text-decoration: none}
+
+#main H3 {
+	font-family: arial, helvetica, sans-serif;
+	font-size: 11pt;
+	margin-top: 1.5em;
+	text-decoration: none;
+}
+
+#main H3 A {text-decoration: none}
+
+#main EM {
+	font-style: normal;
+	background-color: #ffff33;
+}
+
+#main BLOCKQUOTE {
+	font-style: italic;
+	font-weight: bold;
+	text-align: justify;
+}
+
+#main P.quote {
+	text-align: right;
+	font-weight: bold;
+}
+
+#main P B A {
+	text-decoration: none;
+}
+
+#main SUP {
+	font-weight: normal !important;
+}
+
+
+
+/*LISTS*/
+
+
+#main P.list {
+	margin-bottom: 0em;
+}
+
+#main UL {
+	margin-top: 0em;
+	margin-bottom: 1em;
+}
+
+#main OL {
+	margin-top: 0em;
+	margin-bottom: 1em;
+}
+
+#main LI {
+	margin-top: 0.3em;
+	text-align: justify;
+}
+
+#main #ref {
+	margin-top: 0em;
+	margin-bottom: 1em;
+}
+
+#main #ref LI {
+	text-align: left;
+	font-size: 10pt;
+}
+
+#main APPLET {margin-bottom: 11pt}
+
+
+/*IMAGES*/
+
+#main P.img-caption {
+	margin-top: 0.25em;
+	font-size: 8pt;
+	font-weight: bold;
+	text-align: justify;
+}
+
+#main P.caption-center-top {
+	margin-bottom: 5em;
+	text-align: center;
+	font-size: 8pt;
+	font-weight: bold;
+}
+
+#main P.caption-center-top IMG{
+	margin-top: 0.25em;
+}
+
+#main P.caption-center-bottom {
+	margin-top: 0.25em;
+	text-align: center;
+	font-size: 8pt;
+	font-weight: bold;
+}
+
+#main P.caption-center-bottom IMG{
+	margin-bottom: 0.25em;
+}
+
+#main P.caption-left-bottom {
+	margin-top: 0.25em;
+	text-align: left;
+	font-size: 8pt;
+	font-weight: bold;
+}
+
+#main P.caption-right-bottom {
+	margin-top: 0.25em;
+  text-align: right;
+	font-size: 8pt;
+	font-weight: bold;
+}
+
+#main #img-left {
+	float: left;
+	margin-top: 0.25em;
+	margin-right: 5px;
+}
+
+#main #img-left P {
+	margin-top: 0.25em;
+	margin-bottom: 0px;
+	text-align: center;
+	font-size: 8pt;
+	font-weight: bold;
+}
+
+#main #img-left A {text-decoration:none}
+
+#main #img-right {
+	float: right;
+	margin-top: 0.25em;
+	margin-left: 5px;
+}
+
+#main #img-right P {
+	margin-top: 0.25em;
+	margin-bottom: 0px;
+	text-align: center;
+	font-size: 8pt;
+	font-weight: bold;
+}
+
+#main #img-right A {text-decoration:none}
+
+#main #img-center {
+	margin-top: 0.25em;
+	margin-bottom: 1em;
+}
+
+#main #img-center P {
+	margin-top: 0.25em;
+	margin-bottom: 0px;
+	text-align: center;
+	font-size: 8pt;
+	font-weight: bold;
+}
+
+#main #img-center A {text-decoration:none}
+
+
+/*DEFINITION LISTS*/
+
+#main DT {
+	margin-top: 0px !important;
+	text-decoration: none !important;
+	font-size: large;
+}
+
+
+#main DT A {text-decoration: none}
+
+
+/*TABLES*/
+
+
+#main #table-left {
+	float: left;
+	margin-top: 0px;
+	margin-right: 5px;
+}
+
+#main #table-right {
+	float: right;
+	margin-top: 0px;
+	margin-left: 5px;
+}
+
+#main P.table-caption {
+	margin-top: 0em;
+	font-size: 8pt;
+	font-weight: bold;
+	text-align: justify;
+}
+
+#main TD {
+	font-size: 11pt;
+}
+
+#main TD SMALL{
+	font-size: 7pt;
+}
+
+#main TD A {
+	text-decoration: none;
+}
+
+.head_light {
+	background: #ffcc33;
+	color: #660000;
+	font-weight: bold;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.head_dark {
+	background: #660000;
+	color: #ffcc33;
+	font-weight: bold;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.head_steelblue {
+	background: #003366;
+	color: #ffffff;
+	font-weight: bold;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.clear {
+	font-weight: bold;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.light {
+	background: #ffcc33;
+	font-weight: bold;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.dark {
+	background: #ff9900;
+	font-weight: bold;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.steelblue {
+	background: #003366;
+	color: #ffffff;
+	font-weight: bold;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+/*CALCULATOR*/
+
+
+#main #calculator {
+	text-align: left;
+	font-size: 9pt !important;
+	font-weight: bold;
+}
+
+#main #calculator #enter {
+	padding: 10px;
+	background: #ffcc33;
+}
+
+#main #calculator #results_dark {
+	padding: 10px;
+	background: #ff9900;
+}
+
+#main #calculator #results_light {
+	padding: 10px;
+	background: #ffcc33;
+}
+
+#main #calculator P{
+	margin-top: 0em;
+}
+
+#main #calculator EM {
+	background: #ffcc33;
+	font-weight: bold;
+	color: #cc0000;
+}
+
+#main #calculator TD{
+	padding: 5px;
+	font-size: 9pt !important;
+}
+
+#main #calculator TD.ruler{
+	padding: 0px;
+	height: 1px;
+	background: #003366;
+}
+
+#main #calculator TD.comment{
+	text-align: left !important;
+}
+
+#main #calculator TD:first-child {
+	text-align: right;
+	padding-right: 0px;
+}
+
+#main #calculator TD:first-child + td {
+	padding-left: 0.25em;
+	white-space:nowrap;
+}
+
+
+/*SPECIAL*/
+
+
+#main #box {
+	padding: 5px;
+	margin-bottom: 15pt;
+	text-align: justify;
+	background: #ffcc33;
+}
+
+#main #box P {
+	margin-top: 0pt;
+}
+
+#main #box EM {
+	background: #ffcc33;
+	font-weight: bold;
+}
+
+#main #howto {
+	padding: 5px;
+	margin-left: 88px;
+	margin-bottom: 15pt;
+	text-align: justify;
+	background: #ffcc33;
+}
+
+#main #howto P {
+	margin-top: 0pt;
+}
+
+#main #howto EM {
+	background: #ffcc33;
+	font-weight: bold;
+}
+
+#main #weird {
+	padding: 5px;
+	margin-left: 69px;
+	text-align: justify;
+	background: #ffcc33;
+}
+
+#main #weird P {
+	margin-top: 0pt;
+}
+
+#main #weird EM {
+	background: #ffcc33;
+	font-weight: bold;
+}
+
+#main #tap-tap {
+	padding: 5px;
+	margin-left: 44px;
+	text-align: justify;
+	background: #ffcc33;
+}
+
+#main #tap-tap P {
+	margin-top: 0pt;
+}
+
+#main #tap-tap EM {
+	background: #ffcc33;
+	font-weight: bold;
+}
+
+#main #tap-tap EM A{
+	text-decoration: none;
+}
+
+#main #ebook {
+	width: 29em;
+	padding: 5px;
+	border: #003366 1px solid;
+	text-decoration: none;
+}
+
+#main #author {
+	width: 29em;
+	margin-bottom: 1em;
+	text-align: right;
+	font-style: italic;
+}
+
+#main #email {
+	padding-top: 1em;
+	padding-left: 5em;
+	padding-right: 3em;
+	padding-bottom: 1em;
+	font-family: Courier;
+	font-size: 12pt;
+}
+
+#main #dos {
+	width: 587px;
+	background: #003366;
+	padding-left: 1em;
+	padding-right: 1em;
+	color: #ffffff;
+	font-weight: bold;
+}
+
+#main #big {
+	margin: 12pt;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	font-style: italic;
+	font-size: 48pt;
+	text-align: center;
+	float: left;
+}
+
+#main #big A {
+	color: #cc0033;
+	text-decoration: none;
+}
+
+#main IFRAME {
+	background-color: #ffffff;
+}
+
+
+/*FOOTER*/
+
+
+#main #footer {
+	margin-top: 2em;
+	padding-top: 2em;
+	padding-bottom: 60%;
+	font-size: small;
+	clear: both;
+}
+
+#main #footer #translator {
+	padding-top: 2em;
+  padding-left: 211px;
+	clear: both;
+}
+
+
+/*UTILITY
+	border-top: #bbb 1px solid;
+	border-bottom: #bbb 1px solid;
+	border: #bbb 1px solid;
+*/
