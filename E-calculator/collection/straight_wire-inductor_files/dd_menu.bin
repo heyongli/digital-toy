@@ -1,0 +1,503 @@
+/***********************************************
+* AnyLink Drop Down Menu- ? Dynamic Drive (www.dynamicdrive.com)
+* This notice MUST stay intact for legal use
+* Visit http://www.dynamicdrive.com/ for full source code
+***********************************************/
+
+//**************************************************************************
+// We need two arrays of links for each main menu item. One link is used from
+// the web pages in the web sites base directory. The other is used when you
+// are in one of the major menu items and the references need to be local to
+// that directory.
+//**************************************************************************
+
+//Contents for menu 1 - Resistor Index
+var resistors_base=new Array()
+resistors_base[0]='<table border=0 cellpadding=5 width=100%><TR><td class=std_10>\
+ <a href="Electronic_Notebook/resistors/resistors.html">&nbsp;<B>Basic Resistors</B></a><br>'
+resistors_base[1]='<a href="Electronic_Notebook/resistors/ohmslaw.html">&nbsp;<B>Ohms Law</B></a><br>'
+resistors_base[2]='<a href="Electronic_Notebook/resistors/kirchhoff_law.html">&nbsp;<B>Kirchhoffs Law</B></a><br>'
+resistors_base[3]='<a href="Electronic_Notebook/resistors/precires.html">&nbsp;<B>Precision Resistors</B></a><br>\
+ </table>'
+
+var resistors_local=new Array()
+resistors_local[0]='<table border=0 cellpadding=5 width=100%><TR><td class=std_10>\
+ <a href="../resistors/resistors.html">&nbsp;<B>Basic Resistors&nbsp;</B></a><br>'
+resistors_local[1]='<a href="../resistors/ohmslaw.html">&nbsp;<B>Ohms Law&nbsp;</B></a><br>'
+resistors_local[2]='<a href="../resistors/kirchhoff_law.html">&nbsp;<B>Kirchhoffs Law&nbsp;</B></a><br>'
+resistors_local[3]='<a href="../resistors/precires.html">&nbsp;<B>Precision Resistors&nbsp;</B></a><br>\
+ </table>'
+
+var capacitors_base=new Array()
+capacitors_base[0]='<table border=0 cellpadding=5 width=100%><TR><td class=std_10>\
+ <a href="Electronic_Notebook/capacitors/capacitors.html">&nbsp;<B>Basic Capacitors</B></a><br>'
+capacitors_base[1]='<a href="Electronic_Notebook/capacitors/plate_caps.html">&nbsp;<B>Plate Capacitors</B></a><br>'
+capacitors_base[2]='<a href="Electronic_Notebook/capacitors/coaxial_cable.html">&nbsp;<B>Cylindrical Capacitors</B></a><br>\
+ </table>'
+
+var capacitors_local=new Array()
+capacitors_local[0]='<table border=0 cellpadding=5 width=100%><TR><td class=std_10>\
+ <a href="../capacitors/capacitors.html">&nbsp;<B>Basic Capacitors</B></a><br>'
+capacitors_local[1]='<a href="../capacitors/plate_caps.html">&nbsp;<B>Plate Capacitors</B></a><br>'
+capacitors_local[2]='<a href="../capacitors/coaxial_cable.html">&nbsp;<B>Cylindrical Capacitors</B></a><br>\
+ </table>'
+
+var inductors_base=new Array()
+inductors_base[0]='<table border=0 cellpadding=5 width=100%><TR><td class=std_10>\
+ <a href="Electronic_Notebook/inductors/coildsgn.html">&nbsp;<B>Air-Core Inductor Design</B></a><br>'
+inductors_base[1]='<a href="Electronic_Notebook/inductors/coil_ind_calc.html">&nbsp;<B>Air-Core Inductor Calculator</B></a><br>'
+inductors_base[2]='<a href="Electronic_Notebook/inductors/straight_wire.html">&nbsp;<B>Inductance of Straight Wire</B></a><br>'
+inductors_base[3]='<a href="Electronic_Notebook/inductors/straight_grounded.html">&nbsp;<B>Inductance of Straight Wire Grounded</B></a><br>'
+inductors_base[4]='<a href="Electronic_Notebook/inductors/wire_strip.html">&nbsp;<B>Inductance of Flat Strip</B></a><br>\
+ </table>'
+
+var inductors_local=new Array()
+inductors_local[0]='<table border=0 cellpadding=5 width=100%><TR><td class=std_10>\
+ <a href="../inductors/coildsgn.html">&nbsp;<B>Air-Core Inductor Design</B></a><br>'
+inductors_local[1]='<a href="../inductors/coil_ind_calc.html">&nbsp;<B>Air-Core Inductor Calculator</B></a><br>'
+inductors_local[2]='<a href="../inductors/straight_wire.html">&nbsp;<B>Inductance of Straight Wire</B></a><br>'
+inductors_local[3]='<a href="../inductors/straight_grounded.html">&nbsp;<B>Inductance of Straight Wire Grounded</B></a><br>'
+inductors_local[4]='<a href="../inductors/wire_strip.html">&nbsp;<B>Inductance of Flat Strip</B></a><br>\
+ </table>'
+
+var power_base=new Array()
+power_base[0]='<table border=0 cellpadding=5 width=100%><TR><td class=std_10>\
+ <a href="Electronic_Notebook/power_supplies/unreg_ps.html">&nbsp;<B>Unregulated Power Supply</B></a><br>'
+power_base[1]='<a href="Electronic_Notebook/power_supplies/lm317.html">&nbsp;<B>LM317 Voltage Regulator</B></a><br>\
+ </table>'
+
+var power_local=new Array()
+power_local[0]='<table border=0 cellpadding=5 width=100%><TR><td class=std_10>\
+ <a href="../power_supplies/unreg_ps.html">&nbsp;<B>Unregulated Power Supply</B></a><br>'
+power_local[1]='<a href="../power_supplies/lm317.html">&nbsp;<B>LM317 Voltage Regulator</B></a><br>\
+ </table>'
+
+var filters_base=new Array()
+filters_base[0]='<table border=0 cellpadding=5 width=100%><TR><td class=std_10>\
+ <a href="Electronic_Notebook/filters/act_lpfil.html">&nbsp;<B>Low-Pass Active</B></a><br>'
+filters_base[1]='<a href="Electronic_Notebook/filters/act_hpfil.html">&nbsp;<B>High-Pass Active</B></a><br>'
+filters_base[2]='<a href="Electronic_Notebook/filters/act_bpfil.html">&nbsp;<B>Band-Pass Active</B></a><br></table>'
+
+var filters_local=new Array()
+filters_local[0]='<table border=0 cellpadding=5 width=100%><TR><td class=std_10>\
+ <a href="../filters/act_lpfil.html">&nbsp;<B>Low-Pass Active</B></a><br>'
+filters_local[1]='<a href="../filters/act_hpfil.html">&nbsp;<B>High-Pass Active</B></a><br>'
+filters_local[2]='<a href="../filters/act_bpfil.html">&nbsp;<B>Band-Pass Active</B></a><br></table>'
+
+var attenuators_base=new Array()
+attenuators_base[0]='<table border=0 cellpadding=5 width=100%><TR><td class=std_10>\
+ <a href="Electronic_Notebook/attenuators/t_pad.html">&nbsp;<B>T-Pad</B></a><br>'
+attenuators_base[1]='<a href="Electronic_Notebook/attenuators/h_pad.html">&nbsp;<B>H-Pad</B></a><br>\
+</table>'
+
+var attenuators_local=new Array()
+attenuators_local[0]='<table border=0 cellpadding=5 width=100%><TR><td class=std_10>\
+ <a href="../attenuators/t_pad.html">&nbsp;<B>T-Pad&nbsp;</B></a><br>'
+attenuators_local[1]='<a href="../attenuators/h_pad.html">&nbsp;<B>H-Pad&nbsp;</B></a><br>\
+</table>'
+
+var antennas_base=new Array()
+antennas_base[0]='<table border=0 cellpadding=5 width=100%><TR><td class=std_10>\
+ <!-- <a href="Electronic_Notebook/antennas/end_fed_ant.html">&nbsp;<B>Single Wire/End Fed</B></a><br> -->'
+antennas_base[1]='<a href="Electronic_Notebook/antennas/dipole.html">&nbsp;<B>Half Wave Dipole</B></a><br>'
+antennas_base[2]='<a href="Electronic_Notebook/antennas/shortant.html">&nbsp;<B>Short Dipole</B></a><br>'
+antennas_base[3]='<a href="Electronic_Notebook/antennas/shorty_40.html">&nbsp;<B>Shorty 40</B></a><br>'
+antennas_base[4]='<a href="Electronic_Notebook/antennas/folded_dipole.html">&nbsp;<B>Folded Dipole</B></a><br>'
+antennas_base[5]='<a href="Electronic_Notebook/antennas/inverted_vee.html">&nbsp;<B>Inverted-V</B></a><br>'
+antennas_base[6]='<a href="Electronic_Notebook/antennas/yagi_vhf.html">&nbsp;<B>VHF/UHF Yagi</B></a><br>'
+antennas_base[7]='<a href="Electronic_Notebook/antennas/yagi_vhf_quick.html">&nbsp;<B>VHF/UHF Yagi (Quick)</B></a><br>'
+antennas_base[8]='<a href="Electronic_Notebook/antennas/yagi_vhf_feed.html">&nbsp;<B>VHF/UHF Yagi Feed</B></a><br>\
+ </table>'
+
+var antennas_local=new Array()
+antennas_local[0]='<table border=0 cellpadding=5 width=100%><TR><td class=std_10>\
+ <!-- <a href="../antennas/end_fed_ant.html">&nbsp;<B>Single Wire/End Fed</B></a><br> -->'
+antennas_local[1]='<a href="../antennas/dipole.html">&nbsp;<B>Half Wave Dipole</B></a><br>'
+antennas_local[2]='<a href="../antennas/shortant.html">&nbsp;<B>Short Dipole</B></a><br>'
+antennas_local[3]='<a href="../antennas/shorty_40.html">&nbsp;<B>Shorty 40</B></a><br>'
+antennas_local[4]='<a href="../antennas/folded_dipole.html">&nbsp;<B>Folded Dipole</B></a><br>'
+antennas_local[5]='<a href="../antennas/inverted_vee.html">&nbsp;<B>Inverted-V</B></a><br>'
+antennas_local[6]='<a href="../antennas/yagi_vhf.html">&nbsp;<B>VHF/UHF Yagi</B></a><br>'
+antennas_local[7]='<a href="../antennas/yagi_vhf_quick.html">&nbsp;<B>VHF/UHF Yagi (Quick)</B></a><br>'
+antennas_local[8]='<a href="../antennas/yagi_vhf_feed.html">&nbsp;<B>VHF/UHF Yagi Feed</B></a><br>\
+ </table>'
+
+var projects_base=new Array()
+projects_base[0]='<table border=0 cellpadding=5 width=100%><TR><td class=std_10>\
+ <a href="Electronic_Notebook/projects/dummy_load_qrp.html">&nbsp;<B>QRP Dummy Load</B></a><br>'
+projects_base[1]='<a href="Electronic_Notebook/projects/dummy_load_130w.html">&nbsp;<B>130W Dummy Load</B></a><br>\
+</table>'
+
+var projects_local=new Array()
+projects_local[0]='<table border=0 cellpadding=5 width=100%><TR><td class=std_10>\
+ <a href="../projects/dummy_load_qrp.html">&nbsp;<B>QRP Dummy Load&nbsp;</B></a><br>'
+projects_local[1]='<a href="../projects/dummy_load_130w.html">&nbsp;<B>130W Dummy Load&nbsp;</B></a><br>\
+</table>'
+
+//**************************************************************************
+// This is where the site map info is stored. Each one must have a different
+// name and be array item [0]. Without a href built into them it fakes out
+// the menu script and just displays the data. Note that the arrays are named
+// the same as the web page it is for. This just makes it easier to find later.
+//**************************************************************************
+
+var resistors=new Array()
+resistors[0]='<table border=2 cellpadding=5><TR><td class=std_10><center><B>Basic Resistors</B></center><p align=justify>How to decode a resistor&#39;s \
+ value from the color code printed on the body, plus, calculating resistors in series and parallel.</table>'
+
+var ohmslaw=new Array()
+ohmslaw[0]='<table border=2 cellpadding=5><TR><td class=std_10><center><B>Ohm&#39;s Law</B></center><p align=justify>An introduction to Ohm&#39;s Law and the relationship \
+ between resistance, voltage, current, and power.</table>'
+
+var kirchhoff_law=new Array()
+kirchhoff_law[0]='<table border=2 cellpadding=5><TR><td class=std_10><center><B>Kirchhof&#39;s Law</B></center><p align=justify>Describes Kirchoff&#39;s first and second law, on \
+ current and voltage in a circuit.</table>'
+
+var precires=new Array()
+precires[0]='<table border=2 cellpadding=5><TR><td class=std_10><center><B>Precision Resistors</B></center><p align=justify>Calculates the value of two standard value resistors,  \
+Ra and Rb, which when connected in parallel, will result in a net resistance R that will be  \
+within very close tolerances of almost any value you want.</table>'
+
+//**************************************************************************
+
+var capacitors=new Array()
+capacitors[0]='<table border=2 cellpadding=5><TR><td class=std_10><center><B>Basic Capacitors</B></center><p align=justify>Contains equations \
+information about capacitors in series and parallel.</table>'
+
+var plate_caps=new Array()
+plate_caps[0]='<table border=2 cellpadding=5><TR><td class=std_10><center><B>Flat Plate Capacitors</B></center><p align=justify>This web page is for calculating \
+ the capacitance of 2 or more metal plates separated by an insulating material.</table>'
+
+var coaxial_cable=new Array()
+coaxial_cable[0]='<table border=2 cellpadding=5><TR><td class=std_10><center><B>Coaxial Cable and Cylindrical Capacitors</B></center> \
+ <p align=justify>This web page contains information on the capacitance of coaxial cable, \
+ in pF per foot, and equations for creating cylindrical capacitors.</table>'
+
+//**************************************************************************
+
+var inductor_design=new Array()
+inductor_design[0]='<table border=2 cellpadding=5><TR><td class=std_10> \
+<center><B>Single-Layer, Air-Core, Inductor Designer</B></center> \
+ <p align=justify>Automates the design of a \
+ Single-Layer, Air-Core, Inductor. You define the required inductance, wire \
+ type/size, etc., and the program performs the necessary calculations. Includes \
+ optomizing the design for form diameter and turns count.</table>'
+
+var inductor_calc=new Array()
+inductor_calc[0]='<table border=2 cellpadding=5><TR><td class=std_10> \
+<center><B>Single-Layer, Air-Core, Inductor Calculator</B></center> \
+<p align=justify>Estimate the inductance of a existing Single-Layer \
+ Air-Core Inductor by supplying some basic physical dimensions.</table>'
+
+var inductor_wire=new Array()
+inductor_wire[0]='<table border=2 cellpadding=5><TR><td class=std_10> \
+<center><B>Straight Wire In Free Space</B></center> \
+ <p align=justify>Calculate the Inductance of a Straight, Round, \
+ Nonmagnetic wire in Free Space.</table>'
+
+var inductor_wire_gnd=new Array()
+inductor_wire_gnd[0]='<table border=2 cellpadding=5><TR><td class=std_10> \
+<center><B>Straight Wire In Free Space, one end Grounded</B></center> \
+ <p align=justify>Well, this is just what the title says. This is very \
+ similar to the previous selection, that calculates the inductance for a \
+ Straight Wire in Free Space, except that this wire is close to a ground \
+ plane and has one end grounded to that plane.</table>'
+
+var inductor_flat=new Array()
+inductor_flat[0]='<table border=2 cellpadding=5><TR><td class=std_10> \
+<center><B>Flat Strip Over a Ground Plane</B></center><p align=justify>The Flat Strip is usually \
+ etched into a printed circuit board and the Ground Plane is usually a \
+ continuous layer of copper on the opposite side of a printed circuit board.</table>'
+
+//**************************************************************************
+
+var unreg_ps=new Array()
+unreg_ps[0]='<table border=2 cellpadding=5><TR><td class=std_10> \
+ <center><B>Unregulated Power Supply</B></center> \
+ <p align=justify> A transformer, some diodes and a couple of capacitors \
+ are all you need to make a simple Un-Regulated power supply. This supply \
+ can then be filtered using the LM317 Voltage Regulator.</table>'
+
+var lm317=new Array()
+lm317[0]='<table border=2 cellpadding=5><TR><td class=std_10> \
+ <center><B>LM317 Voltage Regulator</B></center> \
+ <p align=justify>This regulator is intended to follow the Un-Regulated \
+ power supply. This regulator provides the necessary ripple and load \
+ regulation required by more sensitive transistor circuits.</table>'
+
+//**************************************************************************
+
+var act_lpfil=new Array()
+act_lpfil[0]='<table border=2 cellpadding=5><TR><td class=std_10> \
+ <center><B>Low-Pass Active Filter</B></center> \
+ <p align=justify>Develop Second-Order and/or Fourth-Order Multiple Feedback \
+ (MFB) and Voltage Controlled Voltage Source (VCVS) Low-Pass Active Filters for \
+ the audio range.</table>'
+
+var act_hpfil=new Array()
+act_hpfil[0]='<table border=2 cellpadding=5><TR><td class=std_10> \
+ <center><B>High-Pass Active Filter</B></center> \
+ <p align=justify>Develop Second-Order and/or Fourth-Order Multiple Feedback \
+ (MFB) and Voltage Controlled Voltage Source (VCVS) High-Pass Active Filters for \
+ the audio range.</table>'
+
+var act_bpfil=new Array()
+act_bpfil[0]='<table border=2 cellpadding=5><TR><td class=std_10> \
+ <center><B>Band-Pass Active Filter</B></center> \
+ <p align=justify>Develop Second-Order (MFB) and Voltage Controlled Voltage Source \
+ (VCVS) Band-Pass Active Filters for the audio range.</table>'
+
+var xx1=new Array()
+xx1[0]='<table border=2 cellpadding=5><TR><td class=std_10> \
+ <center><B>Op-Amp Basics</B></center> \
+ <p align=justify>Simple descriptions of Operational Amplifiers and it various \
+ amplifier circuit structures. Includes my own ideas on how a Operational \
+ Amplifier works</table>'
+
+var xx2=new Array()
+xx2[0]='<table border=2 cellpadding=5><TR><td class=std_10> \
+ <center><B>Op-Amp Power and Biasing</B></center> \
+ <p align=justify>Contails a description of Operational Amplifier power requirements \
+ and variations you can use to fit them into your existing circuits</table>'
+
+//**************************************************************************
+
+var t_pad=new Array()
+t_pad[0]='<table border=2 cellpadding=5><TR><td class=std_10> \
+ <center><B>T-Pad Attenuators</B></center> \
+ <p align=justify>Design considerations and equations for \
+ T-Pad Attenuators. \
+ </table>'
+
+var h_pad=new Array()
+h_pad[0]='<table border=2 cellpadding=5><TR><td class=std_10> \
+ <center><B>H-Pad Attenuators</B></center> \
+ <p align=justify>Design considerations and equations for \
+ H-Pad Attenuators. \
+ </table>'
+
+//**************************************************************************
+
+var end_fed=new Array()
+end_fed[0]='<table border=2 cellpadding=5><TR><td class=std_10> \
+ <center><B>Single Wire/End Fed Antenna</B></center> \
+ <p align=justify>Project that looks into the construction and use of \
+   a Single Wire/End Fed Antenna. It contains recommended lengths, tuner usage, \
+	 and general observations.\
+ </table>'
+
+var dipole=new Array()
+dipole[0]='<table border=2 cellpadding=5><TR><td class=std_10> \
+ <center><B>Center-Fed Half-Wave Dipole</B></center> \
+ <p align=justify>Probably the simplest of the single band \
+ wire antennas. Easy to construct and setup. A wire length calculator is \
+ included that should minimize any pruning.</table>'
+
+var shortant=new Array()
+shortant[0]='<table border=2 cellpadding=5><TR><td class=std_10> \
+ <center><B>Electrically Short Center-Fed Dipole</B></center> \
+ <p align=justify>If you don\'t have the space for a full \
+ size dipole you may want to try shortening it with a loading coil. \
+ It won\'t be as efficient as a full size dipole but it should still \
+ work fine and give you plenty of contacts.</table>'
+
+var shorty_40=new Array()
+shorty_40[0]='<table border=2 cellpadding=5><TR><td class=std_10> \
+ <center><B>Shorty 40</B></center> \
+ <p align=justify> 40 Meter dipole, \
+ originally described by Jact Sobel, W5VM, that fits into the space of \
+ a 20 Meter dipole.</table>'
+
+var folded_dipole=new Array()
+folded_dipole[0]='<table border=2 cellpadding=5><TR><td class=std_10> \
+ <center><B>Folded Dipole</B></center> \
+ <p align=justify>Similar in appearance to the Half-Wave \
+ dipole, this configuration can give you wider band coverage and higher \
+ feed impedances.</table>'
+
+var inverted_vee=new Array()
+inverted_vee[0]='<table border=2 cellpadding=5><TR><td class=std_10> \
+ <center><B>Inverted-V Antenna</B></center> \
+ <p align=justify>When you don\'t have the room for a full \
+ size dipole or need to minimize supports, this may be the antenna for \
+ you.</table>'
+
+var yagi_vhf=new Array()
+yagi_vhf[0]='<table border=2 cellpadding=5><TR><td class=std_10> \
+ <center><B>VHF/UHF Yagi Antenna Design</B></center> \
+ <p align=justify>High Gain (11.8 to 21.6 dBd)/Long Boom Yagi \
+ (2.2 to 39 wavelengths) antennas.</table>'
+
+var yagi_vhf_quick=new Array()
+yagi_vhf_quick[0]='<table border=2 cellpadding=5><TR><td class=std_10> \
+ <center><B>VHF/UHF Yagi Antenna Quick Design</B></center> \
+ <p align=justify>The same design program as the <B>VHF/UHF Yagi Antenna Design</B>, \
+ but without all the rhetoric. One page has everything.</table>'
+
+var yagi_vhf_feed=new Array()
+yagi_vhf_feed[0]='<table border=2 cellpadding=5><TR><td class=std_10> \
+ <center><B>Yagi Folded Dipole Feed</B></center> \
+ <p align=justify>A description of the <B>Folded Dipole</B> feed intended \
+ for the Yagi Design program above.</table>'
+
+//**************************************************************************
+
+var dummy_load_qrp=new Array()
+dummy_load_qrp[0]='<table border=2 cellpadding=5><TR><td class=std_10> \
+ <center><B>QRP Dummy Load</B></center> \
+ <p align=justify>Design and construction details for a QRP (5 Watt) Dummy Load \
+ with Peak Detector for power measurements. \
+ </table>'
+
+var dummy_load_130w=new Array()
+dummy_load_130w[0]='<table border=2 cellpadding=5><TR><td class=std_10> \
+ <center><B>130W Dummy Load</B></center> \
+ <p align=justify>Design and construction details for a 130 Watt Dummy load made \
+ from easy to obtain materials and easy to construct. \
+ </table>'
+
+//**************************************************************************
+//
+//**************************************************************************
+
+var menuwidth='165px' //default menu width
+var menubgcolor='#C6F7BD'  //menu bgcolor
+var disappeardelay=250  //menu disappear speed onMouseout (in miliseconds)
+var hidemenu_onclick="yes" //hide menu when user clicks within menu?
+
+/////No further editting needed
+
+var ie4=document.all
+var ns6=document.getElementById&&!document.all
+
+if (ie4||ns6)
+document.write('<div id="dropmenudiv" style="visibility:hidden;width:'+menuwidth+';background-color:'+menubgcolor+'" onMouseover="clearhidemenu()" onMouseout="dynamichide(event)"></div>')
+
+function getposOffset(what, offsettype){
+   var totaloffset=(offsettype=="left")? what.offsetLeft : what.offsetTop;
+   var parentEl=what.offsetParent;
+   while (parentEl!=null){
+      totaloffset=(offsettype=="left")? totaloffset+parentEl.offsetLeft : totaloffset+parentEl.offsetTop;
+      parentEl=parentEl.offsetParent;
+      }
+   return totaloffset; }
+
+function showhide(obj, e, visible, hidden, menuwidth){
+   if (ie4||ns6)
+      dropmenuobj.style.left=dropmenuobj.style.top=-500
+   if (menuwidth!=""){
+      dropmenuobj.widthobj=dropmenuobj.style
+      dropmenuobj.widthobj.width=menuwidth
+      }
+   if (e.type=="click" && obj.visibility==hidden || e.type=="mouseover")
+      obj.visibility=visible
+   else if (e.type=="click")
+      obj.visibility=hidden
+}
+
+function iecompattest(){
+return (document.compatMode && document.compatMode!="BackCompat")? document.documentElement : document.body
+}
+
+function clearbrowseredge(obj, whichedge){
+   var edgeoffset=0
+   if (whichedge=="rightedge"){
+      var windowedge=ie4 && !window.opera? iecompattest().scrollLeft+iecompattest().clientWidth-15 : window.pageXOffset+window.innerWidth-15
+      dropmenuobj.contentmeasure=dropmenuobj.offsetWidth
+      if (windowedge-dropmenuobj.x < dropmenuobj.contentmeasure)
+      edgeoffset=dropmenuobj.contentmeasure-obj.offsetWidth
+      }
+   else{
+      var windowedge=ie4 && !window.opera? iecompattest().scrollTop+iecompattest().clientHeight-15 : window.pageYOffset+window.innerHeight-18
+      dropmenuobj.contentmeasure=dropmenuobj.offsetHeight
+      // This if statement was modified to adjust the Y offset
+      // when you got near the bottom of the page
+      if (windowedge-dropmenuobj.y < dropmenuobj.contentmeasure)
+      edgeoffset=dropmenuobj.contentmeasure-obj.offsetHeight
+//      edgeoffset=dropmenuobj.contentmeasure-27
+//      edgeoffset=dropmenuobj.contentmeasure+obj.offsetHeight
+      }
+   return edgeoffset
+}
+
+function populatemenu(what){
+   if (ie4||ns6)
+      dropmenuobj.innerHTML=what.join("")
+}
+
+function dropdownmenu(obj, e, menucontents, menuwidth, location){
+   if (window.event) event.cancelBubble=true
+   else if (e.stopPropagation) e.stopPropagation()
+   clearhidemenu()
+   dropmenuobj=document.getElementById? document.getElementById("dropmenudiv") : dropmenudiv
+   populatemenu(menucontents)
+
+   if (ie4||ns6){
+      showhide(dropmenuobj.style, e, "visible", "hidden", menuwidth)
+      dropmenuobj.x=getposOffset(obj, "left")
+      dropmenuobj.y=getposOffset(obj, "top")
+
+      // This is where the x and y offsets are controlled
+      if ( location == "right" ) {
+//         if (ns6){
+//            dropmenuobj.style.left=dropmenuobj.x-clearbrowseredge(obj, "rightedge")+64+"px" }
+//         else {
+//            dropmenuobj.style.left=dropmenuobj.x-clearbrowseredge(obj, "rightedge")+128+"px" }
+         dropmenuobj.style.left=dropmenuobj.x-clearbrowseredge(obj, "rightedge")+75+"px"
+         dropmenuobj.style.top=dropmenuobj.y-clearbrowseredge(obj, "bottomedge")+obj.offsetHeight-27+"px"
+         }
+      else if ( location == "far_right" ) {
+         dropmenuobj.style.left=dropmenuobj.x-clearbrowseredge(obj, "rightedge")+200+"px"
+         dropmenuobj.style.top=dropmenuobj.y-clearbrowseredge(obj, "bottomedge")+obj.offsetHeight-27+"px"
+         }
+      else {
+         dropmenuobj.style.left=dropmenuobj.x-clearbrowseredge(obj, "rightedge")+"px"
+         dropmenuobj.style.top=dropmenuobj.y-clearbrowseredge(obj, "bottomedge")+obj.offsetHeight+3+"px"
+         }
+//      dropmenuobj.style.left=dropmenuobj.x-clearbrowseredge(obj, "rightedge")+128+"px"
+//      dropmenuobj.style.top=dropmenuobj.y-clearbrowseredge(obj, "bottomedge")+obj.offsetHeight-27+"px"
+//      dropmenuobj.style.left=dropmenuobj.x-clearbrowseredge(obj, "rightedge")+128+"px"
+//      dropmenuobj.style.top=dropmenuobj.y-clearbrowseredge(obj, "bottomedge")+obj.offsetHeight-27+"px"
+}
+
+return clickreturnvalue()
+}
+
+function clickreturnvalue(){
+   if (ie4||ns6) return false
+   else return true
+}
+
+function contains_ns6(a, b) {
+   while (b.parentNode)
+   if ((b = b.parentNode) == a)
+      return true;
+   return false;
+}
+
+function dynamichide(e){
+   if (ie4&&!dropmenuobj.contains(e.toElement))
+      delayhidemenu()
+   else if (ns6&&e.currentTarget!= e.relatedTarget&& !contains_ns6(e.currentTarget, e.relatedTarget))
+      delayhidemenu()
+}
+
+function hidemenu(e){
+   if (typeof dropmenuobj!="undefined"){
+      if (ie4||ns6)
+         dropmenuobj.style.visibility="hidden" }
+}
+
+function delayhidemenu(){
+   if (ie4||ns6)
+      delayhide=setTimeout("hidemenu()",disappeardelay)
+}
+
+function clearhidemenu(){
+   if (typeof delayhide!="undefined")
+      clearTimeout(delayhide)
+}
+
+if (hidemenu_onclick=="yes")
+   document.onclick=hidemenu
+
