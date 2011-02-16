@@ -1,0 +1,377 @@
+http://www.crystalradio.cn/bbs/viewthread.php?tid=71539&extra=&highlight=&page=1
+
+
+原文出处：http://www.sample.co.kr/sefcntr/index.htm
+
+可能替换:
+//MAR6用A08代替应该不错 A06到600M，9Ddb,A08到2G，25dB.
+//upc1651的工作频率低
+//2006.5 深圳赛格有全新的MSA01-08系列，每个3.5元>MB506
+//MSA－0886，即A08
+
+SE-FCNTR
+100兆赫频率计数器/脉冲计数器
+本机为使用8051的8位100MHz的频率计数器。
+使用Crossware 公司8051 ANSI C语言编译器（演示版）。
+无数字逻辑电路计数误差，也无软件计算误差。
+8051的时钟振荡器XTAL1频率为24MHZ
+用作自校输入时，显示数字为24000000。
+避免了1个数字的计数误差或16进制转换为十进制时的12～48个时钟周期的误差。
+脉冲计数部分的数据被送往8位LED显示器
+
+
+8051内部16比特计数器及外部12比特(其中74F161 4比特, 74HC393 8比特)共
+28 比特计数器，8位数字显示100MHz频率计数器。门控时间为1秒，显示至8位数
+99999999。
+
+
+模拟100MHz前置放大器，2.4GHz高频64分频的预分频器已制作的最少零件方案的计数器。
+
+所采用的TI公司的SN74F161为4比特计数器，最大工作频率达120MHz。
+（资料：http://www.sample.co.kr/sefcntr/sn74f161a.pdf）
+
+整套计数器的元件均采用常用易购元件
+
+硬件组成：
+SE-FCNTR是采用8051微处理器的仪器级别的频率计。
+整套仪器分为三个部分：
+100MHz数字式计数器，100MHz模拟前置放大器，2.4GHz前置64级预分频器
+数字式计数器中的微处理器采用ATMEL公司的AT89C51。
+ATMEL公司的AT89C51与市面上Intel公司的标准8051系列相同，带有4k闪存。是市面上最经济实惠的微处理器。
+8051处理器有两个内部16位计数器，
+定时器Timer0及外部计数器用作频率计数，定时器Timer1是用来产生1秒闸门时间。
+为了简化电路，数字LED显示部分，采用动态驱动电路。
+每位数字2毫秒依次顺序点亮。
+为了尽量减少频率计的组成元件数量，8051内部的16位计数器/定时器寄存器被用作频率计的计数器的一部分。
+8051定时器的最大输入频率为Xtal1频率的1/4。
+例如，如果XTAL1的时钟频率为24MHz，则最高计数频率可达6MHz。
+频率计数器，通常情况下5～6位显示已经足够了，但作为脉冲计数器，采用了8位数字显示的设计。
+为了保证8位计数的准确，必需要有一个27比特的高速计数器。
+Timer0的16位计数器及其外部74HC393的8位计数器和74161的4位计数器共同构成了一个28位计数器。
+因为2的28次幂为268435456，故足以显示数字99999999（ 8位）。
+100MHz数字脉冲计数集成电路，74系列的产品为74F161。
+各个不同的制造商所生产74F161其最高计数频率也略有不同。
+全都可以用于100MHz计数，而TI公司的SN74F161N最高计数频率可达120MHz。
+SN74F161是一个4位计数器，可用作16分频，100MHz进行16分频后为6.25MHz。
+同样，这个频率必须依靠其它计数器进行计数。
+大多数集成电路是可以工作在这样低的频率的。
+74HC393有8位计数器，故适用于这个多位计数器。
+通过74HC393的8位计数器后的频率为25KHz，这个频率非常低，所以AT89C51单片机的Timer0的工作不会有什么问题的。
+如果只使用8051频率计数器作显示，为了门控ontime时基1秒的准确，8051必须要注意指令的执行时间。
+8051自1980年开始生产，是一种生产时间很长的处理器。
+因此，指令的执行时间及运算时间都有着或大或小的差异。
+时钟频率决定sjmp$指令的执行时间，必须确定是1微秒的1/2还是1/4。
+8051的12个XTAL1脉冲周期是指令执行的基本时间单位。
+单字节指令NOP和INC R0需耗时12个时钟周期，SJMP$指令耗时24个时钟周期。
+如果使用的时钟频率为24MHz，其24个时钟周期则为1毫秒。
+8051要产生1秒信号，则计数器的比特数不够。
+因此，采用了每秒产生500次中断的方法，用以生成1秒的门控间期。
+在任何情况下，中断发生的时间都必须以1微秒为标准时间单位。
+8051时钟振荡使用24MHz，采用其24个时钟周期。
+8051是采用12个机器时钟周期（指令执行的基本时间单位）。
+指令执行时间最少需要12个时钟周期，即500纳秒。
+
+软件构成：
+开发软件采用C语言编译器。
+英国Crossware公司的 8051 ANSI C语言编译器，具有丰富的数据类型，并且提供IEEE695格式32位微处理器调试。
+支持从0开始的4K字节编译器的Free版本，已经在韩国免费发布。
+（其它公司的8051编译器演示版，支持顶部区域编译，因而需要外部ROM）
+采用微处理器的计数器，产生精确的1秒间期的刷新时间是很重要的。
+频率计数器产生1秒脉冲等一些参数，如果1秒间期的geotyimeu门限时间不准确，将不能看到准确的计数。
+1秒的门控时间供8051的内部定时器Timer1使用。
+基自Xtal 1的标准时钟频率信号，定时器每秒产生500次中断。
+与CISC（复杂指令集合）处理器相比，8051在指令语义及执行时间等方面都有所不同。
+因而，如果在计算过程中，发生中断，则会出现的误差，这并不完全1秒时间门控时间。
+10的28位二进制数据应该输出术的本质改变，所以通常只中断处理程序必须是分布式处理。
+中断循环时间2毫秒，因此这一变化的十进制数16至10十进制diseupeureyi处理程序，必须加以计算。
+但是，使用8051输出功能毫秒内是不可能转换为8位数字符号。
+因此，每个中断周期又分为若干jarissik 8变换符号已被配置为运行。
+HOLD键的功能是停止LED数字显示。
+
+软件调试：
+8051的 XTAL1提供一个频率为24MHz的振荡信号。
+同时该XTAL1亦为74F161提供24MHz输入时钟信号。
+（硬件连接）此时，通过软件校正，使LED显示器上的数字为24000000。
+如果看见显示为2400000，则说明软件计算没有发生误差
+（1秒门控基准时间，与测量基准时钟是相同的）
+
+100MHz/100兆欧前置放大器：
+这是整个计数器制作中最困难的一部分。
+前置放大器将微弱的交流电压放大并转换为TTL电平。
+
+测量高达100MHz的频率范围，须配置超级宽带放大器。
+并且，还必须对正弦波进行整形。
+用于此目的是施密特触发器。
+74系列中是74LS14。
+然而，要获得可以通过100MHz及更高频率的施密特触发器是很困难的。
+被称作高速的74F14及74AS14，其实验的结果的上限频率也仅为65MHz左右。
+（在该实验中）TI公司的SN74AHCT14输入频率可达120MHz以上，其施密特触发器性能得到验证。
+输入频率的最低电压有所不同。
+总体来说，50MHz～100MHz输入电压需1.5V以上，50MHz以下则需0.5V左右方可进行计数。
+
+2.4GHz，50欧姆，64分频 预分频器（prescaler）：
+预分频器的作用是提高频率计数器的测量频率上限。
+比如，在30MHz计数器基础上右上一个高速10分频器，即可构成为一个300MHz的计数器。
+固然可以通过TTL集成电路计数器来组成的10分频预分频器。然而，现在可以通过微型处理器进行十进制转换，因而采用64/128/256预分频。
+本机的预分频器采用富士通公司的MB506。
+从10MHz至2.4GHz的可采用64分频的预分频器。
+输入信号的放大采用两片Mini Circuits（微型电路）公司的MAR-6。
+能够对小至0.1V的信号进行计数。
+输入阻抗为50欧姆。
+
+
+SE-FCNTR
+装置的开发，大量的高频资料收集，前置放大器／预分频器电路的设计，元器件选择及性能评价等方面，金社长均予以了大量的帮助，在此深表感谢！
+100兆赫前置放大器
+输入阻抗100欧姆 低频100mV的信号，50MHz 〜 100MHz的2V信号经前置放大器放大到TTL电平。
+10Hz 〜 100MHz的频段的输入阻抗是1兆欧姆。
+100兆赫正弦波经TTL施密特触发器SN74AHCT14( 资料：http://www.sample.co.kr/sefcntr/sn74ahct14.pdf )进行脉冲整形。
+
+超高频场效应管 2SK241( 资料：http://www.sample.co.kr/sefcntr/2sk241.pdf )
+
+NEC公司的 5 GHz带宽的高速晶体管 2SC2570 ( 资料：http://www.sample.co.kr/sefcntr/2sc2570.pdf )
+
+
+SE-PRSC
+2.4 GHz的预分频器
+输入阻抗：50欧姆
+测量范围达10MHz 〜 2.4GHz的64分频的预分频器。 输入灵敏度：100mV
+采用Mini circuits（微电路）公司的单片超级宽带高频放大器集成电路。输入阻抗为50欧姆。
+Mini circuits（微电路）公司的宽带高频放大器 MAR-6 ( 资料：http://www.minicircuits.com/cgi-bin/spec?cat=amplifier&model=MAR-6&pix=vv105.gif&bv=4 )
+
+富士通公司的2.4GHz的预分频器（可选择64，128，256分频）MB506 ( 资料：http://www.sample.co.kr/sefcntr/mb506.pdf )
+
+///提示一下电路设计上的一个问题，MB506前加的两级放大根本就是多余的，MB506自己就足矣对50mV的信号反应了！！
+
+
+
+
+续（源程序部分）
+//
+// 100MHz / 2.4GHz Universal Counter
+// 100MHz/2.4GHz 通用计数器
+// SAMPLE Electronics co. 25. Nov. 2003
+// 韩国Sample电子公司 二○○三年十一月二十五日
+// Crossware Embedded Development Studio V 3.3.1.2
+// 克洛斯威尔 嵌入开发工作站 版本：3.3.1.2
+//
+//
+// 74F161的4比特，74HC393的8比特及8051的16比特内部计数器，共同构成28比特计数器。
+// 脉冲计数时间为1秒，8位数字显示100兆赫计数器。
+// 采用64分频的预分频器时，脉冲计数时间为0.64秒。
+//
+//
+// 8051初始源程序
+//
+#include <sfr.h>
+#include <os.h>
+#include <stdlib.h>
+#include <stdio.h>
+_sfrbit P36_o_74f161_clr_n = _p3^6; //外部计数器F161复位
+_sfrbit P35_o_74f161_enp = _p3^5; //外部计数器F161有效（Enable）
+_sfrbit P30_io_74hc393_clr_hold = _p3^0; //外部计数器HC393复位／HOLD输入
+_sfrbit P37_i_prescaler = _p3^7; // 64分频的预分频器
+//
+//七段LED字形数据
+// hgfedcba
+#define DIG0 0xC0 // 11000000b ; 0 P2.0
+#define DIG1 0xF9 // 11111001b ; 1 +-----a-----+
+#define DIG2 0xA4 // 10100100b ; 2 | |
+#define DIG3 0xB0 // 10110000b ; 3 P2.5 f b P2.1
+#define DIG4 0x99 // 10011001b ; 4 | |
+#define DIG5 0x92 // 10010010b ; 5 | P2.6 |
+#define DIG6 0x82 // 10000010b ; 6 +-----g-----+
+#define DIG7 0xD8 // 11011000b ; 7 | |
+#define DIG8 0x80 // 10000000b ; 8 P2.4 e c P2.2
+#define DIG9 0x98 // 10011000b ; 9 | |
+// ; | P2.3 |
+#define DIGM 0xBF // 10111111b ; - +-----d-----+ * h P2.7
+#define DIGP 0x7F // 01111111b ; .
+#define DIGB 0xFF // 11111111b ; "Blank"（“空白”）
+//
+const char segment_pattern[] = { DIG0, DIG1, DIG2,\
+DIG3, DIG4, DIG5, DIG6, DIG7, DIG8, DIG9 };
+//
+const char segment_select[] = { 0xFE, 0xFD, 0xFB, \
+0xF7, 0xEF, 0xDF, 0xBF, 0x7F };
+//
+unsigned long trailer;
+unsigned long task;
+unsigned int trimer;
+unsigned char fnd[8];
+unsigned char mfnd[8];
+unsigned int int_state;
+unsigned char fnd_state;
+unsigned char boat;
+bit hold;
+//
+//
+void _interrupt IVN_TIMER1 time_base() {
+//////////////////////////////////////////////
+_tl1 = 0x60; _th1 = 0xF0; // 4000 2 M Sec 500 Times
+//////////////////////////////////////////////
+_p0 = 0xff;
+_p2 = segment_select[fnd_state];
+_p0 = fnd[fnd_state++];
+fnd_state &= 0x07;
+//////////////////////////////////////////////
+if(int_state == 0) { //
+P35_o_74f161_enp = 0; //外部计数器F161计数禁止
+P30_io_74hc393_clr_hold = 1; //外部计数器HC393复位
+P36_o_74f161_clr_n = 0; //外部计数器F161复位
+_tl0 = 0x00; _th0 = 0x00; //内部计数器复位
+hold = P30_io_74hc393_clr_hold; //  HOLD（保持）键状态输入
+P36_o_74f161_clr_n = 1; // 外部计数器F161有效(Enable)
+P30_io_74hc393_clr_hold = 0; //  外部计数器HC393有效(Enable)
+P35_o_74f161_enp = 1; //  外部计数器F161进行计数
+}
+//////////////////////////////////////////////
+if(int_state == 316) { //  10GHz状态（64分频的预分频器）
+if (!P37_i_prescaler) { //  门控时间为0.64秒
+for (trimer = 0; trimer<202; trimer++) ; //  15个机器周期单位
+// 测试信号24MHz输入
+boat++; // 15360000 用于显示，需调整
+boat++; //  延迟1个机器周期（12个时钟周期）
+boat++; // 15359988
+boat++; // 15360000
+// boat++; // 15360012
+P35_o_74f161_enp = 0; //  外部计数器停止
+trailer = _th0;
+trailer = (trailer << 20) & 0x0ff00000;
+task = _tl0;
+task = (task << 12) & 0x000ff000;
+trailer |= task;
+task = _p3;
+task = (task << 7) & 0x00000f00;
+trailer |= task;
+task = _p1 & 0x000000ff;
+trailer |= task;
+P35_o_74f161_enp = 1; // 소비 전류가 일정하게 하기위하여
+// 电流消耗，
+// 外部计数器将重新开始。
+}
+}
+//////////////////////////////////////////////
+if(int_state == 494) { // 100 MHz Mode 1 Sec Gate Time
+if (P37_i_prescaler) { // 1 Sec Gate Time
+for (trimer = 0; trimer<248; trimer++) ; //  15个机器周期单位
+// 测试24MHz信号源输入
+boat++; // 24000000 用于显示，需调整
+boat++; //
+boat++; //
+boat++; //
+boat++; //  延迟1个机器周期（12个时钟周期）
+boat++; // 23999988
+boat++; // 24000000
+// boat++; // 24000012
+
+P35_o_74f161_enp = 0; // 外部计数器停止
+trailer = _th0;
+trailer = (trailer << 20) & 0x0ff00000;
+task = _tl0;
+task = (task << 12) & 0x000ff000;
+trailer |= task;
+task = _p3;
+task = (task << 7) & 0x00000f00;
+trailer |= task;
+task = _p1 & 0x000000ff;
+trailer |= task;
+P35_o_74f161_enp = 1; // 소비 전류가 일정하게 하기위하여
+// 电流消耗，以时间表
+// 外部计数器重新开始。
+}
+}
+//////////////////////////////////////////////
+if(int_state == 506) { //  1Hz数字显示
+boat = trailer % 10;
+mfnd[7] = segment_pattern[boat & 0xf];
+trailer /= 10;
+}
+//////////////////////////////////////////////
+if(int_state == 507) {
+boat = trailer % 10;
+mfnd[6] = segment_pattern[boat & 0xf];
+trailer /= 10;
+}
+//////////////////////////////////////////////
+if(int_state == 508) {
+boat = trailer % 10;
+mfnd[5] = segment_pattern[boat & 0xf];
+trailer /= 10;
+}
+//////////////////////////////////////////////
+if(int_state == 509) {
+boat = trailer % 10;
+mfnd[4] = segment_pattern[boat & 0xf];
+trailer /= 10;
+}
+//////////////////////////////////////////////
+if(int_state == 510) {
+boat = trailer % 10;
+mfnd[3] = segment_pattern[boat & 0xf];
+trailer /= 10;
+}
+//////////////////////////////////////////////
+if(int_state == 511) {
+boat = trailer % 10;
+mfnd[2] = segment_pattern[boat & 0xf];
+trailer /= 10;
+}
+//////////////////////////////////////////////
+if(int_state == 512) {
+boat = trailer % 10;
+mfnd[1] = segment_pattern[boat & 0xf];
+trailer /= 10;
+}
+//////////////////////////////////////////////
+if(int_state == 513) {
+boat = trailer % 10;
+mfnd[0] = segment_pattern[boat & 0xf];
+trailer /= 10;
+}
+//////////////////////////////////////////////
+int_state++;
+//////////////////////////////////////////////
+if(int_state >= 514) {
+int_state = 0;
+if (hold) {
+fnd[0] = mfnd[0];
+fnd[1] = mfnd[1];
+fnd[2] = mfnd[2];
+fnd[3] = mfnd[3];
+fnd[4] = mfnd[4];
+fnd[5] = mfnd[5];
+fnd[6] = mfnd[6];
+fnd[7] = mfnd[7];
+if (P37_i_prescaler) {
+fnd[1] &= 0x7F; // MHz点
+} else {
+fnd[0] &= 0x7F; // GHz点
+}
+}
+}
+//////////////////////////////////////////////
+}
+main()
+{
+_tmod = 0x15; // 0b00010101 Timer0 = Mode1, Counter, use TR0
+// Timer1 = Mode1, Timer, use TR1
+_tl0 = 0X0; _th0 = 0X0;
+_tl1 = 0X0; _th1 = 0X0;
+_tr0 = 1; // Timer 0 计数开始
+_tr1 = 1; // Timer 1 计数开始
+_et1 = 1; // 设置定时器1中断状态
+_ea = 1; //    设置全局中断状态
+while(1) ;
+}
+
+源程序可到http://www.sample.co.kr/sefcntr/sefcntr.zip网页下载。
+(1) Crossware.公司8051 编译器（演示版）的安装
+创建一个c:\estudio_demo\Projects\fcntr4文件夹，将文件解压到这个文件夹内。
+(2) 在Crossware的File（文件）菜单上，单击Project Open（打开项目），选择C:\estudio_demo\Projects\fcntr4\fcntr4.xmk。
+(3) 在Crossware的Build（建立）菜单中，选择Rebuild All开始汇编的源程序并创建fcntr4.hex文件。
+(5) 可以采用Sample电子公司编辑的AT89C51的SE-516SP文本(http://www.sample.co.kr/se516/index.htm) fcntr4，在8051编程器上进行编程。
+Crossware公司的 8051 C 编译器（演示版）可以下载。能以“.HEX”文件的格式输出从起始部位（0000H）开始的4K十六进制代码( http://www.sample.co.kr/sefcntr/fnctr4.hex )。
+AT89C51，AT89S51及AT89C1051/2051/4051均带有4k闪存。
+Crossware 8051 C 编译器( http://www.crossware.co.kr/setup-demo.exe )，已被选定为韩国产业工人协会( http://www.hrdkorea.or.kr/ )进行工程师及技术工人考试的指定编译器。
+Crossware 8051 C 编译器手册（韩文）( http://www.crossware.co.kr/crossb.pdf )
