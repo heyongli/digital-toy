@@ -2,6 +2,7 @@
 "delay.obj",
 "timer0.obj",
 "3key.obj",
-"4wire-1602.obj" 
+"4wire-1602.obj",
+"ds1302.obj" 
 TO "51z-firmware" 
 RAMSIZE(256) 
