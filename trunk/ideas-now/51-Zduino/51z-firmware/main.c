@@ -21,7 +21,7 @@ void io_init()
    lcd_cursor(0,0);
    //adc_init(); 
    irqon();   //enable global interrupt		
-    
+	RTC_Init();    
 }
 
  void  update_lcd()
@@ -44,6 +44,7 @@ void io_init()
 	   lcd_puts(" down ");
 	 }
 
+	 ds1302_test();
 }
 
 
