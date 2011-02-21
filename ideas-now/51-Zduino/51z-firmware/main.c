@@ -45,6 +45,7 @@ void io_init()
 	 }
 
 	 ds1302_test();
+	 ds18b20_demo();
 }
 
 

@@ -214,7 +214,6 @@ ds1302_test()
 {
     
     char sec; 
-//	ds1302_CurTime_Get(Curtime);
 	lcd_cursor(0,0);
 	
 	

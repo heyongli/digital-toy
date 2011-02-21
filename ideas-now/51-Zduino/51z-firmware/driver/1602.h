@@ -15,4 +15,5 @@ void lcd_puts(unsigned char *s);
 void print10(unsigned short n);	
 void showVA(unsigned short n);
 
+void hd44870_send(unsigned char datax , char is_cmd);
 #endif
