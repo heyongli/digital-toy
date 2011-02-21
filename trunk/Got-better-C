@@ -1,0 +1,20 @@
+1. Construct the byte:
+for(i=0; i<8; i++){
+		if (DS1302_SDA) //receive
+		    _set_bit(dat,7);		//load into MSB
+		else 
+		     _clear_bit(dat,7);
+		if(i<7) //NOTE: this ensure the bit 7 stay at 7, don't shit bit 0 out the byte
+		dat>>=1;
+        ....
+}
+
+better program:
+for(i=0; i<8; i++){
+		if (DS1302_SDA) //receive
+ 		    _set_bit(dat,i);	
+		else 
+	     _clear_bit(dat,i);
+        ....
+}
+
