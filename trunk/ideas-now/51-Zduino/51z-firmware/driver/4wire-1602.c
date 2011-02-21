@@ -165,7 +165,7 @@ lcd_showhex(unsigned char x)
 {
   
     lcd_putc(hex2c(((x&0xF0)>>4)));
-    lcd_putc(hex2c(((x&0xF)>>4)));
+    lcd_putc(hex2c((x&0xF)));
 
 }
 

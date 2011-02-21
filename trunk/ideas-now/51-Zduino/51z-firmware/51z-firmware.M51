@@ -1,4 +1,4 @@
-BL51 BANKED LINKER/LOCATER V6.00                                                        02/18/2011  17:46:11  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.00                                                        02/21/2011  13:38:18  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.00, INVOKED BY:
@@ -17,6 +17,7 @@ INPUT MODULES INCLUDED:
   4wire-1602.obj (4WIRE_1602)
   ds1302.obj (DS1302)
   C:\KEIL-C51\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL-C51\C51\LIB\C51S.LIB (?C?SCDIV)
   C:\KEIL-C51\C51\LIB\C51S.LIB (?C?CLDPTR)
   C:\KEIL-C51\C51\LIB\C51S.LIB (?C?CSTOPTR)
   C:\KEIL-C51\C51\LIB\C51S.LIB (?C?UIDIV)
@@ -35,141 +36,132 @@ LINK MAP OF MODULE:  51z-firmware (MAIN)
             REG     0008H     0008H     ABSOLUTE     "REG BANK 1"
             DATA    0010H     000EH     UNIT         ?DT?4WIRE_1602
             DATA    001EH     000BH     UNIT         ?DT?DS1302
-            DATA    0029H     0005H     UNIT         ?DT?_RTC_CURTIME_GET?DS1302
-            DATA    002EH     0005H     UNIT         _DATA_GROUP_
-            DATA    0033H     0004H     UNIT         ?DT?TIMER0
-            DATA    0037H     0001H     UNIT         ?DT?_LCD_SHOWHEX?4WIRE_1602
-            IDATA   0038H     0001H     UNIT         ?STACK
+            DATA    0029H     0006H     UNIT         _DATA_GROUP_
+            DATA    002FH     0004H     UNIT         ?DT?TIMER0
+            DATA    0033H     0002H     UNIT         ?DT?_PRINT10?4WIRE_1602
+            DATA    0035H     0001H     UNIT         ?DT?_DS1302_CURTIME_GET?DS1302
+            IDATA   0036H     0001H     UNIT         ?STACK
 
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
             CODE    0000H     0003H     ABSOLUTE     
-            CODE    0003H     0015H     INBLOCK      ?PR?_MDELAY?DELAY
-            CODE    0018H     0003H     UNIT         ?CO?DS1302
+            CODE    0003H     0018H     INBLOCK      ?PR?_DS1302_WRITE?DS1302
             CODE    001BH     0003H     ABSOLUTE     
-            CODE    001EH     00AEH     INBLOCK      ?PR?_HD44870_SEND?4WIRE_1602
-            CODE    00CCH     00A8H     INBLOCK      ?PR?_PRINT10?4WIRE_1602
-            CODE    0174H     009DH     UNIT         ?C?LIB_CODE
-            CODE    0211H     008CH     UNIT         ?C_C51STARTUP
-            CODE    029DH     007FH     INBLOCK      ?PR?_SHOWVA?4WIRE_1602
-            CODE    031CH     0049H     INBLOCK      ?PR?UPDATE_LCD?MAIN
-            CODE    0365H     0043H     INBLOCK      ?PR?RTC_READ_BYTE?DS1302
-            CODE    03A8H     0042H     INBLOCK      ?PR?LCD1602_INIT?4WIRE_1602
-            CODE    03EAH     0041H     INBLOCK      ?PR?DS1302_TEST?DS1302
-            CODE    042BH     003AH     INBLOCK      ?PR?_RTC_READ?DS1302
-            CODE    0465H     0038H     INBLOCK      ?PR?_RTC_WRITE_BYTE?DS1302
-            CODE    049DH     0037H     INBLOCK      ?PR?_RTC_WRITE?DS1302
-            CODE    04D4H     0030H     INBLOCK      ?PR?__SWAP4?4WIRE_1602
-BL51 BANKED LINKER/LOCATER V6.00                                                      02/18/2011  17:46:11  PAGE 2
+            CODE    001EH     00BFH     UNIT         ?C?LIB_CODE
+            CODE    00DDH     00AEH     INBLOCK      ?PR?_HD44870_SEND?4WIRE_1602
+            CODE    018BH     00A8H     INBLOCK      ?PR?_PRINT10?4WIRE_1602
+            CODE    0233H     008CH     UNIT         ?C_C51STARTUP
+            CODE    02BFH     007FH     INBLOCK      ?PR?_SHOWVA?4WIRE_1602
+            CODE    033EH     0077H     INBLOCK      ?PR?DS1302_TEST?DS1302
+            CODE    03B5H     0049H     INBLOCK      ?PR?UPDATE_LCD?MAIN
+            CODE    03FEH     0042H     INBLOCK      ?PR?LCD1602_INIT?4WIRE_1602
+            CODE    0440H     0036H     INBLOCK      ?PR?BUS_READ?DS1302
+            CODE    0476H     0030H     INBLOCK      ?PR?__SWAP4?4WIRE_1602
+            CODE    04A6H     002BH     INBLOCK      ?PR?TIMER1?TIMER0
+            CODE    04D1H     0025H     INBLOCK      ?PR?_LCD_PUTS?4WIRE_1602
+            CODE    04F6H     0023H     INBLOCK      ?PR?DS1302_INIT?DS1302
+BL51 BANKED LINKER/LOCATER V6.00                                                      02/21/2011  13:38:18  PAGE 2
 
 
-            CODE    0504H     002DH     INBLOCK      ?PR?RTC_INIT?DS1302
-            CODE    0531H     002BH     INBLOCK      ?PR?TIMER1?TIMER0
-            CODE    055CH     0025H     INBLOCK      ?PR?_LCD_PUTS?4WIRE_1602
-            CODE    0581H     0025H     INBLOCK      ?PR?_LCD_SHOWHEX?4WIRE_1602
-            CODE    05A6H     0023H     INBLOCK      ?PR?_RTC_CURTIME_GET?DS1302
-            CODE    05C9H     0022H     INBLOCK      ?PR?_KEY?3KEY
-            CODE    05EBH     001FH     INBLOCK      ?PR?_SLEEP?DELAY
-            CODE    060AH     0014H     INBLOCK      ?PR?_HEX2C?4WIRE_1602
-            CODE    061EH     0012H     INBLOCK      ?PR?IO_INIT?MAIN
-            CODE    0630H     0012H     INBLOCK      ?PR?_LCD_CURSOR?4WIRE_1602
-            CODE    0642H     0010H     UNIT         ?CO?MAIN
-            CODE    0652H     000EH     INBLOCK      ?PR?MAIN?MAIN
-            CODE    0660H     000EH     INBLOCK      ?PR?TIMER1_INIT?TIMER0
-            CODE    066EH     000AH     UNIT         ?C_INITSEG
-            CODE    0678H     0006H     INBLOCK      ?PR?IO_DELAY?4WIRE_1602
-            CODE    067EH     0006H     INBLOCK      ?PR?IO_50MS?4WIRE_1602
-            CODE    0684H     0005H     INBLOCK      ?PR?__2CYCLE?DELAY
+            CODE    0519H     0022H     INBLOCK      ?PR?_KEY?3KEY
+            CODE    053BH     0021H     INBLOCK      ?PR?_LCD_SHOWHEX?4WIRE_1602
+            CODE    055CH     0021H     INBLOCK      ?PR?_BUS_WRITE?DS1302
+            CODE    057DH     001FH     INBLOCK      ?PR?_SLEEP?DELAY
+            CODE    059CH     0019H     INBLOCK      ?PR?_DS1302_READ?DS1302
+            CODE    05B5H     0015H     INBLOCK      ?PR?_MDELAY?DELAY
+            CODE    05CAH     0014H     INBLOCK      ?PR?_HEX2C?4WIRE_1602
+            CODE    05DEH     0014H     INBLOCK      ?PR?_DS1302_CURTIME_GET?DS1302
+            CODE    05F2H     0012H     INBLOCK      ?PR?IO_INIT?MAIN
+            CODE    0604H     0012H     INBLOCK      ?PR?_LCD_CURSOR?4WIRE_1602
+            CODE    0616H     0010H     UNIT         ?CO?MAIN
+            CODE    0626H     000EH     INBLOCK      ?PR?MAIN?MAIN
+            CODE    0634H     000EH     INBLOCK      ?PR?TIMER1_INIT?TIMER0
+            CODE    0642H     000AH     UNIT         ?C_INITSEG
+            CODE    064CH     0006H     INBLOCK      ?PR?IO_DELAY?4WIRE_1602
+            CODE    0652H     0006H     INBLOCK      ?PR?IO_50MS?4WIRE_1602
+            CODE    0658H     0006H     UNIT         ?CO?DS1302
+            CODE    065EH     0005H     INBLOCK      ?PR?__2CYCLE?DELAY
 
 
 
 OVERLAY MAP OF MODULE:   51z-firmware (MAIN)
 
 
-SEGMENT                                DATA_GROUP 
-  +--> CALLED SEGMENT                START    LENGTH
-----------------------------------------------------
-?C_C51STARTUP                        -----    -----
+SEGMENT                                  DATA_GROUP 
+  +--> CALLED SEGMENT                  START    LENGTH
+------------------------------------------------------
+?C_C51STARTUP                          -----    -----
   +--> ?PR?MAIN?MAIN
   +--> ?C_INITSEG
 
-?PR?MAIN?MAIN                        -----    -----
+?PR?MAIN?MAIN                          -----    -----
   +--> ?PR?IO_INIT?MAIN
   +--> ?PR?_SLEEP?DELAY
   +--> ?PR?UPDATE_LCD?MAIN
 
-?PR?IO_INIT?MAIN                     -----    -----
+?PR?IO_INIT?MAIN                       -----    -----
   +--> ?PR?TIMER1_INIT?TIMER0
   +--> ?PR?LCD1602_INIT?4WIRE_1602
   +--> ?PR?_LCD_CURSOR?4WIRE_1602
-  +--> ?PR?RTC_INIT?DS1302
+  +--> ?PR?DS1302_INIT?DS1302
 
-?PR?LCD1602_INIT?4WIRE_1602          -----    -----
+?PR?LCD1602_INIT?4WIRE_1602            -----    -----
   +--> ?PR?_HD44870_SEND?4WIRE_1602
   +--> ?PR?IO_50MS?4WIRE_1602
 
-?PR?_HD44870_SEND?4WIRE_1602         0031H    0002H
+?PR?_HD44870_SEND?4WIRE_1602           002DH    0002H
   +--> ?PR?IO_DELAY?4WIRE_1602
   +--> ?PR?__SWAP4?4WIRE_1602
 
-?PR?IO_DELAY?4WIRE_1602              -----    -----
+?PR?IO_DELAY?4WIRE_1602                -----    -----
   +--> ?PR?__2CYCLE?DELAY
 
-?PR?IO_50MS?4WIRE_1602               -----    -----
+?PR?IO_50MS?4WIRE_1602                 -----    -----
   +--> ?PR?_MDELAY?DELAY
 
-?PR?_MDELAY?DELAY                    -----    -----
+?PR?_MDELAY?DELAY                      -----    -----
+BL51 BANKED LINKER/LOCATER V6.00                                                      02/21/2011  13:38:18  PAGE 3
+
+
   +--> ?PR?__2CYCLE?DELAY
-BL51 BANKED LINKER/LOCATER V6.00                                                      02/18/2011  17:46:11  PAGE 3
 
-
-
-?PR?_LCD_CURSOR?4WIRE_1602           -----    -----
+?PR?_LCD_CURSOR?4WIRE_1602             -----    -----
   +--> ?PR?_HD44870_SEND?4WIRE_1602
 
-?PR?RTC_INIT?DS1302                  -----    -----
-  +--> ?PR?__2CYCLE?DELAY
-  +--> ?PR?_RTC_WRITE?DS1302
-  +--> ?PR?_RTC_READ?DS1302
+?PR?DS1302_INIT?DS1302                 -----    -----
+  +--> ?PR?_DS1302_WRITE?DS1302
+  +--> ?PR?_DS1302_READ?DS1302
 
-?PR?_RTC_WRITE?DS1302                002EH    0002H
-  +--> ?PR?__2CYCLE?DELAY
-  +--> ?PR?_RTC_WRITE_BYTE?DS1302
+?PR?_DS1302_WRITE?DS1302               -----    -----
+  +--> ?PR?_BUS_WRITE?DS1302
 
-?PR?_RTC_WRITE_BYTE?DS1302           0030H    0002H
-  +--> ?PR?__2CYCLE?DELAY
+?PR?_DS1302_READ?DS1302                -----    -----
+  +--> ?PR?_BUS_WRITE?DS1302
+  +--> ?PR?BUS_READ?DS1302
 
-?PR?_RTC_READ?DS1302                 002EH    0002H
-  +--> ?PR?__2CYCLE?DELAY
-  +--> ?PR?_RTC_WRITE_BYTE?DS1302
-  +--> ?PR?RTC_READ_BYTE?DS1302
-
-?PR?RTC_READ_BYTE?DS1302             0030H    0002H
-  +--> ?PR?__2CYCLE?DELAY
-
-?PR?_SLEEP?DELAY                     -----    -----
+?PR?_SLEEP?DELAY                       -----    -----
   +--> ?PR?_MDELAY?DELAY
 
-?PR?UPDATE_LCD?MAIN                  -----    -----
+?PR?UPDATE_LCD?MAIN                    -----    -----
   +--> ?PR?_KEY?3KEY
   +--> ?PR?_LCD_CURSOR?4WIRE_1602
   +--> ?CO?MAIN
   +--> ?PR?_LCD_PUTS?4WIRE_1602
   +--> ?PR?DS1302_TEST?DS1302
 
-?PR?_KEY?3KEY                        002EH    0001H
+?PR?_KEY?3KEY                          0029H    0001H
   +--> ?PR?_MDELAY?DELAY
 
-?PR?_LCD_PUTS?4WIRE_1602             002EH    0003H
+?PR?_LCD_PUTS?4WIRE_1602               002AH    0003H
   +--> ?PR?_HD44870_SEND?4WIRE_1602
 
-?PR?DS1302_TEST?DS1302               -----    -----
+?PR?DS1302_TEST?DS1302                 0029H    0001H
   +--> ?PR?_LCD_CURSOR?4WIRE_1602
+  +--> ?PR?_LCD_SHOWHEX?4WIRE_1602
+  +--> ?PR?_DS1302_READ?DS1302
   +--> ?CO?DS1302
   +--> ?PR?_LCD_PUTS?4WIRE_1602
-  +--> ?PR?_RTC_READ?DS1302
-  +--> ?PR?_PRINT10?4WIRE_1602
 
-?PR?_PRINT10?4WIRE_1602              002EH    0002H
+?PR?_LCD_SHOWHEX?4WIRE_1602            002AH    0001H
   +--> ?PR?_HEX2C?4WIRE_1602
   +--> ?PR?_HD44870_SEND?4WIRE_1602
 
@@ -179,34 +171,38 @@ SYMBOL TABLE OF MODULE:  51z-firmware (MAIN)
 
   VALUE           TYPE          NAME
   ----------------------------------
-BL51 BANKED LINKER/LOCATER V6.00                                                      02/18/2011  17:46:11  PAGE 4
 
-
+  -------         MODULE        ?C?SCDIV
+  C:001EH         PUBLIC        ?C?SCDIV
+  -------         ENDMOD        ?C?SCDIV
 
   -------         MODULE        ?C?CLDPTR
-  C:0174H         PUBLIC        ?C?CLDPTR
+  C:0040H         PUBLIC        ?C?CLDPTR
   -------         ENDMOD        ?C?CLDPTR
+BL51 BANKED LINKER/LOCATER V6.00                                                      02/21/2011  13:38:18  PAGE 4
+
+
 
   -------         MODULE        ?C?CSTOPTR
-  C:018DH         PUBLIC        ?C?CSTOPTR
+  C:0059H         PUBLIC        ?C?CSTOPTR
   -------         ENDMOD        ?C?CSTOPTR
 
   -------         MODULE        ?C?UIDIV
-  C:01AFH         PUBLIC        ?C?UIDIV
+  C:007BH         PUBLIC        ?C?UIDIV
   -------         ENDMOD        ?C?UIDIV
 
   -------         MODULE        ?C?LADD
-  C:0204H         PUBLIC        ?C?LADD
+  C:00D0H         PUBLIC        ?C?LADD
   -------         ENDMOD        ?C?LADD
 
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_LCD_SHOWHEX?4WIRE_1602
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
 
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_SHOWVA?4WIRE_1602
 
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_RTC_CURTIME_GET?DS1302
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
 
-Program Size: data=57.0 xdata=0 code=1673
+Program Size: data=55.0 xdata=0 code=1635
 LINK/LOCATE RUN COMPLETE.  3 WARNING(S),  0 ERROR(S)

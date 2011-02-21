@@ -21,7 +21,7 @@ void io_init()
    lcd_cursor(0,0);
    //adc_init(); 
    irqon();   //enable global interrupt		
-	RTC_Init();    
+   DS1302_init();    
 }
 
  void  update_lcd()
