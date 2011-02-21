@@ -9,7 +9,7 @@ Project File Date:  02/18/2011
 <h2>Output:</h2>
 Build target 'Target 1'
 compiling main.c...
-MAIN.C(24): warning C206: 'RTC_Init': missing function-prototype
+MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
 MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
 compiling delay.c...
 compiling timer0.c...
@@ -18,46 +18,146 @@ compiling 4wire-1602.c...
 compiling ds1302.c...
 .\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
 .\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+compiling ds18b20.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+DRIVER\DS18B20.C(22): error C202: 'ds': undefined identifier
+DRIVER\DS18B20.C(25): error C202: 'ds': undefined identifier
+DRIVER\DS18B20.C(33): error C202: 'ds': undefined identifier
+DRIVER\DS18B20.C(34): error C202: 'ds': undefined identifier
+DRIVER\DS18B20.C(46): error C202: 'ds': undefined identifier
+DRIVER\DS18B20.C(48): error C202: 'ds': undefined identifier
+DRIVER\DS18B20.C(50): error C202: 'ds': undefined identifier
+DRIVER\DS18B20.C(84): error C202: 'ds': undefined identifier
+DRIVER\DS18B20.C(86): error C202: 'ds': undefined identifier
+DRIVER\DS18B20.C(90): error C202: 'ds': undefined identifier
+DRIVER\DS18B20.C(92): error C202: 'ds': undefined identifier
+Target not created
+compiling ds18b20.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+DRIVER\DS18B20.C(14): error C141: syntax error near 'P2', expected '='
+DRIVER\DS18B20.C(23): error C202: 'ds': undefined identifier
+DRIVER\DS18B20.C(26): error C202: 'ds': undefined identifier
+DRIVER\DS18B20.C(34): error C202: 'ds': undefined identifier
+DRIVER\DS18B20.C(35): error C202: 'ds': undefined identifier
+DRIVER\DS18B20.C(47): error C202: 'ds': undefined identifier
+DRIVER\DS18B20.C(49): error C202: 'ds': undefined identifier
+DRIVER\DS18B20.C(51): error C202: 'ds': undefined identifier
+DRIVER\DS18B20.C(85): error C202: 'ds': undefined identifier
+DRIVER\DS18B20.C(87): error C202: 'ds': undefined identifier
+DRIVER\DS18B20.C(91): error C202: 'ds': undefined identifier
+DRIVER\DS18B20.C(93): error C202: 'ds': undefined identifier
+driver\ds18b20.c - 12 Error(s), 2 Warning(s).
+Build target 'Target 1'
+compiling ds18b20.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+DRIVER\DS18B20.C(104): warning C206: 'delay': missing function-prototype
+DRIVER\DS18B20.C(104): error C267: 'delay': requires ANSI-style prototype
+DRIVER\DS18B20.C(135): error C141: syntax error near 'tmpvalue'
+Target not created
+compiling ds18b20.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+DRIVER\DS18B20.C(104): warning C206: 'delay': missing function-prototype
+DRIVER\DS18B20.C(104): error C267: 'delay': requires ANSI-style prototype
+DRIVER\DS18B20.C(135): error C141: syntax error near 'tmpvalue'
+driver\ds18b20.c - 2 Error(s), 3 Warning(s).
+Build target 'Target 1'
+compiling ds18b20.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+DRIVER\DS18B20.C(114): warning C206: 'delay': missing function-prototype
+DRIVER\DS18B20.C(114): error C267: 'delay': requires ANSI-style prototype
+DRIVER\DS18B20.C(135): error C141: syntax error near 'tmpvalue'
+Target not created
+Build target 'Target 1'
+compiling ds18b20.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+DRIVER\DS18B20.C(135): error C141: syntax error near 'tmpvalue'
+Target not created
+Build target 'Target 1'
+compiling ds18b20.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
 linking...
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_PRINT10?4WIRE_1602
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_SHOWVA?4WIRE_1602
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_RTC_CURTIME_GET?DS1302
-Program Size: data=58.0 xdata=0 code=1640
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SENDCHANGECMD?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?GETTMPVALUE?DS18B20
+Program Size: data=61.2 xdata=0 code=2750
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 7 Warning(s).
+Build target 'Target 1'
+compiling ds18b20.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+DRIVER\DS18B20.C(102): warning C206: 'dsInit': missing function-prototype
+DRIVER\DS18B20.C(150): warning C206: 'abs': missing function-prototype
+DRIVER\DS18B20.C(150): error C267: 'abs': requires ANSI-style prototype
+Target not created
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
+MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
+compiling delay.c...
+compiling timer0.c...
+compiling 3key.c...
+compiling 4wire-1602.c...
+compiling ds1302.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+compiling ds18b20.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+DRIVER\DS18B20.C(150): warning C206: 'abs': missing function-prototype
+DRIVER\DS18B20.C(150): error C267: 'abs': requires ANSI-style prototype
+Target not created
+Build target 'Target 1'
+compiling ds18b20.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SENDCHANGECMD?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_DEMO?DS18B20
+Program Size: data=72.2 xdata=0 code=3181
 creating hex file from "51z-firmware"...
 "51z-firmware" - 0 Error(s), 7 Warning(s).
 Build target 'Target 1'
 compiling main.c...
-MAIN.C(24): warning C206: 'RTC_Init': missing function-prototype
+MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
 MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
-compiling delay.c...
-compiling timer0.c...
-compiling 3key.c...
-compiling 4wire-1602.c...
-compiling ds1302.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
 linking...
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_PRINT10?4WIRE_1602
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_SHOWVA?4WIRE_1602
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_RTC_CURTIME_GET?DS1302
-Program Size: data=58.0 xdata=0 code=1636
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SENDCHANGECMD?DS18B20
+Program Size: data=65.1 xdata=0 code=3184
 creating hex file from "51z-firmware"...
 "51z-firmware" - 0 Error(s), 7 Warning(s).
 Build target 'Target 1'
-compiling main.c...
-MAIN.C(24): warning C206: 'RTC_Init': missing function-prototype
-MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
-compiling delay.c...
-compiling timer0.c...
-compiling 3key.c...
-compiling 4wire-1602.c...
-compiling ds1302.c...
+compiling ds18b20.c...
 .\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
 .\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
 linking...
@@ -66,19 +166,14 @@ linking...
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_SHOWVA?4WIRE_1602
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_RTC_CURTIME_GET?DS1302
-Program Size: data=58.0 xdata=0 code=1663
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SENDCHANGECMD?DS18B20
+Program Size: data=63.1 xdata=0 code=3184
 creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 7 Warning(s).
+"51z-firmware" - 0 Error(s), 6 Warning(s).
 Build target 'Target 1'
-compiling main.c...
-MAIN.C(24): warning C206: 'RTC_Init': missing function-prototype
-MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
-compiling delay.c...
-compiling timer0.c...
-compiling 3key.c...
-compiling 4wire-1602.c...
-compiling ds1302.c...
+compiling ds18b20.c...
 .\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
 .\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
 linking...
@@ -87,19 +182,17 @@ linking...
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_SHOWVA?4WIRE_1602
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_RTC_CURTIME_GET?DS1302
-Program Size: data=54.0 xdata=0 code=1489
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SENDCHANGECMD?DS18B20
+Program Size: data=63.1 xdata=0 code=3181
 creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 7 Warning(s).
+"51z-firmware" - 0 Error(s), 6 Warning(s).
 Build target 'Target 1'
-compiling main.c...
-MAIN.C(24): warning C206: 'RTC_Init': missing function-prototype
-MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
-compiling delay.c...
-compiling timer0.c...
-compiling 3key.c...
-compiling 4wire-1602.c...
 compiling ds1302.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+compiling ds18b20.c...
 .\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
 .\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
 linking...
@@ -108,42 +201,17 @@ linking...
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_SHOWVA?4WIRE_1602
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_RTC_CURTIME_GET?DS1302
-Program Size: data=54.0 xdata=0 code=1489
-creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 7 Warning(s).
-Build target 'Target 1'
-compiling main.c...
-MAIN.C(24): warning C206: 'RTC_Init': missing function-prototype
-MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
-compiling delay.c...
-compiling timer0.c...
-compiling 3key.c...
-compiling 4wire-1602.c...
-compiling ds1302.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
-linking...
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINT10?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_RTC_WRITE?DS1302
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_RTC_CURTIME_GET?DS1302
-Program Size: data=54.0 xdata=0 code=1455
+    SEGMENT: ?PR?SENDCHANGECMD?DS18B20
+Program Size: data=63.1 xdata=0 code=3182
 creating hex file from "51z-firmware"...
 "51z-firmware" - 0 Error(s), 8 Warning(s).
 Build target 'Target 1'
-compiling main.c...
-MAIN.C(24): warning C206: 'RTC_Init': missing function-prototype
-MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
-compiling delay.c...
-compiling timer0.c...
-compiling 3key.c...
-compiling 4wire-1602.c...
 compiling ds1302.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+compiling ds18b20.c...
 .\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
 .\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
 linking...
@@ -151,247 +219,15 @@ linking...
     SEGMENT: ?PR?_PRINT10?4WIRE_1602
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_SHOWVA?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_RTC_CURTIME_GET?DS1302
-Program Size: data=54.0 xdata=0 code=1495
-creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 7 Warning(s).
-Build target 'Target 1'
-compiling main.c...
-MAIN.C(24): warning C206: 'RTC_Init': missing function-prototype
-MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
-compiling delay.c...
-compiling timer0.c...
-compiling 3key.c...
-compiling 4wire-1602.c...
-compiling ds1302.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
-linking...
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINT10?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_RTC_CURTIME_GET?DS1302
-Program Size: data=54.0 xdata=0 code=1511
-creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 7 Warning(s).
-Build target 'Target 1'
-compiling main.c...
-MAIN.C(24): warning C206: 'RTC_Init': missing function-prototype
-MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
-compiling delay.c...
-compiling timer0.c...
-compiling 3key.c...
-compiling 4wire-1602.c...
-compiling ds1302.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
-linking...
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINT10?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_RTC_CURTIME_GET?DS1302
-Program Size: data=54.0 xdata=0 code=1551
-creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 7 Warning(s).
-Build target 'Target 1'
-compiling main.c...
-MAIN.C(24): warning C206: 'RTC_Init': missing function-prototype
-MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
-compiling delay.c...
-compiling timer0.c...
-compiling 3key.c...
-compiling 4wire-1602.c...
-compiling ds1302.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
-linking...
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINT10?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_RTC_CURTIME_GET?DS1302
-Program Size: data=54.0 xdata=0 code=1500
-creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 7 Warning(s).
-Build target 'Target 1'
-compiling main.c...
-MAIN.C(24): warning C206: 'RTC_Init': missing function-prototype
-MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
-compiling delay.c...
-compiling timer0.c...
-compiling 3key.c...
-compiling 4wire-1602.c...
-compiling ds1302.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
-linking...
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINT10?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_RTC_CURTIME_GET?DS1302
-Program Size: data=54.0 xdata=0 code=1511
-creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 7 Warning(s).
-Build target 'Target 1'
-compiling main.c...
-MAIN.C(24): warning C206: 'RTC_Init': missing function-prototype
-MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
-compiling delay.c...
-compiling timer0.c...
-compiling 3key.c...
-compiling 4wire-1602.c...
-compiling ds1302.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
-linking...
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINT10?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_RTC_CURTIME_GET?DS1302
-Program Size: data=54.0 xdata=0 code=1545
-creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 7 Warning(s).
-Build target 'Target 1'
-compiling main.c...
-MAIN.C(24): warning C206: 'RTC_Init': missing function-prototype
-MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
-compiling delay.c...
-compiling timer0.c...
-compiling 3key.c...
-compiling 4wire-1602.c...
-compiling ds1302.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
-DRIVER\DS1302.C(175): error C202: 'DS1302_SEC_Reg': undefined identifier
-DRIVER\DS1302.C(353): error C202: 'DS1302_SEC_Reg': undefined identifier
-DRIVER\DS1302.C(373): error C202: 'DS1302_HOUR': undefined identifier
-Target not created
-Build target 'Target 1'
-compiling main.c...
-MAIN.C(24): warning C206: 'RTC_Init': missing function-prototype
-MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
-compiling delay.c...
-compiling timer0.c...
-compiling 3key.c...
-compiling 4wire-1602.c...
-compiling ds1302.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
-DRIVER\DS1302.C(353): error C202: 'DS1302_SEC_Reg': undefined identifier
-DRIVER\DS1302.C(373): error C202: 'DS1302_HOUR': undefined identifier
-Target not created
-Build target 'Target 1'
-compiling main.c...
-MAIN.C(24): warning C206: 'RTC_Init': missing function-prototype
-MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
-compiling delay.c...
-compiling timer0.c...
-compiling 3key.c...
-compiling 4wire-1602.c...
-compiling ds1302.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
-linking...
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINT10?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_RTC_CURTIME_GET?DS1302
-Program Size: data=54.0 xdata=0 code=1538
-creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 7 Warning(s).
-Build target 'Target 1'
-compiling main.c...
-MAIN.C(24): warning C206: 'RTC_Init': missing function-prototype
-MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
-compiling delay.c...
-compiling timer0.c...
-compiling 3key.c...
-compiling 4wire-1602.c...
-compiling ds1302.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
-linking...
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINT10?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_RTC_CURTIME_GET?DS1302
-Program Size: data=54.0 xdata=0 code=1528
-creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 7 Warning(s).
-Build target 'Target 1'
-compiling main.c...
-MAIN.C(24): warning C206: 'RTC_Init': missing function-prototype
-MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
-compiling delay.c...
-compiling timer0.c...
-compiling 3key.c...
-compiling 4wire-1602.c...
-compiling ds1302.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
-linking...
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINT10?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_RTC_CURTIME_GET?DS1302
-Program Size: data=54.0 xdata=0 code=1528
-creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 7 Warning(s).
-Build target 'Target 1'
-compiling main.c...
-MAIN.C(24): warning C206: 'RTC_Init': missing function-prototype
-MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
-compiling delay.c...
-compiling timer0.c...
-compiling 3key.c...
-compiling 4wire-1602.c...
-compiling ds1302.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
-linking...
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINT10?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?DS1302_INIT?DS1302
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
-*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
-    SYMBOL:  RTC_INIT
-    MODULE:  main.obj (MAIN)
-*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
-    SYMBOL:  RTC_INIT
-    MODULE:  main.obj (MAIN)
-    ADDRESS: 059AH
-Program Size: data=54.0 xdata=0 code=1528
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SENDCHANGECMD?DS18B20
+Program Size: data=63.1 xdata=0 code=3236
 creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 10 Warning(s).
+"51z-firmware" - 0 Error(s), 8 Warning(s).
 Build target 'Target 1'
-compiling main.c...
-MAIN.C(24): warning C206: 'RTC_Init': missing function-prototype
-MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
-compiling delay.c...
-compiling timer0.c...
-compiling 3key.c...
-compiling 4wire-1602.c...
-compiling ds1302.c...
+compiling ds18b20.c...
 .\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
 .\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
 linking...
@@ -400,28 +236,194 @@ linking...
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_SHOWVA?4WIRE_1602
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?DS1302_INIT?DS1302
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SENDCHANGECMD?DS18B20
+Program Size: data=64.1 xdata=0 code=3267
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 6 Warning(s).
+Build target 'Target 1'
+compiling ds18b20.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+DRIVER\DS18B20.C(169): warning C206: 'pinrt10': missing function-prototype
+DRIVER\DS18B20.C(169): error C267: 'pinrt10': requires ANSI-style prototype
+Target not created
+Build target 'Target 1'
+compiling ds18b20.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+DRIVER\DS18B20.C(169): warning C206: 'lcd_pinrt10': missing function-prototype
+DRIVER\DS18B20.C(169): error C267: 'lcd_pinrt10': requires ANSI-style prototype
+Target not created
+Build target 'Target 1'
+compiling ds18b20.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+DRIVER\DS18B20.C(169): warning C206: 'pinrt10': missing function-prototype
+DRIVER\DS18B20.C(169): error C267: 'pinrt10': requires ANSI-style prototype
+Target not created
+Build target 'Target 1'
+compiling ds18b20.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
-*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
-    SYMBOL:  RTC_INIT
-    MODULE:  main.obj (MAIN)
-*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
-    SYMBOL:  RTC_INIT
-    MODULE:  main.obj (MAIN)
-    ADDRESS: 059AH
-Program Size: data=54.0 xdata=0 code=1528
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SENDCHANGECMD?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DISPLAY?DS18B20
+Program Size: data=65.1 xdata=0 code=3267
 creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 10 Warning(s).
+"51z-firmware" - 0 Error(s), 6 Warning(s).
+Build target 'Target 1'
+compiling ds18b20.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+DRIVER\DS18B20.C(153): warning C206: 'hex2c': missing function-prototype
+DRIVER\DS18B20.C(153): error C267: 'hex2c': requires ANSI-style prototype
+Target not created
+Build target 'Target 1'
+compiling ds18b20.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+DRIVER\DS18B20.C(167): warning C206: 'lcd_putc': missing function-prototype
+DRIVER\DS18B20.C(167): error C267: 'lcd_putc': requires ANSI-style prototype
+Target not created
 Build target 'Target 1'
 compiling main.c...
 MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
 MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
+MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
 compiling delay.c...
 compiling timer0.c...
 compiling 3key.c...
 compiling 4wire-1602.c...
 compiling ds1302.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+compiling ds18b20.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+DRIVER\DS18B20.C(168): warning C206: 'send_data': missing function-prototype
+DRIVER\DS18B20.C(168): error C267: 'send_data': requires ANSI-style prototype
+Target not created
+Build target 'Target 1'
+compiling ds18b20.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+DRIVER\DS18B20.C(168): error C141: syntax error near 'data'
+Target not created
+Build target 'Target 1'
+compiling ds18b20.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+DRIVER\DS18B20.C(168): warning C206: 'hd44870_send': missing function-prototype
+DRIVER\DS18B20.C(168): error C267: 'hd44870_send': requires ANSI-style prototype
+Target not created
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
+MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
+MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
+compiling 4wire-1602.c...
+compiling ds1302.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+compiling ds18b20.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+linking...
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  _HEX2C
+    MODULE:  ds18b20.obj (DS18B20)
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SENDCHANGECMD?DS18B20
+Program Size: data=64.1 xdata=0 code=3086
+Target not created
+compiling ds18b20.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+driver\ds18b20.c - 0 Error(s), 2 Warning(s).
+Build target 'Target 1'
+compiling ds18b20.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+DRIVER\DS18B20.C(163): error C247: non-address/-constant initializer
+Target not created
+compiling ds18b20.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+DRIVER\DS18B20.C(166): error C202: 'n': undefined identifier
+DRIVER\DS18B20.C(167): error C202: 'n': undefined identifier
+DRIVER\DS18B20.C(171): error C202: 'n': undefined identifier
+DRIVER\DS18B20.C(172): error C202: 'n': undefined identifier
+DRIVER\DS18B20.C(175): error C202: 'n': undefined identifier
+DRIVER\DS18B20.C(176): error C202: 'n': undefined identifier
+DRIVER\DS18B20.C(179): error C202: 'n': undefined identifier
+DRIVER\DS18B20.C(182): error C202: 'n': undefined identifier
+driver\ds18b20.c - 8 Error(s), 2 Warning(s).
+Build target 'Target 1'
+compiling ds18b20.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+DRIVER\DS18B20.C(166): error C202: 'n': undefined identifier
+DRIVER\DS18B20.C(167): error C202: 'n': undefined identifier
+DRIVER\DS18B20.C(171): error C202: 'n': undefined identifier
+DRIVER\DS18B20.C(172): error C202: 'n': undefined identifier
+DRIVER\DS18B20.C(175): error C202: 'n': undefined identifier
+DRIVER\DS18B20.C(176): error C202: 'n': undefined identifier
+DRIVER\DS18B20.C(179): error C202: 'n': undefined identifier
+DRIVER\DS18B20.C(182): error C202: 'n': undefined identifier
+Target not created
+Build target 'Target 1'
+compiling ds18b20.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+linking...
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  _HEX2C
+    MODULE:  ds18b20.obj (DS18B20)
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SENDCHANGECMD?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?GETTMPVALUE?DS18B20
+Program Size: data=69.2 xdata=0 code=3121
+Target not created
+Build target 'Target 1'
+linking...
+*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
+    SYMBOL:  _HEX2C
+    MODULE:  ds18b20.obj (DS18B20)
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SENDCHANGECMD?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?GETTMPVALUE?DS18B20
+Program Size: data=69.2 xdata=0 code=3121
+Target not created
+Build target 'Target 1'
+compiling ds18b20.c...
 .\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
 .\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
 linking...
@@ -431,18 +433,62 @@ linking...
     SEGMENT: ?PR?_SHOWVA?4WIRE_1602
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
-Program Size: data=54.0 xdata=0 code=1528
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SENDCHANGECMD?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?GETTMPVALUE?DS18B20
+Program Size: data=69.2 xdata=0 code=3101
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 7 Warning(s).
+Build target 'Target 1'
+compiling ds18b20.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SENDCHANGECMD?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?GETTMPVALUE?DS18B20
+Program Size: data=63.2 xdata=0 code=3080
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 7 Warning(s).
+Build target 'Target 1'
+compiling ds18b20.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SENDCHANGECMD?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?GETTMPVALUE?DS18B20
+Program Size: data=64.2 xdata=0 code=3130
 creating hex file from "51z-firmware"...
 "51z-firmware" - 0 Error(s), 7 Warning(s).
 Build target 'Target 1'
 compiling main.c...
 MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
 MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
+MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
 compiling delay.c...
 compiling timer0.c...
 compiling 3key.c...
 compiling 4wire-1602.c...
 compiling ds1302.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+compiling ds18b20.c...
 .\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
 .\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
 linking...
@@ -452,199 +498,102 @@ linking...
     SEGMENT: ?PR?_SHOWVA?4WIRE_1602
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
-Program Size: data=54.0 xdata=0 code=1528
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SENDCHANGECMD?DS18B20
+Program Size: data=57.1 xdata=0 code=3484
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 11 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
+MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
+MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
+compiling delay.c...
+compiling timer0.c...
+compiling 3key.c...
+compiling 4wire-1602.c...
+compiling ds1302.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+compiling ds18b20.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+DRIVER\DS18B20.C(35): error C141: syntax error near ')'
+Target not created
+Build target 'Target 1'
+compiling ds18b20.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SENDCHANGECMD?DS18B20
+Program Size: data=57.1 xdata=0 code=3433
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 6 Warning(s).
+Build target 'Target 1'
+compiling ds18b20.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SENDCHANGECMD?DS18B20
+Program Size: data=57.1 xdata=0 code=3432
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 6 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
+MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
+MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
+compiling delay.c...
+compiling timer0.c...
+compiling 3key.c...
+compiling 4wire-1602.c...
+compiling ds1302.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+compiling ds18b20.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+DRIVER\DS18B20.C(26): warning C275: expression with possibly no effect
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SENDCHANGECMD?DS18B20
+Program Size: data=57.1 xdata=0 code=3432
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 12 Warning(s).
+Build target 'Target 1'
+compiling ds18b20.c...
+.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
+.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
+DRIVER\DS18B20.C(26): warning C275: expression with possibly no effect
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SENDCHANGECMD?DS18B20
+Program Size: data=57.1 xdata=0 code=3432
 creating hex file from "51z-firmware"...
 "51z-firmware" - 0 Error(s), 7 Warning(s).
-Build target 'Target 1'
-compiling main.c...
-MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
-MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
-compiling delay.c...
-compiling timer0.c...
-compiling 3key.c...
-compiling 4wire-1602.c...
-compiling ds1302.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
-DRIVER\DS1302.C(141): warning C206: 'DS1302_write': missing function-prototype
-DRIVER\DS1302.C(141): error C267: 'DS1302_write': requires ANSI-style prototype
-Target not created
-Build target 'Target 1'
-compiling main.c...
-MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
-MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
-compiling delay.c...
-compiling timer0.c...
-compiling 3key.c...
-compiling 4wire-1602.c...
-compiling ds1302.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
-DRIVER\DS1302.C(61): error C141: syntax error near '='
-DRIVER\DS1302.C(66): error C141: syntax error near 'data'
-DRIVER\DS1302.C(67): error C141: syntax error near 'else'
-DRIVER\DS1302.C(75): error C141: syntax error near 'data', expected ';'
-DRIVER\DS1302.C(78): error C141: syntax error near ')'
-DRIVER\DS1302.C(83): error C141: syntax error near 'data'
-DRIVER\DS1302.C(83): error C190: '&': not an lvalue
-DRIVER\DS1302.C(83): error C141: syntax error near ')'
-DRIVER\DS1302.C(83): error C141: syntax error near ':'
-DRIVER\DS1302.C(89): error C141: syntax error near 'data'
-DRIVER\DS1302.C(93): error C141: syntax error near ')'
-DRIVER\DS1302.C(102): error C141: syntax error near 'data'
-DRIVER\DS1302.C(111): error C141: syntax error near ';'
-DRIVER\DS1302.C(120): error C141: syntax error near 'data'
-DRIVER\DS1302.C(125): error C141: syntax error near 'data'
-DRIVER\DS1302.C(135): error C208: '_ds1302_write': too many actual parameters
-Target not created
-compiling ds1302.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
-DRIVER\DS1302.C(61): error C141: syntax error near '='
-DRIVER\DS1302.C(66): error C141: syntax error near 'data'
-DRIVER\DS1302.C(67): error C141: syntax error near 'else'
-DRIVER\DS1302.C(75): error C141: syntax error near 'data', expected ';'
-DRIVER\DS1302.C(78): error C141: syntax error near ')'
-DRIVER\DS1302.C(83): error C141: syntax error near 'data'
-DRIVER\DS1302.C(83): error C190: '&': not an lvalue
-DRIVER\DS1302.C(83): error C141: syntax error near ')'
-DRIVER\DS1302.C(83): error C141: syntax error near ':'
-DRIVER\DS1302.C(89): error C141: syntax error near 'data'
-DRIVER\DS1302.C(93): error C141: syntax error near ')'
-DRIVER\DS1302.C(102): error C141: syntax error near 'data'
-DRIVER\DS1302.C(111): error C141: syntax error near ';'
-DRIVER\DS1302.C(120): error C141: syntax error near 'data'
-DRIVER\DS1302.C(125): error C141: syntax error near 'data'
-DRIVER\DS1302.C(135): error C208: '_ds1302_write': too many actual parameters
-driver\ds1302.c - 16 Error(s), 2 Warning(s).
-compiling ds1302.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
-DRIVER\DS1302.C(137): warning C206: 'DS1302_read': missing function-prototype
-DRIVER\DS1302.C(137): error C267: 'DS1302_read': requires ANSI-style prototype
-driver\ds1302.c - 1 Error(s), 3 Warning(s).
-compiling ds1302.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
-driver\ds1302.c - 0 Error(s), 2 Warning(s).
-Build target 'Target 1'
-linking...
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINT10?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
-Program Size: data=54.0 xdata=0 code=1528
-creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 3 Warning(s).
-compiling ds1302.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
-driver\ds1302.c - 0 Error(s), 2 Warning(s).
-Build target 'Target 1'
-linking...
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINT10?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
-Program Size: data=54.0 xdata=0 code=1528
-creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 3 Warning(s).
-Build target 'Target 1'
-compiling ds1302.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
-linking...
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINT10?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
-Program Size: data=54.0 xdata=0 code=1576
-creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 5 Warning(s).
-compiling ds1302.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
-driver\ds1302.c - 0 Error(s), 2 Warning(s).
-Build target 'Target 1'
-linking...
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINT10?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
-Program Size: data=54.0 xdata=0 code=1576
-creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 3 Warning(s).
-Build target 'Target 1'
-compiling ds1302.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
-DRIVER\DS1302.C(222): error C193: '=': illegal type conversion from/to 'void'
-DRIVER\DS1302.C(228): error C202: 'esle': undefined identifier
-DRIVER\DS1302.C(228): error C141: syntax error near 'lcd_puts'
-Target not created
-Build target 'Target 1'
-compiling ds1302.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
-DRIVER\DS1302.C(222): error C193: '=': illegal type conversion from/to 'void'
-DRIVER\DS1302.C(228): error C202: 'esle': undefined identifier
-DRIVER\DS1302.C(228): error C141: syntax error near 'lcd_puts'
-Target not created
-Build target 'Target 1'
-compiling ds1302.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
-DRIVER\DS1302.C(228): error C202: 'esle': undefined identifier
-DRIVER\DS1302.C(228): error C141: syntax error near 'lcd_puts'
-Target not created
-Build target 'Target 1'
-compiling ds1302.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
-linking...
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINT10?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
-Program Size: data=55.0 xdata=0 code=1628
-creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 5 Warning(s).
-Build target 'Target 1'
-compiling ds1302.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
-linking...
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINT10?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
-Program Size: data=55.0 xdata=0 code=1633
-creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 5 Warning(s).
-compiling ds1302.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(57): warning C317: attempt to redefine macro 'ror8'
-driver\ds1302.c - 0 Error(s), 2 Warning(s).
-Build target 'Target 1'
-linking...
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINT10?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
-Program Size: data=55.0 xdata=0 code=1635
-creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 3 Warning(s).

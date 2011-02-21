@@ -3,6 +3,7 @@
 "timer0.obj",
 "3key.obj",
 "4wire-1602.obj",
-"ds1302.obj" 
+"ds1302.obj",
+"ds18b20.obj" 
 TO "51z-firmware" 
 RAMSIZE(256) 
