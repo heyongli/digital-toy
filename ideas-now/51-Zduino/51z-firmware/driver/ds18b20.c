@@ -19,9 +19,16 @@
 #define DS18B20_SKIPROM    0xCC
 
 sbit ds = P1^3;
+
+
+void ds_delay(unsigned char i)
+{
+  while(i--);
+
+}
 	  
 /*12Mhz for 51, 1us one cycle*/
-#define _udelay  udelay
+//#define _udelay _2cycle
 
 
 //≥ı ºªØDS18B20
@@ -29,60 +36,72 @@ sbit ds = P1^3;
  void dallas_reset()
  {
    ds = 0;
-   _udelay(480);
-   
+   //_udelay(480);
+   ds_delay(80);
+
    ds = 1;    //pull up and prepare receive 
-   _udelay(70);  
-
-
+   //_udelay(70);  
+   ds_delay(11); //62us
+   
+   
    if(0==ds);
-   else
-   { hd44870_send('!',0);}
+   else { hd44870_send('!',0);}
     
-    _udelay(410);
+   // _udelay(410);
+   ds_delay(68);
 
-#if 1 
+#if 0
 	//check bus
 	ds=1;
+
 	if(ds==1);//ok
 	else  hd44870_send('@',0);
 #endif
 
  }
 
+/*60us for one read time slot*/
 bit dallas_read_bit()
 {
    unsigned char b=0;
    ds = 0;
    //delay for reading bit
-   _udelay(6);
+   //_udelay(6);
+   _nop_;_nop_; 
    ds = 1;	//relase bus
    
    //delay appropiate time for read
-   _udelay(9);
+   //_udelay(9);
+     _nop_;_nop_; _nop_;_nop_; _nop_;
+
+
    if(ds)b=1;
 
    //finish bit slot
-   _udelay(55);
+   //_udelay(55);
+    ds_delay(7);
+	     
     return b;
 }
 
 void dallas_write_bit(unsigned char b)
 {
    ds = 0;
-   //delay for reading bit
-   _udelay(6);
-   if(b)
-      udelay(6);
+   //delay for write bit
+   //_udelay(6);
+   { _nop_;_nop_; _nop_; }
+    if(b)
+     /// udelay(6);
+	 { _nop_;_nop_; _nop_;  }
     else
-	   udelay(60);
+	   //udelay(60);
+	   ds_delay(7);
    	
 	ds = 1;	//relase bus
    
     if(b) 
-	   udelay(64);
-	else
-	   udelay(10);
+	   //udelay(64);
+	   ds_delay(7);
 }
 
 
@@ -105,7 +124,7 @@ void writeByte(unsigned char byte)
    for(i=0; i<8; i++){
        dallas_write_bit((byte>>i)&0x01);
 	   //delay for each wirte
-	   udelay(1);
+	   _nop_;//udelay(1);
     }
 }
 
@@ -181,7 +200,7 @@ ds18b20_demo()
 {
     unsigned int t;
     lcd_cursor(0,1);
-//	while(1)dallas_reset();
+	//while(1){ds18b20_start();mdelay(1);};
 	ds18b20_start();
 	t=getTmpValue();
 	display(t>>4);//

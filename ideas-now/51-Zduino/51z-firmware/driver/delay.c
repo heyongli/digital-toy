@@ -5,15 +5,19 @@
   1 cycle:  12/12M = 1us 
 
 *******************/
-#include  "config.h"
+#include <delay.h>
+
+
 
 /*
  *  run about cyc*2+2 cycle
+ *  1-255 cycles, 2-510us at 12Mhz
  */
-void _2cycle(unsigned char cyc)
+void  _2cycle(unsigned char cyc)
 {
    while(--cyc);	 //while(--cyc) have bug when cyc==0, but we must use --cyc to genarate one inst
    /* DFFE     DJNZ     R7,delay(C:0014), 2cycle*/
+   /*RET: 2cycle*/
 }
 
 
