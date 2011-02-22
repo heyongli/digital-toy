@@ -72,7 +72,7 @@ bit dallas_read_bit()
    
    //delay appropiate time for read
    //_udelay(9);
-     _nop_;_nop_; _nop_;_nop_; _nop_;
+    _nop_;_nop_; _nop_;_nop_; _nop_;
 
 
    if(ds)b=1;
@@ -173,24 +173,24 @@ void display(int n)
 	 c= hex2c((n/100000));
 	 n = n%100000;
      
-	 if(c||show){ lcd_putc(c); show =1;}
+	 if((c!='0')||show){ lcd_putc(c); show =1;}
 
 	 c= hex2c((n/10000));
 	 n = n%10000;
      
-	 if(c||show){ lcd_putc(c); show =1;}
+	 if((c!='0')||show){ lcd_putc(c); show =1;}
 
 	 c= hex2c(n/1000);
 	 n = n%1000;
-	 if(c||show) { lcd_putc(c); show =1;}	 
+	 if((c!='0')||show) { lcd_putc(c); show =1;}	 
 		   	
 	 c= hex2c( (n/100) );
 	 n = n%100;
-	 if(c||show) { lcd_putc(c); show =1;}	 
+	 if((c!='0')||show) { lcd_putc(c); show =1;}	 
 	
 	 c= hex2c( (n/10) );
-     lcd_putc(c);	 
-
+     if((c!='0')||show) { lcd_putc(c); show =1;}	 
+	
 	 c= hex2c( (n%10) );;
 	 lcd_putc(c);	 
   
@@ -203,9 +203,9 @@ ds18b20_demo()
 	//while(1){ds18b20_start();mdelay(1);};
 	ds18b20_start();
 	t=getTmpValue();
-	display(t>>4);//
+	display((int)t>>4);//
 	lcd_putc('.');
-	display(t&0xF);//
+	display(((int)t)&0xF);//
 	
 	
 }
