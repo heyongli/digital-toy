@@ -4,37 +4,17 @@
 <h1>µVision3 Build Log</h1>
 <h2>Project:</h2>
 Z:\home\digital-toy\ideas-now\51-Zduino\51z-firmware\i-charger-1602.uv2
-Project File Date:  02/21/2011
+Project File Date:  02/23/2011
 
 <h2>Output:</h2>
 Build target 'Target 1'
-compiling main.c...
-MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
-MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
 compiling delay.c...
-compiling timer0.c...
-compiling 3key.c...
-compiling 4wire-1602.c...
-compiling ds1302.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(58): warning C317: attempt to redefine macro 'ror8'
-compiling ds18b20.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(58): warning C317: attempt to redefine macro 'ror8'
-DRIVER\DS18B20.C(70): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(70): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(75): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(75): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(75): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(75): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(75): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(92): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(92): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(92): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(95): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(95): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(95): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(127): warning C275: expression with possibly no effect
+DRIVER\DELAY.C(22): error C202: 'DJNZ': undefined identifier
+DRIVER\DELAY.C(22): error C141: syntax error near 'r7'
+DRIVER\DELAY.C(23): error C141: syntax error near 'RET'
+DRIVER\DELAY.C(28): error C141: syntax error near '}'
+Target not created
+Build target 'Target 1'
 linking...
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_PRINT10?4WIRE_1602
@@ -42,16 +22,123 @@ linking...
     SEGMENT: ?PR?_SHOWVA?4WIRE_1602
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?DS18B20_DEMO?DS18B20
-Program Size: data=62.0 xdata=0 code=2527
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _SLEEP
+    MODULE:  main.obj (MAIN)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _SLEEP
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0999H
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _MDELAY
+    MODULE:  3key.obj (3KEY)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _MDELAY
+    MODULE:  3key.obj (3KEY)
+    ADDRESS: 0831H
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  __2CYCLE
+    MODULE:  4wire-1602.obj (4WIRE_1602)
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _MDELAY
+    MODULE:  4wire-1602.obj (4WIRE_1602)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  __2CYCLE
+    MODULE:  4wire-1602.obj (4WIRE_1602)
+    ADDRESS: 09C3H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _MDELAY
+    MODULE:  4wire-1602.obj (4WIRE_1602)
+    ADDRESS: 09C9H
+Program Size: data=58.0 xdata=0 code=2511
 creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 24 Warning(s).
+"51z-firmware" - 0 Error(s), 11 Warning(s).
+Build target 'Target 1'
+"51z-firmware" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+"51z-firmware" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling delay.c...
+DRIVER\DELAY.C(22): error C202: 'DJNZ': undefined identifier
+DRIVER\DELAY.C(22): error C141: syntax error near 'r7'
+DRIVER\DELAY.C(23): error C141: syntax error near 'RET'
+DRIVER\DELAY.C(28): error C141: syntax error near '}'
+Target not created
+Build target 'Target 1'
+compiling delay.c...
+DRIVER\DELAY.C(22): error C202: 'DJNZ': undefined identifier
+DRIVER\DELAY.C(22): error C141: syntax error near 'r7'
+DRIVER\DELAY.C(23): error C141: syntax error near 'RET'
+DRIVER\DELAY.C(28): error C141: syntax error near '}'
+Target not created
+Build target 'Target 1'
+compiling delay.c...
+DRIVER\DELAY.C(22): error C202: 'DJNZ': undefined identifier
+DRIVER\DELAY.C(22): error C141: syntax error near 'r7'
+DRIVER\DELAY.C(23): error C141: syntax error near 'RET'
+DRIVER\DELAY.C(28): error C141: syntax error near '}'
+Target not created
+Build target 'Target 1'
+compiling delay.c...
+DRIVER\DELAY.C(22): error C202: 'DJNZ': undefined identifier
+DRIVER\DELAY.C(22): error C141: syntax error near 'r7'
+DRIVER\DELAY.C(23): error C141: syntax error near 'RET'
+DRIVER\DELAY.C(28): error C141: syntax error near '}'
+Target not created
+Build target 'Target 1'
+compiling delay.c...
+assembling delay.src...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+Program Size: data=59.0 xdata=0 code=2569
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 3 Warning(s).
+Build target 'Target 1'
+compiling delay.c...
+assembling delay.src...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+Program Size: data=59.0 xdata=0 code=2569
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 3 Warning(s).
+compiling delay.c...
+assembling delay.src...
+delay.src - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling delay.c...
+assembling delay.src...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+Program Size: data=59.0 xdata=0 code=2569
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 3 Warning(s).
 Build target 'Target 1'
 compiling main.c...
 MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
 MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
 MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
+compiling delay.c...
+assembling delay.src...
+compiling timer0.c...
+compiling 3key.c...
+compiling 4wire-1602.c...
+compiling ds1302.c...
+compiling ds18b20.c...
 linking...
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_PRINT10?4WIRE_1602
@@ -59,27 +146,650 @@ linking...
     SEGMENT: ?PR?_SHOWVA?4WIRE_1602
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
-Program Size: data=58.0 xdata=0 code=2530
+Program Size: data=59.0 xdata=0 code=2569
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 6 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
+MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
+MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
+compiling delay.c...
+assembling delay.src...
+compiling timer0.c...
+compiling 3key.c...
+compiling 4wire-1602.c...
+compiling ds1302.c...
+compiling ds18b20.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+Program Size: data=59.0 xdata=0 code=2569
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 6 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
+MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
+MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
+compiling delay.c...
+assembling delay.src...
+compiling timer0.c...
+compiling 3key.c...
+compiling 4wire-1602.c...
+compiling ds1302.c...
+compiling ds18b20.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+Program Size: data=59.0 xdata=0 code=2569
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 6 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
+MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
+MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
+compiling delay.c...
+assembling delay.src...
+delay.src(43): error A37: OPERATION INVALID IN THIS SEGMENT
+delay.src(44): error A37: OPERATION INVALID IN THIS SEGMENT
+compiling timer0.c...
+compiling 3key.c...
+compiling 4wire-1602.c...
+compiling ds1302.c...
+compiling ds18b20.c...
+Target not created
+Build target 'Target 1'
+compiling delay.c...
+assembling delay.src...
+delay.src(43): error A37: OPERATION INVALID IN THIS SEGMENT
+delay.src(44): error A37: OPERATION INVALID IN THIS SEGMENT
+Target not created
+Build target 'Target 1'
+compiling delay.c...
+assembling delay.src...
+delay.src(51): error A45: UNDEFINED SYMBOL (PASS-2)
+Target not created
+Build target 'Target 1'
+compiling delay.c...
+assembling delay.src...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+Program Size: data=59.0 xdata=0 code=2568
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 3 Warning(s).
+Build target 'Target 1'
+compiling delay.c...
+assembling delay.src...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+Program Size: data=59.0 xdata=0 code=2568
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 3 Warning(s).
+Build target 'Target 1'
+compiling delay.c...
+assembling delay.src...
+delay.src(49): error A45: UNDEFINED SYMBOL (PASS-2)
+Target not created
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
+MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
+MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
+compiling delay.c...
+assembling delay.src...
+delay.src(56): error A45: UNDEFINED SYMBOL (PASS-2)
+compiling timer0.c...
+compiling 3key.c...
+compiling 4wire-1602.c...
+compiling ds1302.c...
+compiling ds18b20.c...
+Target not created
+Build target 'Target 1'
+compiling delay.c...
+assembling delay.src...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_MDELAY?DELAY
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SLEEP?DELAY
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS1302_CURTIME_GET?DS1302
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  SLEEP
+    MODULE:  main.obj (MAIN)
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  ?SLEEP?BYTE
+    MODULE:  main.obj (MAIN)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  ?SLEEP?BYTE
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0A88H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  SLEEP
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0A8AH
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  MDELAY
+    MODULE:  delay.obj (DELAY)
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  ?MDELAY?BYTE
+    MODULE:  delay.obj (DELAY)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  ?MDELAY?BYTE
+    MODULE:  delay.obj (DELAY)
+    ADDRESS: 08ADH
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  MDELAY
+    MODULE:  delay.obj (DELAY)
+    ADDRESS: 08B0H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  ?MDELAY?BYTE
+    MODULE:  delay.obj (DELAY)
+    ADDRESS: 08B3H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  MDELAY
+    MODULE:  delay.obj (DELAY)
+    ADDRESS: 08B6H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  ?MDELAY?BYTE
+    MODULE:  delay.obj (DELAY)
+    ADDRESS: 08B9H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  MDELAY
+    MODULE:  delay.obj (DELAY)
+    ADDRESS: 08BCH
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  ?MDELAY?BYTE
+    MODULE:  delay.obj (DELAY)
+    ADDRESS: 08BFH
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  MDELAY
+    MODULE:  delay.obj (DELAY)
+    ADDRESS: 08C2H
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  MDELAY
+    MODULE:  3key.obj (3KEY)
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  ?MDELAY?BYTE
+    MODULE:  3key.obj (3KEY)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  ?MDELAY?BYTE
+    MODULE:  3key.obj (3KEY)
+    ADDRESS: 095CH
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  MDELAY
+    MODULE:  3key.obj (3KEY)
+    ADDRESS: 095FH
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  MDELAY
+    MODULE:  4wire-1602.obj (4WIRE_1602)
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  ?MDELAY?BYTE
+    MODULE:  4wire-1602.obj (4WIRE_1602)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  ?MDELAY?BYTE
+    MODULE:  4wire-1602.obj (4WIRE_1602)
+    ADDRESS: 0AB2H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  MDELAY
+    MODULE:  4wire-1602.obj (4WIRE_1602)
+    ADDRESS: 0AB5H
+Program Size: data=65.0 xdata=0 code=2751
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 27 Warning(s).
+Build target 'Target 1'
+compiling delay.c...
+assembling delay.src...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS1302_CURTIME_GET?DS1302
+Program Size: data=64.0 xdata=0 code=2750
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 3 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
+MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
+MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
+compiling delay.c...
+assembling delay.src...
+compiling timer0.c...
+compiling 3key.c...
+compiling 4wire-1602.c...
+compiling ds1302.c...
+compiling ds18b20.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+Program Size: data=59.0 xdata=0 code=2568
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 6 Warning(s).
+Build target 'Target 1'
+compiling delay.c...
+assembling delay.src...
+delay.src(48): error A40: INVALID REGISTER
+Target not created
+Build target 'Target 1'
+compiling delay.c...
+assembling delay.src...
+delay.src(13): error A45: UNDEFINED SYMBOL (PASS-2)
+delay.src(14): error A45: UNDEFINED SYMBOL (PASS-2)
+delay.src(43): error A33: CONFLICTING ATTRIBUTES
+delay.src(47): error A40: INVALID REGISTER
+delay.src(67): warning A73: TEXT FOUND BEYOND END STATEMENT - IGNORED
+Target not created
+Build target 'Target 1'
+compiling delay.c...
+assembling delay.src...
+delay.src(13): error A45: UNDEFINED SYMBOL (PASS-2)
+delay.src(14): error A45: UNDEFINED SYMBOL (PASS-2)
+delay.src(43): error A33: CONFLICTING ATTRIBUTES
+delay.src(67): warning A73: TEXT FOUND BEYOND END STATEMENT - IGNORED
+Target not created
+Build target 'Target 1'
+compiling delay.c...
+assembling delay.src...
+delay.src(43): error A33: CONFLICTING ATTRIBUTES
+Target not created
+Build target 'Target 1'
+compiling delay.c...
+assembling delay.src...
+delay.src(43): error A9: SYNTAX ERROR
+Target not created
+Build target 'Target 1'
+compiling delay.c...
+assembling delay.src...
+delay.src(43): error A45: UNDEFINED SYMBOL (PASS-2)
+Target not created
+Build target 'Target 1'
+compiling delay.c...
+assembling delay.src...
+delay.src(43): error A45: UNDEFINED SYMBOL (PASS-2)
+Target not created
+Build target 'Target 1'
+compiling delay.c...
+assembling delay.src...
+delay.src(49): error A22: EXPRESSION TYPE DOES NOT MATCH INSTRUCTION
+delay.src(60): error A45: UNDEFINED SYMBOL (PASS-2)
+delay.src(63): error A8: ATTEMPT TO DEFINE AN ALREADY DEFINED LABEL
+Target not created
+Build target 'Target 1'
+compiling delay.c...
+assembling delay.src...
+delay.src(55): error A45: UNDEFINED SYMBOL (PASS-2)
+Target not created
+Build target 'Target 1'
+compiling delay.c...
+assembling delay.src...
+delay.src(54): error A45: UNDEFINED SYMBOL (PASS-2)
+Target not created
+Build target 'Target 1'
+compiling delay.c...
+assembling delay.src...
+delay.src(51): error A30: SEGMENT SYMBOL EXPECTED
+delay.src(53): error A37: OPERATION INVALID IN THIS SEGMENT
+delay.src(54): error A37: OPERATION INVALID IN THIS SEGMENT
+Target not created
+Build target 'Target 1'
+compiling delay.c...
+assembling delay.src...
+delay.src(54): error A45: UNDEFINED SYMBOL (PASS-2)
+Target not created
+Build target 'Target 1'
+compiling delay.c...
+assembling delay.src...
+delay.src(51): error A33: CONFLICTING ATTRIBUTES
+delay.src(53): error A30: SEGMENT SYMBOL EXPECTED
+delay.src(54): error A8: ATTEMPT TO DEFINE AN ALREADY DEFINED LABEL
+delay.src(55): error A37: OPERATION INVALID IN THIS SEGMENT
+delay.src(56): error A37: OPERATION INVALID IN THIS SEGMENT
+Target not created
+Build target 'Target 1'
+compiling delay.c...
+assembling delay.src...
+delay.src(51): error A33: CONFLICTING ATTRIBUTES
+delay.src(52): error A8: ATTEMPT TO DEFINE AN ALREADY DEFINED LABEL
+delay.src(53): error A37: OPERATION INVALID IN THIS SEGMENT
+delay.src(54): error A37: OPERATION INVALID IN THIS SEGMENT
+Target not created
+Build target 'Target 1'
+compiling delay.c...
+assembling delay.src...
+delay.src(51): error A8: ATTEMPT TO DEFINE AN ALREADY DEFINED LABEL
+delay.src(52): error A37: OPERATION INVALID IN THIS SEGMENT
+delay.src(53): error A37: OPERATION INVALID IN THIS SEGMENT
+Target not created
+Build target 'Target 1'
+compiling delay.c...
+assembling delay.src...
+delay.src(52): error A9: SYNTAX ERROR
+delay.src(53): error A8: ATTEMPT TO DEFINE AN ALREADY DEFINED LABEL
+delay.src(54): error A37: OPERATION INVALID IN THIS SEGMENT
+delay.src(55): error A37: OPERATION INVALID IN THIS SEGMENT
+Target not created
+Build target 'Target 1'
+compiling delay.c...
+assembling delay.s...
+driver\delay.s(2): error A68: UNKNOWN CONTROL OR BAD ARGUMENT(S)
+driver\delay.s(4): error A9: SYNTAX ERROR
+driver\delay.s(6): error A45: UNDEFINED SYMBOL (PASS-2)
+driver\delay.s(8): error A68: UNKNOWN CONTROL OR BAD ARGUMENT(S)
+driver\delay.s(11): warning A41: MISSING 'END' STATEMENT
+Target not created
+Build target 'Target 1'
+compiling delay.c...
+assembling delay.s...
+driver\delay.s(4): error A45: UNDEFINED SYMBOL (PASS-2)
+driver\delay.s(11): warning A41: MISSING 'END' STATEMENT
+Target not created
+Build target 'Target 1'
+compiling delay.c...
+assembling delay.s...
+driver\delay.s(4): error A45: UNDEFINED SYMBOL (PASS-2)
+Target not created
+Build target 'Target 1'
+compiling delay.c...
+assembling delay.s...
+driver\delay.s(9): error A45: UNDEFINED SYMBOL (PASS-2)
+Target not created
+Build target 'Target 1'
+compiling delay.c...
+assembling delay.s...
+linking...
+*** WARNING L7: MODULE NAME NOT UNIQUE
+    MODULE:  delay.obj (ASM_FUNCTIONS)
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _SLEEP
+    MODULE:  main.obj (MAIN)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _SLEEP
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0999H
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _MDELAY
+    MODULE:  3key.obj (3KEY)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _MDELAY
+    MODULE:  3key.obj (3KEY)
+    ADDRESS: 0831H
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _MDELAY
+    MODULE:  4wire-1602.obj (4WIRE_1602)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _MDELAY
+    MODULE:  4wire-1602.obj (4WIRE_1602)
+    ADDRESS: 09C9H
+Program Size: data=58.0 xdata=0 code=2514
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 10 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
+MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
+MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
+compiling delay.c...
+compiling timer0.c...
+compiling 3key.c...
+compiling 4wire-1602.c...
+compiling ds1302.c...
+compiling ds18b20.c...
+assembling delay.s...
+linking...
+*** WARNING L7: MODULE NAME NOT UNIQUE
+    MODULE:  delay.obj (ASM_FUNCTIONS)
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _SLEEP
+    MODULE:  main.obj (MAIN)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _SLEEP
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 0999H
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _MDELAY
+    MODULE:  3key.obj (3KEY)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _MDELAY
+    MODULE:  3key.obj (3KEY)
+    ADDRESS: 0831H
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _MDELAY
+    MODULE:  4wire-1602.obj (4WIRE_1602)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _MDELAY
+    MODULE:  4wire-1602.obj (4WIRE_1602)
+    ADDRESS: 09C9H
+Program Size: data=58.0 xdata=0 code=2514
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 13 Warning(s).
+Build target 'Target 1'
+compiling delay.c...
+assembling _delay.s...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+Program Size: data=58.0 xdata=0 code=2568
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 3 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
+MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
+MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
+compiling delay.c...
+compiling timer0.c...
+compiling 3key.c...
+compiling 4wire-1602.c...
+compiling ds1302.c...
+compiling ds18b20.c...
+assembling _delay.s...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+Program Size: data=58.0 xdata=0 code=2568
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 6 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
+MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
+MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
+compiling delay.c...
+compiling timer0.c...
+compiling 3key.c...
+compiling 4wire-1602.c...
+compiling ds1302.c...
+compiling ds18b20.c...
+assembling _delay.s...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+Program Size: data=58.0 xdata=0 code=2568
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 6 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
+MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
+MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
+compiling delay.c...
+compiling timer0.c...
+compiling 3key.c...
+compiling 4wire-1602.c...
+compiling ds1302.c...
+compiling ds18b20.c...
+assembling _delay.s...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+Program Size: data=58.0 xdata=0 code=2566
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 6 Warning(s).
+Build target 'Target 1'
+compiling delay.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+Program Size: data=58.0 xdata=0 code=2566
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 3 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
+MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
+MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
+compiling delay.c...
+compiling timer0.c...
+compiling 3key.c...
+compiling 4wire-1602.c...
+compiling ds1302.c...
+compiling ds18b20.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+Program Size: data=58.0 xdata=0 code=2566
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 6 Warning(s).
+Build target 'Target 1'
+compiling delay.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+Program Size: data=58.0 xdata=0 code=2566
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 3 Warning(s).
+Build target 'Target 1'
+compiling delay.c...
+assembling _delay.s...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+Program Size: data=58.0 xdata=0 code=2566
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 3 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
+MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
+MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
+compiling delay.c...
+compiling timer0.c...
+compiling 3key.c...
+compiling 4wire-1602.c...
+compiling ds1302.c...
+compiling ds18b20.c...
+assembling _delay.s...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_START?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?GETTMPVALUE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DISPLAY?DS18B20
+Program Size: data=60.0 xdata=0 code=2542
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 9 Warning(s).
+Build target 'Target 1'
+compiling ds18b20.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_START?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?GETTMPVALUE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DISPLAY?DS18B20
+Program Size: data=60.0 xdata=0 code=2542
 creating hex file from "51z-firmware"...
 "51z-firmware" - 0 Error(s), 6 Warning(s).
 Build target 'Target 1'
 compiling ds18b20.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(58): warning C317: attempt to redefine macro 'ror8'
-DRIVER\DS18B20.C(70): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(70): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(75): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(75): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(75): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(75): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(75): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(92): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(92): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(92): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(95): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(95): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(95): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(127): warning C275: expression with possibly no effect
 linking...
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_PRINT10?4WIRE_1602
@@ -87,9 +797,33 @@ linking...
     SEGMENT: ?PR?_SHOWVA?4WIRE_1602
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
-Program Size: data=58.0 xdata=0 code=2538
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_START?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?GETTMPVALUE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DISPLAY?DS18B20
+Program Size: data=60.0 xdata=0 code=2542
 creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 19 Warning(s).
+"51z-firmware" - 0 Error(s), 6 Warning(s).
+Build target 'Target 1'
+compiling ds18b20.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_START?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?GETTMPVALUE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DISPLAY?DS18B20
+Program Size: data=60.0 xdata=0 code=2542
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 6 Warning(s).
 Build target 'Target 1'
 compiling main.c...
 MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
@@ -100,25 +834,8 @@ compiling timer0.c...
 compiling 3key.c...
 compiling 4wire-1602.c...
 compiling ds1302.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(58): warning C317: attempt to redefine macro 'ror8'
 compiling ds18b20.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(58): warning C317: attempt to redefine macro 'ror8'
-DRIVER\DS18B20.C(70): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(70): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(75): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(75): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(75): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(75): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(75): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(92): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(92): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(92): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(95): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(95): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(95): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(127): warning C275: expression with possibly no effect
+assembling _delay.s...
 linking...
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_PRINT10?4WIRE_1602
@@ -126,34 +843,384 @@ linking...
     SEGMENT: ?PR?_SHOWVA?4WIRE_1602
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
-Program Size: data=58.0 xdata=0 code=2538
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_START?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?GETTMPVALUE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DISPLAY?DS18B20
+Program Size: data=60.0 xdata=0 code=2542
 creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 24 Warning(s).
+"51z-firmware" - 0 Error(s), 9 Warning(s).
 Build target 'Target 1'
 compiling ds18b20.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(58): warning C317: attempt to redefine macro 'ror8'
-DRIVER\DS18B20.C(42): error C141: syntax error near 'ds'
-DRIVER\DS18B20.C(47): error C141: syntax error near 'if'
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_START?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?GETTMPVALUE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DISPLAY?DS18B20
+Program Size: data=60.0 xdata=0 code=2542
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 6 Warning(s).
+Build target 'Target 1'
+compiling ds18b20.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_START?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?GETTMPVALUE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DISPLAY?DS18B20
+Program Size: data=60.0 xdata=0 code=2542
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 6 Warning(s).
+Build target 'Target 1'
+compiling ds18b20.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_START?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?GETTMPVALUE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DISPLAY?DS18B20
+Program Size: data=60.0 xdata=0 code=2542
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 6 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
+MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
+MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
+compiling delay.c...
+compiling timer0.c...
+compiling 3key.c...
+compiling 4wire-1602.c...
+compiling ds1302.c...
+compiling ds18b20.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_START?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?GETTMPVALUE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DISPLAY?DS18B20
+Program Size: data=60.0 xdata=0 code=2542
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 9 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
+MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
+MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
+compiling delay.c...
+compiling timer0.c...
+compiling 3key.c...
+compiling 4wire-1602.c...
+compiling ds1302.c...
+compiling ds18b20.c...
+assembling _delay.s...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_START?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?GETTMPVALUE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DISPLAY?DS18B20
+Program Size: data=60.0 xdata=0 code=2542
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 9 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
+MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
+MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
+compiling delay.c...
+DRIVER\DELAY.C(38): warning C206: 'udelay': missing function-prototype
+DRIVER\DELAY.C(38): error C267: 'udelay': requires ANSI-style prototype
+compiling timer0.c...
+compiling 3key.c...
+compiling 4wire-1602.c...
+compiling ds1302.c...
+compiling ds18b20.c...
+DRIVER\DS18B20.C(204): warning C206: 'udelay': missing function-prototype
+DRIVER\DS18B20.C(204): error C267: 'udelay': requires ANSI-style prototype
+assembling _delay.s...
+Target not created
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
+MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
+MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
+compiling delay.c...
+compiling timer0.c...
+compiling 3key.c...
+compiling 4wire-1602.c...
+compiling ds1302.c...
+compiling ds18b20.c...
+assembling _delay.s...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_START?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?GETTMPVALUE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DISPLAY?DS18B20
+Program Size: data=60.0 xdata=0 code=2542
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 9 Warning(s).
+Build target 'Target 1'
+compiling delay.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?__DELAY_MS?DELAY
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_START?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?GETTMPVALUE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DISPLAY?DS18B20
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _MDELAY
+    MODULE:  delay.obj (DELAY)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _MDELAY
+    MODULE:  delay.obj (DELAY)
+    ADDRESS: 086FH
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _MDELAY
+    MODULE:  delay.obj (DELAY)
+    ADDRESS: 0874H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _MDELAY
+    MODULE:  delay.obj (DELAY)
+    ADDRESS: 0879H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _MDELAY
+    MODULE:  delay.obj (DELAY)
+    ADDRESS: 087EH
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _MDELAY
+    MODULE:  3key.obj (3KEY)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _MDELAY
+    MODULE:  3key.obj (3KEY)
+    ADDRESS: 07E8H
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _MDELAY
+    MODULE:  4wire-1602.obj (4WIRE_1602)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _MDELAY
+    MODULE:  4wire-1602.obj (4WIRE_1602)
+    ADDRESS: 09E6H
+Program Size: data=61.0 xdata=0 code=2542
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 16 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
+MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
+MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
+compiling delay.c...
+compiling timer0.c...
+compiling 3key.c...
+compiling 4wire-1602.c...
+compiling ds1302.c...
+compiling ds18b20.c...
+assembling _delay.s...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?__DELAY_MS?DELAY
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_START?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?GETTMPVALUE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DISPLAY?DS18B20
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _MDELAY
+    MODULE:  delay.obj (DELAY)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _MDELAY
+    MODULE:  delay.obj (DELAY)
+    ADDRESS: 086FH
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _MDELAY
+    MODULE:  delay.obj (DELAY)
+    ADDRESS: 0874H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _MDELAY
+    MODULE:  delay.obj (DELAY)
+    ADDRESS: 0879H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _MDELAY
+    MODULE:  delay.obj (DELAY)
+    ADDRESS: 087EH
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _MDELAY
+    MODULE:  3key.obj (3KEY)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _MDELAY
+    MODULE:  3key.obj (3KEY)
+    ADDRESS: 07E8H
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _MDELAY
+    MODULE:  4wire-1602.obj (4WIRE_1602)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _MDELAY
+    MODULE:  4wire-1602.obj (4WIRE_1602)
+    ADDRESS: 09E6H
+Program Size: data=61.0 xdata=0 code=2542
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 19 Warning(s).
+Build target 'Target 1'
+compiling delay.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_START?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?GETTMPVALUE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DISPLAY?DS18B20
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _MDELAY
+    MODULE:  3key.obj (3KEY)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _MDELAY
+    MODULE:  3key.obj (3KEY)
+    ADDRESS: 07E8H
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _MDELAY
+    MODULE:  4wire-1602.obj (4WIRE_1602)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _MDELAY
+    MODULE:  4wire-1602.obj (4WIRE_1602)
+    ADDRESS: 09E6H
+Program Size: data=60.0 xdata=0 code=2542
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 10 Warning(s).
+Build target 'Target 1'
+compiling 3key.c...
+DRIVER\3KEY.C(12): warning C206: '_delay_ms': missing function-prototype
+DRIVER\3KEY.C(12): error C267: '_delay_ms': requires ANSI-style prototype
+compiling 4wire-1602.c...
+DRIVER\4WIRE-1602.C(62): warning C206: '_delay_ms': missing function-prototype
+DRIVER\4WIRE-1602.C(62): error C267: '_delay_ms': requires ANSI-style prototype
+Target not created
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
+MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
+MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
+compiling delay.c...
+compiling timer0.c...
+compiling 3key.c...
+compiling 4wire-1602.c...
+compiling ds1302.c...
+compiling ds18b20.c...
+assembling _delay.s...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DS18B20_START?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?GETTMPVALUE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DISPLAY?DS18B20
+Program Size: data=60.0 xdata=0 code=2542
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 9 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
+MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
+MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
+compiling delay.c...
+compiling timer0.c...
+compiling 3key.c...
+compiling 4wire-1602.c...
+compiling ds1302.c...
+compiling ds18b20.c...
+assembling _delay.s...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS_DELAY?DS18B20
+Program Size: data=58.0 xdata=0 code=2599
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 7 Warning(s).
+Build target 'Target 1'
+compiling ds18b20.c...
+DRIVER\DS18B20.C(194): warning C206: 'mdelay': missing function-prototype
+DRIVER\DS18B20.C(194): error C267: 'mdelay': requires ANSI-style prototype
 Target not created
 Build target 'Target 1'
 compiling ds18b20.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(58): warning C317: attempt to redefine macro 'ror8'
-DRIVER\DS18B20.C(70): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(70): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(75): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(75): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(75): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(75): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(75): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(92): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(92): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(92): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(95): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(95): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(95): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(127): warning C275: expression with possibly no effect
 linking...
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_PRINT10?4WIRE_1602
@@ -161,27 +1228,239 @@ linking...
     SEGMENT: ?PR?_SHOWVA?4WIRE_1602
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
-Program Size: data=58.0 xdata=0 code=2538
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS_DELAY?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?GETTMPVALUE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DISPLAY?DS18B20
+Program Size: data=63.0 xdata=0 code=2567
 creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 19 Warning(s).
+"51z-firmware" - 0 Error(s), 6 Warning(s).
 Build target 'Target 1'
 compiling ds18b20.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(58): warning C317: attempt to redefine macro 'ror8'
-DRIVER\DS18B20.C(75): warning C206: 'us_delay': missing function-prototype
-DRIVER\DS18B20.C(75): error C267: 'us_delay': requires ANSI-style prototype
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS_DELAY?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?GETTMPVALUE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DISPLAY?DS18B20
+Program Size: data=63.0 xdata=0 code=2567
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 6 Warning(s).
+Build target 'Target 1'
+compiling ds18b20.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS_DELAY?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?GETTMPVALUE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DISPLAY?DS18B20
+Program Size: data=63.0 xdata=0 code=2567
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 6 Warning(s).
+Build target 'Target 1'
+compiling ds18b20.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS_DELAY?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?GETTMPVALUE?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DISPLAY?DS18B20
+Program Size: data=63.0 xdata=0 code=2579
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 6 Warning(s).
+Build target 'Target 1'
+compiling ds18b20.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS_DELAY?DS18B20
+Program Size: data=58.0 xdata=0 code=2611
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+compiling ds18b20.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS_DELAY?DS18B20
+Program Size: data=58.0 xdata=0 code=2607
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
+MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
+MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
+compiling delay.c...
+compiling timer0.c...
+compiling 3key.c...
+compiling 4wire-1602.c...
+compiling ds1302.c...
+compiling ds18b20.c...
+assembling _delay.s...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS_DELAY?DS18B20
+Program Size: data=58.0 xdata=0 code=2610
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 7 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
+MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
+MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?TIMER1_INIT?TIMER0
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS_DELAY?DS18B20
+Program Size: data=58.0 xdata=0 code=2607
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 8 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+config.h(21): warning C318: can't open file 'delay.h'
+MAIN.C(23): warning C206: 'irqon': missing function-prototype
+MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
+MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
+MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
+MAIN.C(58): warning C206: 'sleep': missing function-prototype
+MAIN.C(58): error C267: 'sleep': requires ANSI-style prototype
+compiling delay.c...
+driver\delay.c(9): warning C318: can't open file 'delay.h'
+DRIVER\DELAY.C(38): warning C206: '_delay_us': missing function-prototype
+DRIVER\DELAY.C(38): error C267: '_delay_us': requires ANSI-style prototype
+compiling timer0.c...
+config.h(21): warning C318: can't open file 'delay.h'
+compiling 3key.c...
+config.h(21): warning C318: can't open file 'delay.h'
+DRIVER\3KEY.C(12): warning C206: '_delay_ms': missing function-prototype
+DRIVER\3KEY.C(12): error C267: '_delay_ms': requires ANSI-style prototype
+compiling 4wire-1602.c...
+config.h(21): warning C318: can't open file 'delay.h'
+driver\4wire-1602.c(14): warning C318: can't open file 'delay.h'
+DRIVER\4WIRE-1602.C(58): warning C206: '_2cycle': missing function-prototype
+DRIVER\4WIRE-1602.C(58): error C267: '_2cycle': requires ANSI-style prototype
+compiling ds1302.c...
+config.h(21): warning C318: can't open file 'delay.h'
+driver\ds1302.c(12): warning C318: can't open file 'delay.h'
+compiling ds18b20.c...
+config.h(21): warning C318: can't open file 'delay.h'
+driver\ds18b20.c(12): warning C318: can't open file 'delay.h'
+DRIVER\DS18B20.C(42): warning C206: '_delay_us': missing function-prototype
+DRIVER\DS18B20.C(42): error C267: '_delay_us': requires ANSI-style prototype
+assembling _delay.s...
+Target not created
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(23): warning C206: 'irqon': missing function-prototype
+MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
+MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
+MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
+compiling delay.c...
+compiling timer0.c...
+compiling 3key.c...
+compiling 4wire-1602.c...
+compiling ds1302.c...
+compiling ds18b20.c...
+assembling _delay.s...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS_DELAY?DS18B20
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  IRQON
+    MODULE:  main.obj (MAIN)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  IRQON
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 09C2H
+Program Size: data=58.0 xdata=0 code=2615
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 10 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
+MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
+MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS_DELAY?DS18B20
+Program Size: data=58.0 xdata=0 code=2614
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 7 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
+MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
+MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
+compiling ds18b20.c...
+DRIVER\DS18B20.C(106): error C141: syntax error near 'unsigned'
+DRIVER\DS18B20.C(106): error C202: 'i': undefined identifier
+DRIVER\DS18B20.C(107): error C141: syntax error near 'unsigned'
+DRIVER\DS18B20.C(107): error C202: 'byte': undefined identifier
+DRIVER\DS18B20.C(108): error C202: 'i': undefined identifier
+DRIVER\DS18B20.C(111): error C202: 'byte': undefined identifier
 Target not created
 Build target 'Target 1'
 compiling ds18b20.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(58): warning C317: attempt to redefine macro 'ror8'
-DRIVER\DS18B20.C(92): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(92): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(92): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(95): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(95): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(95): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(127): warning C275: expression with possibly no effect
+DRIVER\DS18B20.C(115): warning C206: 'sei': missing function-prototype
 linking...
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_PRINT10?4WIRE_1602
@@ -189,27 +1468,35 @@ linking...
     SEGMENT: ?PR?_SHOWVA?4WIRE_1602
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
-Program Size: data=58.0 xdata=0 code=2548
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS_DELAY?DS18B20
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  SEI
+    MODULE:  ds18b20.obj (DS18B20)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  SEI
+    MODULE:  ds18b20.obj (DS18B20)
+    ADDRESS: 07C9H
+Program Size: data=58.0 xdata=0 code=2619
 creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 12 Warning(s).
+"51z-firmware" - 0 Error(s), 7 Warning(s).
+compiling ds18b20.c...
+driver\ds18b20.c - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS_DELAY?DS18B20
+Program Size: data=58.0 xdata=0 code=2618
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 4 Warning(s).
 Build target 'Target 1'
 compiling ds18b20.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(58): warning C317: attempt to redefine macro 'ror8'
-DRIVER\DS18B20.C(70): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(70): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(75): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(75): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(75): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(75): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(75): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(92): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(92): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(92): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(95): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(95): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(95): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(127): warning C275: expression with possibly no effect
 linking...
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_PRINT10?4WIRE_1602
@@ -217,27 +1504,13 @@ linking...
     SEGMENT: ?PR?_SHOWVA?4WIRE_1602
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
-Program Size: data=58.0 xdata=0 code=2555
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS_DELAY?DS18B20
+Program Size: data=58.0 xdata=0 code=2622
 creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 19 Warning(s).
+"51z-firmware" - 0 Error(s), 4 Warning(s).
 Build target 'Target 1'
 compiling ds18b20.c...
-.\DRIVER\BITOPS.H(52): warning C317: attempt to redefine macro 'rol8'
-.\DRIVER\BITOPS.H(58): warning C317: attempt to redefine macro 'ror8'
-DRIVER\DS18B20.C(70): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(70): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(75): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(75): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(75): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(75): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(75): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(92): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(92): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(92): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(95): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(95): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(95): warning C275: expression with possibly no effect
-DRIVER\DS18B20.C(127): warning C275: expression with possibly no effect
 linking...
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_PRINT10?4WIRE_1602
@@ -245,6 +1518,66 @@ linking...
     SEGMENT: ?PR?_SHOWVA?4WIRE_1602
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
-Program Size: data=58.0 xdata=0 code=2551
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS_DELAY?DS18B20
+Program Size: data=58.0 xdata=0 code=2622
 creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 19 Warning(s).
+"51z-firmware" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+compiling ds18b20.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS_DELAY?DS18B20
+Program Size: data=58.0 xdata=0 code=2617
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+compiling ds18b20.c...
+DRIVER\DS18B20.C(113): warning C206: '_nop': missing function-prototype
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS_DELAY?DS18B20
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _NOP
+    MODULE:  ds18b20.obj (DS18B20)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _NOP
+    MODULE:  ds18b20.obj (DS18B20)
+    ADDRESS: 07C5H
+Program Size: data=58.0 xdata=0 code=2621
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 7 Warning(s).
+Build target 'Target 1'
+compiling ds18b20.c...
+DRIVER\DS18B20.C(113): warning C206: '_nop': missing function-prototype
+DRIVER\DS18B20.C(113): error C141: syntax error near '_'
+DRIVER\DS18B20.C(113): error C202: '_': undefined identifier
+Target not created
+Build target 'Target 1'
+compiling ds18b20.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT10?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SHOWVA?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS_DELAY?DS18B20
+Program Size: data=58.0 xdata=0 code=2619
+creating hex file from "51z-firmware"...
+"51z-firmware" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+"51z-firmware" - 0 Error(s), 0 Warning(s).

@@ -20,7 +20,7 @@ void io_init()
    lcd1602_init();
    lcd_cursor(0,0);
    //adc_init(); 
-   irqon();   //enable global interrupt		
+   sti();   //enable global interrupt		
    DS1302_init();    
 }
 
