@@ -37,7 +37,8 @@ extern volatile unsigned  long jiffers;
 void timer0_init();
 void timer1_init();
 
-#define irqoff()   EA = 0;   //disable global interrupt	   
-#define irqon()    EA = 1;   //disable global interrupt	   
+#define cli()    EA = 0;   //disable global interrupt	   
+#define sti()    EA = 1;   //enable global interrupt	   
+
      
 #endif

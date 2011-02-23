@@ -13,17 +13,14 @@
 
 
 
+// _2cycle(1)-> move r7, 1, lcall _2cycle, total 3cycle
+//so _2cycle(n)=> 2n+5 cycles, n from 1...255;
+#pragma REGPARMS
 void _2cycle(unsigned char cyc);
 
 
-/*小于6us严重不准确, 奇数非常准确,偶数误差约(+ -)1us(仿真) */
-/*#define udelay(t)  _2cycle((t/2)-2) 小于6不准因为 t/2-2 晕倒了*/
-
-
-/*7-512us*/
-#define udelay(t)  _2cycle(  ((t>>1)&0xFE) +1 ) //_2cycle can't accept 0
-//#define udelay(t)  _2cycle((t/2)-2) /* _2cycle( ((t>>1)&0xFC) )*/
-
+/*12Mhz : at least 7us (7-5=2 2/2=1)   + - 1us if above 8us*/
+#define _delay_us(t)  _2cycle((t-5)>>1) //_2cycle can't accept 0
 
 
 /*
@@ -46,22 +43,12 @@ do{ \
 } while(0)
 
 
-#define _delay_us(__us)  /* usage: _delay_us(8), wrong: i=0; _delay_us(i);*/ \
-do{ \
-	char ticks = __us<<2;	   \
-    /*12Mhz 2us per ticks*/															 \
-    while(--ticks);	 /*while(--cyc) have bug when cyc==0, but we must use --cyc to genarate one inst*/\
-    /* DFFE     DJNZ     R7,delay(C:0014), 2cycle*/														 \
-} while(0)
-
-
-
 /*
  * mdelay(0) : 15 cycle, 12Mhz 30us
  * 1ms to 256ms
  *  +- 50us
  */
-void mdelay(unsigned char ms);
+void _delay_ms(unsigned char ms);
 
 
 

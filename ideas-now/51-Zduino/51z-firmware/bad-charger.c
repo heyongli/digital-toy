@@ -167,7 +167,7 @@ void select_battery()
 			   lcd_cursor(0,0);
 			   lcd_puts("vlimit: ");   
                showVA(vlimit*100);
-			   mdelay(200);	
+			   _delay_ms(200);	
 			   return;
 
 		 }
@@ -233,7 +233,7 @@ adj_c()
   char  i=0;
 
    for( i=1;i<max_duty;i++){
-     mdelay(10);
+     _delay_ms(10);
      current=adc_A();    
      if(current < climit){
         duty+=1;
@@ -263,7 +263,7 @@ void try_ir(char setpwm)
     
 	float bv;
 	pwm_setduty(0);
-	mdelay(100);
+	_delay_ms(100);
 	bv=adc_V();
     
     if(setpwm)
@@ -271,11 +271,11 @@ void try_ir(char setpwm)
 	else 
 	   	pwm_setduty(duty);
 
-	mdelay(100);
+	_delay_ms(100);
 	voltage=adc_V();
 	current=adc_A();
 	
-	mdelay(100);
+	_delay_ms(100);
 	voltage+=adc_V();
 	current+=adc_A();
 	
@@ -296,9 +296,9 @@ void isdone()
       charging = 0;
 	  charging_update_lcd();
 	  bl_off();
-	  mdelay(50);
+	  _delay_ms(50);
 	  bl_on();
-  	  mdelay(50);
+  	  _delay_ms(50);
 
    }
     if(1==charging) return; /*in charging*/
@@ -310,7 +310,7 @@ void isdone()
     /*test battery*/
      pwm_setduty(0);
 	 //PWM_DIS=1;
- 	 mdelay(100); 
+ 	 _delay_ms(100); 
 	 //PWM_DIS=0;
 	 charging_update_lcd();
      voltage=adc_V();
@@ -329,13 +329,13 @@ re_tryir:
 	lcd_cursor(0,0);
     lcd_puts("ir:");
 	print10(1000*ir);
-    mdelay(150);       
+    _delay_ms(150);       
 
 	if((ir>1.5) && duty>3) {
 	   lcd_cursor(9,0) ;
 	 
        lcd_puts("bad ir  ");
-	   mdelay(100);
+	   _delay_ms(100);
 	   if(climit>0.2)
 	   	  climit -= 0.1; 
 	   goto re_tryir;
@@ -345,7 +345,7 @@ re_tryir:
 
      /*init start*/
      pwm_setduty(1);
-	 mdelay(50);
+	 _delay_ms(50);
 	 charging_update_lcd();
 	 duty=1;
 	 /*adjust the current*/
@@ -388,9 +388,9 @@ void easy_charging()
 	 if(dvc>5) {
 	 	lcd_cursor(9,0) ;
 	    lcd_puts("dvc>5");
-		mdelay(100);mdelay(100);
-	    mdelay(100);
-	    mdelay(100);
+		_delay_ms(100);_delay_ms(100);
+	    _delay_ms(100);
+	    _delay_ms(100);
 	    
 	    goto done;
 	  }
@@ -429,9 +429,9 @@ void easy_charging()
       stime=0;
    	  charging_update_lcd();
 	  bl_off();
-	  mdelay(50);
+	  _delay_ms(50);
 	  bl_on();
-  	  mdelay(50);
+  	  _delay_ms(50);
 
       duty=0;
 	  pwm_setduty(0);
@@ -455,9 +455,9 @@ void easy_discharing()
    {
    	  charging_update_lcd();
 	  bl_off();
-	  mdelay(50);
+	  _delay_ms(50);
 	  bl_on();
-  	  mdelay(150);
+  	  _delay_ms(150);
 
       duty=0;
 	  pwm_setduty(0);

@@ -5,23 +5,11 @@
   1 cycle:  12/12M = 1us 
 
 *******************/
+
 #include <delay.h>
 
 
-
-/*
- *  run about cyc*2+2 cycle
- *  1-255 cycles, 2-510us at 12Mhz
- */
-void  _2cycle(unsigned char cyc)
-{
-   while(--cyc);	 //while(--cyc) have bug when cyc==0, but we must use --cyc to genarate one inst
-   /* DFFE     DJNZ     R7,delay(C:0014), 2cycle*/
-   /*RET: 2cycle*/
-}
-
-
-
+ 
 
 
 /*
@@ -29,7 +17,7 @@ void  _2cycle(unsigned char cyc)
  * 1ms to 256ms
  *  +- 50us
  */
-void mdelay(unsigned char ms)
+void _delay_ms(unsigned char ms)
 {
 
 /*
@@ -41,14 +29,14 @@ C:0x0007    600C     JZ       C:0015           1 cyc
 C:0x0009    7FFA     MOV      R7,#0xFA	       1 cyc
 C:0x000B    120027   LCALL    _2cycle(C:0027)   2 cyc
     37:         _2cycle(250); 
-C:0x000E    7FFA     MOV      R7,#0xFA		   1 cyc
-C:0x0010    120027   LCALL    _2cycle(C:0027)   2 cyc
+C:0x000E    7FFA     MOV      R7,#0xFA		   1 cyc , compasation by _delay_us
+C:0x0010    120027   LCALL    _2cycle(C:0027)   2 cyc, compasation by _delay_us
     38:    } 
 C:0x0013    80F0     SJMP     C:0005           2 cyc
 */
    while(ms--){	  
-     udelay(400); //²¹³¥12cyc*2 us
-	 udelay(412);
+     _delay_us(497); //²¹³¥3 cycle for _delay_ms call
+	 _delay_us(492); //8 cycle s for all of _delay_ms instuctinos
    }
   
 }
@@ -59,10 +47,10 @@ C:0x0013    80F0     SJMP     C:0005           2 cyc
 void sleep(unsigned char t)
 {
    while(t--){
-   	 mdelay(250);
-   	 mdelay(250);
-     mdelay(250);
-     mdelay(250);
+   	 _delay_ms(250);
+   	 _delay_ms(250);
+     _delay_ms(250);
+     _delay_ms(250);
    }
      
 }

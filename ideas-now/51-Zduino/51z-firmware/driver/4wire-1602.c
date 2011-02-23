@@ -59,7 +59,7 @@ void io_delay()
 }
 void io_50ms()
 {
-   mdelay(50);
+   _delay_ms(50);
 }
 
 void hd44870_send(unsigned char datax , char is_cmd) 

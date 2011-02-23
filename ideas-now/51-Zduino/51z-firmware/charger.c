@@ -423,7 +423,7 @@ void trickle_charging(i_charger *ic)
 		  goto out;
 	   }
 	   pwm_safeoff(); 
-	   mdelay(5);
+	   _delay_ms(5);
 	   lasttime = jiffers;
 	   if( adc_V() < 1.38*ic->cell_pack){
           ic->i_stage = FAST; 

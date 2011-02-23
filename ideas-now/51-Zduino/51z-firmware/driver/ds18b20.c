@@ -35,105 +35,106 @@ void ds_delay(unsigned char i)
  //让DS18B20一段相对长时间低电平, 然后一段相对非常短时间高电平, 即可启动
  void dallas_reset()
  {
-   ds = 0;
-   //_udelay(480);
-   ds_delay(80);
 
-   ds = 1;    //pull up and prepare receive 
-   //_udelay(70);  
-   ds_delay(11); //62us
+   cli();
+
+   ds = 0;
+   _delay_us(480+20); //master pull low at least 480uS
    
-   
+   ds = 1;        //relase bus and prepare receive 
+   _delay_us(50); //wait 16-60uS,(simulation:after 40uS, slave pull low)
+     
+   //Read the slave : slave pull low from 40uS ->40us+120us
    if(0==ds);
    else { hd44870_send('!',0);}
     
-   // _udelay(410);
-   ds_delay(68);
+   _delay_us(480);
 
-#if 0
-	//check bus
+   sti();
+   
+   //check bus
 	ds=1;
 
 	if(ds==1);//ok
 	else  hd44870_send('@',0);
-#endif
-
- }
+}
 
 /*60us for one read time slot*/
 bit dallas_read_bit()
 {
    unsigned char b=0;
-   ds = 0;
-   //delay for reading bit
-   //_udelay(6);
-   _nop_;_nop_; 
-   ds = 1;	//relase bus
+
+   ds = 0;    //master pull low to read
+   _delay_us(7); 
    
+   ds = 1;	//relase bus
+
    //delay appropiate time for read
-   //_udelay(9);
-    _nop_;_nop_; _nop_;_nop_; _nop_;
-
-
-   if(ds)b=1;
+   _delay_us(9); 
+    
+   if(ds)
+       b=1;
 
    //finish bit slot
-   //_udelay(55);
-    ds_delay(7);
-	     
-    return b;
+   _delay_us(55);
+         
+   return b;
 }
 
 void dallas_write_bit(unsigned char b)
 {
-   ds = 0;
+    ds = 0;
    //delay for write bit
-   //_udelay(6);
-   { _nop_;_nop_; _nop_; }
-    if(b)
-     /// udelay(6);
-	 { _nop_;_nop_; _nop_;  }
-    else
-	   //udelay(60);
-	   ds_delay(7);
+   	if(b)
+       _delay_us(7);
+	else
+	   _delay_us(60);
    	
 	ds = 1;	//relase bus
    
     if(b) 
-	   //udelay(64);
-	   ds_delay(7);
+	   _delay_us(64);
+	else
+	   _delay_us(9);
 }
 
 
 unsigned char dallas_read_byte()
 {
+ 
    unsigned char i;
    unsigned char byte=0;
+   
+   cli();
    for(i=0; i<8; i++)
    {
        if( dallas_read_bit())
 	     byte |= 0x01<<i;
+		 _nop_();
     }
-    return byte;
+   sti();
+   return byte;
 }
 
 //向DS18B20写入一字节数据
-void writeByte(unsigned char byte)
+void dallas_write_byte(unsigned char byte)
 {
    unsigned char i;
+   cli();
    for(i=0; i<8; i++){
        dallas_write_bit((byte>>i)&0x01);
 	   //delay for each wirte
-	   _nop_;//udelay(1);
+	   _nop_();
     }
+   sti();
 }
 
 //向DS18B20发送温度转换命令
 void ds18b20_start()
 {
    dallas_reset();    //初始化DS18B20, 无论什么命令, 首先都要发起初始化
-   writeByte(DS18B20_SKIPROM);
-   writeByte(DS18B20_CONVERT_TEMP); //写入温度转换命令字 Convert T
+   dallas_write_byte(DS18B20_SKIPROM);
+   dallas_write_byte(DS18B20_CONVERT_TEMP); //写入温度转换命令字 Convert T
 
    while(!dallas_read_bit());//wait it done
 }
@@ -146,8 +147,8 @@ int getTmpValue()
     unsigned char low, high;
     
 	dallas_reset();
-    writeByte(DS18B20_SKIPROM);
-    writeByte(DS18B20_READ_SCRATCHPAD); //写入读取数据令字 Read Scratchpad;
+    dallas_write_byte(DS18B20_SKIPROM);
+    dallas_write_byte(DS18B20_READ_SCRATCHPAD); //写入读取数据令字 Read Scratchpad;
     //连续读取两个字节数据
     low  = dallas_read_byte();
     high = dallas_read_byte();
@@ -200,7 +201,8 @@ ds18b20_demo()
 {
     unsigned int t;
     lcd_cursor(0,1);
-	//while(1){ds18b20_start();mdelay(1);};
+	//while(1){ds18b20_start();_delay_ms(1);};
+	//while(1){ ds=1; _delay_us(7);ds=0; _delay_us(7); };
 	ds18b20_start();
 	t=getTmpValue();
 	display((int)t>>4);//
