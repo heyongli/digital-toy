@@ -79,7 +79,7 @@ Options 1,0,0  // Target 'Target 1'
  C51MSC ()
  C51DEF ()
  C51UDF ()
- INCC5 ()
+ INCC5 (include;c51)
  AX51FL=4
  AX51MSC ()
  AX51SET ()
