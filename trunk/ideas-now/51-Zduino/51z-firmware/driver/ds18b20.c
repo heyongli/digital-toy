@@ -129,36 +129,48 @@ void dallas_write_byte(unsigned char byte)
    sti();
 }
 
-//向DS18B20发送温度转换命令
+//tell DS18B20 get new Data
 void ds18b20_start()
 {
-   dallas_reset();    //初始化DS18B20, 无论什么命令, 首先都要发起初始化
+   dallas_reset();    
    dallas_write_byte(DS18B20_SKIPROM);
    dallas_write_byte(DS18B20_CONVERT_TEMP); //写入温度转换命令字 Convert T
 
    while(!dallas_read_bit());//wait it done
+   _delay_ms(200);_delay_ms(200);_delay_ms(200);_delay_ms(200);
 }
 
 
-//获取当前温度值
-int getTmpValue()
+
+short ds18b20_get_result()
 {
-    int value; //存放温度数值
+    short result=0; 
     unsigned char low, high;
+
+ 
     
 	dallas_reset();
     dallas_write_byte(DS18B20_SKIPROM);
     dallas_write_byte(DS18B20_READ_SCRATCHPAD); //写入读取数据令字 Read Scratchpad;
-    //连续读取两个字节数据
+
+    //while(!dallas_read_bit());//wait it done    
+
+	//连续读取两个字节数据
     low  = dallas_read_byte();
     high = dallas_read_byte();
     //将高低两个字节合成一个整形变量
     //计算机中对于负数是利用补码来表示的
     //若是负值, 读取出来的数值是用补码表示的, 可直接赋值给int型的value
-    value = high;
-    value <<= 8;
-    value |= low;
- 	return value;
+    result = high;
+    result <<= 8;
+    result |= low;
+
+    //conver negtive to positive with S bit set
+	if(result<0){ //negtive
+	    result = ~(unsigned short)result+1;
+		result |= 0xC000 ;//give a signed bit
+	}
+ 	return result;
 }
 
 
@@ -199,15 +211,32 @@ void display(int n)
 
 ds18b20_demo()
 {
-    unsigned int t;
+    unsigned short t,d=0;
     lcd_cursor(0,1);
 	//while(1){ds18b20_start();_delay_ms(1);};
 	//while(1){ ds=1; _delay_us(7);ds=0; _delay_us(7); };
-	ds18b20_start();
-	t=getTmpValue();
-	display((int)t>>4);//
+	
+	ds18b20_start(); //begin convert 
+	t=(unsigned)ds18b20_get_result(); //get result
+
+	if(t&0xC000){
+	  lcd_putc('-');
+	  t &=~(0xC000);//clear sign bit
+	 }
+
+	display((int)t>>4);//show the integer part
 	lcd_putc('.');
-	display(((int)t)&0xF);//
+	//avoid multi 0.0625
+	t=t&0xF;
+	if(t&0x8)//.5 bit
+		d+=50;
+	if(t&0x4)//.5 bit
+		d+=25;
+	if(t&0x2)//.5 bit
+		d+=12;
+	if(t&0x1)//.5 bit
+		d+=6;
+	display(d);//show the .x part
 	
 	
 }
