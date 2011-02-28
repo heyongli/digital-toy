@@ -16,7 +16,7 @@ void io_init()
 
 	   
    // timer0_init(); //pwm
-   timer1_init(); //1ms
+   //timer1_init(); //1ms
    lcd1602_init();
    lcd_cursor(0,0);
    //adc_init(); 
@@ -59,6 +59,7 @@ void main()
    while(1){
 		   
 	   update_lcd();
+	   uart_demo();
    }
   
   
