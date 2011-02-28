@@ -1,0 +1,13 @@
+http://diy.elektroda.eu/interaktywna-podstawka-pod-kufel/
+
+Interactive mug coaster, thanks to analog temperature sensor LM35 and uC builded-in
+ analog-digital converter, device can read temperature from standing on it glass. 
+Device calculates temperature and smoothly light-up our drink with slowly changed 
+RGB colours. When temperature is under 20*C then displayed colors are cold, and 
+when temperature is above 28*C then colors are hot. When nothing stands on device 
+(temperatures from 20*C to 28*C) then it automatically swich off. Fusebits are:
+ 4,8Hz internal clock, not divided by 8. Supply voltage is stabilized by 1117 type
+ stabilizer to 3.6V. The red LED requires lower voltage, and current on that line 
+is limited software by PWM. Top of device filled with Translux epoxy resin. 
+
+For rest see schematic or ask in comments.
