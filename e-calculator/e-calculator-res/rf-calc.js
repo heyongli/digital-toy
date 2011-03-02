@@ -104,8 +104,28 @@ var tuneF_min, tuneF_max; //Mhz
 var pi=3.1415926;
 
 
+function calc_tune_cap()
+{
+   var seriesC1,seriesC2, c1;
+   c1=seriesC1=getVar("tuneC_min");
+
+   tuneC_min=getVar("tuneC_min");
+   tuneC_max=getVar("tuneC_max");
+
+   tuneC_min=1/(1/c1+1/tuneC_min);
+   tuneC_max=1/(1/c1+1/tuneC_max);
+
+
+    setVar("tuneC_min",round2(tuneC_min));
+	setVar("tuneC_max",round2(tuneC_max));
+
+}
+
+
 function tune_calc()
 {
+
+    //calc_tune_cap();
     //get var in standard unit: F/H
     tuneC_min=getVar("tuneC_min")/1e12;
     tuneC_max=getVar("tuneC_max")/1e12;
