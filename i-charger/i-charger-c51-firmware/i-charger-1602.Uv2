@@ -12,6 +12,7 @@ File 1,1,<.\driver\adc0832.c><adc0832.c> 0x0
 File 1,1,<.\driver\timer0.c><timer0.c> 0x0 
 File 1,1,<.\driver\3key.c><3key.c> 0x0 
 File 1,1,<.\driver\4wire-1602.c><4wire-1602.c> 0x0 
+File 1,2,<.\c51\_delay.s><_delay.s> 0x0 
 
 
 Options 1,0,0  // Target 'Target 1'
@@ -142,7 +143,7 @@ Options 1,1,0  // Group 'Source Group 1'
  C51MSC ()
  C51DEF ()
  C51UDF ()
- INCC5 (.\driver)
+ INCC5 (.\driver;.\c51)
  AX51FL=170
  AX51MSC ()
  AX51SET ()

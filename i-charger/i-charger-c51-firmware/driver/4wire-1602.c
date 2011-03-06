@@ -55,11 +55,11 @@ unsigned char _swap4(unsigned char x)
 */
 void io_delay()
 {
-   _2cycle(5);
+   _delay_us(7); //atleast 7cycle
 }
 void io_50ms()
 {
-   mdelay(50);
+   _delay_ms(50);
 }
 
 void hd44870_send(unsigned char datax , char is_cmd) 
