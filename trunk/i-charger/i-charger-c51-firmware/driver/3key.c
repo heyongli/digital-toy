@@ -9,7 +9,7 @@ unsigned char key(unsigned char key)
     KEY_PORT= KEY_PORT|(KEY_ALL);  //set input
 	
    if(0 == (KEY_PORT&key)){
-      mdelay(5);
+      _delay_ms(5);
   	  
 	  if(0==(KEY_PORT&key)) {
 	     while(0==(KEY_PORT&key));

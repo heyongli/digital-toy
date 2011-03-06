@@ -53,26 +53,7 @@ void timer0(void) interrupt 1 using 2
 	     pwm_discharging(); 
 	 else
 	     pwm_1kHz();
-	  
-
-#if 0
-///////// mode 1: tickless mode
-    if(PWM_PIN) { //need close PWM
-   
-   	   PWM_PIN = 0;
-	   settimer0(PWM_CYCLE-on_duty+1);
-     //  vledx0();
-
-	 
-     }else { //need open PWM
   
-       PWM_PIN = 1;
-	   settimer0(on_duty+1);//on_duty);
-//	   vledx1();
-
-     }
-#endif  
-
 }  
 
 

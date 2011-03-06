@@ -10,6 +10,9 @@
 #define DI   P1_3
 #define DO   P1_2
 
+
+#define adc0832_delay(x) _2cycle(x)
+
 unsigned char adc0832(bit ch)
 {
 
@@ -20,43 +23,43 @@ unsigned char adc0832(bit ch)
    
    DO = 1;    //prepare start bit
    CS=0; 	  //enable 
-   udelay(1); //delay tsu
+   adc0832_delay(1); //delay tsu
    CLK = 1;   //up edge, send start bit
-   udelay(1);
+   adc0832_delay(1);
 
    
    CLK = 0;   //prepare send SGL/DIF
-   udelay(1);
+   adc0832_delay(1);
    DO = 1;    //SGL/DIF = 1, channel mode
    CLK =1;    // up edge, send SGL/DIF
-   udelay(1);
+   adc0832_delay(1);
 
    
    CLK=0;    // prepare send ODD/EVEN, ch
-   udelay(1);
+   adc0832_delay(1);
    DO = ch;	  //send channel, 0,or 1
    CLK=1;     //up ledge;
-   udelay(1);
+   adc0832_delay(1);
 
    
    CLK=0;  // 
    DI=1;   //prepare input
-   udelay(1); //delay tsu
+   adc0832_delay(1); //delay tsu
    for(i=0;i<8;i++){
      CLK =1;
-     udelay(1);         //没有这些delay则LSB,MSB方式读取的值会不等, 太快了
+     adc0832_delay(1);         //没有这些delay则LSB,MSB方式读取的值会不等, 太快了
 	 CLK =0;  //donw edge /MSB first
-     udelay(1);
+     adc0832_delay(1);
 	 if(DI)
 	 	dat0 |= 0x80>>i;   
    }
 
    for(i=0;i<8;i++){ //LSB first
-     udelay(1);
+     adc0832_delay(1);
      if(DI)
 	 	dat1 |= 0x01<<i;   
 	  CLK =1;
-      udelay(1);
+      adc0832_delay(1);
 	  CLK =0;  //donw edge
 	 
    }
