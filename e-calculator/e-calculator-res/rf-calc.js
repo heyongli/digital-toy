@@ -11,6 +11,18 @@ function getVar(name)
 		return parseFloat(x.elements[i].value);
 	}
 }
+function getVtext(name)
+{
+	var x=document.getElementById(formid);
+	for (var i=0;i<x.length;i++)
+	{
+		if(x.elements[i].name==name)
+		return x.elements[i].value;
+	}
+
+}
+
+
 
 function setVar(name,v)
 {
@@ -93,46 +105,64 @@ function rw2Str(a)
 	if ( (a*2>=5) ) return ">10";
 }
 
+//get capcitor value with unit selector
+function  getC(name,un_name) //get capcitor value in F, (name, name-unit)
+{
+	var x=getVar(name);
+	var unit=getVtext(un_name);
+	if("pF"==unit) return x/=1e12;
+	if("nF"==unit) return x/=1e9;
+	if("uF"==unit) return x/=1e6;
+	return x;
+}
+//get inductor value with unit selector
+function  getL(name,un_name) //get capcitor value in F, (name, name-unit)
+{
+	var x=getVar(name);
+	var unit=getVtext(un_name);
+	if("nH"==unit) return x/=1e9;
+	if("uH"==unit) return x/=1e6;
+	if("mH"==unit) return x/=1e3;
+	return x;
+}
 
 
 
 //tune circuit 
-var tuneC_min, tuneC_max; //pF
-var tuneL; //nH
+var C1_min, C1_max; //pF
+var C2, C3; //series and parall
+var L1; //nH
 var tuneF_min, tuneF_max; //Mhz
 
 var pi=3.1415926;
 
-
-function calc_tune_cap()
-{
-   var seriesC1,seriesC2, c1;
-   c1=seriesC1=getVar("tuneC_min");
-
-   tuneC_min=getVar("tuneC_min");
-   tuneC_max=getVar("tuneC_max");
-
-   tuneC_min=1/(1/c1+1/tuneC_min);
-   tuneC_max=1/(1/c1+1/tuneC_max);
-
-
-    setVar("tuneC_min",round2(tuneC_min));
-	setVar("tuneC_max",round2(tuneC_max));
-
-}
-
-
 function tune_calc()
 {
-
-    //calc_tune_cap();
+	var cmax, cmin, c12;
     //get var in standard unit: F/H
-    tuneC_min=getVar("tuneC_min")/1e12;
-    tuneC_max=getVar("tuneC_max")/1e12;
-    tuneL = getVar("tuneL")/1e9;
+    C1_min=getC("C1_min", "C1_unit");
+    C1_max=getC("C1_max", "C1_unit");
+    C2=getC("C2","C2_unit");
+	C3=getC("C3","C3_unit");
+    //totoal tuneC
+	if(C2 == 0.0){
+		cmax = (C3+C1_max);
+		cmin = (C3+C1_min);
+	}else{
+		c12 = 1/(1/C1_min + 1/C2);
+		cmax= (C3+c12);
+	
+		c12 = 1/(1/C1_max + 1/C2);
+		cmin= (C3+c12);
+	}
+
+
+    
+    //
+    tuneL = getL("L1","L1_unit");
  
-    tuneF_min=1/(2*pi*Math.sqrt(tuneC_max*tuneL));
-	tuneF_max=1/(2*pi*Math.sqrt(tuneC_min*tuneL));
+    tuneF_min=1/(2*pi*Math.sqrt(cmax*tuneL));
+	tuneF_max=1/(2*pi*Math.sqrt(cmin*tuneL));
 
     //convert HZ to Mhz
     tuneF_max/=1e6;
