@@ -13,7 +13,7 @@
 
 //debug key lcd shield via io-extention board 
 #define HRDU_KEY_LCD_SHIELD  1
-#define KEY_LCD_SHIELD_EXT_CONNETOR  1 //via PORTB*/
+//#define KEY_LCD_SHIELD_EXT_CONNETOR  1 //via PORTB*/
 
 
 
@@ -98,11 +98,23 @@ void lcd_clear();
 #define KEY_SHILD_LOGO1 "PORTB 3-5:key" 
 
 
+#ifdef KEY_LCD_SHIELD_EXT_CONNETOR
 
 #define KEY_PORT PORTD
 #define KEYUP  	 0
 #define KEYDOWN  1
 #define KEYOK    2
+
+#else
+
+#define KEY_PORT PORTC
+#define KEYUP  	 2
+#define KEYDOWN  3
+#define KEYOK    4
+
+#endif
+
+
 #define _key_init() \
 			 _pin_mode(KEY_PORT,KEYUP, INPUT);\
 			 _pin_mode(KEY_PORT,KEYDOWN,INPUT); \
