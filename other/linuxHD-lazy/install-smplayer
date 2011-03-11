@@ -1,0 +1,34 @@
+#!/bin/bash
+
+#包含公用头文件， source 命令
+# pinfo perror, enter work directory, $silence
+. ./lazy.h.sh $1
+
+#work directory
+mkdir -p packages
+cd packages
+#------------------------------------------------------------------------
+
+#QT develepe packages
+
+srun sudo apt-get install -y subversion devscripts fakeroot build-dep
+srun sudo apt-get remove -y qt3-dev-tools
+srun sudo apt-get install -y libqt4-dev libqt4-opengl-dev qt4-dev-tools 
+
+
+#######
+if [ ! -f smplayer_0.4.12-1ubuntu1_i386.deb ] ; then
+perror "don't know where it is!!!"
+#wget http://download.virtualbox.org/virtualbox/debian/sun_vbox.asc
+fi
+sudo dpkg --install smplayer_0.4.12-1ubuntu1_i386.deb
+
+perror "don't use the svn smplayer now!!!"
+exit
+
+svn co https://smplayer.svn.sourceforge.net/svnroot/smplayer smplayer 
+cd smplayer/smplayer/trunk
+make
+sudo make install
+cd ../..
+

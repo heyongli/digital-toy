@@ -1,0 +1,58 @@
+#!/bin/bash
+
+#包含公用头文件， source 命令
+# pinfo perror, enter work directory, $silence
+. ./lazy.h.sh $1
+
+#work directory
+mkdir -p packages
+cd packages
+#------------------------------------------------------------------------
+
+sudo aptitude install -y  build-essential libncurses-dev gettext linux-headers-`uname -r` \
+  xmlto xmltoman
+
+if [ ! -f alsa-driver-1.0.18a.tar.bz2 ]; then
+wget ftp://ftp.alsa-project.org/pub/driver/alsa-driver-1.0.18a.tar.bz2
+fi
+tar xvf alsa-driver-1.0.18a.tar.bz2
+cd alsa-driver-1.0.18a
+./configure --with-cards=hda-intel 
+make
+sudo make install
+cd ..
+
+if [ ! -f alsa-lib-1.0.18.tar.bz2 ]; then
+wget ftp://ftp.alsa-project.org/pub/lib/alsa-lib-1.0.18.tar.bz2
+fi
+tar xvf alsa-lib-1.0.18.tar.bz2
+cd alsa-lib-1.0.18
+./configure 
+make
+sudo make install
+cd ..
+
+
+if [ ! -f alsa-utils-1.0.18.tar.bz2 ]; then
+wget ftp://ftp.alsa-project.org/pub/utils/alsa-utils-1.0.18.tar.bz2
+fi
+tar xvf alsa-utils-1.0.18.tar.bz2
+cd alsa-utils-1.0.18
+./configure  
+make
+sudo make install
+cd ..
+
+
+codecs_mesg=cat /proc/asound/card0/codec#* | grep Codec
+perror "$codecs_mesg"
+#my desktop model
+backup /etc/modprobe.d/alsa-base
+is_there=$(sudo grep "options snd-hda-intel model=6stack-dig" /etc/modprobe.d/alsa-base)
+if [ "$is_there" = "" ] ; then
+echo "Intall IntelHD Auodio model RTL888 6stack-dig" 
+sudo echo "options snd-hda-intel model=6stack-dig" >>/etc/modprobe.d/alsa-base
+fi
+
+
+

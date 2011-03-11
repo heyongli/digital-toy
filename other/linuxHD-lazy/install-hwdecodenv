@@ -1,0 +1,40 @@
+#!/bin/bash
+
+#包含公用头文件， source 命令
+# pinfo perror, enter work directory, $silence
+. ./lazy.h.sh $1
+
+#work directory
+mkdir -p packages
+cd packages
+#------------------------------------------------------------------------
+
+if [ ! -f mplayer-vdpau-3076399.tar.bz2 ] ; then 
+wget ftp://download.nvidia.com/XFree86/vdpau/mplayer-vdpau-3076399.tar.bz2
+fi
+
+tar xvf mplayer-vdpau-3076399.tar.bz2
+
+#
+cd mplayer
+svn  revert . -R  #drop any previous patched file
+
+#checkout specify version
+svn cleanup  # remove posiblle lock
+svn checkout -r 27408
+svn co -r 14529 svn://svn.mplayerhq.hu/ffmpeg/trunk/libpostproc
+svn co -r 14529 svn://svn.mplayerhq.hu/ffmpeg/trunk/libavformat
+svn co -r 14529 svn://svn.mplayerhq.hu/ffmpeg/trunk/libavcodec
+svn co -r 14529 svn://svn.mplayerhq.hu/ffmpeg/trunk/libavutil
+
+
+patch -p0 < ../mplayer-vdpau-3076399/mplayer-vdpau-mplayer.patch 
+patch -p0 < ../mplayer-vdpau-3076399/mplayer-vdpau-libavutil.patch 
+patch -p0 < ../mplayer-vdpau-3076399/mplayer-vdpau-libavcodec.patch
+
+./configure --enable-gui --enable-menu --codecsdir=/usr/lib/codecs --win32codecsdir=/usr/lib/win32 --language=zh_CN
+make
+sudo make install
+cd ..
+
+
