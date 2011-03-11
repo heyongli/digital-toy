@@ -34,10 +34,10 @@ kernel_dev="build-essential uuid uuid-dev \
               netspeed git-arch git-cvs git-email git-gui   git-svn gitk gitweb \
              tex-common subversion "
 
-languages="         language-pack-zh  language-pack-gnome-zh-base   language-pack-zh-base  \
-        language-support-input-zh              kde-l10n-zhcn \
+languages="language-pack-zh  language-pack-gnome-zh-base   language-pack-zh-base  \
+        language-support-input-zh   kde-l10n-zhcn \
            language-pack-kde-zh   language-pack-kde-en language-pack-kde-en-base  thunderbird-locale-zh-cn \
-            language-support-extra-zh qt4-qtconfig ttf-arphic-ukai  \
+             qt4-qtconfig ttf-arphic-ukai  \
             ttf-arphic-ukai ttf-wqy-zenhei language-support-fonts-zh  openoffice.org-l10n-zh-cn xfonts-wqy"
 
 
@@ -50,10 +50,10 @@ languages="         language-pack-zh  language-pack-gnome-zh-base   language-pac
 mkdir -p packages
 cd packages
 
+fapt-install-desc "Chinese Simplified internationalized (i18n) base " $languages 
 fapt-install-desc "application developer pkgs " $app_dev 
 fapt-install-desc "multimedia " $multi_media 
 fapt-install-desc "kernel develop pkgs" $kernel_dev
-fapt-install-desc "Chinese Simplified internationalized (i18n) base " $languages 
 fapt-install-desc "naultius"  $naultilus
 fapt-install-desc "ibus"  $ibus
 fapt-install-desc "offfice"  $offices
@@ -81,8 +81,7 @@ wget-tarball http://jaist.dl.sourceforge.net/sourceforge/stardict/stardict-langd
 sudo mv stardict-langdao-ec-gb-2.4.2 /usr/share/stardict/dic
 wget-tarball http://nchc.dl.sourceforge.net/sourceforge/stardict/stardict-langdao-ce-gb-2.4.2.tar.bz2
 sudo mv stardict-langdao-ce-gb-2.4.2 /usr/share/stardict/dic
-wget-tarball http://nchc.dl.sourceforge.net/sourceforge/stardict/stardict-kdic-computer-gb-2.4.2.tar.bz2
-sudo mv stardict-kdic-computer-gb-2.4.2 /usr/share/stardict/dic
+
 
 
 pstart "last step upgrade them all!"
