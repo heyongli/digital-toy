@@ -1,19 +1,47 @@
 #!/bin/bash
 
-
+#########################################################################################################
 #define fav packages to install
-naultilus="autilus  nautilus-gksu   nautilus-open-terminal    nautilus-script-audio-convert \
+naultilus=" nautilus  nautilus-gksu   nautilus-open-terminal    nautilus-script-audio-convert \
               nautilus-image-converter  "
+
 ibus="ibus ibus-gtk ibus-pinyin ibus-pinyin-db-open-phrase  ibus-table"
-offices="mozilla-thunderbird  thunderbird-gnome-support  "
-devels="git-core"
-dict="stardict qstardict stardict-gnome stardict-plugin \
+
+offices="nfs-common ssh ntp "
+
+dict="stardict stardict-gnome stardict-plugin \
              stardict-plugin-espeak stardict-plugin-festival stardict-plugin-gucharmap \
              stardict-plugin-spell stardict-tools "
-chat="xchat xchat-gnome "
-misc="kdebluetooth  patch guilt unrar  rar tree deluge-torrent \
-                  alien "
 
+chat="xchat xchat-gnome "
+
+misc="kdebluetooth  patch guilt unrar  rar tree deluge-torrent alien kate  kdiff3 xchm chmsee  \
+                   ksnapshot "
+
+multi_media="k9copy acidrip  gmountiso smplayer"
+
+
+app_dev="autoconf git-core automake  autotools-dev binutils-dev  \
+     bison   comerr-dev   dpkg-dev  flex               \
+     g++    gawk  gcc gcc-multilib  gettext  libacl1-dev   \
+     linux-libc-dev \
+     libreadline5-dev   libtool libxmltok1-dev  \
+     linux-libc-dev     m4   mkisofs  patch   pkg-config   rpm  ss-dev  \
+     tcl       texi2html texlive-base-bin texlive-common     \
+     x11proto-core-dev  zlib1g-dev  "
+
+kernel_dev="build-essential uuid uuid-dev \
+              netspeed git-arch git-cvs git-email git-gui   git-svn gitk gitweb \
+             tex-common subversion "
+
+languages="         language-pack-zh  language-pack-gnome-zh-base   language-pack-zh-base  \
+        language-support-input-zh              kde-l10n-zhcn \
+           language-pack-kde-zh   language-pack-kde-en language-pack-kde-en-base  thunderbird-locale-zh-cn \
+            language-support-extra-zh qt4-qtconfig ttf-arphic-ukai  \
+            ttf-arphic-ukai ttf-wqy-zenhei language-support-fonts-zh  openoffice.org-l10n-zh-cn xfonts-wqy"
+
+
+#########################################################################################################
 #包含公用头文件， source 命令
 # pinfo perror, enter work directory, $silence
 . ./lazy.h.sh $1
@@ -22,24 +50,19 @@ misc="kdebluetooth  patch guilt unrar  rar tree deluge-torrent \
 mkdir -p packages
 cd packages
 
-#------------------------------------------------------------------------
-
-for pkg in $naultilus   $ibus $offices $devels $dict $chat $misc
-do
-echo $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-fapt-install  $pkg
-done
-
-#stardict wordtable
-wget-tarball http://jaist.dl.sourceforge.net/sourceforge/stardict/stardict-langdao-ec-gb-2.4.2.tar.bz2
-sudo mv stardict-langdao-ec-gb-2.4.2 /usr/share/stardict/dic
-wget-tarball http://nchc.dl.sourceforge.net/sourceforge/stardict/stardict-langdao-ce-gb-2.4.2.tar.bz2
-sudo mv stardict-langdao-ce-gb-2.4.2 /usr/share/stardict/dic
-wget-tarball http://nchc.dl.sourceforge.net/sourceforge/stardict/stardict-kdic-computer-gb-2.4.2.tar.bz2
-sudo mv stardict-kdic-computer-gb-2.4.2 /usr/share/stardict/dic
+fapt-install-desc "application developer pkgs " $app_dev 
+fapt-install-desc "multimedia " $multi_media 
+fapt-install-desc "kernel develop pkgs" $kernel_dev
+fapt-install-desc "Chinese Simplified internationalized (i18n) base " $languages 
+fapt-install-desc "naultius"  $naultilus
+fapt-install-desc "ibus"  $ibus
+fapt-install-desc "offfice"  $offices
+fapt-install-desc "dicts"  $dict
+fapt-install-desc "chat"  $chat
+fapt-install-desc "misc"  $misc
 
 
-
+################################################
 # vsftp baiscs
 pstart "Installing vsftpd"
 srun sudo apt-get install -y vsftpd  || _check
@@ -52,44 +75,14 @@ srun sudo adduser ftp ftp --home /hoem/ftp
 sudo  /etc/init.d/vsftpd  restart || _check
 pstatus
 
-fapt-install-desc "good kde packages"  kate kopete-kde4 kopete kwifimanager kdiff3 xchm chmsee  \
-                   kscope ksnapshot  kate-plugins
-
-fapt-install-desc "basic serveice: ssh nfs ntp" nfs-common ssh ntp
- 
-fapt-install-desc "multimedia " k9copy acidrip  gmountiso smplayer
-
-fapt-install-desc "kernel develop pkgs" linux-kernel-devel build-essential uuid uuid-dev \
-              netspeed git-arch git-cvs git-email git-gui   git-svn gitk gitweb  linux-source \
-              tex-common subversion 
-
-fapt-install-desc "application developer pkgs " autoconf automake1.9  autotools-dev binutils-dev  \
-     bison   comerr-dev  cpp-3.4  dpkg-dev  flex               \
-     g++   g++-4.1  gawk  gcc-3.4  gcc-3.4-base gcc-multilib  gettext  libacl1-dev   \
-     libbeecrypt6   libc6-dev libexpat1-dev libncurses5-dev libneon27 libpng12-dev \
-     libreadline5-dev  librpm4.4 libstdc++6-4.1-dev libtool libxmltok1-dev  \
-     linux-libc-dev     m4   mkisofs  patch   pkg-config   rpm  ss-dev  \
-     tcl8.4       texi2html texlive-base-bin texlive-common     \
-     x11proto-core-dev  zlib1g-dev   
-
-
-#language-pack-gnome-zh-base language-support-translations-zh
-fapt-install-desc "Chinese Simplified internationalized (i18n) base "  \
-         language-pack-zh  language-pack-gnome-zh-base   language-pack-zh-base  \
-        language-support-input-zh   
- 
-#kde-i18n-zhcn
-fapt-install-desc "Chinese Simplified internationalized (i18n) for KDE"  kde-l10n-zhcn \
-           language-pack-kde-zh     language-pack-kde-en language-pack-kde-en-base
-
-               
-fapt-install-desc "Chinese Simplified internationalized (i18n) for Apps"  thunderbird-locale-zh-cn \
-            language-support-extra-zh qt4-qtconfig
-
-fapt-install-desc "Chinese Simplified internationalized (i18n) fonts"  ttf-arphic-ukai  \
-            ttf-arphic-ukai ttf-wqy-zenhei language-support-fonts-zh
- 
-fapt-install-desc "Chinese Simplified internationalized (i18n) for OpenOffice "  openoffice.org-l10n-zh-cn xfonts-wqy
+################################################33
+#stardict wordtable
+wget-tarball http://jaist.dl.sourceforge.net/sourceforge/stardict/stardict-langdao-ec-gb-2.4.2.tar.bz2
+sudo mv stardict-langdao-ec-gb-2.4.2 /usr/share/stardict/dic
+wget-tarball http://nchc.dl.sourceforge.net/sourceforge/stardict/stardict-langdao-ce-gb-2.4.2.tar.bz2
+sudo mv stardict-langdao-ce-gb-2.4.2 /usr/share/stardict/dic
+wget-tarball http://nchc.dl.sourceforge.net/sourceforge/stardict/stardict-kdic-computer-gb-2.4.2.tar.bz2
+sudo mv stardict-kdic-computer-gb-2.4.2 /usr/share/stardict/dic
 
 
 pstart "last step upgrade them all!"
