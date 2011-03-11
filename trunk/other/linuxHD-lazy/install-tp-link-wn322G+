@@ -1,0 +1,13 @@
+#!/bin/bash
+
+#包含公用头文件， source 命令
+# pinfo perror, enter work directory, $silence
+. ./lazy.h.sh $1
+
+#work directory
+mkdir -p packages
+cd packages
+#------------------------------------------------------------------------
+
+wbuild-tarball http://rs351.rapidshare.com/files/123648980/ZD1211LnxDrv_2_22_0_0__2_6_24.tar.gz
+

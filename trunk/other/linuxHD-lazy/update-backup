@@ -1,0 +1,7 @@
+#!/bin/bash
+
+. ./lazy.h.sh $1
+
+#rm *~  #remove the backupfile from kate,..
+
+backup_critical_dir .

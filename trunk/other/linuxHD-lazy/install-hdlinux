@@ -1,0 +1,195 @@
+#!/bin/bash
+
+#包含公用头文件， source 命令
+# pinfo perror, enter work directory, $silence
+. ./lazy.h.sh $1
+
+#work directory
+mkdir -p packages
+cd packages
+#------------------------------------------------------------------------
+alias tar='fsrun tar'
+alias make='fsrun tar'
+
+fapt-install-desc "git wine 的开发包" libxml2-dev libxslt1-dev libcurl4-openssl-dev libjpeg62-dev \
+               libghc6-opengl-dev libqt4-opengl-dev libxxf86vm-dev libhal-dev libgnutls-dev \
+        libsane-dev  libgphoto2-2-dev libcapi20-dev  libcupsys2-dev 
+
+
+pstart "安装wine...."
+srun sudo apt-get install -y wine cabextract
+pstatus
+
+
+ 
+#install all the needed dev lib
+fapt-install-desc "安装编译mplyer需要的开发库" libdv4-dev  libfontconfig1-dev xmlto xmltoman \
+build-essential checkinstall subversion git-core libgpac-dev xmlto libgtk2.0-dev subversion
+
+srun sudo apt-get build-dep -y  mplayer 
+
+
+#======================================================================================
+pstart "安装mplayer codecs, skin"
+
+
+#all codecs 
+wget-tarball http://www.mplayerhq.hu/MPlayer/releases/codecs/all-20071007.tar.bz2
+sudo mkdir -pv /usr/local/lib/codecs
+sudo cp all-20071007/* /usr/local/lib/codecs
+_check
+
+#windows all codecs
+wget-tarball  http://www.mplayerhq.hu/MPlayer/releases/codecs/win32codecs-20040703.tar.bz2
+sudo mkdir -pv /usr/lib/win32
+sudo cp  win32codecs-20040703/* /usr/lib/win32
+_check
+
+#skin
+mkdir -pv ~/.mplayer/skins/default
+wget-tarball http://www.mplayerhq.hu/MPlayer/skins/Blue-1.7.tar.bz2
+cp -R Blue/* ~/.mplayer/skins/default
+_check
+
+#source afont
+sudo apt-get install -y ttf-bitstream-vera
+ln -sv /usr/share/fonts/truetype/ttf-bitstream-vera/Vera.ttf ~/.mplayer/subfont.ttf
+
+#yasm 0.7.2
+wbuild-tarball http://www.tortall.net/projects/yasm/releases/yasm-0.7.2.tar.gz
+
+pstart "x264"
+if [ ! -d x264 ] ; then
+git clone git://git.videolan.org/x264.git
+_check
+fi 
+
+cd x264
+git pull
+srun make clean
+_check
+srun ./configure --prefix=/usr --enable-shared
+srun make
+_check
+srun sudo make install
+_check
+cd ..
+
+
+wget-tarball http://ftp.penguin.cz/pub/users/utx/amr/amrnb-7.0.0.2.tar.bz2
+pstart "build amr narrow band"
+cd amrnb-7.0.0.2 
+wget-tarball http://www.3gpp.org/ftp/Specs/archive/26_series/26.104/26104-700.zip
+srun ./configure  --prefix=/usr --enable-shared --disable-static
+_check
+srun make
+_check
+srun sudo make install
+_check
+cd ..
+
+#amr wide band
+pinfo "amr wind band"
+wget-tarball http://ftp.penguin.cz/pub/users/utx/amr/amrwb-7.0.0.3.tar.bz2
+cd amrwb-7.0.0.3
+wget-tarball http://www.3gpp.org/ftp/Specs/archive/26_series/26.204/26204-700.zip
+srun ./configure  --prefix=/usr --enable-shared --disable-static 
+srun make
+srun sudo make install
+cd ..
+
+
+pinfo 更新mplayer到最新版本....
+### svn mplyaer
+svn checkout svn://svn.mplayerhq.hu/mplayer/trunk mplayer
+cd mplayer
+svn update
+fsrun ./configure --enable-gui --enable-menu --codecsdir=/usr/lib/codecs --win32codecsdir=/usr/lib/win32 --language=zh_CN
+cd ..
+
+#help files
+sudo apt-get install docbook-xml docbook-xsl xsltproc libxml2-utils
+
+
+
+
+#=======================================================================
+#h264, coreAVC for linux
+pinfo "更新coreavc for linux..."
+#get coreAVC for linux
+sudo apt-get -y install libxv-dev
+svn checkout http://coreavc-for-linux.googlecode.com/svn/trunk/ coreavc-for-linux
+cd coreavc-for-linux
+svn update
+fsrun make -C dshowserver
+sudo cp dshowserver/registercodec /usr/local/bin/
+sudo cp dshowserver/dshowserver  /usr/local/bin/
+sudo chmod a+x /usr/local/bin/registercodec
+sudo chmod a+x /usr/local/bin/dshowserver
+cd ..
+
+
+#===========================================
+pinfo "注册coreavc13...."
+if [ ! -f 081022231438.gz ]; then
+wget http://blogimg.chinaunix.net/blog/upfile2/081022231438.gz
+fi
+tar xvf 081022231438.gz
+sudo cp CoreAVC1.7/CoreAVCDecoder.ax /usr/lib/codecs/
+sudo cp CoreAVC1.7/CoreAVCDecoder.ax /usr/lib/win32/
+sudo chmod 644 /usr/lib/codecs/CoreAVCDecoder.ax
+sudo chmod 755  /usr/lib/win32/CoreAVCDecoder.ax
+#condecs.conf
+registercodec -r ~/.mplayer/registry32 -k "HKLM\\Software\\CoreCodec\\CoreAVC Pro\\Serial" -v "6IYDT-8L6IH-CORE-CWGIQ-IXRTH" 
+dshowserver -c CoreAVCDecoder.ax -s 1280x720 -g 09571a4b-f1fe-4c60-9760de6d310c7c31 -b 12 -f 0x34363248 -o 0x30323449
+
+####
+pstart "打dshowserve补丁编译mplayer...."
+#patch and rebuild mplayer
+cd mplayer
+fsrun ./configure --enable-gui --enable-menu --codecsdir=/usr/lib/codecs --win32codecsdir=/usr/lib/win32 --language=zh_CN
+_check
+svn  revert -R .  #drop any previous patched file
+_check
+cd libavcodec
+svn revert -R .
+_check
+cd ..
+#patch -Ns  -p0  -i ../coreavc-for-linux/mplayer/mplayer.patch
+patch -Ns   -p0  -i ../coreavc-for-linux/mplayer/dshowserver.patch
+_check
+fsrun make
+_check
+srun sudo make install
+_check
+cp  ./etc/codecs.conf  ~/.mplayer/
+cd ..
+
+
+pinfo "配置mplayer....."
+
+mkdir -p ~/.mplayer
+sudo cp /usr/local/bin/mplayer /usr/bin/mplayer
+echo "videocodec CoreAVC" >>~/.mplayer/codecs.conf
+echo 'info "CoreAVC DShow H264 decoder 1.3 for x86 - http://corecodec.org/"' >>~/.mplayer/codecs.conf
+echo "status working"  >>~/.mplayer/codecs.conf
+echo "format 0x10000005"  >>~/.mplayer/codecs.conf
+echo "fourcc H264,h264 H264"  >>~/.mplayer/codecs.conf
+echo "fourcc X264,x264"  >>~/.mplayer/codecs.conf
+echo "fourcc avc1,AVC1 AVC1"  >>~/.mplayer/codecs.conf
+echo "fourcc davc,DAVC"  >>~/.mplayer/codecs.conf
+echo "fourcc VSSH"  >>~/.mplayer/codecs.conf
+echo "driver dshowserver"  >>~/.mplayer/codecs.conf
+echo 'dll "CoreAVCDecoder.ax"'  >>~/.mplayer/codecs.conf
+echo "guid 0x09571a4b, 0xf1fe, 0x4c60, 0x97, 0x60, 0xde, 0x6d, 0x31, 0x0c, 0x7c, 0x31"  >>~/.mplayer/codecs.conf
+echo "out YV12,IYUV,I420,YUY2 "  >>~/.mplayer/codecs.conf
+
+
+pinfo "mplayer video codecs 参数"
+mplayer -vc help  | grep CoreAVC
+pinfo "========================================================="
+perror "echo coreAVC 使用方法:  mplayer -vc coreavc13  -demuxer lavf"
+pinfo "========================================================"
+
+
+

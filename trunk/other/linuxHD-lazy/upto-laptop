@@ -1,0 +1,16 @@
+#!/bin/bash
+
+. ./lazy.h.sh $1
+
+pinfo "backup remote....."
+#get remote file backup
+#scp update-backup yhe@10.0.0.8:~/src-install-prj/
+ssh -Y yhe@10.0.0.8  "cd ~/src-install-prj;./update-backup;mkdir -p incoming"
+
+if [ "$1" = "force" ]; then
+perror "force to new but safe: lookup the old in remote backup"
+scp * yhe@10.0.0.8:~/src-install-prj/
+exit 0
+fi
+
+scp * yhe@10.0.0.8:~/src-install-prj/incoming/  

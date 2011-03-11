@@ -1,0 +1,39 @@
+#!/bin/bash
+
+#包含公用头文件， source 命令
+# pinfo perror, enter work directory, $silence
+. ./lazy.h.sh $1
+
+#work directory
+mkdir -p packages
+cd packages
+#------------------------------------------------------------------------
+
+
+if [ "$1" = "reinstall" ];then
+sudo apt-get remove -y virtualbox
+fi
+
+sudo apt-get install -y virtualbox
+
+#sudo patch -N --silent -p0 -i mountdevsubfs.diff
+who=$(whoami)
+sudo adduser $(who)  vboxusers
+
+sudo groupadd usbfs 
+sudo adduser $(who)  usbfs
+
+
+backup /etc/fstab
+is_there=$(grep "/proc/bus/usb usbfs devgid=1002,devmode=664" /etc/fstab)
+if [ "$is_there"="" ] ; then
+
+#### 注意了这里不是每次都是1002, 而应该根据/etc/group查找gid
+sudo echo  "# 1002 is the USB group IDI" >>/etc/fstab 
+sudo echo  "none /proc/bus/usb usbfs devgid=1002,devmode=664 0 0"  >>/etc/fstab 
+fi
+
+
+
+###################qemu
+sudo apt-get install -y qemulator qemu kqemu-source kqemu-common

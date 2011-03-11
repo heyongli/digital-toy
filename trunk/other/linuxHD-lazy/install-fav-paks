@@ -1,0 +1,145 @@
+#!/bin/bash
+
+#包含公用头文件， source 命令
+# pinfo perror, enter work directory, $silence
+. ./lazy.h.sh $1
+
+#work directory
+mkdir -p packages
+cd packages
+#------------------------------------------------------------------------
+
+
+fapt-install  nautilus  nautilus-gksu   nautilus-open-terminal    nautilus-script-audio-convert \
+              nautilus-image-converter              
+
+#
+if [ "$1" =  "scim" ]; then
+fapt-install scim  scim-bridge-agent  scim-bridge-client-gtk \
+	scim-bridge-client-qt scim-bridge-client-qt4 scim-chinese \
+	scim-qtimm  scim-pinyin  scim-tables-zh scim-chewing
+else
+sudo apt-get remove -y scim
+fapt-install fcitx
+fi
+fapt-install mozilla-thunderbird  thunderbird-gnome-support  
+
+
+wbuild-tarball http://www.kernel.org/pub/software/scm/git/git-1.6.0.tar.gz
+##http://nchc.dl.sourceforge.net/sourceforge/openproj/openproj_1.4-2.deb
+
+#vuze 毒蛙
+#wbuild-tarball http://cache2.vuze.com/files/Vuze_Installer.tar.bz2
+
+### star dict
+#stardict-gtk
+fapt-install stardict qstardict stardict-gnome stardict-plugin \
+             stardict-plugin-espeak stardict-plugin-festival stardict-plugin-gucharmap \
+             stardict-plugin-spell stardict-tools 
+#star dict:
+wget-tarball http://jaist.dl.sourceforge.net/sourceforge/stardict/stardict-langdao-ec-gb-2.4.2.tar.bz2
+sudo mv stardict-langdao-ec-gb-2.4.2 /usr/share/stardict/dic
+wget-tarball http://nchc.dl.sourceforge.net/sourceforge/stardict/stardict-langdao-ce-gb-2.4.2.tar.bz2
+sudo mv stardict-langdao-ce-gb-2.4.2 /usr/share/stardict/dic
+
+wget-tarball http://nchc.dl.sourceforge.net/sourceforge/stardict/stardict-kdic-computer-gb-2.4.2.tar.bz2
+sudo mv stardict-kdic-computer-gb-2.4.2 /usr/share/stardict/dic
+
+fapt-install xchat xchat-gnome 
+fapt-install-desc "Misc rar,bluetooth,patch"  kdebluetooth  patch guilt unrar  rar tree deluge-torrent \
+                  alien  azureus
+
+
+fapt-install-desc "good kde packages"  kate kopete-kde4 kopete kwifimanager kdiff3 xchm chmsee  \
+                   kscope ksnapshot  kate-plugins
+
+
+
+fapt-install-desc "basic serveice: ssh nfs ntp" nfs-common ssh ntp
+ 
+fapt-install-desc "multimedia " k9copy acidrip  gmountiso smplayer
+
+pstart "Installing vsftpd"
+srun sudo apt-get install -y vsftpd  || _check
+srun sudo  /etc/init.d/vsftpd  start  
+sudo mkdir -p /home/ftp  || _check
+sudo chmod a+x /home/ftp || _check 
+sudo chmod a-w /home/ftp || _check
+srun sudo addgroup ftp  
+srun sudo adduser ftp ftp --home /hoem/ftp    
+sudo  /etc/init.d/vsftpd  restart || _check
+pstatus
+
+fapt-install-desc "kernel develop pkgs" linux-kernel-devel build-essential uuid uuid-dev \
+              netspeed git-arch git-cvs git-email git-gui   git-svn gitk gitweb  linux-source \
+              tex-common subversion 
+
+fapt-install-desc "application developer pkgs " autoconf automake1.9  autotools-dev binutils-dev  \
+     bison   comerr-dev  cpp-3.4  dpkg-dev  flex               \
+     g++   g++-4.1  gawk  gcc-3.4  gcc-3.4-base gcc-multilib  gettext  libacl1-dev   \
+     libbeecrypt6   libc6-dev libexpat1-dev libncurses5-dev libneon27 libpng12-dev \
+     libreadline5-dev  librpm4.4 libstdc++6-4.1-dev libtool libxmltok1-dev  \
+     linux-libc-dev     m4   mkisofs  patch   pkg-config   rpm  ss-dev  \
+     tcl8.4       texi2html texlive-base-bin texlive-common     \
+     x11proto-core-dev  zlib1g-dev   
+
+
+
+#language-pack-gnome-zh-base language-support-translations-zh
+fapt-install-desc "Chinese Simplified internationalized (i18n) base "  \
+         language-pack-zh  language-pack-gnome-zh-base   language-pack-zh-base  \
+        language-support-input-zh   
+ 
+#kde-i18n-zhcn
+fapt-install-desc "Chinese Simplified internationalized (i18n) for KDE"  kde-l10n-zhcn \
+           language-pack-kde-zh     language-pack-kde-en language-pack-kde-en-base
+
+               
+fapt-install-desc "Chinese Simplified internationalized (i18n) for Apps"  thunderbird-locale-zh-cn \
+            language-support-extra-zh qt4-qtconfig
+
+fapt-install-desc "Chinese Simplified internationalized (i18n) fonts"  ttf-arphic-ukai  \
+            ttf-arphic-ukai ttf-wqy-zenhei language-support-fonts-zh
+ 
+fapt-install-desc "Chinese Simplified internationalized (i18n) for OpenOffice "  openoffice.org-l10n-zh-cn xfonts-wqy
+#font http://cle.linux.org.tw/fonts/cwttf/deb/ttf-cwtex-center-cwfs_1.0-1_all.deb
+#http://download.skype.com/linux/skype-debian_2.0.0.72-1_i386.deb
+
+
+
+###http://download.deluge-torrent.org/ubuntu/hardy/1.0.5/deluge-torrent_1.0.5-1_i386.hardy.deb
+
+
+pstart "last step upgrade them all!"
+sudo apt-get upgrade -y
+pstatus
+
+pinfo  "ssh 认证key在服务器的存放地点"
+pinfo 'cat .ssh/id_dsa.pub | ssh user@remote “cat - >>.ssh/authorized_keys” #将公钥写到服务器'
+
+#vmware server, for hardy
+#is_hardy=$(sudo cat /etc/apt/sources.list | grep hardy)
+#if [ "$is_hardy"="" ]; then
+#echo ===========================================
+#echo this vmware server is for hardy, skip.....
+#echo ===========================================
+#exit 1
+#fi
+
+
+#if [ ! -f VMware-server-1.0.6-91891.tar.gz ] ; then
+#wget -c http://download3.vmware.com/software/vmserver/VMware-server-1.0.6-91891.tar.gz	
+#fi
+#sudo apt-get install -y build-essential linux-kernel-devel linux-headers-generic xinetd
+
+#tar xf VMware-server-1.0.6-*.tar.gz
+#cd vmware-server-distrib
+#sudo ./vmware-install.pl
+#cd ..
+#sudo ln -sf /usr/lib/gcc/i486-linux-gnu/4.2.3/libgcc_s.so /usr/lib/vmware/lib/libgcc_s.so.1/libgcc_s.so.1
+#sudo ln -sf /usr/lib/libpng12.so.0 /usr/lib/vmware/lib/libpng12.so.0/libpng12.so.0
+
+
+
+
+
