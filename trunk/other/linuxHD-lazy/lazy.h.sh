@@ -212,7 +212,7 @@ wbuild-tarball(){
     if [ ! $iszip  ]; then
       srun tar xvf $tarball
     else
-      srun unzip -o $tarball
+      srun 7z e -y $tarball
     fi
    
     cd $tardir
@@ -249,7 +249,7 @@ wget-tarball(){
       sudo rm -rf $tardir
       srun tar xvf $tarball
     else
-      srun unzip -o $tarball
+      srun sudo unzip -o  $tarball 
     fi
 
     pstatus
