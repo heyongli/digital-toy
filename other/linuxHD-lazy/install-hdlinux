@@ -94,7 +94,7 @@ wget-tarball http://ftp.penguin.cz/pub/users/utx/amr/amrwb-7.0.0.3.tar.bz2
 cd amrwb-7.0.0.3
 wget-tarball http://www.3gpp.org/ftp/Specs/archive/26_series/26.204/26204-700.zip
 srun ./configure  --prefix=/usr --enable-shared --disable-static 
-srun make
+srun sudo make
 srun sudo make install
 cd ..
 
