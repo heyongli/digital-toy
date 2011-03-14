@@ -146,9 +146,9 @@ void lcd_clear();
 #ifdef KEY_LCD_SHIELD_EXT_CONNETOR
 /*via io-extention board*/
 #define  PORT_74HC595   PORTB 
-#define  CLK    2    /* raise-edge , shift clock: 74HC595 pin 11*/
-#define  LATCH  1	 /* raise-edge output to Qx, latch clock: 74HC595 pin 12*/
-#define  SDI    0	 /* CLK raise edge deposit, sserial data in: 74HC595 pin14*/
+#define  CLK    5    /* raise-edge , shift clock: 74HC595 pin 11*/
+#define  LATCH  4	 /* raise-edge output to Qx, latch clock: 74HC595 pin 12*/
+#define  SDI    3	 /* CLK raise edge deposit, sserial data in: 74HC595 pin14*/
 #define pin_init() _pins_mode(PORT_74HC595, SDI,CLK,OUTPUT)
 
 /* stack on Hrdunio */
