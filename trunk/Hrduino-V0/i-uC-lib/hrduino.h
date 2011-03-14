@@ -13,7 +13,7 @@
 
 //debug key lcd shield via io-extention board 
 #define HRDU_KEY_LCD_SHIELD  1
-//#define KEY_LCD_SHIELD_EXT_CONNETOR  1 //via PORTB*/
+#define KEY_LCD_SHIELD_EXT_CONNETOR  1 //via PORTB*/
 
 
 
