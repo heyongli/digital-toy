@@ -12,7 +12,7 @@
 volatile unsigned  long jiffers=0;  //250us per jiffers
 
 #define LED_PORT PORTD
-
+#if 0
 
 ISR(TIMER0_OVF_vect) // 1/HZ interval
 {
@@ -32,7 +32,7 @@ ISR(TIMER0_OVF_vect) // 1/HZ interval
    return;
 } 
 
-
+#endif
 
 /*
 from mega88:
