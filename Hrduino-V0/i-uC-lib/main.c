@@ -139,6 +139,7 @@ char mTime(unsigned long ticks){
 
 char font_stop()
 {
+#ifdef _DEMO_
   static unsigned char f_b = 0;
   //unsigned int ad= _adc(0);
   //#define block ad<50
@@ -170,11 +171,12 @@ char font_stop()
   }
 
   return 0;
-
+#endif
 }
 
 void pcar_init()
 {
+#ifdef _DEMO_
     mott = jiffers;
 //  adc_init();
 	_pins_mode(PORTC, 0,0,INPUT);
@@ -214,11 +216,13 @@ void pcar_init()
 	
     ////
     ci=230; //start from 100
+#endif 
 }
 
 
 void pcar_demo()
 {
+#if 0
 #define MAX_ACT  2
 
 
@@ -256,7 +260,7 @@ void pcar_demo()
    
    }
    if(100==act){lmotor(1,ci); rmotor(0,ci); }
-
+#endif
 }
 
 
@@ -342,6 +346,7 @@ void show_demo_menu(){
 
 int main()
 {
+	freq_main();
 
     void (*fn)(void);
     
