@@ -1,8 +1,8 @@
 #include <util/delay.h>
 /*fast pwm mode*/
-#include "hrduino.h"
-#include "include/avrio.h"
-#include "pwm.h"
+
+#include <atmel/avr-io.h>
+
 
 
 /* FAST PWM mode
@@ -35,7 +35,8 @@
 
 void fast_pwm(char port, char cs, char duty)
 {
-	unsigned volatile char *tccRA;
+
+//	unsigned volatile char *tccRA;
 #if defined (__AVR_ATmega8__)
 #elif  defined (__AVR_ATmega88__)
   //TCCR2A  =   (_bits8(0b11,WGM20,WGM21) )  |  ( _bits8(0b10, COM2B0,COM2B1) );  

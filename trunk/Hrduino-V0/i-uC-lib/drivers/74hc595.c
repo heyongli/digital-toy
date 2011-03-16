@@ -1,7 +1,9 @@
-#include "hrduino.h"
 
-#include <util/delay.h>
-#include "include/avrio.h"
+#include <config.h>   //driver resource configrations
+
+#include <timer.h>
+
+#include <atmel/avr-io.h>
 
 
 
