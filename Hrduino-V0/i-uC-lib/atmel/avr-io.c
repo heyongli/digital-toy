@@ -1,6 +1,5 @@
-#include "hrduino.h"
 
-#include "include/avrio.h"
+#include <atmel/avr-io.h>
 
 
 
@@ -21,17 +20,6 @@ void __set_port_mode(volatile unsigned char* port_addr, char mode, char n, char 
 	//PORTx |= (1<< PX##n)    /*pull-up-enable*/  
 }
 
-/*0-64 seconds*/
-void delay(unsigned long ticks)
-{
-  
-   unsigned long long lt = jiffers;
-
-   while(!timeafter(jiffers,(lt+ ticks)));
-   
-   return;
-
-}
 
 
 /*abcd1234 => 4321dcba */
@@ -48,4 +36,5 @@ unsigned char _swap8(unsigned char x)
             /*0xAA*/            /*0x55*/
     return x;
 }
+
 

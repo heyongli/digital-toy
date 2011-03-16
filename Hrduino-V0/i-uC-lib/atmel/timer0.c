@@ -1,8 +1,10 @@
-#include "hrduino.h"
-#include "include/avrio.h"
+
+#include <timer.h>      //system header file
+
+#include <atmel/avr-io.h> //uC deps file  
+
+#include <avr/io.h>  //AVR-gcc  
 #include <avr/interrupt.h>
-
-
 
 
 /*

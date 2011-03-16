@@ -1,7 +1,6 @@
 #ifndef HRDUINO_RESOURCE
 #define HRDUINO_RESOURCE
 
-#include "include/avrio.h"
 
 /*
  *Fuse config:
@@ -17,10 +16,6 @@
 
 
 
-
-
-unsigned int _adc(unsigned char ch);
-void adc_init();
 
 void lmotor(char fwd_bk,char duty);
 void rmotor(char fwd_bk,char duty);
@@ -39,45 +34,6 @@ void _init_shift1(volatile unsigned char *port_addr, unsigned char bit);
 /* IR decoding*/
 int _IR_NEC_busy_decode(volatile unsigned char* port_addr, unsigned char bit);
 #define IR_NEC_busy_decode(PORT,bit) _IR_NEC_busy_decode(&PORT,bit)
-
-
-/*************************************************************/
-/*  
- * tick system      
- */
-
-
-
-/* timer0,  fcpu=8Mhz 
- * TCN: 8M/(8*256) = 3906.25HZ (PWM)
- * 
- */
-#define TIMER0_CS 0b11  //CS = 64
-#define TIMER0_HZ  ((F_CPU)/(64UL))
-#define TIMER0_TCN (255UL- ((TIMER0_HZ)/(HZ)) )  /*62.5 times OVERFLOW, 0.5 for ISR overhead...*/
-
-
-
-#define HZ  1000  
-#define timeafter(a,b)         \
-         (((long)(b) - (long)(a) < 0))
-
-
-
-extern volatile unsigned  long jiffers;
-
-void timer0_init();
-void enable_timer0();
-
-void _delay_s(unsigned char s);
-void delay(unsigned long ticks);
-
-
-
-
-
-
-
 
 
 
@@ -163,26 +119,6 @@ void lcd_clear();
 
 #endif  //HRDU_KEY_LCD_SHIELD
 
-
-
-
-
-
-
-
-
-
-
-/*************************************************************/
-
-
-
-
-
-
-
-
-/*************************************************************/
 
 
 #endif //end file include 

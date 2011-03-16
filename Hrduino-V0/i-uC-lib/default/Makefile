@@ -15,7 +15,7 @@ COMMON = -mmcu=$(MCU)
 
 ## Compile options common for all C compilation units.
 CFLAGS = $(COMMON)
-CFLAGS += -Wall -gdwarf-2 -std=gnu99                 -DF_CPU=10000000UL -Os -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
+CFLAGS += -Wall -gdwarf-2 -std=gnu99                        -DF_CPU=8000000UL -Os -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
 CFLAGS += -MD -MP -MT $(*F).o -MF dep/$(@F).d 
 
 ## Assembly specific flags
@@ -36,8 +36,11 @@ HEX_EEPROM_FLAGS += --set-section-flags=.eeprom="alloc,load"
 HEX_EEPROM_FLAGS += --change-section-lma .eeprom=0 --no-change-warnings
 
 
+## Include Directories
+INCLUDES = -I"Z:\home\digital-toy\Hrduino-V0\i-uC-lib\include" -I"Z:\home\digital-toy\Hrduino-V0\i-uC-lib\." 
+
 ## Objects that must be built in order to link
-OBJECTS = 4wire-1602.o 74hc595.o adc.o avrio.o led.o main.o pwm.o shift-one.o ir-decode-nec.o freq-meter.o timer0.o 
+OBJECTS = main.o freq-meter.o uc-print.o timer0.o adc.o avr-io.o pwm.o 74hc595.o 4wire-1602.o timer.o 
 
 ## Objects explicitly added by the user
 LINKONLYOBJECTS = 
@@ -46,37 +49,34 @@ LINKONLYOBJECTS =
 all: $(TARGET) i-uC-lib-demo.hex i-uC-lib-demo.eep i-uC-lib-demo.lss size
 
 ## Compile
-4wire-1602.o: ../4wire-1602.c
-	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
-
-74hc595.o: ../74hc595.c
-	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
-
-adc.o: ../adc.c
-	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
-
-avrio.o: ../avrio.c
-	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
-
-led.o: ../led.c
-	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
-
 main.o: ../main.c
-	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
-
-pwm.o: ../pwm.c
-	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
-
-shift-one.o: ../shift-one.c
-	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
-
-ir-decode-nec.o: ../ir-decode-nec.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 
 freq-meter.o: ../freq-meter.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 
-timer0.o: ../timer0.c
+uc-print.o: ../uc-print.c
+	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+
+timer0.o: ../atmel/timer0.c
+	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+
+adc.o: ../atmel/adc.c
+	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+
+avr-io.o: ../atmel/avr-io.c
+	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+
+pwm.o: ../atmel/pwm.c
+	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+
+74hc595.o: ../drivers/74hc595.c
+	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+
+4wire-1602.o: ../drivers/4wire-1602.c
+	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+
+timer.o: ../timer.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 
 ##Link
