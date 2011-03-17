@@ -31,10 +31,10 @@ int main()
 
      //key LCD shiled
 	lcd1602_init();
-	lcd_puts(KEY_SHILD_LOGO);
-	lcd_cursor(0,1);
-    lcd_puts(KEY_SHILD_LOGO1);
-	_key_init();
+	//lcd_puts(KEY_SHILD_LOGO);
+	//lcd_cursor(0,1);
+    //lcd_puts(KEY_SHILD_LOGO1);
+	//_key_init();
 
    //  while(1);
  	freq_main();

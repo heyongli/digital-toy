@@ -17,7 +17,7 @@
 #define calb (1+0.018377643+0.007847098)
 
 
-unsigned int T1_ovc=0; //Store the number of overflows of COUNTER1
+unsigned char T1_ovc=0; //Store the number of overflows of COUNTER1
 unsigned long F[5]; //history for last 5 values of the COUNTER0/1
 float f_avg;
 
@@ -25,11 +25,6 @@ unsigned long frequency; //the last calculated frequency is stored here
 
 
 
-
-unsigned int anti_freeze_counter;
-
-
-
 //Atemel external clock source MAX< F_CPU/2.5, 8M/2.5=3.2M
 
 
@@ -57,8 +52,8 @@ SIGNAL(SIG_OVERFLOW2)
 	barrier();
 	
 	sTCNT1H = TCNT1H;
-	counter |=sTCNT1H<<8;
-	counter |=((unsigned long)T1_ovc)<<16;
+	counter |=(unsigned long)sTCNT1H<<8;
+	counter |=(unsigned long)T1_ovc<<16;
     sT1_ovc = T1_ovc;
 
     
@@ -69,12 +64,12 @@ SIGNAL(SIG_OVERFLOW2)
 	scounter=F[0] = counter;
 											//'once in a wile'...
 
-	//f_avg = (F[0]+F[1]+F[2]+F[3]+F[4])/5;
+	f_avg = (F[0]+F[1]+F[2]+F[3]+F[4])/5;
 	//***END of Anti flickering mechanism
-	//counter = f_avg;  
+	counter = (unsigned long)f_avg;  
 		
 
-	frequency = (counter*factor*calb);
+	frequency = (unsigned long)((float)counter*factor*calb);
 	
 	//RESET COUNTERS
 	T1_ovc = 0;
@@ -118,8 +113,9 @@ void setup_interrupts()
 
 	//clear T1 counters
 	T1_ovc = 0;
+
+	TCNT1H = 0;
 	barrier();
-	TCNT1H = 0;
 	TCNT1L = 0;
 	TCNT1 = 0;
 	sti();
