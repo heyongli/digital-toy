@@ -4,6 +4,8 @@
 #include <compiler.h>
 #include <uprint.h>
 #include <bitops.h>  //uC system
+#include <timer.h>
+
 #include "atmel/avr-io.h" //uc IO system
 
 #include <avr/interrupt.h> //avr gcc
@@ -12,9 +14,9 @@
 
 
 
-#define factor (30.584781013) //Time base for 8 Mhz CLK, calibrate this value
+#define factor (38.146972656) //Time base for 10 Mhz CLK, calibrate this value
 
-#define calb (1+0.018377643+0.007847098)
+#define calb (1+0.022242302+0.009214125)
 
 
 unsigned char T1_ovc=0; //Store the number of overflows of COUNTER1
@@ -42,10 +44,12 @@ SIGNAL(SIG_OVERFLOW1)
 //T is defined as "1024*256/(F_cpu)". (30.5Hz)
 //ISR(TIMER0_OVF_vect)
 unsigned char sTCNT1L, sTCNT1H, sT1_ovc;
-unsigned long scounter;
+unsigned long scounter;
+
 SIGNAL(SIG_OVERFLOW2) 
 { 
 	unsigned long counter;
+	jiffers++;
 
 	//timer 2 overflow: measure frequency
 	counter = sTCNT1L=TCNT1L;
@@ -83,12 +87,37 @@ SIGNAL(SIG_OVERFLOW2)
 
 
 void post_display(long number)
-{
+{
+  
 	lcd_cursor(0,0);
-	printLL(number);
+    lcd_puts("              ");
+	lcd_cursor(0,0);
+    
+	if((number>999)&&(number<999999)){
+	   printLL(number,3,2);
+	   lcd_puts("KHz");
+	}
+
+    if(number>999999){
+	   printLL(number,6,3);
+	   lcd_puts("MHz");
+   	
+	}
+	if(number<=999)
+	{
+	   printLL(number,0,0);
+	   lcd_puts("Hz");
+   	
+	}
+
+
 	
 	lcd_cursor(0,1);
- 	printLL(scounter);
+	lcd_puts("              ");
+	lcd_cursor(0,1);
+	
+ 	printLL(scounter,0,0);
+	
 
  	//print10(sTCNT1L);
 	//lcd_putc(' ');
@@ -138,23 +167,21 @@ void freq_main(void)
 	DDRC = 0xFF; //PORTC is all used for output on 7-seg.
 
 	DDRB = 0xFC;
-	DDRD = 0xFF;        	
+	DDRD = 0x00;        
+	
+		
 	setup_timers();
 	setup_interrupts();
- 	//for testing
+ 	//for testing
+	display_refresh=jiffers;
 
    	while(1) {             // Infinite loop
-		measure_counter++;
-		display_refresh++;
-		
-	   	if (display_refresh > 200){
-		   	display_refresh=0;
+	  	if (timeafter(jiffers,display_refresh+38/5)){
+		   	display_refresh=jiffers;
+			post_display(frequency);
 		}
 	
-	    if (measure_counter > 5500){
-   		   measure_counter=0;
-	  	   post_display(frequency);
-   		}
+	   
   	}
 
 }
