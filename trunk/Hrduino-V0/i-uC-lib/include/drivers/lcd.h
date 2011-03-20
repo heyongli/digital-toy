@@ -4,7 +4,6 @@
 
 void lcd_puts(char *s);
 void lcd_putc(char data);
-
-
+void lcd_clear();
 
 #endif
