@@ -6,6 +6,7 @@
 "ds1302.obj",
 "ds18b20.obj",
 "_delay.obj",
-"uart.obj" 
+"uart.obj",
+"lcm1630.obj" 
 TO "51z-firmware" 
 RAMSIZE(256) 

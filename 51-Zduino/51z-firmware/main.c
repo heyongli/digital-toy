@@ -56,6 +56,10 @@ void main()
    
    io_init();
    sleep(0); // just refrence 
+
+   lcm1630_demo();
+   lcm1630_demo2();
+
    while(1){
 		   
 	   update_lcd();
