@@ -14,9 +14,9 @@
 
 
 
-#define factor (38.146972656) //Time base for 10 Mhz CLK, calibrate this value
+#define factor (2.384185791) //Time base for 10 Mhz CLK, calibrate this value
 
-#define calb (1+0.022242302+0.009214125)
+#define calb (1+0.001271615+0.000464215)
 
 
 unsigned char T1_ovc=0; //Store the number of overflows of COUNTER1
@@ -45,11 +45,23 @@ SIGNAL(SIG_OVERFLOW1)
 //ISR(TIMER0_OVF_vect)
 unsigned char sTCNT1L, sTCNT1H, sT1_ovc;
 unsigned long scounter;
-
+
+
+unsigned char T2_ovc=0; 
+//sample every about 1/2 seconds, ie,every 16 times T2_ovc
+unsigned long freqH;
+
+
 SIGNAL(SIG_OVERFLOW2) 
 { 
+
 	unsigned long counter;
 	jiffers++;
+    T2_ovc++;
+
+	if((T2_ovc%16)!=0) //stable time, 2-3 seconds
+		return; 
+
 
 	//timer 2 overflow: measure frequency
 	counter = sTCNT1L=TCNT1L;
@@ -68,7 +80,8 @@ SIGNAL(SIG_OVERFLOW2)
 	scounter=F[0] = counter;
 											//'once in a wile'...
 
-	f_avg = (F[0]+F[1]+F[2]+F[3]+F[4])/5;
+	f_avg = (F[0]+F[1]+F[2]+F[3]+F[4])/5;
+	
 	//***END of Anti flickering mechanism
 	counter = (unsigned long)f_avg;  
 		
@@ -94,12 +107,12 @@ void post_display(long number)
 	lcd_cursor(0,0);
     
 	if((number>999)&&(number<999999)){
-	   printLL(number,3,2);
+	   printLL(number,3,3);
 	   lcd_puts("KHz");
 	}
 
     if(number>999999){
-	   printLL(number,6,3);
+	   printLL(number,6,5); //omit 10Hz
 	   lcd_puts("MHz");
    	
 	}
@@ -131,7 +144,7 @@ void setup_timers(){
 	TCCR1A = 0x00; //Setup TC1 to count PD5/T1
 	TCCR1B = 0x07; //TC1 up edge triger
 
-	TCCR2 = 0x07;   //TC2 counts Clock_io/1024, use as time base caller 
+	TCCR2 = 0x07;  //TC2 counts Clock_io/1024, use as time base caller 
 
 
 }
