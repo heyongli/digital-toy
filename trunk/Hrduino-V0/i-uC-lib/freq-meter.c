@@ -14,13 +14,13 @@
 
 
 
-#define factor (2.384185791) //Time base for 10 Mhz CLK, calibrate this value
+#define factor (9.536743164) //Time base for 10 Mhz CLK, calibrate this value
 
-#define calb (1+0.001271615+0.000464215)
+#define calb (1+0.004934227+0.0020125)
 
 
 unsigned char T1_ovc=0; //Store the number of overflows of COUNTER1
-unsigned long F[5]; //history for last 5 values of the COUNTER0/1
+unsigned long F[8]; //history for last 5 values of the COUNTER0/1
 float f_avg;
 
 unsigned long frequency; //the last calculated frequency is stored here
@@ -48,7 +48,7 @@ unsigned long scounter;
 
 
 unsigned char T2_ovc=0; 
-//sample every about 1/2 seconds, ie,every 16 times T2_ovc
+//sample every about 1/8 seconds,  4 T2_ovc overflow
 unsigned long freqH;
 
 
@@ -59,7 +59,7 @@ SIGNAL(SIG_OVERFLOW2)
 	jiffers++;
     T2_ovc++;
 
-	if((T2_ovc%16)!=0) //stable time, 2-3 seconds
+	if((T2_ovc%4)!=0) //stable time, 2-3 seconds
 		return; 
 
 
@@ -73,6 +73,9 @@ SIGNAL(SIG_OVERFLOW2)
     sT1_ovc = T1_ovc;
 
     
+	F[7] = F[6];
+	F[6] = F[5];
+    F[5] = F[4];
  	F[4] = F[3];
 	F[3] = F[2];
 	F[2] = F[1];
@@ -80,7 +83,7 @@ SIGNAL(SIG_OVERFLOW2)
 	scounter=F[0] = counter;
 											//'once in a wile'...
 
-	f_avg = (F[0]+F[1]+F[2]+F[3]+F[4])/5;
+	f_avg = (F[0]+F[1]+F[2]+F[3]+F[4]+F[5]+F[6]+F[7])/8;
 	
 	//***END of Anti flickering mechanism
 	counter = (unsigned long)f_avg;  
@@ -112,7 +115,7 @@ void post_display(long number)
 	}
 
     if(number>999999){
-	   printLL(number,6,5); //omit 10Hz
+	   printLL(number,6,4); //omit xxHz
 	   lcd_puts("MHz");
    	
 	}
