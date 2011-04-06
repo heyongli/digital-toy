@@ -1,0 +1,29 @@
+================= thermocouple-amplifier.gif------------
+
+Thermocouples are widely used as temperature-sensing devices because the mathematical relationship between temperature difference and resultant voltage is both repeatable and fairly linear. By measuring voltage, it is possible to infer temperature. Different ranges of temperature measurement are possible by selecting different metal pairs to be joined together.
+
+thermocouple amplifier
+Because the voltage from a thermocouple is so small, it may be difficult to measure. Pictured above is a working and tested thermocouple amplifier using a LM358 single voltage dual op-amp. The gain is from 50 to about 150 depending one the adjustment of R8. R8 and R7 could be replaced by a single 1 mega-ohm resistor for a gain of 100. My test thermocouple (a commercial unit) put out a maximum voltage of 38 mV produced 3.8 volts output. Don't drive the op-amp above 4 volts output at Vout.
+
+Observe voltage polarity on the input. Vin is positive while the negative goes to common. If noise is a problem, connect a .001 uF from Vin to ground. 
+
+
+================= tcamp.jpg------------
+Thermocouple
+
+Thermocouples generate a small output voltage, which varies with termperature at a rate of around 50 µV/°C  Check Wikipedia for more information.
+
+Because of the low output voltage, amplificiation is required before anlogue-to-digital-conversion.
+
+Voltage is generated at the junction of dissimilar metals, as such a voltage will also be generated at the connection to the system when dissimilar metals also occur.  This is compemnsated by measurement of the temperature at the instrument and making a correction (in software, or using an interface chip such as AD595 or MAX6675.)
+
+A thermocouple amplifier circuit
+
+
+The C1 (0.1 uF ceramic) is essential to minimize interference.
+
+The polarity of the thermocouple is important. If wired backwards, the circuit drops low and stays there, and could be confused with an operating TC at room temperature. A more elegant solution would be to offset the output so that if wired backwards, the output would deliver 1.0VDC, with the upper limit now 5Vdc rather than 4Vdc
+
+Continuing with the thermocouple interface concept, the next step is to amplify the TC's millivolt signal into a more readable analog voltage, on the order of 0 to 5VDC. This simple circuit fits the bill. The LM358N is a dual op-amp IC. I'm quite sure any op-amp IC would do fine, just be sure it can accept a Vcc which is compatible with your battery pack. The IC draws ~ 1.0 mA.
+
+The resistors form a feedback loop into the op-amp, with a gain described in the schematic, and based upon the resistances R1 and R2. I used 100K and 1K respectively for the breadboarding, delivering a gain of roughly 100. This works well with the TC's range of up to 40 mV, with the output then being from 0 to 4VDC. 
