@@ -1,0 +1,21 @@
+source: http://www.ladyada.net/make/minipov3/
+
+
+VRDUDE programming software for USB-Serial adapters
+
+If you have an onboard serial port (like a PC or some laptops) you can just use the default install of AVRDUDE. However, if you have a Mac or laptop or PC without a serial port and you want to use a USB/Serial adaptor then you should upgrade the default install with these files. Then you can specify a slow-down delay necessary to make it work with such adaptors.
+
+    For windows, a zip file with a newer avrdude.exe and updated avrdude.conf. Copy these into C:/WinAVR/bin (or wherever you installed WinAVR/AVRDUDE)
+    For MacOS X/Linux/Unix (or windows if you want to install cygwin and compile it), a tgz file with updated source. Just do a "./configure" then "make; make install" as usual. (here is just the executable & updated avrdude.conf for MacOSX )
+
+ 
+
+To download non-modified AVRDUDE programming software, please follow the instructions of the Software page
+USB/Serial converter driver
+
+If you're using the PL2303-chipset adaptor on a MacOS X machine, download this driver and install it, NOT the one that comes with the device!
+Firmware
+
+Here is a zip file with all the firmware (hex and source and Makefile) 
+
+

@@ -1,0 +1,474 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/make/minipov/minipov3css-make.dwt" codeOutsideHTMLIsLocked="false" --><head>
+<link rel="alternate" type="application/rss+xml" title="ladyada.net blog  RSS Feed" href="http://www.ladyada.net/feed/">
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="software-install_files/ga.js" type="text/javascript"></script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-7723544-2");
+pageTracker._trackPageview();
+} catch(err) {}</script> 
+
+<!-- InstanceBeginEditable name="overlib" -->
+<script type="text/javascript" src="software-install_files/overlib.js"><!-- overLIB (c) Erik Bosrup --></script>
+<!-- InstanceEndEditable -->
+<meta http-equiv="imagetoolbar" content="no">
+<link rel="stylesheet" href="software-install_files/make.css" type="text/css">
+<link rel="stylesheet" href="software-install_files/skeleton.css" type="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>MiniPOV3 - Installing software</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" -->
+
+
+
+
+
+<style type="text/css">
+<!--
+.style1 {font-style: italic}
+.style2 {
+	font-size: 16px;
+	font-weight: bold;
+}
+.style4 {
+	font-family: "Courier New", Courier, mono;
+	font-weight: bold;
+}
+-->
+</style>
+<!-- InstanceEndEditable -->
+</head>
+
+<body>
+
+    <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
+  
+<!-- InstanceBeginEditable name="badge" -->
+<div class="topheader"><img src="software-install_files/topheaderbadge.png"></div>
+<!-- InstanceEndEditable -->
+<span class="topheadertext"><!-- InstanceBeginEditable name="heading" -->MiniPOV v3 <!-- InstanceEndEditable --></span>
+<span class="topsubheadertext"><!-- InstanceBeginEditable name="Subheading" -->Installing the software <!-- InstanceEndEditable --></span>
+
+<ul id="menu">
+	<li class="first"></li> 
+  
+    <li>
+      <div class="menuitemtext"><a href="http://www.ladyada.net/make/minipov3/index.html">Overview</a></div>
+    </li>
+  
+    <li>
+      <div class="menuitemtext"><a href="http://www.ladyada.net/make/minipov3/faq.html">F.A.Q.</a></div>
+    </li>
+  
+    <li>
+      <div class="menuitemtext"><a href="http://www.ladyada.net/make/minipov3/make.html">Make it!</a></div>
+    
+	
+	 <ul>
+		<li>
+		  <div class="menuitemtext"><a href="http://www.ladyada.net/make/minipov3/make.html">Preparation</a></div>
+		</li>
+		<li>
+		  <div class="menuitemtext"><a href="http://www.ladyada.net/make/minipov3/parts.html">Parts List</a></div>
+		</li>
+				<li>
+		  <div class="menuitemtext"><a href="http://www.ladyada.net/make/minipov3/solder.html">Solder it! </a></div>
+		</li>
+				<li>
+		  <div class="menuitemtext"><a href="http://www.ladyada.net/make/minipov3/software.html">Software</a></div>
+		</li>
+		<li>
+		  <div class="menuitemtext"><a href="http://www.ladyada.net/make/minipov3/programming.html">Customize</a></div>
+		</li>
+		</ul>
+		</li>
+	
+  
+    <li>
+      <div class="menuitemtext"><a href="http://www.ladyada.net/make/minipov3/hardware.html">Design</a></div>
+    </li>
+  
+    <li>
+      <div class="menuitemtext"><a href="http://www.ladyada.net/make/minipov3/download.html">Download</a></div>
+    </li>
+  
+    <li>
+      <div class="menuitemtext"><a href="http://www.adafruit.com/">Buy Kit </a></div>
+    </li>
+  
+    <li>
+      <div class="menuitemtext"><a href="http://forums.ladyada.net/">Forums</a></div>
+    </li>
+  
+	<li class="last"></li>
+</ul>
+
+<ul id="nav">
+
+<li><a href="http://www.ladyada.net/">Home</a></li>
+
+<li><a href="http://www.ladyada.net/about.html">About<!--[if gte IE 7]><!--></a><!--<![endif]-->
+<!--[if lte IE 6]><table><tr><td><![endif]-->
+<ul>
+	<li><a href="http://www.ladyada.net/about.html">ladyada.net</a></li>
+	<li><a href="http://www.ladyada.net/portfolio/2007/index.html">Portfolio</a></li>
+	<li><a href="http://www.ladyada.net/pub/research.html">Research</a></li>
+	<li><a href="http://www.ladyada.net/pub/press.html">Press</a></li>
+	<li><a href="http://www.ladyada.net/pub/pub.html">Publication &amp; Presentation</a></li>
+	<li><a href="http://www.flickr.com/photos/ladyada/">Photos</a></li>
+	<li><a href="http://www.ladyada.net/wiki">Wiki (backend)</a></li>
+	</ul>
+<!--[if lte IE 6]></td></tr></table></a><![endif]-->
+</li>
+
+<li><a href="http://www.ladyada.net/make/">Projects<!--[if gte IE 7]><!--></a><!--<![endif]-->
+<!--[if lte IE 6]><table><tr><td><![endif]-->
+<ul>
+	<li><a href="#nogo">Arduino �<!--[if gte IE 7]><!--></a><!--<![endif]-->
+	<!--[if lte IE 6]><table><tr><td><![endif]-->
+	<ul>
+    	<li><a href="http://www.ladyada.net/make/logshield/">Datalogger&nbsp;Shield</a></li>
+	    <li><a href="http://www.ladyada.net/make/eshield/">Ethernet&nbsp;Shield</a></li>
+	    <li><a href="http://www.ladyada.net/make/gpsshield/">GPS&nbsp;Shield</a></li>
+	  	<li><a href="http://www.ladyada.net/make/pshield/">Proto&nbsp;Shield</a></li>
+	  	<li><a href="http://www.ladyada.net/make/mshield/">Motor&nbsp;Shield</a></li>
+	  	<li><a href="http://www.ladyada.net/make/waveshield/">Wave&nbsp;Shield</a></li>
+	  </ul>
+	<!--[if lte IE 6]></td></tr></table></a><![endif]-->
+	</li><li><a href="http://www.ladyada.net/make/bbpsup/">Adj.&nbsp;power&nbsp;supply</a></li>
+	<li><a href="http://www.ladyada.net/make/brain/">Brain&nbsp;Machine</a></li>
+	<li><a href="http://www.ladyada.net/make/boarduino/">BoArduino</a></li>
+	<li><a href="http://www.ladyada.net/make/digg/">DIGG&nbsp;Button</a></li>
+	<li><a href="http://www.ladyada.net/make/drawdio/">Drawdio</a></li>
+    <li><a href="http://www.ladyada.net/make/fuzebox/">Fuzebox</a></li>
+    <li><a href="http://www.ladyada.net/make/gamegrrl/">Game&nbsp;Grrl</a></li>
+	<li><a href="http://www.ladyada.net/make/conway/">Game&nbsp;of&nbsp;Life</a></li>
+	<li><a href="http://www.ladyada.net/make/icetube/">Ice&nbsp;Tube&nbsp;clock</a></li>
+    <li><a href="http://www.ladyada.net/make/midisense/">MIDIsense</a></li>
+	<li><a href="http://www.ladyada.net/make/minipov2/">MiniPOV2</a></li>
+	<li><a href="http://www.ladyada.net/make/minipov3/">MiniPOV3</a></li>
+	<li><a href="http://www.ladyada.net/make/minty/">MintyMP3</a></li>
+	<li><a href="http://www.ladyada.net/make/mintyboost/">MintyBoost</a></li>
+    <li><a href="http://www.ladyada.net/make/monochron/">MONOCHRON</a></li>
+    <li><a href="http://www.ladyada.net/make/simreader/">SIM&nbsp;Reader</a></li>
+	<li><a href="http://www.ladyada.net/make/spokepov/">SpokePOV</a></li>
+	<li><a href="http://www.ladyada.net/make/tvbgone/">TV-B-Gone</a></li>
+	<li><a href="http://www.ladyada.net/make/tweetawatt/">Tweet-a-Watt</a></li>
+    <li><a href="http://www.ladyada.net/make/usbtinyisp/">USBtinyISP</a></li>
+	<li><a href="http://www.ladyada.net/make/wavebubble/">Wave&nbsp;Bubble</a></li>
+	<li><a href="http://www.ladyada.net/make/x0xb0x/">x0xb0x</a></li>
+	<li><a href="http://www.ladyada.net/make/xbee/">XBee</a></li>
+	<li><a href="http://www.ladyada.net/make/ybox2/">YBox2</a></li>
+	<li><a href="#nogo">Quickies �<!--[if gte IE 7]><!--></a><!--<![endif]-->
+	<!--[if lte IE 6]><table><tr><td><![endif]-->
+	<ul>
+    <li><a href="http://www.ladyada.net/make/usbgamepad/index.html">USB&nbsp;Gamepad</a></li>
+	    <li><a href="http://www.ladyada.net/make/pumpkin/pumpkin.html">Halloween&nbsp;Pumpkin</a></li>
+	    <li><a href="http://www.ladyada.net/make/vintagelight/index.html">Vintage&nbsp;Bike&nbsp;Lite</a></li>
+	  	<li><a href="http://www.ladyada.net/make/sudc4kap/index.html">Kite&nbsp;Arial&nbsp;Photo</a></li>
+	  	<li><a href="http://www.ladyada.net/make/bikestand/index.html">Bike&nbsp;Stand</a></li>
+	  	<li><a href="http://www.ladyada.net/make/bikelite/index.html">LiIon&nbsp;Bike&nbsp;Lite</a></li>
+     	<li><a href="http://www.ladyada.net/make/pogojig/index.html">Pogo&nbsp;Jib</a></li>
+	  	<li><a href="http://www.ladyada.net/make/massprog/index.html">Mass&nbsp;Programming</a></li>
+	  	<li><a href="http://www.ladyada.net/make/solarlipo/index.html">Solar&nbsp;LiPo&nbsp;Charging</a></li>
+	  	<li><a href="http://www.ladyada.net/make/magstripe/index.html">Magstripe&nbsp;Reader</a></li>
+	  	<li><a href="http://www.ladyada.net/make/solarlogger/index.html">Solar&nbsp;Tracker</a></li>
+        <li><a href="http://www.ladyada.net/make/tronbag/">TRON&nbsp;Bag</a></li>
+	  </ul><!--[if lte IE 6]></td></tr></table></a><![endif]-->
+      </li>
+   	<li><a href="http://www.ladyada.net/make/">More...</a></li>
+	<li><a href="http://www.instructables.com/member/ladyada/">-&gt;Instructables</a></li>
+</ul>
+<!--[if lte IE 6]></td></tr></table></a><![endif]-->
+</li>
+
+<li><a href="http://www.ladyada.net/learn/">Learn<!--[if gte IE 7]><!--></a><!--<![endif]-->
+<!--[if lte IE 6]><table><tr><td><![endif]-->
+<ul>
+	<li><a href="http://www.ladyada.net/learn/arduino/">Arduino&nbsp;tutorial</a></li>
+	<li><a href="http://www.ladyada.net/learn/avr/">AVR&nbsp;tutorial</a></li>
+	<li><a href="http://www.ladyada.net/learn/barcodescan/">Barcode&nbsp;scanners</a></li>
+	<li><a href="http://www.ladyada.net/learn/el-wire/">EL&nbsp;Wire&nbsp;tutorial</a></li>
+	<li><a href="http://www.ladyada.net/learn/lcd/">LCDs</a></li>
+	<li><a href="http://www.ladyada.net/learn/arduino/LEDs.html">LEDs</a></li>
+	<li><a href="http://www.ladyada.net/learn/multimeter/">Multimeter&nbsp;tutorial</a></li>
+   	<li><a href="http://www.ladyada.net/learn/scale/">Digital&nbsp;scales</a></li>
+    <li><a href="http://www.ladyada.net/learn/sensors/">Sensors �<!--[if gte IE 7]><!--></a><!--<![endif]-->
+	<!--[if lte IE 6]><table><tr><td><![endif]-->
+	<ul>
+    	<li><a href="http://www.ladyada.net/learn/sensors/fsr.html">FSR</a></li>
+	    <li><a href="http://www.ladyada.net/learn/sensors/cds.html">CdS&nbsp;Photocell</a></li>
+	    <li><a href="http://www.ladyada.net/learn/sensors/tmp36.html">Temperature</a></li>
+	  	<li><a href="http://www.ladyada.net/learn/sensors/tilt.html">Tilt</a></li>
+	  	<li><a href="http://www.ladyada.net/learn/sensors/pir.html">PIR</a></li>
+        <li><a href="http://www.ladyada.net/learn/sensors/thermocouple.html">Thermocouple</a></li>
+        <li><a href="http://www.ladyada.net/learn/sensors/ir.html">IR&nbsp;Receiver</a></li>
+	  </ul>
+	<!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+        <li><a href="http://www.ladyada.net/learn/breakoutplus/">Breakout boards �<!--[if gte IE 7]><!--></a><!--<![endif]-->
+	<!--[if lte IE 6]><table><tr><td><![endif]-->
+	<ul>
+    	<li><a href="http://www.ladyada.net/learn/breakoutplus/ds1307rtc.html">DS1307&nbsp;RTC</a></li>
+        <li><a href="http://www.ladyada.net/learn/sensors/thermocouple.html">MAX6675</a></li>
+        <li><a href="http://www.ladyada.net/learn/products/atmega32u4breakout/">ATmega32u4&nbsp;Breakout+</a></li>
+	  </ul>
+	<!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+  
+          <li><a href="http://www.ladyada.net/products/">Products �<!--[if gte IE 7]><!--></a><!--<![endif]-->
+	<!--[if lte IE 6]><table><tr><td><![endif]-->
+	<ul>
+     <li><a href="http://www.ladyada.net/learn/products/i2cspilcdbackpack/">i2c/SPI&nbsp;LCD&nbsp;backpack</a></li>
+     <li><a href="http://www.ladyada.net/learn/products/usbboarduino/">USB&nbsp;Boarduino</a></li>
+     <li><a href="http://www.ladyada.net/learn/products/atmega32u4breakout/">ATmega32u4&nbsp;Breakout+</a></li>
+	  </ul>
+	<!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+      
+	<li><a href="http://www.ladyada.net/learn/chumby/">Chumby&nbsp;Hacker&nbsp;Board</a></li>
+	<li><a href="http://www.ladyada.net/learn/soldering/">Soldering&nbsp;tutorial</a></li>
+	<li><a href="http://www.ladyada.net/learn/powersupply/">Power&nbsp;Supply&nbsp;tutorial</a></li>
+    <li><a href="http://www.ladyada.net/learn/electroknit/">Brother&nbsp;KH-9033&nbsp;tutorial</a></li>
+	<li><a href="http://www.ladyada.net/learn/diykinect/">USB&nbsp;reverse-engineering&nbsp;tutorial</a></li>
+    <li><a href="http://www.ladyada.net/learn/calipers/">Calipers&nbsp;tutorial</a></li>
+    <li><a href="http://www.ladyada.net/products/rgbledstrip/">RGB&nbsp;LED&nbsp;Strips</a></li>
+    <li><a href="http://www.ladyada.net/products/rgbledpixels/">RGB&nbsp;LED&nbsp;Pixels</a></li>
+</ul>
+<!--[if lte IE 6]></td></tr></table></a><![endif]-->
+</li>
+
+	
+<li><a href="http://www.ladyada.net/library/">Library<!--[if gte IE 7]><!--></a><!--<![endif]-->
+<!--[if lte IE 6]><table><tr><td><![endif]-->
+<ul>	
+	<li><a href="http://www.ladyada.net/library/arduino/">Arduino&nbsp;Hacks</a></li>
+    <li><a href="http://www.ladyada.net/library/batteries.html">Batteries</a></li>
+	<li><a href="http://www.ladyada.net/library/diyboostcalc.html">Boost&nbsp;Calc</a></li>
+    <li><a href="http://www.ladyada.net/library/equipt/">E.E.&nbsp;Tools</a></li>
+	<li><a href="http://www.ladyada.net/library/hackcomputer.html">E.E.&nbsp;Computer</a></li>
+    <li><a href="http://www.ladyada.net/library/procure/">Find&nbsp;Parts</a></li>
+	<li><a href="http://www.ladyada.net/library/kits/">Kits</a></li>
+	<li><a href="http://www.ladyada.net/library/laser/">Laser</a></li>
+	<li><a href="http://www.ladyada.net/library/ucannoyances.html">uC Annoyances</a></li>
+	<li><a href="http://www.ladyada.net/library/openhardware/">Open Source Hardware</a></li>
+	<li><a href="http://www.ladyada.net/library/pcb/">PCB&nbsp;Design&nbsp;&amp;&nbsp;Tips</a></li>
+	<li><a href="http://www.ladyada.net/library/picvsavr.html">PIC&nbsp;vs.&nbsp;AVR</a></li>
+    <li><a href="http://www.ladyada.net/library/zencart/">Zen-Cart&nbsp;Mods</a></li>
+</ul>
+<!--[if lte IE 6]></td></tr></table></a><![endif]-->
+</li>
+
+<li><a href="http://www.adafruit.com/blog/">Blog</a></li>
+
+<li><a href="http://www.adafruit.com/" target="_blank">Store</a></li>
+
+<li><a href="http://forums.adafruit.com/" target="_blank">Forums</a></li>
+
+</ul>
+
+<div id="searchbox">
+<!-- Google CSE Search Box Begins -->
+<form id="searchbox_012941403977924873237:omv8mprm6ek" action="http://www.google.com/cse" target="_top"> <input name="cx" value="012941403977924873237:omv8mprm6ek" type="hidden"> <input style="background: url(&quot;http://www.google.com/cse/intl/en/images/google_custom_search_watermark.gif&quot;) no-repeat scroll left center rgb(255, 255, 255);" name="q" size="23" type="text"><br> <span class="style1">ladyada.net</span> <input name="sa" value="Search" type="submit"> <input name="cof" value="FORID:0" type="hidden"> <input value="www.ladyada.net/make/minipov3/software.html" name="siteurl" type="hidden"></form><script type="text/javascript" src="software-install_files/brand"></script>
+<!-- Google CSE Search Box Ends -->
+</div>
+
+<div id="lefttcol">
+<!-- this is just a buffer -->
+</div>
+
+<div id="content">
+  <!-- InstanceBeginRepeat name="texts" --><!-- InstanceBeginRepeatEntry -->
+  <div class="textblockheader"> <!-- InstanceBeginEditable name="Header" -->Overview<!-- InstanceEndEditable --> </div>
+  <div class="textblock"> <!-- InstanceBeginEditable name="text" -->
+    <p>Now that its assembled, you can reprogram the chip with persistance of vision code, to display custom messages &amp; images!</p>
+    <p>To program the chip you will need a computer with a serial port 
+(basically, any PC) or a USB/Serial converter for computers without 
+serial ports. </p>
+    <p align="center"><a href="http://www.ladyada.net/images/minipov3/Serial_port.jpg"><img src="software-install_files/Serial_port_t.jpg" border="0" height="300" width="400"></a><br>
+      <em>This is what a serial port looks like
+    </em> </p>
+    <p>I have tried KeySpan brand converters and the GWC AP1100 (PL-2303 chipset, $17 from <a href="http://www.newegg.com/Product/Product.asp?Item=N82E16812107108">NewEgg</a> or <a href="http://www.jameco.com/webapp/wcs/stores/servlet/ProductDisplay?langId=-1&amp;storeId=10001&amp;catalogId=10001&amp;productId=387954">Jameco</a>) with suceess.If you're using that or some other PL-2303 chipset ones on MacOS X then be sure to<a href="http://sourceforge.net/projects/osx-pl2303"> install this version</a> instead of the one that comes on the driver CD. There's also been reports of success with the FTDI chipset, <a href="http://www.tigerdirect.com/applications/searchtools/item-Details.asp?EdpNo=1104139&amp;sku=C250-1162">this one is $11 from tigerdirect</a>.
+  Note that not all converters work (especially the real cheap ones) so 
+if you own one already, try the one you have (and let me know!) but 
+there's virtually no way for me to 'make it work with X brand that I 
+have'. </p>
+    <p><em>Note:</em> if you are trying this out with a new 
+microcontroller (i.e. not from a kit) you'll need to burn the fuses 
+first, otherwise it won't work right and might not be programmable. Run<strong> <font face="Courier New, Courier, mono">make burn-fuse</font> </strong> before you type in <strong class="codefragment">make program-minipov</strong>, while the minipov is powered and connected to the serial port. You might have to do it a couple of times if its failing. </p>
+    <p><em>Note 2</em>: When plugged into the serial port, the LEDs may 
+light up oddly or dimly, this is normal.Still, the minipov3 must be 
+powered on to be programmed. </p>
+    <p>Right now there's thorough instructions for:</p>
+    <ul>
+      <li><a href="#win">Windows</a></li>
+      <li><a href="#linux">Linux &amp; other unix machines</a></li>
+      <li><a href="#macosx">Mac OS X</a></li>
+    </ul>
+  <!-- InstanceEndEditable --> </div>
+  <!-- InstanceEndRepeatEntry --><!-- InstanceBeginRepeatEntry -->
+  <div class="textblockheader"> <!-- InstanceBeginEditable name="Header" -->Windows<a name="win"></a><!-- InstanceEndEditable --> </div>
+  <div class="textblock"> <!-- InstanceBeginEditable name="text" -->
+    <p align="justify">First, you'll need to setup WinAVR.<a href="http://www.ladyada.net/learn/avr/setup-win.html"> Step by step instructions are here</a>. Once you're done with that, come back here and do the remaining steps </p>
+    <div class="calloutwarn">
+    <p align="justify"><strong>If you're using a USB to Serial converter
+ cable, you'll need to make some small modifications to the WinAVR 
+package to support the MiniPOV3:</strong></p>
+    <ol>
+      <li>Download the <a href="http://www.ladyada.net/media/minipov3/avrdude51a.zip">zip file of the modified AVRDUDE software</a> </li>
+      <li>Uncompress it onto the desktop </li>
+
+      <li>Open up the folder <span class="codefragment"><strong>C:\WinAVR\bin</strong></span> (or wherever WinAVR was installed, perhaps <span class="codefragment"><strong>C:\WinAVR-2008-01-06\bin</strong></span>)</li>
+      <li>Rename the two files <span class="codefragment"><strong>avrdude.conf</strong></span> and <span class="codefragment"><strong>avrdude.exe</strong></span> in <span class="codefragment"><strong>C:\WinAVR\bin</strong></span> to <span class="codefragment"><strong>avrdude-backup.conf</strong></span> and <span class="codefragment"><strong>avrdude-backup.exe</strong></span></li>
+      <li>Copy the two files  <span class="codefragment"><strong>avrdude.conf</strong></span> and <span class="codefragment"><strong>avrdude.exe</strong></span> from the uncompressed folder in step 2 into <span class="codefragment"><strong>C:\WinAVR\bin</strong></span></li>
+    </ol>
+    </div>
+	
+	<p>Now download the <a href="http://www.ladyada.net/make/minipov3/download.html">zip of example source code</a> for the Minipov3
+    </p>
+	<p align="justify">Uncompress it somewhere convenient, the <span class="codefragment"><strong>C:\ </strong></span>drive is a good place and is short enough to type in the command line </p>
+    <p align="center"><img src="software-install_files/firmwaredl.jpg" height="384" width="441"></p>
+    <p align="left">Open a command window</p>
+    <p align="center"><img src="software-install_files/run.jpg" border="2" height="274" width="215"></p>
+    <p align="center"><img src="software-install_files/cmd.jpg" border="2" height="186" width="347">
+    </p>
+    <p align="left"> And <strong><font face="Courier New, Courier, mono">cd</font></strong> (<strong>c</strong>hange <strong>d</strong>irectory)
+ to the directory where you expanded the source code files (here, I 
+expanded it into C:\ so the files are in C:\minipov3\ note the quotes 
+allow me to specify a name with a space in it, otherwise it will get 
+confused) </p>
+    <p align="left">Run <strong><font face="Courier New, Courier, mono">dir</font></strong> or <strong>ls </strong>and verify that there is a file called <strong><font face="Courier New, Courier, mono">minipov.hex</font></strong></p>
+    <p align="center"><img src="software-install_files/cd.gif" border="0" height="326" width="669"></p>
+    <p align="left">Plug in the MiniPOV into the serial port, and turn 
+on the battery pack (it must be powered to be programmed even if its 
+looking like it 'turns off' when attached to the serial port)</p>
+    <p align="left">Now its time to figure out what COM port you are 
+using. By default almost all Windows computers have only COM1 but if you
+ are using a USB adaptor or have a different configuration, you will 
+have a different COM port. Open up the <strong>Device Manager</strong> (under the <strong>System control panel</strong>) and look under <strong>Ports</strong></p>
+    <p align="center"><img src="software-install_files/sysprop.jpg" height="486" width="419"><br>
+      <br>
+    <img src="software-install_files/devmanager.jpg" height="500" width="338">    </p>
+    <p align="left">If you are not using COM1, you will have to edit the
+ file for the microcontroller programmer to tell it where to look for 
+the Minipov3. Open the file named <strong class="codefragment">Makefile</strong> file in the <strong class="codefragment">C:/minipov</strong>
+ directory with a program like Wordpad (included with windows) be sure 
+to select "All Documents" type in the "file type" dropdown menu as <strong>Makefile</strong> doesnt end in .txt or .doc.</p>
+    <p align="center"><img src="software-install_files/alltypes.jpg" height="372" width="500"></p>
+    <p align="left"> Change the <strong>AVRDUDE_PORT</strong> to COM2 or COM3 or whatever you're using</p>
+    <p align="center"><img src="software-install_files/editmake.jpg" height="305" width="500"></p>
+    <p align="left">Save the file as a plain text file.</p>
+    <p align="left">Next, if you're using a USB to serial adapter cable, open up the file<span class="codefragment"><strong> C:\WinAVR\bin\avrdude.conf </strong></span>in
+ Wordpad and search for "dasa" so that it will take you to the part 
+shown below. Make sure you see a line with "delay = 2000" in it as shown
+ below. That means that we are telling the programmer to go slow (wait 2
+ milliseconds between commands) because otherwise it gets confused. If 
+you're not using a usb to serial converter, this line isnt necessary, 
+but it doesnt hurt either. </p>
+    <p align="center"><img src="software-install_files/editavrconf.jpg" border="1" height="477" width="705"></p>
+    <p align="left">Save the file as a plain text file. Now go back to your command window you had opened before. Run <strong><font face="Courier New, Courier, mono">make program-minipov</font></strong>, this will start the programming procedure.</p>
+    <p align="center"><img src="software-install_files/program.jpg" height="360" width="500"></p>
+    <p align="left">If you're using a USB/serial converter, itll take a 
+long time (up to 3 minutes!) to program the MiniPOV. You can adjust the 
+delay to try and shorten the time. If you're getting errors try 
+increasing the time in the <span class="codefragment"><strong>avrdude.conf</strong></span> file. 2000 to 3000 is a good starting point, make it larger (5000 or more) to increase the delay. </p>
+    <p align="left">If you get a bad response, such as</p>
+    <blockquote>
+      <p class="style4" align="left">avrdude: initialization failed, rc=-1<br>
+        Double check connections and try again</p>
+    </blockquote>
+    <p>It means you probably have something connected up wrong. Check 
+your soldering, are there any bridges or unsoldered parts? are the 
+diodes in correctly? Is the chip seated well? Is it turned on? Try 
+connecting directly to the computer (not using a serial extension cable)
+ or try a different USB to serial adaptor. <strong>Don't use -F to override the initialization check even though avrdude suggests it!</strong><strong> </strong>It will not make things work, it will only make debugging more confusing!</p>
+    <p align="left">Once you've gotten the programming procedure running, <a href="http://www.ladyada.net/make/minipov3/programming.html">you can now create your own new and exciting messages</a>! </p>
+	<p class="style2" align="center">Can't get it  working? Dont worry, help is available in <a href="http://www.ladyada.net/forums/">the forums</a>! </p>
+  <!-- InstanceEndEditable --> </div>
+  <!-- InstanceEndRepeatEntry --><!-- InstanceBeginRepeatEntry -->
+  <div class="textblockheader"> <!-- InstanceBeginEditable name="Header" -->MacOS X<a name="macosx" id="macosx"></a> <!-- InstanceEndEditable --> </div>
+  <div class="textblock"> <!-- InstanceBeginEditable name="text" -->
+    <p>First, you'll need to setup avr-gcc and related tools. <a href="http://www.ladyada.net/learn/avr/setup-mac.html">Step by step instructions are here</a>. Once you're done with that, come back here and do the remaining steps </p>
+    <p align="left">All the software is installed, now you just have to get the minipov3 firware!</p>
+    <p align="left"><strong>Step 8. Setup MiniPOV firmware </strong></p>
+    <p align="left">Download the <a href="http://www.ladyada.net/make/minipov3/download.html">minipov3 firmware</a>, uncompress it and put the minipov3 folder into your Home directory. </p>
+    <p align="left">Plug in your USB/Serial converter, making sure the driver is installed properly. If you're using a PL2303 chipset type adaptor, <a href="http://sourceforge.net/projects/osx-pl2303">use this driver</a> which works much better than the ones often distributed with these adaptors. </p>
+    <p align="left">Next you have to figure out what the name of the USB adaptor device is. In a <strong>Terminal </strong>window, <br>
+    type: <strong>ls /dev/cu.*</strong> <br>
+    and look at the output. It should be something like <span class="codefragment"><strong>/dev/cu.usbserial</strong></span> in this case its <span class="codefragment"><strong>/dev/cu.usbserial-FTCTYG5C</strong></span> whatever that means. </p>
+    <p align="center"><img src="software-install_files/findadaptor.jpg" border="1" height="210" width="527"></p>
+    <p align="left">If you're using an FTDI-chip based adapter, it will show up as <span class="codefragment"><strong>/dev/cu.usbserial-FTCxxxx</strong></span>. If you're using a PL2303 chipset adapter, it'll show up as <span class="codefragment"><strong>/dev/cu.PL2303-1B1 </strong></span></p>
+    <p align="left"><strong>Step 8b. Download patched avrdude if necessary</strong></p>
+    <p align="left">For some reason, FTDI-chip based adapters need some 
+special help programming these chips. You'll need to use a modified 
+verson of avrdude <a href="http://www.ladyada.net/media/minipov3/avrdude-macosx.tgz">so download the package from here</a>. Replace <strong>/usr/local/AVRMacPack/bin/avrdude</strong> and <strong>/usr/local/AVRMacPack/bin/avrdude.conf </strong>with the patched versions you just downloaded. </p>
+    <p align="left"><strong>Step 9. Program some chips! </strong></p>
+    <p align="left">Power up your working MiniPOV and plug it into the adapter. Now in a Terminal window, type in <strong>avrdude -p t2313 -c dasa  -P /dev/cu.usbserial-FTCYG5C</strong></p>
+    <p align="left">The <strong>-p t2313</strong> indicates that this is a attiny2313 type chip<br>
+      the <strong>-c dasa</strong> indicates its a serial port programmer<br>
+      the <strong>-P /dev/cu.usbserial-FTCYG5C</strong> indicates where to find the USB-serial converter </p>
+    <p align="center"><strong><img src="software-install_files/testdelay.jpg" border="1" height="224" width="581"></strong></p>
+    <p align="left">You should get a similar output. If the device 
+signature is wrong or if the chip didnt respond, or if you get a bad 
+response, such as:</p>
+    <blockquote>
+      <p class="style4" align="left">avrdude: initialization failed, rc=-1<br>
+    Double check connections and try again</p>
+    </blockquote>
+    <p>If could be that the delay is not long enough. Open up the file <strong>/usr/local/AVRMacPack/bin/avrdude.conf </strong>using
+ TextEdit and and search for "dasa" so that it will take you to the part
+ shown below. Make sure you see a line with "delay = 2000" in it as 
+shown below. That means that we are telling the programmer to go slow 
+(wait 2 milliseconds between commands) because otherwise it gets 
+confused. </p>
+    <p align="center"><img src="software-install_files/editavrconf.jpg" border="1" height="477" width="705"></p>
+    <p align="left">Try increasing the delay value to 3000 or 4000.</p>
+    <p align="left">If it -still- doesnt work, it means you probably 
+have something connected up wrong. Check your soldering, are there any 
+bridges or unsoldered parts? are the diodes in correctly? Is the chip 
+seated well? Is it turned on? Try connecting directly to the computer 
+(not using a serial extension cable) or try a different USB to serial 
+adaptor. <strong>Don't use -F to override the initialization check even though avrdude suggests it! </strong>It will not make things work, it will only make debugging more confusing!</p>
+    <p align="left">Next, open the <strong>Makefile</strong> in the minipov3 firmware directory with <strong>TextEdit</strong> and look at the top couple of lines:</p>
+    <p align="center"><img src="software-install_files/makefileedit.jpg" border="1" height="336" width="560"> </p>
+    <p align="left">The<strong> Makefile</strong> automates most of the typing, so things like the port, programmer type and chip are defined once. Change the <strong>AVRDUDE_PORT</strong>
+ assignment from COM1 (a windows serial port) to the serial port you 
+found earlier, like shown. Dont change anything else. Now save the file 
+and go back to the <strong>Terminal</strong></p>
+    <p align="center"><img src="software-install_files/programtest.jpg" border="1" height="392" width="617"></p>
+    <p align="left">Type in <strong>make program-alt_leds</strong> which will program the chip with the alt_leds.c program.</p>
+    <p align="center"><img src="software-install_files/programtestdone.jpg" border="1" height="392" width="617"></p>
+    <p align="left">It should be successful. If it isnt, try increasing the delay until you get verified working results. </p>
+    <p align="left">Once you've gotten the programming procedure running, <a href="http://www.ladyada.net/make/minipov3/programming.html">you can now create your own new and exciting messages</a>! </p>
+  <p class="style2" align="center">Can't get it  working? Dont worry, help is available in <a href="http://www.ladyada.net/forums/">the forums</a>! </p>
+  <!-- InstanceEndEditable --> </div>
+  <!-- InstanceEndRepeatEntry --><!-- InstanceBeginRepeatEntry -->
+  <div class="textblockheader"> <!-- InstanceBeginEditable name="Header" -->Linux (&amp; other Unix-y machines) <a name="linux"></a><!-- InstanceEndEditable --> </div>
+  <div class="textblock"> <!-- InstanceBeginEditable name="text" --><a href="http://www.ladyada.net/learn/avr/setup-unix.html">Follow the instructions for getting avr tools set up from here</a>
+    <ol><li>Download the <a href="http://www.ladyada.net/media/minipov3/minipovfirmware.zip">zip of example source code</a></li>
+      <li>Uncompress and <font face="Courier New, Courier, mono"><strong>cd</strong></font> into the source directory. </li>
+      <li>Run <strong><font face="Courier New, Courier, mono">make</font></strong> and verify that avr-gcc was found and everything compiled all happy (there should be a bunch of .hex files now)</li>
+      <li>Plug in the MiniPOV into the serial port, and turn on the 
+battery pack (it must be powered to be programmed even if its looking 
+like its powered off of the serial port)</li>
+      <li>Edit the Makefile in the minipov directory to change the AVRDUDE_PORT to <strong>/dev/cuaa0</strong>, <strong>/dev/ttyS0</strong>, <strong>/dev/ttyUSB0, /dev/cu.KeySerial1 </strong>or <strong>/dev/cu.usbserial</strong> or whatever you're using. (Check your distribution docs for info on what the serial ports are called!)</li>
+      <li>Run <strong><font face="Courier New, Courier, mono">make program-minipov</font></strong>, this will start the programming procedure.</li>
+    </ol>
+    <p>(You should cheat and look at the screenshots below for Mac OS X as they are nearly identical to Linux/Unix) </p>
+  <!-- InstanceEndEditable --> </div>
+  <!-- InstanceEndRepeatEntry --><!-- InstanceEndRepeat --></div>
+
+<div id="rightcol">
+<!-- this is just a buffer -->
+</div>
+
+
+
+<div id="history">
+<!-- #BeginDate format:Am1m -->March 30, 2011  18:51<!-- #EndDate --></div>
+
+
+</body><!-- InstanceEnd --></html>
