@@ -31,7 +31,7 @@
 	  _pins_mode(LCD_RSWE_PORT,5,7,OUTPUT)
 #endif
 
-static char bus4w = 0xC0;
+static char bus4w = 0;// 0xC0;
 
 #ifdef USE_74HC595  
   	#define  _rswe()  write_74hc595(bus4w)
