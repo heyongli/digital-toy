@@ -40,7 +40,7 @@ HEX_EEPROM_FLAGS += --change-section-lma .eeprom=0 --no-change-warnings
 INCLUDES = -I"Z:\home\digital-toy\Hrduino-V0\i-uC-lib\include" -I"Z:\home\digital-toy\Hrduino-V0\i-uC-lib\." 
 
 ## Objects that must be built in order to link
-OBJECTS = main.o freq-meter.o uc-print.o timer0.o adc.o avr-io.o pwm.o 74hc595.o 4wire-1602.o timer.o 
+OBJECTS = main.o freq-meter.o uc-print.o timer0.o adc.o avr-io.o pwm.o timer.o 4wire-1602.o 74hc595.o 
 
 ## Objects explicitly added by the user
 LINKONLYOBJECTS = 
@@ -70,13 +70,13 @@ avr-io.o: ../atmel/avr-io.c
 pwm.o: ../atmel/pwm.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 
-74hc595.o: ../drivers/74hc595.c
+timer.o: ../timer.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 
 4wire-1602.o: ../drivers/4wire-1602.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 
-timer.o: ../timer.c
+74hc595.o: ../drivers/74hc595.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 
 ##Link
