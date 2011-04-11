@@ -1204,18 +1204,12 @@ Views=" 1: 42653 409442 886671 1558528"
 Sheet=1
 
 [Win_2]
-Type="Control Panel"
-Loc="188 587 1343 1287"
-State=2
-Number=0
-
-[Win_3]
 Type="Board Editor"
-Loc="241 40 1609 981"
+Loc="284 51 1652 992"
 State=2
 Number=1
 File="minipov3.brd"
-View="11916 95587 222536 520223"
+View="-80735 -210868 356005 669658"
 WireWidths=" 0 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 2540 3048 6096 4064"
 PadDiameters=" 2540 3048 4064 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 0"
 PadDrills=" 5080"
@@ -1247,6 +1241,12 @@ ArcDirection=0
 AddLevel=2
 PadsSameType=0
 Layer=16
+
+[Win_3]
+Type="Control Panel"
+Loc="169 233 1324 933"
+State=2
+Number=0
 
 [Desktop]
 Screen="1680 1050"
