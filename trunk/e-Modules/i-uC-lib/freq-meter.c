@@ -101,40 +101,88 @@ SIGNAL(SIG_OVERFLOW2)
 }
 
 
+demo_adc_init()
+{
+   
+  _pins_mode(PORTC, PC0,PC2,INPUT);
+   adc_init();
+}
+
+unsigned int vc=0, vl=0; //history for last 5 values of the COUNTER0/1
+float  v=0;
+unsigned long get_v()
+{
+	
+	return _adc(0);
+	#if 0
+	if(vl==0){
+	    cli();
+		v=vl=vc=_adc(0);
+		sti();
+		return v;
+	}else{
+	    cli();
+		vc = _adc(0);
+		sti();
+		v =0.9*(float)vc+0.1*(float)vl;
+		return (unsigned long)v;
+	}
+	#endif
+
+}
 
 void post_display(long number)
 {
   
 	lcd_cursor(0,0);
-    lcd_puts("              ");
+    //lcd_puts("              ");
 	lcd_cursor(0,0);
     
 	if((number>999)&&(number<999999)){
 	   printLL(number,3,3);
 	   lcd_puts("KHz");
+     	lcd_puts("      ");
+
 	}
 
     if(number>999999){
 	   printLL(number,6,4); //omit xxHz
 	   lcd_puts("MHz");
+       lcd_puts("     ");
+
    	
 	}
 	if(number<=999)
 	{
 	   printLL(number,0,0);
 	   lcd_puts("Hz");
+     	lcd_puts("        ");
+
    	
 	}
 
 
 	
 	lcd_cursor(0,1);
-	lcd_puts("              ");
-	lcd_cursor(0,1);
-	
- 	printLL(scounter,0,0);
-	
+{
+	unsigned long adc= get_v();
+	float v, i;
 
+
+ 	print10(adc); //
+	lcd_puts(" ");
+
+	v = ((float)adc/1024.0)*5.09; //ref volatage 5.09V
+    i = (v/48.00)/0.1; //amp 48x, 0.1R sample
+
+    print10(v*1000); //to mV
+	lcd_puts("mV ");
+    
+	print10(i*1000);
+	lcd_puts("mA");
+
+	
+}
  	//print10(sTCNT1L);
 	//lcd_putc(' ');
  	//print10(sTCNT1H);
@@ -165,7 +213,10 @@ void setup_interrupts()
 	TCNT1 = 0;
 	sti();
 }
+
 
+
+
 
 
 unsigned int display_refresh; //counter used for the refresh rate
@@ -177,6 +228,7 @@ void freq_main(void)
 
     cli();
 
+
  	F[4] = F[3] = F[2]= F[1] = F[0] = 0;
 
 
@@ -185,11 +237,14 @@ void freq_main(void)
 	DDRB = 0xFC;
 	DDRD = 0x00;        
 	
+    
 		
 	setup_timers();
 	setup_interrupts();
  	//for testing
-	display_refresh=jiffers;
+	display_refresh=jiffers;
+
+		demo_adc_init();
 
    	while(1) {             // Infinite loop
 	  	if (timeafter(jiffers,display_refresh+38/5)){

@@ -37,7 +37,7 @@ HEX_EEPROM_FLAGS += --change-section-lma .eeprom=0 --no-change-warnings
 
 
 ## Include Directories
-INCLUDES = -I"Z:\home\digital-toy\Hrduino-V0\i-uC-lib\include" -I"Z:\home\digital-toy\Hrduino-V0\i-uC-lib\." 
+INCLUDES = -I"Z:\home\digital-toy\e-Modules\i-uC-lib\include" -I"Z:\home\digital-toy\e-Modules\i-uC-lib\." 
 
 ## Objects that must be built in order to link
 OBJECTS = main.o freq-meter.o uc-print.o timer0.o adc.o avr-io.o pwm.o timer.o 4wire-1602.o 74hc595.o 
