@@ -16,6 +16,12 @@ char hex2c(char hex)
 
 void print10(unsigned short n)
 {
+     char x;
+	 x=n/1000;
+	 if(x)
+	    lcd_putc(hex2c(x));
+	 n = n%1000;
+
 	 lcd_putc(hex2c(n/100));
 	 n = n%100;
 

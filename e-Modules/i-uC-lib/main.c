@@ -35,7 +35,7 @@ int main()
 	//lcd_cursor(0,1);
     //lcd_puts(KEY_SHILD_LOGO1);
 	//_key_init();
-
+	
    //  while(1);
  	freq_main();
 
