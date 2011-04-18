@@ -160,7 +160,7 @@ void post_display(long number)
 	lcd_puts(" ");
 
 	v = ((float)adc/1023.0)*5.09; //ref volatage 5.09V
-    i = (v/48.00)/0.1; //amp 48x, 0.1R sample
+    i = (v/50.00)/0.1; //amp 50x, 0.1R sample
 
     print10(v*1000); //to mV
 	lcd_puts("mV ");
