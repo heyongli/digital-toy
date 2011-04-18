@@ -37,8 +37,6 @@ SIGNAL(SIG_OVERFLOW1)
 }
 
 
-
-
 //Timer/Counter 2 is configured as timer with a 1024 prescaller (counting CPU frequency divided by 1024). 
 //It is used to call the "frequency calculation and selection algorithm" every timer period T.
 //T is defined as "1024*256/(F_cpu)". (30.5Hz)
@@ -101,34 +99,23 @@ SIGNAL(SIG_OVERFLOW2)
 }
 
 
-demo_adc_init()
-{
-   
-  _pins_mode(PORTC, PC0,PC2,INPUT);
-   adc_init();
-}
 
-unsigned int vc=0, vl=0; //history for last 5 values of the COUNTER0/1
-float  v=0;
-unsigned long get_v()
+
+
+
+unsigned int vc=0, vl=0; //simple filter
+unsigned long v_filter()
 {
-	
 	return _adc(0);
-	#if 0
-	if(vl==0){
-	    cli();
-		v=vl=vc=_adc(0);
-		sti();
-		return v;
-	}else{
-	    cli();
-		vc = _adc(0);
-		sti();
-		v =0.9*(float)vc+0.1*(float)vl;
-		return (unsigned long)v;
-	}
-	#endif
 
+	if(vl==0){
+		vl=vc=_adc(0);
+		return vc;
+	}else{
+		vc = _adc(0);
+		vc=(unsigned long)(0.88*(float)vc+0.12*(float)vl);
+		vl=vc;
+	}
 }
 
 void post_display(long number)
@@ -165,14 +152,14 @@ void post_display(long number)
 	
 	lcd_cursor(0,1);
 {
-	unsigned long adc= get_v();
+    static unsigned char ch=0;
+	unsigned int adc= v_filter(ch);
 	float v, i;
-
 
  	print10(adc); //
 	lcd_puts(" ");
 
-	v = ((float)adc/1024.0)*5.09; //ref volatage 5.09V
+	v = ((float)adc/1023.0)*5.09; //ref volatage 5.09V
     i = (v/48.00)/0.1; //amp 48x, 0.1R sample
 
     print10(v*1000); //to mV
@@ -180,7 +167,6 @@ void post_display(long number)
     
 	print10(i*1000);
 	lcd_puts("mA");
-
 	
 }
  	//print10(sTCNT1L);
@@ -194,7 +180,7 @@ void post_display(long number)
 void setup_timers(){
 	TCCR1A = 0x00; //Setup TC1 to count PD5/T1
 	TCCR1B = 0x07; //TC1 up edge triger
-
+	
 	TCCR2 = 0x07;  //TC2 counts Clock_io/1024, use as time base caller 
 
 
@@ -231,21 +217,23 @@ void freq_main(void)
 
  	F[4] = F[3] = F[2]= F[1] = F[0] = 0;
 
+
+    //ADC init  
+   _pins_mode(PORTC, PINC0,PINC1,INPUT);
+   _pins_pullup(PORTC, PINC0,PINC1,FLOAT);
+   adc_init();
+  
+    //T1 input init
+    _pins_mode(PORTD, 0,PIND5,INPUT);
+    _pins_pullup(PORTD,0,PIND5,FLOAT);
 
-	DDRC = 0xFF; //PORTC is all used for output on 7-seg.
-
-	DDRB = 0xFC;
-	DDRD = 0x00;        
-	
-    
+	    
 		
 	setup_timers();
 	setup_interrupts();
  	//for testing
 	display_refresh=jiffers;
 
-		demo_adc_init();
-
    	while(1) {             // Infinite loop
 	  	if (timeafter(jiffers,display_refresh+38/5)){
 		   	display_refresh=jiffers;

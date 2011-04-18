@@ -27,7 +27,7 @@ void adc_init()
 	while(!_test_bit(ADCSRA,ADIF));
 	_set_bit(ADCSRA,ADIF); //clear IF bit
   
-        adc = ADCL;
+    adc = ADCL;
 	barrier();
 	adc = ADCH;
 }

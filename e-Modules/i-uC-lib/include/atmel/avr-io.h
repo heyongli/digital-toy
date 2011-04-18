@@ -22,12 +22,18 @@
 
 #define INPUT   (char)0
 #define OUTPUT  (char)1
-void __set_port_mode(volatile unsigned char* port_addr, char mode, char n, char m);
 
+#define PULLUP   (char)1   //enable internal PULL UP resistor
+#define FLOAT    (char)0   //let it float for input, like ADC/Timer input....
+
+void __port_mode(volatile unsigned char* port_addr, char mode, char n, char m);
+void __port_pullup(volatile unsigned char* port_addr, char pullup, char n, char m);
 
 /*i.e.  _pins_mode(PORTD,3,INPUT) */
-#define _pin_mode(PORT,pin,mode) __set_port_mode(&PORT,mode,pin,pin)
-#define _pins_mode(PORT,n,m,mode) __set_port_mode(&PORT,mode,n,m)
+#define _pin_mode(PORT,pin,mode) __port_mode(&PORT,mode,pin,pin)
+#define _pins_mode(PORT,n,m,mode) __port_mode(&PORT,mode,n,m)
+#define _pin_pullup(PORT,pin,mode) __port_pullup(&PORT,mode,pin,pin)
+#define _pins_pullup(PORT,n,m,mode) __port_pullup(&PORT,mode,n,m)
 
 
 
