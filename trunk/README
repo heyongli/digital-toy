@@ -1,0 +1,12 @@
+
+-------------------
+/metal-AtmelSys: all Atemel cpu's support and drivers 
+/metal-X51Sys:   all kind of 51 chip support 
+
+apps need a config.h for resource allocation of drivers,
+firmware project files hold in specific projects.
+
+---------------------
+/dtoy-eagle-lbr: 
+eagle lbr for digital toy projecs.
+
