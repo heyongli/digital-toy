@@ -1,5 +1,8 @@
-
 #include <timer.h>
+
+
+
+volatile unsigned  long jiffers=0;  //250us per jiffers
 
 
 /*0-64 seconds*/

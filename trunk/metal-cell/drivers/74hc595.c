@@ -15,8 +15,9 @@ static void delay_io(void)
 
 void init_74hc595(void)
 {
-    pin_init();
+	_pins_mode(METAL_74HC595_PORT, (char)METAL_74HC595_SDI,(char)METAL_74HC595_CLK,(char)OUTPUT);
 }
+
 
 void shiftout(unsigned char data)
 {
@@ -25,31 +26,31 @@ void shiftout(unsigned char data)
 	   delay_io();
 	  
 	   if((data<<i)&0x80)
-	     _set_bit(PORT_74HC595, SDI);
+	     _set_bit(METAL_74HC595_PORT, METAL_74HC595_SDI);
 	   else
-	     _clear_bit(PORT_74HC595, SDI);
+	     _clear_bit(METAL_74HC595_PORT, METAL_74HC595_SDI);
 
 	   delay_io();
-	  _set_bit(PORT_74HC595,CLK); 
+	  _set_bit(METAL_74HC595_PORT,METAL_74HC595_CLK); 
        delay_io();
-	  _clear_bit(PORT_74HC595, CLK);
+	  _clear_bit(METAL_74HC595_PORT, METAL_74HC595_CLK);
 	  		
    }
 
 }
 void write_74hc595(unsigned char data)
 {
-	//_clear_bit(PORT_74HC595,CLK); //prepare send data
+	//_clear_bit(METAL_74HC595_PORT,CLK); //prepare send data
 	delay_io();
       
 	shiftout(data);
     
 	delay_io();
-    _set_bit(PORT_74HC595,LATCH); //prepare open latch
+    _set_bit(METAL_74HC595_PORT,METAL_74HC595_LATCH); //prepare open latch
      delay_io();
 	 delay_io();
      delay_io();
-    _clear_bit(PORT_74HC595,LATCH); //prepare open latch
+    _clear_bit(METAL_74HC595_PORT,METAL_74HC595_LATCH); //prepare open latch
    
 }
 

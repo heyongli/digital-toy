@@ -1,3 +1,4 @@
+#include <config.h>    //config.h of APP
 
 #include <timer.h>      //system header file
 
@@ -11,10 +12,8 @@
  * timer0,1ms ticks
  *
  */
-volatile unsigned  long jiffers=0;  //250us per jiffers
 
-#define LED_PORT PORTD
-#if 0
+#ifdef METAL_CELL_TIMER0
 
 ISR(TIMER0_OVF_vect) // 1/HZ interval
 {
@@ -22,19 +21,11 @@ ISR(TIMER0_OVF_vect) // 1/HZ interval
 
    jiffers++;
 
-#if 0
-   static unsigned long mark= 0;
-   if(timeafter(jiffers,mark+ HZ/8 )){ //4times per second
-      //_toggle_bits(LED_PORT,1); //hart beats
-	  mark = jiffers;
-   }
-#endif
-
    TCNT0  = TIMER0_TCN;
+
    return;
 } 
 
-#endif
 
 /*
 from mega88:
@@ -96,3 +87,5 @@ void disable_timer0()
    #error "cpu not support !"
 #endif
 }
+
+#endif  //METAL_CELL_TIMER0
