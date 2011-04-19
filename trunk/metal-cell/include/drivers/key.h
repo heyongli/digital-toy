@@ -1,4 +1,9 @@
+#ifndef _METAL_KEY_
+#define _METAL_KEY_
 
+#include <bitops.h>
+#include <timer.h>
+#include <atmel/avr-io.h>
 
 
 #define _key_init() \
@@ -24,3 +29,5 @@
 			}										\
         }											\
        return 0;
+
+#endif
