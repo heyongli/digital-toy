@@ -9,31 +9,27 @@
  * CopyLeft hyl 2009.12.19
  */
 
+#include <config.h>
 
 #include <timer.h>  //uC system files
 
-#include <udrivers.h>  
-
+#include <drivers/74hc595.h>  
 #include <atmel/avr-io.h> //uC system atmel files
 
 
-#define USE_74HC595
-//#undef  USE_74HC595
 
-#define LCD_RSWE_PORT  PORTD 
-#define LCD_DATA_PORT  PORTC  
 
-#ifdef USE_74HC595  
+#ifdef METAL_4W1602_VIA_74HC595  
   #define io_init() init_74hc595()
 #else
   #define io_init() \
-      _pins_mode(LCD_DATA_PORT,0,3,OUTPUT); \
-	  _pins_mode(LCD_RSWE_PORT,5,7,OUTPUT)
+      _pins_mode(METAL_4W1602_DATA_PORT,0,3,OUTPUT); \
+	  _pins_mode(METAL_4W1602_RSWE_PORT,5,7,OUTPUT)
 #endif
 
 static char bus4w = 0;// 0xC0;
 
-#ifdef USE_74HC595  
+#ifdef METAL_4W1602_VIA_74HC595  
   	#define  _rswe()  write_74hc595(bus4w)
   	#define  _data()  write_74hc595(bus4w)
 #else

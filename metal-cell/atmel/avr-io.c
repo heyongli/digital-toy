@@ -21,6 +21,7 @@ void __port_mode(volatile unsigned char* port_addr, char mode, char n, char m)
 	//PORTx |= (1<< PX##n)    /*pull-up-enable*/  
 }
 
+
 //pollup indicate the PIN mode is INPUT
 void __port_pullup(volatile unsigned char* port_addr, char pullup, char n, char m)
 {
