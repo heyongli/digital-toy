@@ -38,19 +38,5 @@ void __port_pullup(volatile unsigned char* port_addr, char pullup, char n, char 
 
 
 
-/*abcd1234 => 4321dcba */
-unsigned char _swap8(unsigned char x)
-{
-    /*abcd1234 => 1234abcd*/
-	x= (x>>4) | (x<<4);
-	/*1234abcd  => 3412cdab*/
-    	   /*1200ab00*/         /*003400cd*/
-	x= ((x&0b11001100)>>2) | ((x&0b00110011)<<2);
-                 /*0xcc*/            /*0x33*/
-	/*3412cdab => 4321dcba*/
-	x= ((x&0b10101010)>>1) | ((x&0b01010101)<<1);
-            /*0xAA*/            /*0x55*/
-    return x;
-}
 
 

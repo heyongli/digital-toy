@@ -3,6 +3,24 @@
 #include <drivers/lcd.h> //common system driver
 
 
+
+/*abcd1234 => 4321dcba */
+unsigned char _swap8(unsigned char x)
+{
+    /*abcd1234 => 1234abcd*/
+	x= (x>>4) | (x<<4);
+	/*1234abcd  => 3412cdab*/
+    	   /*1200ab00*/         /*003400cd*/
+	x= ((x&0xCC)>>2) | ((x&0x33)<<2);
+                 /*0xcc*/            /*0x33*/
+	/*3412cdab => 4321dcba*/
+	/*b10101010*/               /*b01010101*/
+	x= ((x&0xAA)>>1) | ((x&0x55)<<1);
+            /*0xAA*/            /*0x55*/
+    return x;
+}
+
+
 char hex2c(char hex)
 {
 

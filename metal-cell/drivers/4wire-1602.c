@@ -29,10 +29,14 @@ static char bus4w = 0;// 0xC0;
 #ifdef METAL_4W1602_VIA_74HC595  
   	#define  _rswe()  write_74hc595(bus4w)
   	#define  _data()  write_74hc595(bus4w)
-#else
-  #define  _rswe()  _mov_bits8(METAL_4W1602_RSWE_PORT,bus4w,5,7,1,3)
-  #define  _data()  _mov_bits8(METAL_4W1602_DATA_PORT,bus4w,0,3,4,7);
 #endif
+
+#ifdef METAL_4W1602_BUS4W
+  #define  _rswe()  METAL_4W1602_RSWE_PORT = bus4w
+  #define  _data()  METAL_4W1602_RSWE_PORT = bus4w    
+#endif 
+
+
 /*************以下内容无需修改，移植请修改以上内容******************/
 
 /*  74hc595 data format 
@@ -61,7 +65,7 @@ void io_delay()
 }
 void io_50ms()
 {
-   _delay_ms(70);
+   _delay_ms(50);
 }
 
 static void hd44870_send(unsigned char c, char is_cmd) 
