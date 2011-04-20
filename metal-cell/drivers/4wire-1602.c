@@ -10,12 +10,10 @@
  */
 
 #include <config.h>
-
 #include <timer.h>  //uC system files
 #include <drivers/74hc595.h>  
-
-
-
+#include <metal-io.h>
+#include <bitops.h>
 
 
 #ifdef METAL_4W1602_VIA_74HC595  
@@ -32,8 +30,8 @@ static char bus4w = 0;// 0xC0;
   	#define  _rswe()  write_74hc595(bus4w)
   	#define  _data()  write_74hc595(bus4w)
 #else
-  #define  _rswe()  _mov_bits8(LCD_RSWE_PORT,bus4w,5,7,1,3)
-  #define  _data()  _mov_bits8(LCD_DATA_PORT,bus4w,0,3,4,7);
+  #define  _rswe()  _mov_bits8(METAL_4W1602_RSWE_PORT,bus4w,5,7,1,3)
+  #define  _data()  _mov_bits8(METAL_4W1602_DATA_PORT,bus4w,0,3,4,7);
 #endif
 /*************以下内容无需修改，移植请修改以上内容******************/
 
