@@ -37,12 +37,12 @@
 
 /*////////////////////////////////////////////////////////////////////// */
 //4W 1602 LCD
-#define METAL_4W1602_VIA_74HC595  1  //use 4w 1602 via 74hc595
+//#define METAL_4W1602_VIA_74HC595  1  //use 4w 1602 via 74hc595
 /* 74HC595  */
-#define METAL_4W1602_74HC595_PORT   PORTB
+//#define METAL_4W1602_74HC595_PORT   PORTB
 //if not use 595
-//#define METAL_4W1602_DATA_PORT  PORTD 
-//#define METAL_4W1602_RSWE_PORT  PORTC  
+#define METAL_4W1602_DATA_PORT  P2
+#define METAL_4W1602_RSWE_PORT  P2 
 
 
 

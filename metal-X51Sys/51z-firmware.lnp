@@ -1,12 +1,14 @@
 "main.obj",
-"delay.obj",
-"timer0.obj",
 "3key.obj",
-"4wire-1602.obj",
-"ds1302.obj",
-"ds18b20.obj",
-"_delay.obj",
-"uart.obj",
-"lcm1630.obj" 
+".\timer0.obj",
+".\uart.obj",
+".\delay.obj",
+".\lcm1630.obj",
+".\ds18b20.obj",
+".\ds1302.obj",
+".\4wire-1602.obj",
+".\timer.obj",
+".\_delay.obj",
+".\uprint.obj" 
 TO "51z-firmware" 
 RAMSIZE(256) 
