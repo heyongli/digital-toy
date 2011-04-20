@@ -1,16 +1,8 @@
 
-#ifndef _DELAY_H_
-#define _DELAY_H_
+#ifndef _METAL_C51_DELAY_H_
+#define _METAL_C51_DELAY_H_
 
-
-
-#define F_CPU 12000000UL
-
-#ifndef F_CPU
-#warning "F_CPU not defined for delay.h"
-#define F_CPU 12000000UL
-#endif
-
+#include <config.h>  //F_CPU
 
 
 // _2cycle(1)-> move r7, 1, lcall _2cycle, total 3cycle

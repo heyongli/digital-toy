@@ -1,17 +1,7 @@
 
-#include  "config.h"
-#include  "timer.h"
-
-/*
- * timer0, 
- *   1) 1ms ticks
- *	 2) tickless driver 
- */
-
-volatile unsigned  long jiffers=0;  //250us per jiffers
-
-
-
+#include  <config.h>
+#include  <timer.h>
+#include  <at89x52.h>
 
 
 /*

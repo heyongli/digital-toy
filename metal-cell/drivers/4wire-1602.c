@@ -12,9 +12,8 @@
 #include <config.h>
 
 #include <timer.h>  //uC system files
-
 #include <drivers/74hc595.h>  
-#include <atmel/avr-io.h> //uC system atmel files
+
 
 
 
@@ -67,7 +66,7 @@ void io_50ms()
    _delay_ms(70);
 }
 
-static void hd44870_send(unsigned char data, char is_cmd) 
+static void hd44870_send(unsigned char c, char is_cmd) 
 {
   io_delay();
   
@@ -84,7 +83,7 @@ static void hd44870_send(unsigned char data, char is_cmd)
   
   /* 4 MSB*/
   bus4w &= ~(_DATA);    
-  bus4w |= (data>>4)&_DATA; 
+  bus4w |= (c>>4)&_DATA; 
   _data();
   
   io_delay();
@@ -98,7 +97,7 @@ static void hd44870_send(unsigned char data, char is_cmd)
   
   /*send low 4 lsb*/
   bus4w&=~_DATA;         
-  bus4w|=(data)&_DATA; 
+  bus4w|=(c)&_DATA; 
   _data();
   io_delay();
 
@@ -161,9 +160,9 @@ void lcd_clear()
    
 }
 
-void lcd_putc(char data) //列x=0~15,行y=0,1
+void lcd_putc(char c) //列x=0~15,行y=0,1
 {
-  send_data( data);
+  send_data( c);
 }
 
 

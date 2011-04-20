@@ -9,7 +9,7 @@ volatile unsigned  long jiffers=0;  //250us per jiffers
 void delay(unsigned long ticks)
 {
   
-   unsigned long long lt = jiffers;
+   unsigned long lt = jiffers;
 
    while(!timeafter(jiffers,(lt+ ticks)));
    

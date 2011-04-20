@@ -4,6 +4,6 @@
 
 /*595*/
 void init_74hc595(void);
-void write_74hc595(unsigned char data);
+void write_74hc595(unsigned char c);
 
 #endif
