@@ -3,393 +3,111 @@
 <pre>
 <h1>µVision3 Build Log</h1>
 <h2>Project:</h2>
-Z:\home\digital-toy\metal-X51Sys\i-charger-1602.uv2
+Z:\home\digital-toy\51-zeroF\zero-fware\zero-fware.uv2
 Project File Date:  04/20/2011
 
 <h2>Output:</h2>
 Build target 'Target 1'
 compiling main.c...
-MAIN.C(23): warning C206: 'DS1302_init': missing function-prototype
-MAIN.C(46): warning C206: 'ds1302_test': missing function-prototype
-MAIN.C(47): warning C206: 'ds18b20_demo': missing function-prototype
-MAIN.C(59): warning C206: 'lcm1630_demo': missing function-prototype
-MAIN.C(60): warning C206: 'lcm1630_demo2': missing function-prototype
-MAIN.C(65): warning C206: 'uart_demo': missing function-prototype
+main.c(5): warning C318: can't open file 'drivers/lcd.h'
+main.c(6): warning C318: can't open file 'drivers/4wire-1602.h'
+main.c(9): warning C318: can't open file 'drivers/key.h'
+MAIN.C(19): warning C206: 'lcd1602_init': missing function-prototype
+MAIN.C(20): warning C206: 'lcd_cursor': missing function-prototype
+MAIN.C(20): error C267: 'lcd_cursor': requires ANSI-style prototype
 compiling 3key.c...
-compiling timer0.c...
+driver\3key.c(3): warning C318: can't open file 'io.h'
+driver\3key.c(4): warning C318: can't open file 'timer.h'
+DRIVER\3KEY.C(10): error C202: 'P1': undefined identifier
+DRIVER\3KEY.C(12): error C202: 'P1': undefined identifier
 compiling uart.c...
+..\..\metal-cell\c51\uart.c(8): warning C318: can't open file 'bitops.h'
+..\..\metal-cell\c51\uart.c(9): warning C318: can't open file 'drivers/lcd.h'
+..\..\metal-cell\c51\uart.c(10): warning C318: can't open file 'io.h'
+..\..\METAL-CELL\C51\UART.C(61): warning C206: 'lcd_puts': missing function-prototype
+..\..\METAL-CELL\C51\UART.C(61): error C267: 'lcd_puts': requires ANSI-style prototype
 compiling delay.c...
-compiling lcm1630.c...
-compiling ds18b20.c...
-compiling ds1302.c...
-compiling 4wire-1602.c...
-compiling timer.c...
-assembling _delay.s...
-compiling uprint.c...
-linking...
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?TIMER1_INIT?TIMER0
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DS_DELAY?DS18B20
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?LCD_CLEAR?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DELAY?TIMER
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINT10?UPRINT
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINTLL?UPRINT
-*** WARNING L15: MULTIPLE CALL TO SEGMENT
-    SEGMENT: ?PR?_HD44870_SEND?4WIRE_1602
-    CALLER1: ?PR?UART_RECEIVER_INTRRUPT?UART
-    CALLER2: ?C_C51STARTUP
-*** WARNING L15: MULTIPLE CALL TO SEGMENT
-    SEGMENT: ?PR?_LCD_PUTS?4WIRE_1602
-    CALLER1: ?PR?UART_RECEIVER_INTRRUPT?UART
-    CALLER2: ?C_C51STARTUP
-Program Size: data=102.0 xdata=0 code=5284
-creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 15 Warning(s).
-Build target 'Target 1'
-compiling main.c...
-MAIN.C(23): warning C206: 'DS1302_init': missing function-prototype
-MAIN.C(46): warning C206: 'ds1302_test': missing function-prototype
-MAIN.C(47): warning C206: 'ds18b20_demo': missing function-prototype
-MAIN.C(59): warning C206: 'lcm1630_demo': missing function-prototype
-MAIN.C(60): warning C206: 'lcm1630_demo2': missing function-prototype
-linking...
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?TIMER1_INIT?TIMER0
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?UART_DEMO?UART
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DS_DELAY?DS18B20
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?LCD_CLEAR?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DELAY?TIMER
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINT10?UPRINT
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINTLL?UPRINT
-*** WARNING L15: MULTIPLE CALL TO SEGMENT
-    SEGMENT: ?PR?_HD44870_SEND?4WIRE_1602
-    CALLER1: ?PR?UART_RECEIVER_INTRRUPT?UART
-    CALLER2: ?C_C51STARTUP
-*** WARNING L15: MULTIPLE CALL TO SEGMENT
-    SEGMENT: ?PR?_LCD_PUTS?4WIRE_1602
-    CALLER1: ?PR?UART_RECEIVER_INTRRUPT?UART
-    CALLER2: ?C_C51STARTUP
-Program Size: data=102.0 xdata=0 code=5281
-creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 15 Warning(s).
-compiling 4wire-1602.c...
-..\metal-cell\drivers\4wire-1602.c(32): warning C322: unknown identifier
-..\metal-cell\drivers\4wire-1602.c(35): error C308: invalid integer const expression
-..\metal-cell\drivers\4wire-1602.c - 1 Error(s), 1 Warning(s).
-Build target 'Target 1'
-compiling main.c...
-MAIN.C(23): warning C206: 'DS1302_init': missing function-prototype
-MAIN.C(46): warning C206: 'ds1302_test': missing function-prototype
-MAIN.C(47): warning C206: 'ds18b20_demo': missing function-prototype
-MAIN.C(59): warning C206: 'lcm1630_demo': missing function-prototype
-MAIN.C(60): warning C206: 'lcm1630_demo2': missing function-prototype
-compiling 3key.c...
+..\..\metal-cell\c51\delay.c(9): warning C318: can't open file 'c51/delay.h'
+..\..\METAL-CELL\C51\DELAY.C(38): warning C206: '_delay_us': missing function-prototype
+..\..\METAL-CELL\C51\DELAY.C(38): error C267: '_delay_us': requires ANSI-style prototype
 compiling timer0.c...
-compiling uart.c...
-compiling delay.c...
-compiling lcm1630.c...
-compiling ds18b20.c...
-compiling ds1302.c...
-compiling 4wire-1602.c...
-..\metal-cell\drivers\4wire-1602.c(32): warning C322: unknown identifier
-compiling timer.c...
-assembling _delay.s...
+..\..\metal-cell\c51\timer0.c(3): warning C318: can't open file 'timer.h'
+..\..\METAL-CELL\C51\TIMER0.C(22): error C202: 'jiffers': undefined identifier
+..\..\METAL-CELL\C51\TIMER0.C(23): error C202: 'MS_CYCLE': undefined identifier
+..\..\METAL-CELL\C51\TIMER0.C(23): error C202: 'MS_CYCLE': undefined identifier
+..\..\METAL-CELL\C51\TIMER0.C(33): error C202: 'MS_CYCLE': undefined identifier
+..\..\METAL-CELL\C51\TIMER0.C(33): error C202: 'MS_CYCLE': undefined identifier
 compiling uprint.c...
-linking...
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?TIMER1_INIT?TIMER0
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?UART_DEMO?UART
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DS_DELAY?DS18B20
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?LCD_CLEAR?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DELAY?TIMER
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINT10?UPRINT
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINTLL?UPRINT
-*** WARNING L15: MULTIPLE CALL TO SEGMENT
-    SEGMENT: ?PR?_HD44870_SEND?4WIRE_1602
-    CALLER1: ?PR?UART_RECEIVER_INTRRUPT?UART
-    CALLER2: ?C_C51STARTUP
-*** WARNING L15: MULTIPLE CALL TO SEGMENT
-    SEGMENT: ?PR?_LCD_PUTS?4WIRE_1602
-    CALLER1: ?PR?UART_RECEIVER_INTRRUPT?UART
-    CALLER2: ?C_C51STARTUP
-Program Size: data=102.0 xdata=0 code=5281
-creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 16 Warning(s).
-Build target 'Target 1'
-compiling main.c...
-MAIN.C(23): warning C206: 'DS1302_init': missing function-prototype
-MAIN.C(46): warning C206: 'ds1302_test': missing function-prototype
-MAIN.C(47): warning C206: 'ds18b20_demo': missing function-prototype
-MAIN.C(59): warning C206: 'lcm1630_demo': missing function-prototype
-MAIN.C(60): warning C206: 'lcm1630_demo2': missing function-prototype
-compiling 3key.c...
-compiling timer0.c...
-compiling uart.c...
-compiling delay.c...
-compiling lcm1630.c...
-compiling ds18b20.c...
-compiling ds1302.c...
-compiling 4wire-1602.c...
-..\metal-cell\drivers\4wire-1602.c(32): warning C322: unknown identifier
+..\..\metal-cell\uprint.c(3): warning C318: can't open file 'drivers/lcd.h'
+..\..\METAL-CELL\UPRINT.C(36): warning C206: 'lcd_putc': missing function-prototype
+..\..\METAL-CELL\UPRINT.C(36): error C267: 'lcd_putc': requires ANSI-style prototype
 compiling timer.c...
-assembling _delay.s...
-compiling uprint.c...
-linking...
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?TIMER1_INIT?TIMER0
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?UART_DEMO?UART
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DS_DELAY?DS18B20
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?LCD_CLEAR?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DELAY?TIMER
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINT10?UPRINT
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINTLL?UPRINT
-*** WARNING L15: MULTIPLE CALL TO SEGMENT
-    SEGMENT: ?PR?_HD44870_SEND?4WIRE_1602
-    CALLER1: ?PR?UART_RECEIVER_INTRRUPT?UART
-    CALLER2: ?C_C51STARTUP
-*** WARNING L15: MULTIPLE CALL TO SEGMENT
-    SEGMENT: ?PR?_LCD_PUTS?4WIRE_1602
-    CALLER1: ?PR?UART_RECEIVER_INTRRUPT?UART
-    CALLER2: ?C_C51STARTUP
-Program Size: data=102.0 xdata=0 code=5281
-creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 16 Warning(s).
-Build target 'Target 1'
-compiling main.c...
-MAIN.C(23): warning C206: 'DS1302_init': missing function-prototype
-MAIN.C(46): warning C206: 'ds1302_test': missing function-prototype
-MAIN.C(47): warning C206: 'ds18b20_demo': missing function-prototype
-MAIN.C(59): warning C206: 'lcm1630_demo': missing function-prototype
-MAIN.C(60): warning C206: 'lcm1630_demo2': missing function-prototype
-compiling 3key.c...
-compiling timer0.c...
-compiling uart.c...
-compiling delay.c...
+..\..\metal-cell\timer.c(1): warning C318: can't open file 'timer.h'
+..\..\METAL-CELL\TIMER.C(14): warning C206: 'timeafter': missing function-prototype
+..\..\METAL-CELL\TIMER.C(14): error C267: 'timeafter': requires ANSI-style prototype
 compiling lcm1630.c...
+..\..\metal-cell\drivers\lcm1630.c(11): warning C318: can't open file 'timer.h'
+..\..\metal-cell\drivers\lcm1630.c(12): warning C318: can't open file 'bitops.h'
+..\..\metal-cell\drivers\lcm1630.c(13): warning C318: can't open file 'drivers/lcd.h'
+..\..\METAL-CELL\DRIVERS\LCM1630.C(180): warning C206: '_delay_ms': missing function-prototype
+..\..\METAL-CELL\DRIVERS\LCM1630.C(180): error C267: '_delay_ms': requires ANSI-style prototype
+compiling 4wire-1602.c...
+..\..\metal-cell\drivers\4wire-1602.c(13): warning C318: can't open file 'timer.h'
+..\..\metal-cell\drivers\4wire-1602.c(14): warning C318: can't open file 'drivers/74hc595.h'
+..\..\metal-cell\drivers\4wire-1602.c(15): warning C318: can't open file 'io.h'
+..\..\metal-cell\drivers\4wire-1602.c(16): warning C318: can't open file 'bitops.h'
+..\..\METAL-CELL\DRIVERS\4WIRE-1602.C(64): warning C206: '_delay_us': missing function-prototype
+..\..\METAL-CELL\DRIVERS\4WIRE-1602.C(64): error C267: '_delay_us': requires ANSI-style prototype
 compiling ds18b20.c...
+..\..\metal-cell\drivers\ds18b20.c(7): warning C318: can't open file 'io.H'
+..\..\metal-cell\drivers\ds18b20.c(9): warning C318: can't open file 'drivers/lcd.h'
+..\..\metal-cell\drivers\ds18b20.c(10): warning C318: can't open file 'timer.h'
+..\..\metal-cell\drivers\ds18b20.c(11): warning C318: can't open file 'bitops.h'
+..\..\METAL-CELL\DRIVERS\DS18B20.C(21): error C202: 'P1': undefined identifier
 compiling ds1302.c...
-compiling 4wire-1602.c...
-..\metal-cell\drivers\4wire-1602.c(32): warning C322: unknown identifier
-compiling timer.c...
-assembling _delay.s...
-compiling uprint.c...
-linking...
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?TIMER1_INIT?TIMER0
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?UART_DEMO?UART
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DS_DELAY?DS18B20
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?LCD_CLEAR?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DELAY?TIMER
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINT10?UPRINT
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINTLL?UPRINT
-*** WARNING L15: MULTIPLE CALL TO SEGMENT
-    SEGMENT: ?PR?_HD44870_SEND?4WIRE_1602
-    CALLER1: ?PR?UART_RECEIVER_INTRRUPT?UART
-    CALLER2: ?C_C51STARTUP
-*** WARNING L15: MULTIPLE CALL TO SEGMENT
-    SEGMENT: ?PR?_LCD_PUTS?4WIRE_1602
-    CALLER1: ?PR?UART_RECEIVER_INTRRUPT?UART
-    CALLER2: ?C_C51STARTUP
-Program Size: data=102.0 xdata=0 code=5281
-creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 16 Warning(s).
-compiling 4wire-1602.c...
-..\metal-cell\drivers\4wire-1602.c(194): warning C316: unterminated conditionals
-..\metal-cell\drivers\4wire-1602.c - 0 Error(s), 1 Warning(s).
-compiling 4wire-1602.c...
-..\metal-cell\drivers\4wire-1602.c - 0 Error(s), 0 Warning(s).
-Build target 'Target 1'
-compiling main.c...
-MAIN.C(23): warning C206: 'DS1302_init': missing function-prototype
-MAIN.C(46): warning C206: 'ds1302_test': missing function-prototype
-MAIN.C(47): warning C206: 'ds18b20_demo': missing function-prototype
-MAIN.C(59): warning C206: 'lcm1630_demo': missing function-prototype
-MAIN.C(60): warning C206: 'lcm1630_demo2': missing function-prototype
-compiling 3key.c...
-compiling timer0.c...
-compiling uart.c...
-compiling delay.c...
-compiling lcm1630.c...
-compiling ds18b20.c...
-compiling ds1302.c...
-compiling 4wire-1602.c...
-compiling timer.c...
-assembling _delay.s...
-compiling uprint.c...
-linking...
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?TIMER1_INIT?TIMER0
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?UART_DEMO?UART
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DS_DELAY?DS18B20
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?LCD_CLEAR?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DELAY?TIMER
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINT10?UPRINT
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINTLL?UPRINT
-*** WARNING L15: MULTIPLE CALL TO SEGMENT
-    SEGMENT: ?PR?_HD44870_SEND?4WIRE_1602
-    CALLER1: ?PR?UART_RECEIVER_INTRRUPT?UART
-    CALLER2: ?C_C51STARTUP
-*** WARNING L15: MULTIPLE CALL TO SEGMENT
-    SEGMENT: ?PR?_LCD_PUTS?4WIRE_1602
-    CALLER1: ?PR?UART_RECEIVER_INTRRUPT?UART
-    CALLER2: ?C_C51STARTUP
-Program Size: data=102.0 xdata=0 code=5123
-creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 15 Warning(s).
-Build target 'Target 1'
-compiling main.c...
-MAIN.C(23): warning C206: 'DS1302_init': missing function-prototype
-MAIN.C(46): warning C206: 'ds1302_test': missing function-prototype
-MAIN.C(47): warning C206: 'ds18b20_demo': missing function-prototype
-MAIN.C(59): warning C206: 'lcm1630_demo': missing function-prototype
-MAIN.C(60): warning C206: 'lcm1630_demo2': missing function-prototype
-compiling 3key.c...
-compiling timer0.c...
-compiling uart.c...
-compiling delay.c...
-compiling lcm1630.c...
-compiling ds18b20.c...
-compiling ds1302.c...
-compiling 4wire-1602.c...
-compiling timer.c...
-assembling _delay.s...
-compiling uprint.c...
-..\METAL-CELL\UPRINT.C(14): error C251: illegal octal digit
-..\METAL-CELL\UPRINT.C(14): error C251: illegal octal digit
-..\METAL-CELL\UPRINT.C(17): error C251: illegal octal digit
-..\METAL-CELL\UPRINT.C(17): error C251: illegal octal digit
+..\..\metal-cell\drivers\ds1302.c(8): warning C318: can't open file 'io.h'
+..\..\metal-cell\drivers\ds1302.c(9): warning C318: can't open file 'drivers/lcd.h'
+..\..\metal-cell\drivers\ds1302.c(10): warning C318: can't open file 'timer.h'
+..\..\metal-cell\drivers\ds1302.c(11): warning C318: can't open file 'bitops.h'
+..\..\METAL-CELL\DRIVERS\DS1302.C(24): error C202: 'P0': undefined identifier
+..\..\METAL-CELL\DRIVERS\DS1302.C(25): error C202: 'P0': undefined identifier
+..\..\METAL-CELL\DRIVERS\DS1302.C(26): error C202: 'P0': undefined identifier
+..\..\METAL-CELL\DRIVERS\DS1302.C(78): error C202: 'DS1302_SDA': undefined identifier
 Target not created
 Build target 'Target 1'
 compiling main.c...
-MAIN.C(23): warning C206: 'DS1302_init': missing function-prototype
-MAIN.C(46): warning C206: 'ds1302_test': missing function-prototype
-MAIN.C(47): warning C206: 'ds18b20_demo': missing function-prototype
-MAIN.C(59): warning C206: 'lcm1630_demo': missing function-prototype
-MAIN.C(60): warning C206: 'lcm1630_demo2': missing function-prototype
+MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
+MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
+MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
+MAIN.C(60): warning C206: 'lcm1630_demo': missing function-prototype
+MAIN.C(61): warning C206: 'lcm1630_demo2': missing function-prototype
 compiling 3key.c...
-compiling timer0.c...
 compiling uart.c...
 compiling delay.c...
-compiling lcm1630.c...
-compiling ds18b20.c...
-compiling ds1302.c...
-compiling 4wire-1602.c...
-..\metal-cell\drivers\4wire-1602.c(39): warning C317: attempt to redefine macro '_rswe'
-..\metal-cell\drivers\4wire-1602.c(40): warning C317: attempt to redefine macro '_data'
-..\metal-cell\drivers\4wire-1602.c(41): warning C312: misplaced endif control
-compiling timer.c...
-assembling _delay.s...
-compiling uprint.c...
-..\METAL-CELL\UPRINT.C(14): error C251: illegal octal digit
-..\METAL-CELL\UPRINT.C(14): error C251: illegal octal digit
-..\METAL-CELL\UPRINT.C(17): error C251: illegal octal digit
-..\METAL-CELL\UPRINT.C(17): error C251: illegal octal digit
-Target not created
-Build target 'Target 1'
-compiling main.c...
-MAIN.C(23): warning C206: 'DS1302_init': missing function-prototype
-MAIN.C(46): warning C206: 'ds1302_test': missing function-prototype
-MAIN.C(47): warning C206: 'ds18b20_demo': missing function-prototype
-MAIN.C(59): warning C206: 'lcm1630_demo': missing function-prototype
-MAIN.C(60): warning C206: 'lcm1630_demo2': missing function-prototype
-compiling 3key.c...
 compiling timer0.c...
-compiling uart.c...
-compiling delay.c...
+compiling uprint.c...
+compiling timer.c...
 compiling lcm1630.c...
+compiling 4wire-1602.c...
 compiling ds18b20.c...
 compiling ds1302.c...
-compiling 4wire-1602.c...
-compiling timer.c...
-assembling _delay.s...
-compiling uprint.c...
-..\METAL-CELL\UPRINT.C(14): error C251: illegal octal digit
-..\METAL-CELL\UPRINT.C(14): error C251: illegal octal digit
-..\METAL-CELL\UPRINT.C(17): error C251: illegal octal digit
-..\METAL-CELL\UPRINT.C(17): error C251: illegal octal digit
-Target not created
-Build target 'Target 1'
-compiling main.c...
-MAIN.C(23): warning C206: 'DS1302_init': missing function-prototype
-MAIN.C(46): warning C206: 'ds1302_test': missing function-prototype
-MAIN.C(47): warning C206: 'ds18b20_demo': missing function-prototype
-MAIN.C(59): warning C206: 'lcm1630_demo': missing function-prototype
-MAIN.C(60): warning C206: 'lcm1630_demo2': missing function-prototype
-compiling 3key.c...
-compiling timer0.c...
-compiling uart.c...
-compiling delay.c...
-compiling lcm1630.c...
-compiling ds18b20.c...
-compiling ds1302.c...
-compiling 4wire-1602.c...
-compiling timer.c...
-assembling _delay.s...
-compiling uprint.c...
 linking...
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?TIMER1_INIT?TIMER0
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?UART_DEMO?UART
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DS_DELAY?DS18B20
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?LCD_CLEAR?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DELAY?TIMER
+    SEGMENT: ?PR?TIMER1_INIT?TIMER0
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_PRINT10?UPRINT
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_PRINTLL?UPRINT
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY?TIMER
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?LCD_CLEAR?4WIRE_1602
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS_DELAY?DS18B20
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
 *** WARNING L15: MULTIPLE CALL TO SEGMENT
     SEGMENT: ?PR?_HD44870_SEND?4WIRE_1602
     CALLER1: ?PR?UART_RECEIVER_INTRRUPT?UART
@@ -398,23 +116,70 @@ linking...
     SEGMENT: ?PR?_LCD_PUTS?4WIRE_1602
     CALLER1: ?PR?UART_RECEIVER_INTRRUPT?UART
     CALLER2: ?C_C51STARTUP
-Program Size: data=102.0 xdata=0 code=5199
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  __2CYCLE
+    MODULE:  .\delay.obj (DELAY)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  __2CYCLE
+    MODULE:  .\delay.obj (DELAY)
+    ADDRESS: 13E4H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  __2CYCLE
+    MODULE:  .\delay.obj (DELAY)
+    ADDRESS: 13E9H
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  __2CYCLE
+    MODULE:  .\4wire-1602.obj (4WIRE_1602)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  __2CYCLE
+    MODULE:  .\4wire-1602.obj (4WIRE_1602)
+    ADDRESS: 07FDH
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  __2CYCLE
+    MODULE:  .\ds18b20.obj (DS18B20)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  __2CYCLE
+    MODULE:  .\ds18b20.obj (DS18B20)
+    ADDRESS: 1150H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  __2CYCLE
+    MODULE:  .\ds18b20.obj (DS18B20)
+    ADDRESS: 1157H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  __2CYCLE
+    MODULE:  .\ds18b20.obj (DS18B20)
+    ADDRESS: 1164H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  __2CYCLE
+    MODULE:  .\ds18b20.obj (DS18B20)
+    ADDRESS: 12ADH
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  __2CYCLE
+    MODULE:  .\ds18b20.obj (DS18B20)
+    ADDRESS: 12B4H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  __2CYCLE
+    MODULE:  .\ds18b20.obj (DS18B20)
+    ADDRESS: 12BFH
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  __2CYCLE
+    MODULE:  .\ds18b20.obj (DS18B20)
+    ADDRESS: 1220H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  __2CYCLE
+    MODULE:  .\ds18b20.obj (DS18B20)
+    ADDRESS: 1227H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  __2CYCLE
+    MODULE:  .\ds18b20.obj (DS18B20)
+    ADDRESS: 1232H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  __2CYCLE
+    MODULE:  .\ds18b20.obj (DS18B20)
+    ADDRESS: 1238H
+Program Size: data=102.0 xdata=0 code=5269
 creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 15 Warning(s).
-compiling main.c...
-MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
-MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
-MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
-MAIN.C(60): warning C206: 'lcm1630_demo': missing function-prototype
-MAIN.C(61): warning C206: 'lcm1630_demo2': missing function-prototype
-main.c - 0 Error(s), 5 Warning(s).
-compiling main.c...
-MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
-MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
-MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
-MAIN.C(60): warning C206: 'lcm1630_demo': missing function-prototype
-MAIN.C(61): warning C206: 'lcm1630_demo2': missing function-prototype
-main.c - 0 Error(s), 5 Warning(s).
+"51z-firmware" - 0 Error(s), 31 Warning(s).
 Build target 'Target 1'
 compiling main.c...
 MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
@@ -423,171 +188,33 @@ MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
 MAIN.C(60): warning C206: 'lcm1630_demo': missing function-prototype
 MAIN.C(61): warning C206: 'lcm1630_demo2': missing function-prototype
 compiling 3key.c...
-compiling timer0.c...
 compiling uart.c...
 compiling delay.c...
+compiling timer0.c...
+compiling uprint.c...
+compiling timer.c...
 compiling lcm1630.c...
+compiling 4wire-1602.c...
 compiling ds18b20.c...
 compiling ds1302.c...
-compiling 4wire-1602.c...
-compiling timer.c...
 assembling _delay.s...
-compiling uprint.c...
 linking...
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?TIMER1_INIT?TIMER0
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?UART_DEMO?UART
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DS_DELAY?DS18B20
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?LCD_CLEAR?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DELAY?TIMER
+    SEGMENT: ?PR?TIMER1_INIT?TIMER0
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_PRINT10?UPRINT
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_PRINTLL?UPRINT
-*** WARNING L15: MULTIPLE CALL TO SEGMENT
-    SEGMENT: ?PR?_HD44870_SEND?4WIRE_1602
-    CALLER1: ?PR?UART_RECEIVER_INTRRUPT?UART
-    CALLER2: ?C_C51STARTUP
-*** WARNING L15: MULTIPLE CALL TO SEGMENT
-    SEGMENT: ?PR?_LCD_PUTS?4WIRE_1602
-    CALLER1: ?PR?UART_RECEIVER_INTRRUPT?UART
-    CALLER2: ?C_C51STARTUP
-Program Size: data=102.0 xdata=0 code=5216
-creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 15 Warning(s).
-Build target 'Target 1'
-compiling main.c...
-MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
-MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
-MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
-MAIN.C(60): warning C206: 'lcm1630_demo': missing function-prototype
-MAIN.C(61): warning C206: 'lcm1630_demo2': missing function-prototype
-compiling 3key.c...
-compiling timer0.c...
-compiling uart.c...
-compiling delay.c...
-compiling lcm1630.c...
-compiling ds18b20.c...
-compiling ds1302.c...
-compiling 4wire-1602.c...
-compiling timer.c...
-assembling _delay.s...
-compiling uprint.c...
-linking...
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?TIMER1_INIT?TIMER0
+    SEGMENT: ?PR?_DELAY?TIMER
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?UART_DEMO?UART
+    SEGMENT: ?PR?LCD_CLEAR?4WIRE_1602
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_DS_DELAY?DS18B20
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?LCD_CLEAR?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DELAY?TIMER
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINT10?UPRINT
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINTLL?UPRINT
-*** WARNING L15: MULTIPLE CALL TO SEGMENT
-    SEGMENT: ?PR?_HD44870_SEND?4WIRE_1602
-    CALLER1: ?PR?UART_RECEIVER_INTRRUPT?UART
-    CALLER2: ?C_C51STARTUP
-*** WARNING L15: MULTIPLE CALL TO SEGMENT
-    SEGMENT: ?PR?_LCD_PUTS?4WIRE_1602
-    CALLER1: ?PR?UART_RECEIVER_INTRRUPT?UART
-    CALLER2: ?C_C51STARTUP
-Program Size: data=102.0 xdata=0 code=5200
-creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 15 Warning(s).
-Build target 'Target 1'
-compiling main.c...
-MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
-MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
-MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
-MAIN.C(60): warning C206: 'lcm1630_demo': missing function-prototype
-MAIN.C(61): warning C206: 'lcm1630_demo2': missing function-prototype
-compiling 3key.c...
-compiling timer0.c...
-compiling uart.c...
-compiling delay.c...
-compiling lcm1630.c...
-compiling ds18b20.c...
-compiling ds1302.c...
-compiling 4wire-1602.c...
-compiling timer.c...
-assembling _delay.s...
-compiling uprint.c...
-linking...
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?TIMER1_INIT?TIMER0
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?UART_DEMO?UART
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DS_DELAY?DS18B20
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?LCD_CLEAR?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DELAY?TIMER
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINT10?UPRINT
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINTLL?UPRINT
-*** WARNING L15: MULTIPLE CALL TO SEGMENT
-    SEGMENT: ?PR?_HD44870_SEND?4WIRE_1602
-    CALLER1: ?PR?UART_RECEIVER_INTRRUPT?UART
-    CALLER2: ?C_C51STARTUP
-*** WARNING L15: MULTIPLE CALL TO SEGMENT
-    SEGMENT: ?PR?_LCD_PUTS?4WIRE_1602
-    CALLER1: ?PR?UART_RECEIVER_INTRRUPT?UART
-    CALLER2: ?C_C51STARTUP
-Program Size: data=102.0 xdata=0 code=5200
-creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 15 Warning(s).
-Build target 'Target 1'
-compiling main.c...
-MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
-MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
-MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
-MAIN.C(60): warning C206: 'lcm1630_demo': missing function-prototype
-MAIN.C(61): warning C206: 'lcm1630_demo2': missing function-prototype
-compiling 3key.c...
-compiling timer0.c...
-compiling uart.c...
-compiling delay.c...
-compiling lcm1630.c...
-compiling ds18b20.c...
-compiling ds1302.c...
-compiling 4wire-1602.c...
-compiling timer.c...
-assembling _delay.s...
-compiling uprint.c...
-linking...
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?TIMER1_INIT?TIMER0
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?UART_DEMO?UART
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DS_DELAY?DS18B20
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?LCD_CLEAR?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DELAY?TIMER
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINT10?UPRINT
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINTLL?UPRINT
 *** WARNING L15: MULTIPLE CALL TO SEGMENT
     SEGMENT: ?PR?_HD44870_SEND?4WIRE_1602
     CALLER1: ?PR?UART_RECEIVER_INTRRUPT?UART
@@ -607,169 +234,33 @@ MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
 MAIN.C(60): warning C206: 'lcm1630_demo': missing function-prototype
 MAIN.C(61): warning C206: 'lcm1630_demo2': missing function-prototype
 compiling 3key.c...
-compiling timer0.c...
 compiling uart.c...
 compiling delay.c...
-compiling lcm1630.c...
-compiling ds18b20.c...
-compiling ds1302.c...
-compiling 4wire-1602.c...
-compiling timer.c...
-assembling _delay.s...
+compiling timer0.c...
 compiling uprint.c...
-linking...
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?TIMER1_INIT?TIMER0
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?UART_DEMO?UART
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DS_DELAY?DS18B20
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?LCD_CLEAR?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DELAY?TIMER
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINT10?UPRINT
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINTLL?UPRINT
-*** WARNING L15: MULTIPLE CALL TO SEGMENT
-    SEGMENT: ?PR?_HD44870_SEND?4WIRE_1602
-    CALLER1: ?PR?UART_RECEIVER_INTRRUPT?UART
-    CALLER2: ?C_C51STARTUP
-*** WARNING L15: MULTIPLE CALL TO SEGMENT
-    SEGMENT: ?PR?_LCD_PUTS?4WIRE_1602
-    CALLER1: ?PR?UART_RECEIVER_INTRRUPT?UART
-    CALLER2: ?C_C51STARTUP
-Program Size: data=102.0 xdata=0 code=5272
-creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 15 Warning(s).
-Build target 'Target 1'
-compiling main.c...
-MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
-MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
-MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
-MAIN.C(60): warning C206: 'lcm1630_demo': missing function-prototype
-MAIN.C(61): warning C206: 'lcm1630_demo2': missing function-prototype
-compiling 3key.c...
-compiling timer0.c...
-compiling uart.c...
-compiling delay.c...
+compiling timer.c...
 compiling lcm1630.c...
+compiling 4wire-1602.c...
 compiling ds18b20.c...
 compiling ds1302.c...
-compiling 4wire-1602.c...
-compiling timer.c...
-linking...
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?TIMER1_INIT?TIMER0
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?UART_DEMO?UART
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DS_DELAY?DS18B20
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?LCD_CLEAR?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DELAY?TIMER
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINT10?UPRINT
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINTLL?UPRINT
-*** WARNING L15: MULTIPLE CALL TO SEGMENT
-    SEGMENT: ?PR?_HD44870_SEND?4WIRE_1602
-    CALLER1: ?PR?UART_RECEIVER_INTRRUPT?UART
-    CALLER2: ?C_C51STARTUP
-*** WARNING L15: MULTIPLE CALL TO SEGMENT
-    SEGMENT: ?PR?_LCD_PUTS?4WIRE_1602
-    CALLER1: ?PR?UART_RECEIVER_INTRRUPT?UART
-    CALLER2: ?C_C51STARTUP
-Program Size: data=102.0 xdata=0 code=5272
-creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 15 Warning(s).
-Build target 'Target 1'
-compiling main.c...
-MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
-MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
-MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
-MAIN.C(60): warning C206: 'lcm1630_demo': missing function-prototype
-MAIN.C(61): warning C206: 'lcm1630_demo2': missing function-prototype
-compiling 3key.c...
-compiling timer0.c...
-compiling uart.c...
-compiling delay.c...
-compiling lcm1630.c...
-compiling ds18b20.c...
-compiling ds1302.c...
-compiling 4wire-1602.c...
-compiling timer.c...
 assembling _delay.s...
-compiling uprint.c...
 linking...
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?TIMER1_INIT?TIMER0
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?UART_DEMO?UART
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DS_DELAY?DS18B20
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?LCD_CLEAR?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DELAY?TIMER
+    SEGMENT: ?PR?TIMER1_INIT?TIMER0
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_PRINT10?UPRINT
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_PRINTLL?UPRINT
-*** WARNING L15: MULTIPLE CALL TO SEGMENT
-    SEGMENT: ?PR?_HD44870_SEND?4WIRE_1602
-    CALLER1: ?PR?UART_RECEIVER_INTRRUPT?UART
-    CALLER2: ?C_C51STARTUP
-*** WARNING L15: MULTIPLE CALL TO SEGMENT
-    SEGMENT: ?PR?_LCD_PUTS?4WIRE_1602
-    CALLER1: ?PR?UART_RECEIVER_INTRRUPT?UART
-    CALLER2: ?C_C51STARTUP
-Program Size: data=102.0 xdata=0 code=5272
-creating hex file from "51z-firmware"...
-"51z-firmware" - 0 Error(s), 15 Warning(s).
-Build target 'Target 1'
-compiling main.c...
-MAIN.C(24): warning C206: 'DS1302_init': missing function-prototype
-MAIN.C(47): warning C206: 'ds1302_test': missing function-prototype
-MAIN.C(48): warning C206: 'ds18b20_demo': missing function-prototype
-MAIN.C(60): warning C206: 'lcm1630_demo': missing function-prototype
-MAIN.C(61): warning C206: 'lcm1630_demo2': missing function-prototype
-compiling 3key.c...
-compiling timer0.c...
-compiling uart.c...
-compiling delay.c...
-compiling lcm1630.c...
-compiling ds18b20.c...
-compiling ds1302.c...
-compiling 4wire-1602.c...
-compiling timer.c...
-assembling _delay.s...
-compiling uprint.c...
-linking...
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?TIMER1_INIT?TIMER0
+    SEGMENT: ?PR?_DELAY?TIMER
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?UART_DEMO?UART
+    SEGMENT: ?PR?LCD_CLEAR?4WIRE_1602
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_DS_DELAY?DS18B20
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_DS1302_CURTIME_GET?DS1302
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?LCD_CLEAR?4WIRE_1602
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_DELAY?TIMER
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINT10?UPRINT
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_PRINTLL?UPRINT
 *** WARNING L15: MULTIPLE CALL TO SEGMENT
     SEGMENT: ?PR?_HD44870_SEND?4WIRE_1602
     CALLER1: ?PR?UART_RECEIVER_INTRRUPT?UART
