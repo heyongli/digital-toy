@@ -43,7 +43,12 @@
 //if not use 595
 #define METAL_4W1602_DATA_PORT  P2
 #define METAL_4W1602_RSWE_PORT  P2 
-
+/* bus4w
+ *  |d4| d5| d6 | d7 | _EN RW  RS  BL |
+ *   0   1    2   3     4   5   6  7 
+ */
+#define  _rswe() METAL_4W1602_RSWE_PORT= ((bus4w&0xF0)|(METAL_4W1602_RSWE_PORT&0x0F))
+#define  _data() METAL_4W1602_DATA_PORT= ((_swap8(bus4w)&0xF0)>>4) |((METAL_4W1602_RSWE_PORT&0xF0))
 
 
 
