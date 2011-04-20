@@ -3,14 +3,14 @@
  *  hyl 2011.2.21
  */
 
-
-#include <AT89X52.H>
-#include <intrins.h>  /* _nop_ */
-#include <math.h>  /*abs*/
 #include <config.h>
-#include <1602.h>
-#include <delay.h>
+#include <metal-io.H>
+
+#include <drivers/lcd.h>
+#include <timer.h>
 #include <bitops.h>
+
+#include <math.h>  /*abs*/
 
 
 #define DS18B20_CONVERT_TEMP     0x44
@@ -46,7 +46,7 @@ void ds_delay(unsigned char i)
      
    //Read the slave : slave pull low from 40uS ->40us+120us
    if(0==ds);
-   else { hd44870_send('!',0);}
+   else { lcd_putc('!');}
     
    _delay_us(480);
 
@@ -56,7 +56,7 @@ void ds_delay(unsigned char i)
 	ds=1;
 
 	if(ds==1);//ok
-	else  hd44870_send('@',0);
+	else  lcd_putc('@');
 }
 
 /*60us for one read time slot*/
@@ -174,7 +174,6 @@ short ds18b20_get_result()
 }
 
 
-#define lcd_putc(c) hd44870_send(c,0)
 char hex2c(char hex) ;
 
 void display(int n)

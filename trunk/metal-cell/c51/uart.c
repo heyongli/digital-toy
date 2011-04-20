@@ -5,10 +5,10 @@
 
 #include <AT89X52.H>
 #include <intrins.h>  /* _nop_ */
-#include <delay.h>
 #include <bitops.h>
-#include <1602.h>
-#include <timer.h> /*cli sti*/
+#include <drivers/lcd.h>
+#include <metal-io.h> /*cli sti*/
+
 
 
 /* 11M or 11.0592M, BaduRate 9600	*/

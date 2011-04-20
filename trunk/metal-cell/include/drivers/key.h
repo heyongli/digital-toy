@@ -3,7 +3,7 @@
 
 #include <bitops.h>
 #include <timer.h>
-#include <atmel/avr-io.h>
+#include <metal-io.h>
 
 
 #define _key_init() \
@@ -31,3 +31,7 @@
        return 0;
 
 #endif
+
+
+unsigned char key(unsigned char key);
+

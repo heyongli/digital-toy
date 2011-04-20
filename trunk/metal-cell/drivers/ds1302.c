@@ -5,11 +5,10 @@
  */
 
 
-#include <AT89X52.H>
-#include <intrins.h>  /* _nop_ */
+#include <metal-io.h>
 #include <config.h>
-#include <1602.h>
-#include <delay.h>
+#include <drivers/lcd.h>
+#include <timer.h>
 #include <bitops.h>
 
 

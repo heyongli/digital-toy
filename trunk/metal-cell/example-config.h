@@ -9,20 +9,23 @@
  *   
  */
 
+/* select CPU  ARCH */
+#define ARCH_AVR 1
+//#define ARCH_C51 1
 
 
-//////////////////////////////////////////////////////////////////////
-//Timer resource 
-#undef METAL_CELL_TIMER0    //metal cell use timer0 update jiffers
+/*////////////////////////////////////////////////////////////////////// */
+/* Timer resource  */
+#undef METAL_CELL_TIMER0    /*metal cell use timer0 update jiffers */
 //#define METAL_CELL_TIMER0 1
 
 
 
 
-//////////////////////////////////////////////////////////////////////
+/*////////////////////////////////////////////////////////////////////// */
 //4W 1602 LCD
 #define METAL_4W1602_VIA_74HC595  1  //use 4w 1602 via 74hc595
-//74HC595 
+/* 74HC595  */
 #define METAL_4W1602_74HC595_PORT   PORTB
 //if not use 595
 //#define METAL_4W1602_DATA_PORT  PORTD 
@@ -31,8 +34,8 @@
 
 
 
-//////////////////////////////////////////////////////////////////////
-//74HC595 
+/*////////////////////////////////////////////////////////////////////// */
+/*74HC595 */
 #define METAL_74HC595_PORT METAL_4W1602_74HC595_PORT
 #define  METAL_74HC595_CLK    5    /* raise-edge , shift clock: 74HC595 pin 11*/
 #define  METAL_74HC595_LATCH  4	 /* raise-edge output to Qx, latch clock: 74HC595 pin 12*/
@@ -42,15 +45,12 @@
 
 
 
-//////////////////////////////////////////////////////////////////////
-//METAL 3 button key
+/*////////////////////////////////////////////////////////////////////// */
+/* METAL 3 button key */
 #define METAL_KEY_PORT   
 #define METAL_KEYUP  	 0
 #define METAL_KEYDOWN  1
 #define METAL_KEYOK    2
-
-
-
 
 
 #endif
