@@ -1,24 +1,77 @@
-#ifndef  _CONFIG_H_
-#define _CONFIG_H_
+#ifndef METAL_CELL_RESOURCE
+#define METAL_CELL_RESOURCE
 
 /*
- * 端口分配
+ *Fuse config:
+ * 	CKSEL: 0111   外部满幅晶振，CLKDIV8:1 ==> 10M 其他默认
+ *  SUT：  11   16K CK/65ms
+ *  low byte:77  high byte: DF  exten byte: f9
+ *   
  */
+
+/* select CPU  ARCH */
+//#define ARCH_AVR 1
+#define ARCH_C51 1
+
+
+//C51 F_CPU define 
+#ifndef F_CPU
+#ifdef   ARCH_C51
+#define  F_CPU 12000000UL
+#endif
+#endif
+
+
+
+
+
+
+
+/*////////////////////////////////////////////////////////////////////// */
+/* Timer resource  */
+#undef METAL_CELL_TIMER0    /*metal cell use timer0 update jiffers */
+//#define METAL_CELL_TIMER0 1
+
+
+
+
+/*////////////////////////////////////////////////////////////////////// */
+//4W 1602 LCD
+#define METAL_4W1602_VIA_74HC595  1  //use 4w 1602 via 74hc595
+/* 74HC595  */
+#define METAL_4W1602_74HC595_PORT   PORTB
+//if not use 595
+//#define METAL_4W1602_DATA_PORT  PORTD 
+//#define METAL_4W1602_RSWE_PORT  PORTC  
+
+
+
+
+/*////////////////////////////////////////////////////////////////////// */
+/*74HC595 */
+#define METAL_74HC595_PORT METAL_4W1602_74HC595_PORT
+#define  METAL_74HC595_CLK    5    /* raise-edge , shift clock: 74HC595 pin 11*/
+#define  METAL_74HC595_LATCH  4	 /* raise-edge output to Qx, latch clock: 74HC595 pin 12*/
+#define  METAL_74HC595_SDI    3	 /* CLK raise edge deposit, sserial data in: 74HC595 pin14*/
+
+
+
+
+
+/*////////////////////////////////////////////////////////////////////// */
+/* METAL 3 button key */
+#define METAL_KEY_PORT   
+#define METAL_KEYUP  	 0
+#define METAL_KEYDOWN  1
+#define METAL_KEYOK    2
 
 
 // P2 ：0...4: 4x8 block select, 4 is the vled, /1602 chip select
 //      5:current AD   6:   7:PWM driver
 
-
-							                                     
-
-#include <AT89X52.H>
-
+	
 #define BLK P2_7
 #define LCD_PORT P2
-
-
-#include <delay.h>
 
 
 // P3_1.. P3-3: 3 keys
@@ -27,24 +80,11 @@
 #define KEY_UP		0x2/*(1<<2)*/  /*UP*/
 #define KEY_DOWN    0x4/*(1<<3)*/  /*DOWN*/
 #define KEY_ALL     (KEY_OK|KEY_UP|KEY_DOWN)
-#include <3key.h>
-
-
-#include <timer.h>
-
-#include <pwm.h>
-
-
-
-// P0 : 0...8: 3x8 segment select  
-// P3_4 P3_5  P3_6 : digi select  ://external jumper
-#define segENA1  P3_4
-#define segENA2  P3_5
-#define segENA3  P3_6
-#define segData	 P0
-
-#include <3digi-seg.h>
-
-
 
 #endif
+
+
+
+
+
+

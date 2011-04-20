@@ -1,13 +1,12 @@
-#include "config.h"
-#include <adc.h>
-#include <pwm.h>
 
-#include <adc0832.h>
+#include <config.h>
+//#include <drivers/adc0832.h>
+//#include <charger.h>
+#include <drivers/lcd.h>
+#include <drivers/4wire-1602.h>
 
-#include <charger.h>
-
-#include <1602.h>
-#include <timer.h>
+//#include <timer.h>
+#include <drivers/key.h>
 
 
 
