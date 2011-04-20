@@ -4,9 +4,8 @@
  *  hyl 2011.2.21
  */
 
-
-#include <metal-io.h>
 #include <config.h>
+#include <io.h>
 #include <drivers/lcd.h>
 #include <timer.h>
 #include <bitops.h>

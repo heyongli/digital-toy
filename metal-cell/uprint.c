@@ -3,15 +3,24 @@
 #include <drivers/lcd.h> //common system driver
 
 
-
 char hex2c(char hex)
 {
 
    if(hex<0xa)
       return '0'+hex;
    else
-      return 'a'+hex-0xa;
+      return 'a'+hex-0xa;		   
 }
+
+lcd_showhex(unsigned char x)
+{
+  
+    lcd_putc(hex2c(((x&0xF0)>>4)));
+    lcd_putc(hex2c((x&0xF)));
+
+}
+
+
 
 
 void print10(unsigned short n)
