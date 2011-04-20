@@ -12,7 +12,7 @@
 #include <config.h>
 #include <timer.h>  //uC system files
 #include <drivers/74hc595.h>  
-#include <metal-io.h>
+#include <io.h>
 #include <bitops.h>
 
 
@@ -149,6 +149,9 @@ void lcd_puts(char *s)
     }
      
 }
+
+
+
 
 void lcd_clear()
 {

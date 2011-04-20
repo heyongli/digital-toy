@@ -4,7 +4,7 @@
  */
 
 #include <config.h>
-#include <metal-io.H>
+#include <io.H>
 
 #include <drivers/lcd.h>
 #include <timer.h>

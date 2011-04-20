@@ -3,7 +3,7 @@
 
 #include <bitops.h>
 #include <timer.h>
-#include <metal-io.h>
+#include <io.h>
 
 
 #define _key_init() \
