@@ -18,6 +18,7 @@ void io_init()
    //timer1_init(); //1ms
    lcd1602_init();
    lcd_cursor(0,0);
+   lcd_puts("demo!!!");
    //adc_init(); 
    sti();   //enable global interrupt		
    DS1302_init();    
@@ -62,7 +63,7 @@ void main()
    while(1){
 		   
 	   update_lcd();
-	   uart_demo();
+	   // uart_demo();
    }
   
   
