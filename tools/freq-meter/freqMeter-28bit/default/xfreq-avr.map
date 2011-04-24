@@ -156,7 +156,7 @@ LOAD C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000     0x1666
+.text           0x00000000     0x1678
  *(.vectors)
  .vectors       0x00000000       0x26 C:/WinAVR/bin/../lib/gcc/avr/3.4.6/../../../../avr/lib/avr4/crtm8.o
                 0x00000000                __vectors
@@ -205,77 +205,77 @@ LOAD C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a
                 0x0000005a                __vector_10
                 0x0000005a                __vector_16
                 0x0000005a                __vector_18
- .text          0x0000005c      0x498 freq-meter.o
-                0x00000472                freq_main
+ .text          0x0000005c      0x4aa freq-meter.o
+                0x00000484                freq_main
                 0x00000148                reset
-                0x00000350                post_display
-                0x00000342                v_filter
+                0x00000362                post_display
+                0x00000354                v_filter
                 0x000000b8                counter_init
                 0x00000166                __vector_4
                 0x0000005c                read_411
                 0x00000126                __vector_8
                 0x0000015a                start
                 0x00000162                stop
-                0x00000454                setup_timers
-                0x0000045e                setup_interrupts
- .text          0x000004f4       0x10 main.o
-                0x000004f4                main
- .text          0x00000504       0xde avr-io.o
-                0x00000578                __port_pullup
-                0x00000504                __port_mode
- .text          0x000005e2       0x3c adc.o
-                0x000005f6                _adc
-                0x000005e2                adc_init
- .text          0x0000061e       0x76 74hc595.o
-                0x00000634                shiftout
-                0x00000626                init_74hc595
-                0x0000067a                write_74hc595
- .text          0x00000694      0x124 4wire-1602.o
-                0x000007b2                lcd_putc
-                0x000007a6                lcd_clear
-                0x00000694                io_delay
-                0x0000069c                io_50ms
-                0x00000770                lcd_cursor
-                0x00000788                lcd_puts
-                0x0000073a                lcd1602_init
- .text          0x000007b8       0x44 timer.o
-                0x000007b8                delay
- .text          0x000007fc      0x2b8 uprint.o
-                0x00000878                print10
-                0x000008cc                printLL
-                0x00000858                lcd_showhex
-                0x00000848                hex2c
-                0x000007fc                _swap8
- .text          0x00000ab4       0x4c C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a(_fixunssfsi.o)
-                0x00000ab4                __fixunssfsi
- .text          0x00000b00      0x2f8 C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a(_addsub_sf.o)
-                0x00000d9a                __subsf3
-                0x00000d44                __addsf3
- .text          0x00000df8      0x22c C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a(_mul_sf.o)
-                0x00000df8                __mulsf3
- .text          0x00001024       0x62 C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a(_ge_sf.o)
-                0x00001024                __gesf2
- .text          0x00001086       0xc2 C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a(_si_to_sf.o)
-                0x00001086                __floatsisf
- .text          0x00001148       0x9e C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a(_sf_to_si.o)
-                0x00001148                __fixsfsi
- .text          0x000011e6      0x1cc C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a(_pack_sf.o)
-                0x000011e6                __pack_f
- .text          0x000013b2       0xf4 C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a(_unpack_sf.o)
-                0x000013b2                __unpack_f
- .text          0x000014a6       0xe6 C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a(_fpcmp_parts_sf.o)
-                0x000014a6                __fpcmp_parts_f
-                0x0000158c                . = ALIGN (0x2)
+                0x00000466                setup_timers
+                0x00000470                setup_interrupts
+ .text          0x00000506       0x10 main.o
+                0x00000506                main
+ .text          0x00000516       0xde avr-io.o
+                0x0000058a                __port_pullup
+                0x00000516                __port_mode
+ .text          0x000005f4       0x3c adc.o
+                0x00000608                _adc
+                0x000005f4                adc_init
+ .text          0x00000630       0x76 74hc595.o
+                0x00000646                shiftout
+                0x00000638                init_74hc595
+                0x0000068c                write_74hc595
+ .text          0x000006a6      0x124 4wire-1602.o
+                0x000007c4                lcd_putc
+                0x000007b8                lcd_clear
+                0x000006a6                io_delay
+                0x000006ae                io_50ms
+                0x00000782                lcd_cursor
+                0x0000079a                lcd_puts
+                0x0000074c                lcd1602_init
+ .text          0x000007ca       0x44 timer.o
+                0x000007ca                delay
+ .text          0x0000080e      0x2b8 uprint.o
+                0x0000088a                print10
+                0x000008de                printLL
+                0x0000086a                lcd_showhex
+                0x0000085a                hex2c
+                0x0000080e                _swap8
+ .text          0x00000ac6       0x4c C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a(_fixunssfsi.o)
+                0x00000ac6                __fixunssfsi
+ .text          0x00000b12      0x2f8 C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a(_addsub_sf.o)
+                0x00000dac                __subsf3
+                0x00000d56                __addsf3
+ .text          0x00000e0a      0x22c C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a(_mul_sf.o)
+                0x00000e0a                __mulsf3
+ .text          0x00001036       0x62 C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a(_ge_sf.o)
+                0x00001036                __gesf2
+ .text          0x00001098       0xc2 C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a(_si_to_sf.o)
+                0x00001098                __floatsisf
+ .text          0x0000115a       0x9e C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a(_sf_to_si.o)
+                0x0000115a                __fixsfsi
+ .text          0x000011f8      0x1cc C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a(_pack_sf.o)
+                0x000011f8                __pack_f
+ .text          0x000013c4       0xf4 C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a(_unpack_sf.o)
+                0x000013c4                __unpack_f
+ .text          0x000014b8       0xe6 C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a(_fpcmp_parts_sf.o)
+                0x000014b8                __fpcmp_parts_f
+                0x0000159e                . = ALIGN (0x2)
  *(.text.*)
- .text.libgcc   0x0000158c       0x28 C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a(_udivmodhi4.o)
-                0x0000158c                __udivmodhi4
- .text.libgcc   0x000015b4       0x44 C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a(_udivmodsi4.o)
-                0x000015b4                __udivmodsi4
- .text.libgcc   0x000015f8       0x38 C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a(_prologue.o)
-                0x000015f8                __prologue_saves__
- .text.libgcc   0x00001630       0x36 C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a(_epilogue.o)
-                0x00001630                __epilogue_restores__
-                0x00001666                . = ALIGN (0x2)
+ .text.libgcc   0x0000159e       0x28 C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a(_udivmodhi4.o)
+                0x0000159e                __udivmodhi4
+ .text.libgcc   0x000015c6       0x44 C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a(_udivmodsi4.o)
+                0x000015c6                __udivmodsi4
+ .text.libgcc   0x0000160a       0x38 C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a(_prologue.o)
+                0x0000160a                __prologue_saves__
+ .text.libgcc   0x00001642       0x36 C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a(_epilogue.o)
+                0x00001642                __epilogue_restores__
+                0x00001678                . = ALIGN (0x2)
  *(.fini9)
  *(.fini8)
  *(.fini7)
@@ -286,9 +286,9 @@ LOAD C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a
  *(.fini2)
  *(.fini1)
  *(.fini0)
-                0x00001666                _etext = .
+                0x00001678                _etext = .
 
-.data           0x00800060       0x2a load address 0x00001666
+.data           0x00800060       0x2a load address 0x00001678
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800060       0x21 freq-meter.o
@@ -320,8 +320,8 @@ LOAD C:/WinAVR/lib/gcc/avr/3.4.6/avr4\libgcc.a
                 0x0080009e                scounter
                 0x008000a2                sTCNT1L
                 0x008000a3                PROVIDE (__bss_end, .)
-                0x00001666                __data_load_start = LOADADDR (.data)
-                0x00001690                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00001678                __data_load_start = LOADADDR (.data)
+                0x000016a2                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x008000a3        0x0
                 0x008000a3                PROVIDE (__noinit_start, .)

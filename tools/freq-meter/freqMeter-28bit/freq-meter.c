@@ -97,7 +97,7 @@ void counter_init()
 
 
 #define factor (1.19) //Time base for 10 Mhz CLK, calibrate this value
-#define cal   (1+0)
+#define cal   (1+0.001831348)
 
 unsigned char T1_ovc=0; //Store the number of overflows of COUNTER1
 volatile unsigned long frequency; //the last calculated frequency is stored here
