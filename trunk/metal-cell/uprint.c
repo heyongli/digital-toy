@@ -61,7 +61,8 @@ void printLL(unsigned long n, char dot, char prec)
      //irqoff();
 	 char frac=0,sf=0;
 
-	 lcd_putc(hex2c(n/10000000));
+	 if(n/10000000)
+	 	lcd_putc(hex2c(n/10000000));
 	 n = n%10000000;
 	 if(7==dot){
 	 	lcd_putc('.');
