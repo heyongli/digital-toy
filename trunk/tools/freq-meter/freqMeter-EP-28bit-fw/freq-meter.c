@@ -40,6 +40,7 @@ void post_display(long number);
 #define CLK_165  PC1
 #define SO_165   PC2
 
+
 unsigned short read_011()
 {
 	unsigned short add=0;
@@ -79,26 +80,70 @@ unsigned short read_011()
 	return add;
 }
 
+
+#define REF165_PORT PORTC
+#define SH_REF165   PD3
+#define CLK_REF165  PD4
+#define SO_REF165   PD5
+
+unsigned short ref_011()
+{
+	unsigned short add=0;
+	unsigned char i=0;
+
+
+	_clear_bit(REF165_PORT,SH_REF165); //recept parallen load data, lockit 
+	_delay_us(10);
+	_set_bit(REF165_PORT,SH_REF165);  //lock it
+	_delay_ms(1);
+
+  	
+	_clear_bit(REF165_PORT,CLK_REF165);
+	for (i=0;i<8;i++)
+	{
+		if(_test_bit(_inb(REF165_PORT),SO_REF165))
+   			_set_bit(add,7-i); //上电后QH的值即是165的第8位值，可以直接赋值完后，给165上升沿读取下个数据
+   		
+		_clear_bit(REF165_PORT,CLK_REF165);
+		_delay_us(7);
+		_set_bit(REF165_PORT,CLK_REF165);
+		_delay_us(7);
+		
+	}
+	for (i=0;i<8;i++)
+	{
+		if(_test_bit(_inb(REF165_PORT),SO_REF165))
+   			_set_bit(add,15-i); //上电后QH的值即是165的第8位值，可以直接赋值完后，给165上升沿读取下个数据
+   		
+		_clear_bit(REF165_PORT,CLK_REF165);
+		_delay_us(7);
+		_set_bit(REF165_PORT,CLK_REF165);
+		_delay_us(7);
+		
+	}
+	
+	return add;
+}
+
 void counter_init()
 {
 
-  //PD6/PD7  output, 161/393 control
+  //PD4,PD6/PD7  output, 161/393 control
   _pins_mode(PORTD,PD6,PD7,OUTPUT);
   _pins_mode(PORTD,PD4,PD4,OUTPUT);
   
-  //PD0-PD3 161 data in
-  _pins_mode(PORTD, 0,PD3,INPUT);
-  _pins_pullup(PORTD,0,PD3,FLOAT);
-  
-
   //PC0, 1,2
   // PORTC=0xFF;
   _pins_mode(HC165_PORT,PC0,PC1,OUTPUT);
   _pins_mode(HC165_PORT,PC2,PC2,INPUT);
   _pins_pullup(HC165_PORT,PC2,PC2,FLOAT);
   
-
-  //T1 input init
+  //PC3,4,5 ref clock
+  _pins_mode(REF165_PORT,SH_REF165,CLK_REF165,OUTPUT);
+  _pins_mode(REF165_PORT,SO_REF165,SO_REF165,INPUT);
+  _pins_pullup(REF165_PORT,SO_REF165,SO_REF165,FLOAT);
+  
+  //PD5, T1 input init
   _pins_mode(PORTD, 0,PIND5,INPUT);
   _pins_pullup(PORTD,0,PIND5,FLOAT);
 
@@ -110,14 +155,9 @@ void counter_init()
 }
 
 
-
-#define factor (1+0.006686781) //Time base for 10 Mhz CLK, calibrate this value
-
-
 unsigned char T1_ovc=0; //Store the number of overflows of COUNTER1
 volatile unsigned long frequency; //the last calculated frequency is stored here
-
-
+volatile unsigned long f_ref = 1234; 
 
 //Atemel external clock source MAX< F_CPU/2.5, 8M/2.5=3.2M
 
@@ -163,6 +203,10 @@ void stop()
 volatile char gate =0;
 SIGNAL(SIG_OVERFLOW2) 
 {
+	static char loop=0;
+	if(loop++<20)
+		return;
+    loop=0;
  	stop();
 	gate=1;
 }
@@ -201,12 +245,13 @@ void calc_freq()
 {
 
     //timer 2 overflow: measure frequency
-	frequency  = ((unsigned long)read_011()); //12bit precounter
+ 	frequency  = ((unsigned long)read_011()); //12bit precounter
 	frequency |= (((unsigned long)TCNT1)<<12);  //16bit
     frequency |= ((unsigned long)T1_ovc)<<28;
-   	//if use around 1s sample, no filter is needed, it's accuracy and stable if time is long..	
-	
-	//frequency =  (unsigned long)((float)frequency*factor*cal);
+ 
+    f_ref = ref_011();
+
+	frequency = ((float)42000)*((float)frequency/(float)f_ref);
 
     reset();
 	TCNT2= 0;
@@ -215,8 +260,6 @@ void calc_freq()
 }
 
 
-char loop=1;
-unsigned long f=0;
 void freq_main(void) 
 {
 
@@ -232,16 +275,8 @@ void freq_main(void)
 
  	while(1) {
 		if(gate){
-		    loop++;
-			calc_freq();
-			f+=frequency;
-
-			if(loop==39){
-				frequency = f*factor;
-				post_display(frequency);
-				f=0;
-				loop=1;
-			}
+		  	calc_freq();
+			post_display(frequency);
 		}
 			
   	}
@@ -295,6 +330,8 @@ void post_display(long number)
 	}
 
 	lcd_cursor(0,1);
+	printLL(f_ref,0,0);
+
 #if 0	//don't enable adc, adc confilic with the freqmeter...., OOOOPs
 
 	{
