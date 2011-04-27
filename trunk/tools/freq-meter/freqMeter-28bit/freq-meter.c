@@ -15,6 +15,7 @@
 #define ENP_161 PD6
 #define start_c() _set_bit(PORTD,PD6)
 #define stop_c()  _clear_bit(PORTD,PD6)
+#define is_stop() _test_bit(PORTD,PD6)
 
 #define RST_161 PD7 
 #define reset_161()   _clear_bit(PORTD,PD7)
@@ -96,8 +97,8 @@ void counter_init()
 
 
 
-#define factor (1.19) //Time base for 10 Mhz CLK, calibrate this value
-#define cal   (1+0.001831348)
+#define factor (1+0.006300791) //Time base for 10 Mhz CLK, calibrate this value
+
 
 unsigned char T1_ovc=0; //Store the number of overflows of COUNTER1
 volatile unsigned long frequency; //the last calculated frequency is stored here
@@ -149,40 +150,17 @@ void stop()
 }
 
 
+volatile char gate =0;
 SIGNAL(SIG_OVERFLOW2) 
 {
- 
-	jiffers++;
-    T2_ovc++;
-	if((T2_ovc&0x1F)!=0)  //adc confict with freq counter, so if there is 0xF, show 000000HZ, but with 0x7, 0x3ok, so wired....
-		return;		
-	
-	stop();
-
-	//timer 2 overflow: measure frequency
-	frequency =  (unsigned long)read_03(); //4bit
-	frequency |= ((unsigned long)read_411())<<4;
-    frequency |= ((unsigned long)TCNT1)<<12;
-    frequency |= ((unsigned long)T1_ovc)<<28;
-
-   	//if use around 1s sample, no filter is needed, it's accuracy and stable if time is long..	
-	
-	frequency =  (unsigned long)((float)frequency*factor*cal);
-	
-
-    reset();
-
-	TCNT2= 0;
-	start();
-
-
+ 	stop();
+	gate=1;
 }
 
 
 
 
-
-
+#if 0
 unsigned int vc=0, vl=0; //simple filter
 unsigned long v_filter()
 {
@@ -197,7 +175,7 @@ unsigned long v_filter()
 		vl=vc;
 	}
 }
-
+#endif
 void post_display(long number)
 {
 	static char xx=0;
@@ -209,17 +187,13 @@ void post_display(long number)
 	if((number>999)&&(number<999999)){
 	   printLL(number,3,3);
 	   lcd_puts("KHz");
-	    lcd_putc(xx);
-	    xx++;
      	lcd_puts("      ");
 
 	}
 
     if(number>999999){
-	   printLL(number,6,4); //omit xxHz
+	   printLL(number,6,6); //omit xxHz
 	   lcd_puts("MHz");
-	    lcd_putc(xx);
-	    xx++;
        lcd_puts("     ");
 
    	
@@ -229,11 +203,7 @@ void post_display(long number)
 	
 	   printLL(number,0,0);
 	   lcd_puts("Hz");
-	   lcd_putc(xx);
-	    xx++;
-     	lcd_puts("        ");
-	
-   	
+	   lcd_puts("        ");
 	}
 
 	lcd_cursor(0,1);
@@ -258,17 +228,11 @@ void post_display(long number)
 	
 	}
 #endif
- 	print10(TCNT1L);
-	lcd_putc(' ');
- 	print10(TCNT1H);
-    lcd_putc(' ');
- 	print10(T1_ovc);
-
 }
 
 void setup_timers(){
 	TCCR1A = 0x00; //Setup TC1 to count PD5/T1
-	TCCR1B = 0x07; //TC1 up edge triger
+	TCCR1B = 0x06; //TC1 down edge triger (from 393, so use down edge triger for correct count
 	
 	TCCR2 = 0x07;  //TC2 counts Clock_io/1024, use as time base caller 
 
@@ -294,8 +258,27 @@ void setup_interrupts()
 
 
 
-unsigned int display_refresh; //counter used for the refresh rate
+calc_freq()
+{
 
+    //timer 2 overflow: measure frequency
+	frequency =  (unsigned long)read_03(); //4bit
+	frequency |= ((unsigned long)read_411())<<4; //8bit
+	frequency |= (((unsigned long)TCNT1)<<12);  //16bit
+    frequency |= ((unsigned long)T1_ovc)<<28;
+   	//if use around 1s sample, no filter is needed, it's accuracy and stable if time is long..	
+	
+	//frequency =  (unsigned long)((float)frequency*factor*cal);
+
+    reset();
+	TCNT2= 0;
+	start();
+	gate=0;
+}
+
+
+char loop=1;
+unsigned long f=0;
 void freq_main(void) 
 {
 
@@ -306,22 +289,23 @@ void freq_main(void)
 	setup_interrupts();
 	counter_init();
 
-    stop();
-    reset();
-	start();
-	TCNT2= 0;
-
-
- 	//for testing
-	display_refresh=jiffers;
 
-   	while(1) {             // Infinite loop
-	  	if (timeafter(jiffers,display_refresh+38/4)){
-		   	display_refresh=jiffers;
-			post_display(frequency);
-		}
-	
-	   
+    calc_freq();
+
+ 	while(1) {
+		if(gate){
+		    loop++;
+			calc_freq();
+			f+=frequency;
+
+			if(loop==39){
+				frequency = f*factor;
+				post_display(frequency);
+				f=0;
+				loop=1;
+			}
+		}
+			
   	}
 
 }
