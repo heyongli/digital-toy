@@ -204,7 +204,7 @@ volatile char gate =0;
 SIGNAL(SIG_OVERFLOW2) 
 {
 	static char loop=0;
-	if(loop++<20)
+	if(loop++<10)
 		return;
     loop=0;
  	stop();
@@ -245,11 +245,11 @@ void calc_freq()
 {
 
     //timer 2 overflow: measure frequency
- 	frequency  = ((unsigned long)read_011()); //12bit precounter
+ 	frequency  = ((unsigned long)read_011())&0xFFF; //12bit precounter
 	frequency |= (((unsigned long)TCNT1)<<12);  //16bit
     frequency |= ((unsigned long)T1_ovc)<<28;
  
-    f_ref = ref_011();
+    f_ref = ((unsigned long)ref_011()&0xFFF);
 
 	frequency = ((float)42000)*((float)frequency/(float)f_ref);
 
