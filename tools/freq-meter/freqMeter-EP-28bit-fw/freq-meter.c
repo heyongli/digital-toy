@@ -157,7 +157,7 @@ void counter_init()
 
 unsigned char T1_ovc=0; //Store the number of overflows of COUNTER1
 volatile unsigned long frequency; //the last calculated frequency is stored here
-volatile unsigned long f_ref = 1234; 
+volatile unsigned long f_ref = 0; 
 
 //Atemel external clock source MAX< F_CPU/2.5, 8M/2.5=3.2M
 
@@ -239,7 +239,7 @@ void setup_timers(){
 
 }
 
-
+unsigned long counter;
 
 void calc_freq()
 {
@@ -248,15 +248,12 @@ void calc_freq()
  	frequency  = ((unsigned long)read_011())&0xFFF; //12bit precounter
 	frequency |= (((unsigned long)TCNT1)<<12);  //16bit
     frequency |= ((unsigned long)T1_ovc)<<28;
- 
+ 	counter = frequency;
+
     f_ref = ((unsigned long)ref_011()&0xFFF);
+	frequency = ((float)12288)*((float)frequency/(float)f_ref);
 
-	frequency = ((float)42000)*((float)frequency/(float)f_ref);
 
-    reset();
-	TCNT2= 0;
-	start();
-	gate=0;
 }
 
 
@@ -277,6 +274,11 @@ void freq_main(void)
 		if(gate){
 		  	calc_freq();
 			post_display(frequency);
+		    
+			reset();
+			TCNT2= 0;
+			start();
+			gate=0;
 		}
 			
   	}
@@ -284,23 +286,6 @@ void freq_main(void)
 }
 
 
-
-#if 0
-unsigned int vc=0, vl=0; //simple filter
-unsigned long v_filter()
-{
-	return _adc(0);
-
-	if(vl==0){
-		vl=vc=_adc(0);
-		return vc;
-	}else{
-		vc = _adc(0);
-		vc=(unsigned long)(0.88*(float)vc+0.12*(float)vl);
-		vl=vc;
-	}
-}
-#endif
 void post_display(long number)
 {
    	lcd_cursor(0,0);
@@ -330,28 +315,8 @@ void post_display(long number)
 	}
 
 	lcd_cursor(0,1);
-	printLL(f_ref,0,0);
+	printLL(f_ref,5,5);
+	printLL(counter,5,5);
 
-#if 0	//don't enable adc, adc confilic with the freqmeter...., OOOOPs
-
-	{
-    	static unsigned char ch=0;
-		unsigned int adc= v_filter(ch);
-		float v, i;
-
- 		print10(adc); //
-		lcd_puts(" ");
-
-		v = ((float)adc/1023.0)*5.09; //ref volatage 5.09V
-    	i = (v/50.00)/0.1; //amp 50x, 0.1R sample
-
-    	print10(v*1000); //to mV
-		lcd_puts("mV ");
-    
-		print10(i*1000);
-		lcd_puts("mA");
-	
-	}
-#endif
 }
 
