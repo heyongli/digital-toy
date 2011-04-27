@@ -12,6 +12,11 @@
 #include <util/delay.h>
 #include <math.h>
 
+
+void post_display(long number);
+
+
+
 #define ENP_161 PD6
 #define start_c() _set_bit(PORTD,PD6)
 #define stop_c()  _clear_bit(PORTD,PD6)
@@ -25,9 +30,6 @@
 #define reset_393()   _set_bit(PORTD,PD4)
 #define enable_393()  _clear_bit(PORTD,PD4)
 
-#define DATA_161
-#define read_03()  (_inb(PORTD)&0x0F)
-
 
 #define cli_t1() _clear_bit(TIMSK, TOIE1)
 #define sti_t1() _set_bit(TIMSK, TOIE1)
@@ -38,13 +40,13 @@
 #define CLK_165  PC1
 #define SO_165   PC2
 
-unsigned char read_411()
+unsigned short read_011()
 {
-	unsigned char add=0;
+	unsigned short add=0;
 	unsigned char i=0;
 
 
-	_clear_bit(PORTC,SH_165); //recept parallen load data
+	_clear_bit(PORTC,SH_165); //recept parallen load data, lockit 
 	_delay_us(10);
 	_set_bit(PORTC,SH_165);  //lock it
 	_delay_ms(1);
@@ -62,6 +64,18 @@ unsigned char read_411()
 		_delay_us(7);
 		
 	}
+	for (i=0;i<8;i++)
+	{
+		if(_test_bit(_inb(HC165_PORT),SO_165))
+   			_set_bit(add,15-i); //上电后QH的值即是165的第8位值，可以直接赋值完后，给165上升沿读取下个数据
+   		
+		_clear_bit(HC165_PORT,CLK_165);
+		_delay_us(7);
+		_set_bit(HC165_PORT,CLK_165);
+		_delay_us(7);
+		
+	}
+	
 	return add;
 }
 
@@ -97,7 +111,7 @@ void counter_init()
 
 
 
-#define factor (1+0.006300791) //Time base for 10 Mhz CLK, calibrate this value
+#define factor (1+0.006686781) //Time base for 10 Mhz CLK, calibrate this value
 
 
 unsigned char T1_ovc=0; //Store the number of overflows of COUNTER1
@@ -119,11 +133,7 @@ SIGNAL(SIG_OVERFLOW1)
 //It is used to call the "frequency calculation and selection algorithm" every timer period T.
 //T is defined as "1024*256/(F_cpu)". (30.5Hz)
 //ISR(TIMER0_OVF_vect)
-unsigned char sTCNT1L, sTCNT1H, sT1_ovc;
-unsigned long scounter;
 unsigned char T2_ovc=0; 
-
-
 
 void reset()
 {
@@ -158,6 +168,86 @@ SIGNAL(SIG_OVERFLOW2)
 }
 
 
+
+
+void setup_interrupts()
+{
+	TIMSK =  _bits8(1,TOIE1,TOIE1)|_bits8(1,TOIE2,TOIE2);//enable timer 0,1,2 overflow intrrupt	
+
+	//clear T1 counters
+	T1_ovc = 0;
+
+	TCNT1H = 0;
+	barrier();
+	TCNT1L = 0;
+	TCNT1 = 0;
+	sti();
+}
+
+
+
+void setup_timers(){
+	TCCR1A = 0x00; //Setup TC1 to count PD5/T1
+	TCCR1B = 0x06; //TC1 down edge triger (from 393, so use down edge triger for correct count
+	
+	TCCR2 = 0x07;  //TC2 counts Clock_io/1024, use as time base caller 
+
+
+}
+
+
+
+void calc_freq()
+{
+
+    //timer 2 overflow: measure frequency
+	frequency  = ((unsigned long)read_011()); //12bit precounter
+	frequency |= (((unsigned long)TCNT1)<<12);  //16bit
+    frequency |= ((unsigned long)T1_ovc)<<28;
+   	//if use around 1s sample, no filter is needed, it's accuracy and stable if time is long..	
+	
+	//frequency =  (unsigned long)((float)frequency*factor*cal);
+
+    reset();
+	TCNT2= 0;
+	start();
+	gate=0;
+}
+
+
+char loop=1;
+unsigned long f=0;
+void freq_main(void) 
+{
+
+    
+	cli();
+
+	setup_timers();
+	setup_interrupts();
+	counter_init();
+
+
+    calc_freq();
+
+ 	while(1) {
+		if(gate){
+		    loop++;
+			calc_freq();
+			f+=frequency;
+
+			if(loop==39){
+				frequency = f*factor;
+				post_display(frequency);
+				f=0;
+				loop=1;
+			}
+		}
+			
+  	}
+
+}
+
 
 
 #if 0
@@ -178,9 +268,7 @@ unsigned long v_filter()
 #endif
 void post_display(long number)
 {
-	static char xx=0;
-  number = frequency;
-	lcd_cursor(0,0);
+   	lcd_cursor(0,0);
     //lcd_puts("              ");
 	lcd_cursor(0,0);
     
@@ -230,82 +318,3 @@ void post_display(long number)
 #endif
 }
 
-void setup_timers(){
-	TCCR1A = 0x00; //Setup TC1 to count PD5/T1
-	TCCR1B = 0x06; //TC1 down edge triger (from 393, so use down edge triger for correct count
-	
-	TCCR2 = 0x07;  //TC2 counts Clock_io/1024, use as time base caller 
-
-
-}
-
-void setup_interrupts()
-{
-	TIMSK =  _bits8(1,TOIE1,TOIE1)|_bits8(1,TOIE2,TOIE2);//enable timer 0,1,2 overflow intrrupt	
-
-	//clear T1 counters
-	T1_ovc = 0;
-
-	TCNT1H = 0;
-	barrier();
-	TCNT1L = 0;
-	TCNT1 = 0;
-	sti();
-}
-
-
-
-
-
-
-calc_freq()
-{
-
-    //timer 2 overflow: measure frequency
-	frequency =  (unsigned long)read_03(); //4bit
-	frequency |= ((unsigned long)read_411())<<4; //8bit
-	frequency |= (((unsigned long)TCNT1)<<12);  //16bit
-    frequency |= ((unsigned long)T1_ovc)<<28;
-   	//if use around 1s sample, no filter is needed, it's accuracy and stable if time is long..	
-	
-	//frequency =  (unsigned long)((float)frequency*factor*cal);
-
-    reset();
-	TCNT2= 0;
-	start();
-	gate=0;
-}
-
-
-char loop=1;
-unsigned long f=0;
-void freq_main(void) 
-{
-
-    
-	cli();
-
-	setup_timers();
-	setup_interrupts();
-	counter_init();
-
-
-    calc_freq();
-
- 	while(1) {
-		if(gate){
-		    loop++;
-			calc_freq();
-			f+=frequency;
-
-			if(loop==39){
-				frequency = f*factor;
-				post_display(frequency);
-				f=0;
-				loop=1;
-			}
-		}
-			
-  	}
-
-}
