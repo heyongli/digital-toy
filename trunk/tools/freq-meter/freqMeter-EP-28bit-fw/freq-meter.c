@@ -26,9 +26,9 @@ void post_display(long number);
 #define reset_161()   _clear_bit(PORTD,PD7)
 #define enable_161()  _set_bit(PORTD,PD7)
 
-#define HOLD_393  PD4
-#define reset_393()   _set_bit(PORTD,PD4)
-#define enable_393()  _clear_bit(PORTD,PD4)
+#define HOLD_393  PD3
+#define reset_393()   _set_bit(PORTD,HOLD_393)
+#define enable_393()  _clear_bit(PORTD,HOLD_393)
 
 
 #define cli_t1() _clear_bit(TIMSK, TOIE1)
@@ -39,6 +39,7 @@ void post_display(long number);
 #define SH_165   PC0
 #define CLK_165  PC1
 #define SO_165   PC2
+
 
 
 unsigned short read_011()
@@ -81,10 +82,10 @@ unsigned short read_011()
 }
 
 
-#define REF165_PORT PORTC
-#define SH_REF165   PD3
-#define CLK_REF165  PD4
-#define SO_REF165   PD5
+#define REF165_PORT PORTD
+#define SH_REF165   PD0
+#define CLK_REF165  PD1
+#define SO_REF165   PD2
 
 unsigned short ref_011()
 {
@@ -128,24 +129,34 @@ unsigned short ref_011()
 void counter_init()
 {
 
-  //PD4,PD6/PD7  output, 161/393 control
+  // Gating  setup
+  //PD3,PD6/PD7  output, 161/393 control
   _pins_mode(PORTD,PD6,PD7,OUTPUT);
-  _pins_mode(PORTD,PD4,PD4,OUTPUT);
+  _pins_mode(PORTD,PD3,PD3,OUTPUT);
   
-  //PC0, 1,2
-  // PORTC=0xFF;
+  
+  // precounter interface 
   _pins_mode(HC165_PORT,PC0,PC1,OUTPUT);
   _pins_mode(HC165_PORT,PC2,PC2,INPUT);
   _pins_pullup(HC165_PORT,PC2,PC2,FLOAT);
   
-  //PC3,4,5 ref clock
-  _pins_mode(REF165_PORT,SH_REF165,CLK_REF165,OUTPUT);
-  _pins_mode(REF165_PORT,SO_REF165,SO_REF165,INPUT);
-  _pins_pullup(REF165_PORT,SO_REF165,SO_REF165,FLOAT);
   
+  // precounter -> T1 (2.4G/32/16/256/512=35Hz overflow, 22k to interface)
   //PD5, T1 input init
-  _pins_mode(PORTD, 0,PIND5,INPUT);
-  _pins_pullup(PORTD,0,PIND5,FLOAT);
+  _pins_mode(PORTD, PIND5,PIND5,INPUT);
+  _pins_pullup(PORTD,PIND5,PIND5,FLOAT);
+
+
+  // Refrence clock interface
+   //PD0,1,2 ref clock
+   _pins_mode(REF165_PORT,SH_REF165,CLK_REF165,OUTPUT);
+   _pins_mode(REF165_PORT,SO_REF165,SO_REF165,INPUT);
+   _pins_pullup(REF165_PORT,SO_REF165,SO_REF165,FLOAT);
+
+
+   //Refrence clock -> T0, 8bit (12.8M, 12Hz overflow, 3k to interface, >8bit/second )
+    _pins_mode(PORTD, PIND4,PIND4,INPUT);
+    _pins_pullup(PORTD,PIND4,PIND4,FLOAT);
 
   //ADC init  
   //_pins_mode(PORTC, PINC0,PINC1,INPUT);
@@ -155,37 +166,25 @@ void counter_init()
 }
 
 
-unsigned char T1_ovc=0; //Store the number of overflows of COUNTER1
+unsigned char T1_ovc=0; //FUT
+unsigned char T0_ovc=0; //refrence source 
 volatile unsigned long frequency; //the last calculated frequency is stored here
 volatile unsigned long f_ref = 0; 
 
-//Atemel external clock source MAX< F_CPU/2.5, 8M/2.5=3.2M
-
-
-//T1 conter the prescale output
-SIGNAL(SIG_OVERFLOW1) 
-{
-	T1_ovc++;
-}
-
-
-//Timer/Counter 2 is configured as timer with a 1024 prescaller (counting CPU frequency divided by 1024). 
-//It is used to call the "frequency calculation and selection algorithm" every timer period T.
-//T is defined as "1024*256/(F_cpu)". (30.5Hz)
-//ISR(TIMER0_OVF_vect)
-unsigned char T2_ovc=0; 
-
 void reset()
 {
 
    reset_161();
    reset_393();
    //RESET COUNTERS
-   T1_ovc = 0;
-   TCNT1H = 0;
+   T1_ovc = 0;  //soft FUT
+   TCNT1H = 0;  //FUT chip
    barrier();
    TCNT1L = 0;
    TCNT1 = 0;
+
+   T0_ovc = 0; //soft REF
+   TCNT0 = 0;  //chip REF 
 }
 void start()
 {
@@ -194,21 +193,36 @@ void start()
   enable_161();
   start_c();
 }
+
 void stop()
 {
    stop_c();
 }
 
 
+//T0 counte the refrence source , 12Hz max
+SIGNAL(SIG_OVERFLOW0) 
+{
+	T0_ovc++;
+}
+
+//T1 conter the precounter, 35Hz max
+SIGNAL(SIG_OVERFLOW1) 
+{
+	T1_ovc++;
+}
+
+
+//T2 use as time base clock
 volatile char gate =0;
 SIGNAL(SIG_OVERFLOW2) 
 {
 	static char loop=0;
-	if(loop++<10)
-		return;
+	if(loop++<2)
+	   return;
     loop=0;
- 	stop();
-	gate=1;
+	stop();
+    gate=1;
 }
 
 
@@ -216,7 +230,7 @@ SIGNAL(SIG_OVERFLOW2)
 
 void setup_interrupts()
 {
-	TIMSK =  _bits8(1,TOIE1,TOIE1)|_bits8(1,TOIE2,TOIE2);//enable timer 0,1,2 overflow intrrupt	
+	TIMSK = _bits8(1,TOIE0,TOIE0)| _bits8(1,TOIE1,TOIE1)|_bits8(1,TOIE2,TOIE2);//enable timer 0,1,2 overflow intrrupt	
 
 	//clear T1 counters
 	T1_ovc = 0;
@@ -230,7 +244,9 @@ void setup_interrupts()
 
 
 
-void setup_timers(){
+void setup_timers(){
+    TCCR0 = 0x06;  //TC0 to count PD4/T0, down edge triger for precounter
+
 	TCCR1A = 0x00; //Setup TC1 to count PD5/T1
 	TCCR1B = 0x06; //TC1 down edge triger (from 393, so use down edge triger for correct count
 	
@@ -251,7 +267,10 @@ void calc_freq()
  	counter = frequency;
 
     f_ref = ((unsigned long)ref_011()&0xFFF);
-	frequency = ((float)12288)*((float)frequency/(float)f_ref);
+	f_ref |=  (((unsigned long)TCNT0)<<12);  //8bit
+    f_ref |= ((unsigned long)T0_ovc)<<20; //8bit
+
+	frequency = ((float)1234567)*((float)frequency/(float)f_ref);
 
 
 }
@@ -315,8 +334,10 @@ void post_display(long number)
 	}
 
 	lcd_cursor(0,1);
-	printLL(f_ref,5,5);
-	printLL(counter,5,5);
+	lcd_puts("R:");
+	print10(f_ref);
+	lcd_puts("F:");
+	print10(counter);
 
 }
 
