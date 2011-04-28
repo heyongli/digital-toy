@@ -13,7 +13,7 @@
 #include <math.h>
 
 
-#define REF_F  100000
+#define REF_F  10000
 void post_display(long number);
 
 
@@ -214,13 +214,15 @@ ISR(TIMER1_OVF_vect)
 }
 
 
-volatile char loop=0;
+volatile char loop=1;
 //T2 use as time base clock
 volatile char gate =0;
 SIGNAL(SIG_OVERFLOW2) 
 {
+   if(loop++&0x7)
+      return;
 	stop();
-    gate=1;
+	gate =1;
 }
 
 
@@ -286,7 +288,7 @@ void freq_main(void)
 
 
 
-	sti();
+
 
 	reset();
 	TCNT2= 0;
@@ -295,23 +297,25 @@ void freq_main(void)
 	T0_ovc = T1_ovc =0;
 	start();
 	gate=0;
-
+	sti(); //start timer 
 	
  	while(1) {
-		if(is_stop()){
+		if(gate){
 		  	calc_freq();
 			post_display(frequency);
 		    
-			if(loop++>333){
+			if(!(loop&0x3F)){
 				reset();
-				TCNT2= 0;
+				
 				TCNT0= 0;
 				TCNT1= 0;
 				T0_ovc = T1_ovc =0;
+				loop = 1;
 			}
+			TCNT2= 0;//restart timer2
 			gate=0;
+		//	TIFR = 1<<TOV2|1<<TOV1|1<<TOV0;//clear interupt flag
 			start();
-			_delay_ms(1);
 		}
 			
   	}
