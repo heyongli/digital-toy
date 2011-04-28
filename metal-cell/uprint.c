@@ -41,15 +41,43 @@ lcd_showhex(unsigned char x)
 
 
 
-void print10(unsigned short n)
+void print10(unsigned long n)
 {
-     char x;
+
+	
+	 char show = 0;
+     unsigned long x=0;
+
+	 x=n/10000000;
+	 if(x||show)
+	    lcd_putc(hex2c(x)),show=1;
+
+	 n = n%10000000;
+
+	 x=n/1000000;
+	 if(x||show)
+	    lcd_putc(hex2c(x)),show=1;
+	 n = n%1000000;
+
+	 x=n/100000;
+	 if(x||show)
+	    lcd_putc(hex2c(x)),show=1;
+	 n = n%100000;
+
+
+	 x=n/10000;
+	 if(x||show)
+	    lcd_putc(hex2c(x)),show=1;
+	 n = n%10000;
+
+
 	 x=n/1000;
-	 if(x)
-	    lcd_putc(hex2c(x));
+	 if(x||show)
+	    lcd_putc(hex2c(x)),show=1;
 	 n = n%1000;
 
-	 lcd_putc(hex2c(n/100));
+	 x=n/100;
+	 if(x||show)lcd_putc(hex2c(x)),show=1;
 	 n = n%100;
 
 	 lcd_putc( hex2c(n/10));
