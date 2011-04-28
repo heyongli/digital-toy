@@ -270,7 +270,7 @@ void calc_freq()
 	f_ref |=  (((unsigned long)TCNT0)<<12);  //8bit
     f_ref |= ((unsigned long)T0_ovc)<<20; //8bit
 
-	frequency = ((float)1234567)*((float)frequency/(float)f_ref);
+	frequency = ((float)1000000)*((float)frequency/(float)f_ref);
 
 
 }
@@ -296,6 +296,7 @@ void freq_main(void)
 		    
 			reset();
 			TCNT2= 0;
+			TCNT0= 0;
 			start();
 			gate=0;
 		}
