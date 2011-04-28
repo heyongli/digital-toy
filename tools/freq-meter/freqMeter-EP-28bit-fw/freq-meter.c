@@ -21,7 +21,7 @@ void post_display(long number);
 #define ENP_161 PD6
 #define start_c() _set_bit(PORTD,PD6)
 #define stop_c()  _clear_bit(PORTD,PD6)
-#define is_stop() _test_bit(PORTD,PD6)
+#define is_stop() (!_test_bit(PORTD,PD6))
 
 #define RST_161 PD7 
 #define reset_161()   _clear_bit(PORTD,PD7)
@@ -216,13 +216,11 @@ ISR(TIMER1_OVF_vect)
 
 volatile char loop=1;
 //T2 use as time base clock
-volatile char gate =0;
 SIGNAL(SIG_OVERFLOW2) 
 {
-   if(loop++&0x7)
+   if(loop++%9) //half second
       return;
 	stop();
-	gate =1;
 }
 
 
@@ -296,15 +294,14 @@ void freq_main(void)
 	TCNT1= 0;
 	T0_ovc = T1_ovc =0;
 	start();
-	gate=0;
-	sti(); //start timer 
+	sti();
 	
  	while(1) {
-		if(gate){
+		if(is_stop()){
 		  	calc_freq();
 			post_display(frequency);
 		    
-			if(!(loop&0x3F)){
+			if(loop>45){  //2.5S
 				reset();
 				
 				TCNT0= 0;
@@ -313,7 +310,6 @@ void freq_main(void)
 				loop = 1;
 			}
 			TCNT2= 0;//restart timer2
-			gate=0;
 		//	TIFR = 1<<TOV2|1<<TOV1|1<<TOV0;//clear interupt flag
 			start();
 		}
