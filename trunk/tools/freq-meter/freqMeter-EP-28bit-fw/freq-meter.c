@@ -13,6 +13,7 @@
 #include <math.h>
 
 
+#define REF_F  100000
 void post_display(long number);
 
 
@@ -201,26 +202,23 @@ void stop()
 
 
 //T0 counte the refrence source , 12Hz max
-SIGNAL(SIG_OVERFLOW0) 
+ISR(TIMER0_OVF_vect)
 {
 	T0_ovc++;
 }
 
 //T1 conter the precounter, 35Hz max
-SIGNAL(SIG_OVERFLOW1) 
+ISR(TIMER1_OVF_vect)
 {
 	T1_ovc++;
 }
 
 
+volatile char loop=0;
 //T2 use as time base clock
 volatile char gate =0;
 SIGNAL(SIG_OVERFLOW2) 
 {
-	static char loop=0;
-	if(loop++<2)
-	   return;
-    loop=0;
 	stop();
     gate=1;
 }
@@ -239,7 +237,7 @@ void setup_interrupts()
 	barrier();
 	TCNT1L = 0;
 	TCNT1 = 0;
-	sti();
+
 }
 
 
@@ -270,7 +268,7 @@ void calc_freq()
 	f_ref |=  (((unsigned long)TCNT0)<<12);  //8bit
     f_ref |= ((unsigned long)T0_ovc)<<20; //8bit
 
-	frequency = ((float)1000000)*((float)frequency/(float)f_ref);
+	frequency = ((float)REF_F)*((float)frequency/(float)f_ref);
 
 
 }
@@ -287,18 +285,33 @@ void freq_main(void)
 	counter_init();
 
 
-    calc_freq();
 
+	sti();
+
+	reset();
+	TCNT2= 0;
+	TCNT0= 0;
+	TCNT1= 0;
+	T0_ovc = T1_ovc =0;
+	start();
+	gate=0;
+
+	
  	while(1) {
-		if(gate){
+		if(is_stop()){
 		  	calc_freq();
 			post_display(frequency);
 		    
-			reset();
-			TCNT2= 0;
-			TCNT0= 0;
-			start();
+			if(loop++>333){
+				reset();
+				TCNT2= 0;
+				TCNT0= 0;
+				TCNT1= 0;
+				T0_ovc = T1_ovc =0;
+			}
 			gate=0;
+			start();
+			_delay_ms(1);
 		}
 			
   	}
@@ -308,22 +321,18 @@ void freq_main(void)
 
 void post_display(long number)
 {
-   	lcd_cursor(0,0);
-    //lcd_puts("              ");
+
 	lcd_cursor(0,0);
     
 	if((number>999)&&(number<999999)){
 	   printLL(number,3,3);
 	   lcd_puts("KHz");
-     	lcd_puts("      ");
-
+ 
 	}
 
     if(number>999999){
 	   printLL(number,6,6); //omit xxHz
 	   lcd_puts("MHz");
-       lcd_puts("     ");
-
    	
 	}
 	if(number<=999)
@@ -331,14 +340,20 @@ void post_display(long number)
 	
 	   printLL(number,0,0);
 	   lcd_puts("Hz");
-	   lcd_puts("        ");
+
 	}
+
+    lcd_puts(" ");
+	print10(loop);
+    
 
 	lcd_cursor(0,1);
 	lcd_puts("R:");
 	print10(f_ref);
 	lcd_puts("F:");
-	print10(counter);
+	print10(counter); 
+	lcd_puts("           ");
+
 
 }
 
