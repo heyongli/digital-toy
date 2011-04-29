@@ -1,0 +1,33 @@
+fmeter-xxx-proteus: 
+	the simulation project for debuging and verify 
+
+freqMeter-EP-28bit-fw: 
+	firmware for equal precision frequnce meter with 28 bit total hw counter
+
+freqMeter-28bit-fw: 
+	firmware for time base freq meter with 28 bit total hw counter
+
+
+preScaler-MB504: eagle project 32/64 prescaler to 500Mhz
+
+fMeter-preamp: eagle project for preAmp: high input impedance up to VHF.
+
+fMeter-EP-preCounter-DUT: preCounter eagle project for DUT 
+	75Mhz max( TI 74hc161 work well to 100Mhz, Philips 74hc74 work well to 75Mhz)
+
+
+
+Equal Precision Frequnce Counter
+
+F_dut = (N_dut/N_ref)*F_ref
+
+if Nref equal F_ref, we get Ndut, it's just the Fdut. practically, we control the time
+that we start sample(gate time) sync with F_ref  ie. via D-trigger, then we get accuracy
+N_ref with a N_dut. then calc the F_dut. 
+
+F_ref higher, get better accuracy.
+
+
+
+
+
