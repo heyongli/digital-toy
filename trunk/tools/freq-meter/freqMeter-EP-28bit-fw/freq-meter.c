@@ -17,11 +17,15 @@
 void post_display(long number);
 
 
+#define gate_init() _set_bit(PORTB,PB0) 
+#define ff_clr() do{ _clear_bit(PORTB,PB0); _clear_bit(PORTB,PB0);_set_bit(PORTB,PB0); }while(0)
+#define is_stop()   (_test_bit(_inb(PORTB),PB1))
+
 
 #define ENP_161 PD6
-#define start_c() _set_bit(PORTD,PD6)
-#define stop_c()  _clear_bit(PORTD,PD6)
-#define is_stop() (!_test_bit(PORTD,PD6))
+#define start_c()    _set_bit(PORTD,PD6);
+#define stop_c()    _clear_bit(PORTD,PD6);
+
 
 #define RST_161 PD7 
 #define reset_161()   _clear_bit(PORTD,PD7)
@@ -30,10 +34,6 @@ void post_display(long number);
 #define HOLD_393  PD3
 #define reset_393()   _set_bit(PORTD,HOLD_393)
 #define enable_393()  _clear_bit(PORTD,HOLD_393)
-
-
-#define cli_t1() _clear_bit(TIMSK, TOIE1)
-#define sti_t1() _set_bit(TIMSK, TOIE1)
 
 
 #define HC165_PORT  PORTC
@@ -135,6 +135,11 @@ void counter_init()
   _pins_mode(PORTD,PD6,PD7,OUTPUT);
   _pins_mode(PORTD,PD3,PD3,OUTPUT);
   
+
+  //sync D-tigger, PD6 for Gate, PB1 for read in
+   _pins_mode(PORTB,PB0,PB0,OUTPUT); //write to close gate
+   _pins_mode(PORTB,PB1,PB1,INPUT); 
+   _pins_pullup(PORTB,PB1,PB1,PULLUP);
   
   // precounter interface 
   _pins_mode(HC165_PORT,PC0,PC1,OUTPUT);
@@ -174,7 +179,7 @@ volatile unsigned long f_ref = 0;
 
 void reset()
 {
-
+   ff_clr();
    reset_161();
    reset_393();
    //RESET COUNTERS
@@ -186,6 +191,7 @@ void reset()
 
    T0_ovc = 0; //soft REF
    TCNT0 = 0;  //chip REF 
+
 }
 void start()
 {
@@ -193,6 +199,7 @@ void start()
   enable_393();
   enable_161();
   start_c();
+  while(is_stop());//wait to sync with Fref
 }
 
 void stop()
@@ -218,7 +225,7 @@ volatile char loop=1;
 //T2 use as time base clock
 SIGNAL(SIG_OVERFLOW2) 
 {
-   if(loop++%9) //half second
+   if(loop++%20) //half second
       return;
 	stop();
 }
@@ -283,18 +290,19 @@ void freq_main(void)
 	setup_timers();
 	setup_interrupts();
 	counter_init();
-
+	sti();
 
 
-
-
+	gate_init();
+	stop();
 	reset();
 	TCNT2= 0;
 	TCNT0= 0;
 	TCNT1= 0;
 	T0_ovc = T1_ovc =0;
+	loop = 1;
 	start();
-	sti();
+
 	
  	while(1) {
 		if(is_stop()){
@@ -310,7 +318,6 @@ void freq_main(void)
 				loop = 1;
 			}
 			TCNT2= 0;//restart timer2
-		//	TIFR = 1<<TOV2|1<<TOV1|1<<TOV0;//clear interupt flag
 			start();
 		}
 			
