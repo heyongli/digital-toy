@@ -13,7 +13,7 @@
 #include <math.h>
 
 
-#define REF_F  10000
+#define REF_F  1000
 void post_display(long number);
 
 
@@ -221,11 +221,11 @@ ISR(TIMER1_OVF_vect)
 }
 
 
-volatile char loop=1;
+volatile unsigned long loop=1;
 //T2 use as time base clock
 SIGNAL(SIG_OVERFLOW2) 
 {
-   if(loop++%20) //half second
+   if(loop++%11) //half second
       return;
 	stop();
 }
@@ -275,7 +275,8 @@ void calc_freq()
 	f_ref |=  (((unsigned long)TCNT0)<<12);  //8bit
     f_ref |= ((unsigned long)T0_ovc)<<20; //8bit
 
-	frequency = ((float)REF_F)*((float)frequency/(float)f_ref);
+
+	frequency = ((double)REF_F)*((double)frequency/(double)f_ref);
 
 
 }
@@ -309,7 +310,7 @@ void freq_main(void)
 		  	calc_freq();
 			post_display(frequency);
 		    
-			if(loop>45){  //2.5S
+			if(loop>500){  //2.5S
 				reset();
 				
 				TCNT0= 0;
