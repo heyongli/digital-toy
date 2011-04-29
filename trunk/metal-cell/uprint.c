@@ -3,7 +3,7 @@
 #include <drivers/lcd.h> //common system driver
 
 
-
+#ifdef HAVE_SWAP8 
 /*abcd1234 => 4321dcba */
 unsigned char _swap8(unsigned char x)
 {
@@ -19,7 +19,7 @@ unsigned char _swap8(unsigned char x)
             /*0xAA*/            /*0x55*/
     return x;
 }
-
+#endif
 
 char hex2c(char hex)
 {
@@ -38,114 +38,55 @@ lcd_showhex(unsigned char x)
 
 }
 
-
-
-
 void print10(unsigned long n)
 {
-
-	
 	 char show = 0;
-     unsigned long x=0;
+     unsigned char x=0;
+	 unsigned long base=10000000;
 
-	 x=n/10000000;
-	 if(x||show)
-	    lcd_putc(hex2c(x)),show=1;
-
-	 n = n%10000000;
-
-	 x=n/1000000;
-	 if(x||show)
-	    lcd_putc(hex2c(x)),show=1;
-	 n = n%1000000;
-
-	 x=n/100000;
-	 if(x||show)
-	    lcd_putc(hex2c(x)),show=1;
-	 n = n%100000;
-
-
-	 x=n/10000;
-	 if(x||show)
-	    lcd_putc(hex2c(x)),show=1;
-	 n = n%10000;
-
-
-	 x=n/1000;
-	 if(x||show)
-	    lcd_putc(hex2c(x)),show=1;
-	 n = n%1000;
-
-	 x=n/100;
-	 if(x||show)lcd_putc(hex2c(x)),show=1;
-	 n = n%100;
-
-	 lcd_putc( hex2c(n/10));
-	 lcd_putc( hex2c(n%10));
+	 while(base>=1){
+	 
+	    x=n/base;
+		if(x||show){
+			lcd_putc(hex2c(x));
+			show = 1;
+		}
+		if(1==base)
+			break;
+	    n=n%base;
+		base = base/10;
+	 }
 }
 
 void printLL(unsigned long n, char dot, char prec)
 {
      //irqoff();
 	 char frac=0,sf=0;
+	 unsigned long base = 10000000;
+	 unsigned long nb=8; //sync with base
 
-	 if(n/10000000)
-	 	lcd_putc(hex2c(n/10000000));
-	 n = n%10000000;
-	 if(7==dot){
-	 	lcd_putc('.');
-		sf=1;
-	 }
-		     
-     lcd_putc(hex2c(n/1000000));//M
-	 if(sf){frac++; if(frac>=prec)return;}
-	 
-	 n = n%1000000;
-	 if(6==dot){
-	 	lcd_putc('.');
-		sf=1;
-	 }
-	
-     
-	 lcd_putc(hex2c(n/100000));
-	 if(sf){frac++; if(frac>=prec)return;}
-	 n = n%100000;
-	 if(5==dot){
-	 	lcd_putc('.');
-		sf=1;
-	 }
-	
+	 while(base>=1){
 
-	 lcd_putc(hex2c(n/10000)); 
-	  if(sf){frac++; if(frac>=prec)return;}
-	 n = n%10000;
-	 if(4==dot){
-	 	sf=1;
-	 	lcd_putc('.');
-	 }
+	    //dot positon
+	 	if(nb==dot){
+			lcd_putc('.');
+			sf = 1;
+		}
+	 	
+		lcd_putc(hex2c(n/base));
+
+        if(base==1) 
+			return;
+	 	n=n%base;
+		nb-=1;
+          
+		if(sf){
+			frac++;
+			if(frac>=prec)
+				return;
+		}
+		base/=10;
 	
-	 lcd_putc(hex2c(n/1000));  //K
-	  if(sf){frac++; if(frac>=prec)return;}
-	 n = n%1000;
-	 if(3==dot){
-	 	lcd_putc('.');
-		sf=1;
-	  }
-		   	
-	 lcd_putc(hex2c(n/100));
-	  if(sf){frac++; if(frac>=prec)return;}
-	 n = n%100;
-	 if(2==dot){
-	 	lcd_putc('.');
-		sf=1;
 	 }
-	 
-	 lcd_putc( hex2c(n/10));
-	  if(sf){frac++; if(frac>=prec)return;}
-	 if(1==dot){
-	 	sf=1;
-	 	lcd_putc('.');
-	 }
-	 lcd_putc( hex2c(n%10));
-	 if(sf){frac++; if(frac>=prec)return;}
+	   	
 }
