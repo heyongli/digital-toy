@@ -1,7 +1,7 @@
 MCU = attiny2313
 F_CPU = 8000000   	# 8 MHz
 #AVRDUDE_PORT = lpt1	# programmer connected to windows parallel
-AVRDUDE_PORT = com1	# programmer connected to serial
+AVRDUDE_PORT = /dev/ttyUSB0	# programmer connected to serial
 AVRDUDE_PROGRAMMER = dasa
 
 # Default target.
