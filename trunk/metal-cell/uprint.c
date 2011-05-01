@@ -21,6 +21,8 @@ unsigned char _swap8(unsigned char x)
 }
 #endif
 
+
+
 char hex2c(char hex)
 {
 
@@ -90,3 +92,5 @@ void printLL(unsigned long n, char dot, char prec)
 	 }
 	   	
 }
+
+
