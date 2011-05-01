@@ -1,3 +1,21 @@
+Digital toy modification
+1. add 3 more leds
+2. add key for extention
+3. reroute and layout for single layer board
+
+Burn NOTES:
+if you get messages:
+avrdude: AVR device not responding
+avrdude: initialization failed, rc=-1
+ 
+check:
+1. all wire connect correctly
+2. try supply the POV via battery voltage <3V 
+3. don't plug the USB-Serial to the usb-hub, direct to computer may help
+4. usb serial PL2303 chip work well
+
+
+Original README
 source: http://www.ladyada.net/make/minipov3/
 
 
