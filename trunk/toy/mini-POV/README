@@ -14,6 +14,9 @@ check:
 3. don't plug the USB-Serial to the usb-hub, direct to computer may help
 4. usb serial PL2303 chip work well
 
+image maker for MiniPOV:
+MiniPov.exe: windows/wine
+
 
 Original README
 source: http://www.ladyada.net/make/minipov3/
