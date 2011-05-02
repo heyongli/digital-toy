@@ -7,14 +7,19 @@ Desktop="Desktop"
 
 [Globals]
 AutoSaveProject=1
+UsedLibrary="/home/hyl/digital-toy/dtoy-eagle-lbr/LilyPad-Wearables.lbr"
+UsedLibrary="/home/hyl/digital-toy/dtoy-eagle-lbr/SparkFun.lbr"
+UsedLibrary="/home/hyl/digital-toy/dtoy-eagle-lbr/digital-toy.lbr"
+UsedLibrary="/home/hyl/digital-toy/dtoy-eagle-lbr/dtoy-RF.lbr"
+UsedLibrary="/home/hyl/digital-toy/dtoy-eagle-lbr/led-seg.lbr"
 
 [Win_1]
 Type="Board Editor"
-Loc="121 93 1665 895"
-State=1
+Loc="513 106 2057 908"
+State=2
 Number=1
 File="i-uC.brd"
-View="-472993 -160491 1910399 831523"
+View="-140197 -154617 1514937 534281"
 WireWidths=" 0 3048 12700 14224 16764 17780 19304 21844 25400 38100 64516 2540 4064 8128 10160 6096"
 PadDiameters=" 2540 3048 4064 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 0"
 PadDrills=" 5080"
@@ -53,7 +58,7 @@ Loc="121 44 1452 908"
 State=2
 Number=2
 File="i-uC.sch"
-View="-152218 10598 372926 535742"
+View="-217211 -1070337 2492417 1639291"
 WireWidths=" 0 3048 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 4064 1524"
 PadDiameters=" 2540 3048 4064 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 0"
 PadDrills=" 5000 6000 7000 9000 10000 11000 12000 13000 14000 15000 16000 20000 22000 28000 32000 8000"
@@ -85,12 +90,12 @@ ArcDirection=0
 AddLevel=2
 PadsSameType=0
 Layer=91
-Views=" 1: -152218 10598 372926 535742"
+Views=" 1: -217211 -1070337 2492417 1639291"
 Sheet=1
 
 [Win_3]
 Type="Control Panel"
-Loc="94 162 1134 718"
+Loc="42 87 1109 666"
 State=2
 Number=0
 
