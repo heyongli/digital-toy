@@ -17,30 +17,55 @@
 void post_display(long number);
 
 
-#define gate_init() _set_bit(PORTB,PB0) 
-#define ff_clr() do{ _clear_bit(PORTB,PB0); _clear_bit(PORTB,PB0);_set_bit(PORTB,PB0); }while(0)
-#define is_stop()   (_test_bit(_inb(PORTB),PB1))
+/* 74hc74 D-triger, flip-flop*/
+#define D_FF  PB0
+#define NQ_FF PB1
+#define CLR_FF PD7
+
+#define gate_io_init()  _pin_mode(PORTB,D_FF,OUTPUT); \
+  					  _pin_mode(PORTB,NQ_FF,INPUT); \
+					  _pins_pullup(PORTB,NQ_FF,NQ_FF,PULLUP); \
+  					  _pin_mode(PORTD,CLR_FF,OUTPUT);
+					  
+
+#define gate_init() _set_bit(PORTD,CLR_FF) 
+#define ff_clr() do{ _clear_bit(PORTD,CLR_FF); _clear_bit(PORTD,CLR_FF);_set_bit(PORTD,CLR_FF); }while(0)
+#define is_stop()   (_test_bit(_inb(PORTB),NQ_FF))
+#define start_c()    _set_bit(PORTB,D_FF);
+#define stop_c()    _clear_bit(PORTB,D_FF);
 
 
-#define ENP_161 PD6
-#define start_c()    _set_bit(PORTD,PD6);
-#define stop_c()    _clear_bit(PORTD,PD6);
 
 
-#define RST_161 PD7 
-#define reset_161()   _clear_bit(PORTD,PD7)
-#define enable_161()  _set_bit(PORTD,PD7)
+/* HC161,HC393, DUT/CLK_REF precounter control*/
+#define CNT_CTR_PORT PORTC
 
-#define HOLD_393  PD3
-#define reset_393()   _set_bit(PORTD,HOLD_393)
-#define enable_393()  _clear_bit(PORTD,HOLD_393)
+#define GATE_161  PC1
+
+#define CLR_161 PC0
+#define reset_161()   _clear_bit(CNT_CTR_PORT, CLR_161)
+#define enable_161()  _set_bit(CNT_CTR_PORT, CLR_161)
+
+#define CLR_393  PC2
+#define reset_393()   _set_bit(CNT_CTR_PORT,CLR_393)
+#define enable_393()  _clear_bit(CNT_CTR_PORT,CLR_393)
+
+#define cnt_crt_io_init() \
+	    	_pin_mode(CNT_CTR_PORT,CLR_161,OUTPUT);\
+			_pin_mode(CNT_CTR_PORT,CLR_393,OUTPUT);\
+			_pin_mode(CNT_CTR_PORT,GATE_161,INPUT); \
+			_pin_pullup(CNT_CTR_PORT,GATE_161,FLOAT)
 
 
+/*DUT precounter read port*/
 #define HC165_PORT  PORTC
-#define SH_165   PC0
-#define CLK_165  PC1
-#define SO_165   PC2
-
+#define CLK_DUT165  PC3
+#define SH_DUT165   PC4
+#define QH_DUT165   PC5
+  
+#define counter_io_init_dut()  _pins_mode(HC165_PORT,CLK_DUT165,SH_DUT165,OUTPUT);\
+  							   _pins_mode(HC165_PORT,QH_DUT165,QH_DUT165,INPUT); \
+  							   _pins_pullup(HC165_PORT,QH_DUT165,QH_DUT165,FLOAT)
 
 
 unsigned short read_011()
@@ -49,32 +74,32 @@ unsigned short read_011()
 	unsigned char i=0;
 
 
-	_clear_bit(PORTC,SH_165); //recept parallen load data, lockit 
+	_clear_bit(PORTC,SH_DUT165); //recept parallen load data, lockit 
 	_delay_us(10);
-	_set_bit(PORTC,SH_165);  //lock it
+	_set_bit(PORTC,SH_DUT165);  //lock it
 	_delay_ms(1);
 
   	
-	_clear_bit(HC165_PORT,CLK_165);
+	_clear_bit(HC165_PORT,CLK_DUT165);
 	for (i=0;i<8;i++)
 	{
-		if(_test_bit(_inb(HC165_PORT),SO_165))
+		if(_test_bit(_inb(HC165_PORT),QH_DUT165))
    			_set_bit(add,7-i); //上电后QH的值即是165的第8位值，可以直接赋值完后，给165上升沿读取下个数据
    		
-		_clear_bit(HC165_PORT,CLK_165);
+		_clear_bit(HC165_PORT,CLK_DUT165);
 		_delay_us(7);
-		_set_bit(HC165_PORT,CLK_165);
+		_set_bit(HC165_PORT,CLK_DUT165);
 		_delay_us(7);
 		
 	}
 	for (i=0;i<8;i++)
 	{
-		if(_test_bit(_inb(HC165_PORT),SO_165))
+		if(_test_bit(_inb(HC165_PORT),QH_DUT165))
    			_set_bit(add,15-i); //上电后QH的值即是165的第8位值，可以直接赋值完后，给165上升沿读取下个数据
    		
-		_clear_bit(HC165_PORT,CLK_165);
+		_clear_bit(HC165_PORT,CLK_DUT165);
 		_delay_us(7);
-		_set_bit(HC165_PORT,CLK_165);
+		_set_bit(HC165_PORT,CLK_DUT165);
 		_delay_us(7);
 		
 	}
@@ -84,9 +109,15 @@ unsigned short read_011()
 
 
 #define REF165_PORT PORTD
-#define SH_REF165   PD0
-#define CLK_REF165  PD1
-#define SO_REF165   PD2
+#define CLK_REF165  PD2
+#define SH_REF165   PD3
+#define QH_REF165   PD6
+
+#define counter_io_init_ref()   \
+		_pins_mode(REF165_PORT,CLK_REF165,SH_REF165,OUTPUT); \
+   		_pins_mode(REF165_PORT,QH_REF165,QH_REF165,INPUT); \
+   		_pins_pullup(REF165_PORT,QH_REF165,QH_REF165,FLOAT)
+
 
 unsigned short ref_011()
 {
@@ -103,7 +134,7 @@ unsigned short ref_011()
 	_clear_bit(REF165_PORT,CLK_REF165);
 	for (i=0;i<8;i++)
 	{
-		if(_test_bit(_inb(REF165_PORT),SO_REF165))
+		if(_test_bit(_inb(REF165_PORT),QH_REF165))
    			_set_bit(add,7-i); //上电后QH的值即是165的第8位值，可以直接赋值完后，给165上升沿读取下个数据
    		
 		_clear_bit(REF165_PORT,CLK_REF165);
@@ -114,7 +145,7 @@ unsigned short ref_011()
 	}
 	for (i=0;i<8;i++)
 	{
-		if(_test_bit(_inb(REF165_PORT),SO_REF165))
+		if(_test_bit(_inb(REF165_PORT),QH_REF165))
    			_set_bit(add,15-i); //上电后QH的值即是165的第8位值，可以直接赋值完后，给165上升沿读取下个数据
    		
 		_clear_bit(REF165_PORT,CLK_REF165);
@@ -130,45 +161,22 @@ unsigned short ref_011()
 void counter_init()
 {
 
-  // Gating  setup
-  //PD3,PD6/PD7  output, 161/393 control
-  _pins_mode(PORTD,PD6,PD7,OUTPUT);
-  _pins_mode(PORTD,PD3,PD3,OUTPUT);
-  
+	gate_io_init(); //FF
 
-  //sync D-tigger, PD6 for Gate, PB1 for read in
-   _pins_mode(PORTB,PB0,PB0,OUTPUT); //write to close gate
-   _pins_mode(PORTB,PB1,PB1,INPUT); 
-   _pins_pullup(PORTB,PB1,PB1,PULLUP);
-  
-  // precounter interface 
-  _pins_mode(HC165_PORT,PC0,PC1,OUTPUT);
-  _pins_mode(HC165_PORT,PC2,PC2,INPUT);
-  _pins_pullup(HC165_PORT,PC2,PC2,FLOAT);
-  
-  
-  // precounter -> T1 (2.4G/32/16/256/512=35Hz overflow, 22k to interface)
-  //PD5, T1 input init
-  _pins_mode(PORTD, PIND5,PIND5,INPUT);
-  _pins_pullup(PORTD,PIND5,PIND5,FLOAT);
+    cnt_crt_io_init(); //161/393 enable/clear interface
 
-
-  // Refrence clock interface
-   //PD0,1,2 ref clock
-   _pins_mode(REF165_PORT,SH_REF165,CLK_REF165,OUTPUT);
-   _pins_mode(REF165_PORT,SO_REF165,SO_REF165,INPUT);
-   _pins_pullup(REF165_PORT,SO_REF165,SO_REF165,FLOAT);
+    counter_io_init_dut();//165
+    counter_io_init_ref();//165
+  
+    // precounter -> T1 (2.4G/32/16/256/512=35Hz overflow, 22k to interface)
+    //PD5, T1 input init
+    _pins_mode(PORTD, PIND5,PIND5,INPUT);
+    _pins_pullup(PORTD,PIND5,PIND5,FLOAT);
 
 
    //Refrence clock -> T0, 8bit (12.8M, 12Hz overflow, 3k to interface, >8bit/second )
     _pins_mode(PORTD, PIND4,PIND4,INPUT);
     _pins_pullup(PORTD,PIND4,PIND4,FLOAT);
-
-  //ADC init  
-  //_pins_mode(PORTC, PINC0,PINC1,INPUT);
-  //_pins_pullup(PORTC, PINC0,PINC1,FLOAT);
-  //adc_init();
-
 }
 
 
