@@ -13,7 +13,7 @@
 #include <math.h>
 
 
-#define REF_F  1000
+#define REF_F  12288000
 void post_display(long number);
 
 
@@ -236,7 +236,7 @@ volatile unsigned long loop=1;
 //T2 use as time base clock
 SIGNAL(SIG_OVERFLOW2) 
 {
-   if(loop++%11) //half second
+   if(loop++%38) //half second, 40 1.x second testing
       return;
 	stop();
 }
@@ -321,7 +321,7 @@ void freq_main(void)
 		  	calc_freq();
 			post_display(frequency);
 		    
-			if(loop>500){  //2.5S
+			if(loop>10){  //2.5S //testing use 10, 
 				reset();
 				
 				TCNT0= 0;
@@ -369,6 +369,9 @@ void post_display(long number)
 	lcd_cursor(0,1);
 	lcd_puts("R:");
 	print10(f_ref);
+  	//printLL(f_ref,6,6); //omit xxHz
+	//lcd_puts("MHz");
+
 	lcd_puts("F:");
 	print10(counter); 
 	lcd_puts("           ");
