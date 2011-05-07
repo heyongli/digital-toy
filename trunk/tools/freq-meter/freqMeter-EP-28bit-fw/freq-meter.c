@@ -207,7 +207,10 @@ void start()
   enable_393();
   enable_161();
   start_c();
-  while(is_stop());//wait to sync with Fref
+
+  //DEBUGING, disable busy wiat, use delay
+    //while(is_stop());//wait to sync with Fref
+  _delay_ms(5);
 }
 
 void stop()
