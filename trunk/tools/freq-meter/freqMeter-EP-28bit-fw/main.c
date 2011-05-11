@@ -22,6 +22,7 @@ int main()
 
   	cli();
 	lcd1602_init();
+	lcd_puts("FreqM-EP start... ");
 	
 
       
