@@ -317,7 +317,7 @@ void freq_main(void)
 
 	
  	while(1) {
-		if(is_stop()){
+		if(is_stop()&&loop>10){
 		  	calc_freq();
 			post_display(frequency);
 		    
