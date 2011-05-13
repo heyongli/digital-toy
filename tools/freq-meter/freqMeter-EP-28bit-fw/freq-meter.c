@@ -271,6 +271,29 @@ void setup_timers(){
 
 }
 
+
+#define KEY_PORT PORTC
+#define ADC_KEY  7
+#define init_key() \
+	    _pins_mode(KEY_PORT, PC6,7,INPUT); \
+    	_pins_pullup(KEY_PORT,PC6,7,FLOAT); \
+		_pin_mode(PORTB, PB2,OUTPUT);
+
+char read_key()
+{
+	if(!_test_bit(_inb(KEY_PORT),ADC_KEY)){
+		_delay_ms(2);
+		if(!_test_bit(_inb(KEY_PORT),ADC_KEY))
+		{
+			while(!_test_bit(_inb(KEY_PORT),ADC_KEY));
+			return 1;
+		}
+		return 0;
+	}
+	return 0;
+}
+
+
 unsigned long counter;
 
 void calc_freq()
@@ -280,24 +303,63 @@ void calc_freq()
  	frequency  = ((unsigned long)read_011())&0xFFF; //12bit precounter
 	frequency |= (((unsigned long)TCNT1)<<12);  //16bit
     frequency |= ((unsigned long)T1_ovc)<<28;
- 	counter = frequency;
+ 	counter = frequency;
+	
 
     f_ref = ((unsigned long)ref_011()&0xFFF);
 	f_ref |=  (((unsigned long)TCNT0)<<12);  //8bit
     f_ref |= ((unsigned long)T0_ovc)<<20; //8bit
 
-
+   
 	frequency = ((double)REF_F)*((double)frequency/(double)f_ref);
 
 
 }
 
+unsigned long lref,ldut;
+char sm=0; unsigned char c=0;
+void debug_display()
+{
+    unsigned long dref, ddut;
+	
+
+	lcd_cursor(0,0);
+    lcd_puts("R:");
+ 	print10(f_ref);
+  	
+	lcd_puts(" ");
+	if(lref>f_ref)
+		dref =  lref-f_ref;
+	else dref = f_ref-lref;
+
+
+   	lcd_puts("           ");
+
+
+
+    //============
+		if(ldut>counter)
+		ddut =  ldut-counter;
+	else ddut = counter-ldut;
+
+
+	lcd_cursor(0,1);
+	lcd_puts("F:");
+	print10(counter); 
+	lcd_puts(" ");
+	print10(c++);
+	lcd_puts("           ");
+
+
+}
 
 void freq_main(void) 
 {
 
-    
+
 	cli();
+
+    init_key();
 
 	setup_timers();
 	setup_interrupts();
@@ -319,7 +381,10 @@ void freq_main(void)
  	while(1) {
 		if(is_stop()&&loop>10){
 		  	calc_freq();
-			post_display(frequency);
+			if(0==sm)
+				post_display(frequency);
+ 			if(0==sm)
+				debug_display();
 		    
 			if(loop>10){  //2.5S //testing use 10, 
 				reset();
@@ -365,7 +430,7 @@ void post_display(long number)
     lcd_puts(" ");
 	print10(loop);
     
-
+	
 	lcd_cursor(0,1);
 	lcd_puts("R:");
 	print10(f_ref);
