@@ -11,7 +11,7 @@ AutoSaveProject=1
 [Win_1]
 Type="Schematic Editor"
 Loc="37 47 1402 831"
-State=0
+State=2
 Number=1
 File="DUT-28bit-preCounter.sch"
 View="-635232 -1000336 3266632 1792308"
@@ -50,12 +50,18 @@ Views=" 1: -635232 -1000336 3266632 1792308"
 Sheet=1
 
 [Win_2]
+Type="Control Panel"
+Loc="123 172 1164 636"
+State=2
+Number=0
+
+[Win_3]
 Type="Board Editor"
 Loc="210 27 1679 994"
 State=2
 Number=2
 File="DUT-28bit-preCounter.brd"
-View="673546 66410 1239558 452570"
+View="521896 77438 993572 399238"
 WireWidths=" 0 16764 17780 19304 21844 25400 38100 64516 2540 14224 12700 10160 4064 8128 6096 3048"
 PadDiameters=" 2540 3048 4064 6096 8128 10160 12700 14224 17780 19304 21844 25400 38100 64516 0 16764"
 PadDrills=" 5080 8128 6096 7112"
@@ -88,14 +94,8 @@ AddLevel=2
 PadsSameType=0
 Layer=1
 
-[Win_3]
-Type="Control Panel"
-Loc="123 172 1164 636"
-State=2
-Number=0
-
 [Desktop]
-Screen="1680 1050"
+Screen="3840 1080"
 Window="Win_1"
 Window="Win_2"
 Window="Win_3"
