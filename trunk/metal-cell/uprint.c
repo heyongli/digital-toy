@@ -32,7 +32,7 @@ char hex2c(char hex)
       return 'a'+hex-0xa;		   
 }
 
-lcd_showhex(unsigned char x)
+void lcd_showhex(unsigned char x)
 {
   
     lcd_putc(hex2c(((x&0xF0)>>4)));
@@ -45,11 +45,12 @@ void print10(unsigned long n)
 	 char show = 0;
      unsigned char x=0;
 	 unsigned long base=10000000;
+     
 
 	 while(base>=1){
 	 
 	    x=n/base;
-		if(x||show){
+		if(x||show||1==base){
 			lcd_putc(hex2c(x));
 			show = 1;
 		}
@@ -60,6 +61,22 @@ void print10(unsigned long n)
 	 }
 }
 
+void print10L(unsigned long n, unsigned long base)
+{
+     unsigned char x=0;
+	 
+
+	 while(base>=1){
+	 
+	    x=n/base;
+		lcd_putc(hex2c(x));
+		
+		if(1==base)
+			break;
+	    n=n%base;
+		base = base/10;
+	 }
+}
 void printLL(unsigned long n, char dot, char prec)
 {
      //irqoff();
