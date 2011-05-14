@@ -13,6 +13,9 @@
 #include <math.h>
 
 
+#define ST 43  //sample time, 39 one second
+
+
 #define REF_F  12288000
 void post_display(long number);
 
@@ -209,8 +212,8 @@ void start()
   start_c();
 
   //DEBUGING, disable busy wiat, use delay
-    //while(is_stop());//wait to sync with Fref
-  _delay_ms(5);
+   while(is_stop());//wait to sync with Fref
+  //_delay_ms(5);
 }
 
 void stop()
@@ -236,7 +239,7 @@ volatile unsigned long loop=1;
 //T2 use as time base clock
 SIGNAL(SIG_OVERFLOW2) 
 {
-   if(loop++%38) //half second, 40 1.x second testing
+   if(loop++%ST) //half second, 40 1.x second testing
       return;
 	stop();
 }
@@ -316,42 +319,7 @@ void calc_freq()
 
 }
 
-unsigned long lref,ldut;
-char sm=0; unsigned char c=0;
-void debug_display()
-{
-    unsigned long dref, ddut;
-	
 
-	lcd_cursor(0,0);
-    lcd_puts("R:");
- 	print10(f_ref);
-  	
-	lcd_puts(" ");
-	if(lref>f_ref)
-		dref =  lref-f_ref;
-	else dref = f_ref-lref;
-
-
-   	lcd_puts("           ");
-
-
-
-    //============
-		if(ldut>counter)
-		ddut =  ldut-counter;
-	else ddut = counter-ldut;
-
-
-	lcd_cursor(0,1);
-	lcd_puts("F:");
-	print10(counter); 
-	lcd_puts(" ");
-	print10(c++);
-	lcd_puts("           ");
-
-
-}
 
 void freq_main(void) 
 {
@@ -359,7 +327,7 @@ void freq_main(void)
 
 	cli();
 
-    init_key();
+    //init_key();
 
 	setup_timers();
 	setup_interrupts();
@@ -376,17 +344,15 @@ void freq_main(void)
 	T0_ovc = T1_ovc =0;
 	loop = 1;
 	start();
-
+    
+	static char sm=0;
 	
  	while(1) {
-		if(is_stop()&&loop>10){
+		if(is_stop()){
 		  	calc_freq();
-			if(0==sm)
-				post_display(frequency);
- 			if(0==sm)
-				debug_display();
-		    
-			if(loop>10){  //2.5S //testing use 10, 
+			post_display(frequency);
+ 		    
+			if(loop>=ST){  //2.5S //testing use 10, 
 				reset();
 				
 				TCNT0= 0;
@@ -403,8 +369,22 @@ void freq_main(void)
 }
 
 
+float ldeltaR;
+unsigned char  stable=0;
+
+unsigned long lref,ldut;
+unsigned char c=0;
+
+
 void post_display(long number)
 {
+    
+	
+	unsigned long dref, ddut;//delta of the counter between this and last reault 
+	
+	
+    float  cdeltaR, isgood; //the deta rato fo ddut/dref
+
 
 	lcd_cursor(0,0);
     
@@ -426,21 +406,58 @@ void post_display(long number)
 	   lcd_puts("Hz");
 
 	}
-
+  
     lcd_puts(" ");
 	print10(loop);
     
+/*********************************************************/
+	//second line ,debug infomation 
+    lcd_cursor(0,1);
 	
-	lcd_cursor(0,1);
-	lcd_puts("R:");
-	print10(f_ref);
-  	//printLL(f_ref,6,6); //omit xxHz
-	//lcd_puts("MHz");
+	//calc the delta of 2 times for refrence frequncy and Frequncy of dut
+	if(lref>f_ref){
+		dref =  lref-f_ref;
+	}else {
+	    dref = f_ref-lref;
+    }
+	lref=f_ref;
 
-	lcd_puts("F:");
-	print10(counter); 
-	lcd_puts("           ");
+    if(ldut>counter){
+   	   ddut =  ldut-counter;
+	}
+	else {
+	   ddut = counter-ldut;
+    }
+	ldut=counter;
+	
+    //try identify the stabeness of meter result
+    cdeltaR = (float)ddut/(float)dref;
+    isgood = abs(cdeltaR - ldeltaR);
+  
 
+    ldeltaR = cdeltaR;
+    if(isgood>0.5)
+	    stable++;
+    
+    //show stable ness
+    lcd_puts("#");
+	lcd_showhex(stable);
+     
+   	//show delta of Refrenc clock
+	lcd_puts("R");
+	if(lref>f_ref)
+	   lcd_puts("-");
+    else 
+	   lcd_puts("+");
+    
+	print10L(dref, 1000);
+   
+    //show dlta of Dut clock
+   	lcd_puts("F");
+	if(ldut>counter)
+	    lcd_puts("-");
+    else lcd_puts("+");
+	print10L(ddut,1000); //show 4bits
 
-}
+ }
 
