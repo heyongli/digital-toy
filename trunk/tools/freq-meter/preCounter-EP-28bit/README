@@ -1,0 +1,30 @@
+Hard Ware check and debug:
+
+before power on:
+1. use DVM check is the power short circuit
+
+2. use DVM check if all signal pin short to GND or VCC
+   we found a bug, that one of mega8 pin short circut to GND, so mega8 became very hot after sevral reset,
+   and mega8 eat about 200mA current, that's dangerous bug, it seems burn out a HC165(which short circuit to
+   GND.) and check all signal pin to see if it's short to GND and VCC is mandatory check before powe on.
+
+
+重要： 上电检查
+
+1. 检测1117前后的电源是否和地短路
+
+2. 检查所有信号线是否和地/电源短路
+  
+
+
+debug log:
+1. 上电电流200mA， 复位几次电流突然增加到400mA，mega8非常烫手。程序虽然能跑，但是测量极不稳定。 一般测量1-4M
+   的有源晶振，其稳定度是+-1 到+-4.未知原因时,换上一片新mega, 现象依然. 遂测量信号到地的电阻,发现有一个连接HC165的pin到地短路,
+   修正后一切正常. 稳定度达到正常水平.
+
+2. 测量不稳定
+   除了排除1所述的问题，后加焊相关信号线，测量较低的1.8432Mhz有源晶振，稳定度最终达到预计值（+-1到+-4）. 标称1.8432Mhz有源晶振
+  测得值为在以下几个震荡1.843340， 1.843341， 1.83339， 1.843342. 
+
+
+
