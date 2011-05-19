@@ -7,19 +7,25 @@ Desktop="Desktop"
 
 [Globals]
 AutoSaveProject=1
-UsedLibrary="/home/yhe/digital-toy/dtoy-eagle-lbr/LilyPad-Wearables.lbr"
-UsedLibrary="/home/yhe/digital-toy/dtoy-eagle-lbr/SparkFun.lbr"
-UsedLibrary="/home/yhe/digital-toy/dtoy-eagle-lbr/digital-toy.lbr"
-UsedLibrary="/home/yhe/digital-toy/dtoy-eagle-lbr/dtoy-RF.lbr"
-UsedLibrary="/home/yhe/digital-toy/dtoy-eagle-lbr/led-seg.lbr"
+UsedLibrary="/home/hyl/digital-toy/dtoy-eagle-lbr/LilyPad-Wearables.lbr"
+UsedLibrary="/home/hyl/digital-toy/dtoy-eagle-lbr/SparkFun.lbr"
+UsedLibrary="/home/hyl/digital-toy/dtoy-eagle-lbr/digital-toy.lbr"
+UsedLibrary="/home/hyl/digital-toy/dtoy-eagle-lbr/dtoy-RF.lbr"
+UsedLibrary="/home/hyl/digital-toy/dtoy-eagle-lbr/led-seg.lbr"
 
 [Win_1]
+Type="Control Panel"
+Loc="224 85 1265 549"
+State=2
+Number=0
+
+[Win_2]
 Type="Schematic Editor"
 Loc="494 338 1679 1024"
-State=2
+State=1
 Number=1
 File="fMeter-preamp.sch"
-View="448656 -700667 2706680 1353995"
+View="164913 298008 1072361 1123730"
 WireWidths=" 0 3048 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 4064 2032"
 PadDiameters=" 2540 3048 4064 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 0"
 PadDrills=" 5000 6000 7000 9000 10000 11000 12000 13000 14000 15000 16000 20000 22000 28000 32000 8000"
@@ -51,16 +57,16 @@ ArcDirection=0
 AddLevel=2
 PadsSameType=0
 Layer=91
-Views=" 1: 448656 -700667 2706680 1353995"
+Views=" 1: 164913 298008 1072361 1123730"
 Sheet=1
 
-[Win_2]
+[Win_3]
 Type="Board Editor"
-Loc="266 87 1647 761"
-State=2
+Loc="339 98 1720 772"
+State=1
 Number=2
 File="fMeter-preamp.brd"
-View="-86876 -154921 1173608 447045"
+View="-9449 55063 497115 296979"
 WireWidths=" 0 3048 6096 12700 14224 16764 17780 19304 21844 38100 2540 10160 4064 64516 25400 8128"
 PadDiameters=" 2540 3048 4064 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 0"
 PadDrills=" 5080 76200 7620 6350"
@@ -93,14 +99,8 @@ AddLevel=2
 PadsSameType=0
 Layer=1
 
-[Win_3]
-Type="Control Panel"
-Loc="81 64 674 463"
-State=2
-Number=0
-
 [Desktop]
-Screen="1680 1050"
+Screen="3840 1080"
 Window="Win_1"
 Window="Win_2"
 Window="Win_3"
