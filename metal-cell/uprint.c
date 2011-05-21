@@ -32,13 +32,29 @@ char hex2c(char hex)
       return 'a'+hex-0xa;		   
 }
 
-void lcd_showhex(unsigned char x)
+void lcd_showhex(unsigned long x)
 {
-  
+	lcd_putc(hex2c(((x&0xF0000000)>>28)));
+    lcd_putc(hex2c(((x&0xF000000)>>24)));
+    lcd_putc(hex2c(((x&0xF00000)>>20)));
+    lcd_putc(hex2c(((x&0xF0000)>>16)));
+
+
+	
+	lcd_putc(hex2c(((x&0xF000)>>12)));
+    lcd_putc(hex2c(((x&0xF00)>>8)));
     lcd_putc(hex2c(((x&0xF0)>>4)));
     lcd_putc(hex2c((x&0xF)));
 
 }
+
+void lcd_hex8(unsigned char x)
+{
+	lcd_putc(hex2c(((x&0xF0)>>4)));
+    lcd_putc(hex2c((x&0xF)));
+
+}
+
 
 void print10(unsigned long n)
 {
