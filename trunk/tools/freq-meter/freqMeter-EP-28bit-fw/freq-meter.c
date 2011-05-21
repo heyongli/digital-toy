@@ -13,7 +13,7 @@
 #include <math.h>
 
 
-#define ST  38//sample time, 39 one second
+volatile unsigned char  ST = 22;//sample time, 39 one second
 
 
 #define REF_F  24576180
@@ -276,25 +276,49 @@ void setup_timers(){
 }
 
 
-#define KEY_PORT PORTC
-#define ADC_KEY  7
-#define init_key() \
-	    _pins_mode(KEY_PORT, PC6,7,INPUT); \
-    	_pins_pullup(KEY_PORT,PC6,7,FLOAT); \
-		_pin_mode(PORTB, PB2,OUTPUT);
+#define KEY_PORT PORTB
+#define KLOOP 2
 
-char read_key()
+
+#define KSTEP 6
+#define init_key() \
+	    _pins_mode(KEY_PORT, 6,7,INPUT); \
+    	_pins_pullup(KEY_PORT,6,7,PULLUP); \
+		_pin_mode(PORTB, PB2,INPUT); \
+		_pins_pullup(PORTB,PB2,PB2,PULLUP); \
+
+char read_key(char key)
 {
-	if(!_test_bit(_inb(KEY_PORT),ADC_KEY)){
-		_delay_ms(2);
-		if(!_test_bit(_inb(KEY_PORT),ADC_KEY))
+	if(!_test_bit(_inb(KEY_PORT),key)){
+		_delay_ms(10);
+		if(!_test_bit(_inb(KEY_PORT),key))
 		{
-			while(!_test_bit(_inb(KEY_PORT),ADC_KEY));
+			while(!_test_bit(_inb(KEY_PORT),key));
 			return 1;
 		}
 		return 0;
 	}
 	return 0;
+}
+char read_adc()
+{
+   unsigned long key= _adc(6);
+   _delay_ms(100);
+   if(key<2){
+   	   key= _adc(6);
+	   _delay_ms(100);
+	   if(key<2){
+
+ 	     _delay_ms(100);
+	   	 while(_adc(6)<2)
+	   	 	return 1;
+	   }
+	   return 0;
+   	
+   }
+   return 0;
+
+
 }
 
 
@@ -321,9 +345,7 @@ void calc_freq()
  	counter = frequency;
 	
 	
-	
-
-   
+  
 	frequency = ((double)REF_F)*((double)frequency/(double)f_ref);
 
 
@@ -345,6 +367,7 @@ void freq_main(void)
 	
 	setup_timers();
 	setup_interrupts();
+	adc_init();
 	sti();
 
 
@@ -358,11 +381,19 @@ void freq_main(void)
 	static char sm=0;
 	
  	while(1) {
+		if(read_key(KLOOP)){
+			ST+=5;
+			if(ST>4*38)
+				ST=10;
+		}
+		
 		if(is_stop()){
 		    
 		  	calc_freq();
 			post_display(frequency);
  		    
+		//	while(!read_adc());  /*wait nex step*/
+
 			if(loop>=ST){  //2.5S //testing use 10, 
 			    
 				reset();
@@ -372,9 +403,27 @@ void freq_main(void)
 				TCNT2 =0;
 				T0_ovc = T1_ovc =0;
 				loop = 1;
+
+				calc_freq(); //re-read counter;
+
+#ifdef DEBUG
+				lcd_cursor(0,0);
+				lcd_puts("REF:");
+				lcd_showhex(f_ref);
+				lcd_puts("     ");
+
+				lcd_cursor(0,1);
+				lcd_puts("DUT:");
+				lcd_showhex(counter);
+				lcd_puts("      ");
+
+				while(!read_adc());  /*wait nex step*/
+#endif
+
 			}
-			TCNT2= 0;//restart timer2
 			start();
+			loop=1;
+			TCNT2= 0;//restart timer2
 		}
 			
   	}
@@ -423,6 +472,7 @@ void post_display(long number)
   
     lcd_puts(" ");
 	print10(loop);
+	lcd_puts("    ");
     
 /*********************************************************/
 	//second line ,debug infomation 
@@ -434,7 +484,7 @@ void post_display(long number)
 	}else {
 	    dref = f_ref-lref;
     }
-	lref=f_ref;
+
 
     if(ldut>counter){
    	   ddut =  ldut-counter;
@@ -442,20 +492,20 @@ void post_display(long number)
 	else {
 	   ddut = counter-ldut;
     }
-	ldut=counter;
+
 	
     //try identify the stabeness of meter result
     cdeltaR = (float)ddut/(float)dref;
     isgood = abs(cdeltaR - ldeltaR);
   
 
-    ldeltaR = cdeltaR;
+
     if(isgood>0.5)
 	    stable++;
     
     //show stable ness
     lcd_puts("#");
-	lcd_showhex(stable);
+	lcd_hex8(stable);
      
    	//show delta of Refrenc clock
 	lcd_puts("R");
@@ -463,7 +513,7 @@ void post_display(long number)
 	   lcd_puts("-");
     else 
 	   lcd_puts("+");
-    
+
 	print10L(dref, 1000);
    
     //show dlta of Dut clock
@@ -473,5 +523,9 @@ void post_display(long number)
     else lcd_puts("+");
 	print10L(ddut,1000); //show 4bits
 
+
+	lref=f_ref;
+	ldut=counter;
+    ldeltaR = cdeltaR;
  }
 
