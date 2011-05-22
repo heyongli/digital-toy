@@ -14,6 +14,7 @@
 #include <drivers/74hc595.h>  
 #include <io.h>
 #include <bitops.h>
+#include <atmel/avr-io.h>
 
 
 #ifdef METAL_4W1602_VIA_74HC595  
