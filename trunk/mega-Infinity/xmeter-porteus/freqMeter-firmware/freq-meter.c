@@ -14,9 +14,9 @@
 
 
 
-#define factor (9.536743164) //Time base for 10 Mhz CLK, calibrate this value
+#define factor (4.238552517) //Time base for 10 Mhz CLK, calibrate this value
 
-#define calb (1+0.004934227+0.0020125)
+#define calb (1+0)
 
 
 unsigned char T1_ovc=0; //Store the number of overflows of COUNTER1
@@ -57,7 +57,7 @@ SIGNAL(SIG_OVERFLOW2)
 	jiffers++;
     T2_ovc++;
 
-	if((T2_ovc%4)!=0) //stable time, 2-3 seconds
+	if((T2_ovc%9)!=0) //stable time, 2-3 seconds
 		return; 
 
 
@@ -87,7 +87,7 @@ SIGNAL(SIG_OVERFLOW2)
 	counter = (unsigned long)f_avg;  
 		
 
-	frequency = (unsigned long)((float)counter*factor*calb);
+	frequency = (unsigned long)((double)counter*factor*calb);
 	
 	//RESET COUNTERS
 	T1_ovc = 0;
@@ -126,14 +126,14 @@ void post_display(long number)
 	lcd_cursor(0,0);
     
 	if((number>999)&&(number<999999)){
-	   printLL(number,3,3);
+	   printLL(number,0,0);
 	   lcd_puts("KHz");
      	lcd_puts("      ");
 
 	}
 
     if(number>999999){
-	   printLL(number,6,4); //omit xxHz
+	   printLL(number,0,0); //omit xxHz
 	   lcd_puts("MHz");
        lcd_puts("     ");
 
