@@ -12,8 +12,11 @@
 #include <util/delay.h>
 #include <math.h>
 
+void calc_freq();
 
-volatile unsigned char  ST = 22;//sample time, 39 one second
+volatile unsigned char  ST = 39;//sample time, 39 one second
+
+//#define DEBUG 1
 
 
 #define REF_F  24576180
@@ -241,8 +244,8 @@ SIGNAL(SIG_OVERFLOW2)
 {
    if(loop++%ST) //half second, 40 1.x second testing
       return;
-	stop();
 
+  	stop();
 }
 
 
@@ -382,18 +385,19 @@ void freq_main(void)
 	
  	while(1) {
 		if(read_key(KLOOP)){
-			ST+=5;
+			ST+=1;
 			if(ST>4*38)
 				ST=10;
 		}
 		
 		if(is_stop()){
-		    
+		    cli();
 		  	calc_freq();
 			post_display(frequency);
- 		    
-		//	while(!read_adc());  /*wait nex step*/
 
+#ifdef DEBUG 		    
+			while(!read_adc());  /*wait nex step*/
+#endif
 			if(loop>=ST){  //2.5S //testing use 10, 
 			    
 				reset();
@@ -424,6 +428,7 @@ void freq_main(void)
 			start();
 			loop=1;
 			TCNT2= 0;//restart timer2
+			sti();
 		}
 			
   	}
