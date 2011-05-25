@@ -19,7 +19,7 @@
 
 /*prototype*/
 void calc_freq();
-void post_display(long number);
+void post_display(unsigned long number);
 /*preCounter opratinos */
 void reset();
 void start();
@@ -46,29 +46,36 @@ void key_init();
 // 4s     8*16    4
 // 8s             5
 // 16s            6
-volatile unsigned char  ST = 1;//sample time, use 8 as about 1/4 seconds
+volatile unsigned short  ST = 1;//sample time, use 8 as about 1/4 seconds
 
 char gate=2; //one seconds
 void detect_gate()
 {
    if(is_gate_step())
 		gate++;
-   if(gate >= 6)
+   if(gate > 6)
    	  gate =0;
    ST = (1<<gate)*8;
 }
 
 void show_gate()
 {
-	lcd_puts("Gate:");
+	lcd_puts("G:");
 	if(gate == 0)
-		lcd_puts("0.25 S");
-		
-
+		lcd_puts("0.25S");
     if(gate==1)
-		lcd_puts("0.5S  ");
+		lcd_puts("0.5S ");
+    if(gate==2)
+    	if(lcd_puts ("01S  "));
+	if(gate==3)
+    	if(lcd_puts ("02S  "));
+	if(gate==4)
+    	if(lcd_puts ("04S  "));
+	if(gate==5)
+    	if(lcd_puts ("08S  "));
+	if(gate==6)
+    	if(lcd_puts ("16S  "));
 
-    if(lcd_puts("01S    "));
 }
 
 //exclusive FLT
@@ -86,21 +93,36 @@ void detect_fliter()
    if(is_mode_step()){
    	 	mode++; 
    }
-   if(mode >5)
+   if(mode>5)
    		mode = 0;
 
    if(mode>=3){
        FILTER = ACC_MODE;
-	   mode-=3;
    }
 
-   FILTER |= 1<<(mode-3);
+   if(mode<3)
+   		FILTER |= 1<<mode;
+   else 
+   		FILTER |= 1<<(mode-3);
 }
+
 void show_filter()
 {
+	if(FILTER&ACC_MODE)
+		lcd_puts("ACC+");
+    
+	if(FILTER&DRT_MODE)
+		lcd_puts("DRT");
+	if(FILTER&LPF_MODE)
+		lcd_puts("LPF");
+	if(FILTER&AVG_MODE)
+		lcd_puts("AVG");
 
+    //print10(mode);
+    lcd_puts("     ");
 
 }
+
 
 
 unsigned char T1_ovc=0; //FUT
@@ -242,8 +264,8 @@ void freq_main(void)
     
 	
  	while(1) {
-		detect_gate();
-		detect_fliter();
+		detect_fliter(); //close it if use protus
+		detect_gate(); 
 		if(is_stop()){
 		     cli();
 		  	 calc_freq();
@@ -278,11 +300,11 @@ void freq_main(void)
 void stable_debug();
 #endif
 
-void post_display(long number)
+void post_display(unsigned long number)
 {
     
 	
-
+	static char active=0;
 
 
 	lcd_cursor(0,0);
@@ -307,7 +329,7 @@ void post_display(long number)
 	}
   
     lcd_puts(" ");
-	print10(loop);
+	print10(active++);
 	lcd_puts("    ");
     
 /*********************************************************/
@@ -319,6 +341,7 @@ void post_display(long number)
 #endif
 
 	show_gate();
+	lcd_puts(" ");
     show_filter();
 
 }
