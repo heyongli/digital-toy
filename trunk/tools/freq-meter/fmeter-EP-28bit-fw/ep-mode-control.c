@@ -4,7 +4,7 @@
 #include <bitops.h>  //uC system
 #include <timer.h>
 
-#include "atmel/avr-io.h" //uc IO system
+#include <atmel/avr-io.h> //uc IO system
 
 #include <avr/interrupt.h> //avr gcc
 #include <util/delay.h>
@@ -45,17 +45,14 @@ char read_key(char key)
 	return 0;
 }
 
+unsigned int _adc(unsigned char ch);
 char read_adc_mode()
 {
-   unsigned long key= _adc(6);
-   _delay_ms(100);
-   if(key<2){
-   	   key= _adc(6);
-	   _delay_ms(100);
-	   if(key<2){
-
- 	     _delay_ms(100);
-	   	 while(_adc(6)<2)
+   //print10(_adc(6));
+   if(_adc(6)<5){
+   	   _delay_ms(1);
+	   if(_adc(6)<5){
+ 	        while(_adc(6)<5);
 	   	 	return 1;
 	   }
 	   return 0;
@@ -65,12 +62,12 @@ char read_adc_mode()
 }
 
 
-void is_gate_step()
+char is_gate_step()
 {
    return read_key(KLOOP);
 }
 
-void is_mode_step()
+char is_mode_step()
 {
    return read_adc_mode();
 }
