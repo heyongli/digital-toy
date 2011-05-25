@@ -60,7 +60,7 @@ void print10(unsigned long n)
 {
 	 char show = 0;
      unsigned char x=0;
-	 unsigned long base=10000000;
+	 unsigned long base=100000000;
      
 
 	 while(base>=1){
@@ -97,8 +97,9 @@ void printLL(unsigned long n, char dot, char prec)
 {
      //irqoff();
 	 char frac=0,sf=0;
-	 unsigned long base = 10000000;
-	 unsigned long nb=8; //sync with base
+	 unsigned long base = 1000000000;
+	 unsigned long nb=10; //sync with base
+
 
 	 while(base>=1){
 
@@ -107,20 +108,23 @@ void printLL(unsigned long n, char dot, char prec)
 			lcd_putc('.');
 			sf = 1;
 		}
-	 	
-		lcd_putc(hex2c(n/base));
+	
+		 lcd_putc(hex2c(n/base));
+
 
         if(base==1) 
 			return;
 	 	n=n%base;
 		nb-=1;
-          
+        
+		base/=10;
+
 		if(sf){
 			frac++;
 			if(frac>=prec)
 				return;
 		}
-		base/=10;
+		
 	
 	 }
 	   	
