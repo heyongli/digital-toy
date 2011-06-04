@@ -1,5 +1,3 @@
-
-
 #include "config.h"
 #include <compiler.h>
 #include <uprint.h>
@@ -14,13 +12,13 @@
 
 #include "ep-control.h"  /* pin allocation to precounter */
 
-
 //#define DEBUG 1
 
 /*prototype*/
 void calc_freq();
 void post_display(unsigned long number);
-/*preCounter opratinos */
+/*preCounter opratinos */
+
 void reset();
 void start();
 void stop();
@@ -51,8 +49,10 @@ volatile unsigned short  ST = 1;//sample time, use 8 as about 1/4 seconds
 char gate=2; //one seconds
 void detect_gate()
 {
+#ifndef DEBUG   
    if(is_gate_step())
 		gate++;
+#endif
    if(gate > 6)
    	  gate =0;
    ST = (1<<gate)*8;
@@ -90,9 +90,11 @@ char mode = 0;//mode 0,1,2 => DRT,LPF,AVG
 void detect_fliter()
 {
    FILTER = 0;
+#ifndef DEBUG   
    if(is_mode_step()){
    	 	mode++; 
    }
+#endif
    if(mode>5)
    		mode = 0;
 
@@ -125,8 +127,8 @@ void show_filter()
 
 
 
-unsigned char T1_ovc=0; //FUT
-unsigned char T0_ovc=0; //refrence source 
+unsigned long T1_ovc=0; //FUT
+unsigned long T0_ovc=0; //refrence source 
 volatile unsigned long c_dut; //the last calculated c_dut is stored here
 volatile unsigned long c_ref = 0; 
 
@@ -134,6 +136,7 @@ volatile unsigned long c_ref = 0;
 
 unsigned long filter()
 {
+
  	return  ((double)REF_F)*((double)c_dut/(double)c_ref);
 }
 
@@ -166,58 +169,75 @@ void counter_init()
 
 //T0 counte the refrence source , 12Hz max
 ISR(TIMER0_OVF_vect)
-{
+{
+
 	T0_ovc++;
-}
+}
 
-//T1 conter the precounter, 35Hz max
+
+//T1 conter the precounter, 35Hz max
+
 ISR(TIMER1_OVF_vect)
-{
+{
+
 	T1_ovc++;
-}
+}
 
 
-volatile unsigned long loop=1;
+
+volatile unsigned long loop=0;
 //T2 use as time base clock
 SIGNAL(SIG_OVERFLOW2) 
 {
-   if(loop++%ST) //half second, 40 1.x second testing
-      return;
+    loop++;
+}
 
-  	stop();
-}
-
 
-
-
+
+
+
+
+
+
 void setup_interrupts()
-{
+{
+
 	TIMSK = _bits8(1,TOIE0,TOIE0)| _bits8(1,TOIE1,TOIE1)|_bits8(1,TOIE2,TOIE2);//enable timer 0,1,2 overflow intrrupt	
 
 	//clear T1 counters
 	T1_ovc = 0;
-
+
+
 	TCNT1H = 0;
-	barrier();
+	barrier();
+
 	TCNT1L = 0;
 	TCNT1 = 0;
-
-}
 
-
+
+}
+
+
+
+
 
 void setup_timers(){
     TCCR0 = 0x06;  //TC0 to count PD4/T0, down edge triger for precounter
-
-	TCCR1A = 0x00; //Setup TC1 to count PD5/T1
+
+
+	TCCR1A = 0x00; //Setup TC1 to count PD5/T1
+
 	TCCR1B = 0x06; //TC1 down edge triger (from 393, so use down edge triger for correct count
 	
 	TCCR2 = 0x07;  //TC2 counts Clock_io/1024, use as time base caller 
 
-
-}
 
-
+
+}
+
+
+
+
 
 void calc_freq()
 {
@@ -227,16 +247,38 @@ void calc_freq()
 	unsigned long tcf= ref_011()&0xFFF;
 
     c_ref = tcf&0xFFF;
-	c_ref |=  (((unsigned long)TCNT0)<<12);  //8bit
-    c_ref |= ((unsigned long)T0_ovc)<<20; //8bit
+	c_ref |=  (((unsigned long)TCNT1)<<12);  //8bit
+    c_ref |= ((unsigned long)T1_ovc)<<28; //16bit
 
-
+    if(c_ref == 0)
+		c_ref = 1; //dirty fix if the F_dut is zero(so no triger to precounter)
+
+
  	c_dut  = tc&0xFFF; //12bit precounter
-	c_dut |= (((unsigned long)TCNT1)<<12);  //16bit
-    c_dut |= ((unsigned long)T1_ovc)<<28;
+	c_dut |= (((unsigned long)TCNT0)<<12);  //8bit
+    c_dut |= ((unsigned long)T0_ovc)<<20;
 
 }
 
+void soft_gate()
+{
+
+   if(loop%ST) 
+        return;
+   stop(); //reach gate time
+    
+   while(!is_stop()){ //wait until really stop
+     
+	 if(loop%(2*ST)) //four time gate time to wait, todo... 
+        continue;
+	 //start fail , reach gate time
+	 stop(); //ensure it's stop anyway
+     ff_clr();//ensure ff is reset, to really stop
+	 return;
+
+   }
+  
+}
 
 
 void freq_main(void) 
@@ -249,7 +291,8 @@ void freq_main(void)
 	reset();
 	key_init();
 	
-	setup_timers();
+	setup_timers();
+
 	setup_interrupts();
 	adc_init();
 	sti();
@@ -259,17 +302,20 @@ void freq_main(void)
 	TCNT0= 0;
 	TCNT1= 0;
 	T0_ovc = T1_ovc =0;
-	loop = 1;
 	start();
     
 	
  	while(1) {
-		detect_fliter(); //close it if use protus
+
+		detect_fliter();
 		detect_gate(); 
-		if(is_stop()){
+ 		
+		soft_gate();
+
+	    if(is_stop()){
 		     cli();
 		  	 calc_freq();
-			 post_display(filter());
+			 post_display(filter());//really result
 
 			 if(loop>=ST){  
 				reset();
@@ -278,22 +324,64 @@ void freq_main(void)
 				TCNT1= 0;
 				TCNT2 =0;
 				T0_ovc = T1_ovc =0;
-				loop = 1;
-				calc_freq(); //re-read counter;
+
 
 			}
+			sti(); //start need loop as the zero F_DUT gate			
 			start();
-			loop=1;
-			TCNT2= 0;//restart timer2
-			sti();
+			
+	
 		}
-			
-  	}
-
+  	}
+
+
+
 }
 
 
-
+/*preCounter opratinos */
+
+void reset()
+{
+   ff_clr();
+   reset_161();
+   reset_393();
+   //RESET COUNTERS
+
+   T1_ovc = 0;  //soft FUT
+
+   TCNT1 = 0;
+
+   T0_ovc = 0; //soft REF
+   TCNT0 = 0;  //chip REF 
+
+}
+void start()
+{
+  //sti_t1();
+  enable_393();
+  enable_161();
+  start_c();
+
+
+  while(is_stop()){ //wait until really start
+     
+	 if(loop%(2*ST)) //todo..... 
+        continue;
+	 //start fail , reach gate time
+	 stop(); //ensure it's stop anyway
+     ff_clr();//ensure ff is reset, to really stop
+	 return;
+
+  }
+}
+
+void stop()
+{
+   stop_c();
+}
+
+
 
 
 #ifdef DEBUG
@@ -304,7 +392,7 @@ void post_display(unsigned long number)
 {
     
 	
-	static char active=0;
+	static unsigned char active='A';
 
 
 	lcd_cursor(0,0);
@@ -329,7 +417,9 @@ void post_display(unsigned long number)
 	}
   
     lcd_puts(" ");
-	print10(active++);
+	if(active>128)
+		active='A';
+	lcd_putc(active++);
 	lcd_puts("    ");
     
 /*********************************************************/
@@ -344,7 +434,8 @@ void post_display(unsigned long number)
 	lcd_puts(" ");
     show_filter();
 
-}
+}
+
 
 
 #ifdef DEBUG
@@ -414,38 +505,9 @@ void stable_debug()
 }
 #endif //debug
 
-/*preCounter opratinos */
-void reset()
-{
-   ff_clr();
-   reset_161();
-   reset_393();
-   //RESET COUNTERS
-   T1_ovc = 0;  //soft FUT
-   TCNT1 = 0;
 
-   T0_ovc = 0; //soft REF
-   TCNT0 = 0;  //chip REF 
 
-}
-void start()
-{
-  //sti_t1();
-  enable_393();
-  enable_161();
-  start_c();
-
-  //DEBUGING, disable busy wiat, use delay
-   while(is_stop());//wait to sync with Fref
-  //_delay_ms(5);
-}
-
-void stop()
-{
-   stop_c();
-}
-
-unsigned short read_011()
+unsigned short ref_011()
 {
 	unsigned short add=0;
 	unsigned char i=0;
@@ -461,7 +523,7 @@ unsigned short read_011()
 	for (i=0;i<8;i++)
 	{
 		if(_test_bit(_inb(HC165_PORT),QH_DUT165))
-   			_set_bit(add,7-i); //ÉÏµçºóQHµÄÖµ¼´ÊÇ165µÄµÚ8Î»Öµ£¬¿ÉÒÔÖ±½Ó¸³ÖµÍêºó£¬¸ø165ÉÏÉýÑØ¶ÁÈ¡ÏÂ¸öÊý¾Ý
+   			_set_bit(add,7-i); //ä¸Šç”µåŽQHçš„å€¼å³æ˜¯165çš„ç¬¬8ä½å€¼ï¼Œå¯ä»¥ç›´æŽ¥èµ‹å€¼å®ŒåŽï¼Œç»™165ä¸Šå‡æ²¿è¯»å–ä¸‹ä¸ªæ•°æ®
    		
 		_clear_bit(HC165_PORT,CLK_DUT165);
 		_delay_us(1);
@@ -472,7 +534,7 @@ unsigned short read_011()
 	for (i=0;i<8;i++)
 	{
 		if(_test_bit(_inb(HC165_PORT),QH_DUT165))
-   			_set_bit(add,15-i); //ÉÏµçºóQHµÄÖµ¼´ÊÇ165µÄµÚ8Î»Öµ£¬¿ÉÒÔÖ±½Ó¸³ÖµÍêºó£¬¸ø165ÉÏÉýÑØ¶ÁÈ¡ÏÂ¸öÊý¾Ý
+   			_set_bit(add,15-i); //ä¸Šç”µåŽQHçš„å€¼å³æ˜¯165çš„ç¬¬8ä½å€¼ï¼Œå¯ä»¥ç›´æŽ¥èµ‹å€¼å®ŒåŽï¼Œç»™165ä¸Šå‡æ²¿è¯»å–ä¸‹ä¸ªæ•°æ®
    		
 		_clear_bit(HC165_PORT,CLK_DUT165);
 		_delay_us(1);
@@ -484,7 +546,7 @@ unsigned short read_011()
 	return add;
 }
 
-unsigned short ref_011()
+unsigned short read_011()
 {
 	unsigned short add=0;
 	unsigned char i=0;
@@ -500,7 +562,7 @@ unsigned short ref_011()
 	for (i=0;i<8;i++)
 	{
 		if(_test_bit(_inb(REF165_PORT),QH_REF165))
-   			_set_bit(add,7-i); //ÉÏµçºóQHµÄÖµ¼´ÊÇ165µÄµÚ8Î»Öµ£¬¿ÉÒÔÖ±½Ó¸³ÖµÍêºó£¬¸ø165ÉÏÉýÑØ¶ÁÈ¡ÏÂ¸öÊý¾Ý
+   			_set_bit(add,7-i); //ä¸Šç”µåŽQHçš„å€¼å³æ˜¯165çš„ç¬¬8ä½å€¼ï¼Œå¯ä»¥ç›´æŽ¥èµ‹å€¼å®ŒåŽï¼Œç»™165ä¸Šå‡æ²¿è¯»å–ä¸‹ä¸ªæ•°æ®
    		
 		_clear_bit(REF165_PORT,CLK_REF165);
 		_delay_us(1);
@@ -511,7 +573,7 @@ unsigned short ref_011()
 	for (i=0;i<8;i++)
 	{
 		if(_test_bit(_inb(REF165_PORT),QH_REF165))
-   			_set_bit(add,15-i); //ÉÏµçºóQHµÄÖµ¼´ÊÇ165µÄµÚ8Î»Öµ£¬¿ÉÒÔÖ±½Ó¸³ÖµÍêºó£¬¸ø165ÉÏÉýÑØ¶ÁÈ¡ÏÂ¸öÊý¾Ý
+   			_set_bit(add,15-i); //ä¸Šç”µåŽQHçš„å€¼å³æ˜¯165çš„ç¬¬8ä½å€¼ï¼Œå¯ä»¥ç›´æŽ¥èµ‹å€¼å®ŒåŽï¼Œç»™165ä¸Šå‡æ²¿è¯»å–ä¸‹ä¸ªæ•°æ®
    		
 		_clear_bit(REF165_PORT,CLK_REF165);
 		_delay_us(1);
