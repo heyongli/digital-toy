@@ -1,0 +1,20 @@
+1. 34063 design
+
+Vin = 	12.00 ±35% V   7.5v-- 16v
+Vout = 	6.50 V
+Iout = 	0.35 A
+Vripple = 	0.02 V
+Vin min = 	7.80 V
+Ton / Toff = 	8.62
+Ton + Toff = 	20.00 µs (micro seconds)
+Toff = 	2.08 µs (micro seconds)
+Ton = 	17.92 µs (micro seconds)
+Ct = 	896 pF(40Khz)/448pF(80Khz)
+Ipk(2*Iout) = 	0.70 A
+Rsc(0.3/Ipk) = 	0.43 Ω
+Lmin((Vin-Vo-Vsat)/Ipk*Ton) = 	5.12 µH  (recommand 100uH/220uH)
+Co = 	87.50 µF
+R1 = 	10.00 kΩ
+R2 = ((Vout - 1.25) / 1.25) * R1 = 	42.00 kΩ
+
+
