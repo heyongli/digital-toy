@@ -1,6 +1,11 @@
 #ifndef METAL_CELL_RESOURCE
 #define METAL_CELL_RESOURCE
 
+
+//#define DEBUG 1
+
+
+
 /*
  *Fuse config:
  * 	CKSEL: 0111   外部满幅晶振，CLKDIV8:1 ==> 10M 其他默认
@@ -49,9 +54,6 @@
 #define METAL_KEYUP  	 0
 #define METAL_KEYDOWN  1
 #define METAL_KEYOK    2
-
-
-
 
 
 #endif
