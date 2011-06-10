@@ -12,7 +12,6 @@
 
 #include "ep-control.h"  /* pin allocation to precounter */
 
-//#define DEBUG 1
 
 /*prototype*/
 void calc_freq();
@@ -31,9 +30,15 @@ char is_mode_step();
 void key_init();
 
 
+#ifndef DEBUG
 /* TCXO frequncy */
 #define REF_F  24576180
+#else
+#define REF_F 3000  //3k for proteus
+#endif
 
+
+char update_lcd = 0;
 
 /*Freq Meter sample loop, 8M/1024/256=30.52HZ per second*/
 // 				gate
@@ -46,15 +51,18 @@ void key_init();
 // 16s            6
 volatile unsigned short  ST = 1;//sample time, use 8 as about 1/4 seconds
 
-char gate=2; //one seconds
+char gate=3; //one seconds
 void detect_gate()
 {
-#ifndef DEBUG   
-   if(is_gate_step())
+
+   if(is_gate_step()){
 		gate++;
-#endif
+		update_lcd=1;
+   }
+
    if(gate > 6)
    	  gate =0;
+
    ST = (1<<gate)*8;
 }
 
@@ -87,14 +95,19 @@ void show_gate()
 volatile unsigned char  FILTER =DRT_MODE;
 char mode = 0;//mode 0,1,2 => DRT,LPF,AVG
 			  //mode 3,4,5 => DRT+ACC, LPF+ACC, AVG+ACC
+
+#define debug() (FILTER&ACC_MODE)
+
 void detect_fliter()
 {
    FILTER = 0;
-#ifndef DEBUG   
+
    if(is_mode_step()){
    	 	mode++; 
+		update_lcd=1;
+   
    }
-#endif
+
    if(mode>5)
    		mode = 0;
 
@@ -186,10 +199,15 @@ ISR(TIMER1_OVF_vect)
 
 
 volatile unsigned long loop=0;
+volatile unsigned char soft_stop=0;
 //T2 use as time base clock
 SIGNAL(SIG_OVERFLOW2) 
 {
     loop++;
+	if(loop%ST) 
+        return;
+    stop(); //reach gate time
+	soft_stop=1;
 }
 
 
@@ -243,9 +261,8 @@ void calc_freq()
 {
 	//s
     //timer 2 overflow: measure c_dut
-	unsigned long tc= read_011()&0xFFF;
-	unsigned long tcf= ref_011()&0xFFF;
 
+	unsigned long tcf= ref_011()&0xFFF;
     c_ref = tcf&0xFFF;
 	c_ref |=  (((unsigned long)TCNT1)<<12);  //8bit
     c_ref |= ((unsigned long)T1_ovc)<<28; //16bit
@@ -254,30 +271,32 @@ void calc_freq()
 		c_ref = 1; //dirty fix if the F_dut is zero(so no triger to precounter)
 
 
+	unsigned long tc= read_011()&0xFFF;
  	c_dut  = tc&0xFFF; //12bit precounter
 	c_dut |= (((unsigned long)TCNT0)<<12);  //8bit
     c_dut |= ((unsigned long)T0_ovc)<<20;
 
 }
 
-void soft_gate()
+
+
+unsigned char live='A';
+void  we_live()
 {
 
-   if(loop%ST) 
-        return;
-   stop(); //reach gate time
-    
-   while(!is_stop()){ //wait until really stop
-     
-	 if(loop%(2*ST)) //four time gate time to wait, todo... 
-        continue;
-	 //start fail , reach gate time
-	 stop(); //ensure it's stop anyway
-     ff_clr();//ensure ff is reset, to really stop
-	 return;
+	lcd_cursor(15,0);
+	
+	if(live>128)
+		live='A';
+	
+	lcd_putc(live++);
 
-   }
-  
+
+}
+void soft_gate()
+{
+	if(0==(loop%ST))
+		 update_lcd =1;
 }
 
 
@@ -303,16 +322,21 @@ void freq_main(void)
 	TCNT1= 0;
 	T0_ovc = T1_ovc =0;
 	start();
-    
+	//fast clear screen...
+	post_display(filter());//really result
 	
  	while(1) {
 
 		detect_fliter();
 		detect_gate(); 
- 		
-		soft_gate();
+ 		soft_gate();
 
-	    if(is_stop()){
+		if(update_lcd){
+			post_display(filter());//really result
+			update_lcd=0;
+		}
+
+	    if(is_stop()&&soft_stop){
 		     cli();
 		  	 calc_freq();
 			 post_display(filter());//really result
@@ -363,36 +387,28 @@ void start()
   enable_161();
   start_c();
 
-
-  while(is_stop()){ //wait until really start
-     
-	 if(loop%(2*ST)) //todo..... 
-        continue;
-	 //start fail , reach gate time
-	 stop(); //ensure it's stop anyway
-     ff_clr();//ensure ff is reset, to really stop
-	 return;
-
-  }
+  loop = 1; //init value
+  //while(is_stop()); //it will start in some time
+  soft_stop =0; //it's really starting, eventhough HW is not really start!
 }
 
 void stop()
 {
    stop_c();
+   soft_stop =1;
 }
 
 
 
 
-#ifdef DEBUG
 void stable_debug();
-#endif
+
 
 void post_display(unsigned long number)
 {
     
 	
-	static unsigned char active='A';
+
 
 
 	lcd_cursor(0,0);
@@ -415,20 +431,19 @@ void post_display(unsigned long number)
 	   lcd_puts("Hz");
 
 	}
-  
-    lcd_puts(" ");
-	if(active>128)
-		active='A';
-	lcd_putc(active++);
+  	lcd_puts("       ");
+	we_live();
 	lcd_puts("    ");
     
 /*********************************************************/
 	//second line ,debug infomation 
     lcd_cursor(0,1);
-#ifdef DEBUG
-	stable_debug();
-	return;
-#endif
+
+	if(debug()){
+		stable_debug();
+		return;
+	}
+
 
 	show_gate();
 	lcd_puts(" ");
@@ -438,8 +453,7 @@ void post_display(unsigned long number)
 
 
 
-#ifdef DEBUG
-
+///////////DEBUGING CODE
 float ldeltaR;
 unsigned char  stable=0;
 unsigned long lref,ldut;
@@ -451,59 +465,54 @@ void stable_debug()
 	unsigned long dref, ddut;//delta of the counter between this and last reault 
 	float  cdeltaR, isgood; //the deta rato fo ddut/dref
 
+	if(update_lcd) //if not really result , by pass it
+		return;  
+
 	//calc the delta of 2 times for refrence frequncy and Frequncy of dut
-	if(lref>c_ref){
-		dref =  lref-c_ref;
-	}else {
-	    dref = c_ref-lref;
-    }
-
-
-    if(ldut>c_dut){
-   	   ddut =  ldut-c_dut;
-	}
-	else {
-	   ddut = c_dut-ldut;
-    }
-
-	
+	dref =fabs(lref-c_ref);
+	ddut =fabs(ldut-c_dut);
+		
     //try identify the stabeness of meter result
     cdeltaR = (float)ddut/(float)dref;
-    isgood = abs(cdeltaR - ldeltaR);
+    isgood = fabs(cdeltaR - ldeltaR);
   
-
-
-    if(isgood>0.5)
+    if(isgood>0.00002)
 	    stable++;
     
-    //show stable ness
-    lcd_puts("#");
-	lcd_hex8(stable);
-     
-   	//show delta of Refrenc clock
-	lcd_puts("R");
-	if(lref>c_ref)
-	   lcd_puts("-");
-    else 
-	   lcd_puts("+");
+	if(gate<=2){ //<=1S
+	    //show stable ness1
+    	lcd_puts("#");
+		//lcd_hex8((char)(isgood*100));
+    	lcd_hex8(stable);
+	 
+   		//show delta of Refrenc clock
+		lcd_puts("R");
+		if(lref>c_ref)
+	   		lcd_puts("-");
+    	else 
+	   		lcd_puts("+");
 
-	print10L(dref, 1000);
-   
-    //show dlta of Dut clock
-   	lcd_puts("F");
-	if(ldut>c_dut)
-	    lcd_puts("-");
-    else lcd_puts("+");
-	print10L(ddut,1000); //show 4bits
+		print10L(dref, 1000);
+	
+    	//show dlta of Dut clock
+   		lcd_puts(" F");
+		if(ldut>c_dut)
+	   		lcd_puts("-");
+    	else lcd_puts("+");
+			print10L(ddut,1000); //show 4bits
 
-
+	}else { //>1S mode
+		lcd_puts("R");
+			print10L(c_ref, 1000000);
+		lcd_puts("F");
+			print10L(c_dut, 1000000);
+	}
 	lref=c_ref;
 	ldut=c_dut;
     ldeltaR = cdeltaR;
 
-
 }
-#endif //debug
+///////////ENDINGG DEBUGING CODE
 
 
 

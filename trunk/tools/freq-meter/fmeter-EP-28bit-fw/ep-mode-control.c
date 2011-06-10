@@ -24,6 +24,8 @@
     	_pins_pullup(KEY_PORT,6,7,PULLUP); \
 		_pin_mode(PORTB, PB2,INPUT); \
 		_pins_pullup(PORTB,PB2,PB2,PULLUP); \
+		_pin_mode(PORTC, PC1,INPUT); \
+		_pin_pullup(PORTC,PC1,PULLUP); \
 
 void key_init()
 {
@@ -61,13 +63,35 @@ char read_adc_mode()
    return 0;
 }
 
+char read_mode_debug()
+{
+
+	if(!_test_bit(_inb(PORTC),PC1)){
+		_delay_ms(10);
+		if(!_test_bit(_inb(PORTC),PC1))
+		{
+			while(!_test_bit(_inb(PORTC),PC1));
+			return 1;
+		}
+		return 0;
+	}
+	return 0;
+
+}
 
 char is_gate_step()
 {
-   return read_key(KLOOP);
+
+   		return read_key(KLOOP);
 }
 
 char is_mode_step()
 {
-   return read_adc_mode();
+	//for the proteus
+	if(read_mode_debug())
+		return 1;
+	//for real word
+#ifndef DEBUG
+   	return read_adc_mode();
+#endif
 }
