@@ -14,12 +14,6 @@ UsedLibrary="/home/hyl/digital-toy/dtoy-eagle-lbr/dtoy-RF.lbr"
 UsedLibrary="/home/hyl/digital-toy/dtoy-eagle-lbr/led-seg.lbr"
 
 [Win_1]
-Type="Control Panel"
-Loc="224 85 1265 549"
-State=2
-Number=0
-
-[Win_2]
 Type="Board Editor"
 Loc="341 268 1585 1024"
 State=2
@@ -58,13 +52,19 @@ AddLevel=2
 PadsSameType=0
 Layer=1
 
+[Win_2]
+Type="Control Panel"
+Loc="629 200 1776 926"
+State=2
+Number=0
+
 [Win_3]
 Type="Schematic Editor"
 Loc="529 76 1661 809"
 State=2
 Number=2
 File="5v-oscillator.sch"
-View="1330568 820555 2139306 1349339"
+View="1104672 777669 2269256 1539117"
 WireWidths=" 0 3048 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 4064 2032"
 PadDiameters=" 2540 3048 4064 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 0"
 PadDrills=" 5000 6000 7000 9000 10000 11000 12000 13000 14000 15000 16000 20000 22000 28000 32000 8000"
@@ -96,7 +96,7 @@ ArcDirection=0
 AddLevel=2
 PadsSameType=0
 Layer=91
-Views=" 1: 1330568 820555 2139306 1349339"
+Views=" 1: 1104672 777669 2269256 1539117"
 Sheet=1
 
 [Desktop]
