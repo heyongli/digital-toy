@@ -29,12 +29,12 @@
 #define GATE_161  PC1
 
 #define CLR_161 PC0
-#define reset_161()   _clear_bit(CNT_CTR_PORT, CLR_161);_delay_us(1)
-#define enable_161()  _set_bit(CNT_CTR_PORT, CLR_161);_delay_us(1)
+#define reset_161()   _clear_bit(CNT_CTR_PORT, CLR_161);_delay_us(7)
+#define enable_161()  _set_bit(CNT_CTR_PORT, CLR_161);_delay_us(7)
 
 #define CLR_393  PC2
-#define reset_393()   _set_bit(CNT_CTR_PORT,CLR_393);_delay_us(1)
-#define enable_393()  _clear_bit(CNT_CTR_PORT,CLR_393);_delay_us(1)
+#define reset_393()   _set_bit(CNT_CTR_PORT,CLR_393);_delay_us(7)
+#define enable_393()  _clear_bit(CNT_CTR_PORT,CLR_393);_delay_us(7)
 
 #define cnt_crt_io_init() \
 	    	_pin_mode(CNT_CTR_PORT,CLR_161,OUTPUT);\

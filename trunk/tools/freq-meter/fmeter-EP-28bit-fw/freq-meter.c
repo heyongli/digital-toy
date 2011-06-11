@@ -40,18 +40,18 @@ void key_init();
 
 char update_lcd = 0;
 
-/*Freq Meter sample loop, 8M/1024/256=30.52HZ per second*/
+/*Freq Meter sample loop, 23Hz per second*/
 // 				gate
-// 0.25s, 8x1,    0
-// 0.5s,  8x2,    1
-// 1s     8*4     2
-// 2s     8x8     3
-// 4s     8*16    4
+// 0.25s, 6x1,    0
+// 0.5s,  6x2,    1
+// 1s     6*4     2
+// 2s     6x8     3
+// 4s     6*16    4
 // 8s             5
 // 16s            6
 volatile unsigned short  ST = 1;//sample time, use 8 as about 1/4 seconds
 
-char gate=3; //one seconds
+char gate=2; //one seconds
 void detect_gate()
 {
 
@@ -63,7 +63,7 @@ void detect_gate()
    if(gate > 6)
    	  gate =0;
 
-   ST = (1<<gate)*8;
+   ST = (1<<gate)*6;
 }
 
 void show_gate()
@@ -149,8 +149,7 @@ volatile unsigned long c_ref = 0;
 
 unsigned long filter()
 {
-
- 	return  ((double)REF_F)*((double)c_dut/(double)c_ref);
+ 	return (((double)REF_F)*((double)c_dut/(double)c_ref));
 }
 
 
@@ -178,36 +177,43 @@ void counter_init()
 
 
 
-
-
-//T0 counte the refrence source , 12Hz max
+volatile unsigned long loop=0;
+//T0 counte the DUT source , 12Hz max
 ISR(TIMER0_OVF_vect)
 {
-
 	T0_ovc++;
+
+  
+
+
 }
 
 
-//T1 conter the precounter, 35Hz max
 
+//T1 conter the REF,REF_F/16/256/256= 23.437671661, force to 8bit, then get accuracy gate time
 ISR(TIMER1_OVF_vect)
 {
-
 	T1_ovc++;
+    
+	TCNT1 = 0xFF00; //T0 force to 8bit
+	loop++;
+	if(loop>=ST)
+  		stop();
+
 }
 
 
 
-volatile unsigned long loop=0;
-volatile unsigned char soft_stop=0;
+
+
+
 //T2 use as time base clock
+volatile unsigned char soft_stop=0;
+volatile unsigned char soft_loop;
 SIGNAL(SIG_OVERFLOW2) 
 {
-    loop++;
-	if(loop%ST) 
-        return;
-    stop(); //reach gate time
-	soft_stop=1;
+	soft_loop++;
+
 }
 
 
@@ -230,7 +236,7 @@ void setup_interrupts()
 	barrier();
 
 	TCNT1L = 0;
-	TCNT1 = 0;
+	TCNT1 = 0xFF00;
 
 
 }
@@ -259,44 +265,32 @@ void setup_timers(){
 
 void calc_freq()
 {
-	//s
-    //timer 2 overflow: measure c_dut
 
 	unsigned long tcf= ref_011()&0xFFF;
-    c_ref = tcf&0xFFF;
-	c_ref |=  (((unsigned long)TCNT1)<<12);  //8bit
-    c_ref |= ((unsigned long)T1_ovc)<<28; //16bit
+    c_ref = tcf&0xFFF;  //12bit
+	c_ref |=  (((unsigned long)(TCNT1&0x00FF))<<12); ////force to 8bt
+    c_ref |= ((unsigned long)T1_ovc)<<20;  //;28;  
 
     if(c_ref == 0)
 		c_ref = 1; //dirty fix if the F_dut is zero(so no triger to precounter)
 
-
-	unsigned long tc= read_011()&0xFFF;
+ 	unsigned long tc= read_011()&0xFFF;
  	c_dut  = tc&0xFFF; //12bit precounter
 	c_dut |= (((unsigned long)TCNT0)<<12);  //8bit
     c_dut |= ((unsigned long)T0_ovc)<<20;
 
+	
 }
 
 
 
-unsigned char live='A';
-void  we_live()
+
+void keep_live()
 {
-
-	lcd_cursor(15,0);
-	
-	if(live>128)
-		live='A';
-	
-	lcd_putc(live++);
-
-
-}
-void soft_gate()
-{
-	if(0==(loop%ST))
+	if(soft_loop>33) {//one second heat beat 
 		 update_lcd =1;
+		 soft_loop=0;
+	}
 }
 
 
@@ -308,6 +302,7 @@ void freq_main(void)
 	gate_init();
 	stop();
 	reset();
+	ff_clr();
 	key_init();
 	
 	setup_timers();
@@ -319,7 +314,7 @@ void freq_main(void)
 
 	TCNT2= 0;
 	TCNT0= 0;
-	TCNT1= 0;
+	TCNT1= 0xFF00;
 	T0_ovc = T1_ovc =0;
 	start();
 	//fast clear screen...
@@ -329,32 +324,26 @@ void freq_main(void)
 
 		detect_fliter();
 		detect_gate(); 
- 		soft_gate();
+ 		keep_live();
 
 		if(update_lcd){
 			post_display(filter());//really result
 			update_lcd=0;
 		}
+		
+
 
 	    if(is_stop()&&soft_stop){
-		     cli();
-		  	 calc_freq();
-			 post_display(filter());//really result
+		  	calc_freq();
+			post_display(filter());//really result
 
-			 if(loop>=ST){  
+			if(loop>=(ST)){  //never clear
 				reset();
-				
-				TCNT0= 0;
-				TCNT1= 0;
-				TCNT2 =0;
-				T0_ovc = T1_ovc =0;
-
-
-			}
-			sti(); //start need loop as the zero F_DUT gate			
-			start();
 			
-	
+			}
+			loop=0;
+		
+		    start();
 		}
   	}
 
@@ -368,34 +357,33 @@ void freq_main(void)
 void reset()
 {
    ff_clr();
+   stop_c();
    reset_161();
    reset_393();
    //RESET COUNTERS
 
    T1_ovc = 0;  //soft FUT
-
-   TCNT1 = 0;
-
+   TCNT1 = 0xFF00;
    T0_ovc = 0; //soft REF
    TCNT0 = 0;  //chip REF 
 
 }
 void start()
 {
-  //sti_t1();
+  
   enable_393();
   enable_161();
   start_c();
-
-  loop = 1; //init value
-  //while(is_stop()); //it will start in some time
   soft_stop =0; //it's really starting, eventhough HW is not really start!
+   //while(is_stop()); //it will start in some time
+
 }
 
 void stop()
 {
    stop_c();
    soft_stop =1;
+ 
 }
 
 
@@ -403,14 +391,22 @@ void stop()
 
 void stable_debug();
 
+unsigned char live='A';
+void  we_live()
+{
 
+	lcd_cursor(15,0);
+	
+	if(live>128)
+		live='A';
+	
+	lcd_putc(live++);
+    //lcd_hex8((char)loop);
+
+}
 void post_display(unsigned long number)
 {
     
-	
-
-
-
 	lcd_cursor(0,0);
     
 	if((number>999)&&(number<999999)){
@@ -503,9 +499,11 @@ void stable_debug()
 
 	}else { //>1S mode
 		lcd_puts("R");
-			print10L(c_ref, 1000000);
+			lcd_cursor(0,0);
+			printLL(c_ref, 0,0);
 		lcd_puts("F");
-			print10L(c_dut, 1000000);
+			lcd_cursor(0,1);
+			printLL(c_dut, 0,0);
 	}
 	lref=c_ref;
 	ldut=c_dut;
@@ -523,9 +521,9 @@ unsigned short ref_011()
 
 
 	_clear_bit(PORTC,SH_DUT165); //recept parallen load data, lockit 
-	_delay_us(1);
+	_delay_us(7);
 	_set_bit(PORTC,SH_DUT165);  //lock it
-	_delay_us(1);
+	_delay_ms(1);
 
   	
 	_clear_bit(HC165_PORT,CLK_DUT165);
@@ -535,9 +533,9 @@ unsigned short ref_011()
    			_set_bit(add,7-i); //上电后QH的值即是165的第8位值，可以直接赋值完后，给165上升沿读取下个数据
    		
 		_clear_bit(HC165_PORT,CLK_DUT165);
-		_delay_us(1);
+		_delay_us(7);
 		_set_bit(HC165_PORT,CLK_DUT165);
-		_delay_us(1);
+		_delay_us(7);
 		
 	}
 	for (i=0;i<8;i++)
@@ -546,9 +544,9 @@ unsigned short ref_011()
    			_set_bit(add,15-i); //上电后QH的值即是165的第8位值，可以直接赋值完后，给165上升沿读取下个数据
    		
 		_clear_bit(HC165_PORT,CLK_DUT165);
-		_delay_us(1);
+		_delay_us(7);
 		_set_bit(HC165_PORT,CLK_DUT165);
-		_delay_us(1);
+		_delay_us(7);
 		
 	}
 	
@@ -562,9 +560,9 @@ unsigned short read_011()
 
 
 	_clear_bit(REF165_PORT,SH_REF165); //recept parallen load data, lockit 
-	_delay_us(1);
+	_delay_us(7);
 	_set_bit(REF165_PORT,SH_REF165);  //lock it
-	_delay_us(1);
+	_delay_ms(1);
 
   	
 	_clear_bit(REF165_PORT,CLK_REF165);
@@ -574,9 +572,9 @@ unsigned short read_011()
    			_set_bit(add,7-i); //上电后QH的值即是165的第8位值，可以直接赋值完后，给165上升沿读取下个数据
    		
 		_clear_bit(REF165_PORT,CLK_REF165);
-		_delay_us(1);
+		_delay_us(7);
 		_set_bit(REF165_PORT,CLK_REF165);
-		_delay_us(1);
+		_delay_us(7);
 		
 	}
 	for (i=0;i<8;i++)
@@ -585,9 +583,9 @@ unsigned short read_011()
    			_set_bit(add,15-i); //上电后QH的值即是165的第8位值，可以直接赋值完后，给165上升沿读取下个数据
    		
 		_clear_bit(REF165_PORT,CLK_REF165);
-		_delay_us(1);
+		_delay_us(7);
 		_set_bit(REF165_PORT,CLK_REF165);
-		_delay_us(1);
+		_delay_us(7);
 		
 	}
 	
