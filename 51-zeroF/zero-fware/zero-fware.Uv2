@@ -5,18 +5,18 @@ Target (Target 1), 0x0000 // Tools: 'MCS-51'
 
 Group (Source Group 1)
 
-File 1,1,<.\main.c><main.c> 0x0 
-File 1,1,<.\driver\3key.c><3key.c> 0x0 
-File 1,1,<..\..\metal-cell\c51\uart.c><uart.c> 0x0 
-File 1,1,<..\..\metal-cell\c51\delay.c><delay.c> 0x0 
-File 1,1,<..\..\metal-cell\c51\timer0.c><timer0.c> 0x0 
-File 1,1,<..\..\metal-cell\uprint.c><uprint.c> 0x0 
-File 1,1,<..\..\metal-cell\timer.c><timer.c> 0x0 
-File 1,1,<..\..\metal-cell\drivers\lcm1630.c><lcm1630.c> 0x0 
-File 1,1,<..\..\metal-cell\drivers\4wire-1602.c><4wire-1602.c> 0x0 
-File 1,1,<..\..\metal-cell\drivers\ds18b20.c><ds18b20.c> 0x0 
-File 1,1,<..\..\metal-cell\drivers\ds1302.c><ds1302.c> 0x0 
-File 1,2,<..\..\metal-cell\c51\_delay.s><_delay.s> 0x0 
+File 1,1,<.\main.c><main.c>
+File 1,1,<.\driver\3key.c><3key.c>
+File 1,1,<..\..\metal-cell\c51\uart.c><uart.c>
+File 1,1,<..\..\metal-cell\c51\delay.c><delay.c>
+File 1,1,<..\..\metal-cell\c51\timer0.c><timer0.c>
+File 1,1,<..\..\metal-cell\uprint.c><uprint.c>
+File 1,1,<..\..\metal-cell\timer.c><timer.c>
+File 1,1,<..\..\metal-cell\drivers\lcm1630.c><lcm1630.c>
+File 1,1,<..\..\metal-cell\drivers\4wire-1602.c><4wire-1602.c>
+File 1,1,<..\..\metal-cell\drivers\ds18b20.c><ds18b20.c>
+File 1,1,<..\..\metal-cell\drivers\ds1302.c><ds1302.c>
+File 1,2,<..\..\metal-cell\c51\_delay.s><_delay.s>
 
 
 Options 1,0,0  // Target 'Target 1'
@@ -59,6 +59,8 @@ Options 1,0,0  // Target 'Target 1'
  RunUsr 1 0 <>
  BrunUsr 0 0 <>
  BrunUsr 1 0 <>
+ CrunUsr 0 0 <>
+ CrunUsr 1 0 <>
  SVCSID <>
  MODEL5=0
  RTOS5=0
