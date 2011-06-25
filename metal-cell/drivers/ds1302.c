@@ -9,6 +9,7 @@
 #include <drivers/lcd.h>
 #include <timer.h>
 #include <bitops.h>
+#include <uprint.h>
 
 
 //#define BURST_OPS
@@ -208,7 +209,7 @@ unsigned char sec,min,hour;
 
 void lcd_showhex(unsigned char x);
 
-ds1302_test()
+void ds1302_test()
 {
     
     char sec; 
@@ -216,23 +217,23 @@ ds1302_test()
 	
 	
 	//year/month/date
-	lcd_showhex(0x20);
-	lcd_showhex(ds1302_read(DS1302_YEAR));
+	lcd_hex8(0x20);
+	lcd_hex8(ds1302_read(DS1302_YEAR));
 	lcd_puts("/");
-	lcd_showhex(ds1302_read(DS1302_MONTH));
+	lcd_hex8(ds1302_read(DS1302_MONTH));
 	lcd_puts("/");
-	lcd_showhex(ds1302_read(DS1302_DATE));
+	lcd_hex8(ds1302_read(DS1302_DATE));
 	lcd_puts(" ");
 	
 	/*hour:min*/
 	sec=ds1302_read(DS1302_SEC);
 	
-	lcd_showhex(ds1302_read(DS1302_HOUR));
+	lcd_hex8(ds1302_read(DS1302_HOUR));
 	if(sec%2)
 		lcd_puts(":");
 	else
 		lcd_puts(" ");
-	lcd_showhex(ds1302_read(DS1302_MIN));
+	lcd_hex8(ds1302_read(DS1302_MIN));
 	
 
 	

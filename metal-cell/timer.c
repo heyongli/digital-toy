@@ -1,3 +1,4 @@
+
 #include <timer.h>
 
 
@@ -6,7 +7,7 @@ volatile unsigned  long jiffers=0;  //250us per jiffers
 
 
 
-#if HAVE_METAL_DELAY
+#ifdef HAVE_METAL_DELAY
 /*0-64 seconds*/
 void delay(unsigned long ticks)
 {

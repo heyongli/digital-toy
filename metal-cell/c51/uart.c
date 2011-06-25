@@ -12,7 +12,7 @@
 
 
 /* 11M or 11.0592M, BaduRate 9600	*/
-uart_init()
+void uart_init()
 {
   
                     	  //初始化串行口和波特率发生器

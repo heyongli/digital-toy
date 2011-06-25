@@ -208,7 +208,7 @@ void display(int n)
   
 }
 
-ds18b20_demo()
+void ds18b20_demo()
 {
     unsigned short t,d=0;
     lcd_cursor(0,1);
