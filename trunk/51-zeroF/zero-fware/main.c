@@ -61,7 +61,7 @@ void main()
    lcm1630_demo2();
 
    while(1){
-		   
+	
 	   update_lcd();
 	   // uart_demo();
    }

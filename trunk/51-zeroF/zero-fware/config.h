@@ -22,7 +22,8 @@
 #endif
 
 
-
+//library option
+#define HAVE_SWAP8 1
 
 
 
