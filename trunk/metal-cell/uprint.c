@@ -1,9 +1,10 @@
 
 
 #include <drivers/lcd.h> //common system driver
+#include <config.h>
 
 
-#ifdef HAVE_SWAP8 
+#if defined(HAVE_SWAP8)
 /*abcd1234 => 4321dcba */
 unsigned char _swap8(unsigned char x)
 {
