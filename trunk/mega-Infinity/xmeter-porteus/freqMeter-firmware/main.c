@@ -3,8 +3,7 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 
-
-#include  <atmel/avr-io.h>
+#include <io.h>
 #include  <bitops.h>
 
 
@@ -19,15 +18,18 @@
 
 int main()
 {
-
-  	cli();
+	timer0_init();
+	enable_timer0();
 	lcd1602_init();
+	adc_init();
+	iron_init();
 	
+	lcd_puts("Tool gear V0");
+    sti();
 
-      
 	while(1){
-		freq_main();
-
+		update_lcd();
+		iron_loop();
 	}
 
 }

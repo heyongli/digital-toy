@@ -9,11 +9,11 @@
  *   
  */
 
-
+#define ARCH_AVR 1
 
 //////////////////////////////////////////////////////////////////////
 //Timer resource 
-#undef METAL_CELL_TIMER0    //metal cell use timer0 update jiffers
+#define METAL_CELL_TIMER0    //metal cell use timer0 update jiffers
 //#define METAL_CELL_TIMER0 1
 
 
