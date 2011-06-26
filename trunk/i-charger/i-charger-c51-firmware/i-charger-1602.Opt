@@ -32,6 +32,7 @@ TARGOPT 1, (Target 1)
   OPTLT 1,1,1,0,1,1,0,1,0,0,0,0
   OPTXL 1,1,1,1,1,1,1,0,0
   OPTFL 1,0,1
+  OPTAX 0
   OPTDL (S8051.DLL)()(DP51.DLL)(-pAT52)(S8051.DLL)()(TP51.DLL)(-pAT52)
   OPTDBG 48125,0,()()()()()()()()()() (BIN\MON51.DLL)()()()
   OPTBB 0,0,41,1,0,0,0,0,0,0,<main.c>()()
