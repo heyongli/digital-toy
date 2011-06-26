@@ -46,9 +46,11 @@ void __port_pullup(volatile unsigned char* port_addr, char pullup, char n, char 
 
 #ifndef cli
 #define cli()   __asm__ __volatile__("CLI");
-#define sti()   __asm__ __volatile__("SEI");
 #endif
 
+#ifndef sti
+#define sti()   __asm__ __volatile__("SEI");
+#endif
 
 
 //ADC oprations
