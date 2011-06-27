@@ -78,24 +78,24 @@ void update_lcd()
 
 	adc=v_filter();
 	
-	print10(adc); //
-	lcd_puts(" ");
-
 	v = ((float)adc/1023.0)*5.09; //ref volatage 5.09V
     i = (v/50.00)/0.1; //amp 50x, 0.1R sample
 
-	v-=0.039; //hard code offset
+	if(v>0.039)
+		v-=0.039; //hard code offset
 
-    print10(v*1000); //to mV
-	lcd_puts("mV ");
+    print10L(v*1000,3,0); //to mV  xxx
+	lcd_puts("mV");
 
 	v/=16.7;
 	lcd_puts(" ");
-
-    print10(v*10000); //to mV
+    print10L(v*100000,3,2); //to mV, x.xx
 	lcd_puts("mV ");
 
-    
+
+	lcd_cursor(0,1);
+
+
 	
 }
 
