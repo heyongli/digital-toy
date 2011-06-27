@@ -3,6 +3,8 @@
 #include <drivers/lcd.h> //common system driver
 #include <config.h>
 
+#include <math.h>
+
 
 #if defined(HAVE_SWAP8)
 /*abcd1234 => 4321dcba */
@@ -22,7 +24,21 @@ unsigned char _swap8(unsigned char x)
 }
 #endif
 
+unsigned long ilog10(unsigned long x)
+{
+	 unsigned long n=0;
+     while(x>1)
+		n++,x/=10;
+     return n;
+}
 
+unsigned long ipow(unsigned long base,unsigned long x)
+{
+	unsigned long  n=1;
+	 while(--x)
+	 	n=base*n;
+     return n;
+}
 
 char hex2c(char hex)
 {
@@ -57,6 +73,9 @@ void lcd_hex8(unsigned char x)
 }
 
 
+/*
+ *  preleading zero ommit 
+ */
 void print10(unsigned long n)
 {
 	 char show = 0;
@@ -78,28 +97,45 @@ void print10(unsigned long n)
 	 }
 }
 
-void print10L(unsigned long n, unsigned long base)
+
+/*
+ *  width: total number to show
+ *  dot: postion of the dot, 0 is no dot, 1 :xxx.x, 2:xx.xx
+ */
+void print10L(unsigned long n, unsigned long width,char dot)
 {
+
      unsigned char x=0;
-	 
+	 unsigned long base=ipow(10,width);; /* =pow(10,width); */
+	 unsigned long nb=width; //sync with base
+	 char frac=0,sf=0;
 
 	 while(base>=1){
-	 
+	    //dot positon
+	 	if(nb==dot){
+			lcd_putc('.');
+			sf = 1;
+		}
 	    x=n/base;
 		lcd_putc(hex2c(x));
 		
 		if(1==base)
 			break;
 	    n=n%base;
+		nb-=1;
 		base = base/10;
+
 	 }
+
 }
+
 void printLL(unsigned long n, char dot, char prec)
 {
      //irqoff();
 	 char frac=0,sf=0;
 	 unsigned long base = 1000000000;
-	 unsigned long nb=10; //sync with base
+
+     unsigned long nb=ilog10(base); //sync with base
 
 
 	 while(base>=1){
