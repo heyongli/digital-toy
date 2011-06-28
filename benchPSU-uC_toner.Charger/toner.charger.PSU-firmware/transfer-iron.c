@@ -81,19 +81,21 @@ void update_lcd()
 	v = ((float)adc/1023.0)*5.09; //ref volatage 5.09V
     i = (v/50.00)/0.1; //amp 50x, 0.1R sample
 
-	if(v>0.039)
-		v-=0.039; //hard code offset
-
+	//if(v>0.039)
+	///	v-=0.039; //hard code offset
+	v -= 0.0321; //proteus
     print10L(v*1000,3,0); //to mV  xxx
-	lcd_puts("mV");
+	//lcd_puts("mV");
 
-	v/=16.7;
+	v/=46.45455;
 	lcd_puts(" ");
     print10L(v*100000,3,2); //to mV, x.xx
 	lcd_puts("mV ");
 
+	print10L((v*1000000)/41,3,0); //xxx oC
 
 	lcd_cursor(0,1);
+
 
 
 	
