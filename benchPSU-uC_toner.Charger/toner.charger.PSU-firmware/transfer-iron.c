@@ -18,7 +18,7 @@ unsigned long heat_cycles=5*HZ;//how long to heat the iron in this round
 
 #define MIN_HEAT_CYCLES HZ/2  //at lest halft second turn on the relay to avoid relay damage
 #define PEFECT_TEMP   (int)185  //good toner transfer temputure
-
+char stop=1;
 
 void io_init()
 {
@@ -78,9 +78,11 @@ void update_lcd()
 
     //pannel led status
 	if( (temp<185)&&(temp>180)){
-		led_lock();
+		if(!stop)
+			led_lock();
     }else
-		led_unlock();
+		if(!stop)
+			led_unlock();
 
 	lcd_cursor(0,1);
 }
@@ -95,7 +97,7 @@ K type:
 void iron_loop()
 {
 	static unsigned  long t;
-	char stop=0;
+
 
 	//only meter the temp when relay if off avoid AC power interfere
 	themo_V = adc_filter(COUPLE_CH);
@@ -142,13 +144,22 @@ void iron_loop()
 		stop^=1;
 	}
 	
+	if(stop)
+		heat_cycles = HZ/4;
 	
 	if(timeafter(jiffers, t+heat_cycles)){
+
 		if(heat_cycles == 0 || stop){
 			heat_off();
-			led_idle();
+			if(stop){
+				if(is_led_lock()){
+					led_unlock();
+				}else
+					led_lock();
+ 			}else
+				led_idle();
+			t = jiffers;
 			return;
-		
 		}
 			
 		if(iron_off()){
