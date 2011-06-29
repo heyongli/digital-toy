@@ -22,7 +22,8 @@ int main()
 	enable_timer0();
 	lcd1602_init();
 	adc_init();
-	iron_init();
+
+	io_init();
 	
 	lcd_puts("Tool gear V0");
     sti();
