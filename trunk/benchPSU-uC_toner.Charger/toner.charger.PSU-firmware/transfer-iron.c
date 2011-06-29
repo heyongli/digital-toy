@@ -33,7 +33,9 @@ void io_init()
 
 unsigned long adc_filter(char ch)
 {
-	unsigned int v[5], avg,i;
+	float v[5], avg;
+	char i;
+	static  float last;
 	
 	v[0]=_adc(ch);
 	v[1]=_adc(ch);
@@ -47,7 +49,10 @@ unsigned long adc_filter(char ch)
 		
 	//avg = v[0]+v[1]+v[2]+v[3]+v[4];
 	avg/=5;
-    return avg;
+	if(0==last)
+		last =avg;
+
+    return (0.7*avg+0.3*last);
 
 }
 
@@ -90,7 +95,26 @@ void update_lcd()
 
 
 
-/*
+void iron_status()
+{
+	static unsigned  long t;
+	if(timeafter(jiffers, t+HZ/10)){ //7times per seconds
+
+		//only meter the temp when relay if off avoid AC power interfere
+		themo_V = adc_filter(COUPLE_CH);
+		themo_V = (themo_V/1023.0)*5.09; //ref volatage 5.09V
+	
+		themo_V-=0.223; //hard code amp offset 
+	
+		themo_V/=45.5;  //AMP dB
+        
+		temp = (themo_V*1000000)/41;
+
+		t=jiffers;
+     }
+}
+
+/*1
 K type:
 	41uV per oC
 */
@@ -99,36 +123,29 @@ void iron_loop()
 	static unsigned  long t;
 
 
-	//only meter the temp when relay if off avoid AC power interfere
-	themo_V = adc_filter(COUPLE_CH);
-	themo_V = (themo_V/1023.0)*5.09; //ref volatage 5.09V
-	
-	themo_V-=0.0321; //hard code amp offset 
-	
-	themo_V/=45.5;  //AMP dB
-        
-	temp = (themo_V*1000000)/41;
+
 
 
 	//which states 
 	if(iron_off()){ //determin the standby time
-		
+		iron_status();
+
 		if(temp>170) //wait time to get long when reach the goal
 			heat_cycles = 10*HZ - (PEFECT_TEMP-temp)*((9*HZ)/15);
 			    //from 170oC wiat 1.6S to 10s between heat the iron
 		else
-			heat_cycles = HZ/3; //wait 1/3 seconds if temp is very low
+			heat_cycles = HZ/2; //wait 1/3 seconds if temp is very low
 
 		if(temp>PEFECT_TEMP)
 			heat_cycles = 0 ;// keeping off...
 			
 	}else{//determin the heating time
-	
+	//	iron_status();
 		
 		if(temp<170) //170-185
 			heat_cycles = 5*HZ;
 		else //minimal heat time is 0.26 seconds,1/4, heat cycle get short to reach goal
-		    heat_cycles = (PEFECT_TEMP-temp)*((4*HZ)/15);
+		    heat_cycles = (PEFECT_TEMP-temp)*((6*HZ)/15);
 			//from the 170oC heat time from 4S reduce to 1/4
 		
 		if(temp>PEFECT_TEMP)  //gating the heat_cycles...
