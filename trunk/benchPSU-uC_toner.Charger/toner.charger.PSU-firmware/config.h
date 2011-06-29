@@ -69,12 +69,24 @@
 
 
 #define led_lock() \
-		_set_bit(PORTD, WORK_LED_GREEN); \
+		_set_bit(PORTD, WORK_LED_GREEN); 
+
+#define is_led_lock() \
+	 	_test_bit(PORTD, WORK_LED_GREEN) 
 
 #define led_unlock() \
-		_clear_bit(PORTD, WORK_LED_GREEN); \
+		_clear_bit(PORTD, WORK_LED_GREEN); 
 
+#if 0
+#define led_toggle() do{ \
+			unsigned char x= PORTD;  \
+			x =PORTD^(_set_bit(x,WORK_LED_GREEN) | _set_bit(x,WORK_LED_RED) );\
+			_clear_bit(PORTD,WORK_LED_GREEN);\
+			_clear_bit(PORTD,WORK_LED_RED); \
+			PORTD|= x; \
+         }while(0)
 
+#endif
 
 	
 
