@@ -33,7 +33,7 @@
 
 //////////////////////////////////////////////////////////////////////
 //74HC595 
-#define METAL_74HC595_PORT METAL_4W1602_74HC595_PORT
+#define METAL_74HC595_PORT  METAL_4W1602_74HC595_PORT
 #define  METAL_74HC595_CLK    5    /* raise-edge , shift clock: 74HC595 pin 11*/
 #define  METAL_74HC595_LATCH  4	 /* raise-edge output to Qx, latch clock: 74HC595 pin 12*/
 #define  METAL_74HC595_SDI    3	 /* CLK raise edge deposit, sserial data in: 74HC595 pin14*/
@@ -42,13 +42,59 @@
 
 
 
-//////////////////////////////////////////////////////////////////////
-//METAL 3 button key
-#define METAL_KEY_PORT   
-#define METAL_KEYUP  	 0
-#define METAL_KEYDOWN  1
-#define METAL_KEYOK    2
+/*
+ * Pannel resource : key, led, encoder...
+ */
+/* All key connect to PORTB */
+#define  START_KEY  PB0
 
+#define key_io_init() \
+	_pin_mode(PORTB,START_KEY,INPUT); \
+	_pin_pullup(PORTB,START_KEY,PULLUP); \
+
+
+/*working led : 3pin connect to PD 0,1,2*/
+#define WORK_LED_C  PD1
+#define WORK_LED_RED PD0
+#define WORK_LED_GREEN PD2
+
+#define led_io_init() \
+	_pins_mode(PORTD,PD0, PD2,OUTPUT); \
+	_clear_bit(PORTD,WORK_LED_C); \
+
+#define led_working() \
+		_set_bit(PORTD, WORK_LED_RED);
+#define led_idle() \
+		_clear_bit(PORTD, WORK_LED_RED);
+
+
+#define led_lock() \
+		_set_bit(PORTD, WORK_LED_GREEN); \
+
+#define led_unlock() \
+		_clear_bit(PORTD, WORK_LED_GREEN); \
+
+
+
+	
+
+/*
+ * Iron control interface define
+ */
+/*ADC0, PC0*/
+#define  COUPLE_CH  0   
+/* start/stop IRON */
+#define  IRON_CRL   PD7  
+
+#define iron_io_init() \
+	_pins_mode(PORTD,IRON_CRL,IRON_CRL,OUTPUT); \
+												\
+	_pins_mode(PORTC,PINC0,PINC0,INPUT);		\
+	_pins_pullup(PORTC,PINC0,PINC0,FLOAT);		\
+
+
+#define heat_on()  _set_bit(PORTD, IRON_CRL)
+#define heat_off() _clear_bit(PORTD,IRON_CRL)
 
 
 
