@@ -95,6 +95,7 @@
 
 #define heat_on()  _set_bit(PORTD, IRON_CRL)
 #define heat_off() _clear_bit(PORTD,IRON_CRL)
+#define iron_off() (!_test_bit(PORTD,IRON_CRL))
 
 
 
