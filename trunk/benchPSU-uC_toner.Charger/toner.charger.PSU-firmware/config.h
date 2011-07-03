@@ -77,6 +77,15 @@
 #define led_unlock() \
 		_clear_bit(PORTD, WORK_LED_GREEN); 
 
+
+#define led_save()
+	_set_bit(PORTD, WORK_LED_C);
+
+
+#define led_restore()
+	_clear_bit(PORTD, WORK_LED_C);
+
+
 #if 0
 #define led_toggle() do{ \
 			unsigned char x= PORTD;  \
@@ -101,8 +110,8 @@
 #define iron_io_init() \
 	_pins_mode(PORTD,IRON_CRL,IRON_CRL,OUTPUT); \
 												\
-	_pins_mode(PORTC,PINC0,PINC0,INPUT);		\
-	_pins_pullup(PORTC,PINC0,PINC0,FLOAT);		\
+	_pins_mode(PORTC,PINC0,PINC2,INPUT);		\
+	_pins_pullup(PORTC,PINC0,PINC2,FLOAT);		\
 
 
 #define heat_on()  _set_bit(PORTD, IRON_CRL)

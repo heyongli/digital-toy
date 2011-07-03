@@ -34,9 +34,13 @@ void io_init()
 unsigned long adc_filter(char ch)
 {
 	float v[5], avg;
-	char i;
+	char i,save;
 	static  float last;
 	
+	save = PORTD;
+	PORTD &= 0xF8;
+	
+
 	v[0]=_adc(ch);
 	v[1]=_adc(ch);
 	v[2]=_adc(ch);
@@ -52,7 +56,9 @@ unsigned long adc_filter(char ch)
 	if(0==last)
 		last =avg;
 
-    return (0.7*avg+0.3*last);
+	PORTD = save; 
+    return avg;
+   
 
 }
 
@@ -66,12 +72,15 @@ void update_lcd()
 
 	lcd_cursor(0,0);
 
-	
 	//debug only show the raw voltage get from the AMP out
     adc=adc_filter(COUPLE_CH);
-    v = ((float)adc/1023.0)*5.09; //ref volatage 5.09V
+
+    v = ((float)adc/1023.0)*5;//ref volatage 5.09V
+	if(v>1.2){
+		lcd_puts("NO IRON            ");
+		goto line2;
+	}
     print10L(v*1000,3,0); //to mV  xxx
-	
 	//thermocouple voltage
 	lcd_puts(" TC");
     print10L(themo_V*100000,3,2); //to mV, x.xx
@@ -89,7 +98,15 @@ void update_lcd()
 		if(!stop)
 			led_unlock();
 
+line2:
 	lcd_cursor(0,1);
+	lcd_puts("Bat:");
+	adc=adc_filter(1);
+    v = ((float)adc/1023.0)*5;//ref volatage 5.09V
+
+    print10L(v*200,3,2); //to mV  xxx
+ 	
+
 }
 
 
@@ -98,19 +115,22 @@ void update_lcd()
 void iron_status()
 {
 	static unsigned  long t;
-	if(timeafter(jiffers, t+HZ/10)){ //7times per seconds
-
+	if(timeafter(jiffers, t+HZ/4)){ //7times per seconds
+		
 		//only meter the temp when relay if off avoid AC power interfere
 		themo_V = adc_filter(COUPLE_CH);
-		themo_V = (themo_V/1023.0)*5.09; //ref volatage 5.09V
+		themo_V = (themo_V/1023.0)*5; //ref volatage 5.09V
 	
-		themo_V-=0.223; //hard code amp offset 
+		themo_V-=0.205; //hard code amp offset 
+		if(themo_V<0)
+			themo_V=0;
 	
 		themo_V/=45.5;  //AMP dB
         
 		temp = (themo_V*1000000)/41;
 
 		t=jiffers;
+
      }
 }
 
