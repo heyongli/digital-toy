@@ -11,7 +11,7 @@ AutoSaveProject=1
 [Win_1]
 Type="Schematic Editor"
 Loc="206 93 1433 883"
-State=0
+State=2
 Number=1
 File="i-uC-IO-extention.sch"
 View="652709 -90815 2910733 1878641"
@@ -55,7 +55,7 @@ Loc="361 149 1443 966"
 State=2
 Number=2
 File="i-uC-IO-extention.brd"
-View="472775 -79537 626845 526737"
+View="386414 -126498 571298 601030"
 WireWidths=" 0 3048 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 2540 4064 8128 6096"
 PadDiameters=" 2540 3048 4064 6096 8128 10160 12700 16764 17780 19304 21844 25400 38100 64516 0 14224"
 PadDrills=" 5080 6350"
@@ -90,12 +90,12 @@ Layer=16
 
 [Win_3]
 Type="Control Panel"
-Loc="0 0 1040 556"
+Loc="344 72 943 471"
 State=2
 Number=0
 
 [Desktop]
-Screen="3840 1080"
+Screen="1680 1050"
 Window="Win_1"
 Window="Win_2"
 Window="Win_3"
