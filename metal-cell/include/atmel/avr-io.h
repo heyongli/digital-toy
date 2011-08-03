@@ -30,11 +30,19 @@ void __port_mode(volatile unsigned char* port_addr, char mode, char n, char m);
 void __port_pullup(volatile unsigned char* port_addr, char pullup, char n, char m);
 
 /*i.e.  _pins_mode(PORTD,3,INPUT) */
+#if  defined (__AVR_ATtiny13__)  /*gcc predefined CPU type*/
+/*tinny13 rom is very tight.. no pin_mod/pullup lib */
+#define _pin_mode(PORT,pin,mode) 
+#define _pins_mode(PORT,n,m,mode) 
+#define _pin_pullup(PORT,pin,mode) 
+#define _pins_pullup(PORT,n,m,mode) 
+#else
+
 #define _pin_mode(PORT,pin,mode) __port_mode(&PORT,mode,pin,pin)
 #define _pins_mode(PORT,n,m,mode) __port_mode(&PORT,mode,n,m)
 #define _pin_pullup(PORT,pin,mode) __port_pullup(&PORT,mode,pin,pin)
 #define _pins_pullup(PORT,n,m,mode) __port_pullup(&PORT,mode,n,m)
-
+#endif
 
 
 #define _inb(port) \

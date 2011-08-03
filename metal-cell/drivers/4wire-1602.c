@@ -54,6 +54,7 @@ static char bus4w = 0;// 0xC0;
 
 /*************以下内容无需修改，移植请修改以上内容******************/
 
+#ifndef _TINY_ROM
 /*
  #define  io_delay()  _delay_us(11);
 	15us tested, 12us occation failed, 11us not stable, 10us failed
@@ -67,6 +68,10 @@ void io_50ms()
 {
    _delay_ms(50);
 }
+#else
+#define io_delay() 
+#define io_50ms() 
+#endif
 
 static void hd44870_send(unsigned char c, char is_cmd) 
 {
@@ -144,6 +149,15 @@ void lcd_cursor(char x, char y)
 	send_cmd(x+(y?0xc0:0x80));  
 }
 
+
+void lcd_putc(char c) //列x=0~15,行y=0,1
+{
+  send_data( c);
+}
+
+
+
+#ifndef _TINY_ROM
 void lcd_puts(char *s) 
 {
     while (*s) 
@@ -155,8 +169,6 @@ void lcd_puts(char *s)
 }
 
 
-
-
 void lcd_clear()
 {
    io_50ms();
@@ -164,11 +176,8 @@ void lcd_clear()
    io_50ms();
    
 }
+#endif
 
-void lcd_putc(char c) //列x=0~15,行y=0,1
-{
-  send_data( c);
-}
 
 
 #if 0

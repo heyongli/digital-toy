@@ -6,16 +6,20 @@
 #include <atmel/avr-io.h>
 
 
-
+#ifndef _TINY_ROM
 static void delay_io(void)
 {
      /*asm("nop")*/ _delay_us(1);
 }
-
+#else 
+	#define delay_io() 
+#endif
 
 void init_74hc595(void)
 {
+
 	_pins_mode(METAL_74HC595_PORT, (char)METAL_74HC595_SDI,(char)METAL_74HC595_CLK,(char)OUTPUT);
+
 }
 
 
