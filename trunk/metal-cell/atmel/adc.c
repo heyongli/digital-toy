@@ -13,6 +13,7 @@
 
 void adc_init()
 {
+#if defined (__AVR_ATmega8__)
 	short adc;
 
 	/// AVCC, AREF º”¬À≤®µÁ»›      ADCL keep low 8bit        init for ch0  
@@ -29,12 +30,21 @@ void adc_init()
     adc = ADCL;
 	barrier();
 	adc = ADCH;
+
+#elif defined (__AVR_ATtiny13__)
+	
+
+#endif
+
 }
 
 
 
 unsigned int _adc(unsigned char ch)
 {
+
+#if defined (__AVR_ATmega8__)
+
   unsigned int adc_l=0,adc=0;
 
   /*select channel*/
@@ -56,4 +66,21 @@ unsigned int _adc(unsigned char ch)
 
    _set_bit(ADCSRA,ADIF); //clear IF bit
    return adc;
+#elif defined (__AVR_ATtiny13__)
+	unsigned int adc_l=0,adc=0;
+	ADMUX = ch; //select channel, VCC as refrence, right adjusted
+	ADCSRA = 0b11010101; /*ADCEN, ADC start,no auto trigger | clear interrupt,disable int,clock/32*/
+	/*wait completed(ADIF active)*/
+    while(!_test_bit(ADCSRA,ADIF));
+	
+	 /*read result */
+  	/*must READ ADCH for compled ADC*/
+   	adc_l = ADCL;
+   	/* GCC will swich ADCL read fist,so tell it don't do that*/
+   	barrier();
+   	adc =   ADCH ;
+   	adc = (adc<<8)|adc_l;
+	return ADC;
+
+#endif
 }
