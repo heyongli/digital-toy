@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+  
+  <script><head>
+  <script><head>
+  <script></script>
+  
+  <meta http-equiv="Content-Language" content="en-us">
+
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  
+  <meta name="GENERATOR" content="Microsoft FrontPage 6.0">
+
+  
+  <meta name="ProgId" content="FrontPage.Editor.Document">
+
+  
+  <script src="e-calculator-res/biasing.js"> </script>
+  <title>RF design center</title>
+
+  
+</head><body oncontextmenu="return false">
+<form id="RF-center" method="get" name="RF-Center">
+  <table style="text-align: left; width: 938px; height: 793px;" border="0" cellpadding="2" cellspacing="2">
+    <tbody>
+      <tr style="font-weight: bold;" align="center">
+        <td style="vertical-align: top; height: 19px; background-color: rgb(204, 204, 204);" colspan="1" rowspan="1">Amplifier Design Center</td>
+      </tr>
+      <tr>
+        <td style="height: 26px; text-align: left; vertical-align: top; background-color: rgb(153, 255, 153);"><b style="font-weight: bold;">BJT buffer </b><span style="font-weight: bold;">Amplifier</span><br>
+        <b> </b> </td>
+        
+      </tr>
+      <tr>
+        <td style="vertical-align: top; height: 277px;"><img style="width: 640px; height: 346px;" alt="BJT buffer amp" src="e-calculator-res/BJT-Buffer-Amp.jpg" align="middle"></td>
+        
+      </tr>
+      <tr>
+        <td style="height: 21px;"> 
+        <table style="text-align: left; width: 998px; height: 362px;" border="0" cellpadding="2" cellspacing="2">
+<tbody><tr><td style="width: 787px; height: 277px; vertical-align: top; background-color: rgb(204, 255, 255);" colspan="1" rowspan="1">
+        <table style="width: 976px; height: 63px;" cellpadding="1" cellspacing="1">
+          <tbody>
+            
+            <tr>
+              <td style="vertical-align: top; background-color: rgb(153, 255, 153);">Bias Setting </td>
+              <td style="vertical-align: top; background-color: white;">&nbsp;Ic:&nbsp; <input value="10" name="bjt_buffer_Ic" size="4">&nbsp;
+                    <select name="bjt_buffer_Ic_unit">
+
+
+              <option selected="selected">mA</option>
+              <option>uA</option>
+              <option>A</option>               
+                    </select>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Uce:<input value="2.5" name="bjt_buffer_Uce" size="4">V&nbsp; <br>
+Vcc:<input value="5" name="bjt_buffer_Vcc" size="4">V
+              </td><td style="vertical-align: top; width: 10%; background-color: rgb(255, 255, 204);">R1/R2<br>
+                    </td>
+                    <td style="vertical-align: top; width: 40%; background-color: white;">&nbsp; <input value="30" name="bjt_buffer_realR1" size="4">K &nbsp; <input value="0.47" name="bjt_buffer_realR2" size="4">K &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; </td>
+
+            </tr>
+            
+            <tr>
+              <td style="vertical-align: top; background-color: rgb(153, 255, 153); width: 12%;">BJT </td>
+              <td style="vertical-align: top; width: 38%; background-color: white;">&nbsp;Hfe:<input value="150" name="bjt_buffer_Hfe" size="4">V &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Vbe:<input value="0.65" name="bjt_buffer_Vbe" size="4">V &nbsp; &nbsp;&nbsp;              </td><td style="vertical-align: top; width: 12%; background-color: rgb(255, 255, 204);">Uce<br>
+                    </td>
+                    <td style="vertical-align: top; background-color: white;">&nbsp; <input value="0.47" name="bjt_buffer_realUce" size="4">V  </td>
+
+            </tr>
+          </tbody>
+        </table>
+        
+        <table style="text-align: left; width: 978px; height: 36px;" border="0" cellpadding="2" cellspacing="2">
+          <tbody>
+            <tr>
+              <td style="vertical-align: top; width: 12%; background-color: rgb(153, 255, 153);"><input value="Calc" name="bjt_buffer_button" onclick="bjt_buffer_calc()" type="button">
+              </td>
+              <td style="vertical-align: top; width: 38%; background-color: rgb(204, 204, 204);">Bia Resistor<br>
+R1  <input readonly="readonly" name="bjt_buffer_R1" size="5">K &nbsp;&nbsp;&nbsp; R2<input readonly="readonly" name="bjt_buffer_R2" size="5"> K&nbsp;
+              </td><td style="vertical-align: top; width: 12%; background-color: rgb(255, 255, 204);"><input value="get  Hfe" name="bjt_buffer_hfe_button" onclick="bjt_buffer_hfe_calc()" type="button"></td>
+                    <td style="vertical-align: top; background-color: rgb(204, 204, 204);">Get Hfe from real circuit, then fix Design<br>
+&nbsp;Ic <input readonly="readonly" name="bjt_buffer_realIc" size="4"> mA&nbsp;  <br>
+                    </td>
+
+            </tr>
+          </tbody>
+        </table><br>
+              <br>
+</td></tr></tbody>
+        </table>
+
+        </td>
+        
+      </tr>
+    </tbody>
+  </table>
+  <p style="margin-top: 0pt; margin-bottom: 0pt;" align="center"><br>
+</p>
+  <p style="margin-top: 0pt; margin-bottom: 0pt;" align="center"><font color="#808080" face="Arial" size="2"><big style="font-weight: bold;"><big><big>
+Designed
+by hyl 2011.3.2 Version 1.0 </big></big></big><br>
+  </font></p>
+
+</form>
+
+</body></html>
