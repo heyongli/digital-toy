@@ -156,7 +156,7 @@ var bjt_buffer_Uce,bjt_buffer_Vcc;
 
 //result 
 var bjt_buffer_R1, bjt_buffer_R2;
-var bjt_buffer_realIc;
+var bjt_buffer_realIc,bjt_buffer_realVbe;
 
 var pi=3.1415926;
 
@@ -187,7 +187,24 @@ function bjt_buffer_calc()
 }
 function bjt_buffer_hfe_calc()
 {
+	var uce=0; ic=0,ie=0,ib=0, r2=0,r1=0,beta=0;
+
+	//get var in standard unit
+	bjt_buffer_Vcc=getVar("bjt_buffer_Vcc");
+    	bjt_buffer_Ic=getI("bjt_buffer_Ic", "bjt_buffer_Ic_unit");
+	bjt_buffer_realR1=1000.0*getVar("bjt_buffer_realR1");
+	bjt_buffer_realR2=1000.0*getVar("bjt_buffer_realR2");
+	bjt_buffer_realUce=getVar("bjt_buffer_realUce");
+	bjt_buffer_realVbe=getVar("bjt_buffer_realVbe");
+
+	//
+	ie=(bjt_buffer_Vcc-bjt_buffer_realUce)/bjt_buffer_realR2;
+	ib=(bjt_buffer_realUce-bjt_buffer_realVbe)/bjt_buffer_realR1;
 	
+	//
+	beta = (ie-ib)/ib;
+	setVar("bjt_buffer_Hfe",round0(beta));
+	setVar("bjt_buffer_realIc",round3(ie-ib)*1000);
 
 }
 
