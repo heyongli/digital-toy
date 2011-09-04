@@ -359,6 +359,12 @@ Views=" 1: -57880 160351 685422 638199"
 Sheet=1
 
 [Win_2]
+Type="Control Panel"
+Loc="83 427 682 826"
+State=2
+Number=0
+
+[Win_3]
 Type="Board Editor"
 Loc="322 127 1653 931"
 State=2
@@ -396,12 +402,6 @@ ArcDirection=0
 AddLevel=2
 PadsSameType=0
 Layer=1
-
-[Win_3]
-Type="Control Panel"
-Loc="83 427 682 826"
-State=2
-Number=0
 
 [Desktop]
 Screen="3840 1080"
