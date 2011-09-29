@@ -34,6 +34,10 @@ function setVar(name,v)
 	}
 }
 
+function round4(v)
+{
+	return Math.round(v*10000)/10000;
+}
 function round3(v)
 {
 	return Math.round(v*1000)/1000;
@@ -168,8 +172,8 @@ function tune_calc()
     tuneF_max/=1e6;
     tuneF_min/=1e6;
 
-    setVar("tuneF_min",round2(tuneF_min));
-	setVar("tuneF_max",round2(tuneF_max));
+    setVar("tuneF_min",round4(tuneF_min));
+	setVar("tuneF_max",round4(tuneF_max));
 
 }
 
