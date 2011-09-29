@@ -132,14 +132,15 @@ void print10(unsigned long n)
 	 }
 }
 
-
+// dot =1:  xxx.x  (prec=1)
+// prec = 2: xxx.xx
 void printLL(unsigned long n, char dot, char prec)
 {
      //irqoff();
 	 char frac=0,sf=0;
-	 unsigned long base = 1000000000;
+	 unsigned long base = 1000000000; //10char total 
 
-     unsigned long nb=ilog10(base); //sync with base
+     unsigned long nb=ilog10(base)+1; //sync with base,nb:number of char to show
 
 
 	 while(base>=1){
@@ -150,7 +151,7 @@ void printLL(unsigned long n, char dot, char prec)
 			sf = 1;
 		}
 	
-		 lcd_putc(hex2c(n/base));
+		lcd_putc(hex2c(n/base));
 
 
         if(base==1) 
