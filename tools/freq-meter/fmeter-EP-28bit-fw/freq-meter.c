@@ -26,7 +26,7 @@ unsigned short read_011();
 
 //mode gate key
 char is_gate_step();
-char is_mode_step();
+char is_flt_step();
 void key_init();
 
 
@@ -93,8 +93,8 @@ void show_gate()
 //& able filter 
 #define ACC_MODE  0x10  //0.25S sample but accumulation the counter to GATE time 
 volatile unsigned char  FILTER =DRT_MODE;
-char mode = 0;//mode 0,1,2 => DRT,LPF,AVG
-			  //mode 3,4,5 => DRT+ACC, LPF+ACC, AVG+ACC
+char flt = 0;//flt 0,1,2 => DRT,LPF,AVG
+			  //flt 3,4,5 => DRT+ACC, LPF+ACC, AVG+ACC
 
 #define debug() (FILTER&ACC_MODE)
 
@@ -102,23 +102,23 @@ void detect_fliter()
 {
    FILTER = 0;
 
-   if(is_mode_step()){
-   	 	mode++; 
+   if(is_flt_step()){
+   	 	flt++; 
 		update_lcd=1;
    
    }
 
-   if(mode>5)
-   		mode = 0;
+   if(flt>5)
+   		flt = 0;
 
-   if(mode>=3){
+   if(flt>=3){
        FILTER = ACC_MODE;
    }
 
-   if(mode<3)
-   		FILTER |= 1<<mode;
+   if(flt<3)
+   		FILTER |= 1<<flt;
    else 
-   		FILTER |= 1<<(mode-3);
+   		FILTER |= 1<<(flt-3);
 }
 
 void show_filter()
@@ -209,10 +209,16 @@ ISR(TIMER1_OVF_vect)
 
 //T2 use as time base clock
 volatile unsigned char soft_stop=0;
-volatile unsigned char soft_loop;
+volatile unsigned char soft_loop=0;
 SIGNAL(SIG_OVERFLOW2) 
 {
 	soft_loop++;
+
+#ifdef DEBUG
+	//proteus use 3k ref clock, so use the soft gate, 0.5S
+	if(soft_loop%33==0)
+		stop();
+#endif
 
 }
 
@@ -287,9 +293,9 @@ void calc_freq()
 
 void keep_live()
 {
-	if(soft_loop>33) {//one second heat beat 
-		 update_lcd =1;
+	if(soft_loop>55) {//one second heat beat 
 		 soft_loop=0;
+		 we_live();
 	}
 }
 
@@ -320,23 +326,22 @@ void freq_main(void)
 	//fast clear screen...
 	post_display(filter());//really result
 	
- 	while(1) {
-
+	while(1) {
+	
+#ifndef DEBUG  //protus ADC6,7 doesnot work..
 		detect_fliter();
+#endif
+
 		detect_gate(); 
  		keep_live();
-
-		if(update_lcd){
-			post_display(filter());//really result
-			update_lcd=0;
-		}
+	
 		
-
-
 	    if(is_stop()&&soft_stop){
 		  	calc_freq();
+				
+	
 			post_display(filter());//really result
-
+				c_live() ; //mark succeufull ..
 			if(loop>=(ST)){  //never clear
 				reset();
 			
@@ -391,18 +396,30 @@ void stop()
 
 void stable_debug();
 
-unsigned char live='A';
+unsigned char live='A', clive='1';
 void  we_live()
 {
 
 	lcd_cursor(15,0);
 	
-	if(live>128)
+	if(live>'Z')
 		live='A';
 	
 	lcd_putc(live++);
     //lcd_hex8((char)loop);
 
+
+}
+void  c_live()
+{
+
+	lcd_cursor(14,0);
+	
+	if(clive>'9')
+		clive='1';
+	
+	lcd_putc(clive++);
+    //lcd_hex8((char)loop);
 }
 void post_display(unsigned long number)
 {
@@ -411,13 +428,13 @@ void post_display(unsigned long number)
     
 	if((number>999)&&(number<999999)){
 	   printLL(number,3,3);
-	   lcd_puts("KHz");
+	   lcd_puts("KH");
  
 	}
 
     if(number>999999){
 	   printLL(number,6,6); //omit xxHz
-	   lcd_puts("MHz");
+	   lcd_puts("MH");
    	
 	}
 	if(number<=999)
@@ -428,7 +445,6 @@ void post_display(unsigned long number)
 
 	}
   	lcd_puts("       ");
-	we_live();
 	lcd_puts("    ");
     
 /*********************************************************/
@@ -476,7 +492,7 @@ void stable_debug()
 	    stable++;
     
 	if(gate<=2){ //<=1S
-	    //show stable ness1
+	    //show stable ness
     	lcd_puts("#");
 		//lcd_hex8((char)(isgood*100));
     	lcd_hex8(stable);
@@ -488,14 +504,14 @@ void stable_debug()
     	else 
 	   		lcd_puts("+");
 
-		print10L(dref, 1000);
+		print10L(dref, 1000,0);
 	
     	//show dlta of Dut clock
    		lcd_puts(" F");
 		if(ldut>c_dut)
 	   		lcd_puts("-");
     	else lcd_puts("+");
-			print10L(ddut,1000); //show 4bits
+			print10L(ddut,1000,0); //show 4bits
 
 	}else { //>1S mode
 		lcd_puts("R");

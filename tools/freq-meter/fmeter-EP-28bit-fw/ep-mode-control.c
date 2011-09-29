@@ -15,8 +15,10 @@
 
 
 #define KEY_PORT PORTB
-#define KLOOP 2
+#define KGATE 2
 
+#define ADC_MODE 7
+#define ADC_FLT  6
 
 #define KSTEP 6
 #define init_key() \
@@ -48,13 +50,13 @@ char read_key(char key)
 }
 
 unsigned int _adc(unsigned char ch);
-char read_adc_mode()
+char read_adc_flt()
 {
    //print10(_adc(6));
-   if(_adc(6)<5){
+   if(_adc(ADC_FLT)<5){
    	   _delay_ms(1);
-	   if(_adc(6)<5){
- 	        while(_adc(6)<5);
+	   if(_adc(ADC_FLT)<5){
+ 	        while(_adc(ADC_FLT)<5);
 	   	 	return 1;
 	   }
 	   return 0;
@@ -63,35 +65,15 @@ char read_adc_mode()
    return 0;
 }
 
-char read_mode_debug()
-{
 
-	if(!_test_bit(_inb(PORTC),PC1)){
-		_delay_ms(10);
-		if(!_test_bit(_inb(PORTC),PC1))
-		{
-			while(!_test_bit(_inb(PORTC),PC1));
-			return 1;
-		}
-		return 0;
-	}
-	return 0;
-
-}
 
 char is_gate_step()
 {
 
-   		return read_key(KLOOP);
+   	return read_key(KGATE);
 }
 
-char is_mode_step()
+char is_flt_step()
 {
-	//for the proteus
-	if(read_mode_debug())
-		return 1;
-	//for real word
-#ifndef DEBUG
-   	return read_adc_mode();
-#endif
+   	return read_adc_flt();
 }
