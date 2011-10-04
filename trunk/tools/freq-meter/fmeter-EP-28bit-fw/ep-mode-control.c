@@ -65,7 +65,20 @@ char read_adc_flt()
    return 0;
 }
 
+char read_adc_mode()
+{
+  float v= _adc(ADC_MODE);
+  _delay_ms(1);
+  v += _adc(ADC_MODE);
+  v=v/2;
 
+  v = (v/1024)*5.1; //convert to voltage
+  if(v> 4.9)
+  	return 2; 
+  if(v< 0.2)
+	return 0;
+   return 1; 
+}
 
 char is_gate_step()
 {

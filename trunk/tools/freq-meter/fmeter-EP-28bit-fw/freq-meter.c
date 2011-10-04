@@ -302,7 +302,7 @@ void keep_live()
 
 void freq_main(void) 
 {
-
+	char mode = 0;
 	cli();
     counter_init();
 	gate_init();
@@ -334,8 +334,20 @@ void freq_main(void)
 
 		detect_gate(); 
  		keep_live();
-	
 		
+		mode = read_adc_mode();
+
+		if(2==mode)
+			update_lcd_status();
+		if(1==mode){
+			 lcd_cursor(0,1);
+			 lcd_puts("divider 32            ");
+		}
+		if(0==mode){
+			 lcd_cursor(0,1);
+			 lcd_puts("LC meter            ");
+		}
+
 	    if(is_stop()&&soft_stop){
 		  	calc_freq();
 				
@@ -421,6 +433,8 @@ void  c_live()
 	lcd_putc(clive++);
     //lcd_hex8((char)loop);
 }
+
+
 void post_display(unsigned long number)
 {
     
@@ -447,7 +461,13 @@ void post_display(unsigned long number)
   	lcd_puts("       ");
 	lcd_puts("    ");
     
-/*********************************************************/
+
+
+}
+
+void update_lcd_status()
+{
+	/*********************************************************/
 	//second line ,debug infomation 
     lcd_cursor(0,1);
 
@@ -462,6 +482,7 @@ void post_display(unsigned long number)
     show_filter();
 
 }
+
 
 
 
