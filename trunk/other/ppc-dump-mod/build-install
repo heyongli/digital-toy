@@ -1,0 +1,28 @@
+#!/bin/bash
+
+server=pek-lpgbuild5.wrs.com
+prj_dir=/buildarea3/yhe/
+prj=cgl-p50x0-dev
+
+#-----------
+build=/$prj_dir/$prj/build/_mod_build
+
+makcmd="make ARCH=powerpc CROSS_COMPILE=/$prj_dir/$prj/host-cross/powerpc-wrs-linux-gnu/x86-linux2/powerpc-wrs-linux-gnu-  -C  /$prj_dir/$prj/build/linux-fsl_p50x0-cgl-build/ M=$build  modules"
+
+
+echo -n "##########copy to server...."
+ssh -Y $server "mkdir -p $build"
+scp * $server:/$build  > /dev/zero
+echo "DONE"
+
+echo  "######## start building it"
+ssh -Y $server "cd $build; $makcmd"
+
+
+
+echo -n "######## cp back from server..."
+scp $server:/$build/ppc-dump.ko  . > /dev/zero
+sudo cp ppc-dump.ko  /home/yhe/work/rootfs-cgl/
+sudo cp ppc-dump.sh   /home/yhe/work/rootfs-cgl/
+echo "ALL done"
+
