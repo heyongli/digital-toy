@@ -52,7 +52,7 @@ void ppc_cpu_dump(void)
 	
 	
 	dump("############# CCSRBAR, PHYS: 0x%llX ###############\n", CCSRBAR_PHYS);
-	dump("** virtaul map to: 0x%llX\n",vir);
+	dump("** virtaul map to: 0x%llx\n",(unsigned long long)vir);
 	dump("	CCSARBAR  LOW: 0x%X\n", ccsr_read(CCSARBARL));
 	dump("	CCSARBAR HIGH: 0x%X\n", ccsr_read(CCSARBARH));
 
@@ -110,16 +110,68 @@ void ppc_cpu_dump(void)
 	#define DDR_BASE(n) (0x8000+n*0x1000)
 	#define DDR_CSn_BNDS(ddr, cs) (DDR_BASE(ddr)+cs*0x8)
 	#define DDR_CSn_CFG(ddr, cs) (DDR_BASE(ddr)+0x80+cs*0x4)
+	#define CSn_EN 0x80000000
 	#define DDR_CSn_CFG2(ddr, cs) (DDR_BASE(ddr)+0xC0+cs*0x4)
 	#define DDR_TIMING_CFG3(ddr)  (DDR_BASE(ddr)+0x100)
-	#define DDR_TIMING_CFG0(ddr, n)  (DDR_BASE(ddr)+0x104)
-	//DDR CS Boundary
-	dump("------DDR Momery configuation\n");
+	#define DDR_TIMING_CFG(ddr, n)  (DDR_BASE(ddr)+0x104+n*0x4)
+	//DDR 
 	for(ddr=0;ddr<2;ddr++){
+		unsigned int timing0=ccsr_read(DDR_TIMING_CFG(ddr,0));
+		unsigned int timing1=ccsr_read(DDR_TIMING_CFG(ddr,1));
+		unsigned int timing2=ccsr_read(DDR_TIMING_CFG(ddr,2));
+		unsigned int timing3=ccsr_read(DDR_TIMING_CFG3(ddr));
+
+		unsigned int tRAS = ((timing1>>24)&0xF)+0x10*((timing3>>24)&0x1);
+		unsigned int tRFC = ((timing1>>12)&0xF) + 8 + 0x10*((timing3>>16)&0x1F);
+		unsigned int tCAS_read= ((timing1>>16)&0xF) + 0x8*((timing3>>12)&0x1);
+		unsigned int control_adjust = timing3&0x7;
+			
+		//DDR timing config
+		dump("\n---------------------------\n");
+		dump("DDR %d  timing 0:0x%x timing 1:0x%x  timing 2:0x%x  timing 3:0x%x \n",
+				ddr, timing0,timing1,timing2,timing3);
+		dump("tRAS:%d  tRFC:%d, tCAS_read:%d  control_adjust:0x%x \n",tRAS,tRFC, tCAS_read, 
+							control_adjust);
+		
+		// Chip select config
 		for(cs=0; cs<4; cs++){
+			unsigned int cfg= ccsr_read(DDR_CSn_CFG(ddr,cs));
+			unsigned int cfg2= ccsr_read(DDR_CSn_CFG2(ddr,cs));
 			unsigned long long bnd=ccsr_read(DDR_CSn_BNDS(ddr,cs));
-			dump("--DDR controller %d Chip %d: 0x%llx ----- 0x%llx  [0x%llx]\n", ddr, cs,
-										(bnd&0xfff0000)<<8, (bnd&0xFFF)<<24, bnd);	
+			dump("-------\n");
+			dump("Chip %d : cfg: 0x%x  cfg2:0x%x cs_bnd:0x%llx", cs, cfg, cfg2, bnd);
+			dump("	[0x%llx ----- 0x%llx] \n", (bnd&0xfff0000)<<8, (bnd&0xFFF)<<24);	
+
+			if(cfg&CSn_EN){
+				//---- cfg ------------
+				dump("***");
+				#define INTLV_EN 0x30000000
+				#define AP_n_EN  0x00800000
+				
+				if(cfg&INTLV_EN){
+					dump(" INTLV-");  
+					switch((cfg>>24)&0xF){
+						case 0:
+							dump("cache-line ");
+							break;
+						case 1:
+							dump("Page ");
+							break;
+						default:
+							dump("bank ");
+
+					}	
+				}
+				if(cfg&AP_n_EN) 
+						dump(" auto-precharge ");
+				dump(" read-ODT_cfg:0x%x  write-ODT_cfg:0x%x ",(cfg>>20)&0x7, (cfg>>16)&0x7);
+				dump(" BankBits:%d, Rowbits:%d, ColBits:%d ",((cfg>>14)&0x3)+2, ((cfg>>8)&0x7)+12, (cfg&0x7)+8);
+				//-------cfg2-----------
+				if((cfg2>>24)&0x7)
+					dump(" Partial Array ");
+
+				dump("\n");
+			}
 
 		}
 
