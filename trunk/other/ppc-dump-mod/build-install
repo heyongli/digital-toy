@@ -22,6 +22,8 @@ ssh -Y $server "cd $build; $makcmd"
 
 echo -n "######## cp back from server..."
 scp $server:/$build/ppc-dump.ko  . > /dev/zero
+sudo rm -rf /home/yhe/work/rootfs-cgl/ppc-dump.ko
+
 sudo cp ppc-dump.ko  /home/yhe/work/rootfs-cgl/
 sudo cp ppc-dump.sh   /home/yhe/work/rootfs-cgl/
 echo "ALL done"

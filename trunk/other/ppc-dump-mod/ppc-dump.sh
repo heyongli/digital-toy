@@ -1,5 +1,9 @@
 #!/bin/sh
 
+echo 3 > /proc/sys/vm/drop_caches
+sync
+
+
 rmmod /ppc-dump.ko
 insmod /ppc-dump.ko
 rm -rf /dev/ppc_dump
@@ -17,3 +21,7 @@ echo "major:$major minor:$minor"
 mknod /dev/ppc_dump c $major $minor
 
 cat /dev/ppc_dump
+
+echo 3 > /proc/sys/vm/drop_caches
+sync
+
