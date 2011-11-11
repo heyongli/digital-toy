@@ -27,7 +27,6 @@ long  dbuf_len = 0;
 	do {  dbuf_len+=sprintf(dbuf+dbuf_len,fmt,##__VA_ARGS__); } while (0)
 
 
-
 void ppc_cpu_dump(void)
 {
 
@@ -125,14 +124,38 @@ void ppc_cpu_dump(void)
 		unsigned int tRFC = ((timing1>>12)&0xF) + 8 + 0x10*((timing3>>16)&0x1F);
 		unsigned int tCAS_read= ((timing1>>16)&0xF) + 0x8*((timing3>>12)&0x1);
 		unsigned int control_adjust = timing3&0x7;
-			
-		//DDR timing config
-		dump("\n---------------------------\n");
-		dump("DDR %d  timing 0:0x%x timing 1:0x%x  timing 2:0x%x  timing 3:0x%x \n",
-				ddr, timing0,timing1,timing2,timing3);
-		dump("tRAS:%d  tRFC:%d, tCAS_read:%d  control_adjust:0x%x \n",tRAS,tRFC, tCAS_read, 
-							control_adjust);
+
+		unsigned int tRWT = timing0>>30;
+		unsigned int tWRT = (timing0>>28)&0x3;
+		unsigned int tRRT = (timing0>>26)&0x3;
+		unsigned int tWWT = (timing0>>24)&0x3;
+		unsigned int tXARD = (timing0>>20)&0xF;
+		unsigned int tXP = (timing0>>16)&0x1F;
+		unsigned int tAXPD = (timing0>>8)&0xF;
+		unsigned int tMRD = (timing0)&0xF;
+
+		//timing 1
+		unsigned int tRP = (timing1>>28)&0xF;
+		unsigned int tRCDa2row = (timing1>>20)&0xF;
+		unsigned int tWR = (timing1>>8)&0xF;
+		unsigned int tRRD = (timing1>>4)&0xF;
+		unsigned int tWTR = (timing1)&0xF;
+
+		//timing 2
 		
+
+
+		//DDR timing config
+		dump("\nDDR %d---------------------------\n",ddr);
+		dump("------- timing 0:0x%x timing 1:0x%x  timing 2:0x%x  timing 3:0x%x \n",
+				 timing0,timing1,timing2,timing3);
+		dump("tRAS:%d  tRFC:%d, tCAS_read:%d  control_adjust:0x%x ",tRAS,tRFC, tCAS_read, 
+							control_adjust);
+		dump("tRWT:%d  tWRT:%d tRRT:%d, tWWT:%d tXARD:%d tXP:%d tAXPD:%d tMRD:%d",
+				tRWT, tWRT, tRRT,tWWT, tXARD, tXP, tAXPD,tMRD);
+		dump("tRP:%d  tRCDa2row:%d tWR:%d tRRD:%d tWTR:%d \n",
+			     tRP,      tRCDa2row,       tWR,      tRRD,      tWTR);
+		dump(".... TODO:TIMING2");
 		// Chip select config
 		for(cs=0; cs<4; cs++){
 			unsigned int cfg= ccsr_read(DDR_CSn_CFG(ddr,cs));
