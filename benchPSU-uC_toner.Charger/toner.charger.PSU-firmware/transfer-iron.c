@@ -17,7 +17,7 @@ float themo_V = 0; //caculated volatage on the thermocouple,in volt
 unsigned long heat_cycles=5*HZ;//how long to heat the iron in this round
 
 #define MIN_HEAT_CYCLES HZ/2  //at lest halft second turn on the relay to avoid relay damage
-#define PEFECT_TEMP   (int)185  //good toner transfer temputure
+#define PEFECT_TEMP   (int)180	  //good toner transfer temputure
 char stop=1;
 
 void io_init()
