@@ -1,0 +1,116 @@
+1. 电源
+	+-30V,  用于变容二极管激励    0.1A, 3W
+	+-5V	子板通用电压和通用运放  1A,  5W
+	+3V	母板供电		    5A?, 15W
+
+	面板电源指示接口: 5V, 20-200mA
+
+total:	30W ... 50W
+
+
+-------------------------------------------------
+2. 示波器子卡
+电平 3.3V
+采样速度: 40M/s 到 100M/s 
+
+高速IO接口:
+	底板负责AD芯片的数据采集和控制(选型待定)
+	ad9288(40M/80M/100M)
+		cha: D7..D0
+		chb: D7..D0
+		select1,2
+		DFS : DATformat: 1
+		ENCa/b: clock for channel
+	简单:GPIO的控制若干 (选型待定)
+	
+
+-------------------------------------------------
+3. 测试版DDS sweeper/genarator
+扫频范围 0-40Mhz/0-70Mhz(9851)
+输出波形: 正旋,方波, 锯齿等
+电源要求: +5V
+
+配置IO要求:
+串行
+	GPIO: FQ_UP Frequcy_update
+	GPIO: reset
+	GPIO: W_CLK Word_load clock
+	GPIO: SDI SreialBit IN
+
+并行
+	reset
+	FQ_UP
+	D7-D0: 8bit GPIO
+
+选通控制:
+	1 bit GPIO
+	1 bit for extention
+
+
+扩展要求:  I2C rom for auto config
+扩展要求2: 双9851 Quata 频率输出
+扩展要求3: 状态指示灯
+
+    	
+--------------------------------------------------		
+4. 测试版PLL VCO/Sweeper
+电源要求: +5V, +3.3
+配置要求:
+串行 (MB1507: N: (mxn+a)[ 128|256 x 16..2047](4096..524,032)  pre scaler: 8 to 16383)
+OUT
+	CLK   GPIO
+	Data   GPIO
+	LE   GPIO
+IN: 
+	LD: lock detect   GPIO
+
+串行: LMX2322 (3.3V, -N: prescale 32/33+15bit,  prescaler:10bit )
+	SDATA   GPIO
+	CLK:   GPIO
+	LE (lock enable)   GPIO
+	控制: CE, RESET   GPIO
+
+串行: ADF411x (-N: B(13bit)xP(8/9,64/65) + A(6bit),  prescaler:10bit )
+	DATA   GPIO 
+	CLK:    GPIO
+	LE (lock enable)   GPIO
+	控制: CE     GPIO
+	LD: lock detect   GPIO
+
+并行:MC145151 (÷ N Range = 3 to 16383, )
+	14Bit GPIO for N       GPIO
+	3 bit GPIO for prescale   GPIO
+	LD: lock detect    GPIO
+
+选通控制:
+	1 bit GPIO
+	1 bit for extention
+
+扩展要求:  I2C rom for auto config
+扩展要求3: 状态指示灯
+
+
+-------------------------------------------------------
+4. 测试版数控ramp (不太实用)
+电源要求: 30V
+配置要求:
+	并行16pin GPIO R2R 30/2^16 = 1mV step
+选通控制:
+	1 bit GPIO
+	1 bit for extention
+
+数据采集要求:
+	ADC12bit 模拟1路
+
+扩展要求:  I2C rom for auto config
+扩展要求3: 状态指示灯
+
+-------------------------------------------------------
+
+
+
+
+
+	
+
+
