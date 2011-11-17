@@ -23,18 +23,21 @@ MODULE_PARM_DESC(ppc_dump,	"dump PPC cpu infomation " __MODULE_STRING(ppc_dump))
 //				e      s
 /* 0 1 2 3 4 ......................31*/  //BE
 //    s      e
-#define _MASK32(s,e)      ((0xFFFFffff<<(s))&(0xFFFFffff>>(32-(e))))
+#define _MASK32(s,e)      ((0xFFFFffff<<(s))&(0xFFFFffff>>(31-(e))))
                           /*s=2, e=3*/
 					          /* xxxx XX00  	& 	 0000 XXXX*/
 
 #define  _VAL32(val,s,e) (  ((val)&(_MASK32((s),(e))) )>>(s))
-#define  _VAL32BE(val,s,e) (  ((val)&(_MASK32((32-(e)),(32-(s)) )>>(32-(e)))))
+#define  _VAL32BE(val,s,e)  (_VAL32(val,(31-e), (31-s)))
+
+//make it simple
+//#define  _VBE(val,s,e) ({ typeof(val) _xval=-1;  if(sizeof(val)==32)_xval=_VAL32BE(val,s,e);  _xval; })
 
 
 static struct cdev *ppc_dump_dev=NULL;
 static int  ppc_dump_maj = 0;
 
-char  dbuf[4096]; /*Collection infomation to this buf, then dump to user space*/
+char  dbuf[8000]; /*Collection infomation to this buf, then dump to user space*/
 long  dbuf_len = 0;
 
 #define dump(fmt, ...)  \
@@ -134,28 +137,6 @@ void ppc_cpu_dump(void)
 	// 			might means one bank(2M) contains: 4096RowX512colonmx16 i/o line(data pin) 
 	#define DDR_BASE(n) (0x8000+n*0x1000)
 
-	#define DDR_INIT_ADDR(ddr)	(DDR_BASE(ddr)+0x148)
-	#define DDR_INIT_EXT_ADDR(ddr)	(DDR_BASE(ddr)+0x14C)
-
-	#define TIMING_CFG4(ddr)	(DDR_BASE(ddr)+0x160)
-	#define TIMING_CFG5(ddr)	(DDR_BASE(ddr)+0x164)
-
-	#define DDR_ZQ_CNTL(ddr)	(DDR_BASE(ddr)+0x170)
-	#define DDR_WRLVL_CNTL(ddr)	(DDR_BASE(ddr)+0x174)
-
-	#define DDR_SR_CNTL(ddr)	(DDR_BASE(ddr)+0x17C)
-	#define DDR_RCW1(ddr)	(DDR_BASE(ddr)+0x180)
-	#define DDR_RCW2(ddr)	(DDR_BASE(ddr)+0x184)
-
-	#define DDR_WRLVL_CNTL2(ddr)	(DDR_BASE(ddr)+0x190)
-	#define DDR_WRLVL_CNTL3(ddr)	(DDR_BASE(ddr)+0x194)
-
-	#define DDR_SDRAM_MODE38(ddr,n)	(DDR_BASE(ddr)+0x200+n*0x4)
-
-	#define DDRDSR1(ddr)	(DDR_BASE(ddr)+0xB20)
-	#define DDRDSR2(ddr)	(DDR_BASE(ddr)+0xB24)
-	#define DDRCDR(ddr)	(DDR_BASE(ddr)+0xB28)
-	#define DDRCDR2(ddr)	(DDR_BASE(ddr)+0xB2C)
 	
 	#define DDR_REV1(ddr)	(DDR_BASE(ddr)+0xBF8)
 	#define DDR_REV2(ddr)	(DDR_BASE(ddr)+0xBFC)
@@ -189,19 +170,20 @@ void ppc_cpu_dump(void)
 
 		dump("-----------\n");
 //ddr TIMING	
-	{
+{
 	#define DDR_TIMING_CFG3(ddr)  (DDR_BASE(ddr)+0x100)
 	#define DDR_TIMING_CFG(ddr, n)  (DDR_BASE(ddr)+0x104+n*0x4)
+	#define TIMING_CFG4(ddr)	(DDR_BASE(ddr)+0x160)
+	#define TIMING_CFG5(ddr)	(DDR_BASE(ddr)+0x164)
+
+		unsigned int timing4=ccsr_read(TIMING_CFG4(ddr));
+		unsigned int timing5=ccsr_read(TIMING_CFG5(ddr));
 
 		unsigned int timing0=ccsr_read(DDR_TIMING_CFG(ddr,0));
 		unsigned int timing1=ccsr_read(DDR_TIMING_CFG(ddr,1));
 		unsigned int timing2=ccsr_read(DDR_TIMING_CFG(ddr,2));
 		unsigned int timing3=ccsr_read(DDR_TIMING_CFG3(ddr));
 
-		unsigned int tRAS = ((timing1>>24)&0xF)+0x10*((timing3>>24)&0x1);
-		unsigned int tRFC = ((timing1>>12)&0xF) + 8 + 0x10*((timing3>>16)&0x1F);
-		unsigned int tCAS_read= ((timing1>>16)&0xF) + 0x8*((timing3>>12)&0x1);
-		unsigned int control_adjust = timing3&0x7;
 
 		unsigned int tRWT = timing0>>30;
 		unsigned int tWRT = (timing0>>28)&0x3;
@@ -219,22 +201,58 @@ void ppc_cpu_dump(void)
 		unsigned int tRRD = (timing1>>4)&0xF;
 		unsigned int tWTR = (timing1)&0xF;
 
+		unsigned int tRAS = ((timing1>>24)&0xF)+0x10*((timing3>>24)&0x1);
+		unsigned int tRFC = ((timing1>>12)&0xF) + 8 + 0x10*((timing3>>16)&0x1F);
+		unsigned int tCAS_read= ((timing1>>16)&0xF) + 0x8*((timing3>>12)&0x1);
+		unsigned int control_adjust = timing3&0x7;
+
 		//TODO : timing 2
 		
 		//
 
 		//DDR timing config
-		dump("timing 0:0x%x timing 1:0x%x  timing 2:0x%x  timing 3:0x%x \n",
-				 timing0,timing1,timing2,timing3);
-		dump("tRAS:%d  tRFC:%d, tCAS_read:%d  control_adjust:0x%x ",tRAS,tRFC, tCAS_read, 
-							control_adjust);
-		dump("tRWT:%d  tWRT:%d tRRT:%d, tWWT:%d tXARD:%d tXP:%d tAXPD:%d tMRD:%d",
+		dump("timing 0:0x%x timing 1:0x%x  timing 2:0x%x  timing 3:0x%x timing 4:0x%x  timing 5:0x%x \n",
+				 timing0,timing1,timing2,timing3,timing4, timing5);
+		dump("tRWT:%d  tWRT:%d tRRT:%d, tWWT:%d tXARD:%d tXP:%d tAXPD:%d tMRD:%d\n",
 				tRWT, tWRT, tRRT,tWWT, tXARD, tXP, tAXPD,tMRD);
 		dump("tRP:%d  tRCDa2row:%d tWR:%d tRRD:%d tWTR:%d \n",
 			     tRP,      tRCDa2row,       tWR,      tRRD,      tWTR);
+		dump("tRAS:%d  tRFC:%d, tCAS_read:%d  control_adjust:0x%x \n",tRAS,tRFC, tCAS_read, 
+							control_adjust);
+
 		dump(".... TODO:TIMING2\n");
 
+		{
+		
+		dump("RWT(samChip):%d  WRT:(samChip):%d RRT(samChip):%d WWT(samChip):%d DDL_LOCK:%d \n",
+					_VAL32BE(timing4,0,3),_VAL32BE(timing4,4,7),
+					_VAL32BE(timing4,8,11),_VAL32BE(timing4,12,15),
+					_VAL32BE(timing4,30,31));
+		dump("RODT_ON:%d  RODT_OFF:%d WODT_ON:%d WODT_OFF:%d ",
+					_VAL32BE(timing5,3,7),_VAL32BE(timing5,9,11),
+					_VAL32BE(timing5,15,19),_VAL32BE(timing5,21,23));
 		}
+		dump("\n");
+		
+		//SDRAM CLK control
+		{
+#define SDRAM_CLK_CNTL(ddr)  (DDR_BASE(ddr)+0x130)
+		unsigned int sdram_clk_cntl = ccsr_read(SDRAM_CLK_CNTL(ddr));
+//		dump("0x%x \n", sdram_clk_cntl);
+		dump("Clock lauched:%d/8 cycle after address/command  \n",
+			_VAL32BE(sdram_clk_cntl,5,8));
+		}
+
+		{
+		#define SDRAM_INTLERVAL(ddr)  (DDR_BASE(ddr)+0x124)
+		unsigned int interval = ccsr_read(SDRAM_INTLERVAL(ddr));
+		dump("refresh interval:0x%d  prechage interval:%d ",
+			_VAL32BE(interval,0,15),_VAL32BE(interval,18,31));
+	
+		}
+		dump("\n");
+
+	}
 		
 		//sdram cfg
 		dump("-----------\n");
@@ -319,17 +337,20 @@ void ppc_cpu_dump(void)
 		dumpEN("wirteRCWatInit  "," ",sdram_cfg2, 29);
 		dumpEN("CorruptedDataEnable  ","",sdram_cfg2, 30);
 		dumpEN("Mirrored_DIMMs ","",sdram_cfg2, 31);
-		
 
 		dump("\n");
+
+
 	}
 
 	dump("-----------\n");
 	//SDRAM mode
 	{
+		int i;
 	#define SDRAM_MODE(ddr)  (DDR_BASE(ddr)+0x118)
 	#define SDRAM_MODE2(ddr)  (DDR_BASE(ddr)+0x11C)
 	#define SDRAM_MODE_CNTL(ddr)  (DDR_BASE(ddr)+0x120)
+	#define SDRAM_MODE38(ddr,n)	(DDR_BASE(ddr)+0x200+n*0x4)
 
 		unsigned int sdram_mode = ccsr_read(SDRAM_MODE(ddr));
 		unsigned int sdram_mode2 = ccsr_read(SDRAM_MODE2(ddr));
@@ -356,20 +377,163 @@ void ppc_cpu_dump(void)
 		
 		dump("\n");
 
-	}
+		//mode config 3-8
+		for(i=0;i<6; i++){
+			unsigned int cfg = ccsr_read(SDRAM_MODE38(ddr,i));
+			#undef  _V
+			#define _V(s,e)  _VAL32BE(cfg,s,e)	
 
-	dump("-----------\n");
-	//SDRAM interleaving
+			dump("MODE(%d)   ESDMODE:0x%x  SDMODE:0x%x \n",i+3,_V(0,15),_V(16,31));
+		}
+		
+	}
+       dump("-----------\n");
+
+	//DDR Init
 	{
-#define SDRAM_INTLERVAL(ddr)  (DDR_BASE(ddr)+0x124)
-#define DDR_DATA_INIT(ddr)  (DDR_BASE(ddr)+0x128)
-#define SDRAM_CLK_CNTL(ddr)  (DDR_BASE(ddr)+0x130)
-		unsigned int ddr_data_init = ccsr_read(DDR_DATA_INIT(ddr));
-		unsigned int sdram_CLK_CNTL = ccsr_read(SDRAM_CLK_CNTL(ddr));
 
+		#define DDR_RCW1(ddr)	(DDR_BASE(ddr)+0x180)
+		#define DDR_RCW2(ddr)	(DDR_BASE(ddr)+0x184)
+
+		#define DDR_INIT_ADDR(ddr)	(DDR_BASE(ddr)+0x148)
+		#define DDR_INIT_EXT_ADDR(ddr)	(DDR_BASE(ddr)+0x14C)
+		unsigned int init_addr = ccsr_read(DDR_INIT_ADDR(ddr));
+		unsigned int init_eaddr = ccsr_read(DDR_INIT_EXT_ADDR(ddr));
+
+		//data init
+	{
+		#define DDR_DATA_INIT(ddr)  (DDR_BASE(ddr)+0x128)
+		unsigned int ddr_data_init = ccsr_read(DDR_DATA_INIT(ddr));
+		dump("SDRAM_init_Parten:0x%x",ddr_data_init);
+		dump("\n");
+	}
+		
+		dumpEN("POR auto calibration use specified address:","POR auto calibration use default address:",
+					init_eaddr,0);
+		dump("0x%x, 0x%x \n",_VAL32BE(init_eaddr,28,31),(init_addr));
+		dump("DDR_RCW1:0x%x , DDR_RCW2:0x%x \n",ccsr_read(DDR_RCW1(ddr)),
+												ccsr_read(DDR_RCW2(ddr)));
+		
+	}
+	dump("-----------\n");
+	{	
+		#define DDR_ZQ_CNTL(ddr)	(DDR_BASE(ddr)+0x170)
+		#define DDR_WRLVL_CNTL(ddr)	(DDR_BASE(ddr)+0x174)
+		#define DDR_SR_CNTL(ddr)	(DDR_BASE(ddr)+0x17C)
+		#define DDR_WRLVL_CNTL2(ddr)	(DDR_BASE(ddr)+0x190)
+		#define DDR_WRLVL_CNTL3(ddr)	(DDR_BASE(ddr)+0x194)
+
+		unsigned int zq_cntl = ccsr_read(DDR_ZQ_CNTL(ddr));
+		unsigned int wrlvl_cntl = ccsr_read(DDR_WRLVL_CNTL(ddr));
+		unsigned int wrlvl_cntl2 = ccsr_read(DDR_WRLVL_CNTL2(ddr));
+		unsigned int wrlvl_cntl3= ccsr_read(DDR_WRLVL_CNTL3(ddr));
+
+		unsigned int sr_cntl = ccsr_read(DDR_SR_CNTL(ddr));
+
+		dump("ZQ:0x%x  WRLVL:0x%x WRLVL2:0x%x WRLVL3:0x%x   SR_CNTL:0x%x \n", zq_cntl, wrlvl_cntl,wrlvl_cntl2,wrlvl_cntl3, sr_cntl);
+		if(zq_cntl&(1<<31)){
+			dump("ZQ config: tZQinit:%d tZQoper:%d, tZQCS:%d \n", _VAL32BE(zq_cntl,4,7),
+				_VAL32BE(zq_cntl,12,15),_VAL32BE(zq_cntl,20,23));
+
+		}
+		if(wrlvl_cntl&(1<<31)){
+			#undef  _V
+			#define _V(s,e)  _VAL32BE(wrlvl_cntl,s,e)	
+			dump("tWL_MRD:%d tWL_OTDEN:%d, tWL_DQSEN:%d, tWL_SAMPL:%d, tWL_REPET:%d, tWL_START:%d   \n",
+				_V(5,7),		 _V(9,11),	      _V(13,15),	_V(16,19),            _V(21,23),	_V(27,31));
+			#undef  _V
+			#define _V(s,e)  _VAL32BE(wrlvl_cntl2,s,e)	
+			dump("WL_START1:%d,WL_START2:%d, WL_START3:%d,WL_START4:%d, ",
+				   _V(3,7),		_V(11,15),	_V(19,23),		_V(27,31));
+
+			#undef  _V
+			#define _V(s,e)  _VAL32BE(wrlvl_cntl3,s,e)	
+			dump("WL_START5:%d,WL_START6:%d, WL_START7:%d,WL_START8:%d \n",
+				   _V(3,7),		_V(11,15),	_V(19,23),		_V(27,31));
+		}
+		#undef  _V
+		#define _V(s,e)  _VAL32BE(sr_cntl,s,e)
+		dump("Self Refresh Idle Threshold:%d \n",   _V(12,15));
+
+	}
+	dump("-----------\n");
+   //DDR debug status register 
+	{
+		#define DDRCDR(ddr)	(DDR_BASE(ddr)+0xB28)
+		#define DDRCDR2(ddr)	(DDR_BASE(ddr)+0xB2C)
+
+		unsigned int ddr_CDR = ccsr_read(DDRCDR(ddr));
+		unsigned int ddr_CDR2 = ccsr_read(DDRCDR2(ddr));
+		int odt;
+		dump("DDR Control Driver  CDR1:0x%x, CDR2:0x%x \n",ddr_CDR,ddr_CDR2);
+		
+		//some filed ommit : seems not very worthy to dump
+		#undef  _V
+		#define _V(s,e)  _VAL32BE(ddr_CDR,s,e)	
+		dumpEN("DDR_Compensation ","",ddr_CDR,0);
+		dumpEN("MDIC_SOFT_OVERRIDE ","",ddr_CDR,1);
+
+		dumpEN("soft_override_addcmd ","",ddr_CDR,14);
+		dumpEN("soft_override_data ","",ddr_CDR,15);
+		dumpEN("soft_override_data ","",ddr_CDR,15);
+
+		dump("ODT:");
+		odt=_V(12,13) | _VAL32BE(ddr_CDR2,31,31);
+		switch(odt){
+			case 0:
+				dump("75");
+				break;
+			case 1:
+				dump("55");
+				break;
+			case 2:
+				dump("65");
+				break;
+			case 3:
+				dump("50");
+				break;
+			case 4:
+				dump("100");
+				break;
+			case 5:
+				dump("43");
+				break;
+			case 6:
+				dump("120");
+				break;
+			default:
+				dump("Reserved");
+
+		}
+		dump("ohm ");
+
+		dump("  .....other value:TODO");
+		
+
+   	}
+	dump("\n-----------\n");
+       //DDR debug status register 
+	{
+		#define DDRDSR1(ddr)	(DDR_BASE(ddr)+0xB20)
+		#define DDRDSR2(ddr)	(DDR_BASE(ddr)+0xB24)
+		unsigned int ddr_DSR1 = ccsr_read(DDRDSR1(ddr));
+		unsigned int ddr_DSR2 = ccsr_read(DDRDSR2(ddr));
+		dump("DDR debug status  DSR1:0x%x, DSR2:0x%x \n",ddr_DSR1,ddr_DSR2);
+		
+		#undef  _V
+		#define _V(s,e)  _VAL32BE(ddr_DSR1,s,e)	
+		dump("DDRDC:%d, PFET_MDIC:%d, NFET_MDIC:%d, PFET_CMD:%d NFET_CMD:%d PFET_DATA:%d NFET_DATA:%d \n",
+			_V(0,1),  _V(2,5),		_V(6,9),		_V(16,19),	_V(20,23),   	_V(24,27),	  _V(28,31));
+
+		#undef  _V
+		#define _V(s,e)  _VAL32BE(ddr_DSR2,s,e)	
+		dump("PFET_CLK:%d, NFET_CLK:%d, Rapid_clear_start:%d Rapid_clear_end:%d" ,
+				   _V(0,3),  _V(4,7),		_V(30,30),  _V(31,31));
 
 
 	}
+	   
+	dump("\n-----------\n");
 
 	#define DDR_CSn_BNDS(ddr, cs) (DDR_BASE(ddr)+cs*0x8)
 	#define DDR_CSn_CFG(ddr, cs) (DDR_BASE(ddr)+0x80+cs*0x4)
@@ -386,7 +550,6 @@ void ppc_cpu_dump(void)
 
 			if(cfg&CSn_EN){
 				//---- cfg ------------
-				dump("***");
 				#define INTLV_EN 0x30000000
 				#define AP_n_EN  0x00800000
 				
