@@ -146,7 +146,22 @@ void lcd1602_init(void)
 
 void lcd_cursor(char x, char y)
 {
-	send_cmd(x+(y?0xc0:0x80));  
+	if(y == 0){
+		send_cmd(x|0x80);  
+	}
+	if(y == 1){
+		send_cmd(x|0xc0);  
+	}
+	//lcd2004 support 
+	if(y == 2){
+		send_cmd((x+0x14)|0x80);  
+	}
+	if(y == 3){
+		send_cmd((x+0x54)|0x80);  
+	}
+
+
+
 }
 
 
