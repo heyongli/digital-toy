@@ -16,6 +16,7 @@
 /*prototype*/
 void calc_freq();
 void post_display(unsigned long number);
+void update_lcd_status();
 /*preCounter opratinos */
 
 void reset();
@@ -29,6 +30,8 @@ char is_gate_step();
 char is_flt_step();
 void key_init();
 
+void  we_live();
+void  c_live();
 
 #ifndef DEBUG
 /* TCXO frequncy */
@@ -337,17 +340,9 @@ void freq_main(void)
 		
 		mode = read_adc_mode();
 
-		if(2==mode)
-			update_lcd_status();
-		if(1==mode){
-			 lcd_cursor(0,1);
-			 lcd_puts("divider 32            ");
-		}
-		if(0==mode){
-			 lcd_cursor(0,1);
-			 lcd_puts("LC meter            ");
-		}
-
+	
+		update_lcd_status();
+	
 	    if(is_stop()&&soft_stop){
 		  	calc_freq();
 				
@@ -437,7 +432,12 @@ void  c_live()
 
 void post_display(unsigned long number)
 {
-    
+   	char mode = read_adc_mode();
+
+	if(1==mode){//50R, divid 32
+	
+		number*=32;
+	}
 	lcd_cursor(0,0);
     
 	if((number>999)&&(number<999999)){
@@ -469,7 +469,8 @@ void update_lcd_status()
 {
 	/*********************************************************/
 	//second line ,debug infomation 
-    lcd_cursor(0,1);
+	char mode = read_adc_mode();
+	lcd_cursor(0,1);
 
 	if(debug()){
 		stable_debug();
@@ -480,6 +481,21 @@ void update_lcd_status()
 	show_gate();
 	lcd_puts(" ");
     show_filter();
+
+	lcd_cursor(0,3);
+	if(1==mode){//50R, divid 32
+    
+		lcd_puts("MB504 F/32 50R input");
+	}
+	if(2==mode){
+    
+		lcd_puts("preAmp 1Mohm input  ");
+	}
+
+	if(0==mode){
+    
+		lcd_puts("LC meter : TODO ....");
+	}
 
 }
 
