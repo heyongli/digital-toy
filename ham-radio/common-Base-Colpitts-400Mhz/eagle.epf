@@ -9,12 +9,18 @@ Desktop="Desktop"
 AutoSaveProject=1
 
 [Win_1]
+Type="Control Panel"
+Loc="686 56 1283 455"
+State=2
+Number=0
+
+[Win_2]
 Type="Schematic Editor"
-Loc="17 183 1238 906"
+Loc="485 125 1706 848"
 State=2
 Number=1
 File="cb-colpitts.sch"
-View="63044 3551 1347468 829273"
+View="79263 -13413 1149617 674689"
 WireWidths=" 0 3048 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 4064 2032"
 PadDiameters=" 2540 3048 4064 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 0"
 PadDrills=" 5000 6000 7000 9000 10000 11000 12000 13000 14000 15000 16000 20000 22000 28000 32000 8000"
@@ -46,14 +52,8 @@ ArcDirection=0
 AddLevel=2
 PadsSameType=0
 Layer=91
-Views=" 1: 63044 3551 1347468 829273"
+Views=" 1: 79263 -13413 1149617 674689"
 Sheet=1
-
-[Win_2]
-Type="Control Panel"
-Loc="164 414 761 813"
-State=2
-Number=0
 
 [Desktop]
 Screen="3840 1080"
