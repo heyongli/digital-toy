@@ -1,28 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head>
-<meta http-equiv="content-type" content="text/html; charset=GB2312">
+<meta http-equiv="content-type" content="text/html; charset=GB2312"><!------------------------------------------------------><!-- Adjust the title below to match the type of page --><!------------------------------------------------------><title>Martin E. Meserve - K7MEM - Inductance of a Straight, Non-magnetic Wire, In Free Space</title><!-----------------------------------------------------------------------><!-- Load the Main -Program. Adjust the name based on the type of page --><!----------------------------------------------------------------------->
 
 
-<!------------------------------------------------------>
-<!-- Adjust the title below to match the type of page -->
-<!------------------------------------------------------>
-<title>Martin E. Meserve - K7MEM - Inductance of a Straight, Non-magnetic Wire, In Free Space</title>
 
-<!----------------------------------------------------------------------->
-<!-- Load the Main -Program. Adjust the name based on the type of page -->
-<!----------------------------------------------------------------------->
-<script type="text/javascript" language="JavaScript" src="straight_wire-inductor_files/straight_flat.bin"></script>
 
-<!------------------------------------------------------>
-<!-- Load the Libraries -->
-<!------------------------------------------------------>
+
+
+
+
+
+
+<script type="text/javascript" language="JavaScript" src="straight_wire-inductor_files/straight_flat.bin"></script><!------------------------------------------------------><!-- Load the Libraries --><!------------------------------------------------------>
+
+
+
+
 <script type="text/javascript" language="JavaScript" src="straight_wire-inductor_files/lib_m.bin"></script>
 <script type="text/javascript" language="JavaScript" src="straight_wire-inductor_files/lib_c.bin"></script>
 <script type="text/javascript" language="JavaScript" src="straight_wire-inductor_files/lib_e.bin"></script>
-<script type="text/javascript" language="JavaScript" src="straight_wire-inductor_files/lib_d.bin"></script>
+<script type="text/javascript" language="JavaScript" src="straight_wire-inductor_files/lib_d.bin"></script><!----------------------------------------------------------------------><!-- Scripting for modifying the table cell color. Not always needed. --><!---------------------------------------------------------------------->
 
-<!---------------------------------------------------------------------->
-<!-- Scripting for modifying the table cell color. Not always needed. -->
-<!---------------------------------------------------------------------->
+
+
+
 <script type="text/javascript">
 function setCellBgColor (tableId, rowIndex, cellIndex, bgColor) {
   if (document.layers)
@@ -32,16 +33,16 @@ function setCellBgColor (tableId, rowIndex, cellIndex, bgColor) {
   else if (document.getElementById)
     document.getElementById(tableId).rows[rowIndex].cells[cellIndex].style.backgroundColor = bgColor;
   }
-</script>
+</script><!------------------------------------------------------><!-- Load the master style sheet                      --><!------------------------------------------------------>
 
-<!------------------------------------------------------>
-<!-- Load the master style sheet                      -->
-<!------------------------------------------------------>
-<link rel="stylesheet" type="text/css" href="straight_wire-inductor_files/dg.css">
 
-<!------------------------------------------------------------->
-<!-- Load the drop down menu javascript and define the style -->
-<!------------------------------------------------------------->
+
+
+<link rel="stylesheet" type="text/css" href="straight_wire-inductor_files/dg.css"><!-------------------------------------------------------------><!-- Load the drop down menu javascript and define the style --><!------------------------------------------------------------->
+
+
+
+
 <script type="text/javascript" language="JavaScript" src="straight_wire-inductor_files/dd_menu.bin"></script><script language="javascript">
 NS_ActualOpen=window.open;
 function NS_NullWindow(){this.window;}
@@ -50,30 +51,20 @@ window.open=NS_NewOpen;
 </script></head><body bottommargin="0" leftmargin="0" rightmargin="0" topmargin="0" onload="Straight_Wire_Calc();
  window.status='JavaScript Electronic Notebook - Inductance of a Straight Wire'; return true" marginheight="0" marginwidth="0"><div id="dropmenudiv" style="visibility: hidden; width: 165px; background-color: rgb(198, 247, 189);" onmouseover="clearhidemenu()" onmouseout="dynamichide(event)"></div>
 
-<!------------------------------------------------------------------>
-<!-- Remove this code if you need to open windows from javascript -->
-<!------------------------------------------------------------------>
 
 
-<!----------------------------------------------------------------------------->
-<!-- The margin references control how close you come to the browser border. -->
-<!-- Adjust the onload references and the window.status as necessary.        -->
-<!----------------------------------------------------------------------------->
 
 
-<a name="Page_Top"></a>
 
-<!----------------------------------------------------------------------->
-<!-- This is the top of the page and contains the logo and title info. -->
-<!-- Adjust the title information based on the page type.              -->
-<!----------------------------------------------------------------------->
-<table bgcolor="black" border="0" cellpadding="0" cellspacing="0" height="100" width="100%">
+
+
+
+<table style="background-color: black; width: 800px; height: 100px;" border="0" cellpadding="0" cellspacing="0">
   <tbody><tr valign="center">
-    <td align="center" width="50%">
-    <!----------your logo goes here---------->
+    <td align="center" width="50%">&nbsp;
     <img src="straight_wire-inductor_files/K7MEM_Logo.jpg" alt="" border="0"></td>
     <!--------------------------------------->
-    <td align="center" width="50%">
+    <td style="width: 50%; text-align: center;">
     <p class="std_16_aqua" align="center">Javascripe Electronic Notebook<br>
     <font color="#fff2d2">Inductance of a Straight Wire</font><br>
     by Martin E. Meserve</p></td>
@@ -81,143 +72,36 @@ window.open=NS_NewOpen;
   </tr>
 </tbody></table>
 
-<!---------------------------------------------------------------------->
-<!-- This is the graduated green separator that contains the home and -->
-<!-- local navigation text on the right. Adjust the text based on the -->
-<!-- current section.                                                 -->
-<!---------------------------------------------------------------------->
-<table background="straight_wire-inductor_files/topgrbg.gif" border="0" cellpadding="0" cellspacing="0" height="19" width="100%">
-  <tbody><tr valign="top">
-    <td align="right" background="straight_wire-inductor_files/topgrbg.gif" width="50%"><p class="std_10_bold">
-    <a href="http://www.k7mem.150m.com/email.html#Page_Top">Contact Me</a> |
-    <a href="http://www.k7mem.150m.com/whats_new.html#Page_Top">What's New</a> |
-    <a href="http://www.k7mem.150m.com/site_map.html#Page_Top">Site Map&nbsp;&nbsp;</a>
 
-    </p></td><td align="right" background="straight_wire-inductor_files/topgrbg.gif" width="100%"><p class="std_10_bold">
-    <a href="http://www.k7mem.150m.com/index.html#Page_Top">&nbsp;&nbsp;&nbsp;Home</a> |
-    <a href="#Page_Top" class="std_10_bold" onmouseover="dropdownmenu(this, event, inductors_local, '265px', 'bottom');" onmouseout="delayhidemenu();">
-    Inductors&nbsp;&nbsp;</a>| Straight Wire Inductance&nbsp;&nbsp;
-</p></td></tr></tbody></table>
 
-<!---------------------------------------------------------------------->
-<!-- This is just a simple black separator of height 1.               -->
-<!---------------------------------------------------------------------->
-<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
-  <tbody><tr>
-    <td bgcolor="#000000" height="1">
-      <table border="0" cellpadding="0" cellspacing="0" width="100%">
-        <tbody><tr>
-          <td>
-      </td></tr></tbody></table>
-</td></tr></tbody></table>
 
-<!------------------------------------------------------------------------>
-<!-- This is where the main body resides. The main body consists of a   -->
-<!-- single table with one row and two columns. The left column is      -->
-<!-- fixed at 159 pixels and is for a menu bar. It also contains credit -->
-<!-- information and links and is constructed in a single table. The    -->
-<!-- right column takes up the rest of the screen and contains the page -->
-<!-- data. This column is also constructed from a single table but will -->
-<!-- contain other tables for structuring data.                         -->
-<!------------------------------------------------------------------------>
-<table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+
+
+<table style="width: 800px;" border="0" cellpadding="0" cellspacing="0">
   <tbody><tr valign="top">
     <!-------------------------------------------------------------------->
     <!-- Menu Bar, Left Side                                            -->
     <!-------------------------------------------------------------------->
-    <td background="straight_wire-inductor_files/menubg.html" bgcolor="#c6f7bd" height="100%" width="159">
-      <table background="straight_wire-inductor_files/menubg.gif" bgcolor="#c6f7bd" border="0" cellpadding="2" cellspacing="0" height="100%" width="159">
-        <tbody><tr>
-          <td align="center" valign="top">
-
-            <table border="0" cellpadding="0" cellspacing="0" width="100%">
-              <tbody><tr>
-                <td class="sideHeading" background="straight_wire-inductor_files/topgrbg.gif" height="25" valign="middle" width="100%">
-                <p class="categoryHeading">JavaScript&#174;<br>Electronic<br>Notebook</p></td></tr>
-              <tr>
-                <td class="sideBlock bodyText" style="padding: 10px;" width="100%">
-                  <ul style="padding: 0px; margin: 10px;">
-                    <li><p><a href="http://www.k7mem.150m.com/Electronic_Notebook/inductors/site_map.html#Resistors" class="bodyLink" onmouseover="dropdownmenu(this, event, resistors_local, '150px', 'right');" onmouseout="delayhidemenu();">Resistors</a></p></li>
-                    <li><p><a href="http://www.k7mem.150m.com/Electronic_Notebook/inductors/site_map.html#Capacitors" class="bodyLink" onmouseover="dropdownmenu(this, event, capacitors_local, '175px', 'right');" onmouseout="delayhidemenu();">Capacitors</a></p></li>
-                    <li><p><a href="http://www.k7mem.150m.com/Electronic_Notebook/inductors/site_map.html#Inductors" class="bodyLink" onmouseover="dropdownmenu(this, event, inductors_local, '265px', 'right');" onmouseout="delayhidemenu();">Inductors</a></p></li>
-                    <li><p><a href="http://www.k7mem.150m.com/Electronic_Notebook/inductors/site_map.html#Power_Supplies" class="bodyLink" onmouseover="dropdownmenu(this, event, power_local, '200px', 'right');" onmouseout="delayhidemenu();">Power Supplies</a></p></li>
-                    <li><p><a href="http://www.k7mem.150m.com/Electronic_Notebook/inductors/site_map.html#Filters" class="bodyLink" onmouseover="dropdownmenu(this, event, filters_local, '150px', 'right');" onmouseout="delayhidemenu();">Filters</a></p></li>
-                    <li><p><a href="http://www.k7mem.150m.com/Electronic_Notebook/inductors/site_map.html#Attenuators" class="bodyLink" onmouseover="dropdownmenu(this, event, attenuators_local, '150px', 'right');" onmouseout="delayhidemenu();">Attenuators</a></p></li>
-                    <li><p><a href="http://www.k7mem.150m.com/Electronic_Notebook/inductors/site_map.html#Antennas" class="bodyLink" onmouseover="dropdownmenu(this, event, antennas_local, '175px', 'right');" onmouseout="delayhidemenu();">Antennas</a></p></li>
-                    <!-- <li><P><a href="site_map.html#My_Projects" class="bodyLink"
-                      onMouseover="dropdownmenu(this, event, projects_local, '150px', 'right');"
-                      onMouseout="delayhidemenu();">My Projects</a></P></li> -->
-                  </ul>
-                  <p class="bodyText" style="font-size: 8pt;" align="justify">
-                  Place your mouse pointer over any of the catagories above,
-                  for an active menu of their contents.</p></td></tr>
-              <tr>
-                <td class="sideHeading" height="3" width="100%"></td></tr>
-            </tbody></table>
-
-            <table background="straight_wire-inductor_files/topgrbg.gif" border="0" cellpadding="0" cellspacing="0" height="10" width="100%">
-              <tbody><tr valign="top">
-                <td align="right" background="straight_wire-inductor_files/topgrbg.gif" width="100%">
-            </td></tr></tbody></table>
-
-          <p class="std_10_bold">Click to view the<br>
-          <a href="http://www.k7mem.150m.com/credits.html#Page_Top">Resource Credits</a></p>
-
-          <!-- do not remove -->
-             <table align="center" border="0" cellpadding="10" cellspacing="0">
-               <tbody><tr align="right" valign="bottom">
-                 <td align="right" valign="bottom">
-                 <p align="right">
-                 <a href="http://www.steves-templates.com/" target="_blank">
-                 <img src="straight_wire-inductor_files/steve-88312.gif" alt="Steves free web site templates" border="0" height="31" width="88"></a></p>
-          </td></tr></tbody></table><!-- end link -->
-
-          <p class="std_10_bold"></p>
-
-<!-- ADDFREESTATS.COM AUTOCODE V4.0 -->
-<script type="text/javascript">
-<!--
-var AFS_Account="00339651";
-var AFS_Tracker="auto";
-var AFS_Server="www3";
-var AFS_Page="DetectName";
-var AFS_Url="DetectUrl";
-// -->
-</script>
-<script type="text/javascript" src="straight_wire-inductor_files/afstrack.cgi">
-</script><a href="http://new.addfreestats.com/?usr=00339651"><img src="straight_wire-inductor_files/connect.gif" alt="" title="Free Web Stats" border="0"></a>
-<noscript>
-<a href="http://www.addfreestats.com" >
-<img src="http://www3.addfreestats.com/cgi-bin/connect.cgi?usr=00339651Pauto" border=0 title="AddFreeStats.com Free Web Stats!"></a>
-</noscript>
-<!-- ENDADDFREESTATS.COM AUTOCODE V4.0  -->
-
-          <p class="std_10_bold"></p>
-
-            <table background="straight_wire-inductor_files/topgrbg.gif" border="0" cellpadding="0" cellspacing="0" height="10" width="100%">
-              <tbody><tr valign="top">
-                <td align="right" background="straight_wire-inductor_files/topgrbg.gif" width="100%">
-            </td></tr></tbody></table>
-      </td></tr></tbody></table>
-    </td><!-- End of the left column data or the menu bar. -->
+    <td background="straight_wire-inductor_files/menubg.html" bgcolor="#c6f7bd" height="100%" width="159"><br>
+</td><!-- End of the left column data or the menu bar. -->
 
     <!-------------------------------------------------------------------->
     <!-- Right column data or content bar.                              -->
     <!-------------------------------------------------------------------->
-    <td bgcolor="#c6f7bd" height="100%" width="100%">
+    <td style="width: 100%; height: 100%; background-color: rgb(198, 247, 189);">
 
-      <form name="Straight_Wire"><!-- Declare form for javascript -->
+      <form name="Straight_Wire">
 
-      <!------------------------------------------------------------------>
-      <!-- Body example with a header that spans a two column data area.-->
-      <!-- Break the page into multiple sections and use a table for    -->
-      <!-- each section.
-      <!------------------------------------------------------------------>
+      
+      
+      
       <table bgcolor="#c6f7bd" border="0" cellpadding="15" cellspacing="0" width="100%">
         <tbody><tr valign="top">
           <td colspan="2" bgcolor="#c6f7bd">
           <p class="std_16_fbrick" align="center">
-        </p></td></tr><tr valign="top">
+        </p><br>
+</td></tr><tr valign="top">
           <td bgcolor="#c6f7bd" width="50%"><p class="std_10" align="justify">
           Any length of wire has some inductance, however, at low frequencies,
           1-30 MHz, the added effect of this inductance is usually minimum.
@@ -227,9 +111,7 @@ var AFS_Url="DetectUrl";
           I mean, it is far enough from grounds or other wires so that
           they have minimum effect.
 
-          </p><p class="std_10" align="justify"><b><pre>                  2b
-L = K * b * {[ln(----)] - 0.75}
-                  a</pre></b>
+          </p><p class="std_10" align="justify"><b><pre>                  2b<br>L = K * b * {[ln(----)] - 0.75}<br>                  a</pre></b>
           </p><p class="std_10" align="justify"><tt>
           <b>Where:</b><br>
           <b>L</b>&nbsp;&nbsp;= Inductance in uH<br>
@@ -253,29 +135,36 @@ L = K * b * {[ln(----)] - 0.75}
 
             <p class="std_10_bold" align="center">Wire Size (a)<br>(AWG, in, or mm)</p>
             <p class="std_10" align="center">
-            <input style="font-size: 9pt; color: rgb(0, 0, 175); font-weight: bold; text-align: center; background: none repeat scroll 0% 0% rgb(255, 255, 204);" name="Wire_Size" value="14" size="8" onblur="Straight_Wire_Calc();" type="text">
-            <select name="Wire_Dia_Dim" style="font-size: 9pt; color: rgb(0, 0, 175); font-weight: bold; text-align: center; background: none repeat scroll 0% 0% rgb(255, 255, 204);" onchange="Straight_Wire_Calc();">
-            <option value="AWG" selected="selected">AWG#
+            <input style="font-size: 9pt; color: rgb(0, 0, 175); font-weight: bold; text-align: center; background-color: rgb(255, 255, 204); background-image: none; background-repeat: repeat; background-attachment: scroll; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; height: 30px;" name="Wire_Size" value="14" size="8" onblur="Straight_Wire_Calc();">&nbsp;
+              <select name="Wire_Dia_Dim" style="background: rgb(255, 255, 204) none repeat scroll 0% 50%; font-size: 9pt; color: rgb(0, 0, 175); font-weight: bold; text-align: center; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;" onchange="Straight_Wire_Calc();">
+
+            <option value="AWG">AWG#
             </option><option value="in">inches
-            </option><option value="mm">mm
-            </option></select>
+            </option><option value="mm" selected="selected">mm
+            </option>
+              </select>
+
 
             </p><p class="std_10_bold" align="center">Length of Wire (b)<br>(in, or mm)</p>
             <p class="std_10" align="center">
-            <input style="font-size: 9pt; color: rgb(0, 0, 175); font-weight: bold; text-align: center; background: none repeat scroll 0% 0% rgb(255, 255, 204);" name="Wire_Len" value="3.9370" size="8" onblur="Straight_Wire_Calc();" type="text">
-            <select name="Wire_Len_Dim" style="font-size: 9pt; color: rgb(0, 0, 175); font-weight: bold; text-align: center; background: none repeat scroll 0% 0% rgb(255, 255, 204);" onchange="Straight_Wire_Calc();">
-            <option value="in" selected="selected">inches
-            </option><option value="mm">mm
-            </option></select>
+            <input style="font-size: 9pt; color: rgb(0, 0, 175); font-weight: bold; text-align: center; background-color: rgb(255, 255, 204); background-image: none; background-repeat: repeat; background-attachment: scroll; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; height: 30px;" name="Wire_Len" value="3.9370" size="8" onblur="Straight_Wire_Calc();">&nbsp;
+              <select name="Wire_Len_Dim" style="background: rgb(255, 255, 204) none repeat scroll 0% 50%; font-size: 9pt; color: rgb(0, 0, 175); font-weight: bold; text-align: center; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;" onchange="Straight_Wire_Calc();">
+
+            <option value="in">inches
+            </option><option value="mm" selected="selected">mm
+            </option>
+              </select>
+
 
             </p><p class="std_10_bold" align="center"><font color="#af0000">Inductance</font></p>
             <p class="std_10" align="center">
-            <input value="0.081 uH" style="font-size: 9pt; color: rgb(0, 0, 175); font-weight: bold; text-align: center; background: none repeat scroll 0% 0% rgb(255, 255, 204);" name="Wire_Inductance" size="10" type="text">
+            <input style="font-size: 9pt; color: rgb(0, 0, 175); font-weight: bold; text-align: center; background-color: rgb(255, 255, 204); background-image: none; background-repeat: repeat; background-attachment: scroll; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial; height: 30px;" value="0.081 uH" name="Wire_Inductance" size="10">
           </p></td>
         </tr>
       </tbody></table><!-- End of main body content -->
 
-      </form><!-- Form end -->
+      </form><br>
+
 </td></tr></tbody></table><!-- Main Body End -->
 
 
