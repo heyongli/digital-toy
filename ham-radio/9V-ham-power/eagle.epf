@@ -318,12 +318,6 @@ UsedLibrary="/home/hyl/digital-toy/dtoy-eagle-lbr/dtoy-RF.lbr"
 UsedLibrary="/home/hyl/digital-toy/dtoy-eagle-lbr/led-seg.lbr"
 
 [Win_1]
-Type="Control Panel"
-Loc="0 0 597 399"
-State=2
-Number=0
-
-[Win_2]
 Type="Board Editor"
 Loc="322 127 1653 931"
 State=2
@@ -362,9 +356,9 @@ AddLevel=2
 PadsSameType=0
 Layer=1
 
-[Win_3]
+[Win_2]
 Type="Schematic Editor"
-Loc="4 222 1096 902"
+Loc="732 376 1824 1056"
 State=2
 Number=1
 File="ham-power.sch"
@@ -402,6 +396,12 @@ PadsSameType=0
 Layer=91
 Views=" 1: 149081 -34096 1041043 539322"
 Sheet=1
+
+[Win_3]
+Type="Control Panel"
+Loc="0 0 597 399"
+State=2
+Number=0
 
 [Desktop]
 Screen="3840 1080"
