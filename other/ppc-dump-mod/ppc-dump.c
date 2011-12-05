@@ -10,6 +10,7 @@
 
 #include <asm/io.h>  //don't use <asm-generic/io.h>.it's fake
 
+#include "ppc_dump.h"
 
 
 static int  ppc_dump = 5;
@@ -17,27 +18,11 @@ module_param(ppc_dump, int, 0);
 MODULE_PARM_DESC(ppc_dump,	"dump PPC cpu infomation " __MODULE_STRING(ppc_dump));
 
 
-/* mask ops */
-/*bits define */
-/* 31 30 .....      4  3  2  1  0*/
-//				e      s
-/* 0 1 2 3 4 ......................31*/  //BE
-//    s      e
-#define _MASK32(s,e)      ((0xFFFFffff<<(s))&(0xFFFFffff>>(31-(e))))
-                          /*s=2, e=3*/
-					          /* xxxx XX00  	& 	 0000 XXXX*/
-
-#define  _VAL32(val,s,e) (  ((val)&(_MASK32((s),(e))) )>>(s))
-#define  _VAL32BE(val,s,e)  (_VAL32(val,(31-e), (31-s)))
-
-//make it simple
-//#define  _VBE(val,s,e) ({ typeof(val) _xval=-1;  if(sizeof(val)==32)_xval=_VAL32BE(val,s,e);  _xval; })
-
 
 static struct cdev *ppc_dump_dev=NULL;
 static int  ppc_dump_maj = 0;
 
-char  dbuf[8000]; /*Collection infomation to this buf, then dump to user space*/
+char  dbuf[1024*10]; /*Collection infomation to this buf, then dump to user space*/
 long  dbuf_len = 0;
 
 #define dump(fmt, ...)  \
@@ -138,13 +123,8 @@ void ppc_cpu_dump(void)
 	#define DDR_BASE(n) (0x8000+n*0x1000)
 
 	
-	#define DDR_REV1(ddr)	(DDR_BASE(ddr)+0xBF8)
-	#define DDR_REV2(ddr)	(DDR_BASE(ddr)+0xBFC)
 
-	#define DDR_EOR(ddr)	(DDR_BASE(ddr)+0xC00)
 
-	#define DDR_MTCR(ddr)	(DDR_BASE(ddr)+0xD00)
-	#define DDR_MTPn(ddr,n)	(DDR_BASE(ddr)+0xD20+n*0x4)
 
 	#define DDR_ERR_INJECT_HI(ddr)	(DDR_BASE(ddr)+0xE00)
 	#define DDR_ERR_INJECT_LO(ddr)	(DDR_BASE(ddr)+0xE04)
@@ -166,9 +146,40 @@ void ppc_cpu_dump(void)
 	
 	//DDR 
 	for(ddr=0;ddr<2;ddr++){
-		dump("\n\nDDR %d---------------------------\n",ddr);
+		#define DDR_REV1(ddr)	(DDR_BASE(ddr)+0xBF8)
+		#define DDR_REV2(ddr)	(DDR_BASE(ddr)+0xBFC)
+		unsigned int rev1 = ccsr_read(DDR_REV1(ddr));
+		unsigned int rev2= ccsr_read(DDR_REV2(ddr));
+		#undef  _V
+		#define _V(s,e)  _VAL32BE(rev1,s,e)	
 
-		dump("-----------\n");
+		dump("\n\n-----------DDR %d: Majior:%d, minor:%d   IP_INT:%d  IP_CFG:%d \n",ddr,
+					_V(16,23),_V(24,31), _VAL32BE(rev2,8,15),_VAL32BE(rev2,24,31));
+		{
+			
+			#define DDR_EOR(ddr)	(DDR_BASE(ddr)+0xC00)
+			unsigned int eor = ccsr_read(DDR_EOR(ddr));
+			#undef  _V
+			#define _V(s,e)  _VAL32BE(eor,s,e)	
+			if(_V(0,0)==0)
+					dump("read_bandwidth_optimized ");
+			if(_V(5,7)==0x4)
+					dump("read_Level1_reorder_disabled ");
+			if(_V(5,7)==0x2)
+					dump("read_Level2_reorder_disabled ");
+			if(_V(5,7)==0x1)
+					dump("read_Level3_reorder_disabled ");
+			if(_V(5,7)==0x0)
+					dump("read_reorder_enable ");
+			
+			if(_V(11,11)==0x1)
+					dump("write_reorder_disabled  ");
+			else
+					dump("write_reorder_enabled  ");
+
+				
+		}
+		dump("\n-----------\n");
 //ddr TIMING	
 {
 	#define DDR_TIMING_CFG3(ddr)  (DDR_BASE(ddr)+0x100)
@@ -534,6 +545,42 @@ void ppc_cpu_dump(void)
 	}
 	   
 	dump("\n-----------\n");
+	//DDR memory test control
+	{
+		#define DDR_MTCR(ddr)	(DDR_BASE(ddr)+0xD00)
+		#define DDR_MTPn(ddr,n)	(DDR_BASE(ddr)+0xD20+n*0x4)
+		unsigned int mtcr = ccsr_read(DDR_MTCR(ddr));
+		int i;
+		#undef  _V
+		#define _V(s,e)  _VAL32BE(mtcr,s,e)	
+		if(_V(0,0))
+			dump("Memory_test_running  ");
+		if(_V(6,7) == 0)
+			dump("RW_test ");
+		if(_V(6,7) == 1)
+			dump("Write_test ");
+		if(_V(6,7) == 2)
+			dump("Rread_test ");
+
+		dump("writes_before_read:%d ",_V(12,15));
+
+		if(_V(31,31)==1)
+			dump("memory_test_Failed ");
+		else
+			dump("test_PASSed ");
+		dump("\nMemory Test Data Pattern:\n");
+		for(i=0; i<10; i++){
+			dump("0x%x ",ccsr_read(DDR_MTPn(ddr,i)));
+			if(i==4)dump("\n");
+			
+
+		}
+		
+		
+
+	}
+	dump("\n-----------\n");
+	
 
 	#define DDR_CSn_BNDS(ddr, cs) (DDR_BASE(ddr)+cs*0x8)
 	#define DDR_CSn_CFG(ddr, cs) (DDR_BASE(ddr)+0x80+cs*0x4)
