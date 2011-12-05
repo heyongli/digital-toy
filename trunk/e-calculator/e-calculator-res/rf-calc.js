@@ -2,6 +2,7 @@
 
 //-------
 var formid = "RF-center";
+
 function getVar(name)
 {
 	var x=document.getElementById(formid);
@@ -133,47 +134,68 @@ function  getL(name,un_name) //get capcitor value in F, (name, name-unit)
 
 
 //tune circuit 
-var C1_min, C1_max; //pF
-var C2, C3; //series and parall
-var L1; //nH
+var CV_min, CV_max; //pF
+var C1; //series
+var Couple, C3, C4 //series
+var C2, CV; //series
+var L; //nH
 var tuneF_min, tuneF_max; //Mhz
 
 var pi=3.1415926;
 
 function tune_calc()
 {
-	var cmax, cmin, c12;
-    //get var in standard unit: F/H
-    C1_min=getC("C1_min", "C1_unit");
-    C1_max=getC("C1_max", "C1_unit");
-    C2=getC("C2","C2_unit");
-	C3=getC("C3","C3_unit");
-    //totoal tuneC
-	if(C2 == 0.0){
-		cmax = (C3+C1_max);
-		cmin = (C3+C1_min);
-	}else{
-		c12 = 1/(1/C1_min + 1/C2);
-		cmax= (C3+c12);
-	
-		c12 = 1/(1/C1_max + 1/C2);
-		cmin= (C3+c12);
-	}
-
-
+    var cmax, cmin, c34cc,c2cv1,c2cv2;
+   
+    formid="parallel-LC"; //set form to get component value
     
+    //get var in standard unit: F/H
+    CV_min=getC("CV_min", "CV_unit");
+    CV_max=getC("CV_max", "CV_unit");
+    C1=getC("C1","C1_unit");
+    C2=getC("C2","C2_unit");
+    C3=getC("C3","C3_unit");
+    C4=getC("C4","C4_unit");
+    Couple=getC("Couple","Couple_unit");
+
+    //series c3,c4,couple
+    c34cc=0;
+	if(C3) c34cc+=1/C3;
+    	if(C4) c34cc+=1/C4;
+	if(Couple) c34cc+=1/Couple;
+    c34cc=1/c34cc;
+    //c2cv1, c2cv2
+    c2cv1=0;
+	if(C2) c2cv1+=1/C2;
+    	if(CV_min) c2cv1+=1/CV_min;
+    c2cv1=1/c2cv1;
+    c2cv2=0;
+	if(C2) c2cv2+=1/C2;
+    	if(CV_max) c2cv2+=1/CV_max;
+    c2cv2=1/c2cv2;
+    //totoal tuneC
+    cmax=c34cc+c2cv1+C1;
+    cmin=c34cc+c2cv2+C1;
+
     //
-    tuneL = getL("L1","L1_unit");
+    tuneL = getL("L","L_unit");
  
     tuneF_min=1/(2*pi*Math.sqrt(cmax*tuneL));
-	tuneF_max=1/(2*pi*Math.sqrt(cmin*tuneL));
+    tuneF_max=1/(2*pi*Math.sqrt(cmin*tuneL));
 
     //convert HZ to Mhz
     tuneF_max/=1e6;
     tuneF_min/=1e6;
-
+  
+    //swithc them if actual frequncy is not like their name
+    if(tuneF_max<tuneF_min){
+    	cmax = tuneF_min;
+	tuneF_min = tuneF_max;
+	tuneF_max = cmax;
+    }
+    
     setVar("tuneF_min",round4(tuneF_min));
-	setVar("tuneF_max",round4(tuneF_max));
+    setVar("tuneF_max",round4(tuneF_max));
 
 }
 
