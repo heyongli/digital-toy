@@ -1,0 +1,353 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0033)http://www.pronine.ca/multind.htm -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><title>Pronine Electronics Design - Multilayer Air Core Inductor Calculator</title>
+
+<meta content="analog digital RF printed circuit board PCB design layout microprocessor amplifier amp power supplies receiver electronics controller detectors sensor oscillator" name="keywords">
+<meta content="Electronics Engineering Company specializing in analog, audio, video, RF, digital circuit and printed circuit board (PCB) design." name="description">
+<meta content="index all, follow all" name="robots">
+
+<style fprolloverstyle="">A:hover {FONT-WEIGHT: bold; font-size: 8pt; COLOR: blue; text-decoration: none}
+A.main_bar {FONT-SIZE: 8pt; COLOR: blue; FONT-FAMILY: Arial; TEXT-DECORATION: none}
+A.text {FONT-WEIGHT: bold; FONT-SIZE: 8pt; COLOR: black; FONT-FAMILY: Arial; TEXT-DECORATION: none}
+</style>
+<meta content="MSHTML 6.00.2800.1141" name="GENERATOR">
+
+<script language="JavaScript">
+<!--
+function disp_samep( res, thick, turns, wire, max, level, tpl )
+{
+form1.a2.value=res;
+form1.a3.value=thick;
+form1.a6.value=max;
+form1.a8.value=wire;
+form1.N.value=turns;
+form1.a10.value=level;
+form1.a11.value=tpl;
+}
+function Roundoff(v)
+{
+Value = v * 100;
+Value = Math.round(Value);
+Value = Value / 100;
+return Value.toString();
+}
+function checkInd()
+{
+if (form1.inductance.value <= 0)
+{
+alert("You have not entered the inductance !");
+}
+else if (form1.diameter.value <= 0)
+{
+alert("You have not entered the coil diameter !");
+}
+else if (form1.coilLength.value <= 0)
+{
+alert("You have not entered the coil length !");
+}
+else
+{
+LM = eval(form1.LM.value);
+dM = eval(form1.dM.value);
+lM = eval(form1.lM.value);
+DM = eval(form1.DM.value);
+wM = eval(form1.wM.value);
+WM = eval(form1.WM.value);
+inductance = eval(form1.inductance.value)*LM;
+gauge = form1.gauge.options[form1.gauge.options.selectedIndex].text;
+diameter = eval(form1.diameter.value)*dM;
+coilLen = eval(form1.coilLength.value)*lM;
+switch ( gauge )
+{
+case "1": wireSize = 0.2893; res = 0.1264;break;
+case "2": wireSize = 0.2576; res = 0.1593;break;
+case "3": wireSize = 0.2294; res = 0.2009;break;
+case "4": wireSize = 0.2043; res = 0.2533;break;
+case "5": wireSize = 0.1819; res = 0.3195;break;
+case "6": wireSize = 0.1643; res = 0.3952;break;
+case "7": wireSize = 0.1466; res = 0.4981;break;
+case "8": wireSize = 0.1306; res = 0.6281;break;
+case "9": wireSize = 0.1165; res = 0.7925;break;
+case "10": wireSize = 0.1039; res = 0.9988;break;
+case "11": wireSize = 0.0927; res = 1.2600;break;
+case "12": wireSize = 0.0827; res = 1.59;break;
+case "13": wireSize = 0.0739; res = 2.00;break;
+case "14": wireSize = 0.0660; res = 2.52;break;
+case "15": wireSize = 0.0589; res = 3.18;break;
+case "16": wireSize = 0.0525; res = 4.02;break;
+case "17": wireSize = 0.0469; res = 5.05;break;
+case "18": wireSize = 0.0418; res = 6.39;break;
+case "19": wireSize = 0.0374; res = 8.05;break;
+case "20": wireSize = 0.0334; res = 10.1;break;
+case "21": wireSize = 0.0299; res = 12.8;break;
+case "22": wireSize = 0.0267; res = 16.2;break;
+case "23": wireSize = 0.0239; res = 20.31;break;
+case "24": wireSize = 0.0213; res = 25.67;break;
+case "25": wireSize = 0.0191; res = 32.37;break;
+case "26": wireSize = 0.0170; res = 41.02;break;
+case "27": wireSize = 0.0153; res = 51.43;break;
+case "28": wireSize = 0.0136; res = 65.33;break;
+case "29": wireSize = 0.0123; res = 81.22;break;
+case "30": wireSize = 0.0109; res = 103.2;break;
+case "31": wireSize = 0.0098; res = 130.9;break;
+case "32": wireSize = 0.0088; res = 162.0;break;
+case "33": wireSize = 0.0079; res = 205.7;break;
+case "34": wireSize = 0.0071; res = 261.3;break;
+case "35": wireSize = 0.0063; res = 330.7;break;
+case "36": wireSize = 0.0057; res = 414.8;break;
+case "37": wireSize = 0.0051; res = 512.1;break;
+case "38": wireSize = 0.0045; res = 648.2;break;
+case "39": wireSize = 0.0040; res = 846.6;break;
+case "40": wireSize = 0.0036; res = 1079.0;break;
+case "41": wireSize = 0.0032; res = 1323.0;break;
+case "42": wireSize = 0.0028; res = 1659.0;break;
+case "43": wireSize = 0.0025; res = 2143.0;break;
+case "44": wireSize = 0.0023; res = 2593.0;break;
+case "45": wireSize = 0.00206; res = 3348.0;break;
+}
+currentInd = 0;
+turns = 1;
+diamavg = 0.0;
+diammax = diameter;
+turnsPerLevel = coilLen / wireSize;
+while ( currentInd < inductance )
+{
+diamavg = 0.0;
+diammax = diameter;
+tempTurns = turns;
+  while ( tempTurns > 0.0 )
+  {
+  if ( tempTurns < turnsPerLevel )
+   {
+   diamavg += diammax * tempTurns;
+   }
+  else
+   {
+   diamavg += diammax * turnsPerLevel;
+   }
+  diammax += (2.0*wireSize);
+  tempTurns -= turnsPerLevel;
+  }
+diamavg /= turns;
+currentInd = ( diamavg / 1000.0 ) * diamavg * turns * turns / (( 18.0 * diamavg ) + ( 40.0 * coilLen ));
+turns++;
+}
+feet = ( diamavg * turns * 3.14159 ) / 12.0;
+resistance = (res * feet ) / 1000.0;
+level = turns / turnsPerLevel;
+disp_samep( Roundoff( resistance ), Roundoff((wireSize*1000)/wM), Roundoff(turns), Roundoff(feet/WM), Roundoff(diammax/DM), Roundoff(level), Roundoff(turnsPerLevel));
+}
+}
+-->
+</script>
+</head>
+
+<body leftmargin="0" rightmargin="0" topmargin="0" marginheight="0" marginwidth="0">
+<div align="center">
+<!-- Header -->
+<table cellspacing="0" cellpadding="0" width="100%" border="0">
+<tbody><tr>
+<td align="middle"><a href="http://www.pronine.ca/"><img height="76" alt="PRONINE ELECTRONICS DESIGN" src="./Multilayer-Air-Core-Inductor_files/logo.gif" width="800" border="0"><br>
+</a></td>
+</tr></tbody></table>
+<!--BR-->
+<!-- Main Menue -->
+<table cellspacing="1" cellpadding="2" width="800" border="0" bgcolor="#ffffff">
+<tbody>
+<tr align="middle">
+<td bgcolor="#aaaaaa"><a class="main_bar" href="http://www.pronine.ca/index.htm">HOME</a></td>
+<td bgcolor="#aaaaaa"><a class="main_bar" href="http://www.pronine.ca/engineering.htm">ENGINEERING</a></td>
+<td bgcolor="#aaaaaa"><a class="main_bar" href="http://www.pronine.ca/design.htm">PCB DESIGN</a></td>
+<td bgcolor="#aaaaaa"><a class="main_bar" href="http://www.pronine.ca/quote.htm">PCB QUOTE</a></td>
+<td bgcolor="#aaaaaa"><a class="main_bar" href="http://www.pronine.ca/proto.htm">PROTOTYPE</a></td>
+<td bgcolor="#aaaaaa"><a class="main_bar" href="http://www.pronine.ca/schematics.htm">DOCUMENTS</a></td>
+<td bgcolor="#aaaaaa"><a class="main_bar" href="http://www.pronine.ca/micro.htm">MICROPROCESSORS</a></td>
+<td bgcolor="#aaaaaa"><a class="main_bar" href="http://www.pronine.ca/rf.htm">RF</a></td>
+<td bgcolor="#aaaaaa"><a class="main_bar" href="http://www.pronine.ca/audio.htm">AUDIO</a></td>
+<td bgcolor="#aaaaaa"><a class="main_bar" href="http://www.pronine.ca/contact.htm">CONTACT</a></td>
+<td bgcolor="#aaaaaa"><a class="main_bar" href="http://www.pronine.ca/links.htm">INFO</a></td>
+</tr></tbody></table>
+
+<!-- Text*************************************** -->
+<table cellspacing="0" cellpadding="1" width="800" border="0">
+<tbody>
+<tr valign="top">
+<td align="middle" width="99%">
+<font face="Arial,Helvetcia,sans-serif" size="2">
+<br>
+<center>
+<h1>Multilayer Air Core Inductor Calculator</h1>
+</center>
+Enter L, d, l and Wire Gauge (all four are required) to calculate multilayer inductor data.<br><br>
+
+<form name="form1">
+
+<table cellpadding="4" border="4" width="500">
+  <tbody>
+
+  <tr>
+    <th colspan="3"><img src="./Multilayer-Air-Core-Inductor_files/multind.gif" alt="Multilayer Inductor" border="0"></th>
+  </tr>
+
+  <tr>
+    <td>Inductance (L):</td>
+    <td align="middle"><input size="8" value="1" name="inductance"></td>
+    <td><select name="LM" style="width: 64">
+        <option value="0.001">uH
+        </option><option value="1" selected="">mH
+        </option><option value="1000">H
+        </option></select></td>
+  </tr>
+
+  <tr>
+    <td>Coil Inner Diameter (d):</td>
+    <td align="middle"><input size="8" value="1" name="diameter"></td>
+    <td><select name="dM" style="width: 64">
+        <option value="1" selected="">inches
+        </option><option value="0.03937">mm
+        </option><option value="0.3937">cm
+        </option></select></td>
+  </tr>
+
+  <tr>
+    <td>Coil Length (l):</td>
+    <td align="middle"><input size="8" value="1" name="coilLength"></td>
+    <td><select name="lM" style="width: 64">
+        <option value="1" selected="">inches
+        </option><option value="0.03937">mm
+        </option><option value="0.3937">cm
+        </option></select></td>
+  </tr>
+
+  <tr>
+    <td>Wire Gauge:</td>
+    <td align="middle"><select name="gauge"> 
+        <option>1
+        </option><option>2
+        </option><option>3
+        </option><option>4
+        </option><option>5
+        </option><option>6
+        </option><option>7
+        </option><option>8
+        </option><option>9
+        </option><option>10
+        </option><option>11
+        </option><option>12
+        </option><option>13
+        </option><option>14
+        </option><option>15
+        </option><option>16
+        </option><option>17
+        </option><option selected="">18
+        </option><option>19
+        </option><option>20
+        </option><option>21
+        </option><option>22
+        </option><option>23
+        </option><option>24
+        </option><option>25
+        </option><option>26
+        </option><option>27
+        </option><option>28
+        </option><option>29
+        </option><option>30
+        </option><option>31
+        </option><option>32
+        </option><option>33
+        </option><option>34
+        </option><option>35
+        </option><option>36
+        </option><option>37
+        </option><option>38
+        </option><option>39
+        </option><option>40
+        </option><option>41
+        </option><option>42
+        </option><option>43
+        </option><option>44
+        </option><option>45
+        </option></select></td>
+    <td>AWG</td>
+  </tr>
+
+  <tr bgcolor="#ccffff">
+    <td align="middle" colspan="2"><input onclick="checkInd();" type="button" value="Calculate" name="do_it"></td>
+    <td align="middle"><input type="reset" value="Clear form" name="clear"></td>
+  </tr>
+
+  <tr bgcolor="#e0e0e0">
+    <td>Number of Turns (N):</td>
+    <td align="middle"><input size="8" name="N"></td>
+    <td><br></td>
+  </tr>
+
+  <tr bgcolor="#e0e0e0">
+    <td>Turns per Layer:</td>
+    <td align="middle"><input size="8" name="a11"></td>
+    <td><br></td>
+  </tr>
+
+  <tr bgcolor="#e0e0e0">
+    <td>Number of Layers:</td>
+    <td align="middle"><input size="8" name="a10"></td>
+    <td><br></td>
+  </tr>
+
+  <tr bgcolor="#e0e0e0">
+    <td>Coil Outer Diameter (D):</td>
+    <td align="middle"><input size="8" name="a6"></td>
+    <td><select name="DM" style="width: 64">
+        <option value="1" selected="">inches
+        </option><option value="0.03937">mm
+        </option><option value="0.3937">cm
+        </option></select></td>
+  </tr>
+
+  <tr bgcolor="#e0e0e0">
+    <td>Wire Diameter:</td>
+    <td align="middle"><input size="8" name="a3"></td>
+    <td><select name="wM" style="width: 64">
+        <option value="1" selected="">mils
+        </option><option value="39.37">mm
+        </option></select></td>
+  </tr>
+
+  <tr bgcolor="#e0e0e0">
+    <td>Wire Length:</td>
+    <td align="middle"><input size="8" name="a8"></td>
+    <td><select name="WM" style="width: 64">
+        <option value="1" selected="">feet
+        </option><option value="3.281">meters
+        </option></select></td>
+  </tr>
+
+  <tr bgcolor="#e0e0e0">
+    <td width="200">DC Resistance (R):</td>
+    <td width="100" align="middle"><input size="8" name="a2"></td>
+    <td width="200">Ohms</td>
+  </tr>
+
+</tbody></table></form>
+<a class="text" href="http://www.pronine.ca/links.htm">Back to Electronics Reference &amp; Links Collection</a><br>
+<!-- End Text*********************************** -->
+<table cellspacing="0" cellpadding="1" width="800" border="0">
+<tbody>
+<tr valign="top">
+<td align="middle" width="99%">
+<font face="Arial,Helvetcia,sans-serif" size="2">
+<br>
+</font></td></tr></tbody></table>
+</font>
+<!-- FOOTER -->
+<!-- Grey stripe -->
+<!-- Text -->
+<table cellspacing="0" cellpadding="2" width="800" bgcolor="#e0e0e0" border="0">
+<tbody>
+<tr valign="top">
+<td align="middle" width="99%">
+<font face="Arial,Helvetcia,sans-serif" size="0">
+Copyright © 2004 by Pronine Electronics Design
+</font></td></tr></tbody></table>
+<!-- END OF CODE  -->
+</td></tr></tbody></table></div></body></html>
