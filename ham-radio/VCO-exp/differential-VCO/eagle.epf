@@ -7,14 +7,25 @@ Desktop="Desktop"
 
 [Globals]
 AutoSaveProject=1
+UsedLibrary="/home/hyl/digital-toy/dtoy-eagle-lbr/LilyPad-Wearables.lbr"
+UsedLibrary="/home/hyl/digital-toy/dtoy-eagle-lbr/SparkFun.lbr"
+UsedLibrary="/home/hyl/digital-toy/dtoy-eagle-lbr/digital-toy.lbr"
+UsedLibrary="/home/hyl/digital-toy/dtoy-eagle-lbr/dtoy-RF.lbr"
+UsedLibrary="/home/hyl/digital-toy/dtoy-eagle-lbr/led-seg.lbr"
 
 [Win_1]
+Type="Control Panel"
+Loc="46 78 934 671"
+State=2
+Number=0
+
+[Win_2]
 Type="Schematic Editor"
-Loc="183 27 1949 945"
+Loc="96 50 1862 968"
 State=2
 Number=1
-File="diff-neg-VCO.sch"
-View="-54846 -96991 1799206 952335"
+File="diff-neg-VCO-1Mhz-3Mhzlow-tank-voltage.sch"
+View="181436 -20228 1396028 787544"
 WireWidths=" 0 3048 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 4064 2032"
 PadDiameters=" 2540 3048 4064 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 0"
 PadDrills=" 5000 6000 7000 9000 10000 11000 12000 13000 14000 15000 16000 20000 22000 28000 32000 8000"
@@ -46,14 +57,8 @@ ArcDirection=0
 AddLevel=2
 PadsSameType=0
 Layer=91
-Views=" 1: -54846 -96991 1799206 952335"
+Views=" 1: 181436 -20228 1396028 787544"
 Sheet=1
-
-[Win_2]
-Type="Control Panel"
-Loc="62 57 1171 619"
-State=2
-Number=0
 
 [Desktop]
 Screen="3840 1080"
