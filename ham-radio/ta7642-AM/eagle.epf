@@ -7,15 +7,10 @@ Desktop="Desktop"
 
 [Globals]
 AutoSaveProject=1
-UsedLibrary="/home/hyl/digital-toy/dtoy-eagle-lbr/LilyPad-Wearables.lbr"
-UsedLibrary="/home/hyl/digital-toy/dtoy-eagle-lbr/SparkFun.lbr"
-UsedLibrary="/home/hyl/digital-toy/dtoy-eagle-lbr/digital-toy.lbr"
-UsedLibrary="/home/hyl/digital-toy/dtoy-eagle-lbr/dtoy-RF.lbr"
-UsedLibrary="/home/hyl/digital-toy/dtoy-eagle-lbr/led-seg.lbr"
 
 [Win_1]
 Type="Board Editor"
-Loc="0 0 599 399"
+Loc="0 25 599 424"
 State=0
 Number=2
 File="TA7642-AM.brd"
@@ -54,11 +49,11 @@ Layer=16
 
 [Win_2]
 Type="Schematic Editor"
-Loc="236 163 1438 1079"
+Loc="497 53 1699 969"
 State=2
 Number=1
 File="TA7642-AM.sch"
-View="944330 514128 1700536 1202230"
+View="1297038 -689446 3178724 1022772"
 WireWidths=" 0 3048 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 4064 2032"
 PadDiameters=" 2540 3048 4064 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 0"
 PadDrills=" 5000 6000 7000 9000 10000 11000 12000 13000 14000 15000 16000 20000 22000 28000 32000 8000"
@@ -90,17 +85,17 @@ ArcDirection=0
 AddLevel=2
 PadsSameType=0
 Layer=91
-Views=" 1: 944330 514128 1700536 1202230"
+Views=" 1: 1297038 -689446 3178724 1022772"
 Sheet=1
 
 [Win_3]
 Type="Control Panel"
-Loc="403 66 1002 465"
+Loc="381 65 1316 725"
 State=2
 Number=0
 
 [Desktop]
-Screen="3840 1080"
+Screen="1680 1050"
 Window="Win_1"
 Window="Win_2"
 Window="Win_3"
