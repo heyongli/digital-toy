@@ -198,9 +198,39 @@ function tune_calc()
     setVar("tuneF_max",round4(tuneF_max));
 
 }
+///////////////////////////////////////////////////////////////
+//  LC meter 
+////////////////////////////////////////////////////////////////
+var L0, C0;
+var uC, uL, uLs;
+var C_cal;
 
+function lc_meter_get_lc0()
+{
+    var f0, f1;
+    var 
+    formid="LC-meter";
 
+    f0=getVar("f0");
+    f0*=1000000;
+    f1=getVar("f1");
+    f1*=1000000;
 
+    C_cal=getVar("C_cal"); /*pF*/
+    C_cal/=1e12;  
+
+    //C0=C_cal*(f1*f1/(f0*f0-f1*f1)
+    //L0=1/(4*pi*pi*f1*f1(C0+C_cal))
+
+    C0=C_cal*(f1*f1/(f0*f0-f1*f1));
+    L0=1/(4*pi*pi*f1*f1*(C0+C_cal));
+
+    C0*=1e12;
+    L0*=1e6;
+
+    setVar("C0",round4(C0));
+    setVar("L0",round4(L0));
+}
 
 
 

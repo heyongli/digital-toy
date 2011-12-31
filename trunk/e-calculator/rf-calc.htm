@@ -147,10 +147,50 @@ max:<input style="height: 30px;" value="38" name="CV_max" size="4">
       </tr>
     </tbody>
   </table>
-  <p style="margin-top: 0pt; margin-bottom: 0pt;" align="center"><font color="#808080" face="Arial" size="2"><big style="font-weight: bold;"><big><big><br>
-Designed
-by hyl 2011.3.2 Version 1.0 </big></big></big><br>
-  </font></p>
 </form>
+
+<form id="parallel-LC" method="get" name="parallel-LC">
+  <table style="text-align: left; width: 1165px; height: 24px;" border="0" cellpadding="2" cellspacing="2">
+    <tbody>
+      <tr>
+        <td colspan="2" rowspan="1" style="height: 26px; text-align: left; vertical-align: top; background-color: rgb(153, 255, 153);"><b>LC
+meter </b> </td>
+      </tr>
+      <tr>
+        <td style="vertical-align: top; width: 180px;"><img style="width: 164px; height: 240px;" alt="LC-meter" src="e-calculator-res/LC-meter.jpg"><br>
+        <br>
+        <br>
+        <br>
+        </td>
+        <td style="vertical-align: top;">Step1:&nbsp; Calcibation,
+shorted L-C, get f0: <input style="height: 30px;" value="1.000000" name="f0" size="6">Mhz <br>
+Step2: put know Cap to C-GND, with L-C shorted: C_cal <input style="height: 30px;" value="1050" name="C_cal" size="6"> pF&nbsp; Get
+frequncy f1:<input style="height: 30px;" name="f1" size="6">Mhz<br>
+so<input style="height: 30px;" value="Press Here" name="lc_meter_get_lc0()" onclick="lc_meter_get_lc0()" type="button">&nbsp;
+C0=<input style="background-color: rgb(204, 255, 153); color: rgb(255, 55, 55);" readonly="readonly" name="C0" size="4">pF&nbsp;&nbsp; L0=<input style="background-color: rgb(204, 255, 153); color: rgb(255, 55, 55);" readonly="readonly" name="L0" size="4">uH&nbsp;&nbsp; <br>
+        <br>
+get C:&nbsp;&nbsp; keep L,C shorted&nbsp;&nbsp; put&nbsp; C at
+C-GND,get frequncy fc<input style="height: 30px;" name="fc" size="6">Mhz<br>
+so C=<input style="background-color: rgb(204, 255, 153); color: rgb(255, 55, 55);" readonly="readonly" name="uC" size="4">pF&nbsp;&nbsp;&nbsp; <input value="Press Here" style="height: 30px;" name="lc_meter_get_uC" onclick="tune_calc()" type="button"><br>
+        <br>
+get L:&nbsp;&nbsp; keep L,C shorted&nbsp;&nbsp; put&nbsp; C at
+C-GND,get frequncy fl<input style="height: 30px;" name="fl" size="6">Mhz<br>
+so L=<input style="background-color: rgb(204, 255, 153); color: rgb(255, 55, 55);" readonly="readonly" name="uL" size="4">uH <input value="Press Here" style="height: 30px;" name="lc_meter_get_uL" onclick="tune_calc()" type="button"> &nbsp;&nbsp; <br>
+        <br>
+get series L:&nbsp;&nbsp; put&nbsp; L to L-C ,get frequncy flc<input style="height: 30px;" name="flc" size="6">Mhz<br>
+so L=<input style="background-color: rgb(204, 255, 153); color: rgb(255, 55, 55);" readonly="readonly" name="uLs" size="4">uH <input value="Press Here" style="height: 30px;" name="get_Ls" onclick="tune_calc()" type="button">
+&nbsp;&nbsp; <br>
+        <br>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</form>
+
+<p style="margin-top: 0pt; margin-bottom: 0pt;" align="center"><font color="#808080" face="Arial" size="2"><big style="font-weight: bold;"><big><big><br>
+Designed
+by hyl 2011.3.2 Version 1.0 <br>
+</big></big></big><br>
+</font></p>
 
 </body></html>
