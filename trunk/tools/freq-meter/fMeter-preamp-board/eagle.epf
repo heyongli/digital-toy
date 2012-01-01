@@ -51,11 +51,11 @@ Sheet=1
 
 [Win_2]
 Type="Board Editor"
-Loc="55 101 1436 775"
+Loc="386 110 1767 784"
 State=2
 Number=2
 File="fMeter-preamp.brd"
-View="-28913 -81621 846435 336421"
+View="-410396 -315697 1404726 551155"
 WireWidths=" 0 3048 12700 14224 16764 17780 19304 21844 38100 2540 10160 64516 25400 8128 4064 6096"
 PadDiameters=" 2540 3048 4064 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 0"
 PadDrills=" 5080 76200 7620 6350"
@@ -90,12 +90,12 @@ Layer=1
 
 [Win_3]
 Type="Control Panel"
-Loc="1 25 600 424"
+Loc="31 180 966 840"
 State=2
 Number=0
 
 [Desktop]
-Screen="1680 1050"
+Screen="3840 1080"
 Window="Win_1"
 Window="Win_2"
 Window="Win_3"
