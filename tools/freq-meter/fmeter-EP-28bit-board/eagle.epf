@@ -10,7 +10,7 @@ AutoSaveProject=1
 
 [Win_1]
 Type="Board Editor"
-Loc="365 241 1606 1085"
+Loc="365 235 1606 1079"
 State=2
 Number=2
 File="DUT-28bit-preCounter.brd"
@@ -90,12 +90,12 @@ Sheet=1
 
 [Win_3]
 Type="Control Panel"
-Loc="1 25 600 424"
+Loc="31 180 966 840"
 State=2
 Number=0
 
 [Desktop]
-Screen="1680 1050"
+Screen="3840 1080"
 Window="Win_1"
 Window="Win_2"
 Window="Win_3"

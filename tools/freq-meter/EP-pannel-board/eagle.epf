@@ -90,7 +90,7 @@ Sheet=1
 
 [Win_3]
 Type="Library Editor"
-Loc="0 25 1154 646"
+Loc="434 344 1588 965"
 State=2
 Number=3
 File="/home/hyl/digital-toy/dtoy-eagle-lbr/digital-toy.lbr"
@@ -129,12 +129,12 @@ Layer=94
 
 [Win_4]
 Type="Control Panel"
-Loc="524 266 1632 760"
+Loc="31 180 966 840"
 State=2
 Number=0
 
 [Desktop]
-Screen="1680 1050"
+Screen="3840 1080"
 Window="Win_1"
 Window="Win_2"
 Window="Win_3"
