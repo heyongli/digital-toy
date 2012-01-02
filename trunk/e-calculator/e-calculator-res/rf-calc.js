@@ -3,6 +3,8 @@
 //-------
 var formid = "RF-center";
 
+//一个html用多个form, 注意formid的设置,千万不要用成局部变量
+
 function getVar(name)
 {
 	var x=document.getElementById(formid);
@@ -35,6 +37,10 @@ function setVar(name,v)
 	}
 }
 
+function round6(v)
+{
+	return Math.round(v*1000000)/1000000;
+}
 function round4(v)
 {
 	return Math.round(v*10000)/10000;
@@ -131,6 +137,16 @@ function  getL(name,un_name) //get capcitor value in F, (name, name-unit)
 	return x;
 }
 
+//get frequncy value with unit selector
+function  getFreq(name,un_name) //get frequncy in Hz
+{
+	var x=getVar(name);
+	var unit=getVtext(un_name);
+	if("GHz"==unit) return x*=1e9;
+	if("MHz"==unit) return x*=1e6;
+	if("kHz"==unit) return x*=1e3;
+	return x;
+}
 
 
 //tune circuit 
@@ -147,8 +163,7 @@ function tune_calc()
 {
     var cmax, cmin, c34cc,c2cv1,c2cv2;
    
-    formid="parallel-LC"; //set form to get component value
-    
+    formid = "parallel-LC";
     //get var in standard unit: F/H
     CV_min=getC("CV_min", "CV_unit");
     CV_max=getC("CV_max", "CV_unit");
@@ -194,8 +209,8 @@ function tune_calc()
 	tuneF_max = cmax;
     }
     
-    setVar("tuneF_min",round4(tuneF_min));
-    setVar("tuneF_max",round4(tuneF_max));
+    setVar("tuneF_min",round6(tuneF_min));
+    setVar("tuneF_max",round6(tuneF_max));
 
 }
 ///////////////////////////////////////////////////////////////
@@ -205,11 +220,13 @@ var L0, C0;
 var uC, uL, uLs;
 var C_cal;
 
-function lc_meter_get_lc0()
+
+//*函数名中不能有数字.... 至少在最后是不行的*
+function lc_meter_get_lcx()
 {
     var f0, f1;
-    var 
-    formid="LC-meter";
+    formid = "LC-meter";
+    
 
     f0=getVar("f0");
     f0*=1000000;
@@ -228,10 +245,61 @@ function lc_meter_get_lc0()
     C0*=1e12;
     L0*=1e6;
 
-    setVar("C0",round4(C0));
-    setVar("L0",round4(L0));
+    setVar("C0",round2(C0));
+    setVar("L0",round3(L0));
 }
 
 
+///////////////////////////////////////////////////////////////
+//  LC tank
+////////////////////////////////////////////////////////////////
+
+//*函数名中不能有数字.... 至少在最后是不行的*
+function lc_tank_calc_F()
+{
+
+    var L_min, L_max, C_max, C_min;
+    var f0, f1;
+
+    formid = "LC-tank";
+    
+    L_min=getL("L_min","L_unit");
+    L_max=getL("L_max","L_unit");
+    C_min=getC("C_min","C_unit");
+    C_max=getC("C_max","C_unit");
+
+
+    f1=1/(2*pi*Math.sqrt(L_min*C_min));
+    f0=1/(2*pi*Math.sqrt(L_max*C_max));
+    f0=f0/1e6;
+    f1=f1/1e6;
+    setVar("fmin",round6(f0));
+    setVar("fmax",round6(f1));
+    setVar("deltaf",round6(f1-f0)*1e6);
+}
+function lc_tank_calc_L()
+{
+
+    var L_min, L_max, C_max, C_min,F;
+    var L,C;
+
+    formid = "LC-tank";
+    
+    L_min=getL("L_min","L_unit");
+    L_max=getL("L_max","L_unit");
+    C_min=getC("C_min","C_unit");
+    C_max=getC("C_max","C_unit");
+
+    F=getFreq("F","F_unit");
+
+    L= 1/((F*2*pi)*(F*2*pi)*C_min);
+    C= 1/((F*2*pi)*(F*2*pi)*L_min);
+
+    L*=1e6;
+    C*=1e12;
+    setVar("getL",round3(L));
+    setVar("getC",round3(C));
+
+}
 
 
