@@ -124,6 +124,21 @@ void detect_fliter()
    		FILTER |= 1<<(flt-3);
 }
 
+/*
+ *  LC meter calibration
+*/
+unsigned char LC_CAL=0;
+
+void detect_calibration()
+{
+    if(is_flt_step()){
+   	 LC_CAL++;
+	 if(LC_CAL>2)
+	 	LC_CAL=0 ; /*LC_CAL done*/
+   }
+
+}
+
 void show_filter()
 {
 	if(FILTER&ACC_MODE)
@@ -148,11 +163,12 @@ unsigned long T0_ovc=0; //refrence source
 volatile unsigned long c_dut; //the last calculated c_dut is stored here
 volatile unsigned long c_ref = 0; 
 
+unsigned long  F=0;
 
 
 unsigned long filter()
 {
- 	return (((double)REF_F)*((double)c_dut/(double)c_ref));
+ 	return F=(((double)REF_F)*((double)c_dut/(double)c_ref));
 }
 
 
@@ -185,10 +201,6 @@ volatile unsigned long loop=0;
 ISR(TIMER0_OVF_vect)
 {
 	T0_ovc++;
-
-  
-
-
 }
 
 
@@ -202,11 +214,7 @@ ISR(TIMER1_OVF_vect)
 	loop++;
 	if(loop>=ST)
   		stop();
-
 }
-
-
-
 
 
 
@@ -224,12 +232,6 @@ SIGNAL(SIG_OVERFLOW2)
 #endif
 
 }
-
-
-
-
-
-
 
 
 void setup_interrupts()
@@ -252,8 +254,6 @@ void setup_interrupts()
 
 
 
-
-
 void setup_timers(){
     TCCR0 = 0x06;  //TC0 to count PD4/T0, down edge triger for precounter
 
@@ -263,13 +263,7 @@ void setup_timers(){
 	TCCR1B = 0x06; //TC1 down edge triger (from 393, so use down edge triger for correct count
 	
 	TCCR2 = 0x07;  //TC2 counts Clock_io/1024, use as time base caller 
-
-
-
 }
-
-
-
 
 
 void calc_freq()
@@ -293,7 +287,6 @@ void calc_freq()
 
 
 
-
 void keep_live()
 {
 	if(soft_loop>55) {//one second heat beat 
@@ -301,7 +294,6 @@ void keep_live()
 		 we_live();
 	}
 }
-
 
 void freq_main(void) 
 {
@@ -330,23 +322,24 @@ void freq_main(void)
 	post_display(filter());//really result
 	
 	while(1) {
+
 	
 #ifndef DEBUG  //protus ADC6,7 doesnot work..
-		detect_fliter();
+		if(0 != mode){ // 0 mode is LC meter
+		   detect_fliter();
+		}else{ //LC meter
+  		   detect_calibration();
+		}
 #endif
-
 		detect_gate(); 
  		keep_live();
 		
 		mode = read_adc_mode();
-
 	
 		update_lcd_status();
 	
 	    if(is_stop()&&soft_stop){
 		  	calc_freq();
-				
-	
 			post_display(filter());//really result
 				c_live() ; //mark succeufull ..
 			if(loop>=(ST)){  //never clear
@@ -465,50 +458,124 @@ void post_display(unsigned long number)
 
 }
 
+//LC meter
+double C0, L0;  /*hard coded parameters..*/
+double pi=3.1415926;
+
+void LC_calibrate()
+{
+      double L; /*to caculate */
+	double f=F;
+
+       C0=1050*pow(10,-12);
+	
+	L= 1/(((f*2*pi)*(f*2*pi))*C0);
+    
+	L0=L; /*update calibrated L0*/
+
+      L*=pow(10,6);  /*uH*/
+
+#ifndef DEBUG
+	lcd_cursor(0,2);
+#endif	
+	lcd_puts("L:"); 
+	L*=10000;   /*0.1nH*/
+	print10L(L,9,4); 
+	lcd_puts("uH "); 
+
+#ifndef DEBUG
+	lcd_cursor(0,3);
+#endif
+	lcd_puts("                  ");
+
+}
+void update_LC(void)
+{
+
+	double C,L; /*to caculate */
+	double f=F;
+       C0=1050*pow(10,-12);
+ 
+	L= 1/(((f*2*pi)*(f*2*pi))*C0);
+       C= 1/(((f*2*pi)*(f*2*pi))*L0);
+    
+       L-=L0;
+	C-=C0;
+	
+	L*=pow(10,6);  /*uH*/
+	C*=pow(10,12);  /*pF*/
+
+	
+      lcd_puts("L:"); 
+	L*=10000;   /*0.1nH*/
+	print10L(L,9,4); 
+	lcd_puts("uH "); 
+
+#ifndef DEBUG
+	lcd_cursor(0,3);
+#endif	
+
+	lcd_puts("C:"); 
+	C*=10;  /*0.1 pF*/
+	print10L(C,8,1);
+      lcd_puts("pF"); 
+
+	
+}
+
 void update_lcd_status()
 {
-	/*********************************************************/
-	//second line ,debug infomation 
+	/*****************************/
+	/*second line ,debug infomation */
 	char mode = read_adc_mode();
+	
 	lcd_cursor(0,1);
 
-	if(debug()){
+	if(debug() && 0!=mode){ //LC meter don't show debug message
 		stable_debug();
 		return;
 	}
 
 
+#ifndef DEBUG
 	show_gate();
 	lcd_puts(" ");
-    show_filter();
-
-	lcd_cursor(0,3);
+       show_filter();
+#endif
 	if(1==mode){//50R, divid 32
     
+	    lcd_cursor(0,3);
 		lcd_puts("MB504 F/32 50R input");
 	}
 	if(2==mode){
     
-		lcd_puts("preAmp 1Mohm input  ");
+	   lcd_cursor(0,3);
+	   lcd_puts("preAmp 1Mohm input  ");
 	}
 
-	if(0==mode){
-    
-		lcd_puts("LC meter : TODO ....");
-	}
+	if(0==mode){ //L,C meter
+#ifdef DEBUG
+		lcd_cursor(0,1);	
+#else 
+		lcd_cursor(0,2);
+#endif
+         if(0==LC_CAL)  /* calibration done*/
+	  	update_LC();
+        else
+	   	 LC_calibrate();
+	 
 
+ }
 }
-
-
+	
 
 
 ///////////DEBUGING CODE
 float ldeltaR;
 unsigned char  stable=0;
 unsigned long lref,ldut;
-unsigned char c=0;
-//filter
-unsigned long Lfreq;
+
+
 void stable_debug()
 {
 	unsigned long dref, ddut;//delta of the counter between this and last reault 
