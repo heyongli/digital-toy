@@ -276,6 +276,18 @@ function lc_tank_calc_F()
     setVar("fmin",round6(f0));
     setVar("fmax",round6(f1));
     setVar("deltaf",round6(f1-f0)*1e6);
+
+    //caclulator L, C
+
+    F=getFreq("F","F_unit");
+
+    L= 1/((F*2*pi)*(F*2*pi)*C_min);
+    C= 1/((F*2*pi)*(F*2*pi)*L_min);
+
+    L*=1e6;
+    C*=1e12;
+    setVar("getL",round6(L));
+    setVar("getC",round3(C));
 }
 function lc_tank_calc_L()
 {
@@ -289,16 +301,6 @@ function lc_tank_calc_L()
     L_max=getL("L_max","L_unit");
     C_min=getC("C_min","C_unit");
     C_max=getC("C_max","C_unit");
-
-    F=getFreq("F","F_unit");
-
-    L= 1/((F*2*pi)*(F*2*pi)*C_min);
-    C= 1/((F*2*pi)*(F*2*pi)*L_min);
-
-    L*=1e6;
-    C*=1e12;
-    setVar("getL",round3(L));
-    setVar("getC",round3(C));
 
 }
 
