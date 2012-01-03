@@ -133,7 +133,7 @@ void detect_calibration()
 {
     if(is_flt_step()){
    	 LC_CAL++;
-	 if(LC_CAL>2)
+	 if(LC_CAL>3)
 	 	LC_CAL=0 ; /*LC_CAL done*/
    }
 
@@ -270,17 +270,17 @@ void calc_freq()
 {
 
 	unsigned long tcf= ref_011()&0xFFF;
-    c_ref = tcf&0xFFF;  //12bit
+	c_ref = tcf&0xFFF;  //12bit
 	c_ref |=  (((unsigned long)(TCNT1&0x00FF))<<12); ////force to 8bt
-    c_ref |= ((unsigned long)T1_ovc)<<20;  //;28;  
+       c_ref |= ((unsigned long)T1_ovc)<<20;  //;28;  
 
-    if(c_ref == 0)
+  	if(c_ref == 0)
 		c_ref = 1; //dirty fix if the F_dut is zero(so no triger to precounter)
 
  	unsigned long tc= read_011()&0xFFF;
  	c_dut  = tc&0xFFF; //12bit precounter
 	c_dut |= (((unsigned long)TCNT0)<<12);  //8bit
-    c_dut |= ((unsigned long)T0_ovc)<<20;
+       c_dut |= ((unsigned long)T0_ovc)<<20;
 
 	
 }
@@ -464,29 +464,56 @@ double pi=3.1415926;
 
 void LC_calibrate()
 {
-      double L; /*to caculate */
-	double f=F;
 
-       C0=1050*pow(10,-12);
-	
-	L= 1/(((f*2*pi)*(f*2*pi))*C0);
-    
-	L0=L; /*update calibrated L0*/
+	double L,C; /*to caculate */
+	static double f0, f1;
 
-      L*=pow(10,6);  /*uH*/
+	double C_cal = 950/pow(10,12); //950pF calbrition capcitor
 
+	if(1==LC_CAL)
+		f0=(double)F;
+	if(2==LC_CAL)
+		f1=(double)F;
+
+
+       //C0=C_cal*(f1*f1/(f0*f0-f1*f1)
+       //L0=1/(4*pi*pi*f1*f1(C0+C_cal))
+ 	if(3==LC_CAL){ //update result and show the calibration result
+	    C0=C_cal*(f1*f1/(f0*f0-f1*f1));
+	    L0=1/(4*pi*pi*f1*f1*(C0+C_cal));
+ 	
 #ifndef DEBUG
-	lcd_cursor(0,2);
+		lcd_cursor(0,2);
 #endif	
-	lcd_puts("L:"); 
-	L*=10000;   /*0.1nH*/
-	print10L(L,9,4); 
-	lcd_puts("uH "); 
+		lcd_puts("L:"); 
+		L=L0*pow(10,10);   /*0.1nH*/
+		print10L(L,9,4); 
+		lcd_puts("uH**   "); 
 
 #ifndef DEBUG
 	lcd_cursor(0,3);
 #endif
-	lcd_puts("                  ");
+		lcd_puts("C:"); 
+		C=C0*pow(10,13);  /*0.1 pF*/
+		print10L(C,8,1);
+		lcd_puts("pF**   "); 
+	}else{
+#ifndef DEBUG
+	lcd_cursor(0,2);
+#endif	
+
+	   lcd_puts("CAL:step "); 
+	   print10L(LC_CAL,1,0);
+	   lcd_puts("      "); 
+	  
+#ifndef DEBUG
+	  lcd_cursor(0,3);
+#endif
+	   lcd_puts("F:");
+	   print10L(F,7,0);
+	   lcd_puts("          ");
+	   
+	}
 
 }
 void update_LC(void)
@@ -494,8 +521,7 @@ void update_LC(void)
 
 	double C,L; /*to caculate */
 	double f=F;
-       C0=1050*pow(10,-12);
- 
+
 	L= 1/(((f*2*pi)*(f*2*pi))*C0);
        C= 1/(((f*2*pi)*(f*2*pi))*L0);
     
@@ -509,7 +535,7 @@ void update_LC(void)
       lcd_puts("L:"); 
 	L*=10000;   /*0.1nH*/
 	print10L(L,9,4); 
-	lcd_puts("uH "); 
+	lcd_puts("uH     "); 
 
 #ifndef DEBUG
 	lcd_cursor(0,3);
@@ -518,7 +544,7 @@ void update_LC(void)
 	lcd_puts("C:"); 
 	C*=10;  /*0.1 pF*/
 	print10L(C,8,1);
-      lcd_puts("pF"); 
+      lcd_puts("pF      "); 
 
 	
 }
