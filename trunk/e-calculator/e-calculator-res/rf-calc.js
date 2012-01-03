@@ -224,7 +224,7 @@ var C_cal;
 //*函数名中不能有数字.... 至少在最后是不行的*
 function lc_meter_get_lcx()
 {
-    var f0, f1;
+    var f0, f1,fc,uC;
     formid = "LC-meter";
     
 
@@ -242,11 +242,19 @@ function lc_meter_get_lcx()
     C0=C_cal*(f1*f1/(f0*f0-f1*f1));
     L0=1/(4*pi*pi*f1*f1*(C0+C_cal));
 
-    C0*=1e12;
-    L0*=1e6;
 
-    setVar("C0",round2(C0));
-    setVar("L0",round3(L0));
+    setVar("C0",round2(C0*1e12));
+    setVar("L0",round3(L0*1e6));
+
+    fc=getVar("fc");
+    fc*=1000000;
+
+    uC= 1/((fc*2*pi)*(fc*2*pi)*L0);
+    uC-=C0;
+    setVar("uC",round2(uC*1e12)); 
+   
+ 
+    
 }
 
 
