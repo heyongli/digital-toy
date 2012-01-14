@@ -272,7 +272,7 @@ void calc_freq()
 	unsigned long tcf= ref_011()&0xFFF;
 	c_ref = tcf&0xFFF;  //12bit
 	c_ref |=  (((unsigned long)(TCNT1&0x00FF))<<12); ////force to 8bt
-       c_ref |= ((unsigned long)T1_ovc)<<20;  //;28;  
+    c_ref |= ((unsigned long)T1_ovc)<<20;  //;28;  
 
   	if(c_ref == 0)
 		c_ref = 1; //dirty fix if the F_dut is zero(so no triger to precounter)
@@ -280,7 +280,7 @@ void calc_freq()
  	unsigned long tc= read_011()&0xFFF;
  	c_dut  = tc&0xFFF; //12bit precounter
 	c_dut |= (((unsigned long)TCNT0)<<12);  //8bit
-       c_dut |= ((unsigned long)T0_ovc)<<20;
+    c_dut |= ((unsigned long)T0_ovc)<<20;
 
 	
 }
@@ -436,8 +436,7 @@ void post_display(unsigned long number)
 	if((number>999)&&(number<999999)){
 	   printLL(number,3,3);
 	   lcd_puts("KH");
- 
-	}
+ 	}
 
     if(number>999999){
 	   printLL(number,6,6); //omit xxHz
@@ -521,18 +520,22 @@ void update_LC(void)
 
 	double C,L; /*to caculate */
 	double f=F;
+    char sC=0, sL=0;
 
 	L= 1/(((f*2*pi)*(f*2*pi))*C0);
-       C= 1/(((f*2*pi)*(f*2*pi))*L0);
+    C= 1/(((f*2*pi)*(f*2*pi))*L0);
     
-       L-=L0;
+    L-=L0;
 	C-=C0;
 	
 	L*=pow(10,6);  /*uH*/
 	C*=pow(10,12);  /*pF*/
 
+    if(L<0){ sL=1; L=-L;}
+	if(C<0){ sC=1; C=-C;}
 	
-      lcd_puts("L:"); 
+    lcd_puts("L:"); 
+	if(sL)lcd_putc('-');
 	L*=10000;   /*0.1nH*/
 	print10L(L,9,4); 
 	lcd_puts("uH     "); 
@@ -542,9 +545,10 @@ void update_LC(void)
 #endif	
 
 	lcd_puts("C:"); 
+	if(sC)lcd_putc('-');
 	C*=10;  /*0.1 pF*/
 	print10L(C,8,1);
-      lcd_puts("pF      "); 
+    lcd_puts("pF      "); 
 
 	
 }
