@@ -7,19 +7,20 @@ Desktop="Desktop"
 
 [Globals]
 AutoSaveProject=1
-UsedLibrary="/home/yhe/digital-toy/dtoy-eagle-lbr/digital-toy.lbr"
-UsedLibrary="/home/yhe/digital-toy/dtoy-eagle-lbr/LilyPad-Wearables.lbr"
-UsedLibrary="/home/yhe/digital-toy/dtoy-eagle-lbr/SparkFun.lbr"
-UsedLibrary="/home/yhe/digital-toy/dtoy-eagle-lbr/dtoy-RF.lbr"
-UsedLibrary="/home/yhe/digital-toy/dtoy-eagle-lbr/led-seg.lbr"
 
 [Win_1]
+Type="Control Panel"
+Loc="0 0 599 399"
+State=2
+Number=0
+
+[Win_2]
 Type="Schematic Editor"
 Loc="354 46 1677 826"
 State=2
 Number=1
-File="trf-simple-tap-high-z.sch"
-View="-253663 -171738 1242177 465002"
+File="trf-simple-tap-high-z-detector.sch"
+View="-258064 -17633 1189220 631991"
 WireWidths=" 0 3048 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 4064 2032"
 PadDiameters=" 2540 3048 4064 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 0"
 PadDrills=" 5000 6000 7000 9000 10000 11000 12000 13000 14000 15000 16000 20000 22000 28000 32000 8000"
@@ -51,16 +52,10 @@ ArcDirection=0
 AddLevel=2
 PadsSameType=0
 Layer=91
-Views=" 1: -253663 -171738 1242177 465002"
+Views=" 1: -258064 -17633 1189220 631991"
 Sheet=1
 
-[Win_2]
-Type="Control Panel"
-Loc="182 46 1117 706"
-State=2
-Number=0
-
 [Desktop]
-Screen="1680 1050"
+Screen="3840 1080"
 Window="Win_1"
 Window="Win_2"
