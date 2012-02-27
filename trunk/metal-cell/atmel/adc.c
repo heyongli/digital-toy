@@ -48,7 +48,7 @@ unsigned int _adc(unsigned char ch)
   unsigned int adc_l=0,adc=0;
 
   /*select channel*/
-  _mov_bits8(ADMUX,ch,MUX0,MUX3,0,2); /*ADC0...ADC4*/
+  _mov_bits8(ADMUX,ch,MUX0,MUX3,0,3); /*ADC0...ADC7*/
 
   /*start ADC*/
   _set_bit(ADCSRA,ADSC);
