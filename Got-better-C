@@ -23,3 +23,7 @@ for(i=0; i<8; i++){
   reason: gcc have a float point lib, but dones not optimize for AVR, so link with libca, resolve all problem...
   about 1k(or 800bytes) for float opration (no any function for float)
  
+
+3. Mega8 ADC6.7 
+  if you let adc6,7 float, and you start a ADC convert, it might hang to wait ADC convert completed. and connect it to some where make
+ it work. observed on both real hw and Proteus simulator 
