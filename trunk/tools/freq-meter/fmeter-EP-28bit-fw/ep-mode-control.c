@@ -22,11 +22,11 @@
 
 #define KSTEP 6
 #define init_key() \
-	    _pins_mode(KEY_PORT, 6,7,INPUT); \
-    	_pins_pullup(KEY_PORT,6,7,PULLUP); \
-		_pin_mode(PORTB, PB2,INPUT); \
+	    _pins_mode(PORTC, 6,7,INPUT); \
+    	_pins_pullup(PORTC,6,7,FLOAT); \
+		_pin_mode(PORTB, PB2,OUTPUT); \
 		_pins_pullup(PORTB,PB2,PB2,PULLUP); \
-		_pin_mode(PORTC, PC1,INPUT); \
+		_pin_mode(PORTC, PC1,OUTPUT); \
 		_pin_pullup(PORTC,PC1,PULLUP); \
 
 void key_init()
@@ -35,34 +35,32 @@ void key_init()
    init_key();
 }
 
-char read_key(char key)
-{
-	if(!_test_bit(_inb(KEY_PORT),key)){
-		_delay_ms(10);
-		if(!_test_bit(_inb(KEY_PORT),key))
-		{
-			while(!_test_bit(_inb(KEY_PORT),key));
-			return 1;
-		}
-		return 0;
-	}
-	return 0;
-}
 
 unsigned int _adc(unsigned char ch);
 char read_adc_flt()
 {
-   //print10(_adc(6));
-   if(_adc(ADC_FLT)<5){
-   	   _delay_ms(1);
-	   if(_adc(ADC_FLT)<5){
- 	        while(_adc(ADC_FLT)<5);
-	   	 	return 1;
-	   }
-	   return 0;
-   	
-   }
-   return 0;
+   short key = _adc(ADC_FLT);
+   short button=0,t;
+   _delay_ms(1);
+   key += _adc(ADC_FLT);
+   key/=2;
+
+	   
+   if(key<5){ button =1; goto out; }
+   
+   if(key>750&&key<900){  //compatible to first version panel board
+   		button = 2 ;goto out;}
+
+   return button;
+out:
+   t=_adc(ADC_FLT);
+   t=t-key;
+   if(t<0)t=-t;
+   if(t>150) goto out1; //first version panel board
+   goto out;
+   
+out1:
+   return button;
 }
 
 char read_adc_mode()
@@ -83,10 +81,10 @@ char read_adc_mode()
 char is_gate_step()
 {
 
-   	return read_key(KGATE);
+   return (2==read_adc_flt()?1:0);
 }
 
 char is_flt_step()
 {
-   	return read_adc_flt();
+   	return (1==read_adc_flt()?1:0);
 }

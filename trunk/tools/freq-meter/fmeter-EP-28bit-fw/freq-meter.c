@@ -50,8 +50,7 @@ char update_lcd = 0;
 // 1s     6*4     2
 // 2s     6x8     3
 // 4s     6*16    4
-// 8s             5
-// 16s            6
+
 volatile unsigned short  ST = 1;//sample time, use 8 as about 1/4 seconds
 
 char gate=2; //one seconds
@@ -63,7 +62,7 @@ void detect_gate()
 		update_lcd=1;
    }
 
-   if(gate > 6)
+   if(gate > 4)
    	  gate =0;
 
    ST = (1<<gate)*6;
@@ -82,11 +81,6 @@ void show_gate()
     	if(lcd_puts ("02S  "));
 	if(gate==4)
     	if(lcd_puts ("04S  "));
-	if(gate==5)
-    	if(lcd_puts ("08S  "));
-	if(gate==6)
-    	if(lcd_puts ("16S  "));
-
 }
 
 //exclusive FLT
@@ -99,7 +93,6 @@ volatile unsigned char  FILTER =DRT_MODE;
 char flt = 0;//flt 0,1,2 => DRT,LPF,AVG
 			  //flt 3,4,5 => DRT+ACC, LPF+ACC, AVG+ACC
 
-#define debug() (FILTER&ACC_MODE)
 
 void detect_fliter()
 {
@@ -111,17 +104,10 @@ void detect_fliter()
    
    }
 
-   if(flt>5)
+   if(flt>3)
    		flt = 0;
 
-   if(flt>=3){
-       FILTER = ACC_MODE;
-   }
-
-   if(flt<3)
-   		FILTER |= 1<<flt;
-   else 
-   		FILTER |= 1<<(flt-3);
+	FILTER |= 1<<flt;
 }
 
 /*
@@ -141,18 +127,12 @@ void detect_calibration()
 
 void show_filter()
 {
-	if(FILTER&ACC_MODE)
-		lcd_puts("ACC+");
-    
 	if(FILTER&DRT_MODE)
 		lcd_puts("DRT");
 	if(FILTER&LPF_MODE)
 		lcd_puts("LPF");
 	if(FILTER&AVG_MODE)
 		lcd_puts("AVG");
-
-    //print10(mode);
-    lcd_puts("     ");
 
 }
 
@@ -324,13 +304,12 @@ void freq_main(void)
 	while(1) {
 
 	
-#ifndef DEBUG  //protus ADC6,7 doesnot work..
 		if(0 != mode){ // 0 mode is LC meter
 		   detect_fliter();
 		}else{ //LC meter
   		   detect_calibration();
 		}
-#endif
+
 		detect_gate(); 
  		keep_live();
 		
@@ -393,8 +372,6 @@ void stop()
 
 
 
-
-void stable_debug();
 
 unsigned char live='A', clive='1';
 void  we_live()
@@ -481,33 +458,25 @@ void LC_calibrate()
 	    C0=C_cal*(f1*f1/(f0*f0-f1*f1));
 	    L0=1/(4*pi*pi*f1*f1*(C0+C_cal));
  	
-#ifndef DEBUG
 		lcd_cursor(0,2);
-#endif	
 		lcd_puts("L:"); 
 		L=L0*pow(10,10);   /*0.1nH*/
 		print10L(L,9,4); 
 		lcd_puts("uH**   "); 
 
-#ifndef DEBUG
-	lcd_cursor(0,3);
-#endif
+		lcd_cursor(0,3);
 		lcd_puts("C:"); 
 		C=C0*pow(10,13);  /*0.1 pF*/
 		print10L(C,8,1);
 		lcd_puts("pF**   "); 
 	}else{
-#ifndef DEBUG
-	lcd_cursor(0,2);
-#endif	
 
+	   lcd_cursor(0,2);
 	   lcd_puts("CAL:step "); 
 	   print10L(LC_CAL,1,0);
 	   lcd_puts("      "); 
 	  
-#ifndef DEBUG
 	  lcd_cursor(0,3);
-#endif
 	   lcd_puts("F:");
 	   print10L(F,7,0);
 	   lcd_puts("          ");
@@ -540,9 +509,8 @@ void update_LC(void)
 	print10L(L,9,4); 
 	lcd_puts("uH     "); 
 
-#ifndef DEBUG
 	lcd_cursor(0,3);
-#endif	
+
 
 	lcd_puts("C:"); 
 	if(sC)lcd_putc('-');
@@ -561,106 +529,48 @@ void update_lcd_status()
 	
 	lcd_cursor(0,1);
 
-	if(debug() && 0!=mode){ //LC meter don't show debug message
-		stable_debug();
-		return;
-	}
 
-
-#ifndef DEBUG
 	show_gate();
 	lcd_puts(" ");
-       show_filter();
-#endif
+    show_filter();
+
 	if(1==mode){//50R, divid 32
-    
+    	
+		//LCD2004
 	    lcd_cursor(0,3);
 		lcd_puts("MB504 F/32 50R input");
+		
+		//LCD1602
+		lcd_cursor(12,1);
+		lcd_puts("50R");
+		
 	}
 	if(2==mode){
     
 	   lcd_cursor(0,3);
 	   lcd_puts("preAmp 1Mohm input  ");
+	
+		//LCD1602
+   		lcd_cursor(12,1);
+		lcd_puts("1M ");
+
 	}
 
 	if(0==mode){ //L,C meter
-#ifdef DEBUG
-		lcd_cursor(0,1);	
-#else 
+		//LCD1602
+   		lcd_cursor(12,1);
+		lcd_puts("LC ");
+		//LCD2004
 		lcd_cursor(0,2);
-#endif
-         if(0==LC_CAL)  /* calibration done*/
-	  	update_LC();
+        if(0==LC_CAL)  /* calibration done*/
+	  		update_LC();
         else
-	   	 LC_calibrate();
-	 
-
- }
-}
-	
-
-
-///////////DEBUGING CODE
-float ldeltaR;
-unsigned char  stable=0;
-unsigned long lref,ldut;
-
-
-void stable_debug()
-{
-	unsigned long dref, ddut;//delta of the counter between this and last reault 
-	float  cdeltaR, isgood; //the deta rato fo ddut/dref
-
-	if(update_lcd) //if not really result , by pass it
-		return;  
-
-	//calc the delta of 2 times for refrence frequncy and Frequncy of dut
-	dref =fabs(lref-c_ref);
-	ddut =fabs(ldut-c_dut);
-		
-    //try identify the stabeness of meter result
-    cdeltaR = (float)ddut/(float)dref;
-    isgood = fabs(cdeltaR - ldeltaR);
-  
-    if(isgood>0.00002)
-	    stable++;
-    
-	if(gate<=2){ //<=1S
-	    //show stable ness
-    	lcd_puts("#");
-		//lcd_hex8((char)(isgood*100));
-    	lcd_hex8(stable);
-	 
-   		//show delta of Refrenc clock
-		lcd_puts("R");
-		if(lref>c_ref)
-	   		lcd_puts("-");
-    	else 
-	   		lcd_puts("+");
-
-		print10L(dref, 1000,0);
-	
-    	//show dlta of Dut clock
-   		lcd_puts(" F");
-		if(ldut>c_dut)
-	   		lcd_puts("-");
-    	else lcd_puts("+");
-			print10L(ddut,1000,0); //show 4bits
-
-	}else { //>1S mode
-		lcd_puts("R");
-			lcd_cursor(0,0);
-			printLL(c_ref, 0,0);
-		lcd_puts("F");
-			lcd_cursor(0,1);
-			printLL(c_dut, 0,0);
+	   	 	LC_calibrate();
 	}
-	lref=c_ref;
-	ldut=c_dut;
-    ldeltaR = cdeltaR;
-
 }
-///////////ENDINGG DEBUGING CODE
+	
+
+
 
 
 
