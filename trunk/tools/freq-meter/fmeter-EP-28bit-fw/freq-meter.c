@@ -115,15 +115,6 @@ void detect_fliter()
 */
 unsigned char LC_CAL=0;
 
-void detect_calibration()
-{
-    if(is_flt_step()){
-   	 LC_CAL++;
-	 if(LC_CAL>3)
-	 	LC_CAL=0 ; /*LC_CAL done*/
-   }
-
-}
 
 void show_filter()
 {
@@ -307,7 +298,7 @@ void freq_main(void)
 		if(0 != mode){ // 0 mode is LC meter
 		   detect_fliter();
 		}else{ //LC meter
-  		   detect_calibration();
+  		   // detect_calibration();
 		}
 
 		detect_gate(); 
@@ -516,7 +507,7 @@ void update_LC(void)
 	if(sC)lcd_putc('-');
 	C*=10;  /*0.1 pF*/
 	print10L(C,8,1);
-    lcd_puts("pF      "); 
+    lcd_puts("pF       "); 
 
 	
 }
@@ -539,6 +530,9 @@ void update_lcd_status()
 		//LCD2004
 	    lcd_cursor(0,3);
 		lcd_puts("MB504 F/32 50R input");
+
+		lcd_cursor(0,2);
+		lcd_puts("                    ");
 		
 		//LCD1602
 		lcd_cursor(12,1);
@@ -549,7 +543,10 @@ void update_lcd_status()
     
 	   lcd_cursor(0,3);
 	   lcd_puts("preAmp 1Mohm input  ");
-	
+		lcd_cursor(0,2);
+		lcd_puts("                    ");
+			
+
 		//LCD1602
    		lcd_cursor(12,1);
 		lcd_puts("1M ");
