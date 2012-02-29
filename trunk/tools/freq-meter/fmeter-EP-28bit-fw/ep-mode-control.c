@@ -37,7 +37,7 @@ void key_init()
 
 
 unsigned int _adc(unsigned char ch);
-char read_adc_flt()
+char read_adc_key()
 {
    short key = _adc(ADC_FLT);
    short  t;
@@ -73,14 +73,5 @@ char read_adc_mode()
    return 1; 
 }
 
-char is_gate_step()
-{
    
-   return (2==read_adc_flt()?1:0);
-  
-}
-
-char is_flt_step()
-{
-   	return (1==read_adc_flt()?1:0);
-}
+ 

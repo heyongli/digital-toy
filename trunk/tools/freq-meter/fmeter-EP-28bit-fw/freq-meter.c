@@ -26,9 +26,8 @@ unsigned short ref_011();
 unsigned short read_011();
 
 //mode gate key
-char is_gate_step();
-char is_flt_step();
 void key_init();
+char read_adc_mode();
 
 void  we_live();
 void  c_live();
@@ -39,6 +38,11 @@ void  c_live();
 #else
 #define REF_F 3000  //3k for proteus
 #endif
+
+
+/*Freq meter mode(2)/MB504 prescaler mode(1)/LC-meter MODE(0)*/
+char mode = 0;
+
 
 
 char update_lcd = 0;
@@ -54,18 +58,52 @@ char update_lcd = 0;
 volatile unsigned short  ST = 1;//sample time, use 8 as about 1/4 seconds
 
 char gate=2; //one seconds
-void detect_gate()
+
+//exclusive FLT
+#define DRT_MODE  1  //direct result, No filter, no accumlation
+#define LPF_MODE  2  //soft low PASS filter to seq result 
+#define AVG_MODE  4  //avarage successive 4 times result 
+//& able filter 
+volatile unsigned char  FILTER =DRT_MODE;
+char flt = 0;//flt 0,1,2 => DRT,LPF,AVG
+
+
+char read_adc_key();
+
+void key_process()
 {
 
-   if(is_gate_step()){
+    FILTER = 0;
+
+
+	char key = read_adc_key();
+
+    /* gate key */
+	if(2==key){
 		gate++;
 		update_lcd=1;
-   }
+    }
 
-   if(gate > 4)
+    if(gate > 4)
    	  gate =0;
 
-   ST = (1<<gate)*6;
+    ST = (1<<gate)*6;
+    
+	/* flt mode key*/
+	if(0 == mode){ // 0 mode is LC meter
+		goto LC_meter; //bypass flt detect
+	}
+
+	if(1==key){
+	   	flt++; 
+		update_lcd=1;
+	}
+    if(flt>2)
+   		flt = 0;
+ 	FILTER |= 1<<flt;
+
+LC_meter:
+	return;
 }
 
 void show_gate()
@@ -83,32 +121,7 @@ void show_gate()
     	if(lcd_puts ("04S  "));
 }
 
-//exclusive FLT
-#define DRT_MODE  1  //direct result, No filter, no accumlation
-#define LPF_MODE  2  //soft low PASS filter to seq result 
-#define AVG_MODE  4  //avarage successive 4 times result 
-//& able filter 
-#define ACC_MODE  0x10  //0.25S sample but accumulation the counter to GATE time 
-volatile unsigned char  FILTER =DRT_MODE;
-char flt = 0;//flt 0,1,2 => DRT,LPF,AVG
-			  //flt 3,4,5 => DRT+ACC, LPF+ACC, AVG+ACC
 
-
-void detect_fliter()
-{
-   FILTER = 0;
-
-   if(is_flt_step()){
-   	 	flt++; 
-		update_lcd=1;
-   
-   }
-
-   if(flt>3)
-   		flt = 0;
-
-	FILTER |= 1<<flt;
-}
 
 /*
  *  LC meter calibration
@@ -268,7 +281,6 @@ void keep_live()
 
 void freq_main(void) 
 {
-	char mode = 0;
 	cli();
     counter_init();
 	gate_init();
@@ -283,7 +295,7 @@ void freq_main(void)
 	adc_init();
 	sti();
 
-
+	/*clear counter*/
 	TCNT2= 0;
 	TCNT0= 0;
 	TCNT1= 0xFF00;
@@ -294,15 +306,9 @@ void freq_main(void)
 	
 	while(1) {
 
-	
-		if(0 != mode){ // 0 mode is LC meter
-		   detect_fliter();
-		}else{ //LC meter
-  		   // detect_calibration();
-		}
+		key_process();	
 
-		detect_gate(); 
- 		keep_live();
+		keep_live();
 		
 		mode = read_adc_mode();
 	
@@ -420,9 +426,6 @@ void post_display(unsigned long number)
 	}
   	lcd_puts("       ");
 	lcd_puts("    ");
-    
-
-
 }
 
 //LC meter
