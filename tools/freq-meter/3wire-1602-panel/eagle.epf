@@ -48,14 +48,8 @@ PadsSameType=0
 Layer=16
 
 [Win_2]
-Type="Control Panel"
-Loc="0 25 599 424"
-State=2
-Number=0
-
-[Win_3]
 Type="Schematic Editor"
-Loc="305 95 1652 969"
+Loc="802 278 2149 1152"
 State=2
 Number=2
 File="3wire-1602-panel.sch"
@@ -94,8 +88,14 @@ Layer=91
 Views=" 1: 647302 -83352 1725800 748424"
 Sheet=1
 
+[Win_3]
+Type="Control Panel"
+Loc="0 25 599 424"
+State=2
+Number=0
+
 [Desktop]
-Screen="1680 1050"
+Screen="1920 1080"
 Window="Win_1"
 Window="Win_2"
 Window="Win_3"
