@@ -10,8 +10,10 @@
 mkdir -p .download
 cd .download
 
+#====================
+#fix possible ld can not found lc
 
-
+sudo apt-get install libtool-ltdl*
 
 ################################
 # setup the sources.list of apt
@@ -24,12 +26,8 @@ backup /etc/apt/sources.list  || _check
 #sudo cp  sources.list /etc/apt/sources.list
 pstatus
 #################################
-pstart "add vbox key, and refres the pkgs info of apt ....."
-if [ ! -f sun_vbox.asc ] ; then
-wget http://download.virtualbox.org/virtualbox/debian/sun_vbox.asc || _check
-fi
-sudo apt-key add sun_vbox.asc
-sudo cp ../packages/sun_vbox.list  /etc/apt/sources.list.d/
+pstart "add ppa vbox sources ....."
+sudo add-apt-repository ppa:debfx/virtualbox 
 pstatus
 
 #################
@@ -47,7 +45,8 @@ sudo apt-get install  -y --force-yes medibuntu-keyring || _check
 
 
 ### add smplayer sources list
-sudo cp ../packages/ppa_smplayer.list   /etc/apt/sources.list.d/
+sudo add-apt-repository ppa:medibuntu-maintainers/ppa
+sudo add-apt-repository ppa:rvm/smplayer
 pstatus
 
 #############winehq
@@ -71,14 +70,11 @@ sudo update-alternatives --display sh  || _check
 #sudo update-alternatives --config sh
 
 #lack of arch command
-sudo cp ../packages/arch /bin/  || _check
+sudo cp ../arch /bin/  || _check
 pstatus
-
 #################################
 pstart  更新软件源......
 srun sudo apt-get update 
-pstatus
-
 
 pinfo "初始化完成"
 

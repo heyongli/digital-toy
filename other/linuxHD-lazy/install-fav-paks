@@ -67,11 +67,11 @@ fapt-install-desc "misc"  $misc
 pstart "Installing vsftpd"
 srun sudo apt-get install -y vsftpd  || _check
 srun sudo  /etc/init.d/vsftpd  start  
-sudo mkdir -p /home/ftp  || _check
-sudo chmod a+x /home/ftp || _check 
-sudo chmod a-w /home/ftp || _check
+sudo mkdir -p ~/ftp  || _check
+sudo chmod a+x ~/ftp || _check 
+sudo chmod a-w ~/ftp || _check
 srun sudo addgroup ftp  
-srun sudo adduser ftp ftp --home /hoem/ftp    
+srun sudo adduser ftp ftp --home  ~/ftp    
 sudo  /etc/init.d/vsftpd  restart || _check
 pstatus
 
