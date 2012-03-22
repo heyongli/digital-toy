@@ -3,6 +3,8 @@
 work_dir=./
 
 #ubuntu 10.04
+eclipse=" sun-java6-jre sun-java6-plugin sun-java6-jdk sun-java6-source sun-java6-demo sun-java6-fonts  gcj-jre  "
+
 basic=" eclipse eclipse-jdt sun-java6-bin sun-java6-jre  java-gcj-compat-headless openjdk-6-jdk "
 tools=" git-core gnupg flex bison gperf build-essential zip curl zlib1g-dev "
 devlibs=" gcc-multilib g++-multilib libc6-dev  x11proto-core-dev libx11-dev "
@@ -15,9 +17,20 @@ devlibs=" gcc-multilib g++-multilib libc6-dev  x11proto-core-dev libx11-dev "
 
 
 ##############install dev pkgs 
+fapt-install-desc "install eclipse 3.6.2 ..." $eclipse
 fapt-install-desc "install basic dev pkg..." $basic
 fapt-install-desc "install basic dev pkg..." $tool
 fapt-install-desc "install basic dev pkg..." $devlibs
+
+
+##### refrence http://www.ooommm.org/sudelwiki/How_to_install_Eclipse_on_Ubuntu_Lucid_Lynx_10.04
+if [ ! -f eclipse-SDK-3.6.2-linux-gtk.tar.gz ]; then
+	wget -c http://download.eclipse.org/eclipse/downloads/drops/R-3.6.2-201102101200/download.php?dropFile=eclipse-SDK-3.6.2-linux-gtk.tar.gz 
+
+fi
+sudo tar -xvzf eclipse-SDK-3.6.2-linux-gtk.tar.gz --directory=/opt
+sudo chown -R root:root /opt/eclipse 
+sudo cp ../bin/eclipse /usr/local/bin/eclipse
 
 
 echo "Please run in work direcory....."
