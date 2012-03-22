@@ -5,7 +5,7 @@ work_dir=./
 #ubuntu 10.04
 eclipse=" sun-java6-jre sun-java6-plugin sun-java6-jdk sun-java6-source sun-java6-demo sun-java6-fonts  gcj-jre  "
 
-basic=" eclipse eclipse-jdt sun-java6-bin sun-java6-jre  java-gcj-compat-headless openjdk-6-jdk "
+basic=" sun-java6-bin sun-java6-jre  java-gcj-compat-headless openjdk-6-jdk "
 tools=" git-core gnupg flex bison gperf build-essential zip curl zlib1g-dev "
 devlibs=" gcc-multilib g++-multilib libc6-dev  x11proto-core-dev libx11-dev "
 #end 10.04
@@ -39,13 +39,13 @@ is_yes "Is here your Work direcory for Android develop?"
 
 ###############3install sun java6 jdk
 echo "install sun-java6-jdk"
+if [ "$1_NULL" == "_NULL" ] ; then
 srun sudo add-apt-repository ppa:ferramroberto/java  || _check
 srun sudo add-apt-repository   ppa:yogarine/eclipse   || _check
 srun sudo add-apt-repository  ppa:eclipse-team/debian-package || _check
 srun sudo apt-get update  
 srun sudo apt-get install sun-java6-jdk || _check
-srun sudo apt-get install eclipse-adt  || _check
-
+fi 
 #############
 echo "download basic SDK "
 #srun wget -c http://dl.google.com/android/android-sdk_r17-linux.tgz || _check
