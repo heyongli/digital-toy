@@ -46,6 +46,7 @@ languages="language-pack-zh  language-pack-gnome-zh-base   language-pack-zh-base
 # pinfo perror, enter work directory, $silence
 . ./lazy.h.sh $1
 
+
 #work directory
 mkdir -p packages
 cd packages

@@ -56,7 +56,6 @@ _check(){
 }
 
 
-
 #---------------------------------------------------------------------------------#
 #
 # auto silence run a cmd
@@ -85,6 +84,22 @@ fsrun() {
 
 
 
+is_yes() {
+while true; do
+    read -p "$INFO_C$1 $N_C" yn
+    case $yn in
+        [Yy]* ) break;;
+        [Nn]* ) exit;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
+}
+
+
+fix_NO_PUBKEY() {
+	gpg --keyserver subkeys.pgp.net --recv-keys $1
+	gpg -a --export $1 | sudo apt-key add -
+}
 
 #---------------------------------------------------------------------------------#
 #  backup backup_critical() backup_critical_dir() backup-config()
