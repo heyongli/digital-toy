@@ -1,0 +1,8 @@
+#!/bin/bash
+export MOZILLA_FIVE_HOME="/usr/lib/firefox/"
+export ECLIPSE_HOME="/opt/eclipse"
+/opt/eclipse/eclipse
+# optionally use this line instead to make sure eclipse runs the sun-java, adapt version accordingly
+# /opt/eclipse/eclipse -vm /usr/lib/jvm/java-6-sun-1.6.0.24/bin/java
+
+
