@@ -70,7 +70,8 @@ sudo update-java-alternatives -s java-6-sun
 
 pinfo "Eclipse Help -> Install New Software ... -> Add ...  Android Developer Toolkit £¬Location Îª https://dl-ssl.google.com/android/eclipse"
 pinfo  "Eclipse Window -> Preferences -> Android select Android SDK Location" 
-pinfo "On the Install New Software windows, click "Available Software Sites" and add http://download.eclipse.org/releases/indigo as a site."
+#pinfo "On the Install New Software windows, click "Available Software Sites" and add http://download.eclipse.org/releases/indigo for eclipse 3.7."
+pinfo " Install New Software windows, click Available Software Sites and add add heliose update for 3.6  http://download.jboss.org/jbosstools/updates/stable/helios/" 
 #eclipse  -application "Android Developer Toolkit"  -repository https://dl-ssl.google.com/android/eclipse
 
 
