@@ -1,0 +1,15 @@
+service tftp
+{
+   disable = no
+   port = 69
+   flags = IPv4
+   socket_type = dgram
+   protocol = udp
+   wait = yes
+   user = nobody
+   server = /usr/sbin/in.tftpd
+   server_args = -s /home/yhe/work/simics-workspace/targets/p5020ds/images
+   per_source = 11
+   cps =100 2
+}
+
