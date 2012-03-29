@@ -60,7 +60,7 @@ fapt-install-desc "application developer pkgs " $app_dev
 fapt-install-desc "multimedia " $multi_media 
 fapt-install-desc "kernel develop pkgs" $kernel_dev
 fapt-install-desc "naultius"  $naultilus
-fapt-install-desc "ibus"  $ibus
+#fapt-install-desc "ibus"  $ibus
 fapt-install-desc "offfice"  $offices
 fapt-install-desc "dicts"  $dict
 fapt-install-desc "chat"  $chat
