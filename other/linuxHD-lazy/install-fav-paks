@@ -26,7 +26,7 @@ app_dev="autoconf git-core automake  autotools-dev binutils-dev  \
      x11proto-core-dev  zlib1g-dev  "
 
 
-offices="nfs-common ssh ntp wine gedit "
+offices="nfs-common ssh ntp wine gedit dnsmasq "
 
 dict="stardict stardict-gnome stardict-plugin \
              stardict-plugin-espeak stardict-plugin-festival stardict-plugin-gucharmap \
