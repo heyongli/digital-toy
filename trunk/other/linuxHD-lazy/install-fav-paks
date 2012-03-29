@@ -14,7 +14,7 @@ naultilus=" nautilus  nautilus-gksu   nautilus-open-terminal    nautilus-script-
 
 kernel_dev="build-essential uuid uuid-dev \
               netspeed git-arch git-cvs git-email git-gui   git-svn gitk gitweb \
-             tex-common subversion "
+               subversion "
 
 app_dev="autoconf git-core automake  autotools-dev binutils-dev  \
      bison   comerr-dev   dpkg-dev  flex               \
