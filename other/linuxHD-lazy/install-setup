@@ -51,7 +51,7 @@ srun sudo apt-get update
 pinfo "初始化完成"
 
 pstart "clean kernel images "
-srun sudo aptitude purge ~ilinux-image-.*\(\!`uname -r`\)
+#srun sudo aptitude purge ~ilinux-image-.*\(\!`uname -r`\)
 pinfo "done"
 
 echo "try clean system use:"
