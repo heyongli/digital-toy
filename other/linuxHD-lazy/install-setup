@@ -6,29 +6,66 @@
 
 
 
-#work directory
-mkdir -p .download
-cd .download
-
 #====================
 #fix possible ld can not found lc
-
-sudo apt-get install libtool-ltdl*
+pstart  "basic setup "
+srun sudo apt-get install -y --force-yes libtool  libltdl-dev
+#pae support
+srun sudo apt-get install -y --force-yes linux-image-generic-pae linux-headers-generic-pae
+srun sudo apt-get install -y --force-yes build-essential
+pinfo done 
 
 ################################
 # setup the sources.list of apt
 pstart  设置软件源......
 
-backup /etc/apt/sources.list  || _check
-#genarate new source list for this code name  ##may not work!
-#cat base-sources-hardy.list | sed  "s/hardy/$code_name/g" > sources.list || _check
+pstart "add fav ppa sources ....."
+srun sudo add-apt-repository ppa:debfx/virtualbox 
+srun sudo add-apt-repository ppa:medibuntu-maintainers/ppa
+srun sudo add-apt-repository ppa:rvm/smplayer
+srun sudo add-apt-repository ppa:ubuntu-wine/ppa
+srun sudo add-apt-repository ppa:gnomenu-team/ppa
+pstatus
 
-#sudo cp  sources.list /etc/apt/sources.list
+
+##################################
+# basic crack of dash ==> bash
+# ubuntu shell problem  
+pinfo  "处理sh:替换dash为bash......"
+
+sudo rm -f --verbose /bin/sh  || _check
+srun sudo update-alternatives --verbose --install /bin/sh sh /bin/dash 10  || _check
+#sudo update-alternatives --display sh
+srun sudo update-alternatives --verbose --install /bin/sh sh /bin/bash 40  || _check
+sudo update-alternatives --display sh  || _check
+#sudo update-alternatives --config sh
+########lack of arch command
+sudo cp  bin/arch /bin/  || _check
 pstatus
+
+
 #################################
-pstart "add ppa vbox sources ....."
-sudo add-apt-repository ppa:debfx/virtualbox 
-pstatus
+pstart  更新软件源......
+srun sudo apt-get update 
+pinfo "初始化完成"
+
+pstart "clean kernel images "
+srun sudo aptitude purge ~ilinux-image-.*\(\!`uname -r`\)
+srun sudo apt-get clean
+srun sudo apt-get autoremove
+pinfo "done"
+
+exit 
+
+
+
+############################stale feature ====================================================================
+
+#############winehq
+wget -q http://wine.budgetdedicated.com/apt/387EE263.gpg -O- | sudo apt-key add -
+sudo wget http://wine.budgetdedicated.com/apt/sources.list.d/hardy.list -O /etc/apt/sources.list.d/winehq.list
+
+
 
 #################
 pstart "add medibuntu asc"
@@ -44,38 +81,10 @@ srun sudo aptitude remove -y medibuntu-keyring
 sudo apt-get install  -y --force-yes medibuntu-keyring || _check
 
 
-### add smplayer sources list
-sudo add-apt-repository ppa:medibuntu-maintainers/ppa
-sudo add-apt-repository ppa:rvm/smplayer
-pstatus
-
-#############winehq
-wget -q http://wine.budgetdedicated.com/apt/387EE263.gpg -O- | sudo apt-key add -
-sudo wget http://wine.budgetdedicated.com/apt/sources.list.d/hardy.list -O /etc/apt/sources.list.d/winehq.list
-
-
-##################################
-# basic crack of dash ==> bash
-# ubuntu shell problem  
-pinfo  "处理sh:替换dash为bash......"
-
-#ls -l /bin/sh
-#sudo update-alternatives --config sh
-sudo rm -f --verbose /bin/sh  || _check
-
-srun sudo update-alternatives --verbose --install /bin/sh sh /bin/dash 10  || _check
-#sudo update-alternatives --display sh
-srun sudo update-alternatives --verbose --install /bin/sh sh /bin/bash 40  || _check
-sudo update-alternatives --display sh  || _check
-#sudo update-alternatives --config sh
-
-#lack of arch command
-sudo cp ../arch /bin/  || _check
-pstatus
-#################################
-pstart  更新软件源......
-srun sudo apt-get update 
-
-pinfo "初始化完成"
+#backup /etc/apt/sources.list  || _check
+#genarate new source list for this code name  ##may not work!
+#cat base-sources-hardy.list | sed  "s/hardy/$code_name/g" > sources.list || _check
+#sudo cp  sources.list /etc/apt/sources.list
+#pstatus
 
 

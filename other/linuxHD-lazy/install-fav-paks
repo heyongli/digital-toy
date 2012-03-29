@@ -2,24 +2,19 @@
 
 #########################################################################################################
 #define fav packages to install
+
+multi_media="k9copy acidrip  gmountiso smplayer  ubuntu-restricted-extras "
+
+
 naultilus=" nautilus  nautilus-gksu   nautilus-open-terminal    nautilus-script-audio-convert \
               nautilus-image-converter  "
 
 ibus="ibus ibus-gtk ibus-pinyin ibus-pinyin-db-open-phrase  ibus-table"
 
-offices="nfs-common ssh ntp "
 
-dict="stardict stardict-gnome stardict-plugin \
-             stardict-plugin-espeak stardict-plugin-festival stardict-plugin-gucharmap \
-             stardict-plugin-spell stardict-tools "
-
-chat="xchat xchat-gnome "
-
-misc="kdebluetooth  patch guilt unrar  rar tree deluge-torrent alien kate  kdiff3 xchm chmsee  \
-                   ksnapshot "
-
-multi_media="k9copy acidrip  gmountiso smplayer"
-
+kernel_dev="build-essential uuid uuid-dev \
+              netspeed git-arch git-cvs git-email git-gui   git-svn gitk gitweb \
+             tex-common subversion "
 
 app_dev="autoconf git-core automake  autotools-dev binutils-dev  \
      bison   comerr-dev   dpkg-dev  flex               \
@@ -30,9 +25,18 @@ app_dev="autoconf git-core automake  autotools-dev binutils-dev  \
      tcl       texi2html texlive-base-bin texlive-common     \
      x11proto-core-dev  zlib1g-dev  "
 
-kernel_dev="build-essential uuid uuid-dev \
-              netspeed git-arch git-cvs git-email git-gui   git-svn gitk gitweb \
-             tex-common subversion "
+
+offices="nfs-common ssh ntp wine gedit "
+
+dict="stardict stardict-gnome stardict-plugin \
+             stardict-plugin-espeak stardict-plugin-festival stardict-plugin-gucharmap \
+             stardict-plugin-spell stardict-tools "
+
+chat="xchat xchat-gnome "
+
+misc="kdebluetooth  patch guilt unrar  rar p7zip p7zip-full p7zip-rar tree deluge-torrent alien kate  kdiff3 xchm chmsee  \
+                   ksnapshot "
+
 
 languages="language-pack-zh  language-pack-gnome-zh-base   language-pack-zh-base  \
         language-support-input-zh   kde-l10n-zhcn \
@@ -62,27 +66,32 @@ fapt-install-desc "dicts"  $dict
 fapt-install-desc "chat"  $chat
 fapt-install-desc "misc"  $misc
 
+########## gedit chinese auto detect 
+srun gconftool-2 --set /apps/gedit-2/preferences/encodings/auto_detected "[UTF-8,CURRENT,GB18030,BIG5,ISO-8859-15,UTF-16]" --type list --list-type string
 
 ################################################
 # vsftp baiscs
+ftp_home="/home/ftp"
+
 pstart "Installing vsftpd"
 srun sudo apt-get install -y vsftpd  || _check
 srun sudo  /etc/init.d/vsftpd  start  
-sudo mkdir -p ~/ftp  || _check
-sudo chmod a+x ~/ftp || _check 
-sudo chmod a-w ~/ftp || _check
+sudo mkdir -p $ftp_home  || _check
+sudo chmod a+x $ftp_home || _check 
+sudo chmod a-w $ftp_home || _check
 srun sudo addgroup ftp  
-srun sudo adduser ftp ftp --home  ~/ftp    
+srun sudo adduser ftp ftp --home  $ftp_home    
 sudo  /etc/init.d/vsftpd  restart || _check
 pstatus
 
 ################################################33
 #stardict wordtable
+cd /tmp
 wget-tarball http://jaist.dl.sourceforge.net/sourceforge/stardict/stardict-langdao-ec-gb-2.4.2.tar.bz2
 sudo mv stardict-langdao-ec-gb-2.4.2 /usr/share/stardict/dic
 wget-tarball http://nchc.dl.sourceforge.net/sourceforge/stardict/stardict-langdao-ce-gb-2.4.2.tar.bz2
 sudo mv stardict-langdao-ce-gb-2.4.2 /usr/share/stardict/dic
-
+cd -
 
 
 pstart "last step upgrade them all!"
