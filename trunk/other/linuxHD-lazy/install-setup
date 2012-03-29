@@ -25,6 +25,7 @@ srun sudo add-apt-repository ppa:medibuntu-maintainers/ppa
 srun sudo add-apt-repository ppa:rvm/smplayer
 srun sudo add-apt-repository ppa:ubuntu-wine/ppa
 srun sudo add-apt-repository ppa:gnomenu-team/ppa
+srun sudo add-apt-repository ppa:fcitx-team/stable
 pstatus
 
 
@@ -51,8 +52,8 @@ pinfo "初始化完成"
 
 pstart "clean kernel images "
 srun sudo aptitude purge ~ilinux-image-.*\(\!`uname -r`\)
-srun sudo apt-get clean
-srun sudo apt-get autoremove
+srun sudo apt-get  -y clean
+srun sudo apt-get  -y autoremove
 pinfo "done"
 
 exit 
