@@ -52,9 +52,11 @@ pinfo "初始化完成"
 
 pstart "clean kernel images "
 srun sudo aptitude purge ~ilinux-image-.*\(\!`uname -r`\)
-srun sudo apt-get  -y clean
-srun sudo apt-get  -y autoremove
 pinfo "done"
+
+echo "try clean system use:"
+echo "sudo apt-get  -y clean"
+echo "sudo apt-get  -y autoremove"
 
 exit 
 
