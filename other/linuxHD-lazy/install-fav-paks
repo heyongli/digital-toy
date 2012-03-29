@@ -9,7 +9,7 @@ multi_media="k9copy acidrip  gmountiso smplayer  ubuntu-restricted-extras xrdp"
 naultilus=" nautilus  nautilus-gksu   nautilus-open-terminal    nautilus-script-audio-convert \
               nautilus-image-converter  "
 
-ibus="ibus ibus-gtk ibus-pinyin ibus-pinyin-db-open-phrase  ibus-table"
+#ibus="ibus ibus-gtk ibus-pinyin ibus-pinyin-db-open-phrase  ibus-table"
 
 
 kernel_dev="build-essential uuid uuid-dev \
@@ -38,11 +38,7 @@ misc="kdebluetooth  patch guilt unrar  rar p7zip p7zip-full p7zip-rar tree delug
                    ksnapshot "
 
 
-languages="language-pack-zh  language-pack-gnome-zh-base   language-pack-zh-base  \
-        language-support-input-zh   kde-l10n-zhcn \
-           language-pack-kde-zh   language-pack-kde-en language-pack-kde-en-base  thunderbird-locale-zh-cn \
-             qt4-qtconfig ttf-arphic-ukai  \
-            ttf-arphic-ukai ttf-wqy-zenhei language-support-fonts-zh  openoffice.org-l10n-zh-cn xfonts-wqy"
+languages="qt4-qtconfig ttf-arphic-ukai  ttf-arphic-ukai ttf-wqy-zenhei language-support-fonts-zh  openoffice.org-l10n-zh-cn xfonts-wqy"
 
 
 #########################################################################################################
