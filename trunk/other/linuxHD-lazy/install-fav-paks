@@ -3,7 +3,7 @@
 #########################################################################################################
 #define fav packages to install
 
-multi_media="k9copy acidrip  gmountiso smplayer  ubuntu-restricted-extras "
+multi_media="k9copy acidrip  gmountiso smplayer  ubuntu-restricted-extras xrdp"
 
 
 naultilus=" nautilus  nautilus-gksu   nautilus-open-terminal    nautilus-script-audio-convert \
