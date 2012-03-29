@@ -5,6 +5,7 @@
 tftp=" xinetd tftphpa "
 nfs_kernel=" nfs-kernel-server "
 dhcpd=" dhcp3-server "
+privoxy="privoxy"
 #########################################################################################################
 #包含公用头文件， source 命令
 # pinfo perror, enter work directory, $silence
@@ -13,7 +14,7 @@ dhcpd=" dhcp3-server "
 
 fapt-install-desc "tftp: tftphpa installing... " $tftphpa
 pinfo "$tftp install and basic config"
-cat etc/tftp
+cat etc/xinetd.d/tftp
 
 fapt-install-desc "NFS server... " $nfs_kernel
 pinfo " $nfs_kernel server config"
@@ -22,12 +23,16 @@ cat etc/exports
 
 fapt-install-desc "DHCPD... " $dhcpd
 pinfo " $dhcpd install and basic config"
-cat etc/dhcpd.conf
+cat etc/dhcp3/dhcpd.conf
 
+
+fapt-install-desc "http proxy from sockets proxy $privoxy ... "  $privoxy
+pinfo " $privox install and basic config"
+cat etc/privoxy/config
 
 exit
 ################################################
-# vsftp baiscs
+# vsftp baiscs: ftp
 pstart "Installing vsftpd"
 srun sudo apt-get install -y vsftpd  || _check
 srun sudo  /etc/init.d/vsftpd  start  
