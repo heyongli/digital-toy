@@ -83,9 +83,12 @@ pstatus
 ################################################33
 #stardict wordtable
 cd /tmp
-wget-tarball http://jaist.dl.sourceforge.net/sourceforge/stardict/stardict-langdao-ec-gb-2.4.2.tar.bz2
+sudo mkdir -p /usr/share/stardict/dic
+
+wget-tarball http://pkgs.fedoraproject.org/repo/pkgs/stardict-dic/stardict-langdao-ce-gb-2.4.2.tar.bz2/8e9700798a0ffeed23207b7cf2592246/stardict-langdao-ce-gb-2.4.2.tar.bz2
+wget-tarball http://pkgs.fedoraproject.org/repo/pkgs/stardict-dic/stardict-langdao-ce-gb-2.4.2.tar.bz2/8e9700798a0ffeed23207b7cf2592246/stardict-langdao-ce-gb-2.4.2.tar.bz2 
+
 sudo mv stardict-langdao-ec-gb-2.4.2 /usr/share/stardict/dic
-wget-tarball http://nchc.dl.sourceforge.net/sourceforge/stardict/stardict-langdao-ce-gb-2.4.2.tar.bz2
 sudo mv stardict-langdao-ce-gb-2.4.2 /usr/share/stardict/dic
 cd -
 
