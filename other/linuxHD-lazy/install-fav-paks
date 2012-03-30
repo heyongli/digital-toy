@@ -14,17 +14,20 @@ naultilus=" nautilus  nautilus-gksu   nautilus-open-terminal    nautilus-script-
 
 kernel_dev="build-essential uuid uuid-dev \
               netspeed git-arch git-cvs git-email git-gui   git-svn gitk gitweb \
-               subversion "
+             subversion git-core "
+             
 
-app_dev="autoconf git-core automake  autotools-dev binutils-dev  \
+app_dev="autoconf  automake expect autotools-dev binutils-dev  \
      bison   comerr-dev   dpkg-dev  flex               \
      g++    gawk  gcc gcc-multilib  gettext  libacl1-dev   \
      linux-libc-dev \
      libreadline5-dev   libtool libxmltok1-dev  \
      linux-libc-dev     m4   mkisofs  patch   pkg-config   rpm  ss-dev  \
      tcl       texi2html texlive-base-bin texlive-common     \
-     x11proto-core-dev  zlib1g-dev  "
+     x11proto-core-dev  zlib1g-dev  docbook-xsl-ns doxygen texlive libxml texinfo libexpat1-dev "
 
+Xdev=" x-dev x11proto-xext-dev  xtrans-dev libx11-dev libxext-dev libxinerama-dev xutils-dev libxext-dev "
+Netdev=" libcap-dev "
 
 offices="nfs-common ssh ntp wine gedit dnsmasq "
 
@@ -52,7 +55,7 @@ mkdir -p packages
 cd packages
 
 fapt-install-desc "Chinese Simplified internationalized (i18n) base " $languages 
-fapt-install-desc "application developer pkgs " $app_dev 
+fapt-install-desc "application developer pkgs " $app_dev $Xdev $Netdev 
 fapt-install-desc "multimedia " $multi_media 
 fapt-install-desc "kernel develop pkgs" $kernel_dev
 fapt-install-desc "naultius"  $naultilus
