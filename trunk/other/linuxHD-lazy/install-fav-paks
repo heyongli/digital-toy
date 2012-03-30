@@ -24,7 +24,7 @@ app_dev="autoconf  automake expect autotools-dev binutils-dev  \
      libreadline5-dev   libtool libxmltok1-dev  \
      linux-libc-dev     m4   mkisofs  patch   pkg-config   rpm  ss-dev  \
      tcl       texi2html texlive-base-bin texlive-common     \
-     x11proto-core-dev  zlib1g-dev  docbook-xsl-ns doxygen texlive libxml texinfo libexpat1-dev "
+     x11proto-core-dev  zlib1g-dev  docbook-xsl-ns doxygen texlive libxml2-dev libxml2-utils  texinfo libexpat1-dev "
 
 Xdev=" x-dev x11proto-xext-dev  xtrans-dev libx11-dev libxext-dev libxinerama-dev xutils-dev libxext-dev "
 Netdev=" libcap-dev "
