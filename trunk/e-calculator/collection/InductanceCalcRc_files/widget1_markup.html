@@ -1,0 +1,434 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><title></title>
+
+
+<script language="JavaScript">
+var d = null;
+
+function setCellTxt(id,tx,clr){
+  cell=document.getElementById(id);
+  cell.innerHTML=tx;
+  cell.style.color=clr;
+}
+
+function chgUnits() {
+  u=(d.mUnits.value=="Inches") ? "Inches" : "mm"; 
+  setCellTxt("rUnitA",u,"#000000");
+  setCellTxt("rUnitB",u,"#000000");
+  setCellTxt("rUnitC",u,"#000000");
+  setCellTxt("rUnitD",u,"#000000");
+  }
+
+function deSpace(si){
+  so="";
+  len=si.length;
+  for (i=0; i<=len; i++){
+    c=si.charAt(i);
+    so+= (c==" ") ? "" : c;
+    }
+  return(so);
+  }
+
+function parseAWG(awg){
+  // Parse the 3 basic types of AWG alphanumeric format: 1,2,3...; 0,00,000...; 1/0,2/0,3/0...
+  s=deSpace(awg);
+  i2=s.indexOf("/0");
+  if (s.charAt(0)=="0"){
+    // Parse 00 format
+    for (j=1; j<=s.length; j++){
+      if (s.charAt(j)!="0"){
+        n=1-j;
+        break;
+        }
+      }
+    }
+    else if (i2>0){
+    // Parse /0 format
+    n=1-parseInt(s.substr(0,i2));
+    }
+    else {
+    // Parse 1,2,3... format
+    n=parseFloat("0".concat(s));
+    }
+  return(n);
+  }
+
+function asinh(x) {
+  // Return inverse hyperbolic sine;
+  return(Math.log(x+Math.sqrt(x*x+1)));
+  }
+
+function Lrcs(a1,a2,b,N){
+  // Calculates current sheet inductance of a rectangular coil;
+  // Based on Niwa's 1924 general formula (Grover, page 70);
+  // Dimensions in meters
+  // a1 and a2 are the dimensions of the rectangular cross section;
+  // b is the length of coil, and N is number of turns;
+  muo=Math.PI*4e-7;
+  // calculate the subterms of formula. There are many :)
+  bs=b*b;
+  a1s=a1*a1;
+  a2s=a2*a2;
+  gs=a1s+a2s;
+  g=Math.sqrt(gs);
+  t1=0.5*b/a1*asinh(a2/b);
+  t2=0.5*b/a2*asinh(a1/b);
+  t3=0.5*(1-a1s/bs)*b/a1*asinh(a2/(b*Math.sqrt(1+a1s/bs)));
+  t4=0.5*(1-a2s/bs)*b/a2*asinh(a1/(b*Math.sqrt(1+a2s/bs)));
+  t5=0.5*a1/b*asinh(a2/a1);
+  t6=0.5*a2/b*asinh(a1/a2);
+  t7=Math.PI/2-Math.atan(a2*a1/(bs*Math.sqrt(1+gs/bs)));
+  t8=1/3*bs/(a2*a1)*Math.sqrt(1+gs/bs)*(1-0.5*gs/bs);
+  t9=bs/(3*a2*a1);
+  t10=1/3*bs/(a2*a1)*Math.sqrt(1+a2s/bs)*(1-0.5*a2s/bs);
+  t11=1/3*bs/(a2*a1)*Math.sqrt(1+a1s/bs)*(1-0.5*a1s/bs);
+  t12=b/(6*a2*a1)*((g*gs)-(a2*a2s)-(a1*a1s))/bs;
+  ts=t1+t2-t3-t4-t5-t6+t7+t8+t9-t10-t11+t12;
+  return(2*muo/Math.PI*N*N*a1*a2/b*ts);
+  }
+  
+function Lr(a1,a2,dw){
+  // Inductance of single turn rectangular loop
+  // From Grover page 60, and NBS Sci Paper 169, page 154
+  muo=Math.PI*4e-7;
+  t1=a1*Math.log(4*a1/dw);
+  t2=a2*Math.log(4*a2/dw);
+  t3=2*Math.sqrt(a1*a1+a2*a2);
+  t4=-a1*asinh(a1/a2);
+  t5=-a2*asinh(a2/a1);
+  t6=-2*(a1+a2);
+  t7=1/4*(a1+a2);
+  return(muo/Math.PI*(t1+t2+t3+t4+t5+t6+t7));
+  }
+  
+  
+function rosaKm(n) {
+// Rosa's round wire mutual inductance correction
+// using David Knight's optimized formula
+// argument n is number of turns in coil
+  n2=n*n;
+  n3=n2*n;
+  n5=n3*n2;
+  n7=n5*n2;
+  n9=n7*n2;
+  return(Math.log(2*Math.PI)-1.5-Math.log(n)/(6*n)-0.33084236/n-1/(120*n3)+1/(504*n5)-0.0011923/n7+0.0005068/n9);
+}
+
+function rosaKs(x) {
+// Rosa's round wire self inductance correction
+// where argument x=pitch/wire diameter
+  return( 1.25-Math.log(2*x));
+}
+
+function LiCorr(s) {
+  //  Calculates internal inductance (Henries/meter)
+  //  using formula Li-ACA3.8ML by D. Knight
+  //  s=ratio of skin depth to wire diameter
+  //  return value is Henries/m
+  z=1/(5.104*s);
+  mu=4*Math.PI*1e-7;
+  //z=0.1959/s;
+  y=0.0239/Math.pow(1+1.67*Math.pow(Math.pow(z,0.036)-Math.pow(z,-0.72),2),4);
+  Li=mu/2/Math.PI*s*Math.pow(1-Math.exp(-Math.pow(0.25/s,3.8)),1/3.8)*(1-y)-5e-8;
+  return(Li);
+}
+
+
+function InductanceCalc() {
+  //read and convert wire size to meters
+  if (d.mWunits.value=="mm"){
+    dw=0.001*parseFloat("0".concat(d.ef_dw.value));
+    }
+    else {
+    aw=parseAWG(d.ef_dw.value);
+    dw=0.000127*Math.exp((36-aw)/8.624889);
+    }
+  //read main units
+  scale= (d.mUnits.value=="Inches") ? .0254 : 0.001;
+  scltxt=(d.mUnits.value=="Inches") ? "inches" : "mm";
+  n=parseFloat("0".concat(d.ef_n.value));
+  a1=parseFloat("0".concat(d.ef_a1.value))*scale;
+  a2=parseFloat("0".concat(d.ef_a2.value))*scale;
+  di=parseFloat("0".concat(d.ef_di.value))*scale;
+  // Make sure overall diameter is at least as large as conductor diameter
+  di=(di>dw) ? di : dw;
+  d.ef_di.value=(di/scale).toFixed(4);
+  if (n>0 && a1>0 && a2>0 && dw>0) {
+    // Set default result message. It's replaced if an error occurs.
+    setCellTxt("errMsg","--------------&nbsp;&nbsp;Calculation Successful - No Errors&nbsp;&nbsp;--------------","#000080");
+    pi=Math.PI;
+    muo=4*pi*1e-7;
+    //resistivity of copper:
+    rs=1.72e-8;
+    //scale frequency to Hz
+    f=parseFloat("".concat(d.ef_f.value))*1000;
+    // Calc circumference of winding
+    circ= a1+a1+a2+a2;
+    if (n==1) {
+      // For single turn coil, use Grover's 1-turn formula
+      Ls=Lr(a1,a2,dw)*1e6;
+      psi=0;
+      Ks=0;
+      Km=0;
+      Lcor=0;
+      p=dw;
+      lc=dw;
+      }
+    else {
+      // For multi-turn coil use Niwa's rectangular formula
+      
+      // Handle Pitch/Length input
+      pl=parseFloat("0".concat(d.ef_pl.value))*scale;
+      if(d.ef_lorp.value=="L"){
+        lc=pl;
+        p=lc/n;
+      }
+      else{
+        p=pl;
+        lc=p*n;
+      }
+      psi=Math.atan(p/circ);
+      // Check pitch against wire diameter
+      pmin=di/Math.cos(psi);
+      if (p<pmin) {
+        setCellTxt("errMsg","Note: Adjusted Pitch for Close Wound Coil","#BB00BB");
+        p=pmin;
+        lc=p*n;
+        d.ef_pl.value=(d.ef_lorp.value=="L") ? (lc/scale).toFixed(2) : (p/scale).toFixed(4);
+      }    
+      Ls=Lrcs(a1,a2,lc,n)*1e6;
+      Ks=rosaKs(p/dw);
+      Km=rosaKm(n);
+      Lcor=-muo/(2*pi)*(a1+a2)*n*(Ks+Km)*1e6;
+    }
+
+    lw=n*circ/Math.cos(psi);
+    // Frequency correction due to skin effect
+    s=1;
+    if (f>0) {
+      // sk=skin depth at operating frequency meters;
+      sk=Math.sqrt(rs/(pi*pi*0.0000004*f));
+      // s=ratio of skin depth to wire diameter;
+      s=sk/dw;
+      Li=LiCorr(s)*1e6*lw;
+    }
+    else {
+      Li=0;
+    }
+    Lnet=Ls+Lcor+Li;
+
+//Scale for display
+    lw=lw/scale;
+    dw=dw/scale;
+    lc=lc/scale;
+    p=p/scale;
+
+//Display calculation results
+    setCellTxt("rWire",dw.toFixed(4),"#000080");
+    setCellTxt("rLi",Li.toFixed(4),"#000080");
+    setCellTxt("rKs",Ks.toFixed(4),"#000080");
+    setCellTxt("rKm",Km.toFixed(4),"#000080");
+    setCellTxt("rL",Lnet.toFixed(4),"#000080");
+    setCellTxt("rPitch",p.toFixed(4),"#000080");
+    setCellTxt("rLc",lc.toFixed(2),"#000080");
+    setCellTxt("rLs",Ls.toFixed(4),"#000080");
+    setCellTxt("rRw",Lcor.toFixed(4),"#000080");
+    setCellTxt("rLw",lw.toFixed(2),"#000080");
+    setCellTxt("rS",s.toFixed(4),"#000080");
+    setCellTxt("rUnit1",scltxt,"#000000");
+    setCellTxt("rUnit2",scltxt,"#000000");
+    setCellTxt("rUnit3",scltxt,"#000000");
+    setCellTxt("rUnit4",scltxt,"#000000");
+
+
+  }
+  else {
+//Display error results
+
+//Scale for display
+    lw=lw/scale;
+    dw=dw/scale;
+    setCellTxt("errMsg","--------&nbsp;&nbsp;Error: Missing or Invalid Input Data&nbsp;&nbsp;--------","#FF0000");
+    setCellTxt("rWire",dw.toFixed(4),"#000080");
+    setCellTxt("rLi","***","#FF0000");
+    setCellTxt("rL","Data Error","#FF0000");
+    setCellTxt("rLs","***","#FF0000");
+    setCellTxt("rKs","***","#FF0000");
+    setCellTxt("rKm","***","#FF0000");
+    setCellTxt("rLs","***","#FF0000");
+    setCellTxt("rPitch","***","#FF0000");
+    setCellTxt("rLc","***","#FF0000");
+    setCellTxt("rRw","***","#FF0000");
+    setCellTxt("rNagaoka","***","#FF0000");
+    setCellTxt("rLw","***","#FF0000");
+    setCellTxt("rS","***","#FF0000");
+    setCellTxt("rUnit1","","#000080");
+    setCellTxt("rUnit2","","#000080");
+    setCellTxt("rUnit3","","#000080");
+    setCellTxt("rUnit4","","#000080");
+
+  }
+}
+
+
+</script>
+
+
+</head>
+
+
+<body onload="d = document.forms[0];">
+<form target="_top" onsubmit="return false">
+  <table style="font-size: 14pt;" align="center" border="0">
+   <caption style="font-size: 20pt"><b>Rectangular Coil Inductance Calculator</b></caption>
+    <tbody>
+      <tr>
+        <td colspan="3" align="center">&nbsp;</td>
+      </tr>
+      <tr>
+        <td colspan="3" align="center"><b>Input Parameters:</b></td>
+      </tr>
+
+
+      <tr>
+        <td align="right">Units:</td>
+        <td>
+          <select name="mUnits" onchange="chgUnits()" size="1">
+           <option selected="selected" value="Millimeters">Millimeters</option>
+           <option value="Inches">Inches</option>
+          </select>
+        </td>
+      </tr>
+
+      <tr>
+        <td align="right">Number of Turns - <i>N</i>:</td>
+        <td><input name="ef_n" size="12"> </td>
+      </tr>
+ 
+      <tr>
+        <td align="right">Coil Cross Section Width - <i>a<sub>1</sub></i>:</td>
+        <td><input name="ef_a1" size="12"> </td>
+        <td id="rUnitA" align="left">mm</td>
+      </tr>
+ 
+      <tr>
+        <td align="right">Coil Cross Section Height - <i>a<sub>2</sub></i>:</td>
+        <td><input name="ef_a2" size="12"> </td>
+        <td id="rUnitB" align="left">mm</td>
+      </tr>
+ 
+      <tr>
+        <td align="right">Choose:&nbsp;&nbsp;
+          <select name="ef_lorp" size="1">
+           <option selected="selected" value="P">Pitch</option>
+           <option value="L">Coil Length</option>
+          </select> &nbsp;&nbsp;&nbsp;and Enter: 
+        </td>
+        <td><input name="ef_pl" size="12"> </td>
+        <td id="rUnitC" align="left">mm</td>
+      </tr>
+
+      <tr>
+        <td align="right">Operating Frequency:</td>
+        <td><input name="ef_f" size="12"> </td>
+        <td align="left">kHz</td>
+      </tr>
+
+      <tr>
+        <td align="right">Conductor Size - <i>d<sub>w</sub></i>:</td>
+        <td><input name="ef_dw" size="12"> </td>
+        <td align="left">
+          <select name="mWunits" size="1">
+           <option selected="selected" value="mm" selected"="">mm</option>
+           <option value="AWG">AWG</option>
+          </select>
+        </td>
+      </tr>
+
+
+      <tr>
+        <td align="right">Wire Diameter Including Insulation - <i>d<sub>i</sub></i>:</td>
+        <td><input name="ef_di" size="12"> </td>
+        <td id="rUnitD" align="left">mm</td>
+      </tr>
+
+      <tr>
+      <td align="right"></td>
+      <td><input value="Calculate" onclick="InductanceCalc()" type="button"> </td>
+      </tr>
+
+
+
+      <tr>
+        <td colspan="3" id="errMsg" align="center"><font color="#FF0000">&nbsp;</font></td>
+      </tr>
+      
+      <tr>
+        <td align="right">Conductor Diameter:&nbsp;&nbsp;</td>
+        <td id="rWire" align="left"><font color="#FF0000">***</font></td>
+        <td id="rUnit1" align="left"> </td>
+      </tr>
+
+      <tr>
+        <td align="right">Winding Pitch:&nbsp;&nbsp;</td>
+        <td id="rPitch" align="left"><font color="#FF0000">***</font></td>
+        <td id="rUnit2" align="left"> </td>
+      </tr>
+
+      <tr>
+        <td align="right">Coil Length:&nbsp;&nbsp;</td>
+        <td id="rLc" align="left"><font color="#FF0000">***</font></td>
+        <td id="rUnit3" align="left"> </td>
+      </tr>
+
+      <tr>
+        <td align="right">Wire Length:&nbsp;&nbsp;</td>
+        <td id="rLw" align="left"><font color="#FF0000">***</font></td>
+        <td id="rUnit4" align="left"> </td>
+      </tr>
+
+      <tr>
+        <td align="right">Skin depth/wire diameter ratio:&nbsp;&nbsp;</td>
+        <td id="rS" align="left"><font color="#FF0000">***</font></td>
+      </tr>
+
+      <tr>
+        <td align="right">Self Inductance Correction K<sub>S</sub>:&nbsp;&nbsp;</td>
+        <td id="rKs" align="left"><font color="#FF0000">***</font></td>
+      </tr>
+
+      <tr>
+        <td align="right">Mutual Inductance Correction K<sub>M</sub>:&nbsp;&nbsp;</td>
+        <td id="rKm" align="left"><font color="#FF0000">***</font></td>
+      </tr>
+
+      <tr>
+        <td align="right">Base Inductance L<sub>S</sub>:&nbsp;&nbsp;</td>
+        <td id="rLs" align="left"><font color="#FF0000">***</font></td>
+        <td align="left">µH</td>
+      </tr>
+
+      <tr>
+        <td align="right">Round Wire Corrections L<sub>RW</sub>:&nbsp;&nbsp;</td>
+        <td id="rRw" align="left"><font color="#FF0000">***</font></td>
+        <td align="left">µH</td>
+      </tr>
+
+      <tr>
+        <td align="right">Frequency Correction L<sub>I</sub>:&nbsp;&nbsp;</td>
+        <td id="rLi" align="left"><font color="#FF0000">***</font></td>
+        <td align="left">µH</td>
+      </tr>
+
+      <tr>
+        <td align="right"><b>Corrected Inductance:</b>&nbsp;&nbsp;</td>
+        <td id="rL" align="left"><font color="#FF0000">***</font></td>
+        <td align="left">µH</td>
+      </tr>
+
+    </tbody>
+
+  </table>
+</form>
+</body></html>
