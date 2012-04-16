@@ -69,10 +69,12 @@ sudo chmod -R 700 $sqman_db/
 sudo chown -R www-data $sqman_db/
 
 #
-pinfo "configure the:"
-echo "sudo gedit $www_home/$SQLiteMan_V/include/user_defined.inc.php"
-echo 'define("SQLiteDb", "/usr/local/apache/sqliteDb/config.db");'
-echo 'define("DEFAULT_DB_PATH", "/usr/local/apache/sqliteDb/config.db");'
+pinfo "configure the php Manager configdb"
+
+echo '<?php' >  $www_home/$SQLiteMan_V/include/user_defined.inc.php
+echo 'define("SQLiteDb", "/usr/local/apache/sqliteDb/config.db");' >>  $www_home/$SQLiteMan_V/include/user_defined.inc.php
+echo 'define("DEFAULT_DB_PATH", "/usr/local/apache/sqliteDb/config.db");' >>  $www_home/$SQLiteMan_V/include/user_defined.inc.php
+echo '?>' >>  $www_home/$SQLiteMan_V/include/user_defined.inc.php
 
 
 pinfo "done"
