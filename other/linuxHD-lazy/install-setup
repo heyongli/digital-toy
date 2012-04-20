@@ -26,6 +26,7 @@ srun sudo add-apt-repository ppa:rvm/smplayer
 srun sudo add-apt-repository ppa:ubuntu-wine/ppa
 srun sudo add-apt-repository ppa:gnomenu-team/ppa
 srun sudo add-apt-repository ppa:fcitx-team/stable
+#srun sudo add-apt-repository ppa:bryce/lp97329   # fix xorg bug lead firefox crash, 10.04 only
 pstatus
 
 
