@@ -1,0 +1,6 @@
+# /etc/default/tftpd-hpa
+
+TFTP_USERNAME="yhe"
+TFTP_DIRECTORY="/home/yhe/work/simics-workspace/targets/p5020ds/images"
+TFTP_ADDRESS="0.0.0.0:69"
+TFTP_OPTIONS="-s"
