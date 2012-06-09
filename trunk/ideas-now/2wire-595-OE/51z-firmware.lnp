@@ -1,0 +1,4 @@
+"main.obj",
+".\_delay.obj" 
+TO "51z-firmware" 
+RAMSIZE(256) 
