@@ -66,7 +66,10 @@ char gate=2; //one seconds
 //& able filter 
 volatile unsigned char  FILTER =DRT_MODE;
 char flt = 0;//flt 0,1,2 => DRT,LPF,AVG
-
+/*
+ *  LC meter calibration
+*/
+unsigned char LC_CAL=0;
 
 char read_adc_key();
 
@@ -89,12 +92,16 @@ void key_process()
 
     ST = (1<<gate)*6;
     
-	/* flt mode key*/
-	if(0 == mode){ // 0 mode is LC meter
-		goto LC_meter; //bypass flt detect
-	}
 
 	if(1==key){
+		/* flt mode key*/
+		if(0 == mode){ // 0 mode is LC meter
+			LC_CAL++;
+		 	if(LC_CAL>3)
+				LC_CAL=0;
+			goto LC_meter; //bypass flt detect
+		}
+
 	   	flt++; 
 		update_lcd=1;
 	}
@@ -123,14 +130,21 @@ void show_gate()
 
 
 
-/*
- *  LC meter calibration
-*/
-unsigned char LC_CAL=0;
+
 
 
 void show_filter()
 {
+	if(0 == mode){ // 0 mode is LC meter
+		
+		if(LC_CAL==0)
+			lcd_puts("RDY");
+		else{
+			lcd_puts("CA");
+			print10L(LC_CAL-1,1,0); 
+		}
+		return;
+    }
 	if(FILTER&DRT_MODE)
 		lcd_puts("DRT");
 	if(FILTER&LPF_MODE)
