@@ -1,0 +1,241 @@
+*-----------------------------------------------------------------------
+* 用于LTspice的调幅解调器总谐波失真度分析仪 V1.0.0
+* 与文件AM_THD_Analyzer.asy配合使用
+* 2012.4.18
+* 基于Eugene Dvoskin的"Total Harmonic Distortion Analyzer" V1.0修改
+* 参阅：http://www.audio-perfection.com/
+*-----------------------------------------------------------------------
+
+
+*-----------------------------------------------------------------------
+* 功能：
+* 按指定参数（固定或步进扫描）产生调幅波输出，经外部被测电路调幅解调后
+* 输入到本分析仪，分析包括总谐波失真度THD等各项数据。仅分析调制信号的前
+* 10次谐波。可根据需要，多个参数混合步进扫描。
+*
+* 可设置的参数（固定或步进扫描）：
+* Fc               载波频率
+* Ac               未调制载波幅度
+* Fm               调制信号频率
+* m                调制指数，0到1之间
+*
+* 分析时用到的一些时间参数：
+* MaxTimeStep      最大分析时间间隔
+* SettlingTime     开始采集数据的时间
+* StrobeLength     分析基波的时间，其值应为调制信号周期（1/Fm）的整数倍
+* IntegrationTime  分析谐波的时间，其值应为调制信号周期（1/Fm）的整数倍
+*
+* 分析结果包括：
+* THD_persent  被测电路电压总谐波失真度，以百分比计
+* THD_dB       被测电路电压总谐波失真度，以dB计
+* Fundamental_Out_V_RMS  解调信号中调制信号的基波电压幅度，RMS值
+* Phase_deg    解调信号中调制信号的基波电压相移，以度计
+* H2,H3,...H10 解调信号中调制信号2到10次谐波的电压RMS幅度与
+*              Fundamental_Out_V_RMS之比的100倍
+* GAIN         被测电路交流电压传输系数（又称为检波效率），为解调输出信
+*              号中调制信号的基波幅度与未调制载波幅度及调制系数m的乘积之
+*              比，即：GAIN=1.414*Fundamental_Out_V_RMS/(m*Ac)
+* GAIN_dB      被测电路交流电压传输系数（又称为检波效率），以dB计
+* Z_in_mod     被测电路对载波的输入复阻抗，模
+* Z_in_ph_deg  被测电路对载波的输入复阻抗，角度，以度计
+*-----------------------------------------------------------------------
+
+
+*---- 关闭LTspice数据压缩，以提高仿真精度 ----
+.options plotwinsize=0
+.options measdgt=15
+.options numdgt=15
+
+
+*---- 载波频率Fc ----
+.param Fc=455k ;固定载波频率
+;.step param Fc list 540k 830k 1120k 1410k 1700k ;步进载波频率的列表
+
+
+*---- 未调制载波幅度Ac ----
+*                   起始幅度
+*                   |     结束幅度
+*                   |     |     每十倍程幅度个数
+*                   |     |     |
+;.step dec param Ac 1m    2     3 ;按每十倍程步进幅度个数设置
+.step param Ac list 1m 10m 50m 100m 200m 500m 750m 1000m ;步进幅度的列表
+;.param Ac=0.75 ;固定未调制载波幅度
+
+
+*---- 调制信号频率Fm ----
+;.step dec param Fm 20 20k 3
+.param Fm=1k ;固定调制信号频率
+;.step param Fm list 0.3k 0.5k 0.7k 1k 1.5k 2k 2.5k 3k 4k;步进调制信号频率的列表
+
+
+*---- 调制度m ----
+.param m=0.3 ;固定调制度
+;.step param m list 0.1 0.2 0.3 0.4 0.5 0.6 0.8 0.9 1;步进调制度的列表
+;.step param m list 0.2 0.3 0.5 0.8 0.9 1;步进调制度的列表
+
+
+*---- 以下参数对分析精度及仿真速度有较大影响 ---------------------------
+.param MaxTimeStep=200m/Fc   ;200m/Fc作为折中的选择。为提高精度，可设为50m/Fc。
+*                            MaxTimeStep的值越小，耗费的内存越多
+.param SettlingTime=10m      ;必要时等待一段时间再开始采集数据，以等待电路进入稳定状态
+.param StrobeLength=10/Fm    ;分析基波的时间，其值应为调制信号周期（1/Fm）的整数倍
+.param IntegrationTime=10/Fm ;分析谐波的时间，其值应为调制信号周期（1/Fm）的整数倍
+
+
+
+**** 本行以下没有需要设置的参数 ****************************************
+*-----------------------------------------------------------------------
+.param AnalysisTime=StrobeTime+IntegrationTime
+.param StrobeTime=SettlingTime+StrobeLength ; end of strobe
+
+*--- Defining global nodes to measure subcircuit voltages ----
+.global Analyzer_In Ref_S Ref_C Gen H1SF H1CF H2SF H2CF H3SF H3CF H4SF H4CF H5SF H5CF
++ H6SF H6CF H7SF H7CF H8SF H8CF H9SF H9CF H10SF H10CF Is_s Is_c TimeScale S_Time E_Time
+
+
+*-----------------------------------------------------------------------
+.SUBCKT AM_THD_Analyzer Generator_Out Analyzer_In Notch
+
+*----  Generator -------------------------------------------------------
+Bgen Gen 0 V={Ac}*(1+{m}*sin(2*pi*{Fm}*time))*sin(2*pi*{Fc}*time)
+Vi_sense Gen Generator_Out 0 ; Input Current Sensing
+
+*----  Analyzer --------------------------------------------------------
+
+*---- Strobes for sequencing ----
+B_strobe Strobe 0 V=u(time-{SettlingTime})*u({StrobeTime}-time)
+B_time TimeScale 0 V=1*time ; to set the timescale
+B_StrobeTime S_Time 0 V={StrobeTime}
+B_EndTime E_Time 0 V={AnalysisTime}
+B_meastime MeasTime 0 V=u(time-{StrobeTime})
+
+*---- Fundamental ----
+B_sin Ref_S 0 V=idt(V(Analyzer_In)*sin(2*pi*time*Fm)*V(Strobe))/({StrobeTime}-{SettlingTime})
+B_cos Ref_C 0 V=idt(V(Analyzer_In)*cos(2*pi*time*Fm)*V(Strobe))/({StrobeTime}-{SettlingTime})
+
+*-----------------------------------------------------------------------
+B_average Aver 0 V=idt(V(Analyzer_In)*V(Strobe))/({StrobeTime}-{SettlingTime})
+B_recovered Rec_Fund 0 V=2*((V(Ref_S)*sin(2*pi*time*Fm))+(V(Ref_C)*cos(2*pi*time*Fm)))
+
+*---- Harmonics to measure ----
+B_notch Notch 0 V=(V(Analyzer_In)-V(Aver)-V(Rec_Fund))*V(MeasTime)
+
+*---- DUT input impedance ----
+B_Isource_s Is_s 0 I=idt(I(Vi_sense)*sin(2*pi*time*Fc)*V(Strobe))/({StrobeTime}-{SettlingTime})
+B_Isource_c Is_c 0 I=idt(I(Vi_sense)*cos(2*pi*time*Fc)*V(Strobe))/({StrobeTime}-{SettlingTime})
+R_s Is_s 0 1
+R_c Is_c 0 1
+
+*---- 2nd harmonic ----
+B_H2S H2SF 0 V=idt(V(Notch)*sin(4*pi*time*Fm))/{IntegrationTime}
+B_H2C H2CF 0 V=idt(V(Notch)*cos(4*pi*time*Fm))/{IntegrationTime}
+*---- 3rd harmonic  -----
+B_H3S H3SF 0 V=idt(V(Notch)*sin(6*pi*time*Fm))/{IntegrationTime}
+B_H3C H3CF 0 V=idt(V(Notch)*cos(6*pi*time*Fm))/{IntegrationTime}
+*---- 4th harmonic ----
+B_H4S H4SF 0 V=idt(V(Notch)*sin(8*pi*time*Fm))/{IntegrationTime}
+B_H4C H4CF 0 V=idt(V(Notch)*cos(8*pi*time*Fm))/{IntegrationTime}
+*---- 5th harmonic ----
+B_H5S H5SF 0 V=idt(V(Notch)*sin(10*pi*time*Fm))/{IntegrationTime}
+B_H5C H5CF 0 V=idt(V(Notch)*cos(10*pi*time*Fm))/{IntegrationTime}
+*---- 6th harmonic ----
+B_H6S H6SF 0 V=idt(V(Notch)*sin(12*pi*time*Fm))/{IntegrationTime}
+B_H6C H6CF 0 V=idt(V(Notch)*cos(12*pi*time*Fm))/{IntegrationTime}
+*---- 7th harmonic ----
+B_H7S H7SF 0 V=idt(V(Notch)*sin(14*pi*time*Fm))/{IntegrationTime}
+B_H7C H7CF 0 V=idt(V(Notch)*cos(14*pi*time*Fm))/{IntegrationTime}
+*---- 8th harmonic ----
+B_H8S H8SF 0 V=idt(V(Notch)*sin(16*pi*time*Fm))/{IntegrationTime}
+B_H8C H8CF 0 V=idt(V(Notch)*cos(16*pi*time*Fm))/{IntegrationTime}
+*---- 9th harmonic ----
+B_H9S H9SF 0 V=idt(V(Notch)*sin(18*pi*time*Fm))/{IntegrationTime}
+B_H9C H9CF 0 V=idt(V(Notch)*cos(18*pi*time*Fm))/{IntegrationTime}
+*---- 10th harmonic ----
+B_H10S H10SF 0 V=idt(V(Notch)*sin(20*pi*time*Fm))/{IntegrationTime}
+B_H10C H10CF 0 V=idt(V(Notch)*cos(20*pi*time*Fm))/{IntegrationTime}
+.ENDS
+
+
+*---- Data Processing --------------------------------------------------
+.meas aH1S find V(Ref_S) when V(TimeScale)=V(S_Time)
+.meas aH1C find V(Ref_C) when V(TimeScale)=V(S_Time)
+.meas AvH2S find V(H2SF) when V(TimeScale)= V(E_Time)
+.meas AvH2C find V(H2CF) when V(TimeScale)= V(E_Time)
+.meas AvH3S find V(H3SF) when V(TimeScale)= V(E_Time)
+.meas AvH3C find V(H3CF) when V(TimeScale)= V(E_Time)
+.meas AvH4S find V(H4SF) when V(TimeScale)= V(E_Time)
+.meas AvH4C find V(H4CF) when V(TimeScale)= V(E_Time)
+.meas AvH5S find V(H5SF) when V(TimeScale)= V(E_Time)
+.meas AvH5C find V(H5CF) when V(TimeScale)= V(E_Time)
+.meas AvH6S find V(H6SF) when V(TimeScale)= V(E_Time)
+.meas AvH6C find V(H6CF) when V(TimeScale)= V(E_Time)
+.meas AvH7S find V(H7SF) when V(TimeScale)= V(E_Time)
+.meas AvH7C find V(H7CF) when V(TimeScale)= V(E_Time)
+.meas AvH8S find V(H8SF) when V(TimeScale)= V(E_Time)
+.meas AvH8C find V(H8CF) when V(TimeScale)= V(E_Time)
+.meas AvH9S find V(H9SF) when V(TimeScale)= V(E_Time)
+.meas AvH9C find V(H9CF) when V(TimeScale)= V(E_Time)
+.meas AvH10S find V(H10SF) when V(TimeScale)= V(E_Time)
+.meas AvH10C find V(H10CF) when V(TimeScale)= V(E_Time)
+.meas I_in_S find V(is_s) when V(TimeScale)= V(S_Time)
+.meas I_in_C find V(is_c) when V(TimeScale)= V(S_Time)
+
+
+*-----------------------------------------------------------------------
+.meas Fundamental_Out_V_RMS param sqrt(2)*hypot(aH1S,aH1C)
+.meas Phase_deg param atan(aH1C/aH1S)
+.meas GAIN param sqrt(2)*Fundamental_Out_V_RMS/(m*Ac)
+.meas GAIN_dB param 20*log10(GAIN)
+.meas Z_in_mod param 0.5*Ac/(hypot(I_in_S,I_in_C))
+.meas Z_in_ph_deg param (-1)*atan(I_in_C/I_in_S)
+.meas H2 param sqrt(2)*hypot(AvH2S,AvH2C)*100/Fundamental_Out_V_RMS
+.meas H3 param sqrt(2)*hypot(AvH3S,AvH3C)*100/Fundamental_Out_V_RMS
+.meas H4 param sqrt(2)*hypot(AvH4S,AvH4C)*100/Fundamental_Out_V_RMS
+.meas H5 param sqrt(2)*hypot(AvH5S,AvH5C)*100/Fundamental_Out_V_RMS
+.meas H6 param sqrt(2)*hypot(AvH6S,AvH6C)*100/Fundamental_Out_V_RMS
+.meas H7 param sqrt(2)*hypot(AvH7S,AvH7C)*100/Fundamental_Out_V_RMS
+.meas H8 param sqrt(2)*hypot(AvH8S,AvH8C)*100/Fundamental_Out_V_RMS
+.meas H9 param sqrt(2)*hypot(AvH9S,AvH9C)*100/Fundamental_Out_V_RMS
+.meas H10 param sqrt(2)*hypot(AvH10S,AvH10C)*100/Fundamental_Out_V_RMS
+.meas THD_persent param sqrt(H2*H2+H3*H3+H4*H4+H5*H5+H6*H6+H7*H7+H8*H8+H9*H9+H10*H10)
+.meas THD_dB param 20*log10(THD_persent/100)
+
+
+
+*---- 几个时间量之间的关系 ----
+*
+* |<----SettlingTime---->|<----StrobeLength---->|<--IntegrationTime-->|
+* |<----------------StrobeTime----------------->|
+* |<--------------------------AnalysisTime--------------------------->|
+
+
+*---- Instructions: ----------------------------------------------------
+*  Place AM_THD_Analyzer.asy symbol and AM_THD_Analyzer.txt files in the
+*  same directory, where you are saving schematic (DUT schematic), that
+*  you would like to analyze.
+*  Put SPICE directives ".inc AM_THD_Analyzer.txt" and
+*  ".tran 0 {AnalysisTime} {SettlingTime} {MaxTimeStep}" in DUT schematic.
+*  Edit "AM_THD_Analyzer.txt" (this file) to enable (uncomment)
+*  appropriate sweep (amplitude, frequency or modulation index) and save
+*  this file.
+*  Run the simulation. After simulation is complete, go to View menu and
+*  open SPICE Error Log or use Ctrl+L command.
+*  Click with right mouse button on opened Log file.
+*  Execute "Plot .step'ed .meas data" command. Right mouse button click
+*  on opened plot and use "Add Trace" or Ctrl+A and select the data that
+*  you want to plot.
+*  You may want to double click on axis to change axis limits or switch
+*  to logarithmic scale.
+*
+*  Notch output shows residual components, after fundamental removal.
+*  Please note that fundamental may not be removed completely.
+*  This is not necessarily affecting resolution of measurements as soon
+*  as additional synchronous filtering is used to measure amplitude of
+*  harmonics.
+*  Increasing SettlingTime and StrobeLength, or(and) decreasing
+*  MaxTimeStep would likely improve fundamental rejection.
+*
+*  Generator output is DC coupled and has 0 Ohm output impedance.
+*  Use external AC coupling and appropriate series resistor if required,
+*  to ensure proper operation of simulated circuit.
+*-----------------------------------------------------------------------
