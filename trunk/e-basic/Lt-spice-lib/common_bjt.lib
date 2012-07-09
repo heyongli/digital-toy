@@ -1,0 +1,665 @@
+* PSpice Model Editor - Version 10.5.0
+
+
+
+*$
+***************** Discrete PNP Electrical Parameter ********************
+* Product: SS9015
+* Package: TO-92
+* Low Frequency, Low Noise Amplifier
+* Terminals : Emitter(1) Base(2) Collector(3)
+* -------------------------------------------------------------------
+*BeginSpec
+*JV: Ic/Ib=10
+*OA: Vce=-1
+*FB: Vce=-1
+*VV: Ic/Ib=10
+*CB:
+*EB:
+*ST: Ic/Ib=10
+*GB: Vce=-10
+*EndSpec
+*BeginTrace
+*JV: 0,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*OA: 1,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*FB: 0,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*VV: 0,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*CB: 0,1,.1,50,1,3,0,0,-1 (27)
+*EB: 0,1,.1,10,1,3,0,0,-1 (27)
+*ST: 0,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*GB: 0,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*EndTrace
+*BeginParam
+*IS=28.760E-15 (10.000E-21,1.0000E-6,0)
+*BF=125.50 (1,1.5000E3,0)
+*NF=1 (.8,1.2000,0)
+*VAF=123 (0,1.0000E3,0)
+*IKF=.6041 (10.000E-3,20,0)
+*ISE=4.7863E-15 (0,1,0)
+*NE=1.5000 (1,2,0)
+*BR=4.7900 (.1,500,0)
+*NR=1 (.1,5,0)
+*VAR=11.290 (0,1.0000E3,0)
+*IKR=.27542 (10.000E-3,20,0)
+*ISC=14.454E-15 (0,1,0)
+*NC=1.5000 (1,3,0)
+*NK=1.2930 (.1,5,0)
+*RE=.56 (0,100.00E3,0)
+*RB=200 (0,100,0)
+*RC=5 (0,100.00E3,0)
+*CJE=2.0000E-12 (0,1,0)
+*VJE=.75 (.35,1.5000,0)
+*MJE=.33 (.1,1,0)
+*CJC=20.956E-12 (0,1,0)
+*VJC=.51642 (.35,1.5000,0)
+*MJC=.65595 (.1,1,0)
+*FC=.5 (.1,1.5000,0)
+*TF=837.66E-12 (0,1,0)
+*XTF=10 (0,100.00E3,0)
+*VTF=10 (0,100.00E3,0)
+*ITF=1 (0,100.00E3,0)
+*PTF=0 (0,360,0)
+*TR=10.000E-9 (0,1,0)
+*EG=1.1100 (.69,5,0)
+*XTB=0 (0,100.00E3,0)
+*XTI=3 (.1,100.00E3,0)
+*EndParam
+*DEVICE=SS9015,PNP
+* SS9015 PNP model
+* created using Model Editor release 10.5.0 on 11/27/08 at 09:05
+* The Model Editor is a PSpice product.
+.MODEL SS9015 PNP
++ IS=28.760E-15    BF     = 125.5                NF     = 1
++ BF=125.50                NF     = 1
++ VAF=123                VAR    = 11.29                IKF    = 0.6041
++ IKF=.6041
++ ISE=4.7863E-15
++ BR=4.7900                NR     = 1                      ISE    = 4.7863E-15
++ VAR=11.290                IKF    = 0.6041
++ IKR=.27542        NK     = 1.293                 RB     = 200
++ ISC=14.454E-15     NC     = 1.5
++ NC=1.5000
++ NK=1.2930                 RB     = 200
++ RE=.56
++ RB=200
++ RC=5                   CJC    = 2.095649E-11    VJC    = 0.5164212 
++ CJE=2.0000E-12
++ CJC=20.956E-12    VJC    = 0.5164212 
++ VJC=.51642
++ MJC=.65595      TF     = 8.37658E-10       XCJC   = 0.451391
++ TF=837.66E-12       XCJC   = 0.451391
++ XTF=10
++ VTF=10
++ ITF=1
++ TR=10.000E-9
+*$
+
+
+
+********** PRE-AMPLIFIER, LOW LEVEL & LOW NOISE   **********
+** Product: SS9014
+** Package: TO-92
+** Terminals: Emitter(1) Base(2) Collector(3)
+*BeginSpec
+*JV: Ic/Ib=10
+*OA: Vce=1
+*FB: Vce=1
+*VV: Ic/Ib=10
+*CB:
+*EB:
+*ST: Ic/Ib=10
+*GB: Vce=10
+*EndSpec
+*BeginTrace
+*JV: 0,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*OA: 1,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*FB: 0,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*VV: 0,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*CB: 0,1,.1,50,1,3,0,0,-1 (27)
+*EB: 0,1,.1,10,1,3,0,0,-1 (27)
+*ST: 0,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*GB: 0,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*EndTrace
+*BeginParam
+*IS=10.000E-15 (10.000E-21,1.0000E-6,0)
+*BF=100 (1,1.5000E3,0)
+*NF=1 (.8,1.2000,0)
+*VAF=123 (0,1.0000E3,0)
+*IKF=1.1841 (10.000E-3,20,0)
+*ISE=4.7863E-15 (0,1,0)
+*NE=1.5000 (1,2,0)
+*BR=4.7900 (.1,500,0)
+*NR=1 (.1,5,0)
+*VAR=11.290 (0,1.0000E3,0)
+*IKR=.27542 (10.000E-3,20,0)
+*ISC=14.454E-15 (0,1,0)
+*NC=1.5000 (1,3,0)
+*NK=1.1930 (.1,5,0)
+*RE=.56 (0,100.00E3,0)
+*RB=200 (0,100,0)
+*RC=5 (0,100.00E3,0)
+*CJE=17.205E-12 (0,1,0)
+*VJE=.69059 (.35,1.5000,0)
+*MJE=.31934 (.1,1,0)
+*CJC=6.2956E-12 (0,1,0)
+*VJC=.41642 (.35,1.5000,0)
+*MJC=.25595 (.1,1,0)
+*FC=.5 (.1,1.5000,0)
+*TF=589.46E-12 (0,1,0)
+*XTF=10 (0,100.00E3,0)
+*VTF=10 (0,100.00E3,0)
+*ITF=1 (0,100.00E3,0)
+*PTF=0 (0,360,0)
+*TR=10.000E-9 (0,1,0)
+*EG=1.2415 (.69,5,0)
+*XTB=1.8881 (0,100.00E3,0)
+*XTI=3 (.1,100.00E3,0)
+*EndParam
+*DEVICE=SS9014,NPN
+* SS9014 NPN model
+* created using Model Editor release 10.5.0 on 11/27/08 at 09:05
+* The Model Editor is a PSpice product.
+.MODEL SS9014 NPN
++ IS=10.000E-15
++ VAF=123             VAR    = 11.29           IKF    = 1.1841             
++ IKF=1.1841             
++ ISE=4.7863E-15         
++ BR=4.7900            NR     = 1               ISE    = 4.7863E-15         
++ VAR=11.290           IKF    = 1.1841             
++ IKR=.27542        NK     = 1.193           RB     = 200                
++ ISC=14.454E-15     NC     = 1.5                
++ NC=1.5000                
++ NK=1.1930           RB     = 200                
++ RE=.56               
++ RB=200                
++ RC=5               CJE    = 1.7205E-11      VJE    = 0.6905907          
++ CJE=17.205E-12      VJE    = 0.6905907          
++ VJE=.69059          
++ MJE=.31934       FC     = 0.5             CJC    = 6.295649E-12       
++ CJC=6.2956E-12       
++ VJC=.41642       MJC    = 0.2559546       TF     = 5.89463E-10        
++ MJC=.25595       TF     = 5.89463E-10        
++ TF=589.46E-12        
++ XTF=10
++ VTF=10
++ ITF=1
++ TR=10.000E-9
++ EG=1.2415          XTI    = 3 
++ XTB=1.8881          EG     = 1.2415          XTI    = 3 
+*$
+
+
+
+
+* SS9013 NPN EPITAXIAL SILICON TRANSISTOR ELECTRICAL PARAMETERS
+*---------------------------------------------------------------
+* Vcbo (40V) & Vceo (20V)
+* 1W Output Amplifier of Potable Radios in Class B Push-pull Operation.
+*---------------------------------------------------------------
+* MODEL PARAMETERS FROM MEASURED DATA: SS9013-HBU
+*--------------------------------------------------------------- 
+*BeginSpec
+*JV: Ic/Ib=10
+*OA: Vce=1
+*FB: Vce=1
+*VV: Ic/Ib=10
+*CB:
+*EB:
+*ST: Ic/Ib=10
+*GB: Vce=10
+*EndSpec
+*BeginTrace
+*JV: 0,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*OA: 1,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*FB: 0,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*VV: 0,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*CB: 0,1,.1,50,1,3,0,0,-1 (27)
+*EB: 0,1,.1,10,1,3,0,0,-1 (27)
+*ST: 0,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*GB: 0,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*EndTrace
+*BeginParam
+*IS=34.068E-15 (10.000E-21,1.0000E-6,0)
+*BF=200 (1,1.5000E3,0)
+*NF=1 (.8,1.2000,0)
+*VAF=67 (0,1.0000E3,0)
+*IKF=1.1640 (10.000E-3,20,0)
+*ISE=12.368E-15 (0,1,0)
+*NE=2 (1,2,0)
+*BR=15.173 (.1,500,0)
+*NR=1 (.1,5,0)
+*VAR=40.840 (0,1.0000E3,0)
+*IKR=.26135 (10.000E-3,20,0)
+*ISC=1.9055E-15 (0,1,0)
+*NC=1.0660 (1,3,0)
+*NK=.5 (.1,5,0)
+*RE=20.000E-3 (0,100.00E3,0)
+*RB=63.200 (0,100,0)
+*RC=.7426 (0,100.00E3,0)
+*CJE=35.300E-12 (0,1,0)
+*VJE=.808 (.35,1.5000,0)
+*MJE=.372 (.1,1,0)
+*CJC=17.400E-12 (0,1,0)
+*VJC=.614 (.35,1.5000,0)
+*MJC=.388 (.1,1,0)
+*FC=.5 (.1,1.5000,0)
+*TF=10.000E-9 (0,1,0)
+*XTF=10 (0,100.00E3,0)
+*VTF=10 (0,100.00E3,0)
+*ITF=1 (0,100.00E3,0)
+*PTF=0 (0,360,0)
+*TR=10.000E-9 (0,1,0)
+*EG=1.0999 (.69,5,0)
+*XTB=1.4025 (0,100.00E3,0)
+*XTI=3 (.1,100.00E3,0)
+*EndParam
+*DEVICE=SS9013,NPN
+* SS9013 NPN model
+* updated using Model Editor release 10.5.0 on 11/28/08 at 08:11
+* The Model Editor is a PSpice product.
+.MODEL SS9013 NPN
++ IS=34.068E-15
++ BF=200
++ VAF=67
++ IKF=1.1640
++ ISE=12.368E-15
++ NE=2
++ BR=15.173
++ VAR=40.840
++ IKR=.26135
++ ISC=1.9055E-15
++ NC=1.0660
++ RE=20.000E-3
++ RB=63.200
++ RC=.7426
++ CJE=35.300E-12
++ VJE=.808
++ MJE=.372
++ CJC=17.400E-12
++ VJC=.614
++ MJC=.388
++ TF=10.000E-9
++ XTF=10
++ VTF=10
++ ITF=1
++ TR=10.000E-9
++ EG=1.0999
++ XTB=1.4025
+*$
+
+
+
+* SS9012 PNP EPITAXIAL SILICON TRANSISTOR ELECTRICAL PARAMETERS
+*---------------------------------------------------------------
+* Vcbo (-40V) & Vceo (-20V)
+* 1W Output Amplifier of Potable Radios in Class B Push-pull Operation.
+*---------------------------------------------------------------
+* MODEL PARAMETERS FROM MEASURED DATA: SS9012-GBU
+*--------------------------------------------------------------- 
+*BeginSpec
+*JV: Ic/Ib=10
+*OA: Vce=-1
+*FB: Vce=-1
+*VV: Ic/Ib=10
+*CB:
+*EB:
+*ST: Ic/Ib=10
+*GB: Vce=-10
+*EndSpec
+*BeginTrace
+*JV: 0,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*OA: 1,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*FB: 0,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*VV: 0,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*CB: 0,1,.1,50,1,3,0,0,-1 (27)
+*EB: 0,1,.1,10,1,3,0,0,-1 (27)
+*ST: 0,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*GB: 0,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*EndTrace
+*BeginParam
+*IS=20.417E-15 (10.000E-21,1.0000E-6,0)
+*BF=143.30 (1,1.5000E3,0)
+*NF=1 (.8,1.2000,0)
+*VAF=47.750 (0,1.0000E3,0)
+*IKF=.57435 (10.000E-3,20,0)
+*ISE=75.858E-15 (0,1,0)
+*NE=2 (1,2,0)
+*BR=14.345 (.1,500,0)
+*NR=.999 (.1,5,0)
+*VAR=86.140 (0,1.0000E3,0)
+*IKR=.42651 (10.000E-3,20,0)
+*ISC=1.5849E-15 (0,1,0)
+*NC=1.0087 (1,3,0)
+*NK=.5 (.1,5,0)
+*RE=20.000E-3 (0,100.00E3,0)
+*RB=57.500 (0,100,0)
+*RC=.7426 (0,100.00E3,0)
+*CJE=35.100E-12 (0,1,0)
+*VJE=.866 (.35,1.5000,0)
+*MJE=.411 (.1,1,0)
+*CJC=19.100E-12 (0,1,0)
+*VJC=.787 (.35,1.5000,0)
+*MJC=.394 (.1,1,0)
+*FC=.5 (.1,1.5000,0)
+*TF=10.000E-9 (0,1,0)
+*XTF=10 (0,100.00E3,0)
+*VTF=10 (0,100.00E3,0)
+*ITF=1 (0,100.00E3,0)
+*PTF=0 (0,360,0)
+*TR=10.000E-9 (0,1,0)
+*EG=1.0885 (.69,5,0)
+*XTB=1.4132 (0,100.00E3,0)
+*XTI=3 (.1,100.00E3,0)
+*EndParam
+*DEVICE=SS9012,PNP
+* SS9012 PNP model
+* created using Model Editor release 10.5.0 on 11/27/08 at 09:05
+* The Model Editor is a PSpice product.
+.MODEL SS9012 PNP
++ IS=20.417E-15
++ BF=143.30
++ VAF=47.750
++ IKF=.57435
++ ISE=75.858E-15
++ NE=2
++ BR=14.345
++ NR=.999
++ VAR=86.140
++ IKR=.42651
++ ISC=1.5849E-15
++ NC=1.0087
++ RE=20.000E-3
++ RB=57.500
++ RC=.7426
++ CJE=35.100E-12
++ VJE=.866
++ MJE=.411
++ CJC=19.100E-12
++ VJC=.787
++ MJC=.394
++ TF=10.000E-9
++ XTF=10
++ VTF=10
++ ITF=1
++ TR=10.000E-9
++ EG=1.0885
++ XTB=1.4132
+*$
+
+
+****************** PNP Epitaixial Silicon Transistor *****************************
+** Product: SS8550BBU / SS8550BTA / SS8550CBU / SS8550CTA / SS8550DBU / SS8550DTA
+** Package: TO-92
+** Terminals: Emitter(1) Base(2) Collector(3)
+**--------------------------------------------------------------------------------                                                                             
+*BeginSpec
+*JV: Ic/Ib=10
+*OA: Vce=-1
+*FB: Vce=-1
+*VV: Ic/Ib=10
+*CB:
+*EB:
+*ST: Ic/Ib=10
+*GB: Vce=-10
+*EndSpec
+*BeginTrace
+*JV: 0,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*OA: 1,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*FB: 0,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*VV: 0,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*CB: 0,1,.1,50,1,3,0,0,-1 (27)
+*EB: 0,1,.1,10,1,3,0,0,-1 (27)
+*ST: 0,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*GB: 0,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*EndTrace
+*BeginParam
+*IS=117.63E-15 (10.000E-21,1.0000E-6,0)
+*BF=178.21 (1,1.5000E3,0)
+*NF=1 (.8,1.2000,0)
+*VAF=51.250 (0,1.0000E3,0)
+*IKF=3.3034 (10.000E-3,20,0)
+*ISE=18.820E-15 (0,1,0)
+*NE=1.5000 (1,2,0)
+*BR=5 (.1,500,0)
+*NR=1 (.1,5,0)
+*VAR=36.681 (0,1.0000E3,0)
+*IKR=10.000E-3 (10.000E-3,20,0)
+*ISC=200.00E-18 (0,1,0)
+*NC=1.5000 (1,3,0)
+*NK=.5 (.1,5,0)
+*RE=0 (0,100.00E3,0)
+*RB=122 (0,100,0)
+*RC=1 (0,100.00E3,0)
+*CJE=99.513E-12 (0,1,0)
+*VJE=.77795 (.35,1.5000,0)
+*MJE=.38009 (.1,1,0)
+*CJC=33.278E-12 (0,1,0)
+*VJC=.65102 (.35,1.5000,0)
+*MJC=.38907 (.1,1,0)
+*FC=.49925 (.1,1.5000,0)
+*TF=796.00E-12 (0,1,0)
+*XTF=10 (0,100.00E3,0)
+*VTF=10 (0,100.00E3,0)
+*ITF=1 (0,100.00E3,0)
+*PTF=0 (0,360,0)
+*TR=10.000E-9 (0,1,0)
+*EG=1.1695 (.69,5,0)
+*XTB=1.6730 (0,100.00E3,0)
+*XTI=3 (.1,100.00E3,0)
+*EndParam
+*DEVICE=SS8550,PNP
+* SS8550 PNP model
+* created using Model Editor release 10.5.0 on 11/27/08 at 09:04
+* The Model Editor is a PSpice product.
+.MODEL SS8550 PNP
++ IS=117.63E-15     BF     = 178.208         NF     = 1                  
++ BF=178.21         NF     = 1                  
++ VAF=51.250           VAR    = 36.6808         IKF    = 3.3034             
++ IKF=3.3034             
++ ISE=18.820E-15          
++ BR=5               NR     = 1               ISE    = 1.882E-14          
++ VAR=36.681         IKF    = 3.3034             
++ IKR=10.000E-3            RB     = 122             RBM    = 27.073             
++ ISC=200.00E-18           NC     = 1.5                
++ NC=1.5000                
++ RB=122             RBM    = 27.073             
++ RC=1                  
++ CJE=99.513E-12     VJE    = 0.777949           
++ VJE=.77795           
++ MJE=.38009        FC     = 0.499252        CJC    = 3.32783E-11        
++ CJC=33.278E-12        
++ VJC=.65102        MJC    = 0.389073        TF     = 7.96E-10           
++ MJC=.38907        TF     = 7.96E-10           
++ FC=.49925        CJC    = 3.32783E-11        
++ TF=796.00E-12           
++ XTF=10
++ VTF=10
++ ITF=1
++ TR=10.000E-9
++ EG=1.1695          XTB    = 1.6730          XTI    = 3             
++ XTB=1.6730          XTI    = 3             
+*$
+
+
+
+*************** Power Discrete Bipolar Electrical Parameters ***************
+** Package: TO-92
+** 2W Output Amplifier of Portable Radios in Class B Push-pull Operation.
+**--------------------------------------------------------------------------
+*BeginSpec
+*JV: Ic/Ib=10
+*OA: Vce=1
+*FB: Vce=1
+*VV: Ic/Ib=10
+*CB:
+*EB:
+*ST: Ic/Ib=10
+*GB: Vce=10
+*EndSpec
+*BeginTrace
+*JV: 0,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*OA: 1,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*FB: 0,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*VV: 0,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*CB: 0,1,.1,50,1,3,0,0,-1 (27)
+*EB: 0,1,.1,10,1,3,0,0,-1 (27)
+*ST: 0,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*GB: 0,1,100.00E-6,.1,1,3,0,0,-1 (27)
+*EndTrace
+*BeginParam
+*IS=377.21E-15 (10.000E-21,1.0000E-6,0)
+*BF=218.08 (1,1.5000E3,0)
+*NF=1.0409 (.8,1.2000,0)
+*VAF=32.091 (0,1.0000E3,0)
+*IKF=.84522 (10.000E-3,20,0)
+*ISE=51.722E-12 (0,1,0)
+*NE=2.1279 (1,2,0)
+*BR=5.4580 (.1,500,0)
+*NR=1.0619 (.1,5,0)
+*VAR=49.099 (0,1.0000E3,0)
+*IKR=2.1979 (10.000E-3,20,0)
+*ISC=51.722E-12 (0,1,0)
+*NC=3.9685 (1,3,0)
+*NK=.5 (.1,5,0)
+*RE=841.72E-6 (0,100.00E3,0)
+*RB=5.7470 (0,100,0)
+*RC=.24824 (0,100.00E3,0)
+*CJE=27.335E-12 (0,1,0)
+*VJE=.72141 (.35,1.5000,0)
+*MJE=.85 (.1,1,0)
+*CJC=26.000E-12 (0,1,0)
+*VJC=.4 (.35,1.5000,0)
+*MJC=.36785 (.1,1,0)
+*FC=.9999 (.1,1.5000,0)
+*TF=643.94E-12 (0,1,0)
+*XTF=1.4323 (0,100.00E3,0)
+*VTF=.3448 (0,100.00E3,0)
+*ITF=1.2007 (0,100.00E3,0)
+*PTF=0 (0,360,0)
+*TR=100.00E-9 (0,1,0)
+*EG=1.0500 (.69,5,0)
+*XTB=.62694 (0,100.00E3,0)
+*XTI=1 (.1,100.00E3,0)
+*EndParam
+*DEVICE=SS8050,NPN
+* SS8050 NPN model
+* created using Model Editor release 10.5.0 on 11/27/08 at 09:04
+* The Model Editor is a PSpice product.
+.MODEL SS8050 NPN
++ IS=377.21E-15     BF=218.082          NF=1.0409        VAF=32.0909
++ BF=218.08          NF=1.0409        VAF=32.0909
++ NF=1.0409        VAF=32.0909
++ VAF=32.091
++ IKF=.84522        ISE=5.17224E-11     NE=2.12785       BR=5.45795
++ ISE=51.722E-12     NE=2.12785       BR=5.45795
++ NE=2.1279       BR=5.45795
++ BR=5.4580
++ NR=1.0619         VAR=49.0994         IKR=2.19792      ISC=5.17224E-11
++ VAR=49.099         IKR=2.19792      ISC=5.17224E-11
++ IKR=2.1979      ISC=5.17224E-11
++ ISC=51.722E-12
++ NC=3.9685         RB=5.74704          IRB=0.1          RBM=0.1
++ RE=841.72E-6     RC=0.248242         XTB=0.626944     XTI=1
++ RB=5.7470          IRB=0.1          RBM=0.1
++ RC=.24824         XTB=0.626944     XTI=1
++ CJE=27.335E-12     VJE=0.721406     MJE=0.85
++ VJE=.72141     MJE=0.85
++ MJE=.85
++ CJC=26.000E-12    VJC=0.4             MJC=0.367851     XCJC=0.1
++ VJC=.4             MJC=0.367851     XCJC=0.1
++ MJC=.36785     XCJC=0.1
++ FC=.9999          CJS=0               VJS=0.75         MJS=0.5
++ TF=643.94E-12     XTF=1.43228         VTF=0.344801     ITF=1.20072
++ XTF=1.4323         VTF=0.344801     ITF=1.20072
++ VTF=.3448     ITF=1.20072
++ ITF=1.2007
++ TR=100.00E-9           PTF=0               KF=0             AF=1
++ EG=1.0500            CJE=2.73346E-11     VJE=0.721406     MJE=0.85
++ XTB=.62694     XTI=1
++ XTI=1
+*$
+
+
+*---------------------------------------------------------------------------
+*     BJT parameter list
+*--------------------------------------------------------------------------
+    *NE low current Hfe
+    *NC 2.0
+    *Eg 1.11 energy gap =1.11 Shot-key=0.69 Ge=0.67
+   
+    *BR --Reverse active current gain 
+    *ISE 0 低電流のｈｆｅの傾斜 Is の１～１．５倍で左下がりの傾向が出てくる
+    *IKF ∞ 大電流のｈｆｅの傾斜　半分程度下がる電流の値
+    *ISC 0 暗電流　Icbo
+    *RB 0 ベース抵抗 ベース電流の立ち上がりを制御する
+    * 小信号(5-50) 大電流(0.1-1)
+    *RE 0 エミッタ抵抗 VCE/Ic 飽和電圧を決定する
+    *RC 0 コレクタ抵抗 小信号(0.5-5.0) 大電流(0.01-0.1)
+    *CJC --Base clollector zero bias junction capcitance 
+    *CJE --Base emitter zero bias junction capcitance 
+    *TF 0 キャリャの順方向通過時間、蓄積時間、オフ時間
+    * Tf = 1/(2 π Ft)　で与えてもよい（原典より） Ft=エミッタ接地hfe(f)
+    *TR 0 キャリャの逆方向通過時間、オン時間
+    *KF 0 フリッカー雑音係数　
+    *AF 1 フリッカー雑音指数
+    *VJE  --Base-emitter built-in potential 
+    *VJC  --Base-collector built-in potential
+  
+	*IS --Transport saturation current,default* 1.0e-16  
+	*BF --Forward active current gain, default* 100
+	*NF  --	forward current emission coefficient(ideal factor), default 1
+	*VAF  --Forward mode Early voltage default* infinite
+	*IKF  --corner for forward beta high current roll-off 	default *infinite 
+	*ISE  	B-E leakage saturation current 	A   *0  
+  	*NE  	B-E leakage emission coefficient  *1.5
+  	*BR  	ideal maximum reverse beta  	 *1   	 
+  	*NR  	reverse current emission coefficient 	* 1	 
+  	*VAR  	reverse Early voltage 	V  	* infinite  
+  	*IKR  	corner for reverse beta high current roll-off,A default* infinite
+  	*ISC  	leakage saturation current A,  default* 0
+  	*NC  	leakage emission coefficient ,default 2
+ 	*RB  	zero bias base resistance , ohm, default 0
+  	*IRB  	current where base resistance falls halfway to its min value, A default infinte
+  	*RBM  	minimum base resistance at high currents, ohm, default: RB
+  	*RE  	emitter resistance, ohm , default 0
+ 	*RC  	collector resistance  	  	0  	10  	* 
+  	*CJE  	B-E zero-bias depletion capacitance 	F  	0  	2pF  	* 
+  	*VJE  	B-E built-in potential 	V  	0.75  	0.6  	 
+  	*MJE  	B-E junction exponential factor  	-  	0.33  	0.33  	 
+  	*TF  	ideal forward transit time  	sec  	0  	0.1ns  	 
+  	*XTF 	coefficient for bias dependence of TF  	-  	0  	  	 
+  	*VTF  	voltage describing VBC dependence of TF  	V  	infinite 
+
+	*ITF  	high-current parameterfor effect on TF, * 0 
+	*PTF  	excess phase at freq=1.0/(TF*2PI) Hz  	deg  	0  	  	 
+	*CJC  	B-C zero-bias depletion capacitance  	F  	0  	2pF  	* 
+  	*VJC  	B-C built-in potential  	V  	0.75  	0.5  	 
+  	*MJC  	B-C junction exponential factor  	-  	0.33  	0.5  	 
+  	*XCJC  	fraction of B-C depletion capacitance connected to internal base node  	-  	1  	  	 
+  	*TR  	ideal reverse transit time  	sec  	0  	10ns  	 
+  	*CJS  	zero-bias collector-substrate capacitance  	F  	0  	2pF  	* 
+  	*VJS  	substrate junction built-in potential  	V  	0.75  	  	 
+  	*MJS  	substrate junction exponential factor  	-  	0  	0.5  	 
+  	*XTB  	forward and reverse beta temperature exponent  	-  	0  	  	 
+  	*EG 	energy gap for temperature effect on IS  	eV  	1.11  	  	 
+  	*XTI 	temperature exponent for effect on IS  	-  	3  	  	 
+  	*KF  	flicker-noise coefficient  	-  	0  	  	 
+  	*AF  	flicker-noise exponent  	-  	1  	  	 
+  	*FC  	coefficient for forward-bias depletion capacitance formula  	-  	0.5  	  	 
+  	*TNOM  	Parameter measurement temperature  	C  	27  	50 
+**--------------------------------------------------------------------------
+
+
+**--------------------------------------------------------------------------
+* Library of bipolar transistor model parameters
+* 2SC9018
+* Package: TO-92
+* AM/FM 800Mhz ft
+
+. MODEL SC9018 NPN (Is = 14.34f Xti = 3 Eg = 1.11 Vaf = 74.03 Bf = 110 Ne = 1.307
++ Ise = 14.34f Ikf = .2847 Xtb = 1.5 Br = 6.092 Nc = 2 Isc = 0 Ikr = 0 Rc = 1
++ Cjc = 7.306p Mjc = .3416 Vjc = .75 Fc = .5 Cje = 22.01p Mje = .377 Vje = .75
++ Tr = 46.91n Tf = 411.1p Itf = .6 Vtf = 1.7 Xtf = 3 Rb = 10)
+
+
+
