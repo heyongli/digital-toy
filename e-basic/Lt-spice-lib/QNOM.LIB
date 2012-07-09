@@ -1,0 +1,250 @@
+* Library of bipolar transistor model parameters
+*    既定値
+*NE  1.5  低電流のｈｆｅの傾斜　小さくすると傾斜が急になる
+*NC  2.0
+*Eg  1.11 エネルギーギャップ　Si=1.11  Shot-key=0.69 Ge=0.67
+*BF  100  中電流の時のｈｆｅを制御する
+*BR  1    飽和電圧を決める(0.1-10)大きくすると飽和電圧は下がる
+*ISE 0    低電流のｈｆｅの傾斜 Is の１～１．５倍で左下がりの傾向が出てくる
+*IKF ∞   大電流のｈｆｅの傾斜　半分程度下がる電流の値
+*ISC 0    暗電流　Icbo
+*IS  1f   ベース飽和電流　BEのダイオード特性
+*RB  0    ベース抵抗     ベース電流の立ち上がりを制御する
+*         小信号(5-50) 大電流(0.1-1)
+*RE  0    エミッタ抵抗   VCE/Ic 飽和電圧を決定する
+*RC  0    コレクタ抵抗   小信号(0.5-5.0) 大電流(0.01-0.1)
+*VAF ∞   出力インピーダンスに相当する .OP printout on the data sheet.
+*         コレクタ電圧／電流の収束点への絶対電圧
+*         30-100v
+*CJC 0    コレクタ・ベース容量 Cobo
+*CJE 0    エミッタ・ベース容量 Cibo　不明なら　1.5*CJC
+*TF  0    キャリャの順方向通過時間、蓄積時間、オフ時間
+*         Tf = 1/(2 π Ft)　で与えてもよい（原典より） Ft=エミッタ接地hfe(f)
+*TR  0    キャリャの逆方向通過時間、オン時間
+*KF  0    フリッカー雑音係数　
+*AF  1    フリッカー雑音指数
+*
+*
+*----------------------------------------------------------------
+* TTL N-ch
+.model nbip1	npn(is=1e-17 bf=50 vaf=40 rb=150 re=14 rc=256
++		cje=0.07pF cjc=0.01pF cjs=0.02pF
++		vje=0.99 vjc=0.81 vjs=0.66 tf=0.1ns tr=10ns)
+
+.model Q2N2222A NPN(Is=14.34f Xti=3 Eg=1.11 Vaf=74.03 Bf=255.9 Ne=1.307
++		Ise=14.34f Ikf=.2847 Xtb=1.5 Br=6.092 Nc=2 Isc=0 Ikr=0 Rc=1
++		Cjc=7.306p Mjc=.3416 Vjc=.75 Fc=.5 Cje=22.01p Mje=.377 Vje=.75
++		Tr=46.91n Tf=411.1p Itf=.6 Vtf=1.7 Xtf=3 Rb=10)
+*		National	pid=19		case=TO18
+*		88-09-07 bam	creation
+
+.model Q2N2907	PNP(Is=9.913f Xti=3 Eg=1.11 Vaf=90.7 Bf=197.8 Ne=2.264
++		Ise=6.191p Ikf=.7322 Xtb=1.5 Br=3.369 Nc=2 Isc=0 Ikr=0 Rc=1
++		Cjc=14.57p Vjc=.75 Mjc=.3333 Fc=.5 Cje=20.16p Vje=.75
++		Mje=.3333 Tr=29.17n Tf=405.6p Itf=.4 Vtf=10 Xtf=2)
+
+.model Q2N2907A PNP(Is=650.6E-18 Xti=3 Eg=1.11 Vaf=115.7 Bf=231.7 Ne=1.829
++		Ise=54.81f Ikf=1.079 Xtb=1.5 Br=3.563 Nc=2 Isc=0 Ikr=0 Rc=.715
++		Cjc=14.76p Mjc=.5383 Vjc=.75 Fc=.5 Cje=19.82p Mje=.3357 Vje=.75
++		Tr=111.3n Tf=603.7p Itf=.65 Vtf=5 Xtf=1.7 Rb=10)
+*		National	pid=63		case=TO18
+*		88-09-09 bam	creation
+
+.model Q2N3904	NPN(Is=6.734f Xti=3 Eg=1.11 Vaf=74.03 Bf=416.4 Ne=1.259
++		Ise=6.734f Ikf=66.78m Xtb=1.5 Br=.7371 Nc=2 Isc=0 Ikr=0 Rc=1
++		Cjc=3.638p Mjc=.3085 Vjc=.75 Fc=.5 Cje=4.493p Mje=.2593 Vje=.75
++		Tr=239.5n Tf=301.2p Itf=.4 Vtf=4 Xtf=2 Rb=10)
+*		National	pid=23		case=TO92
+*		88-09-08 bam	creation
+
+.model Q2N3906	PNP(Is=1.41f Xti=3 Eg=1.11 Vaf=18.7 Bf=180.7 Ne=1.5 Ise=0
++		Ikf=80m Xtb=1.5 Br=4.977 Nc=2 Isc=0 Ikr=0 Rc=2.5 Cjc=9.728p
++		Mjc=.5776 Vjc=.75 Fc=.5 Cje=8.063p Mje=.3677 Vje=.75 Tr=33.42n
++		Tf=179.3p Itf=.4 Vtf=4 Xtf=6 Rb=10)
+*		National	pid=66		case=TO92
+*		88-09-09 bam	creation
+*
+*　２ＳＡ      -------------------------
+.model Q2SA817  PNP(Bf=120 Br=1 Is=88f     Eg=1.11 Cjc=34p Cje=70p Vaf=100
++               Tf=1.553n  Tr=10n Mjc=.330  Vjc=.75  Mje=.33  Vje=.75 
++               Cjs=2p )
+* CQ 1988/7
+
+.model Q2SA952  PNP(Bf=200 Br=1 Is=83f     Eg=1.11 Cjc=4.8p Cje=10p Vaf=50
++               Tf=0.988n  Tr=10n Mjc=.330  Vjc=.75  Mje=.33  Vje=.75 
++               Cjs=2p )
+* CQ 1988/7
+*Low Noise Amp PC=0.4W Ic=0.15A Vcbo=50V
+.model Q2SA1015 PNP(Is=295.1E-18 Xti=3 Eg=1.11 Vaf=100 Bf=110 Ne=1.5 Ise=0
++               Ikf=0 Xtb=1.5 Br=10.45 Nc=2 Isc=0 Ikr=0 Rc=15 Cjc=66.2p
++               Mjc=1.054 Vjc=.75 Fc=.5 Cje=5p Mje=.3333 Vje=.75 Tr=10n
++               Tf=1.661n Itf=0 Vtf=0 Xtf=0)
+*               TOSHIBA         90-01-23	creation
+*
+*Low Noise Amp PC=0.2W Ic=0.05A Vcbo=50V
+.model Q2SA1048 PNP(Is=295.1E-18 Xti=3 Eg=1.11 Vaf=100 Bf=110 Ne=1.5 Ise=0
++               Ikf=0 Xtb=1.5 Br=10.45 Nc=2 Isc=0 Ikr=0 Rc=15 Cjc=66.2p
++               Mjc=1.054 Vjc=.75 Fc=.5 Cje=5p Mje=.3333 Vje=.75 Tr=10n
++               Tf=1.661n Itf=0 Vtf=0 Xtf=0)
+*               TOSHIBA		90-01-23	creation
+*
+*Low Noise Amp PC=0.2W Ic=0.1A Vcbo=120V
+.model Q2SA1049 PNP(Is=350.8n Xti=3 Eg=1.11 Vaf=40 Bf=350 Ne=1.5 Ise=0 Ikf=0
++               Xtb=1.5 Br=.7978 Nc=2 Isc=0 Ikr=0 Rc=4 Cjc=12.26p Mjc=.3652
++               Vjc=.75 Fc=.5 Cje=5p Mje=.3333 Vje=.75 Tr=10n Tf=1.305n Itf=0
++               Vtf=0 Xtf=0)
+*		TOSHIBA		90-01-23	creation
+*
+.model Q2SA1145 PNP(Is=173.9p  Eg=1.11 Vaf=60 Bf=110  Br=1  Nc=2  Cjs=2p
++               Cjc= 6.02p Mjc=.330  Vjc=.75  Cje=1p Mje=.33  Vje=.75 
++               Tr=10n Tf=0.788n)
+* CQ 1988/7
+
+.model Q2SA1298 PNP(Is=141f Xti=3 Eg=1.11 Vaf=20 Bf=230 Ne=1.5 Ise=0 Ikf=.7
++               Xtb=1.5 Br=14.57 Nc=2 Isc=0 Ikr=0 Rc=1 Cjc=622.4p Mjc=1.453
++               Vjc=.75 Fc=.5 Cje=5p Mje=.3333 Vje=.75 Tr=10n Tf=1.205n Itf=0
++               Vtf=0 Xtf=0)
+*		TOSHIBA		90-01-26	creation
+*
+.model Q2SA1313 PNP(Is=14.1f Xti=3 Eg=1.11 Vaf=100 Bf=150 Ne=1.5 Ise=0 Ikf=.8
++               Xtb=1.5 Br=3.338 Nc=2 Isc=0 Ikr=0 Rc=.6 Cjc=59.01p Mjc=.6885
++               Vjc=.75 Fc=.5 Cje=5p Mje=.3333 Vje=.75 Tr=10n Tf=766.1p Itf=0
++               Vtf=0 Xtf=0)
+*		TOSHIBA		90-01-23	creation
+*
+*　２ＳＢ      -------------------------
+.model Q2SB595  PNP(Bf=55  Br=1 Is=83f      Eg=1.11 Cjc=4.8p Cje=10p Vaf=100
++               Tf=1.923n  Tr=10n Mjc=.330  Vjc=.75  Mje=.33  Vje=.75 
++               Cjs=2p )
+* CQ 1988/7
+
+.model Q2SB688  PNP(Bf=70  Br=1 Is=73f      Eg=1.11 Cjc=4.8p Cje=10p Vaf=100
++               Tf=1.923n  Tr=10n Mjc=.330  Vjc=.75  Mje=.33  Vje=.75 
++               Cjs=2p )
+* CQ 1988/7
+
+.model Q2SB799  PNP(Is=15.01f Xti=3 Eg=1.11 Vaf=70 Bf=199.4 Ne=1.112
++               Ise=164.6E-18 Ikf=2 Xtb=1.5 Br=9.83 Nc=2 Isc=0 Ikr=0 Rc=.001
++               Cjc=58.04p Mjc=.3818 Vjc=.75 Fc=.5 Cje=5p Mje=.3333 Vje=.75
++               Tr=10n Tf=1.084n Itf=0 Vtf=0 Xtf=0)
+*		NEC		89-12-08	creation
+*
+.model Q2SB800  PNP(Is=62.26f Xti=3 Eg=1.11 Vaf=2 Bf=370 Ne=1.01
++               Ise=8.673E-18 Ikf=50m Xtb=1.5 Br=13.28 Nc=2 Isc=0 Ikr=0 Rc=.4
++               Cjc=26.22p Mjc=.3197 Vjc=.75 Fc=.5 Cje=42.32p Mje=.4061 Vje=.75
++               Tr=10n Tf=1.342n Itf=0 Vtf=0 Xtf=0)
+*		NEC		89-12-08	creation
+*-----------------------------------------------------------------
+*　２ＳＣ      -------------------------
+.model Q2SC288  NPN(Bf=70 CJC=0.7pF CJE=1.0pF Rb=15 Rc=3
++               Tr=0.2n Tf=0.2n)
+*ＣＱトランジスタ規格表よりの推定 Cob=0.7pf Cc.rbb=10ps hfe=70 @ 6v,2mA
+
+.model Q2SC945  NPN(Bf=150 Br=1 Is=180.4p  Eg=1.11 Cjc=6.4p Cje=20p Vaf=50
++               Tf=.6041n  Tr=10n  Mjc=.330  Vjc=.75  Mje=.33  Vje=.75 
++               Cjs=2p )
+* CQ 1988/7
+
+.model Q2SC980A NPN(Bf=140 Br=1 Is=229.6p  Eg=1.11 Cjc=6.6p Cje=20p Vaf=50
++               Tf=.6039n  Tr=49n  Mjc=.330  Vjc=.75  Mje=.33  Vje=.75 
++               Cjs=2p )
+* CQ 1988/7
+
+.model Q2SC1627 NPN(Bf=140 Br=1 Is=0.174p  Eg=1.11 Cjc=24p Cje=1p Vaf=150
++               Tf=1.503n  Tr=10n Mjc=.330  Vjc=.75  Mje=.33  Vje=.75 
++               Cjs=2p )
+* CQ 1988/7
+
+.model Q2SC1675 NPN(Bf=100 Br=1 Is=1.771f  Eg=1.11 Cjc=4.5p Cje=1p Vaf=100
++               Tf=0.432p  Tr=10n Mjc=.330  Vjc=.75  Mje=.33  Vje=.75 
++               Cjs=2p )
+* CQ 1988/7
+
+.model Q2SC1781	NPN(Is=3.108f Xti=3 Eg=1.11 Vaf=30.0 Bf=100 Ne=1.541
++		Ise=190.7f Ikf=1.296 Xtb=1.5 Br=6.18 Nc=2 Isc=0 Ikr=0 Rc=1
++		Cjc=18p Vjc=.75 Mjc=.3333 Fc=.5 Cje=65p Vje=.75
++		Mje=.3333 Tr=35n Tf=6n Itf=1 Vtf=100 Xtf=2)
+
+*Low Noise Amp PC=0.4W Ic=0.15A Vcbo=60V
+.model Q2SC1815 NPN(Is=2.04f Xti=3 Eg=1.11 Vaf=6 Bf=400 Ne=1.5 Ise=0
++               Ikf=20m Xtb=1.5 Br=3.377 Nc=2 Isc=0 Ikr=0 Rc=1 Cjc=2p
++               Mjc=.3333
++               Vjc=.75 Fc=.5 Cje=5p Mje=.3333 Vje=.75 Tr=10n Tf=311.1p
++               Itf=0 Vtf=0 Xtf=0)
+*		TOSHIBA		90-01-29	creation
+*
+.model Q2SC1907 NPN(Is=1.00f Xti=3 Eg=1.11 Vaf= 40 Bf=350 
++              Ikf=150m Nk=0.995 Ise= 90f Ne=1.5
++              Xtb=1.5 Br=.1    Nc=2 Isc=0 Ikr=0 
++              Cjc=3p Cje=5p Rb=10 Rc=2
++              Tr=1n  Tf=0.250n Itf=0 Vtf=0 Xtf=0)
+*        Hitachi EP UHF-amp,mix,osc
+*
+.model Q2SC1959 NPN(Is=14.1f Xti=3 Eg=1.11 Vaf=100 Bf=180 Ne=1.5 Ise=0 Ikf=.8
++               Xtb=1.5 Br=3.338 Nc=2 Isc=0 Ikr=0 Rc=4 Cjc=59.01p Mjc=.6885
++               Vjc=.75 Fc=.5 Cje=5p Mje=.3333 Vje=.75 Tr=10n Tf=766.1p 
++              Itf=0
++               Vtf=0 Xtf=0)
+*		TOSHIBA		90-01-23	creation
+*
+.model Q2SC2003 NPN(Bf=200 Br=1 Is=57.6f    Eg=1.11 Cjc=17p Cje=47p Vaf=50
++               Tf=1.059n  Tr=10n Mjc=.330  Vjc=.75  Mje=.33  Vje=.75 
++               Cjs=2p )
+* CQ 1988/7
+
+.model Q2SC2240 NPN(Is=1.41f Xti=3 Eg=1.11 Vaf=100 Bf=310 Ne=1.5 Ise=0
++               Ikf=70m Xtb=1.5 Br=.8893 Nc=2 Isc=0 Ikr=0 Rc=30 Cjc=6.878p
++               Mjc=.2725 Vjc=.75 Fc=.5 Cje=5p Mje=.3333 Vje=.75 Tr=10n
++               Tf=1.276n Itf=0 Vtf=0 Xtf=0)
+*		TOSHIBA		90-01-29	creation
+*
+.model Q2SC2668 NPN(Bf=350 Br=1 Is=1.00f    Eg=1.11 Cjc=15p Cje= 1p Vaf=100
++               Tf=3.612n  Tr=10n Mjc=.330  Vjc=.75  Mje=.33  Vje=.75 
++               Cjs=2p )
+* CQ 1988/7
+
+.model Q2SC2669 NPN(Bf=100 Br=1 Is=1.59e-20 Eg=1.11 Cjc= 7p Cje=49p Vaf=100
++               Tf=0.883n  Tr=10n Mjc=.330  Vjc=.75  Mje=.33  Vje=.75 
++               Cjs=2p )
+* CQ 1988/7
+
+.model Q2SC2754 NPN(Bf=180 Br=1 Is=8.321f   Eg=1.11 Cjc=4.8p Cje= 1p Vaf=100
++               Tf=0.391n  Tr=.48u Mjc=.330  Vjc=.75  Mje=.33  Vje=.75 
++               Cjs=2p )
+* CQ 1988/7
+
+.model Q2SC3279 NPN(Bf=180 Br=1 Is=1.217n  Eg=1.11 Cjc=65p Cje=1p Vaf=100
++               Tf=1.060n  Tr=10n Mjc=.330  Vjc=.75  Mje=.33  Vje=.75 
++               Cjs=2p )
+* CQ 1988/7
+
+.model Q2SC3358 NPN(Bf=120 Br=1 Is=16f Eg=1.11 Cjc=0.5p Cje=0.75p Vaf=200
++               Tf=23p  Tr=2n  Mjc=.330  Vjc=.75  Mje=.33  Vje=.75 
++               Cjs=1p )
+* トランジスタ規格表より Cre=0.5pf(帰還容量）　hfe(DC)=120 @20mA fT=7GHz
+*
+
+.model Q2SC3378 NPN(Bf=300 Br=1 Is=695p    Eg=1.11 Cjc=7.7p Cje=1p Vaf=200
++               Tf=1.252n  Tr=10n Mjc=.330  Vjc=.75  Mje=.33  Vje=.75 
++               Cjs=2p )
+* CQ 1988/7
+
+*　２ＳＤ      -------------------------
+.model Q2SD525  NPN(Bf= 60 Br=1 Is=254.3p  Eg=1.11 Cjc=241p Cje=1p Vaf=50 
++               Tf=13.26n  Tr=10n Mjc=.330  Vjc=.75  Mje=.33  Vje=.75 
++               Cjs=2p )
+* CQ 1988/7
+
+.model Q2SD1007 NPN(Is=15.01f Xti=3 Eg=1.11 Vaf=100 Bf=214 Ne=2.726 
++               Ise=266.1p
++               Ikf=.5 Xtb=1.5 Br=77.03 Nc=2 Isc=0 Ikr=0 Rc=5 Cjc=31.21p
++               Mjc=.4128 Vjc=.75 Fc=.5 Cje=5p Mje=.3333 Vje=.75 Tr=10n
++               Tf=988.1p Itf=0 Vtf=0 Xtf=0)
+*		NEC		89-12-14	creation
+*
+.model Q2SD1588 NPN(Is=6.467E-18 Xti=3 Eg=1.11 Vaf=100 Bf=500k Ne=4.522
++               Ise=57.25n Ikf=100u Xtb=1.5 Br=3.474K Nc=2 Isc=0 Ikr=0 
++               Rc=50m Cjc=2p Mjc=.3333 Vjc=.75 Fc=.5 Cje=5p Mje=.3333 
++               Vje=.75 Tr=10n Tf=1n Itf=0 Vtf=0 Xtf=0)
+*		NEC		90-01-11	creation
+
