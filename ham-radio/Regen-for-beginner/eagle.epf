@@ -318,12 +318,6 @@ UsedLibrary="/home/hyl/digital-toy/dtoy-eagle-lbr/LilyPad-Wearables.lbr"
 UsedLibrary="/home/hyl/digital-toy/dtoy-eagle-lbr/dtoy-RF.lbr"
 
 [Win_1]
-Type="Control Panel"
-Loc="1255 281 1854 680"
-State=2
-Number=0
-
-[Win_2]
 Type="Schematic Editor"
 Loc="59 25 1494 946"
 State=2
@@ -363,6 +357,12 @@ PadsSameType=0
 Layer=91
 Views=" 1: -691117 150470 455495 774582"
 Sheet=1
+
+[Win_2]
+Type="Control Panel"
+Loc="1255 281 1854 680"
+State=2
+Number=0
 
 [Desktop]
 Screen="3840 1080"
