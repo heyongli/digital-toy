@@ -10,7 +10,7 @@ AutoSaveProject=1
 
 [Win_1]
 Type="Board Editor"
-Loc="0 25 1581 894"
+Loc="315 373 1896 1242"
 State=2
 Number=2
 File="TA7642-AM.brd"
@@ -49,7 +49,7 @@ Layer=16
 
 [Win_2]
 Type="Schematic Editor"
-Loc="497 53 1699 969"
+Loc="527 492 1729 1408"
 State=2
 Number=1
 File="TA7642-AM.sch"
@@ -90,12 +90,12 @@ Sheet=1
 
 [Win_3]
 Type="Control Panel"
-Loc="113 136 1586 908"
+Loc="558 25 1157 424"
 State=2
 Number=0
 
 [Desktop]
-Screen="3840 1080"
+Screen="1680 1050"
 Window="Win_1"
 Window="Win_2"
 Window="Win_3"
