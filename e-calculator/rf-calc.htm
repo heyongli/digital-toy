@@ -1,11 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head>
-
-
-
   
-  <script><head>
-  <script><head>
   <script></script>
   
   <meta http-equiv="Content-Language" content="en-us">
@@ -20,78 +15,101 @@
   <meta name="ProgId" content="FrontPage.Editor.Document">
 
   
-  <script src="e-calculator-res/rf-calc.js"> </script><title>RF design center</title></head><body oncontextmenu="return false">
+  <script src="e-calculator-res/rf-calc.js"> </script>
+  <title>RF design center</title>
 
+  
+</head><body oncontextmenu="return false">
 <form id="LC-tank" method="get" name="LC-tank">
   <table style="text-align: left; width: 800px; height: 369px;" border="0" cellpadding="2" cellspacing="2">
     <tbody>
       <tr>
         <td style="height: 26px; text-align: left; vertical-align: top; background-color: rgb(153, 255, 153);"><b>LC
-tuner </b> </td>
+tank </b> </td>
         <td style="height: 26px; width: 787px; vertical-align: top; text-align: left; background-color: rgb(153, 255, 153);">
         <br>
         </td>
       </tr>
       <tr>
-        <td style="vertical-align: top; height: 277px;"><img style="width: 395px; height: 319px;" src="e-calculator-res/parallel-LC.jpg" alt="lc-tuner"> </td>
+        <td style="vertical-align: top; height: 277px;"><img style="width: 253px; height: 209px;" src="e-calculator-res/lc-tank.jpg" alt="lc-tuner"> </td>
         <td style="width: 787px; height: 277px; vertical-align: top; background-color: rgb(204, 255, 255);" colspan="1" rowspan="1">
         <table style="width: 809px; height: 75px;" cellpadding="1" cellspacing="1">
           <tbody>
             <tr>
-              <td style="vertical-align: top; background-color: rgb(255, 255, 153); width: 10%;">CV<br>
+              <td style="vertical-align: top; background-color: rgb(255, 255, 153); width: 10%;">CV1<br>
               </td>
-              <td style="vertical-align: middle; text-align: left; width: 90%;">min:<input style="height: 30px;" value="3" name="C_min" size="6">&nbsp;&nbsp;
-max:<input style="height: 30px;" value="38" name="C_max" size="6">
+              <td style="vertical-align: middle; text-align: left; width: 90%;">min:<input style="height: 30px;" value="3" name="CV1_min" size="6">&nbsp;&nbsp;
+max:<input style="height: 30px;" value="38" name="CV1_max" size="6">
 &nbsp;&nbsp;&nbsp;
-              <select name="C_unit"><option selected="selected">pF</option><option>nF</option><option>uF</option></select>
+              <select name="CV1_unit">
+              <option selected="selected">pF</option>
+              <option>nF</option>
+              <option>uF</option>
+              </select>
               </td>
             </tr>
-            
             <tr>
               <td style="vertical-align: top; background-color: rgb(255, 255, 153);">L </td>
               <td style="vertical-align: top;">min:<input style="height: 30px;" value="350" name="L_min" size="6">
-&nbsp; max: <input style="height: 30px;" value="350" name="L_max" size="6"> &nbsp; <select name="L_unit"><option>nH</option><option>uH</option><option>mH</option></select>
+&nbsp; max: <input style="height: 30px;" value="350" name="L_max" size="6"> &nbsp;
+              <select name="L_unit">
+              <option>nH</option>
+              <option>uH</option>
+              <option>mH</option>
+              </select>
               </td>
-            </tr><tr>
+            </tr>
+            <tr>
+              <td style="vertical-align: top; background-color: rgb(255, 255, 51);">C<br>
+              </td>
+              <td style="vertical-align: top;">min: <input style="height: 30px;" value="0" name="C" size="6">&nbsp;&nbsp;
+              <select name="C_unit">
+              <option selected="selected">pF</option>
+              <option>nF</option>
+              <option>uF</option>
+              </select>
+              <br>
+              </td>
+            </tr>
+            <tr>
               <td style="vertical-align: top;">&nbsp;F<br>
               </td>
               <td style="vertical-align: top;">&nbsp;&nbsp; <input style="height: 30px;" value="1.000000" name="F" size="10">&nbsp;&nbsp;
               <select name="F_unit">
-
-<option>GHz</option> <option selected="selected"> MHz </option><option> </option><option>KHz</option>
+              <option>GHz</option>
+              <option selected="selected"> MHz </option>
+              <option> </option>
+              <option>KHz</option>
               </select>
-
- </td>
+              </td>
             </tr>
-
           </tbody>
         </table>
         <br>
         <input style="height: 30px;" value="Press Here Get F" name="tank_calc_button" onclick="lc_tank_calc_F()" type="button"><br>
         <br>
 L,C =&gt; F from<input style="background-color: rgb(204, 255, 153); color: rgb(255, 55, 55);" readonly="readonly" name="fmin" size="8">Mhz&nbsp; to <input style="background-color: rgb(204, 255, 153); color: rgb(255, 55, 55);" readonly="readonly" name="fmax" size="8">Mhz&nbsp; deltaf:<input style="background-color: rgb(204, 255, 153); color: rgb(255, 55, 55);" readonly="readonly" name="deltaf" size="8">Hz <br>
- 
-        <br>F,C=&gt; L:<input style="background-color: rgb(204, 255, 153); color: rgb(255, 55, 55);" readonly="readonly" name="getL" size="8">uH&nbsp; F,L=&gt;C:<input style="background-color: rgb(204, 255, 153); color: rgb(255, 55, 55);" readonly="readonly" name="getC" size="8">pF<br>
         <br>
-</td>
+F,C=&gt; L:<input style="background-color: rgb(204, 255, 153); color: rgb(255, 55, 55);" readonly="readonly" name="getL" size="8">uH&nbsp; F,L=&gt;C:<input style="background-color: rgb(204, 255, 153); color: rgb(255, 55, 55);" readonly="readonly" name="getC" size="8">pF<br>
+        <br>
+        </td>
       </tr>
     </tbody>
   </table>
 </form>
 
-
-<form id="parallel-LC" method="get" name="parallel-LC">
-  <table style="text-align: left; width: 800px; height: 369px;" border="0" cellpadding="2" cellspacing="2">
+<form id="band-spread" method="get" name="parallel-LC">
+  <table style="text-align: left; width: 1111px; height: 399px;" border="0" cellpadding="2" cellspacing="2">
     <tbody>
       <tr>
         <td style="height: 26px; text-align: left; vertical-align: top; background-color: rgb(153, 255, 153);"><b>LC
-tuner </b> </td>
+band-spread </b> </td>
         <td style="height: 26px; width: 787px; vertical-align: top; text-align: left; background-color: rgb(153, 255, 153);">
         <br>
         </td>
       </tr>
       <tr>
-        <td style="vertical-align: top; height: 277px;"><img style="width: 395px; height: 319px;" src="e-calculator-res/parallel-LC.jpg" alt="lc-tuner"> </td>
+        <td style="vertical-align: top; height: 277px;"><img style="width: 312px; height: 204px;" src="e-calculator-res/parallel-LC.jpg" alt="lc-tuner"> </td>
         <td style="width: 787px; height: 277px; vertical-align: top; background-color: rgb(204, 255, 255);" colspan="1" rowspan="1">
         <table style="width: 809px;" cellpadding="1" cellspacing="1">
           <tbody>
@@ -101,14 +119,23 @@ tuner </b> </td>
               <td style="vertical-align: middle; text-align: left; width: 90%;">min:<input style="height: 30px;" value="3" name="CV_min" size="4">&nbsp;&nbsp;
 max:<input style="height: 30px;" value="38" name="CV_max" size="4">
 &nbsp;&nbsp;&nbsp;
-              <select name="CV_unit"><option selected="selected">pF</option><option>nF</option><option>uF</option></select>
+              <select name="CV_unit">
+              <option selected="selected">pF</option>
+              <option>nF</option>
+              <option>uF</option>
+              </select>
               </td>
             </tr>
             <tr>
               <td style="vertical-align: top; background-color: rgb(255, 255, 204);">C1 </td>
               <td style="vertical-align: top;">&nbsp; &nbsp;&nbsp;
 &nbsp; <input style="height: 30px;" value="10" name="C1" size="4">&nbsp;&nbsp;&nbsp;
-              <select name="C1_unit"><option selected="selected">pF</option><option>nF</option><option>uF</option><option></option></select>
+              <select name="C1_unit">
+              <option selected="selected">pF</option>
+              <option>nF</option>
+              <option>uF</option>
+              <option></option>
+              </select>
               </td>
             </tr>
             <tr>
@@ -116,7 +143,12 @@ max:<input style="height: 30px;" value="38" name="CV_max" size="4">
               </td>
               <td style="vertical-align: top;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <input style="height: 30px;" value="0" name="C2" size="4">&nbsp;&nbsp;
-              <select name="C2_unit"><option selected="selected">pF</option><option>nF</option><option>uF</option><option></option></select>
+              <select name="C2_unit">
+              <option selected="selected">pF</option>
+              <option>nF</option>
+              <option>uF</option>
+              <option></option>
+              </select>
 &nbsp;&nbsp;&nbsp; <br>
               </td>
               <td style="vertical-align: top;"><br>
@@ -126,7 +158,12 @@ max:<input style="height: 30px;" value="38" name="CV_max" size="4">
               <td style="vertical-align: top; background-color: rgb(255, 255, 204);">Couple</td>
               <td style="vertical-align: top;" colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <input style="height: 30px;" value="1000" name="Couple" size="4"> &nbsp;&nbsp;
-              <select name="Couple_unit"><option selected="selected">pF</option><option>nF</option><option>uF</option><option></option></select>
+              <select name="Couple_unit">
+              <option selected="selected">pF</option>
+              <option>nF</option>
+              <option>uF</option>
+              <option></option>
+              </select>
               </td>
             </tr>
             <tr>
@@ -134,7 +171,12 @@ max:<input style="height: 30px;" value="38" name="CV_max" size="4">
               </td>
               <td style="vertical-align: top;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <input style="height: 30px;" value="68" name="C3" size="4">&nbsp;
-              <select name="C3_unit"><option selected="selected">pF</option><option>nF</option><option>uF</option><option></option></select>
+              <select name="C3_unit">
+              <option selected="selected">pF</option>
+              <option>nF</option>
+              <option>uF</option>
+              <option></option>
+              </select>
               </td>
             </tr>
             <tr>
@@ -142,7 +184,12 @@ max:<input style="height: 30px;" value="38" name="CV_max" size="4">
               </td>
               <td style="vertical-align: top;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <input style="height: 30px;" value="68" name="C4" size="4">&nbsp;&nbsp;
-              <select name="C4_unit"><option selected="selected">pF</option><option>nF</option><option>uF</option><option></option></select>
+              <select name="C4_unit">
+              <option selected="selected">pF</option>
+              <option>nF</option>
+              <option>uF</option>
+              <option></option>
+              </select>
               </td>
             </tr>
             <tr>
@@ -150,7 +197,11 @@ max:<input style="height: 30px;" value="38" name="CV_max" size="4">
               <td style="vertical-align: top;">&nbsp; &nbsp;
 &nbsp;&nbsp; <input style="height: 30px;" value="350" name="L" size="4">
 &nbsp;&nbsp;
-              <select name="L_unit"><option>nH</option><option>uH</option><option>mH</option></select>
+              <select name="L_unit">
+              <option>nH</option>
+              <option>uH</option>
+              <option>mH</option>
+              </select>
               </td>
             </tr>
           </tbody>
@@ -174,7 +225,6 @@ max:<input style="height: 30px;" value="38" name="CV_max" size="4">
   </table>
 </form>
 
-
 <form id="LC-meter" method="get" name="LC-meter">
   <table style="text-align: left; width: 1165px; height: 24px;" border="0" cellpadding="2" cellspacing="2">
     <tbody>
@@ -183,7 +233,7 @@ max:<input style="height: 30px;" value="38" name="CV_max" size="4">
 meter </b> </td>
       </tr>
       <tr>
-        <td style="vertical-align: top; width: 180px;"><img style="width: 164px; height: 240px;" alt="LC-meter" src="e-calculator-res/LC-meter.jpg"><br>
+        <td style="vertical-align: top; width: 180px;"><img style="width: 128px; height: 188px;" alt="LC-meter" src="e-calculator-res/LC-meter.jpg"><br>
         <br>
         <br>
         <br>
@@ -213,12 +263,10 @@ so L=<input style="background-color: rgb(204, 255, 153); color: rgb(255, 55, 55)
   </table>
 </form>
 
-
 <p style="margin-top: 0pt; margin-bottom: 0pt;" align="center"><font color="#808080" face="Arial" size="2"><big style="font-weight: bold;"><big><big><br>
 Designed
 by hyl 2011.3.2 Version 1.0 <br>
 </big></big></big><br>
 </font></p>
-
 
 </body></html>

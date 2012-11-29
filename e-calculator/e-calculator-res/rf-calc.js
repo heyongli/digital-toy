@@ -148,8 +148,15 @@ function  getFreq(name,un_name) //get frequncy in Hz
 	return x;
 }
 
+var pi=3.1415926;
 
-//tune circuit 
+
+////////////////////////////////////////////////////////////////////////////
+//band spread
+
+
+function tune_calc()
+{
 var CV_min, CV_max; //pF
 var C1; //series
 var Couple, C3, C4 //series
@@ -157,13 +164,10 @@ var C2, CV; //series
 var L; //nH
 var tuneF_min, tuneF_max; //Mhz
 
-var pi=3.1415926;
 
-function tune_calc()
-{
-    var cmax, cmin, c34cc,c2cv1,c2cv2;
+    var cmax, cmin, c34cc,c2cv1,c2cv2,Ca,Ci;
    
-    formid = "parallel-LC";
+    formid = "band-spread";
     //get var in standard unit: F/H
     CV_min=getC("CV_min", "CV_unit");
     CV_max=getC("CV_max", "CV_unit");
@@ -173,6 +177,11 @@ function tune_calc()
     C4=getC("C4","C4_unit");
     Couple=getC("Couple","Couple_unit");
 
+    //c1 parrel with CV
+    if(0 != C1){
+ 	CV_max = C1+CV_max;
+	CV_min = C1+CV_min;
+    }
     //series c3,c4,couple
     c34cc=0;
 	if(C3) c34cc+=1/C3;
@@ -189,8 +198,8 @@ function tune_calc()
     	if(CV_max) c2cv2+=1/CV_max;
     c2cv2=1/c2cv2;
     //totoal tuneC
-    cmax=c34cc+c2cv1+C1;
-    cmin=c34cc+c2cv2+C1;
+    cmax=c34cc+c2cv1;
+    cmin=c34cc+c2cv2;
 
     //
     tuneL = getL("L","L_unit");
@@ -266,19 +275,27 @@ function lc_meter_get_lcx()
 function lc_tank_calc_F()
 {
 
-    var L_min, L_max, C_max, C_min;
-    var f0, f1;
+    var L_min, L_max, CV1_max, CV1_min;
+    var f0, f1, L,C, c0,c1;
 
     formid = "LC-tank";
     
     L_min=getL("L_min","L_unit");
     L_max=getL("L_max","L_unit");
-    C_min=getC("C_min","C_unit");
-    C_max=getC("C_max","C_unit");
+    CV1_min=getC("CV1_min","CV1_unit");
+    CV1_max=getC("CV1_max","CV1_unit");
+    C=getC("C","C_unit");
+
+    if(C!=0){
+	c1 = CV1_min*C/(CV1_min+C)
+	c0 = CV1_max*C/(CV1_max+C)
+	CV1_max = c0;
+	CV1_min = c1;
+    }
 
 
-    f1=1/(2*pi*Math.sqrt(L_min*C_min));
-    f0=1/(2*pi*Math.sqrt(L_max*C_max));
+    f1=1/(2*pi*Math.sqrt(L_min*CV1_min));
+    f0=1/(2*pi*Math.sqrt(L_max*CV1_max));
     f0=f0/1e6;
     f1=f1/1e6;
     setVar("fmin",round6(f0));
@@ -289,7 +306,7 @@ function lc_tank_calc_F()
 
     F=getFreq("F","F_unit");
 
-    L= 1/((F*2*pi)*(F*2*pi)*C_min);
+    L= 1/((F*2*pi)*(F*2*pi)*CV1_min);
     C= 1/((F*2*pi)*(F*2*pi)*L_min);
 
     L*=1e6;
