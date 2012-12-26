@@ -7,15 +7,20 @@ Desktop="Desktop"
 
 [Globals]
 AutoSaveProject=1
+UsedLibrary="/home/yhe/digital-toy/dtoy-eagle-lbr/LilyPad-Wearables.lbr"
+UsedLibrary="/home/yhe/digital-toy/dtoy-eagle-lbr/SparkFun.lbr"
 UsedLibrary="/home/yhe/digital-toy/dtoy-eagle-lbr/digital-toy.lbr"
+UsedLibrary="/home/yhe/digital-toy/dtoy-eagle-lbr/dtoy-RF.lbr"
+UsedLibrary="/home/yhe/digital-toy/dtoy-eagle-lbr/led-seg.lbr"
+UsedLibrary="/home/yhe/digital-toy/dtoy-eagle-lbr/dp_devices.lbr"
 
 [Win_1]
 Type="Schematic Editor"
-Loc="140 55 1495 908"
+Loc="310 107 1665 960"
 State=2
 Number=1
 File="start-superhet.sch"
-View="-606573 -436413 1051039 843137"
+View="-998445 -504069 990711 1031407"
 WireWidths=" 0 3048 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 4064 2032"
 PadDiameters=" 2540 3048 4064 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 0"
 PadDrills=" 5000 6000 7000 9000 10000 11000 12000 13000 14000 15000 16000 20000 22000 28000 32000 8000"
@@ -27,7 +32,7 @@ PolygonSpacings=" 2540 3048 4064 6096 8128 10160 14224 16764 17780 19304 21844 2
 PolygonIsolates=" 2540 3048 4064 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 0"
 MiterRadiuss=" 2540 3175 6350 12700 25400 10000 20000 25000 50000 75000 100000 0"
 SmdSizes=" 3048 1524 4064 2032 6096 3048 8128 4064 10160 5080 12700 6604 14224 7112 16764 8128 17780 9144 19304 9652 21844 10668 25400 12700 38100 19304 50800 25400 64516 32512 12700 6350"
-WireBend=0
+WireBend=1
 WireBendSet=31
 WireCap=1
 MiterStyle=0
@@ -47,12 +52,12 @@ ArcDirection=0
 AddLevel=2
 PadsSameType=0
 Layer=91
-Views=" 1: -606573 -436413 1051039 843137"
+Views=" 1: -998445 -504069 990711 1031407"
 Sheet=1
 
 [Win_2]
 Type="Control Panel"
-Loc="686 59 1621 719"
+Loc="133 72 732 471"
 State=2
 Number=0
 
