@@ -15,12 +15,18 @@ UsedLibrary="/home/yhe/digital-toy/dtoy-eagle-lbr/led-seg.lbr"
 UsedLibrary="/home/yhe/digital-toy/dtoy-eagle-lbr/dp_devices.lbr"
 
 [Win_1]
+Type="Control Panel"
+Loc="269 239 868 638"
+State=2
+Number=0
+
+[Win_2]
 Type="Schematic Editor"
 Loc="625 257 1775 892"
 State=2
 Number=1
-File="vackar-dip-osc-all-the-way.sch"
-View="138984 77578 1030946 650996"
+File="vackar-dip-oscillator-1Mhz-240Mhz.sch"
+View="-3155 57764 934275 759838"
 WireWidths=" 0 3048 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 4064 2032"
 PadDiameters=" 2540 3048 4064 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 0"
 PadDrills=" 5000 6000 7000 9000 10000 11000 12000 13000 14000 15000 16000 20000 22000 28000 32000 8000"
@@ -52,14 +58,8 @@ ArcDirection=0
 AddLevel=2
 PadsSameType=0
 Layer=91
-Views=" 1: 138984 77578 1030946 650996"
+Views=" 1: -3155 57764 934275 759838"
 Sheet=1
-
-[Win_2]
-Type="Control Panel"
-Loc="168 24 980 478"
-State=2
-Number=0
 
 [Desktop]
 Screen="3840 1080"
