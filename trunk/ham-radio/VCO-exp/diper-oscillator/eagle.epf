@@ -16,11 +16,11 @@ UsedLibrary="/home/yhe/digital-toy/dtoy-eagle-lbr/dp_devices.lbr"
 
 [Win_1]
 Type="Schematic Editor"
-Loc="851 215 2129 1102"
+Loc="290 270 1679 1049"
 State=2
 Number=1
-File="diff-neg-VFO-high-tank-voltage-amplitude-stable.sch"
-View="492868 -171351 1428700 781789"
+File="Wide-range-Vackar-SM0VPO.sch"
+View="201942 -148322 1095848 751100"
 WireWidths=" 0 3048 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 4064 2032"
 PadDiameters=" 2540 3048 4064 6096 8128 10160 12700 14224 16764 17780 19304 21844 25400 38100 64516 0"
 PadDrills=" 5000 6000 7000 9000 10000 11000 12000 13000 14000 15000 16000 20000 22000 28000 32000 8000"
@@ -52,12 +52,12 @@ ArcDirection=0
 AddLevel=2
 PadsSameType=0
 Layer=91
-Views=" 1: 492868 -171351 1428700 781789"
+Views=" 1: 201942 -148322 1095848 751100"
 Sheet=1
 
 [Win_2]
 Type="Control Panel"
-Loc="309 201 908 600"
+Loc="685 177 1284 576"
 State=2
 Number=0
 
