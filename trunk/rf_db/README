@@ -1,7 +1,15 @@
 RF database
 
-1.base on sqlalchemy 
+1.base on sqlalchemy
 2.migration control by http://code.google.com/p/sqlalchemy-migrate/
+3.setup tools pbr from OpenStack
+
+
+
+
+2013/7/17 develop and install env
+=================================
+svn reversion 1592
 
 
 2013/07/16 Initial version
