@@ -6,6 +6,8 @@ RF database
 
 2013/07/16 Initial version
 ==========================
+svn version: 1589
+
 this is the first thing we had, nothing, just migrate configure by 
 sqlalchemy-migrate
 
