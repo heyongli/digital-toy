@@ -1,0 +1,11 @@
+RF database
+
+1.base on sqlalchemy 
+2.migration control by http://code.google.com/p/sqlalchemy-migrate/
+
+
+2013/07/16 Initial version
+==========================
+this is the first thing we had, nothing, just migrate configure by 
+sqlalchemy-migrate
+
