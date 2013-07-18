@@ -1,0 +1,984 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en"><head>
+
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+   <link rel="start" title="Home" href="http://stephan.win31.de/">
+   <link rel="author" href="http://stephan.win31.de/kontakt.htm">
+
+   <link rel="bookmark" href="http://stephan.win31.de/sony7600.htm" title="Sony 7600 series page"> 
+   <link rel="bookmark" href="http://stephan.win31.de/superhet.htm" title="Superhets for Dummies">
+   <link rel="bookmark" href="http://stephan.win31.de/rx-eval.htm" title="A few receiver reviews"> 
+
+   <link rel="stylesheet" href="Common%20Compact%20Shortwave%20Antennas-Loop%20whip%20or%20dipole_files/standard.css" type="text/css" title="Standard-CSS">
+
+   <title>Common Compact Shortwave Antennas: Loop, whip or dipole?</title>
+
+<script type="text/javascript">
+function calculateCarr() {
+  // Stephan Großklaß, 2010
+  // adapted from Bruce Carter, 2003
+  edge=parseFloat(document.carrForm.edge.value)
+  width=parseFloat(document.carrForm.width.value)
+  turns=parseFloat(document.carrForm.turns.value)
+  c_high=parseFloat(document.carrForm.c_high.value)*0.000000000001
+  c_low=parseFloat(document.carrForm.c_low.value)*0.000000000001
+  edgecm=edge
+  widthcm=width
+  intermediate1=Math.log((1.4142*edgecm*turns)/((turns+1)*widthcm))
+  intermediate2=(.3333*(turns+1)*widthcm)/(edgecm*turns)
+  inductance=.008*turns*turns*edgecm*(intermediate1+.37942+intermediate2)
+  document.carrForm.inductance.value=inductance
+  freq_low=Math.pow(10,-3)/(2*Math.PI*Math.sqrt(inductance*c_high))
+  document.carrForm.freq_low.value=freq_low
+  freq_high=Math.pow(10,-3)/(2*Math.PI*Math.sqrt(inductance*c_low))
+  document.carrForm.freq_high.value=freq_high
+  wire_length=(edge*turns)/25
+  //wire_length=Math.sqrt( (16*edge*edge) + (width*width/(turns*turns)) )*turns/100
+  //exact value deviates very little only, so the approximation is fine
+  document.carrForm.wire_length.value=wire_length
+
+}
+
+function calculateUmr() {
+  // Stephan Großklaß, 2010
+  // adapted from Bruce Carter, 2004
+n=parseFloat(document.umrForm.n.value)
+w=parseFloat(document.umrForm.w.value)
+h=parseFloat(document.umrForm.h.value)
+r=parseFloat(document.umrForm.r.value)/2
+c_high=(Math.pow(10,-12))*parseFloat(document.umrForm.c_high.value)
+c_low=(Math.pow(10,-12))*parseFloat(document.umrForm.c_low.value)
+t1=Math.sqrt(h*h+w*w)
+L=(n*n*4)*(-2*w-2*h+2*t1-h*Math.log((h+t1)/w)-w*Math.log((w+t1)/h)+h*Math.log((2*h)/r)+w*Math.log((2*w)/r))
+// nH
+L=L*(Math.pow(10,-3))
+// uH
+document.umrForm.L.value=L
+L=L*(Math.pow(10,-6))
+// H
+document.umrForm.freq_low.value=(Math.pow(10,-6))*(1/(2*Math.PI*Math.sqrt(L*c_high)))
+document.umrForm.freq_high.value=(Math.pow(10,-6))*(1/(2*Math.PI*Math.sqrt(L*c_low)))
+wire_length=(2*(w+h)*n)/100
+// m
+document.umrForm.wire_length.value=wire_length
+}
+
+function calculateBtwl() {
+  // Stephan Großklaß, 2010
+  // parts adapted from Bruce Carter, 2004
+  A=parseFloat(document.btwlForm.d.value)/5.08;
+  B=parseFloat(document.btwlForm.w.value)/2.54;
+  N=parseFloat(document.btwlForm.n.value);
+  c_high=(Math.pow(10,-12))*parseFloat(document.btwlForm.c_high.value);
+  c_low=(Math.pow(10,-12))*parseFloat(document.btwlForm.c_low.value);
+
+  L=(N*N*A*A) / ( (9*A) + (10*B) );
+
+  document.btwlForm.L.value=L;
+  // uH
+  L=L*(Math.pow(10,-6));
+  // H
+  document.btwlForm.freq_low.value=(Math.pow(10,-6))*(1/(2*Math.PI*Math.sqrt(L*c_high)));
+  document.btwlForm.freq_high.value=(Math.pow(10,-6))*(1/(2*Math.PI*Math.sqrt(L*c_low)));
+  wire_length=Math.PI*A*N*0.0508;
+  // m
+  document.btwlForm.wire_length.value=wire_length;
+}
+
+</script>
+
+
+</head>
+
+<body>
+
+<p class="navi"><a href="http://stephan.win31.de/home_en.htm">Home [en]</a> <a href="http://stephan.win31.de/">[de]</a> /</p>
+
+<div id="content">
+
+<h1>Common Compact Shortwave Antennas</h1>
+
+<p id="subtitle">Loop, whip or dipole?</p>
+
+<p id="erster">I have been fascinated by electrically small loop antennas 
+(circumference 2&#960;r&nbsp;&lt;&lt;&nbsp;&#955;/2) for a long time. Then one 
+day I decided to find out what it is that makes them perform so well, at least 
+for receiving purposes. A number of Google searches, a good bit of reading and 
+some calculations later, here's what I found on small antennas in general. 
+(Y'know, trying to explain a subject you don't understand properly is a 
+brilliant way of learning a lot about it.)</p>
+
+<div class="linksonly" id="toc">
+
+<ul>
+
+<li><a href="#general">Basics</a></li>
+
+<li><a href="#electric">Monopoles (vertical / whip) and dipoles</a></li>
+
+<li class="sub"><a href="#mono-di">Relations between monopoles and dipoles</a></li>
+
+<li class="sub"><a href="#short-di">A look at short dipoles</a></li>
+
+<li class="sub"><a href="#di-bw">Implications on efficiency and bandwidth</a></li>
+
+<li class="sub"><a href="#mono-prob">Further problems of monopoles</a></li>
+
+<li class="sub"><a href="#di-fieldimp">Field impedance</a></li>
+
+<li><a href="#loop">Loop antennas</a></li>
+
+<li class="sub"><a href="#small-loops">Small loops</a></li>
+
+<li class="sub"><a href="#loop-bw">Implications on efficiency and bandwidth</a></li>
+
+<li class="sub"><a href="#loop-dir">Balance and directivity</a></li>
+
+<li class="sub"><a href="#loop-fieldimp">Field impedance</a></li>
+
+<li class="sub"><a href="#loop-calc">Online loop inductance calculators</a></li>
+
+<li><a href="#cmp">Comparison time: Short dipole / monopole vs. small loop</a></li>
+
+<!--
+
+<li><a href="#</a></li>
+
+<li class="sub"><a href="#</a></li>
+
+<li><a href="#</a></li>
+
+<li class="sub"><a href="#</a></li>
+
+-->
+
+</ul>
+
+</div> 
+
+<h2 id="general">Basics</h2>
+
+<p>You have to keep one thing in mind when physically small antennas 
+(<code>&lt;&lt;&#955;/2</code>, typically <code>&lt;&#955;/10</code>) are 
+concerned: TANSTAAFL. Or as <a href="http://www.aa5tb.com/loop.html">AA5TB</a> 
+so neatly puts it,</p>
+
+<blockquote>
+
+<p>You can have any <em>TWO</em> of the following antenna parameters:</p>
+
+<ul>
+
+<li>SMALL SIZE (in terms of wavelength)</li>
+
+<li>EFFICIENCY</li>
+
+<li>BROADBAND</li>
+
+</ul>
+
+<p>You cannot have all three.</p>
+
+</blockquote>
+
+<p>Thus we will have to decide between efficiency and broadband operation later 
+on.</p>
+
+<p>It is useful to distinguish between <em>transmission</em> and 
+<em>reception</em> applications. The reason is that on the shortwave ranges, 
+noise levels are quite high, so that the RSGB Communication Handbook stated a 
+receiver noise figure of 10&nbsp;dB to be quite sufficient even for the highest 
+ranges decades ago, assuming a fullsize dipole. On the lower bands, 
+requirements are much more relaxed still, with atmospheric noise easily 
+equalling 20 to 30&nbsp;dB. Therefore you could easily get away with either a 
+receiver with relatively modest sensitivity on a fullsize antenna or a more 
+sensitive receiver with an antenna that has considerable loss. Therefore an 
+antenna with 20&nbsp;dB loss (a modest 1% radiation efficiency) may very well 
+be able to hear everything. However, the signal levels produced when 
+transmitting with it will be rather pitiful (as in 20&nbsp;dB below those of a 
+fullsize dipole with decent height).</p>
+
+<h2 id="electric">Monopoles (vertical / whip) and dipoles</h2>
+
+<h3 id="mono-di">Relations between monopoles and dipoles</h3>
+
+<p>The dipole probably is the most fundamental type of antenna out there from a 
+theoretical point of view, going right back to <span lang="de">Heinrich 
+Hertz</span> himself. It is also commonly used for transmission purposes, while 
+the average SWL has certainly seen its monopole relatives, notably telescopic 
+whips.</p>
+
+<p>Now this is not the place to reiterate short dipole theory – you can 
+find enough of that on the web 
+(<a href="http://www.antenna-theory.com/antennas/shortdipole2.php">here's an 
+example</a>). However, once you have that, a vertical or whip is not hard to 
+understand.</p> 
+
+<p>A whip antenna is nothing but a short and comparatively thick monopole 
+(vertical) over receiver ground. Any monopole needs a counterpoise at constant 
+potential (typically, ground) that serves as a "mirror" and thus completes a 
+dipole of twice the length. The impedance seen by a connected receiver will 
+only be half as high as between two dipole halves, but other than that the 
+theory for dipoles will apply. (Of course if you want to connect something to 
+a monopole, you'll need an unbalanced connection, while for a dipole it would 
+be balanced.)</p>
+
+<h3 id="short-di">A look at short dipoles</h3>
+
+<p>Now it is known that a short dipole (less than one tenth the wavelength) is 
+predominantly capacitive. Let's have a look at the commonly used equivalent 
+circuit as given in the book "Antenna Handbook: Antenna theory" by Y. T. Lo and 
+S. W. Lee (you may notice this is actually unbalanced so would apply to a 
+monopole, but as we've seen it can be treated in the same way):</p>
+
+<pre class="asciidrawing">      ____     ____     ____
+ +---|____|---|____|---|####|---||-----o----+
+ |     R        R        L      C           | 
+ |      r        o        d      d          | 
+ |                                          | 
+ |    rad R   loss R    ind    cap          _
+ |                                    load | | Z
+(~) src                                    |_|  L
+ |                                          |  
+ |                                          | 
+ +-------------------------------------o----+
+</pre>
+
+<p>Only the radiation resistance actually contributes signal. It increases with 
+the square of dipole length to wavelength ratio, i.e. 
+<code>(l/&#955;)²</code>, so it'll get pretty small for very short dipoles. 
+It's barely 2&nbsp;&#937; for <code>l/&#955;=1/10</code>, and at 
+<code>l/&#955;=1/50</code> it drops to a measly 80&nbsp;m&#937;. (But 
+wait until you've seen the numbers for loops!)</p>
+
+<p>Loss resistance originates in the dipole material's finite conductivity and 
+increases with frequency due to skin effect 
+(approximately <code>R<sub>o</sub>&nbsp;&#8733;&nbsp;&#8730;(f)</code> once skin 
+depth is smaller than conductor radius/thickness). It usually is much smaller 
+than radiation resistance for a "full-grown" dipole, but can easily become as 
+big or bigger than radiation resistance for short dipoles with low conductor 
+diameter and/or non-ideal materials (e.g. steel wire).</p>
+
+<p>In a short dipole, the effect of inductance is rather negligible.</p>
+
+<p>That leaves us with capacitance. This turns out to be quite small, commonly 
+in the single-digit pF range or not far beyond. Thus it contributes a large 
+reactance (imaginary part of the impedance) in series, with a magnitude well in 
+the k&#937; range for the lower shortwave ranges. Thus it obviously dominates 
+the whole antenna impedance.</p>
+
+<pre class="asciidrawing">      ____ 
+ +---|____|----||-----o----+
+ |     R       C           | 
+ |      s       d          | 
+ |                         | 
+ |    sum R   cap          _
+ |                   load | | Z
+(~) src                   |_|  L
+ |                         |  
+ |                         | 
+ +--------------------o----+
+</pre>
+
+<h3 id="di-bw">Implications on efficiency and bandwidth</h3>
+
+<pre class="asciidrawing">      ____ 
+ +---|____|----||-----o----+
+ |     R       C           | 
+ |      s       d          | 
+ |                         | 
+ |   sum R &lt;&lt; |X |         _
+ |            | C|   load | | Z
+(~) src                   |_|  L
+ |                         |  
+ |                         | 
+ +--------------------o----+
+</pre>
+
+<p>Now try getting any noteworthy amount of RF power through that. Not easy! 
+Here we have to remember that power transfer is highest if load impedance is 
+the conjugate complex of source impedance. Therefore what we have to do is 
+cancelling out the cap's large negative reactance by an equal amount of 
+positive reactance, usually by inserting an inductance in series or in parallel 
+(with the parallel version having the advantage of transforming the very small 
+radiation and loss resistance up, easily in the hundreds of k&#937;, which 
+gives much higher voltages and invites use of a JFET or MOSFET based 
+amplifier).</p> 
+
+<p>You'll need a mighty big inductor there, which will contribute a healthy 
+share of loss resistance on its own, but it'll improve things considerably 
+nonetheless. Loss resistance for a fixed coil can be optimized by using the 
+right size and material of iron powder or ferrite core, depending on frequency 
+range and required power levels.</p> 
+
+<pre class="asciidrawing">      ____                             
+ +---|____|----||----o------+-------------+
+ |     R       C            |             | 
+ |      s       d           |             | 
+ |                          |             | 
+ |   sum R &lt;&lt; |X |          _             _
+ |            | C|  tuning |#| L    load | | R
+(~) src                ind |#|  t        |_|  L
+ |                          |             |  
+ |                          |             | 
+ +-------------------o------+-------------+
+</pre>
+
+<p>But alas, this introduces a new problem: The impedance of an inductor 
+increases with frequency while for the capacitor it's the other way around, so 
+the cancellation will work for one frequency only! In practice this will be an 
+area that might be a few 10 or 100&nbsp;kHz wide depending on losses, but still 
+this is quite narrowband. Remember we have to decide between high efficiency 
+and broadband operation?</p> 
+
+<p>We could make the whole affair work over a certain frequency range by simply 
+using a variable inductor. However, these aren't exactly common, though you 
+will find them in some antenna tuners and power amplifiers. Alternatively, one 
+could use a parallel LC network with multiple taps on the L and a more common 
+variable capacitor. (Simple whip antenna tuners like the ADDX-PRE-1 work like 
+that.)</p>
+
+<p>If we are trying to use this antenna over a really wide bandwidth (like 
+100&nbsp;kHz to 30&nbsp;MHz), just about all we can do is make sure that our 
+input impedance is reasonably high towards the lower frequencies. Using some 
+JFET or MOSFET amp would be one possible option (as it would be for the 
+parallel-L-tuned dipole). The noise figure of the whole shebang will probably 
+be rather lousy in some places.</p>
+
+<h3 id="mono-prob">Further problems of monopoles</h3>
+
+<p>In order for a monopole to be completed to a full dipole, a good ground is 
+required. That's why vertical antennas are commonly used with radials which 
+greatly increase conductivity. Now unfortunately any battery-operated receiver 
+with a whip antenna has a problem in this very area: The ground connection is 
+arbitrarily lousy! Unless an explicit ground connection is established, pretty 
+much all you have is some capacitive coupling from circuit ground to the 
+surface underneath. The whole affair could include a good bit of old-fashioned 
+resistance, too, depending on the conductivity of things in the path to ground 
+potential (typically furniture, walls and such). So what does this look like in 
+the equivalent circuit diagram?</p>
+
+<pre class="asciidrawing">      ____
+ +---|____|----||-----o----+
+ |     R       C           | 
+ |      s       d          | 
+ |                         | 
+ |                         _
+ |                   load | | Z
+(~) src                   |_|  L
+ |                         |  
+ |    ____                 | 
+ +---|____|----||-----o----+
+       R       C  
+        g       g  
+</pre>
+
+<p>Like this. Redrawn in a more conventional way:</p>
+
+<pre class="asciidrawing">      ____        
+ +---|____|---||---||-----o----+
+ |   R &gt;&gt; R   C    C           | 
+ |    g    s   g    d          | 
+ |                             | 
+ |                             _
+ |                       load | | Z
+(~) src                       |_|  L
+ |                             |  
+ |                             | 
+ +------------------------o----+
+</pre>
+
+<p>Oh dear. Reactance gets even larger, and even if we managed to cancel this 
+out, only a teeny tiny part of the remaining resistance is actually made up by 
+radiation resistance. As any owner of a portable shortwave receiver will be 
+able to attest, whip sensitivity on batteries is rather lousy and much improves 
+upon establishing an explicit ground connection or merely attaching an external 
+power supply.</p>
+
+<h3 id="di-fieldimp">Field impedance</h3>
+
+<p>Short dipoles and monopoles are also called "electric" antennas because they 
+primarily react to the electric component of the electromagnetic field, i.e. 
+their field impedance is high. 
+<a href="http://www.w8ji.com/magnetic_receiving_loops.htm">As W8JI points 
+out</a>, this only applies for distances up to about &#955;/10, but that's 
+usually sufficient to include a large number of in-house interference 
+generators with their respective "antennas", also of the "electric" variety in 
+many cases.</p>
+
+<p>That being said, monopoles, improperly balanced dipoles (more common than 
+you may think) and various other unbalanced forms of antennas may be better in 
+terms of noise than commonly given credit for. A few common-mode chokes in the 
+feedline may work wonders (yet more improvement is to be had with more of them 
+on the "antennas" of RFI generators). Of course grounding should only be either 
+at the antenna or at the receiver, not both. If there is a ground loop, part of 
+the signal current will be common mode.</p>
+
+<p>The field impedance of free space is <code>120&#960;&nbsp;&#937; &#8773; 
+377&nbsp;&#937;</code> btw.</p>
+
+<p class="back2toc"><span class="up">&#8593;</span> <a href="#toc">Back to table of contents</a></p>
+
+<h2 id="loop">Loop antennas</h2>
+
+<h3 id="small-loops">Small loops</h3>
+
+<p>A small loop antenna (circumference <code>2&#960;r&nbsp;&lt;&lt;&nbsp;&#955;/2</code>) 
+is essentially an inductor with a cross-section big enough to pick up 
+electromagnetic fields (predominantly the magnetic part) halfway well. It's 
+basically the magnetic counterpart to a short dipole. Practical ones are 
+frequently tuned, and we'll see why this is shortly. Here's an equivalent 
+circuit:</p>
+
+<pre class="asciidrawing">      ____     ____     ____             
+ +---|____|---|____|---|####|-------+------o----+
+ |     R        R        L          |           | 
+ |      r        o        d         |           | 
+ |                                  |           | 
+ |    rad R   loss R    ind   par  ___          _
+ |                            cap  ___    load | | Z
+(~) src                             |  C       |_|  L
+ |                                  |   p       |  
+ |                                  |           | 
+ +----------------------------------+------o----+
+</pre>
+
+<p>Radiation resistance (which is the only part actually contributing our 
+signal during reception) differs noticeably from that of the short dipole: It 
+increases with the 4th power of the circumference to wavelength ratio, i.e. 
+<code>(2&#960;r/&#955;)<sup>4</sup></code>. One could also say it increases 
+with loop area A squared. In fact, as long as the loop remains reasonably thin, 
+adding more turns N leads to an effective loop area of <code>N*A</code> since 
+from far away, it looks like a single turn with N times the current. Small 
+loops have very small radiation resistances – a one-turn circular loop 
+with <code>2&#960;r/&#955;=1/10</code> (that's about 3&nbsp;m in diameters at 
+3&nbsp;MHz) can offer only 20&nbsp;m&#937;, and for 
+<code>2&#960;r/&#955;=1/50</code> this shrinks to a modest 30&nbsp;µ&#937;. 
+Yep, that's microohms.</p> 
+
+<p>As an inductor typically involves a conductor of some length (which could be 
+a wire or a copper tube), some losses in there are obviously inevitable. If the 
+antenna is supposed to have any kind of efficiency later on, they have to be 
+made very small due to the modest radiation resistance.</p>
+
+<p>Any inductance also has a parasitic parallel capacitance, typically 
+inter-winding capacitance (which can be less than 1&nbsp;pF to multiple pF 
+depending on the loop). This leads to the phenomenon of self-resonance and 
+limits the maximum frequency of a tuned loop. Note that for a given inductance, 
+the lower-diameter loop with more windings will generally exhibit the higher 
+inter-winding capacitance.</p>
+
+<p>That leaves us with the inductance itself. Its value tends to range between 
+a few µH for a typical single-turn SW loop to several hundred µH for their 
+MW and LW brethren. For example, a 3&nbsp;m dia. single-turn loop has an 
+inductance of about 6..7&nbsp;µH, equivalent to a reactance 
+<code>X<sub>L</sub>&nbsp;&#8773;&nbsp;+120&nbsp;&#937;</code> at 3&nbsp;MHz. 
+(Radiation resistance is about 20&nbsp;m&#937; then.) That sure seems easier 
+to tune out than the values far in the negative kOhm range that we saw with 
+short dipoles. 
+<br>A small 9" dia. loop with 25 windings occupying about 1" like the Tecsun 
+AN-200 has about 250&nbsp;µH (going by the 
+<a href="http://www.icorp.net/users/kev/tesla/formula.htm">Bob's Tesla Web Lab 
+formula</a>), giving an X<sub>L</sub> of about 800&nbsp;&#937; to 
+2.7&nbsp;k&#937; across the MW band. Since my sample will tune up to pretty 
+much exactly 2&nbsp;MHz, that means minimum capacitance (including 
+inter-winding) is about 25&nbsp;pF, down from a maximum of about 400&nbsp;pF. 
+Not a bad little tuning cap there, and wire routing seems quite solid, too. </p>
+
+<h3 id="loop-bw">Implications on efficiency and bandwidth</h3>
+
+<p>As in the case of short dipoles and monopoles, we will have to decide 
+between efficiency and bandwidth. If we want a decent kind of efficiency, the 
+large positive reactance has to be cancelled out. This can be done with a 
+series capacitor or the more useful impedance-transforming parallel capacitor 
+variant.</p>
+
+<pre class="asciidrawing">      ____     ____     ____             
+ +---|____|---|____|---|####|-------+------o----+
+ |     R        R        L          |           | 
+ |      r        o        d         |           | 
+ |                                  |           | 
+ |    rad R   loss R    ind   sum  ___          _
+ |                            cap  ___    load | | R
+(~) src                             |  C       |_|  L
+ |                                  |   s       |  
+ |                                  |           | 
+ +----------------------------------+------o----+
+</pre>
+
+<p>The parallel capacitor version is particularly neat, since the tuning 
+capacitance, parasitic (inter-winding) capacitance and input capacitance of a 
+following FET amplifier stage (whose input impedance typically is in the 
+hundreds of kOhms in parallel to a few pF) are all in parallel and can be 
+lumped together. This makes determining minimum sum capacitance and thus 
+highest tunable frequency rather easy. Again, this kind of circuit transforms 
+our radiation and loss resistance up. Obviously the tuning capacitor will also 
+contribute some losses, not terribly much for sure but remember that our 
+signal-contributing radiation resistance is pretty low to begin with. (And to 
+bust some myths, no, a mechanical varicap is not per se better than a varicap 
+diode in that regard. Not the usual AM radio ones with wipers at least. You 
+can build very high-Q mechanicals though.)</p>
+
+<p>Of course one does not need to attach a FET amplifier there, part of the 
+loop can also be used to form a balun for impedance transformation to e.g. a 
+50&nbsp;&#937; system. Single-turn shortwave loops typically have a small 
+coupling winding at the side opposite of the tuning capacitor, where currents 
+are highest. If you have ever used an external tuned loop to boost signal 
+levels on a portable receiver with an internal ferrite rod using "inductive 
+coupling" (in which case you can probably attest to the effectiveness of this 
+method), that's the same effect. A ferrite rod is nothing but a loop would on a 
+high permeability (µ<sub>r</sub>) core after all. <a href="http://stephan.win31.de/ind-coupling-5.asc">Here's something for you</a> if you feel like simulating inductive coupling in 
+LTspice.</p> 
+
+<p>As already with the short dipole, broadband use is a bit of a mess as 
+antenna impedance is rather non-constant. At least reactance becomes smaller as 
+frequency decreases, but that advantage is eaten up by the more quickly 
+decreasing radiation resistance, so in the end 
+<code>Q&nbsp;=&nbsp;|X<sub>L</sub>|/R<sub>r</sub></code> behaves about the 
+same (<code>Q&nbsp;&#8733;&nbsp;1/f³</code>).</p>
+
+<p>In fact, when taking a look into formal small antenna theory 
+(<a href="http://www.mhprofessional.com/downloads/products/0071625534/0071625534_chap01.pdf">as in this book chapter by <cite>Chalas, Fujimoto, Volakis, 
+Sertel</cite></a>), we find that there are fundamental limits as to how low 
+antenna Q (or how high relative bandwidth for a tuned version) can actually go 
+even for superconducting antennas, and while people still haven't agreed 
+entirely on the details, you usually find 
+<code>Q<sub>min</sub>&nbsp;&#8733;&nbsp;1/(ka)³</code> if the antenna is 
+contained within a sphere of radius a; 
+<code>k&nbsp;=&nbsp;2&#960;/&#955;&nbsp;=&nbsp;2&#960;f/c</code>, so there's our 
+<code>1/f³</code> dependency again.</p>
+
+<h3 id="loop-dir">Balance and directivity</h3>
+
+<p>A small loop, much like a short dipole, is a "complete" antenna – and 
+that applies even when it is run unbalanced. Therefore it exhibits a workable 
+amount of directivity (nulling ability), not being restricted to "vertical" 
+operation like typical monopoles are. A properly balanced loop will, however, 
+do better in terms of directionality, especially on the higher frequencies. I 
+presume common-mode signal pick-up by the feedline to be the root cause, which 
+would be in line with the "filter unit" provided with Sony's AN-LP1 active 
+loop, but if anyone knows better, let me know.</p>
+
+<h3 id="loop-fieldimp">Field impedance</h3>
+
+<p>Small loop antennas are also called "magnetic" antennas because they 
+primarily react to the magnetic component of the electromagnetic field, i.e. 
+their field impedance is low. 
+<a href="http://www.w8ji.com/magnetic_receiving_loops.htm">As W8JI points 
+out</a>, this only applies for distances up to about &#955;/10, but that's 
+usually sufficient to include a large number of in-house interference 
+generators with their respective "antennas" of the "electric" variety. Loops 
+therefore tend to keep off noise from nearby RFI sources better than their 
+"electric" cousins, which is a big plus for in-house operation.</p>
+
+<p class="back2toc"><span class="up">&#8593;</span> <a href="#toc">Back to table of contents</a></p>
+
+<h3 id="loop-calc">Online loop inductance calculators</h3>
+
+<p>Bruce Carter originally implemented the following two JS calculators for 
+determining loop inductance <a href="http://www.mindspring.com/%7Eloop_antenna">on his loop antenna site</a>, but that has been inaccessible much of the time 
+lately 
+(<a href="http://web.archive.org/web/*/http://www.mindspring.com/%7Eloop_antenna">archive.org may help</a>). So here's a modernized metric version of the Joe 
+Carr and UMR EMC Lab formulas, with an implementation of the Bob's Tesla Web 
+Lab formula thrown in for good measure.</p> 
+
+<p>First in line is the formula from Joe Carr's Tech Notes, which is used for 
+square loops with wide-spaced windings:</p>
+
+<form name="carrForm" action="">
+
+<fieldset>
+
+<legend>Enter data for Joe Carr formula: </legend>
+
+<br class="nodisplay">
+
+<label for="cEdge">Loop Edge Length: </label>
+<input name="edge" id="cEdge" value="93" size="7" onfocus='this.value=""' type="text"> cm<br>
+
+<label for="cWidth">Loop Depth: </label>
+<input name="width" id="cWidth" value="8" size="7" onfocus='this.value=""' type="text"> cm<br>
+
+<label for="cTurns">Number of Turns: </label>
+<select name="turns" id="cTurns">
+  <option value="1">1</option>
+  <option value="2">2</option>
+  <option value="3">3</option>
+  <option value="4">4</option>
+  <option value="5">5</option>
+  <option value="6">6</option>
+  <option value="7">7</option>
+  <option value="8">8</option>
+  <option selected="selected" value="9">9</option>
+  <option value="10">10</option>
+  <option value="11">11</option>
+  <option value="12">12</option>
+  <option value="13">13</option>
+  <option value="14">14</option>
+  <option value="15">15</option>
+  <option value="16">16</option>
+  <option value="17">17</option>
+  <option value="18">18</option>
+  <option value="19">19</option>
+  <option value="20">20</option>
+  <option value="21">21</option>
+  <option value="22">22</option>
+  <option value="23">23</option>
+  <option value="24">24</option>
+  <option value="25">25</option>
+  <option value="26">26</option>
+  <option value="27">27</option>
+  <option value="28">28</option>
+  <option value="29">29</option>
+  <option value="30">30</option>
+  </select>
+  <br>
+
+<label for="cCHigh">Maximum Capacitance: </label>
+<input name="c_high" id="cCHigh" value="500" size="7" onfocus='this.value=""' type="text"> pF<br>
+
+<label for="cCLow">Minimum Capacitance: </label>
+<input name="c_low" id="cCLow" value="40" size="7" onfocus='this.value=""' type="text"> pF<br>
+
+<label for="cCalc">&nbsp;</label>
+<input id="cCalc" value="Calculate!" onclick="calculateCarr()" type="button">
+
+</fieldset>
+
+<fieldset class="result">
+
+<legend>Results</legend>
+
+<label for="cInd">Loop Inductance: </label>
+<input name="inductance" id="cInd" size="7" readonly="readonly" type="text"> µH<br>
+
+<label for="cFLow">Lowest tuned frequency: </label>
+<input name="freq_low" id="cFLow" size="7" readonly="readonly" type="text"> MHz<br>
+
+<label for="cFHigh">Highest tuned frequency: </label>
+<input name="freq_high" id="cFHigh" size="7" readonly="readonly" type="text"> MHz<br>
+
+<label for="cWLength">Wire length required: </label>
+<input name="wire_length" id="cWLength" size="7" readonly="readonly" type="text"> m
+
+</fieldset>
+
+</form>
+
+<p><strong>Note: </strong> <q>Inter-winding capacitance can upset the 
+calculation. If that happens – decrease the number of turns!</q> – 
+Bruce Carter</p>
+
+<p>For my homebrew MW loop, this formula gave an inductance about 15% too 
+low. The difference dropped to about 5% after rewinding to a lower shortwave 
+loop with twice the wire spacing, at least once I took the correct loop depth 
+into account – it has to be <code>(turns - 1) * spacing</code>. 
+Insulation with non-negligible &#949;<sub>r</sub> (like PVC) increases 
+capacitance and decreases effective spacing a bit.</p>
+
+<p>Next in line is the UMR EMC lab formula, which can be used for rectangular 
+loops with closely-spaced windings.</p>
+
+<form name="umrForm" action="">
+
+<fieldset>
+
+<legend>Enter data for UMR EMC lab formula: </legend>
+
+<label for="umrW">Loop Width: </label>
+<input size="7" name="w" id="umrW" value="93" type="text"> cm<br>
+
+<label for="umrH">Loop Height: </label>
+<input size="7" name="h" id="umrH" value="93" type="text"> cm<br>
+
+<label for="umrW">Winding Spacing: </label>
+<input size="7" name="r" id="umrR" value="1" type="text"> cm<br>
+
+<label for="umrN">Number of Turns: </label>
+<select name="n" id="umrN">
+  <option value="1">1</option>
+  <option value="2">2</option>
+  <option value="3">3</option>
+  <option value="4">4</option>
+  <option value="5">5</option>
+  <option value="6">6</option>
+  <option value="7">7</option>
+  <option value="8">8</option>
+  <option value="9" selected="selected">9</option>
+  <option value="10">10</option>
+  <option value="11">11</option>
+  <option value="12">12</option>
+  <option value="13">13</option>
+  <option value="14">14</option>
+  <option value="15">15</option>
+  <option value="16">16</option>
+  <option value="17">17</option>
+  <option value="18">18</option>
+  <option value="19">19</option>
+  <option value="20">20</option>
+  <option value="21">21</option>
+  <option value="22">22</option>
+  <option value="23">23</option>
+  <option value="24">24</option>
+  <option value="25">25</option>
+  <option value="26">26</option>
+  <option value="27">27</option>
+  <option value="28">28</option>
+  <option value="29">29</option>
+  <option value="30">30</option>
+</select><br>
+
+<label for="umrCHigh">Maximum Capacitance: </label>
+<input name="c_high" id="umrCHigh" value="500" size="7" onfocus='this.value=""' type="text"> pF<br>
+
+<label for="umrCLow">Minimum Capacitance: </label>
+<input name="c_low" id="umrCLow" value="40" size="7" onfocus='this.value=""' type="text"> pF<br>
+
+<label for="umrCalc">&nbsp;</label>
+<input value="Calculate!" id="umrCalc" onclick="calculateUmr()" type="button">
+
+</fieldset>
+
+<fieldset class="result">
+
+<legend>Results</legend>
+
+<label for="umrInd">Loop Inductance: </label>
+<input name="L" id="umrInd" size="7" readonly="readonly" type="text"> µH<br>
+
+<label for="umrFLow">Lowest tuned frequency: </label>
+<input name="freq_low" id="umrFLow" size="7" readonly="readonly" type="text"> MHz<br>
+
+<label for="umrFHigh">Highest tuned frequency: </label>
+<input name="freq_high" id="umrFHigh" size="7" readonly="readonly" type="text"> MHz<br>
+
+<label for="umrWLength">Wire length required: </label>
+<input name="wire_length" id="umrWLength" size="7" readonly="readonly" type="text"> m
+
+</fieldset>
+
+</form>
+
+<p>For my homebrew MW loop, this formula gave an inductance about 25% too 
+high. After rewinding to a lower SW loop with twice the wire spacing, the 
+deviation became much smaller, now less than 10% high.</p>
+
+<p>Finally, here's an implementation of the 
+<a href="http://www.icorp.net/users/kev/tesla/formula.htm">Bob's Tesla Web Lab 
+formula</a>, which is suited for round (cylindrical) loops. It apparently goes 
+back to <cite>Wheeler</cite> (1928) and is particularly accurate for long 
+coils.</p> 
+
+<form name="btwlForm" action="">
+
+<fieldset>
+
+<legend>Enter data for Bob's Tesla Web Lab formula: </legend>
+
+<label for="btwlD">Mean Loop Diameter: </label>
+<input size="7" name="d" id="btwlD" value="22.7" type="text"> cm<br>
+
+<label for="btwlW">Loop Depth: </label>
+<input size="7" name="w" id="btwlW" value="2.4" type="text"> cm<br>
+
+<label for="btwlN">Number of Turns: </label>
+<select name="n" id="btwlN">
+  <option value="1">1</option>
+  <option value="2">2</option>
+  <option value="3">3</option>
+  <option value="4">4</option>
+  <option value="5">5</option>
+  <option value="6">6</option>
+  <option value="7">7</option>
+  <option value="8">8</option>
+  <option value="9">9</option>
+  <option value="10">10</option>
+  <option value="11">11</option>
+  <option value="12">12</option>
+  <option value="13">13</option>
+  <option value="14">14</option>
+  <option value="15">15</option>
+  <option value="16">16</option>
+  <option value="17">17</option>
+  <option value="18">18</option>
+  <option value="19">19</option>
+  <option value="20">20</option>
+  <option value="21">21</option>
+  <option value="22">22</option>
+  <option value="23">23</option>
+  <option value="24">24</option>
+  <option value="25" selected="selected">25</option>
+  <option value="26">26</option>
+  <option value="27">27</option>
+  <option value="28">28</option>
+  <option value="29">29</option>
+  <option value="30">30</option>
+</select><br>
+
+<label for="btwlCHigh">Maximum Capacitance: </label>
+<input name="c_high" id="btwlCHigh" value="400" size="7" onfocus='this.value=""' type="text"> pF<br>
+
+<label for="btwlCLow">Minimum Capacitance: </label>
+<input name="c_low" id="btwlCLow" value="25" size="7" onfocus='this.value=""' type="text"> pF<br>
+
+<label for="btwlCalc">&nbsp;</label>
+<input value="Calculate!" id="btwlCalc" onclick="calculateBtwl()" type="button">
+
+</fieldset>
+
+
+<fieldset class="result">
+
+<legend>Results</legend>
+
+<label for="btwlInd">Loop Inductance: </label>
+<input name="L" id="btwlInd" size="7" readonly="readonly" type="text"> µH<br>
+
+<label for="btwlFLow">Lowest tuned frequency: </label>
+<input name="freq_low" id="btwlFLow" size="7" readonly="readonly" type="text"> MHz<br>
+
+<label for="btwlFHigh">Highest tuned frequency: </label>
+<input name="freq_high" id="btwlFHigh" size="7" readonly="readonly" type="text"> MHz<br>
+
+<label for="btwlWLength">Wire length required: </label>
+<input name="wire_length" id="btwlWLength" size="7" readonly="readonly" type="text"> m
+
+</fieldset>
+
+</form>
+
+<p>If you want to compare circular and rectangular loops, best shoot for same 
+length of wire and same wire spacing.</p> 
+
+<p>You want even more of this? No problem:</p>
+
+<div class="linksonly">
+
+<ul>
+
+<li><a href="http://emclab.mst.edu/inductance/">MS&amp;T (ex UMR) EMC Lab: 
+Inductance Calculation (also offers triangular geometries)</a></li> 
+
+<li><a href="http://www.qsl.net/in3otd/indcalc.html">IN3OTD: Single-layer Coil 
+Inductance and Q</a></li>
+
+<li><a href="http://hamwaves.com/antennas/inductance.html">HAMwaves.com: 
+Single-Layer Helical Round Wire Coil Inductor Calculator</a></li>
+
+<li><a href="http://www.66pacific.com/calculators/small_tx_loop_calc.aspx">Small Transmitting Loop Antenna Calculator</a></li>
+
+</ul>
+
+</div>
+
+<p>No wonder tx loops are comparatively rare on the lower bands – if you 
+want any kind of reasonable efficiency, you'll need a good bit of copper tubing 
+and a variable capacitor that can take like 6..10&nbsp;kV even on 100&nbsp;W, 
+plus remote tuning (you don't want this kind of fieldstrengths in your shack 
+for sure) and a rotor. Not exactly a beginner's project. It all gets 
+considerably more relaxed in the vicinity of 20&nbsp;m, where a 1 or 1.5&nbsp;m 
+dia. loop and ~60&nbsp;pF, 5&nbsp;kV varicap on a short mast should already do 
+a pretty good job e.g. as a mobile antenna.</p> 
+
+
+<div class="linksonly">
+
+<ul>
+
+<li><a href="http://www.zerobeat.net/G4FGQ/index.html">Offline calculation: DOS 
+applications RJELOOP1, RJELOOP2 and RJELOOP3 can be found at the G4FGQ 
+website.</a></li> 
+
+</ul>
+
+</div>
+
+<p>RJELOOP3 (for multi-turn loops) also takes conductor thickness and losses 
+into account and works pretty well, once you get it running that is. I have far 
+from the latest and greatest PC hardware and software but still needed the 
+<a href="http://www.dosbox.com/">DOSBox</a> emulator. Thankfully the computing 
+power requirements are very modest.</p>
+
+<p class="back2toc"><span class="up">&#8593;</span> <a href="#toc">Back to table of contents</a></p>
+
+<h2 id="cmp">Comparison time: Short dipole / monopole vs. small loop</h2>
+
+<p>First of all, the best small antenna is one that isn't small. Since, 
+however, rotating your array of widely spaced Beverages is just a wee bit 
+cumbersome (hi), and many people don't remotely have the space for anything 
+close, compact antennas do have their place. So let's examine a few cases:</p>
+
+<ul>
+
+<li><strong>Portable receiver on batteries, telescopic whip vs. active / 
+passive tuned loop:</strong> 
+<br>Without a good ground, the 
+whip is severely handicapped. Receivers typically don't tune it either, so it's 
+operated broadband. Nearby RFI generators with short "electric antennas" don't 
+make things any better. The loop does not need an external ground, and since 
+it's tuned, can make the most of its modest radiation resistance. Its high 
+impedance at resonance is well-suited for FET-based amplifiers, too, and it 
+even is somewhat directional so interference sources can be nulled out if 
+needed. Winner? Loop, hands down.</li>
+
+<li><strong>Tuned antennas for reception:</strong>
+<br>If you want to cover a certain frequency range, tuning a loop is easier for 
+sure. Using varicap diodes, you can even do it remotely without too much fuss. 
+The same for a monopole or dipole is a good bit more difficult, you'd have to 
+keep an antenna tuner nearby. Winner? Generally, loop.</li>
+
+<li><strong>The space-limited amateur wants to transmit:</strong>
+<br>This is a far more tricky scenario. Here the smaller radiation resistance 
+of the loop (which will necessitate a copper tubing loop and low-loss 
+high-voltage capacitor to keep losses down) has to be weighed against matching 
+losses when using a dipole or vertical. If in doubt, do the math, or measure 
+and simulate.</li>
+
+<li><strong>Stationary broadband reception antenna, active whip vs. active 
+loop:</strong>
+<br>Again, inconclusive – the <code>|X<sub>L,C</sub>|/R<sub>r</sub></code> 
+ratio for both behaves in the same way 
+(|<code>X<sub>L,C</sub>|/R<sub>r</sub>&nbsp;&#8733;&nbsp;(&#955;/l)³</code>). 
+An active whip well away from interference sources and with proper grounding 
+could actually do pretty well. In practice, YMMV.</li>
+
+</ul>
+
+<p>Common-mode chokes in the feedline may be helpful in any case. (Of course 
+grounding should only be either at the antenna or at the receiver, not 
+both. If there is a ground loop, part of the signal current will be common 
+mode.)</p>
+
+<p>Let's sum it up:</p>
+
+<ul>
+
+<li><strong>Best (with potentially tx-worthy efficiency):</strong> Tuned loop, 
+tuned dipole, tuned monopole with good grounding in that order</li>
+
+<li><strong>OK (still useful for rx):</strong> Wideband loop, dipole, and 
+monopole with good grounding</li>
+
+<li><strong>Lousy:</strong> Monopole (whip) with no proper grounding</li>
+
+</ul>
+
+<p class="back2toc"><span class="up">&#8593;</span> <a href="#toc">Back to table of contents</a></p>
+
+</div>
+
+<div id="pfoot">
+
+<hr class="unsichtbar">
+
+<p class="mehl"><a href="http://stephan.win31.de/kontakt.htm">Contact me</a></p>
+
+<p class="smaller">Created: 2010-10-30<br>
+Last modified: 2010-12-18</p>
+
+</div>
+
+
+
+
+</body></html>
