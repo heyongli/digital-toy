@@ -1,12 +1,12 @@
 
--------------------
-/metal-cell:     all Atemel/51 cpu's bare metal soft cell: driver/libs 
-/metal-X51Sys:   all kind of 51 chip support, try to merge it into metal-Sys
 
-apps need a config.h for PIN/resource allocation to drivers
-firmware project configration files hold in specific projects.
+2013/9/29
+=========
+upgrade to Eagle 5.10
 
----------------------
+
+Introduction
+============
 /dtoy-eagle-lbr: 
 eagle lbr for digital toy projecs.
 
