@@ -1,0 +1,590 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><title></title>
+
+
+<script language="JavaScript">
+var d = null;
+var d2 = null;
+var polyC =[0,0,0,0,0,0];
+var vcChar=0;
+
+
+function PadCalc(ctrm,cvlo,cvhi,cstray,rc) {
+    chp = cvhi+ctrm;
+    clp = cvlo+ctrm;
+    beta=(rc-1)*cstray;
+    a=rc* clp- chp +beta;
+    b= (rc-1)*clp*chp+beta*(clp + chp);
+    c=beta*clp* chp;
+    cser=(-b-Math.sqrt(b*b-4*a*c))/(a+a);
+    return(cser);
+}
+
+function TrmCalc(cser,cvlo,cvhi,cstray,rc) {
+    if (cser<.00001) {
+      ctrm=(cvhi+cstray-rc*(cvlo+cstray))/(rc-1);
+      }
+    else {
+      cser2=cser*cser;
+      k0=(1-rc)*cstray;
+      k1=k0*cser2;
+      k2=k0*cser+cser2;
+      k3=k0*cser-rc*cser2;
+      k4=k0+(1-rc)*cser;
+      a=k4;
+      b=k2+k3+k4*(cvlo+cvhi);
+      c=k1+k2*cvhi+k3*cvlo+k4*cvlo*cvhi;
+      ctrm=(-b-Math.sqrt(b*b-4*a*c))/(a+a);
+      }
+    return(ctrm);
+}
+
+function setCellTxt(id,tx,clr){
+  cell=document.getElementById(id);
+  cell.innerHTML=tx;
+  cell.style.color=clr;
+}
+
+//canvas functions
+function drawText(ctxt,font,style,align,r,x,y,text){
+  ctxt.textBaseline = "bottom";
+  ctxt.textAlign=align; 
+  ctxt.font=font;
+  ctxt.fillStyle=style;
+  ctxt.save();
+  ctxt.translate(x,y);
+  ctxt.rotate(r);
+  ctxt.fillText(text,0,0);
+  ctxt.restore();
+}
+
+function drawLine(ctxt,style,x1,y1,x2,y2){
+  ctxt.beginPath(); 
+  ctxt.fillStyle=style;
+  ctxt.lineWidth="1";
+  ctxt.strokeStyle=style;
+  ctxt.moveTo(x1,y1);
+  ctxt.lineTo(x2,y2);
+  ctxt.stroke();
+}  
+  
+
+
+//Dial draw functions
+
+
+function cfun(rotation,cChar){
+  //Calculate the capacitance for the chosen cap type and given shaft rotation (1 to 100)
+  switch (cChar) { 
+    //special case for linear frequency type
+  case 3:
+    r=100-rotation;
+    c=polyC[1]/(1+polyC[2]*r+polyC[3]*r*r);
+    return c;
+    break;
+  default:
+    r2=rotation*rotation;
+    r3=r2*rotation;
+    r4=r3*rotation;
+    c=polyC[1]*r4+polyC[2]*r3+polyC[3]*r2+polyC[4]*rotation+polyC[5];
+    return c;
+    }
+}
+  
+function setVCparms(cChar,caphi,caplo) {
+  beta = caphi-caplo;
+  switch (cChar){
+  case 0:
+    //0 These are the polynomial coefficients for a midline curve
+    polyC[1]=-4.176011e-9 * beta;
+    polyC[2]=3.901441e-7 * beta;
+    polyC[3]=9.058506e-5 * beta;
+    polyC[4]=1.216063e-3 * beta;
+    break;
+  case 1:
+    //1 These are the polynomial coefficients for a straight line capacitance (ie., linear) curve
+    polyC[1]=0;
+    polyC[2]=0;
+    polyC[3]=0;
+    polyC[4]=.01 * beta;
+    break;
+  case 2:
+    //2 These are the polynomial coefficients for a straight line wavelength curve
+    polyC[1]=-2.384055e-18 * beta;
+    polyC[2]=4.358761e-16 * beta;
+    polyC[3]=6.995427e-5 * beta;
+    polyC[4]=3.004573e-3 * beta;
+    break;
+  case 3:
+    //3 These are the non-polynomial coefficients for a straight line frequency curve
+    //special case for linear freq
+    beta=Math.sqrt(caphi/caplo)-1;
+    polyC[1]=caphi;
+    polyC[2]=beta/50;
+    polyC[3]=beta*beta/1e4;
+    polyC[4]=0;
+    break;
+  }
+  polyC[5]=caplo;
+}  
+
+
+function drawDial (cp, cs, cst,caphi,caplo,fLo,cChar){
+  var canvas=document.getElementById("dial01");
+  if(!canvas.getContext){return;}
+  ctx=canvas.getContext('2d');
+  textColour="rgba(0,100,200,1)";
+  lineColour="rgba(175,0,0,1)";
+  bkgndColour="rgba(240,240,200,1)";
+  ctx.fillStyle= bkgndColour;
+  ctx.fillRect(0,0, canvas.width, canvas.height);
+  e6TwoPi = 159154.943;
+  xmin=5;
+  xmax= canvas.width-30;
+  xscale=(xmax-xmin)/100;
+  xaxis= canvas.height/2;
+  textFont="12px Arial";
+  titleFont="18px Arial";
+  textRot=-.79;
+  //Set VC characteristic here
+  setVCparms(cChar,caphi,caplo);
+  if (cs<.000001) {
+    cpadSus=0;
+    }
+  else {
+    cpadSus=1/cs;
+    }
+  cNetHi=cst+1/(1/(caphi+cp)+cpadSus);
+  cNetLo=cst+1/(1/(caplo+cp)+cpadSus);
+  lCor=(e6TwoPi/fLo)*(e6TwoPi/fLo)/cNetHi;
+  lFactor=e6TwoPi/Math.sqrt(lCor) //Used to speed up freq. calcs; frequency is lFactor divided by sqrt(Capacitance);
+  fHiCor=lFactor/Math.sqrt(cNetLo);
+  rangeExp=1;
+  rangeMant=fHiCor-fLo;
+  while (rangeMant>=7.5) {
+    rangeExp=rangeExp*10;
+    rangeMant=rangeMant/10;
+    }
+  minorTickRatio=5;  
+  if (rangeMant<1.5) {
+    rangeMant=.1;
+    }
+  else if (rangeMant<3.5) {
+    rangeMant=.2;
+    minorTickRatio=4; 
+    }
+  else {
+    rangeMant=.5;
+    }
+  majorTickIncr=Math.round(rangeMant*rangeExp);
+  minorTickIncr=Math.round(majorTickIncr/minorTickRatio);
+  //The following will be adequate at the low end of the dial,;
+  //and then can be adjusted if/when it gets too big.;
+  rotIncr=minorTickIncr/(fHiCor-fLo)*100;
+  nextMinor=Math.ceil(fLo/minorTickIncr)*minorTickIncr;
+  nextMajor=Math.ceil(fLo/majorTickIncr)*majorTickIncr;
+  // Determine whether the Starting frequency should be plotted;
+  if ((nextMajor-fLo)*2.1>majorTickIncr) {
+    //Plot it;
+    freqcorStr=Math.round(fLo);
+    px=Math.round(0*xscale+xmin);
+    drawText(ctx,textFont,textColour,"left",textRot, px+5,xaxis-5,freqcorStr);
+    //Draw a tick;
+    drawLine(ctx,lineColour,px,xaxis,px,xaxis-3);
+    if (fLo>nextMinor) {
+      nextMinor=nextMinor+minorTickIncr;
+      }
+    }
+  //Find first frequency;
+  cNet=cfun(100,cChar);
+  cNet=cst+1/(1/(cNet+cp)+cpadSus);
+  freq0=lFactor/Math.sqrt(cNet);
+  shaftRot=100-rotIncr;
+  incrCount=0;
+  totalIterations=0;
+  //Start at max capacitance and step down;
+  while (shaftRot>(-2*rotIncr)) {
+    totalIterations=totalIterations+1;
+    cNet=cfun(shaftRot,cChar);
+    cNet=cst+1/(1/(cNet+cp)+cpadSus);
+    freq=lFactor/Math.sqrt(cNet);
+    if (freq>=nextMajor) {
+      //crossed a MajorTick, so...;
+      tickHeight=2;
+      freqcorStr=Math.round(nextMajor);
+      rCross=shaftRot+(freq-nextMajor)/(freq-freq0)*rotIncr;
+      nextMinor=nextMajor+minorTickIncr;
+      nextMajor=nextMajor+majorTickIncr;
+      }
+    else if (freq>=nextMinor) {
+      //crossed a MinorTick, so...;
+      tickHeight=1;
+      rCross=shaftRot+(freq-nextMinor)/(freq-freq0)*rotIncr;
+      nextMinor=nextMinor+minorTickIncr;
+      }
+    else {
+      tickHeight=0;
+      incrCount=incrCount+1 //Keep track of how many Rotation Increments between ticks;
+      }
+    freq0=freq;
+    if (tickHeight>.01) {
+      //crossed a major or minor, so plot it;
+      px=Math.round((100-rCross)*xscale+xmin);
+      drawLine(ctx,lineColour,px,xaxis,px,xaxis-(tickHeight*3));
+      if (tickHeight>1) {
+        //major tick, so draw freq string;
+        drawText(ctx,textFont,textColour,"left",textRot, px+5,xaxis-5,freqcorStr);
+        }
+      if (incrCount<5) {
+        //incrCount is getting too small, so reduce rotIncr;
+        rotIncr=Math.max(rotIncr/2,.01);
+        }
+      incrCount=0;
+      }  //if tickHeight...
+    shaftRot=shaftRot-rotIncr;
+    }
+  //draw the axis and title
+  drawLine(ctx,lineColour,xmin,xaxis,xmax,xaxis);
+  drawText(ctx,titleFont,textColour,"center",0, canvas.width/2,25,"Dial Scale Linearity");
+}
+
+//End dial draw functions
+
+function CalcAll() {
+  setCellTxt("ex_cpar","***","#FF0000");
+  setCellTxt("ex_cser","***","#FF0000");
+  setCellTxt("ex_L","***","#FF0000");
+  flo = parseFloat(d.ef_flo.value);
+  fhi = parseFloat(d.ef_fhi.value);
+  cvlo = parseFloat(d.ef_cvlo.value);
+  cvhi = parseFloat(d.ef_cvhi.value);
+  caphi = cvhi;
+  caplo = cvlo;
+  cstray = parseFloat("0".concat(d.ef_cstray.value));
+  KVal = parseFloat(d.ef_KVal.value);
+  spi = 500000.0/Math.PI;
+  rf=fhi/flo;
+  rc=rf*rf;
+  switch(d.mknown.selectedIndex){
+   case 0:
+    // For Given inductor
+    L = KVal;
+    w=(spi/flo)
+    chppp = w*w/L;
+    w=(spi/fhi)
+    clppp = w*w/L;
+    alpha = cstray-chppp;
+    beta = cstray-clppp;
+    k1 = cvhi-chppp-cvlo+clppp;
+    k2 = alpha - beta;
+    k3 = alpha*cvhi - beta*cvlo;
+    k4 = alpha*cvhi;
+    k5 = cvhi + alpha;
+    a = -k2/k1;
+    b = alpha-(k3+k2*k5)/k1;
+    c = k4-(k3*k5)/k1;
+    ctrm = (-b+Math.sqrt(b*b-4*a*c))/(a+a);
+    cser = -(k2*ctrm+k3)/k1;
+    cpinv = 0;
+    if (cser>.001) {cpinv =1/cser;}
+    if (cser>100*cvhi){cser=0;cpinv =0;}
+    // End of given L calc
+   break;
+   case 1:
+    // For Given Padder
+    cser=KVal;
+    if (cser<.00001) {
+      cpinv=0;
+    }
+    else {
+      cpinv=1/cser;
+    }
+    ctrm=TrmCalc(cser,cvlo,cvhi,cstray,rc);
+    chp=cvhi+ctrm;
+    chppp=1/(1/chp+cpinv)+cstray;
+    w=spi/flo;
+    L=w*w/chppp;
+   break;
+   case 2:
+    // For Given Trimmer
+    ctrm=KVal;
+    cser=PadCalc(ctrm,cvlo,cvhi,cstray,rc);
+    chppp=chp*cser/(chp+cser)+cstray;
+    cpinv = 0;
+    if (cser>.001) {cpinv =1/cser;}
+    if (cser>100*cvhi){cser=0;cpinv =0;}
+    w=spi/flo;
+    L=w*w/chppp
+   break;
+  }
+  badVal=false;
+  if (isNaN(ctrm) || ctrm<0) badVal=true;
+  if (isNaN(cser) || cser <0) badVal=true;
+  if (isNaN(L) || L<0) badVal=true;
+  if (!badVal) {
+    cnetmin=cstray+1/(cpinv + 1/(cvlo+ctrm))
+    cnetmax=cstray+1/(cpinv + 1/(cvhi+ctrm))
+    setCellTxt("ex_cpar",ctrm.toFixed(2),"#000080");
+    setCellTxt("ex_cser",cser.toFixed(2),"#000080");
+    setCellTxt("ex_L",L.toFixed(2),"#000080");
+    setCellTxt("ex_CNmin",cnetmin.toFixed(2),"#000080");
+    setCellTxt("ex_CNmax",cnetmax.toFixed(2),"#000080");
+    cChar=0; //add menu select for this in future rev.
+    vcChar = d.vctype.selectedIndex;
+    drawDial (ctrm, cser, cstray,cvhi,cvlo,flo,vcChar);
+  }
+}
+
+function CalcRange() {
+ flo = parseFloat(d.ef_flo.value);
+ fhi = parseFloat(d.ef_fhi.value);
+ cvlo = parseFloat(d.ef_cvlo.value);
+ cvhi = parseFloat(d.ef_cvhi.value);
+ caphi = cvhi;
+ caplo = cvlo;
+ cstray = parseFloat("0".concat(d.ef_cstray.value));
+ if (flo>0 && fhi>0 && cvlo>0 && cvhi>0) {
+  spi = 500000.0/Math.PI;
+  rf=fhi/flo;
+  rc=rf*rf;
+  csmin=PadCalc(0,cvlo,cvhi,cstray,rc);
+  ctmax=TrmCalc(0,cvlo,cvhi,cstray,rc);
+  w=spi/flo
+  chppp=cvhi*csmin/(cvhi+csmin)+cstray;
+  Lmax=w*w/chppp;
+  chppp=cvhi+ctrm+cstray;
+  Lmin=w*w/chppp;
+  //Reset exact calc outputs after input parameter change
+/*
+  setCellTxt("ex_cpar","","#000080");
+  setCellTxt("ex_cser","","#000080");
+  setCellTxt("ex_L","","#000080");
+  setCellTxt("ex_CNmin","","#000080");
+  setCellTxt("ex_CNmax","","#000080");
+*/
+  if (Lmin<0 || Lmax<0 || ctmax<0 || csmin<0) {
+    setCellTxt("rTrm","***","#FF0000");
+    setCellTxt("rPad","***","#FF0000");
+    setCellTxt("rInd","***","#FF0000");
+  }
+  else {
+    setCellTxt("rTrm","0 ... ".concat(ctmax.toFixed(2)),"#000080");
+    setCellTxt("rPad",">= ".concat(csmin.toFixed(2)," (if present)"),"#000080");
+    setCellTxt("rInd","".concat(Lmin.toFixed(2)," ... ",Lmax.toFixed(2)),"#000080");
+  }
+ }
+}
+
+function kvChange() {
+ descriptions = Array ("Enter Inductance Value (&micro;H):","Enter Series Capacitance Value (pF):","Enter Parallel Capacitance Value: (pF)");
+ setCellTxt("KVdescription",descriptions[d.mknown.selectedIndex],"#000080");
+ setCellTxt("ex_cpar","","#000080");
+ setCellTxt("ex_cser","","#000080");
+ setCellTxt("ex_L","","#000080");
+}
+
+function vcTypeChange() {
+ vcChar = d.vctype.selectedIndex;
+ CalcAll();
+}
+
+ 
+function manCalc() {
+  e6TwoPi = 159154.943;
+  cser = parseFloat(d2.ef_mSerC.value);
+  ctrm = parseFloat(d2.ef_mParC.value);
+  L = parseFloat(d2.ef_mL.value);
+  cvlo = parseFloat(d.ef_cvlo.value);
+  cvhi = parseFloat(d.ef_cvhi.value);
+  cstray = parseFloat("0".concat(d.ef_cstray.value));
+  cpinv = 0;
+  if (cser>.001) {cpinv =1/cser;}
+  if (cser>100*cvhi){cser=0;cpinv =0;}
+  //check for bad input data
+  badVal=false;
+  if (isNaN(ctrm) || ctrm<0) badVal=true;
+  if (isNaN(cser) || cser <0) badVal=true;
+  if (isNaN(L) || L<0) badVal=true;
+  if (isNaN(cvhi) || cvhi<0) badVal=true;
+  if (isNaN(cvlo) || cvlo<0) badVal=true;
+  if (isNaN(cstray) || cstray<0) badVal=true;
+  if (!badVal && cvlo<cvhi){
+    cNetHi=cstray+1/(1/(cvhi+ctrm)+cpinv);
+    cNetLo=cstray+1/(1/(cvlo+ctrm)+cpinv);
+    flo = e6TwoPi/Math.sqrt(L*cNetHi);
+    fhi = e6TwoPi/Math.sqrt(L*cNetLo);
+    setCellTxt("ex_frange","Tuning Range: ".concat(flo.toFixed(0)," - ",fhi.toFixed(0)," kHz"),"#000080");
+    drawDial (ctrm, cser, cstray,cvhi,cvlo,flo,vcChar);
+    }
+  else{alert('Error: Please check your input data.')}
+}
+
+</script>
+
+
+</head>
+
+
+<body onload="d = document.forms[0];d2 = document.forms[1];">
+
+
+<form target="_top" onsubmit="return false">
+  <table style="width: 692px; height: 400px; font-size: 14pt" align="center" border="0">
+   <caption style="font-size: 20pt"><b>Bandspread Calculator</b></caption>
+    <tbody>
+      <tr>
+        <td colspan="3&quot;" align="center">&nbsp;</td>
+      </tr>
+      <tr>
+        <td colspan="3&quot;" align="center"><b>Input Parameters:</b></td>
+      </tr>
+
+
+      <tr>
+        <td align="right">Lowest Frequency (kHz):</td>
+        <td><input value="3700" name="ef_flo" onchange="CalcRange()" size="18"> </td>
+      </tr>
+      <tr>
+        <td align="right">Highest Frequency (kHz):</td>
+        <td><input value="4300" name="ef_fhi" onchange="CalcRange()" size="18"> </td>
+      </tr>
+      <tr>
+        <td align="right">Tuning Capacitor <i>C<sub>V</sub></i> Minimum Capacitance (pF):</td>
+        <td><input value="10" name="ef_cvlo" onchange="CalcRange()" size="18"> </td>
+      </tr>
+      <tr>
+        <td align="right">Tuning Capacitor <i>C<sub>V</sub></i> Maximum Capacitance (pF):</td>
+        <td><input value="100" name="ef_cvhi" onchange="CalcRange()" size="18"> </td>
+      </tr>
+      <tr>
+        <td align="right">Stray Capacitance <i>C<sub>S</sub></i> (pF):</td>
+        <td><input value="4" name="ef_cstray" onchange="CalcRange()" size="18"> </td>
+      </tr>
+
+      <tr>
+        <td colspan="2&quot;" align="center"><hr></td>
+      </tr>
+      <tr>
+        <td colspan="2&quot;" align="center"><b>Allowable Component Ranges:</b></td>
+      </tr>
+
+      <tr>
+        <td align="right">Trimmer Capacitor <i>C<sub>T</sub></i> (pF):&nbsp;&nbsp;</td>
+        <td style="color: rgb(0, 0, 128);" id="rTrm" align="left">0 ... 242.69</td>
+      </tr>
+      <tr>
+        <td align="right">Padder Capacitor <i>C<sub>P</sub></i> (pF):&nbsp;&nbsp;</td>
+        <td style="color: rgb(0, 0, 128);" id="rPad" align="left">&gt;= 8.00 (if present)</td>
+      </tr>
+      <tr>
+        <td align="right">Inductor (µH):&nbsp;&nbsp;</td>
+        <td style="color: rgb(0, 0, 128);" id="rInd" align="left">5.34 ... 162.26</td>
+      </tr>
+
+
+      <tr>
+        <td colspan="2&quot;" align="center"><hr></td>
+      </tr>
+
+      <tr>
+        <td colspan="2&quot;" align="center"><b>Exact Value Calculation:</b></td>
+      </tr>
+
+      <tr>
+        <td align="right">Choose the Known Component:</td>
+        <td>
+          <select name="mknown" onchange="kvChange()" size="1">
+           <option selected="selected">Inductor</option>
+           <option>Padder Capacitor (Series)</option>
+           <option>Trimmer Capacitor (Parallel)</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td id="KVdescription" align="right">Enter the Known Component Value:</td>
+        <td><input value="22" name="ef_KVal" size="18"></td>
+      </tr>
+      <tr>
+      <td align="right">Click to Calculate the Unknown Components:</td>
+      <td><input value="Calculate" onclick="CalcAll()" type="button"> </td>
+      </tr>
+      <tr>
+        <td align="right">Trimmer Capacitor <i>C<sub>T</sub></i> (pF):&nbsp;&nbsp;</td>
+       <td style="color: rgb(0, 0, 128);" id="ex_cpar">90.83</td>
+      </tr>
+      <tr>
+        <td align="right">Padder Capacitor <i>C<sub>P</sub></i> (pF):&nbsp;&nbsp;</td>
+        <td style="color: rgb(0, 0, 128);" id="ex_cser">138.05</td>
+      </tr>
+      <tr>
+        <td align="right">Inductor (µH):&nbsp;&nbsp;</td>
+        <td style="color: rgb(0, 0, 128);" id="ex_L">22.00</td>
+      </tr>
+      <tr>
+        <td align="right">Minimum Net Capacitance (pF):&nbsp;&nbsp;</td>
+        <td style="color: rgb(0, 0, 128);" id="ex_CNmin">62.27</td>
+      </tr>
+      <tr>
+        <td align="right">Maximum Net Capacitance (pF):&nbsp;&nbsp;</td>
+        <td style="color: rgb(0, 0, 128);" id="ex_CNmax">84.10</td>
+      </tr>
+      <tr>
+        <td align="right">Select Variable Capacitor Characteristic:</td>
+        <td>
+          <select name="vctype" onchange="vcTypeChange()" size="1">
+           <option selected="selected">Midline/Centerline</option>
+           <option>Straightline Capacitance</option>
+           <option>Straightline Wavelength</option>
+           <option>Straightline Frequency</option>
+          </select>
+        </td>
+      </tr>      
+      
+    </tbody>
+  </table>
+</form>
+<div align="center">
+  <canvas id="dial01" style="border: 1px solid;" width="640" height="150">The Dial Scale feature requires HTML5 support by your web browser.</canvas>
+</div>
+
+<form target="_top" onsubmit="return false"><br>
+  <table style="width: 692px; height: 150px; font-size: 14pt" align="center" border="0">
+    <tbody>
+      <tr>
+        <td colspan="2&quot;" align="center"><hr></td>
+      </tr>
+      <tr>
+        <td colspan="3&quot;" align="center"><b>Manual Dial Scale Calculation</b></td>
+      </tr>
+      <tr>
+        <td colspan="2&quot;" align="center">(Variable Capacitor Range and Stray Capacitance are as entered above.)</td>
+      </tr>
+      <tr>
+        <td colspan="3&quot;" align="center"><b>Input Parameters:</b></td>
+      </tr>
+      <tr>
+        <td align="right">Trimmer Capacitor <i>C<sub>T</sub></i> (pF):&nbsp;&nbsp;</td>
+        <td><input name="ef_mParC" size="18"> </td>
+      </tr>
+      <tr>
+        <td align="right">Padder Capacitor <i>C<sub>P</sub></i> (pF):&nbsp;&nbsp;</td>
+        <td><input name="ef_mSerC" size="18"> </td>
+      </tr>
+      <tr>
+        <td align="right">Inductance (µH):&nbsp;&nbsp;</td>
+        <td><input name="ef_mL" size="18"> </td>
+      </tr>
+      <tr>
+      <td align="right">Click to Update Dial Scale:</td>
+      <td><input value="Update" onclick="manCalc()" type="button"> </td>
+      </tr>
+      <tr>
+        <td id="ex_frange" colspan="3&quot;" align="center">&nbsp;</td>
+      </tr>
+    </tbody>
+  </table>
+</form>
+
+
+
+</body></html>
