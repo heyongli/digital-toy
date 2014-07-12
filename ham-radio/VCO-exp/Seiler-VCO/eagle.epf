@@ -10,7 +10,7 @@ AutoSaveProject=1
 
 [Win_1]
 Type="Schematic Editor"
-Loc="124 219 1323 1034"
+Loc="589 232 1788 1047"
 State=2
 Number=1
 File="seiler-vco-100M-200Mhz.sch"
@@ -51,7 +51,7 @@ Sheet=1
 
 [Win_2]
 Type="Control Panel"
-Loc="49 129 1158 691"
+Loc="269 239 868 638"
 State=2
 Number=0
 

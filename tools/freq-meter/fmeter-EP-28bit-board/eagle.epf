@@ -1,7 +1,7 @@
 [Eagle]
-Version="05 07 00"
+Version="05 10 00"
 Platform="Linux"
-Serial="62191E841E-LSR-WLM-NCP"
+Serial="5588307E81-LSR-WLM-NCP"
 Globals="Globals"
 Desktop="Desktop"
 
@@ -11,7 +11,7 @@ AutoSaveProject=1
 [Win_1]
 Type="Schematic Editor"
 Loc="197 123 1562 907"
-State=0
+State=2
 Number=1
 File="DUT-28bit-preCounter.sch"
 View="1666615 305746 2574063 1213194"
@@ -52,10 +52,10 @@ Sheet=1
 [Win_2]
 Type="Board Editor"
 Loc="365 180 1606 1024"
-State=0
+State=2
 Number=2
 File="DUT-28bit-preCounter.brd"
-View="-160171 -152547 1248403 808511"
+View="-116149 -149113 1292425 811945"
 WireWidths=" 0 16764 17780 19304 21844 25400 38100 64516 2540 3048 12700 14224 10160 6096 4064 8128"
 PadDiameters=" 2540 3048 4064 6096 8128 10160 12700 14224 17780 19304 21844 25400 38100 64516 0 16764"
 PadDrills=" 5080 8128 6096 7112"
@@ -90,12 +90,12 @@ Layer=1
 
 [Win_3]
 Type="Control Panel"
-Loc="297 164 896 563"
+Loc="30 73 629 472"
 State=2
 Number=0
 
 [Desktop]
-Screen="1680 1050"
+Screen="3840 1080"
 Window="Win_1"
 Window="Win_2"
 Window="Win_3"

@@ -51,7 +51,7 @@ Sheet=1
 
 [Win_2]
 Type="Board Editor"
-Loc="-1 49 1918 1055"
+Loc="204 235 2123 1241"
 State=2
 Number=2
 File="diff-neg-VCO-100kzh-12Mhz-alc.brd"
@@ -90,7 +90,7 @@ Layer=16
 
 [Win_3]
 Type="Control Panel"
-Loc="109 61 708 460"
+Loc="102 71 701 470"
 State=2
 Number=0
 

@@ -90,7 +90,7 @@ Layer=1
 
 [Win_3]
 Type="Control Panel"
-Loc="0 201 599 600"
+Loc="31 88 1257 691"
 State=2
 Number=0
 
