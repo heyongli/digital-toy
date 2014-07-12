@@ -21,7 +21,7 @@ app_dev="autoconf  automake expect autotools-dev binutils-dev  \
      bison   comerr-dev   dpkg-dev  flex               \
      g++    gawk  gcc gcc-multilib  gettext  libacl1-dev   \
      linux-libc-dev \
-     libreadline5-dev   libtool libxmltok1-dev  \
+       libtool libxmltok1-dev  \
      linux-libc-dev     m4   mkisofs  patch   pkg-config   rpm  ss-dev  \
      tcl       texi2html texlive-base-bin texlive-common     \
      x11proto-core-dev  zlib1g-dev  docbook-xsl-ns doxygen texlive libxml2-dev libxml2-utils  texinfo libexpat1-dev "
@@ -41,7 +41,7 @@ misc="kdebluetooth  patch guilt unrar  rar p7zip p7zip-full p7zip-rar tree delug
                    ksnapshot "
 
 
-languages="qt4-qtconfig ttf-arphic-ukai  ttf-arphic-ukai ttf-wqy-zenhei language-support-fonts-zh  openoffice.org-l10n-zh-cn xfonts-wqy"
+languages="qt4-qtconfig ttf-arphic-ukai  ttf-arphic-ukai ttf-wqy-zenhei xfonts-wqy"
 
 
 #########################################################################################################

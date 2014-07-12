@@ -372,7 +372,7 @@ Sheet=1
 
 [Win_2]
 Type="Board Editor"
-Loc="478 214 1976 1029"
+Loc="421 214 1919 1029"
 State=2
 Number=2
 File="dc-power-board.brd"
