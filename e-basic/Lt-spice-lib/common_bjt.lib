@@ -656,10 +656,16 @@
 * Package: TO-92
 * AM/FM 800Mhz ft
 
-. MODEL SC9018 NPN (Is = 14.34f Xti = 3 Eg = 1.11 Vaf = 74.03 Bf = 110 Ne = 1.307
+.MODEL 2SC9018 NPN (Is = 14.34f Xti = 3 Eg = 1.11 Vaf = 74.03 Bf = 110 Ne = 1.307
 + Ise = 14.34f Ikf = .2847 Xtb = 1.5 Br = 6.092 Nc = 2 Isc = 0 Ikr = 0 Rc = 1
 + Cjc = 7.306p Mjc = .3416 Vjc = .75 Fc = .5 Cje = 22.01p Mje = .377 Vje = .75
 + Tr = 46.91n Tf = 411.1p Itf = .6 Vtf = 1.7 Xtf = 3 Rb = 10)
+
+
+
+
+
+.model 2SC3357 NPN (IS=684.2e-18 BF=161.1 VAF=51 IKF=574.6m BR=10.71 VAR=2.1 IKR=28.05m ISE=1.0e-18 NE=1.193 ISC=6.211e-18 NC=1.1 RB=3 IRB=75.9e-5 RBM=1 RE=2.67 RC=3.5 CJE=1.847p VJE=1.014 MJE=464.8m CJC=1.086p VJC=617.4m MJC=353.8m XCJC=0.1 FC=0.5 TF=23p XTF=0.39 VTF=0.668 ITF=0.06 TR=100p PTF=20 EG=1.11 XTI=3 XTB=0 Vceo=12 Icrating=100m mfg=NEC)
 
 
 
